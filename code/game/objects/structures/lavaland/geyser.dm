@@ -4,8 +4,12 @@
 ///A lavaland geyser that spawns chems and can be mining scanned for points. Made to work with the plumbing pump to extract that sweet rare nectar
 /obj/structure/geyser
 	name = "geyser"
+<<<<<<< HEAD
 	desc = "A geyser that contains some form of chemicals inside. A liquid pump can be used to extract it's chemicals." //monkestation addition
 	icon = 'icons/obj/lavaland/terrain.dmi'
+=======
+	icon = 'icons/obj/mining_zones/terrain.dmi'
+>>>>>>> tg-pr-88929
 	icon_state = "geyser"
 	anchored = TRUE
 
@@ -40,13 +44,13 @@
 	if(erupting_state)
 		icon_state = erupting_state
 	else
-		var/mutable_appearance/I = mutable_appearance('icons/obj/lavaland/terrain.dmi', "[icon_state]_soup")
+		var/mutable_appearance/I = mutable_appearance('icons/obj/mining_zones/terrain.dmi', "[icon_state]_soup")
 		I.color = mix_color_from_reagents(reagents.reagent_list)
 		add_overlay(I)
 
 ///start making those CHHHHHEEEEEEMS. Called whenever chems are removed, it's fine because START_PROCESSING checks if we arent already processing
 /obj/structure/geyser/proc/start_chemming()
-	START_PROCESSING(SSplumbing, src) //It's main function is to be plumbed, so use SSplumbing
+	START_PROCESSING(SSplumbing, src) //Its main function is to be plumbed, so use SSplumbing
 
 ///We're full so stop processing
 /obj/structure/geyser/proc/stop_chemming()
@@ -61,6 +65,7 @@
 
 /obj/structure/geyser/attackby(obj/item/item, mob/user, params)
 	if(!istype(item, /obj/item/mining_scanner) && !istype(item, /obj/item/t_scanner/adv_mining_scanner))
+		playsound(src, SFX_INDUSTRIAL_SCAN, 20, TRUE, -2, TRUE, FALSE)
 		return ..() //this runs the plunger code
 
 	if(discovered)
@@ -122,7 +127,11 @@
 	icon = 'icons/obj/watercloset.dmi'
 	icon_state = "plunger"
 	worn_icon_state = "plunger"
+<<<<<<< HEAD
 	inhand_icon_state = "plunger"
+=======
+	icon_angle = 90
+>>>>>>> tg-pr-88929
 
 	slot_flags = ITEM_SLOT_MASK
 	flags_inv = HIDESNOUT
@@ -170,14 +179,12 @@
 
 	playsound(src, 'sound/machines/click.ogg', 10, TRUE)
 
-/obj/item/plunger/AltClick(mob/user)
-	if(!istype(user) || !user.can_perform_action(src))
-		return
-
+/obj/item/plunger/click_alt(mob/user)
 	var/new_layer = tgui_input_list(user, "Select a layer", "Layer", GLOB.plumbing_layers)
-	if(isnull(new_layer))
-		return
+	if(isnull(new_layer) || !user.can_perform_action(src))
+		return CLICK_ACTION_BLOCKING
 	target_layer = GLOB.plumbing_layers[new_layer]
+	return CLICK_ACTION_SUCCESS
 
 ///A faster reinforced plunger
 /obj/item/plunger/reinforced
@@ -191,3 +198,7 @@
 	layer_mode_sprite = "reinforced_plunger_layer"
 
 	custom_premium_price = PAYCHECK_CREW * 8
+
+/obj/item/plunger/cyborg/Initialize(mapload)
+	. = ..()
+	ADD_TRAIT(src, TRAIT_NODROP, CYBORG_ITEM_TRAIT)

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /obj/item/food/meat/slab/grassfed
 	name = "eco meat"
 	desc = "A slab of 100% grass fed award-winning farm meat."
@@ -7,6 +8,8 @@
 	) // Marble
 
 
+=======
+>>>>>>> tg-pr-88929
 /// The Greatest (animal) Of All Time. Cud chewing, shin-kicking, kitchen-dwelling nuisance.
 /mob/living/basic/goat
 	name = "goat"
@@ -24,7 +27,11 @@
 	response_harm_simple = "kick"
 	attack_verb_continuous = "kicks"
 	attack_verb_simple = "kick"
+<<<<<<< HEAD
 	attack_sound = 'sound/weapons/punch1.ogg'
+=======
+	attack_sound = 'sound/items/weapons/punch1.ogg'
+>>>>>>> tg-pr-88929
 	attack_vis_effect = ATTACK_EFFECT_KICK
 
 	butcher_results = list(/obj/item/food/meat/slab/grassfed = 4)
@@ -38,7 +45,11 @@
 	melee_damage_upper = 2
 	environment_smash = ENVIRONMENT_SMASH_NONE
 
+<<<<<<< HEAD
 	bodytemp_cold_damage_limit = COLD_ROOM_TEMP - 75 // enough so that they can survive the cold room spawn with plenty of room for comfort
+=======
+	minimum_survivable_temperature = COLD_ROOM_TEMP - 75 // enough so that they can survive the cold room spawn with plenty of room for comfort
+>>>>>>> tg-pr-88929
 
 	blood_volume = BLOOD_VOLUME_NORMAL
 
@@ -65,7 +76,11 @@
 	RegisterSignal(src, COMSIG_ATOM_WAS_ATTACKED, PROC_REF(on_attacked))
 	RegisterSignal(src, COMSIG_MOVABLE_PRE_MOVE, PROC_REF(on_move))
 
+<<<<<<< HEAD
 	ai_controller.set_blackboard_key(BB_BASIC_FOODS, edibles)
+=======
+	ai_controller.set_blackboard_key(BB_BASIC_FOODS, typecacheof(edibles))
+>>>>>>> tg-pr-88929
 
 /// Called when we attack something in order to piece together the intent of the AI/user and provide desired behavior. The element might be okay here but I'd rather the fluff.
 /// Goats are really good at beating up plants by taking bites out of them, but we use the default attack for everything else
@@ -109,7 +124,11 @@
 /// Handles automagically eating a plant when we move into a turf that has one.
 /mob/living/basic/goat/proc/on_move(datum/source, atom/entering_loc)
 	SIGNAL_HANDLER
+<<<<<<< HEAD
 	if(!isturf(entering_loc))
+=======
+	if(!isturf(entering_loc) || stat == DEAD)
+>>>>>>> tg-pr-88929
 		return
 
 	var/list/edible_plants = list()
@@ -119,14 +138,24 @@
 
 	INVOKE_ASYNC(src, PROC_REF(eat_plant), edible_plants)
 
+<<<<<<< HEAD
 /// When invoked, adds an udder. Overridden on subtypes
 /mob/living/basic/goat/proc/add_udder()
+=======
+/// When invoked, adds an udder when applicable. Male goats do not have udders.
+/mob/living/basic/goat/proc/add_udder()
+	if(gender == MALE)
+		return
+>>>>>>> tg-pr-88929
 	AddComponent(/datum/component/udder)
 
 /// Proc that handles dealing with the various types of plants we might eat. Assumes that a valid list of type(s) will be passed in.
 /mob/living/basic/goat/proc/eat_plant(list/plants)
+<<<<<<< HEAD
 	if(health <= 0) //monkestation edit
 		return
+=======
+>>>>>>> tg-pr-88929
 	var/eaten = FALSE
 
 	for(var/atom/target as anything in plants)

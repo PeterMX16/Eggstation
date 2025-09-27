@@ -7,6 +7,10 @@ GLOBAL_LIST_INIT(target_interested_atoms, typecacheof(list(/mob, /obj/machinery/
 
 /datum/ai_behavior/find_potential_targets
 	action_cooldown = 2 SECONDS
+<<<<<<< HEAD
+=======
+	behavior_flags = AI_BEHAVIOR_CAN_PLAN_DURING_EXECUTION
+>>>>>>> tg-pr-88929
 	/// How far can we see stuff?
 	var/vision_range = 9
 	/// Blackboard key for aggro range, uses vision range if not specified
@@ -26,17 +30,30 @@ GLOBAL_LIST_INIT(target_interested_atoms, typecacheof(list(/mob, /obj/machinery/
 
 	var/atom/current_target = controller.blackboard[target_key]
 	if (targeting_strategy.can_attack(living_mob, current_target, vision_range))
+<<<<<<< HEAD
 		finish_action(controller, succeeded = FALSE)
 		return
+=======
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
+>>>>>>> tg-pr-88929
 
 	var/aggro_range = controller.blackboard[aggro_range_key] || vision_range
 
 	controller.clear_blackboard_key(target_key)
+<<<<<<< HEAD
 	var/list/potential_targets = hearers(aggro_range, controller.pawn) - living_mob //Remove self, so we don't suicide
 
 	// If we're using a field rn, just don't do anything yeah?
 	if(controller.blackboard[BB_FIND_TARGETS_FIELD(type)])
 		return
+=======
+
+	// If we're using a field rn, just don't do anything yeah?
+	if(controller.blackboard[BB_FIND_TARGETS_FIELD(type)])
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
+
+	var/list/potential_targets = hearers(aggro_range, get_turf(controller.pawn)) - living_mob //Remove self, so we don't suicide
+>>>>>>> tg-pr-88929
 
 	for (var/atom/hostile_machine as anything in GLOB.hostile_machines)
 		if (can_see(living_mob, hostile_machine, aggro_range))
@@ -44,22 +61,33 @@ GLOBAL_LIST_INIT(target_interested_atoms, typecacheof(list(/mob, /obj/machinery/
 
 	if(!potential_targets.len)
 		failed_to_find_anyone(controller, target_key, targeting_strategy_key, hiding_location_key)
+<<<<<<< HEAD
 		finish_action(controller, succeeded = FALSE)
 		return
+=======
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
+>>>>>>> tg-pr-88929
 
 	var/list/filtered_targets = list()
 
 	for(var/atom/pot_target in potential_targets)
+<<<<<<< HEAD
 		if(SEND_SIGNAL(controller.pawn, COMSIG_FRIENDSHIP_CHECK_LEVEL, pot_target, FRIENDSHIP_FRIEND))
 			continue
+=======
+>>>>>>> tg-pr-88929
 		if(targeting_strategy.can_attack(living_mob, pot_target))//Can we attack it?
 			filtered_targets += pot_target
 			continue
 
 	if(!filtered_targets.len)
 		failed_to_find_anyone(controller, target_key, targeting_strategy_key, hiding_location_key)
+<<<<<<< HEAD
 		finish_action(controller, succeeded = FALSE)
 		return
+=======
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
+>>>>>>> tg-pr-88929
 
 	var/atom/target = pick_final_target(controller, filtered_targets)
 	controller.set_blackboard_key(target_key, target)
@@ -69,12 +97,20 @@ GLOBAL_LIST_INIT(target_interested_atoms, typecacheof(list(/mob, /obj/machinery/
 	if(potential_hiding_location) //If they're hiding inside of something, we need to know so we can go for that instead initially.
 		controller.set_blackboard_key(hiding_location_key, potential_hiding_location)
 
+<<<<<<< HEAD
 	finish_action(controller, succeeded = TRUE)
+=======
+	return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_SUCCEEDED
+>>>>>>> tg-pr-88929
 
 /datum/ai_behavior/find_potential_targets/proc/failed_to_find_anyone(datum/ai_controller/controller, target_key, targeting_strategy_key, hiding_location_key)
 	var/aggro_range = controller.blackboard[aggro_range_key] || vision_range
 	// takes the larger between our range() input and our implicit hearers() input (world.view)
+<<<<<<< HEAD
 	// aggro_range = max(aggro_range, ROUND_UP(max(getviewsize(world.view)) / 2)) MAPEXPANSION CHANGE: Stillcaps
+=======
+	aggro_range = max(aggro_range, ROUND_UP(max(getviewsize(world.view)) / 2))
+>>>>>>> tg-pr-88929
 	// Alright, here's the interesting bit
 	// We're gonna use this max range to hook into a proximity field so we can just await someone interesting to come along
 	// Rather then trying to check every few seconds
@@ -94,7 +130,11 @@ GLOBAL_LIST_INIT(target_interested_atoms, typecacheof(list(/mob, /obj/machinery/
 /datum/ai_behavior/find_potential_targets/proc/new_turf_found(turf/found, datum/ai_controller/controller, datum/targeting_strategy/strategy)
 	var/valid_found = FALSE
 	var/mob/pawn = controller.pawn
+<<<<<<< HEAD
 	for(var/maybe_target in found)
+=======
+	for(var/maybe_target as anything in found)
+>>>>>>> tg-pr-88929
 		if(maybe_target == pawn)
 			continue
 		if(!is_type_in_typecache(maybe_target, GLOB.target_interested_atoms))
@@ -123,7 +163,11 @@ GLOBAL_LIST_INIT(target_interested_atoms, typecacheof(list(/mob, /obj/machinery/
 /datum/ai_behavior/find_potential_targets/proc/new_atoms_found(list/atom/movable/found, datum/ai_controller/controller, target_key, datum/targeting_strategy/strategy, hiding_location_key)
 	var/mob/pawn = controller.pawn
 	var/list/accepted_targets = list()
+<<<<<<< HEAD
 	for(var/maybe_target in found)
+=======
+	for(var/maybe_target as anything in found)
+>>>>>>> tg-pr-88929
 		if(maybe_target == pawn)
 			continue
 		// Need to better handle viewers here
@@ -150,8 +194,27 @@ GLOBAL_LIST_INIT(target_interested_atoms, typecacheof(list(/mob, /obj/machinery/
 		var/datum/proximity_monitor/field = controller.blackboard[BB_FIND_TARGETS_FIELD(type)]
 		qdel(field) // autoclears so it's fine
 		controller.CancelActions() // On retarget cancel any further queued actions so that they will setup again with new target
+<<<<<<< HEAD
 		controller.modify_cooldown(controller, get_cooldown(controller))
+=======
+		controller.modify_cooldown(src, get_cooldown(controller))
+>>>>>>> tg-pr-88929
 
 /// Returns the desired final target from the filtered list of targets
 /datum/ai_behavior/find_potential_targets/proc/pick_final_target(datum/ai_controller/controller, list/filtered_targets)
 	return pick(filtered_targets)
+<<<<<<< HEAD
+=======
+
+/// Targets with the trait specified by the BB_TARGET_PRIORITY_TRAIT blackboard key will be prioritized over the rest.
+/datum/ai_behavior/find_potential_targets/prioritize_trait
+
+/datum/ai_behavior/find_potential_targets/prioritize_trait/pick_final_target(datum/ai_controller/controller, list/filtered_targets)
+	var/priority_targets = list()
+	for(var/atom/target as anything in filtered_targets)
+		if(HAS_TRAIT(target, controller.blackboard[BB_TARGET_PRIORITY_TRAIT]))
+			priority_targets += target
+	if(length(priority_targets))
+		return pick(priority_targets)
+	return ..()
+>>>>>>> tg-pr-88929

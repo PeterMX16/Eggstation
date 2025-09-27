@@ -1,7 +1,14 @@
+import { Box, Icon, Section, Stack } from 'tgui-core/components';
+
 import { useBackend } from '../backend';
+<<<<<<< HEAD
 import { Box, Icon, Section, Stack } from '../components';
 import { Window } from '../layouts';
 import { ObjectivePrintout, Objective } from './common/Objectives';
+=======
+import { Window } from '../layouts';
+import { Objective, ObjectivePrintout } from './common/Objectives';
+>>>>>>> tg-pr-88929
 
 type Data = {
   objectives: Objective[];

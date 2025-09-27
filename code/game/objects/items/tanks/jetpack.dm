@@ -8,10 +8,16 @@
 	w_class = WEIGHT_CLASS_BULKY
 	distribute_pressure = ONE_ATMOSPHERE * O2STANDARD
 	actions_types = list(/datum/action/item_action/set_internals, /datum/action/item_action/toggle_jetpack, /datum/action/item_action/jetpack_stabilization)
+<<<<<<< HEAD
 	slot_flags = ITEM_SLOT_BACK | ITEM_SLOT_SUITSTORE // monkestation edit
 	alternate_worn_layer = ABOVE_HEAD_LAYER // monkestation edit
+=======
+	/// What gas our jetpack is filled with on initialize
+>>>>>>> tg-pr-88929
 	var/gas_type = /datum/gas/oxygen
+	/// If the jetpack is currently active
 	var/on = FALSE
+<<<<<<< HEAD
 	/// If the jetpack will have a speedboost in space/nograv or not
 	var/full_speed = TRUE
 	var/stabilize = FALSE
@@ -22,6 +28,24 @@
 /obj/item/tank/jetpack/Initialize(mapload)
 	. = ..()
 	AddElement(/datum/element/update_icon_updates_onmob, slot_flags) // monkestation edit: use slot_flags
+=======
+	/// If the jetpack will stop when you stop moving
+	var/stabilize = FALSE
+	/// If the jetpack will have a speedboost in space/nograv or not
+	var/full_speed = TRUE
+	/// If our jetpack is disabled, from getting EMPd
+	var/disabled = FALSE
+	/// Callback for the jetpack component
+	var/thrust_callback
+	/// How much force out jetpack can output per tick
+	var/drift_force = 1.5 NEWTONS
+	/// How much force this jetpack can output per tick to stabilize the user
+	var/stabilizer_force = 1.2 NEWTONS
+
+/obj/item/tank/jetpack/Initialize(mapload)
+	. = ..()
+	AddElement(/datum/element/update_icon_updates_onmob, ITEM_SLOT_SUITSTORE)
+>>>>>>> tg-pr-88929
 	thrust_callback = CALLBACK(src, PROC_REF(allow_thrust), 0.01)
 	configure_jetpack(stabilize)
 
@@ -35,8 +59,32 @@
  * Arguments
  * stabilize - Should this jetpack be stabalized
  */
+<<<<<<< HEAD
 /obj/item/tank/jetpack/proc/configure_jetpack(stabilize)
 	src.stabilize = stabilize
+=======
+/obj/item/tank/jetpack/proc/configure_jetpack(stabilize, mob/user = null)
+	src.stabilize = stabilize
+
+	AddComponent( \
+		/datum/component/jetpack, \
+		src.stabilize, \
+		drift_force, \
+		stabilizer_force, \
+		COMSIG_JETPACK_ACTIVATED, \
+		COMSIG_JETPACK_DEACTIVATED, \
+		JETPACK_ACTIVATION_FAILED, \
+		thrust_callback, \
+		thrust_callback, \
+		/datum/effect_system/trail_follow/ion, \
+	)
+
+	if (!isnull(user) && user.get_item_by_slot(slot_flags) == src)
+		if (!stabilize)
+			ADD_TRAIT(user, TRAIT_NOGRAV_ALWAYS_DRIFT, JETPACK_TRAIT)
+		else
+			REMOVE_TRAIT(user, TRAIT_NOGRAV_ALWAYS_DRIFT, JETPACK_TRAIT)
+>>>>>>> tg-pr-88929
 
 	AddComponent( \
 		/datum/component/jetpack, \
@@ -69,13 +117,17 @@
 		cycle(user)
 	else if(istype(action, /datum/action/item_action/jetpack_stabilization))
 		if(on)
+<<<<<<< HEAD
 			configure_jetpack(!stabilize)
+=======
+			configure_jetpack(!stabilize, user)
+>>>>>>> tg-pr-88929
 			to_chat(user, span_notice("You turn the jetpack stabilization [stabilize ? "on" : "off"]."))
 	else
 		toggle_internals(user)
 
 /obj/item/tank/jetpack/proc/cycle(mob/user)
-	if(user.incapacitated())
+	if(user.incapacitated)
 		return
 
 	if(!on)
@@ -102,7 +154,9 @@
 	on = TRUE
 	update_icon(UPDATE_ICON_STATE)
 	if(full_speed)
-		user.add_movespeed_modifier(/datum/movespeed_modifier/jetpack/fullspeed)
+		user.add_movespeed_modifier(/datum/movespeed_modifier/jetpack/full_speed)
+	if (!stabilize)
+		ADD_TRAIT(user, TRAIT_NOGRAV_ALWAYS_DRIFT, JETPACK_TRAIT)
 	return TRUE
 
 /obj/item/tank/jetpack/proc/turn_off(mob/user)
@@ -110,14 +164,23 @@
 	on = FALSE
 	update_icon(UPDATE_ICON_STATE)
 	if(user)
-		user.remove_movespeed_modifier(/datum/movespeed_modifier/jetpack/fullspeed)
+		user.remove_movespeed_modifier(/datum/movespeed_modifier/jetpack/full_speed)
+		REMOVE_TRAIT(user, TRAIT_NOGRAV_ALWAYS_DRIFT, JETPACK_TRAIT)
 
 /obj/item/tank/jetpack/proc/allow_thrust(num, use_fuel = TRUE)
+<<<<<<< HEAD
 	var/mob/user = get(loc, /mob/living)
 	if(isnull(user))
 		return FALSE
 
 	if((num < 0.005 || air_contents?.total_moles() < num))
+=======
+	if(!ismob(loc))
+		return FALSE
+	var/mob/user = loc
+
+	if((num < 0.005 || air_contents.total_moles() < num))
+>>>>>>> tg-pr-88929
 		turn_off(user)
 		return FALSE
 
@@ -144,8 +207,11 @@
 
 /obj/item/tank/jetpack/emp_act(severity)
 	. = ..()
+<<<<<<< HEAD
 	if(!can_be_emped) //monkestation addition: improvised jetpack doesn't have any electronics to emp
 		return
+=======
+>>>>>>> tg-pr-88929
 	if(. & EMP_PROTECT_CONTENTS)
 		return
 	if(ismob(loc) && (item_flags & IN_INVENTORY))
@@ -155,7 +221,10 @@
 		turn_off()
 	update_item_action_buttons()
 	disabled = TRUE
+<<<<<<< HEAD
 	src.visible_message(span_danger("[src]'s lights flicker and the thruster connections cut out!")) //monkestation addition
+=======
+>>>>>>> tg-pr-88929
 	addtimer(CALLBACK(src, PROC_REF(remove_emp)), 4 SECONDS)
 
 ///Removes the disabled flag after getting EMPd
@@ -171,8 +240,14 @@
 	worn_icon_state = "jetpack-improvised"
 	volume = 20 //normal jetpacks have 70 volume
 	gas_type = null //it starts empty
+<<<<<<< HEAD
 	full_speed = FALSE //moves at modsuit jetpack speeds
 	can_be_emped = FALSE
+=======
+	full_speed = FALSE
+	drift_force = 1 NEWTONS
+	stabilizer_force = 0.5 NEWTONS
+>>>>>>> tg-pr-88929
 
 /obj/item/tank/jetpack/improvised/allow_thrust(num)
 	if(!ismob(loc))
@@ -218,7 +293,12 @@
 	volume = 90
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | ACID_PROOF //steal objective items are hard to destroy.
 	slot_flags = ITEM_SLOT_BACK | ITEM_SLOT_SUITSTORE
+<<<<<<< HEAD
 	can_be_emped = FALSE //monkestation: its fancy
+=======
+	drift_force = 2 NEWTONS
+	stabilizer_force = 2 NEWTONS
+>>>>>>> tg-pr-88929
 
 /obj/item/tank/jetpack/security //monkestation edit
 	name = "security jetpack (oxygen)"

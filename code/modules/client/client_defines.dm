@@ -78,8 +78,6 @@
 	var/move_delay = 0
 	///The visual delay to use for the current client.Move(), mostly used for making a client based move look like it came from some other slower source
 	var/visual_delay = 0
-	///Current area of the controlled mob
-	var/area = null
 
 		///////////////
 		//SOUND STUFF//
@@ -162,8 +160,6 @@
 
 	///Autoclick list of two elements, first being the clicked thing, second being the parameters.
 	var/list/atom/selected_target[2]
-	///Autoclick variable referencing the associated item.
-	var/obj/item/active_mousedown_item = null
 	///Used in MouseDrag to preserve the original mouse click parameters
 	var/mouseParams = ""
 	///Used in MouseDrag to preserve the last mouse-entered location. Weakref
@@ -278,5 +274,11 @@
 	///Which ambient sound this client is currently being provided.
 	var/current_ambient_sound
 
+<<<<<<< HEAD
 	/// The DPI scale of the client. 1 is equivalent to 100% window scaling, 2 will be 200% window scaling
 	var/window_scaling
+=======
+	/// Does this client's mob need to rebuild its plane masters after login?
+	/// This is currently only used so a client can switch between 515 and 516 without breaking their rendering.
+	var/rebuild_plane_masters = FALSE
+>>>>>>> tg-pr-88929

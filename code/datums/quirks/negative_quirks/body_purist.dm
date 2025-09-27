@@ -3,7 +3,11 @@
 	desc = "You believe your body is a temple and its natural form is an embodiment of perfection. Accordingly, you despise the idea of ever augmenting it with unnatural parts, cybernetic, prosthetic, or anything like it."
 	icon = FA_ICON_PERSON_RAYS
 	value = -2
+<<<<<<< HEAD
 	quirk_flags = QUIRK_HUMAN_ONLY | QUIRK_MOODLET_BASED
+=======
+	quirk_flags = QUIRK_HUMAN_ONLY|QUIRK_MOODLET_BASED
+>>>>>>> tg-pr-88929
 	gain_text = span_danger("You now begin to hate the idea of having cybernetic implants.")
 	lose_text = span_notice("Maybe cybernetics aren't so bad. You now feel okay with augmentations and prosthetics.")
 	medical_record_text = "This patient has disclosed an extreme hatred for unnatural bodyparts and augmentations."
@@ -62,7 +66,11 @@
 		cybernetics_level++
 		update_mood()
 
+<<<<<<< HEAD
 /datum/quirk/body_purist/proc/on_limb_lose(datum/source, obj/item/bodypart/old_limb, special)
+=======
+/datum/quirk/body_purist/proc/on_limb_lose(datum/source, obj/item/bodypart/old_limb, special, dismembered)
+>>>>>>> tg-pr-88929
 	SIGNAL_HANDLER
 	if(IS_ROBOTIC_LIMB(old_limb))
 		cybernetics_level--

@@ -6,10 +6,13 @@
 	icon_state = "sheet-gold_2"
 	glow_colour = "#dbdd4c48"
 	var/static/list/permitted_transforms = list( // Non-dangerous only
+<<<<<<< HEAD
 		/datum/dimension_theme/clockwork, //monkestation edit: clock cult W
 		/datum/dimension_theme/clown, //monkestation edit: HONK!
 		/datum/dimension_theme/disco, //monkestation edit
 		/datum/dimension_theme/fancy, //monkestation edit
+=======
+>>>>>>> tg-pr-88929
 		/datum/dimension_theme/gold,
 		/datum/dimension_theme/meat,
 		/datum/dimension_theme/pizza,
@@ -43,8 +46,12 @@
 		addtimer(CALLBACK(src, PROC_REF(transform_area), turfs_to_transform["[iterator]"]), (5 SECONDS) * iterator)
 
 /datum/grand_finale/midas/proc/transform_area(list/turfs)
+<<<<<<< HEAD
 	for (var/turf/transform_turf as anything in turfs)
 		if (!chosen_theme.can_convert(transform_turf))
 			continue
 		chosen_theme.apply_theme(transform_turf)
 		CHECK_TICK
+=======
+	chosen_theme.apply_theme_to_list_of_turfs(turfs)
+>>>>>>> tg-pr-88929

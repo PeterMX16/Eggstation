@@ -3,9 +3,10 @@
 /obj/item/ammo_casing/p50
 	name = ".50 BMG bullet casing"
 	desc = "A .50 BMG bullet casing."
-	caliber = CALIBER_50
+	caliber = CALIBER_50BMG
 	projectile_type = /obj/projectile/bullet/p50
 	icon_state = ".50"
+	newtonian_force = 1.5
 
 /obj/item/ammo_casing/p50/surplus
 	name = ".50 BMG surplus bullet casing"

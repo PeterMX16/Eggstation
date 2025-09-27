@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 ADMIN_VERB(generate_wikichem_list, R_DEBUG, FALSE, "Parse Wikichems", "Parse and generate a text file for wikichem.", ADMIN_CATEGORY_DEBUG)
+=======
+ADMIN_VERB(generate_wikichem_list, R_DEBUG, "Parse Wikichems", "Parse and generate a text file for wikichem.", ADMIN_CATEGORY_DEBUG)
+>>>>>>> tg-pr-88929
 	//If we're a reaction product
 	var/static/prefix_reaction = {"{| class=\"wikitable sortable\" style=\"width:100%; text-align:left; border: 3px solid #FFDD66; cellspacing=0; cellpadding=2; background-color:white;\"
 ! scope=\"col\" style='width:150px; background-color:#FFDD66;'|Name
@@ -9,7 +13,16 @@ ADMIN_VERB(generate_wikichem_list, R_DEBUG, FALSE, "Parse Wikichems", "Parse and
 |-
 "}
 
+<<<<<<< HEAD
 	var/input_text = tgui_input_text(user, "Input a name of a reagent, or a series of reagents split with a comma (no spaces) to get it's wiki table entry", "Recipe") //95% of the time, the reagent type is a lowercase, no spaces / underscored version of the name
+=======
+	var/input_text = tgui_input_text(
+		user,
+		"Input a name of a reagent, or a series of reagents split with a comma (no spaces) to get its wiki table entry",
+		"Recipe",
+		max_length = MAX_MESSAGE_LEN,
+		) //95% of the time, the reagent type is a lowercase, no spaces / underscored version of the name
+>>>>>>> tg-pr-88929
 	if(!input_text)
 		to_chat(user, "Input was blank!")
 		return
@@ -35,7 +48,10 @@ ADMIN_VERB(generate_wikichem_list, R_DEBUG, FALSE, "Parse Wikichems", "Parse and
 			text2file(single_parse, "[GLOB.log_directory]/chem_parse.txt")
 	text2file("|}", "[GLOB.log_directory]/chem_parse.txt") //Cap off the table
 	to_chat(user, "Done! Saved file to (wherever your root folder is, i.e. where the DME is)/[GLOB.log_directory]/chem_parse.txt OR use the Get Current Logs verb under the Admin tab. (if you click Open, and it does nothing, that's because you've not set a .txt default program! Try downloading it instead, and use that file to set a default program! Have a nice day!")
+<<<<<<< HEAD
 
+=======
+>>>>>>> tg-pr-88929
 
 /// Generate the big list of reagent based reactions.
 /proc/generate_chemwiki_line(datum/reagent/reagent, datum/chemical_reaction/reaction)

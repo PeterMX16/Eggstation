@@ -16,8 +16,14 @@
 	melee_damage_upper = 5
 	attack_verb_continuous = "chomps"
 	attack_verb_simple = "chomp"
+<<<<<<< HEAD
 	attack_sound = 'sound/weapons/bite.ogg'
 	attack_vis_effect = ATTACK_EFFECT_BITE
+=======
+	attack_sound = 'sound/items/weapons/bite.ogg'
+	attack_vis_effect = ATTACK_EFFECT_BITE
+	mob_biotypes = MOB_ORGANIC|MOB_SPECIAL
+>>>>>>> tg-pr-88929
 	faction = list(FACTION_CREATURE)
 	obj_damage = 0
 	environment_smash = ENVIRONMENT_SMASH_NONE
@@ -39,16 +45,30 @@
 
 /mob/living/basic/headslug/examine(mob/user)
 	. = ..()
+<<<<<<< HEAD
 	if(isnull(client))
 		. += span_notice("It appears to be moving around listlessly.")
 	else
 		. += span_warning("It's moving around intelligently!")
+=======
+	if(stat != DEAD)
+		if(isnull(client))
+			. += span_notice("It appears to be moving around listlessly.")
+		else
+			. += span_warning("It's moving around intelligently!")
+	if (egg_lain)
+		. += span_notice("Its reproductive equipment appears to have withered.")
+>>>>>>> tg-pr-88929
 
 /// Signal Handler proc that runs on every attack and checks to see if this is a valid target for implantation. If so, it implants the egg and starts the countdown to death.
 /mob/living/basic/headslug/proc/check_and_implant(mob/living/basic/attacker, atom/target)
 	SIGNAL_HANDLER
 
+<<<<<<< HEAD
 	if (egg_lain || !iscarbon(target) || ismonkeybasic(target))
+=======
+	if (egg_lain || !iscarbon(target) || ismonkey(target))
+>>>>>>> tg-pr-88929
 		return
 
 	var/mob/living/carbon/victim = target
@@ -70,7 +90,11 @@
 /// Simply infects the target corpse with our changeling eggs. This shouldn't fail, because all checks should have been done in check_and_implant()
 /// Just to be super-duper safe to the player, we do return TRUE if all goes well and read that value in check_and_implant() to be nice to the player.
 /mob/living/basic/headslug/proc/infect(mob/living/carbon/victim)
+<<<<<<< HEAD
 	var/obj/item/organ/internal/body_egg/changeling_egg/egg = new(victim)
+=======
+	var/obj/item/organ/body_egg/changeling_egg/egg = new(victim)
+>>>>>>> tg-pr-88929
 
 	egg.origin = mind
 
@@ -89,3 +113,10 @@
 /datum/ai_controller/basic_controller/headslug
 	ai_movement = /datum/ai_movement/basic_avoidance
 	idle_behavior = /datum/idle_behavior/idle_random_walk
+<<<<<<< HEAD
+=======
+
+/// Neutered version to prevent people from turning themselves into changelings with sentience potions or transformation
+/mob/living/basic/headslug/beakless
+	egg_lain = TRUE
+>>>>>>> tg-pr-88929

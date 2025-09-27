@@ -104,7 +104,7 @@
 /mob/living/simple_animal/hostile/Life(seconds_per_tick = SSMOBS_DT, times_fired)
 	. = ..()
 	if(!.) //dead
-		SSmove_manager.stop_looping(src)
+		GLOB.move_manager.stop_looping(src)
 
 /mob/living/simple_animal/hostile/handle_automated_action()
 	if(AIStatus == AI_OFF || QDELETED(src))
@@ -161,15 +161,15 @@
 	return ..()
 
 /mob/living/simple_animal/hostile/electrocute_act(shock_damage, source, siemens_coeff, flags)
-	if(stat == CONSCIOUS && !target && AIStatus != AI_OFF && !client)
+	if(stat == CONSCIOUS && !target && AIStatus != AI_OFF && !client && isatom(source)) // strings are sometimes used in electrocute_act()
 		FindTarget(list(source))
 	return ..()
 
-/mob/living/simple_animal/hostile/bullet_act(obj/projectile/P)
+/mob/living/simple_animal/hostile/bullet_act(obj/projectile/proj)
 	if(stat == CONSCIOUS && !target && AIStatus != AI_OFF && !client)
-		if(P.firer && get_dist(src, P.firer) <= aggro_vision_range)
-			FindTarget(list(P.firer))
-		Goto(P.starting, move_to_delay, 3)
+		if(proj.firer && get_dist(src, proj.firer) <= aggro_vision_range)
+			FindTarget(list(proj.firer))
+		Goto(proj.starting, move_to_delay, 3)
 	return ..()
 
 //////////////HOSTILE MOB TARGETING AND AGGRESSION////////////
@@ -246,12 +246,21 @@
 
 // Please do not add one-off mob AIs here, but override this function for your mob
 /mob/living/simple_animal/hostile/CanAttack(atom/the_target)//Can we actually attack a possible target?
+	if(!isatom(the_target))
+		stack_trace("Invalid target in CanAttack(): [the_target]")
+		return FALSE
+
 	if(isturf(the_target) || QDELETED(the_target) || QDELETED(src)) // bail out on invalids
 		return FALSE
 
 	if(ismob(the_target)) //Target is in godmode, ignore it.
+<<<<<<< HEAD
 		var/mob/M = the_target
 		if(HAS_TRAIT(M, TRAIT_GODMODE))
+=======
+		var/mob/mob = the_target
+		if(HAS_TRAIT(mob, TRAIT_GODMODE))
+>>>>>>> tg-pr-88929
 			return FALSE
 
 	if(see_invisible < the_target.invisibility)//Target's invisible to us, forget it
@@ -316,7 +325,11 @@
 
 /mob/living/simple_animal/hostile/proc/CheckAndAttack()
 	var/atom/target_from = GET_TARGETS_FROM(src)
+<<<<<<< HEAD
 	if(target && isturf(target_from.loc) && target.Adjacent(target_from) && !incapacitated())
+=======
+	if(target && isturf(target_from.loc) && target.Adjacent(target_from) && !incapacitated)
+>>>>>>> tg-pr-88929
 		AttackingTarget(target)
 
 /mob/living/simple_animal/hostile/proc/MoveToTarget(list/possible_targets)//Step 5, handle movement between us and our target
@@ -335,11 +348,11 @@
 			if(!target.Adjacent(target_from) && ranged_cooldown <= world.time) //But make sure they're not in range for a melee attack and our range attack is off cooldown
 				OpenFire(target)
 		if(!Process_Spacemove(0)) //Drifting
-			SSmove_manager.stop_looping(src)
+			GLOB.move_manager.stop_looping(src)
 			return 1
 		if(retreat_distance != null) //If we have a retreat distance, check if we need to run from our target
 			if(target_distance <= retreat_distance) //If target's closer than our retreat distance, run
-				SSmove_manager.move_away(src, target, retreat_distance, move_to_delay, flags = MOVEMENT_LOOP_IGNORE_GLIDE)
+				GLOB.move_manager.move_away(src, target, retreat_distance, move_to_delay, flags = MOVEMENT_LOOP_IGNORE_GLIDE)
 			else
 				Goto(target,move_to_delay,minimum_distance) //Otherwise, get to our minimum distance so we chase them
 		else
@@ -374,7 +387,7 @@
 		approaching_target = TRUE
 	else
 		approaching_target = FALSE
-	SSmove_manager.move_to(src, target, minimum_distance, delay, flags = MOVEMENT_LOOP_IGNORE_GLIDE)
+	GLOB.move_manager.move_to(src, target, minimum_distance, delay, flags = MOVEMENT_LOOP_IGNORE_GLIDE)
 	return TRUE
 
 /mob/living/simple_animal/hostile/adjustHealth(amount, updating_health = TRUE, forced = FALSE)
@@ -414,7 +427,7 @@
 	GiveTarget(null)
 	approaching_target = FALSE
 	in_melee = FALSE
-	SSmove_manager.stop_looping(src)
+	GLOB.move_manager.stop_looping(src)
 	LoseAggro()
 
 //////////////END HOSTILE MOB TARGETING AND AGGRESSION////////////
@@ -479,7 +492,11 @@
 	if(projectiletype)
 		fire_projectile(projectiletype, targeted_atom, projectilesound)
 		if(AIStatus != AI_ON)//Don't want mindless mobs to have their movement screwed up firing in space
+<<<<<<< HEAD
 			newtonian_move(get_dir(targeted_atom, target_from))
+=======
+			newtonian_move(get_angle(targeted_atom, target_from))
+>>>>>>> tg-pr-88929
 
 
 /mob/living/simple_animal/hostile/proc/CanSmashTurfs(turf/T)
@@ -636,6 +653,7 @@
 	LoseTarget()
 
 /mob/living/simple_animal/hostile/proc/add_target(new_target)
+	SEND_SIGNAL(src, COMSIG_HOSTILE_FOUND_TARGET, new_target)
 	if(target)
 		UnregisterSignal(target, COMSIG_QDELETING)
 	target = new_target

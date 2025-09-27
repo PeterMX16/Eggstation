@@ -16,7 +16,11 @@
 	src.pixel_shift = pixel_shift
 
 	if(ismovable(target))
+<<<<<<< HEAD
 		RegisterSignal(target, COMSIG_MOVABLE_MOVED, PROC_REF(on_moved), override = TRUE) // temporary workaround. probably.
+=======
+		RegisterSignal(target, COMSIG_MOVABLE_MOVED, PROC_REF(on_moved))
+>>>>>>> tg-pr-88929
 
 	var/atom/atom_target = target
 	if(isturf(atom_target.loc))
@@ -157,7 +161,11 @@
 /datum/element/elevation_core/proc/on_exited(turf/source, atom/movable/gone)
 	SIGNAL_HANDLER
 	if((isnull(gone.loc) || !HAS_TRAIT_FROM(gone.loc, TRAIT_ELEVATED_TURF, REF(src))) && isliving(gone))
+<<<<<<< HEAD
 		// Always unregister the signals, we're still leaving even if not effected by elevation.
+=======
+		// Always unregister the signals, we're still leaving even if not affected by elevation.
+>>>>>>> tg-pr-88929
 		UnregisterSignal(gone, list(COMSIG_LIVING_SET_BUCKLED, SIGNAL_ADDTRAIT(TRAIT_IGNORE_ELEVATION), SIGNAL_REMOVETRAIT(TRAIT_IGNORE_ELEVATION)))
 		if(!HAS_TRAIT_FROM(gone, TRAIT_ON_ELEVATED_SURFACE, REF(src)))
 			return

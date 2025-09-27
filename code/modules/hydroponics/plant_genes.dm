@@ -23,7 +23,8 @@
  * Returns TRUE if the seed can take the gene, and FALSE otherwise.
  */
 /datum/plant_gene/proc/can_add(obj/item/seeds/our_seed)
-	return !istype(our_seed, /obj/item/seeds/sample) // Samples can't accept new genes.
+	SHOULD_CALL_PARENT(TRUE)
+	return TRUE
 
 /// Copies over vars and information about our current gene to a new gene and returns the new instance of gene.
 /datum/plant_gene/proc/Copy()
@@ -232,9 +233,8 @@
 	if(!.)
 		return FALSE
 
-	for(var/obj/item/seeds/found_seed as anything in seed_blacklist)
-		if(istype(source_seed, found_seed))
-			return FALSE
+	if(is_type_in_list(source_seed, seed_blacklist))
+		return FALSE
 
 	for(var/datum/plant_gene/trait/trait in source_seed.genes)
 		if(trait_ids & trait.trait_ids)
@@ -283,6 +283,10 @@
 		return
 
 	RegisterSignal(our_plant, COMSIG_PLANT_ON_SLIP, PROC_REF(squash_plant))
+<<<<<<< HEAD
+=======
+	RegisterSignal(our_plant, COMSIG_MOVABLE_IMPACT, PROC_REF(squash_plant_if_not_caught))
+>>>>>>> tg-pr-88929
 	RegisterSignal(our_plant, COMSIG_ITEM_ATTACK_SELF, PROC_REF(squash_plant))
 // monkestation start: use COMSIG_MOVABLE_IMPACT_ZONE for mobs
 	RegisterSignal(our_plant, COMSIG_MOVABLE_IMPACT, PROC_REF(on_impact))
@@ -332,6 +336,10 @@
 		our_plant.reagents?.expose(things)
 
 	qdel(our_plant)
+
+/datum/plant_gene/trait/squash/proc/squash_plant_if_not_caught(datum/source, atom/hit_atom, datum/thrownthing/throwing_datum, caught)
+	if(!caught)
+		squash_plant(source, hit_atom)
 
 /*
  * Makes plant slippery, unless it has a grown-type trash. Then the trash gets slippery.
@@ -425,7 +433,11 @@
 	to_chat(eater, span_notice("You feel energized as you bite into [our_plant]."))
 	var/batteries_recharged = FALSE
 	var/obj/item/seeds/our_seed = our_plant.get_plant_seed()
+<<<<<<< HEAD
 	for(var/obj/item/stock_parts/power_store/cell/found_cell in eater.get_all_contents())
+=======
+	for(var/obj/item/stock_parts/power_store/found_cell in eater.get_all_contents())
+>>>>>>> tg-pr-88929
 		var/newcharge = min(our_seed.potency * 0.01 * found_cell.maxcharge, found_cell.maxcharge)
 		if(found_cell.charge < newcharge)
 			found_cell.charge = newcharge
@@ -448,8 +460,8 @@
 	description = "It emits a soft glow."
 	trait_ids = GLOW_ID
 	mutability_flags = PLANT_GENE_REMOVABLE | PLANT_GENE_MUTATABLE | PLANT_GENE_GRAFTABLE
-	/// The color of our bioluminesence.
-	var/glow_color = "#C3E381"
+	/// The color of our bioluminescence.
+	var/glow_color = COLOR_BIOLUMINESCENCE_STANDARD
 
 /datum/plant_gene/trait/glow/proc/glow_range(obj/item/seeds/seed)
 	return 1.4 + CAPPED_POTENCY(seed) * rate
@@ -474,7 +486,7 @@
 	name = "Shadow Emission"
 	icon = FA_ICON_MOON
 	rate = 0.04
-	glow_color = "#AAD84B"
+	glow_color = COLOR_BIOLUMINESCENCE_SHADOW
 
 /datum/plant_gene/trait/glow/shadow/glow_power(obj/item/seeds/seed)
 	return -max(CAPPED_POTENCY(seed) * (rate * 0.2), 0.2)
@@ -484,37 +496,37 @@
 /// White
 /datum/plant_gene/trait/glow/white
 	name = "White Bioluminescence"
-	glow_color = "#FFFFFF"
+	glow_color = COLOR_WHITE
 
 /// Red
 /datum/plant_gene/trait/glow/red
 	name = "Red Bioluminescence"
-	glow_color = "#FF3333"
+	glow_color = COLOR_RED_LIGHT
 
 /// Yellow (not the disgusting glowshroom yellow hopefully)
 /datum/plant_gene/trait/glow/yellow
 	name = "Yellow Bioluminescence"
-	glow_color = "#FFFF66"
+	glow_color = COLOR_BIOLUMINESCENCE_YELLOW
 
 /// Green (oh no, now i'm radioactive)
 /datum/plant_gene/trait/glow/green
 	name = "Green Bioluminescence"
-	glow_color = "#99FF99"
+	glow_color = COLOR_BIOLUMINESCENCE_GREEN
 
 /// Blue (the best one)
 /datum/plant_gene/trait/glow/blue
 	name = "Blue Bioluminescence"
-	glow_color = "#6699FF"
+	glow_color = COLOR_BIOLUMINESCENCE_BLUE
 
 /// Purple (did you know that notepad++ doesnt think bioluminescence is a word) (was the person who wrote this using notepad++ for dm?)
 /datum/plant_gene/trait/glow/purple
 	name = "Purple Bioluminescence"
-	glow_color = "#D966FF"
+	glow_color = COLOR_BIOLUMINESCENCE_PURPLE
 
 // Pink (gay tide station pride)
 /datum/plant_gene/trait/glow/pink
 	name = "Pink Bioluminescence"
-	glow_color = "#FFB3DA"
+	glow_color = COLOR_BIOLUMINESCENCE_PINK
 
 /*
  * Makes plant teleport people when squashed or slipped on.
@@ -582,7 +594,7 @@
 /**
  * A plant trait that causes the plant's capacity to double.
  *
- * When harvested, the plant's individual capacity is set to double it's default.
+ * When harvested, the plant's individual capacity is set to double its default.
  * However, the plant's maximum yield is also halved, only up to 5.
  */
 /datum/plant_gene/trait/maxchem
@@ -611,7 +623,10 @@
 	description = "It may be harvested multiple times from the same plant."
 	icon = FA_ICON_CUBES_STACKED
 	/// Don't allow replica pods to be multi harvested, please.
-	seed_blacklist = list(/obj/item/seeds/replicapod)
+	seed_blacklist = list(
+		/obj/item/seeds/replicapod,
+		/obj/item/seeds/seedling/evil,
+	)
 	mutability_flags = PLANT_GENE_REMOVABLE | PLANT_GENE_MUTATABLE | PLANT_GENE_GRAFTABLE
 
 /*
@@ -868,7 +883,7 @@
 /**
  * A plant trait that causes the plant's food reagents to ferment instead.
  *
- * In practice, it replaces the plant's nutriment and vitamins with half as much of it's fermented reagent.
+ * In practice, it replaces the plant's nutriment and vitamins with half as much of its fermented reagent.
  * This exception is executed in seeds.dm under 'prepare_result'.
  *
  * Incompatible with auto-juicing composition.
@@ -903,7 +918,7 @@
 	icon = FA_ICON_FACE_LAUGH_SQUINT
 	mutability_flags = PLANT_GENE_REMOVABLE | PLANT_GENE_MUTATABLE | PLANT_GENE_GRAFTABLE
 	/// Sounds that play when this trait triggers
-	var/list/sounds = list('sound/items/SitcomLaugh1.ogg', 'sound/items/SitcomLaugh2.ogg', 'sound/items/SitcomLaugh3.ogg')
+	var/list/sounds = list('sound/items/sitcom_laugh/sitcomLaugh1.ogg', 'sound/items/sitcom_laugh/sitcomLaugh2.ogg', 'sound/items/sitcom_laugh/sitcomLaugh3.ogg')
 
 /datum/plant_gene/trait/plant_laughter/on_new_plant(obj/item/our_plant, newloc)
 	. = ..()
@@ -946,7 +961,7 @@
 	if(!.)
 		return
 
-	googly = mutable_appearance('icons/obj/hydroponics/harvest.dmi', "eyes")
+	googly = mutable_appearance('icons/obj/service/hydroponics/harvest.dmi', "eyes")
 	googly.appearance_flags = RESET_COLOR
 	our_plant.add_overlay(googly)
 
@@ -964,12 +979,38 @@
 		return
 
 	var/obj/item/seeds/our_seed = our_plant.get_plant_seed()
+<<<<<<< HEAD
 	if(our_seed.get_gene(/datum/plant_gene/trait/stinging))
 		our_plant.embedding = EMBED_POINTY
 	else
 		our_plant.embedding = EMBED_HARMLESS
 	our_plant.updateEmbedding()
 	our_plant.throwforce = qp_sigmoid(1000, 50, our_seed.potency)
+=======
+	our_plant.throwforce = (our_seed.potency/20)
+	var/datum/embedding/plant_embed = our_plant.get_embed()
+	if (!plant_embed)
+		if(our_seed.get_gene(/datum/plant_gene/trait/stinging))
+			our_plant.set_embed(/datum/embedding/spiky_plant)
+		else
+			our_plant.set_embed(/datum/embedding/sticky_plant)
+		return
+
+	plant_embed.ignore_throwspeed_threshold = TRUE
+	if(our_seed.get_gene(/datum/plant_gene/trait/stinging))
+		return
+
+	plant_embed.pain_mult = 0
+	plant_embed.jostle_pain_mult = 0
+
+/datum/embedding/sticky_plant
+	pain_mult = 0
+	jostle_pain_mult = 0
+	ignore_throwspeed_threshold = TRUE
+
+/datum/embedding/spiky_plant
+	ignore_throwspeed_threshold = TRUE
+>>>>>>> tg-pr-88929
 
 /**
  * This trait automatically heats up the plant's chemical contents when harvested.

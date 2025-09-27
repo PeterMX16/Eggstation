@@ -1,5 +1,11 @@
+<<<<<<< HEAD
 import { useLocalState } from '../../backend';
 import { Button, Dropdown, Input, Section, Stack } from '../../components';
+=======
+import { useReducer, useState } from 'react';
+import { Button, Dropdown, Input, Section, Stack } from 'tgui-core/components';
+
+>>>>>>> tg-pr-88929
 import { Window } from '../../layouts';
 import { SORTING_TYPES } from './contants';
 import { FilterAction, filterReducer, FilterState } from './filters';
@@ -8,7 +14,11 @@ import { SubsystemDialog } from './SubsystemDialog';
 import { SubsystemViews } from './SubsystemViews';
 import { SortType, SubsystemData } from './types';
 
+<<<<<<< HEAD
 export const ControllerOverview = (props) => {
+=======
+export function ControllerOverview(props) {
+>>>>>>> tg-pr-88929
   return (
     <Window title="Controller Overview" height={600} width={500}>
       <Window.Content>
@@ -16,10 +26,17 @@ export const ControllerOverview = (props) => {
       </Window.Content>
     </Window>
   );
+<<<<<<< HEAD
 };
 
 export const ControllerContent = (props) => {
   const [state, setState] = useLocalState<FilterState>('controllerFilter', {
+=======
+}
+
+export function ControllerContent(props) {
+  const [state, dispatch] = useReducer(filterReducer, {
+>>>>>>> tg-pr-88929
     ascending: true,
     inactive: true,
     query: '',
@@ -27,19 +44,27 @@ export const ControllerContent = (props) => {
     sortType: SortType.Name,
   });
 
+<<<<<<< HEAD
   const [selected, setSelected] = useLocalState<SubsystemData | undefined>(
     'selected',
     undefined,
   );
+=======
+  const [selected, setSelected] = useState<SubsystemData>();
+>>>>>>> tg-pr-88929
 
   const { label, inDeciseconds } =
     SORTING_TYPES?.[state.sortType] || SORTING_TYPES[0];
 
+<<<<<<< HEAD
   const dispatch = (action: { type: FilterAction; payload: any }) => {
     setState(filterReducer(state, action));
   };
 
   const onSelectionHandler = (value: string) => {
+=======
+  function onSelectionHandler(value: string) {
+>>>>>>> tg-pr-88929
     const updates: Partial<FilterState> = {
       sortType: SORTING_TYPES.findIndex((type) => type.label === value),
     };
@@ -52,7 +77,11 @@ export const ControllerContent = (props) => {
     updates.smallValues = inDeciseconds;
 
     dispatch({ type: FilterAction.Update, payload: updates });
+<<<<<<< HEAD
   };
+=======
+  }
+>>>>>>> tg-pr-88929
 
   return (
     <Stack fill vertical>
@@ -155,4 +184,8 @@ export const ControllerContent = (props) => {
       </Stack.Item>
     </Stack>
   );
+<<<<<<< HEAD
 };
+=======
+}
+>>>>>>> tg-pr-88929

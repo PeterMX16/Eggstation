@@ -5,7 +5,12 @@ import {
   LabeledList,
   Modal,
   Stack,
+<<<<<<< HEAD
 } from '../../components';
+=======
+} from 'tgui-core/components';
+
+>>>>>>> tg-pr-88929
 import { SubsystemData } from './types';
 
 type Props = {
@@ -13,7 +18,11 @@ type Props = {
   onClose: () => void;
 };
 
+<<<<<<< HEAD
 export const SubsystemDialog = (props: Props) => {
+=======
+export function SubsystemDialog(props: Props) {
+>>>>>>> tg-pr-88929
   const { subsystem, onClose } = props;
   const {
     cost_ms,
@@ -22,7 +31,11 @@ export const SubsystemDialog = (props: Props) => {
     last_fire,
     name,
     next_fire,
+<<<<<<< HEAD
     overtime,
+=======
+    tick_overrun,
+>>>>>>> tg-pr-88929
     tick_usage,
     usage_per_tick,
   } = subsystem;
@@ -53,7 +66,11 @@ export const SubsystemDialog = (props: Props) => {
             {usage_per_tick.toFixed(2)}%
           </LabeledList.Item>
           <LabeledList.Item label="Tick Overrun">
+<<<<<<< HEAD
             {overtime.toFixed(2)}%
+=======
+            {tick_overrun.toFixed(2)}%
+>>>>>>> tg-pr-88929
           </LabeledList.Item>
           {initialization_failure_message && (
             <LabeledList.Item color="bad">
@@ -72,4 +89,8 @@ export const SubsystemDialog = (props: Props) => {
       </Stack>
     </Modal>
   );
+<<<<<<< HEAD
 };
+=======
+}
+>>>>>>> tg-pr-88929

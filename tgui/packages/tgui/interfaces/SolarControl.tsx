@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { BooleanLike } from 'common/react';
 import { formatPower } from '../format';
 import { useBackend } from '../backend';
@@ -12,6 +13,23 @@ import {
   Stack,
   Icon,
 } from '../components';
+=======
+import {
+  Box,
+  Button,
+  Chart,
+  Icon,
+  LabeledList,
+  NumberInput,
+  ProgressBar,
+  Section,
+  Stack,
+} from 'tgui-core/components';
+import { formatPower } from 'tgui-core/format';
+import { BooleanLike } from 'tgui-core/react';
+
+import { useBackend } from '../backend';
+>>>>>>> tg-pr-88929
 import { Window } from '../layouts';
 
 type Data = {
@@ -158,7 +176,7 @@ export const SolarControl = (props) => {
                   minValue={-360}
                   maxValue={+720}
                   value={azimuth_current}
-                  onDrag={(e, value) => act('azimuth', { value })}
+                  onDrag={(value) => act('azimuth', { value })}
                 />
               )}
               {tracking_state === 1 && (
@@ -174,7 +192,7 @@ export const SolarControl = (props) => {
                     const sign = Math.sign(rate) > 0 ? '+' : '-';
                     return sign + Math.abs(rate);
                   }}
-                  onDrag={(e, value) => act('azimuth_rate', { value })}
+                  onDrag={(value) => act('azimuth_rate', { value })}
                 />
               )}
               {tracking_state === 2 && (

@@ -1,6 +1,20 @@
 import { sortBy } from 'common/collections';
-import { capitalize } from 'common/string';
+import { useState } from 'react';
+import {
+  Blink,
+  Box,
+  Button,
+  Dimmer,
+  Flex,
+  Icon,
+  Modal,
+  Section,
+  TextArea,
+} from 'tgui-core/components';
+import { capitalize } from 'tgui-core/string';
+
 import { useBackend, useLocalState } from '../backend';
+<<<<<<< HEAD
 import {
   Blink,
   Box,
@@ -13,8 +27,11 @@ import {
   TextArea,
 } from '../components';
 import { StatusDisplayControls } from './common/StatusDisplayControls';
+=======
+>>>>>>> tg-pr-88929
 import { Window } from '../layouts';
 import { sanitizeText } from '../sanitize';
+import { StatusDisplayControls } from './common/StatusDisplayControls';
 
 const STATE_BUYING_SHUTTLE = 'buying_shuttle';
 const STATE_CHANGING_STATUS = 'changing_status';
@@ -27,10 +44,19 @@ const SWIPE_NEEDED = 'SWIPE_NEEDED';
 const EMAG_SHUTTLE_NOTICE =
   'This shuttle is deemed significantly dangerous to the crew, and is only supplied by the Syndicate.';
 
+<<<<<<< HEAD
 const sortShuttles = sortBy(
   (shuttle) => !shuttle.emagOnly,
   (shuttle) => shuttle.initial_cost,
 );
+=======
+const sortShuttles = (shuttles) =>
+  sortBy(
+    shuttles,
+    (shuttle) => !shuttle.emagOnly,
+    (shuttle) => shuttle.initial_cost,
+  );
+>>>>>>> tg-pr-88929
 
 const AlertButton = (props) => {
   const { act, data } = useBackend();
@@ -210,7 +236,11 @@ const PageBuyingShuttle = (props) => {
           </Box>
           <Box color="violet" fontSize="10px" bold>
             {shuttle.prerequisites ? (
+<<<<<<< HEAD
               <b>Prerequisitces: {shuttle.prerequisites}</b>
+=======
+              <b>Prerequisites: {shuttle.prerequisites}</b>
+>>>>>>> tg-pr-88929
             ) : null}
           </Box>
         </Section>
@@ -265,6 +295,7 @@ const PageMain = (props) => {
     shuttleRecallable,
   } = data;
 
+<<<<<<< HEAD
   const [callingShuttle, setCallingShuttle] = useLocalState(
     'calling_shuttle',
     false,
@@ -281,11 +312,21 @@ const PageMain = (props) => {
     'requesting_nuke_codes',
     false,
   );
+=======
+  const [callingShuttle, setCallingShuttle] = useState(false);
+  const [messagingAssociates, setMessagingAssociates] = useState(false);
+  const [messagingSector, setMessagingSector] = useState(null);
+  const [requestingNukeCodes, setRequestingNukeCodes] = useState(false);
+>>>>>>> tg-pr-88929
 
   const [
     [showAlertLevelConfirm, confirmingAlertLevelTick],
     setShowAlertLevelConfirm,
+<<<<<<< HEAD
   ] = useLocalState('showConfirmPrompt', [null, null]);
+=======
+  ] = useState([null, null]);
+>>>>>>> tg-pr-88929
 
   return (
     <Box>

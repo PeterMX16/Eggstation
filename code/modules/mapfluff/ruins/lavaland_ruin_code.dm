@@ -31,13 +31,16 @@
 
 /obj/item/golem_shell
 	name = "incomplete free golem shell"
-	icon = 'icons/obj/wizard.dmi'
-	icon_state = "construct"
-	desc = "The incomplete body of a golem. Add ten sheets of any mineral to finish."
+	icon = 'icons/mob/shells.dmi'
+	icon_state = "shell_unfinished"
+	desc = "The incomplete body of a golem. Add ten sheets of certain minerals to finish."
 	w_class = WEIGHT_CLASS_BULKY
-
+	/// Amount of minerals you need to feed the shell to wake it up
+	var/required_stacks = 10
+	/// Type of shell to create
 	var/shell_type = /obj/effect/mob_spawn/ghost_role/human/golem
 
+<<<<<<< HEAD
 /obj/item/golem_shell/attackby(obj/item/attacking_item, mob/user, list/modifiers, list/attack_modifiers)
 	. = ..()
 	var/static/list/golem_shell_species_types = list(
@@ -77,12 +80,27 @@
 	var/species = golem_shell_species_types[stuff_stack.merge_type]
 	if(!species)
 		to_chat(user, span_warning("You can't build a golem out of this kind of material!"))
+=======
+/obj/item/golem_shell/attackby(obj/item/potential_food, mob/user, params)
+	. = ..()
+	if(!isstack(potential_food))
+		balloon_alert(user, "not a mineral!")
 		return
-	if(!stuff_stack.use(10))
-		to_chat(user, span_warning("You need at least ten sheets to finish a golem!"))
+	var/obj/item/stack/stack_food = potential_food
+	var/stack_type = stack_food.merge_type
+	if (!is_path_in_list(stack_type, GLOB.golem_stack_food_directory))
+		balloon_alert(user, "incompatible mineral!")
+>>>>>>> tg-pr-88929
 		return
-	to_chat(user, span_notice("You finish up the golem shell with ten sheets of [stuff_stack]."))
-	new shell_type(get_turf(src), species, user)
+	if(stack_food.amount < required_stacks)
+		balloon_alert(user, "not enough minerals!")
+		return
+	if(!do_after(user, delay = 4 SECONDS, target = src))
+		return
+	if(!stack_food.use(required_stacks))
+		balloon_alert(user, "not enough minerals!")
+		return
+	new shell_type(get_turf(src), /* creator = */ user, /* made_of = */ stack_type)
 	qdel(src)
 
 ///made with xenobiology, the golem obeys its creator

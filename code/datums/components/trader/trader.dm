@@ -52,7 +52,11 @@
 	 * Format; list(TYPEPATH = list(PRICE, QUANTITY, ADDITIONAL_DESCRIPTION))
 	 * Associated list of items able to be sold to the NPC with the money given for them.
 	 * The price given should be the "base" price; any price manipulation based on variables should be done with apply_sell_price_mods()
+<<<<<<< HEAD
 	 * ADDITIONAL_DESCRIPTION is any additional text added to explain how the variables of the item effect the price; if it's stack based, it's final price depends how much is in the stack
+=======
+	 * ADDITIONAL_DESCRIPTION is any additional text added to explain how the variables of the item effect the price; if it's stack based, its final price depends how much is in the stack
+>>>>>>> tg-pr-88929
 	 * EX; /obj/item/stack/sheet/mineral/diamond = list(500, INFINITY, ", per 100 cm3 sheet of diamond")
 	 * This list is filled by Initialize(), if you want to change the starting wanted items, modify initial_wanteds()
 	*/
@@ -103,7 +107,11 @@ Can accept both a type path, and an instance of a datum. Type path has priority.
 ///If our trader is alive, and the customer left clicks them with an empty hand without combat mode
 /datum/component/trader/proc/on_attack_hand(atom/source, mob/living/carbon/customer)
 	SIGNAL_HANDLER
+<<<<<<< HEAD
 	if(!can_trade(customer) || (customer.istate & ISTATE_HARM))
+=======
+	if(!can_trade(customer) || customer.combat_mode)
+>>>>>>> tg-pr-88929
 		return
 	var/list/npc_options = list()
 	if(length(products))
@@ -327,7 +335,11 @@ Can accept both a type path, and an instance of a datum. Type path has priority.
 	return original_cost
 
 /**
+<<<<<<< HEAD
  * Handles modifying/deleting the items to ensure that a proper amount is converted into cash; put into it's own proc to make the children of this not override a 30+ line sell_item()
+=======
+ * Handles modifying/deleting the items to ensure that a proper amount is converted into cash; put into its own proc to make the children of this not override a 30+ line sell_item()
+>>>>>>> tg-pr-88929
  *
  * Arguments:
  * * selling - (Item REF) this is the item being sold
@@ -426,7 +438,11 @@ Can accept both a type path, and an instance of a datum. Type path has priority.
 ///Returns if the trader is conscious and its combat mode is disabled.
 /datum/component/trader/proc/can_trade(mob/customer)
 	var/mob/living/trader = parent
+<<<<<<< HEAD
 	if(trader.istate & ISTATE_HARM)
+=======
+	if(trader.combat_mode)
+>>>>>>> tg-pr-88929
 		trader.balloon_alert(customer, "in combat!")
 		return FALSE
 	if(IS_DEAD_OR_INCAP(trader))

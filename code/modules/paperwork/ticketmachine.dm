@@ -31,6 +31,7 @@
 /obj/machinery/ticket_machine/Initialize(mapload)
 	. = ..()
 	update_appearance()
+	find_and_hang_on_wall()
 
 /obj/machinery/ticket_machine/Destroy()
 	for(var/obj/item/ticket_machine_ticket/ticket in tickets)
@@ -38,10 +39,8 @@
 	tickets.Cut()
 	return ..()
 
-/obj/machinery/ticket_machine/deconstruct(disassembled = TRUE)
-	if(!(flags_1 & NODECONSTRUCT_1))
-		new /obj/item/wallframe/ticket_machine(loc)
-	qdel(src)
+/obj/machinery/ticket_machine/on_deconstruction(disassembled = TRUE)
+	new /obj/item/wallframe/ticket_machine(loc)
 
 MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/ticket_machine, 32)
 
@@ -88,7 +87,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/ticket_machine, 32)
 	if(LAZYLEN(tickets))
 		current_ticket = tickets[1]
 		current_number++ //Increment the one we're serving.
-		playsound(src, 'sound/misc/announce_dig.ogg', 50, FALSE)
+		playsound(src, 'sound/announcer/announcement/announce_dig.ogg', 50, FALSE)
 		say("Now serving [current_ticket]!")
 		if(!(obj_flags & EMAGGED))
 			current_ticket.audible_message(span_notice("\the [current_ticket] vibrates!"), hearing_distance = SAMETILE_MESSAGE_RANGE)
@@ -134,7 +133,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/ticket_machine, 32)
 
 /// Locate the ticket machine to which we're linked by our ID
 /obj/item/assembly/control/ticket_machine/proc/find_machine()
-	for(var/obj/machinery/ticket_machine/ticketsplease in GLOB.machines)
+	for(var/obj/machinery/ticket_machine/ticketsplease as anything in SSmachines.get_machines_by_type_and_subtypes(/obj/machinery/ticket_machine))
 		if(ticketsplease.id == id)
 			ticket_machine_ref = WEAKREF(ticketsplease)
 	if(ticket_machine_ref)
@@ -154,7 +153,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/ticket_machine, 32)
 	machine.increment()
 	if(isnull(machine.current_ticket))
 		to_chat(activator, span_notice("The button light indicates that there are no more tickets to be processed."))
-	addtimer(VARSET_CALLBACK(src, cooldown, FALSE), 10)
+	addtimer(VARSET_CALLBACK(src, cooldown, FALSE), 1 SECONDS)
 
 /obj/machinery/ticket_machine/update_icon()
 	. = ..()
@@ -186,8 +185,13 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/ticket_machine, 32)
 			return
 		to_chat(user, span_notice("You start to refill [src]'s ticket holder (doing this will reset its ticket count!)."))
 		if(do_after(user, 3 SECONDS, target = src))
+<<<<<<< HEAD
 			to_chat(user, span_notice("You insert [attacking_item] into [src] as it whirs nondescriptly."))
 			qdel(attacking_item)
+=======
+			to_chat(user, span_notice("You insert [I] into [src] as it whirs nondescriptly."))
+			qdel(I)
+>>>>>>> tg-pr-88929
 			ticket_number = 0
 			current_number = 0
 			if(tickets.len)
@@ -214,7 +218,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/ticket_machine, 32)
 	if((user_ref in ticket_holders) && !(obj_flags & EMAGGED))
 		to_chat(user, span_warning("You already have a ticket!"))
 		return
-	playsound(src, 'sound/machines/terminal_insert_disc.ogg', 100, FALSE)
+	playsound(src, 'sound/machines/terminal/terminal_insert_disc.ogg', 100, FALSE)
 	ticket_number++
 	to_chat(user, span_notice("You take a ticket from [src], looks like you're number [ticket_number] in queue..."))
 	var/obj/item/ticket_machine_ticket/theirticket = new (get_turf(src), ticket_number)

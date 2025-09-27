@@ -109,10 +109,12 @@
 /area/template_noop)
 "gr" = (
 /obj/structure/table/glass,
-/obj/item/retractor,
 /obj/effect/turf_decal/tile/red/half/contrasted{
 	dir = 1
 	},
+/obj/item/stack/medical/gauze,
+/obj/item/retractor,
+/obj/item/cautery,
 /turf/open/floor/holofloor{
 	icon_state = "white"
 	},
@@ -177,9 +179,7 @@
 /area/template_noop)
 "pe" = (
 /obj/structure/window/spawner/directional/south,
-/obj/item/kirbyplants{
-	icon_state = "plant-10"
-	},
+/obj/item/kirbyplants/organic/plant10,
 /obj/effect/turf_decal/tile/blue/half/contrasted,
 /turf/open/floor/holofloor{
 	icon_state = "white"
@@ -404,9 +404,7 @@
 	},
 /area/template_noop)
 "GN" = (
-/obj/machinery/door/window/left/directional/west{
-	dir = 2
-	},
+/obj/machinery/door/window/left/directional/south,
 /obj/effect/turf_decal/tile/blue/half/contrasted,
 /turf/open/floor/holofloor{
 	icon_state = "white"
@@ -444,9 +442,7 @@
 /area/template_noop)
 "LW" = (
 /obj/structure/window/spawner/directional/north,
-/obj/item/kirbyplants{
-	icon_state = "plant-21"
-	},
+/obj/item/kirbyplants/organic/plant21,
 /obj/effect/turf_decal/tile/blue/half/contrasted{
 	dir = 1
 	},
@@ -464,9 +460,7 @@
 /area/template_noop)
 "PJ" = (
 /obj/structure/window/spawner/directional/north,
-/obj/item/kirbyplants{
-	icon_state = "plant-08"
-	},
+/obj/item/kirbyplants/organic/plant8,
 /obj/effect/turf_decal/tile/blue/half/contrasted{
 	dir = 1
 	},
@@ -475,12 +469,10 @@
 	},
 /area/template_noop)
 "Qu" = (
-/obj/structure/table/glass,
-/obj/item/stack/medical/gauze,
-/obj/item/cautery,
 /obj/effect/turf_decal/tile/red/half/contrasted{
 	dir = 1
 	},
+/obj/structure/closet/crate/freezer/organ,
 /turf/open/floor/holofloor{
 	icon_state = "white"
 	},
@@ -574,6 +566,8 @@
 /obj/item/surgical_drapes,
 /obj/item/razor,
 /obj/item/hemostat,
+/obj/item/bonesetter,
+/obj/item/stack/medical/bone_gel,
 /obj/effect/turf_decal/tile/red/half/contrasted{
 	dir = 1
 	},

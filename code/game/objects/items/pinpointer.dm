@@ -2,9 +2,9 @@
 /obj/item/pinpointer
 	name = "pinpointer"
 	desc = "A handheld tracking device that locks onto certain signals."
-	icon = 'icons/obj/device.dmi'
+	icon = 'icons/obj/devices/tracker.dmi'
 	icon_state = "pinpointer"
-	flags_1 = CONDUCT_1
+	obj_flags = CONDUCTS_ELECTRICITY
 	slot_flags = ITEM_SLOT_BELT
 	w_class = WEIGHT_CLASS_SMALL
 	inhand_icon_state = "electronic"
@@ -48,7 +48,7 @@
 
 /obj/item/pinpointer/proc/toggle_on()
 	active = !active
-	playsound(src, 'sound/items/screwdriver2.ogg', 50, TRUE)
+	playsound(src, 'sound/items/tools/screwdriver2.ogg', 50, TRUE)
 	if(active)
 		START_PROCESSING(SSfastprocess, src)
 	else
@@ -146,7 +146,7 @@
 
 		while(crewmember_name in name_counts)
 			name_counts[crewmember_name]++
-			crewmember_name = text("[] ([])", crewmember_name, name_counts[crewmember_name])
+			crewmember_name = "[crewmember_name] ([name_counts[crewmember_name]])"
 		names[crewmember_name] = H
 		name_counts[crewmember_name] = 1
 
@@ -158,7 +158,7 @@
 		return
 	if(isnull(names[pinpoint_target]))
 		return
-	if(QDELETED(src) || !user || !user.is_holding(src) || user.incapacitated())
+	if(QDELETED(src) || !user || !user.is_holding(src) || user.incapacitated)
 		return
 	target = names[pinpoint_target]
 	toggle_on()
@@ -210,7 +210,7 @@
 	B.other_pair = A
 
 /obj/item/pinpointer/shuttle
-	name = "fugitive pinpointer"
+	name = "bounty shuttle pinpointer"
 	desc = "A handheld tracking device that locates the bounty hunter shuttle for quick escapes."
 	icon_state = "pinpointer_hunter"
 	worn_icon_state = "pinpointer_black"
@@ -227,3 +227,38 @@
 /obj/item/pinpointer/shuttle/Destroy()
 	shuttleport = null
 	. = ..()
+
+///list of all sheets with sniffable = TRUE for the sniffer to locate
+GLOBAL_LIST_EMPTY(sniffable_sheets)
+
+/obj/item/pinpointer/material_sniffer
+	name = "material sniffer"
+	desc = "A handheld tracking device that locates sheets of glass and iron."
+	icon_state = "pinpointer_sniffer"
+	worn_icon_state = "pinpointer_black"
+
+/obj/item/pinpointer/material_sniffer/scan_for_target()
+	if(target || !GLOB.sniffable_sheets.len)
+		return
+	var/obj/item/stack/sheet/new_sheet_target
+	var/closest_distance = INFINITY
+	for(var/obj/item/stack/sheet/potential_sheet as anything in GLOB.sniffable_sheets)
+		// not enough for lag reasons, and shouldn't even be on this
+		if(potential_sheet.amount < 10)
+			GLOB.sniffable_sheets -= potential_sheet
+			continue
+		//held by someone
+		if(isliving(potential_sheet.loc))
+			continue
+		//not on scanner's z
+		if(potential_sheet.z != z)
+			continue
+		var/distance_from_sniffer = get_dist(src, potential_sheet)
+		if(distance_from_sniffer < closest_distance)
+			closest_distance = distance_from_sniffer
+			new_sheet_target = potential_sheet
+	if(!new_sheet_target)
+		target = null
+		return
+	say("Located [new_sheet_target.amount] [new_sheet_target.singular_name]s!")
+	target = new_sheet_target

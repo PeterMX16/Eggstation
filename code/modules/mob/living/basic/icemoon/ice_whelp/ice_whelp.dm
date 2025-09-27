@@ -26,9 +26,15 @@
 	attack_verb_continuous = "chomps"
 	attack_verb_simple = "chomp"
 	death_message = "collapses on its side."
+<<<<<<< HEAD
 	death_sound = 'sound/magic/demon_dies.ogg'
 
 	attack_sound = 'sound/magic/demon_attack1.ogg'
+=======
+	death_sound = 'sound/effects/magic/demon_dies.ogg'
+
+	attack_sound = 'sound/effects/magic/demon_attack1.ogg'
+>>>>>>> tg-pr-88929
 	move_force = MOVE_FORCE_VERY_STRONG
 	move_resist = MOVE_FORCE_VERY_STRONG
 	pull_force = MOVE_FORCE_VERY_STRONG
@@ -40,6 +46,7 @@
 /mob/living/basic/mining/ice_whelp/Initialize(mapload)
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NO_GLIDE, INNATE_TRAIT)
+<<<<<<< HEAD
 	AddElement(/datum/element/footstep, FOOTSTEP_MOB_HEAVY)
 	AddComponent(/datum/component/basic_mob_ability_telegraph)
 	AddComponent(/datum/component/basic_mob_attack_telegraph, telegraph_duration = 0.6 SECONDS)
@@ -68,6 +75,39 @@
 
 	INVOKE_ASYNC(src, PROC_REF(cannibalize_victim), victim)
 	return COMPONENT_HOSTILE_NO_ATTACK
+=======
+
+	AddElement(/datum/element/footstep, FOOTSTEP_MOB_HEAVY)
+	AddComponent(/datum/component/basic_mob_ability_telegraph)
+	AddComponent(/datum/component/basic_mob_attack_telegraph, telegraph_duration = 0.6 SECONDS)
+
+	var/static/list/innate_actions = list(
+		/datum/action/cooldown/mob_cooldown/fire_breath/ice = BB_WHELP_STRAIGHTLINE_FIRE,
+		/datum/action/cooldown/mob_cooldown/fire_breath/ice/cross = BB_WHELP_WIDESPREAD_FIRE,
+	)
+
+	grant_actions_by_list(innate_actions)
+
+
+/mob/living/basic/mining/ice_whelp/early_melee_attack(atom/target, list/modifiers, ignore_cooldown)
+	. = ..()
+	if(!.)
+		return FALSE
+
+	if(istype(target, /obj/structure/flora/rock/icy))
+		create_sculpture(target)
+		return FALSE
+
+	if(!istype(target, type))
+		return TRUE
+
+	var/mob/living/victim = target
+	if(victim.stat != DEAD)
+		return TRUE
+
+	cannibalize_victim(victim)
+	return FALSE
+>>>>>>> tg-pr-88929
 
 /// Carve a stone into a beautiful self-portrait
 /mob/living/basic/mining/ice_whelp/proc/create_sculpture(atom/target)
@@ -87,5 +127,9 @@
 	balloon_alert(src, "devouring...")
 	if(!do_after(src, 5 SECONDS, target))
 		return
+<<<<<<< HEAD
 	target.gib()
+=======
+	target.gib(DROP_ALL_REMAINS)
+>>>>>>> tg-pr-88929
 	adjustBruteLoss(-1 * heal_on_cannibalize)

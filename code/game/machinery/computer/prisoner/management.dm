@@ -3,20 +3,17 @@ GLOBAL_LIST_EMPTY_TYPED(tracked_implants, /obj/item/implant)
 
 /obj/machinery/computer/prisoner/management
 	name = "prisoner management console"
-	desc = "Used to manage tracking implants placed inside criminals."
+	desc = "Used to modify prisoner IDs, as well as manage security implants placed inside convicts and parolees."
 	icon_screen = "explosive"
 	icon_keyboard = "security_key"
 	req_access = list(ACCESS_BRIG)
 	light_color = COLOR_SOFT_RED
-	var/id = 0
-	var/temp = null
-	var/status = 0
-	var/timeleft = 60
-	var/stop = 0
-	var/screen = 0 // 0 - No Access Denied, 1 - Access allowed
 	circuit = /obj/item/circuitboard/computer/prisoner
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> tg-pr-88929
 /obj/machinery/computer/prisoner/management/ui_interact(mob/user, datum/tgui/ui)
 	. = ..()
 	ui = SStgui.try_update_ui(user, src, ui)
@@ -59,20 +56,34 @@ GLOBAL_LIST_EMPTY_TYPED(tracked_implants, /obj/item/implant)
 		CRASH("[usr] potentially spoofed ui action [action] on prisoner console without the console being logged in.")
 
 	if(isliving(usr))
+<<<<<<< HEAD
 		playsound(src, 'sound/machines/terminal_prompt_confirm.ogg', 50, FALSE)
+=======
+		playsound(src, 'sound/machines/terminal/terminal_prompt_confirm.ogg', 50, FALSE)
+>>>>>>> tg-pr-88929
 
 	switch(action)
 		if("login")
 			if(allowed(usr))
 				authenticated = TRUE
+<<<<<<< HEAD
 				playsound(src, 'sound/machines/terminal_on.ogg', 50, FALSE)
 			else
 				playsound(src, 'sound/machines/terminal_error.ogg', 50, FALSE)
+=======
+				playsound(src, 'sound/machines/terminal/terminal_on.ogg', 50, FALSE)
+			else
+				playsound(src, 'sound/machines/terminal/terminal_error.ogg', 50, FALSE)
+>>>>>>> tg-pr-88929
 			return TRUE
 
 		if("logout")
 			authenticated = FALSE
+<<<<<<< HEAD
 			playsound(src, 'sound/machines/terminal_off.ogg', 50, FALSE)
+=======
+			playsound(src, 'sound/machines/terminal/terminal_off.ogg', 50, FALSE)
+>>>>>>> tg-pr-88929
 			return TRUE
 
 		if("insert_id")

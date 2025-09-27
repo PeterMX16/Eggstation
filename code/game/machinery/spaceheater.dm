@@ -8,7 +8,7 @@
 	anchored = FALSE
 	density = TRUE
 	interaction_flags_machine = INTERACT_MACHINE_WIRES_IF_OPEN | INTERACT_MACHINE_ALLOW_SILICON | INTERACT_MACHINE_OPEN
-	icon = 'icons/obj/atmospherics/atmos.dmi'
+	icon = 'icons/obj/pipes_n_cables/atmos.dmi'
 	icon_state = "sheater-off"
 	base_icon_state = "sheater"
 	name = "space heater"
@@ -16,10 +16,15 @@
 	max_integrity = 250
 	armor_type = /datum/armor/machinery_space_heater
 	circuit = /obj/item/circuitboard/machine/space_heater
+	interaction_flags_click = ALLOW_SILICON_REACH
 	//We don't use area power, we always use the cell
 	use_power = NO_POWER_USE
 	///The cell we spawn with
+<<<<<<< HEAD
 	var/obj/item/stock_parts/power_store/cell/cell = /obj/item/stock_parts/power_store/cell
+=======
+	var/obj/item/stock_parts/power_store/cell = /obj/item/stock_parts/power_store/cell/high
+>>>>>>> tg-pr-88929
 	///Is the machine on?
 	var/on = FALSE
 	///What is the mode we are in now?
@@ -70,16 +75,19 @@
 		),
 	)
 	AddElement(/datum/element/contextual_screentip_tools, tool_behaviors)
+	AddElement(/datum/element/climbable)
+	AddElement(/datum/element/elevation, pixel_shift = 8)
 
 /obj/machinery/space_heater/Destroy()
 	SSair.stop_processing_machine(src)
+	QDEL_NULL(cell)
 	return..()
 
 /obj/machinery/space_heater/on_construction()
 	set_panel_open(TRUE)
-	cell = null
+	QDEL_NULL(cell)
 
-/obj/machinery/space_heater/on_deconstruction()
+/obj/machinery/space_heater/on_deconstruction(disassembled)
 	if(cell)
 		LAZYADD(component_parts, cell)
 		cell = null
@@ -91,7 +99,7 @@
 	if(cell)
 		. += "The charge meter reads [cell ? round(cell.percent(), 1) : 0]%."
 	else
-		. += "There is no power cell installed."
+		. += span_warning("There is no power cell installed.")
 	if(in_range(user, src) || isobserver(user))
 		. += heating_examine()
 		. += span_notice("<b>Right-click</b> to toggle [on ? "off" : "on"].")
@@ -101,7 +109,11 @@
 	var/target_temp = round(target_temperature - T0C, 1)
 	var/min_temp = max(settable_temperature_median - settable_temperature_range, TCMB) - T0C
 	var/max_temp = settable_temperature_median + settable_temperature_range - T0C
+<<<<<<< HEAD
 	return span_notice("The status display reads:<br>Heating power: <b>[display_power(heating_energy, convert = TRUE)] at [(efficiency / 20) * 100]% efficiency.</b><br>Target temperature: <b>[target_temp]°C [min_temp]°C - [max_temp]°C]</b>\n")
+=======
+	return span_notice("The status display reads:<br>Heating power: <b>[display_power(heating_energy, convert = TRUE, scheduler = SSair)] at [(efficiency / 20) * 100]% efficiency.</b><br>Target temperature: <b>[target_temp]°C [min_temp]°C - [max_temp]°C]</b>\n")
+>>>>>>> tg-pr-88929
 
 /obj/machinery/space_heater/update_icon_state()
 	. = ..()
@@ -204,7 +216,11 @@
 	if(default_deconstruction_crowbar(attacking_item))
 		return TRUE
 
+<<<<<<< HEAD
 	if(istype(attacking_item, /obj/item/stock_parts/power_store/cell))
+=======
+	if(istype(I, /obj/item/stock_parts/power_store/cell))
+>>>>>>> tg-pr-88929
 		if(!panel_open)
 			to_chat(user, span_warning("The hatch must be open to insert a power cell!"))
 			return
@@ -312,15 +328,39 @@
 	panel_open = TRUE //This is always open - since we've injected wires in the panel
 	//We inherit the cell from the heater prior
 	cell = null
+	interaction_flags_click = FORBID_TELEKINESIS_REACH
+	display_panel = FALSE
+	settable_temperature_range = 50
 	///The beaker within the heater
 	var/obj/item/reagent_containers/beaker = null
 	/// How quickly it delivers heat to the reagents. In watts per joule of the thermal energy difference of the reagent from the temperature difference of the current and target temperatures.
 	var/beaker_conduction_power = 0.1
+<<<<<<< HEAD
 	display_panel = FALSE
+=======
+	/// The subsystem we're being processed by.
+	var/datum/controller/subsystem/processing/our_subsystem
+
+/obj/machinery/space_heater/improvised_chem_heater/Initialize(mapload)
+	our_subsystem = locate(subsystem_type) in Master.subsystems
+	. = ..()
+>>>>>>> tg-pr-88929
 
 /obj/machinery/space_heater/improvised_chem_heater/Destroy()
 	. = ..()
 	QDEL_NULL(beaker)
+
+/obj/machinery/space_heater/improvised_chem_heater/heating_examine()
+	. = ..()
+	// Conducted energy per joule of thermal energy difference in a tick.
+	var/conduction_energy = beaker_conduction_power * (set_mode == HEATER_MODE_AUTO ? 0.5 : 1) * our_subsystem.wait / (1 SECONDS)
+	// This accounts for the timestep inaccuracy.
+	. += span_notice("Reagent conduction power: <b>[conduction_energy < 1 ? display_power(-log(1 - conduction_energy) SECONDS / our_subsystem.wait, convert = FALSE) : "∞W"]/J</b>")
+
+/obj/machinery/space_heater/improvised_chem_heater/toggle_power(user)
+	. = ..()
+	if(on)
+		begin_processing()
 
 /obj/machinery/space_heater/improvised_chem_heater/process(seconds_per_tick)
 	if(!on || !is_operational || QDELETED(cell) || cell.charge <= 1 || QDELETED(beaker))
@@ -329,10 +369,13 @@
 			update_appearance()
 		return PROCESS_KILL
 
+<<<<<<< HEAD
 	if(!beaker)//No beaker to heat
 		update_appearance()
 		return
 
+=======
+>>>>>>> tg-pr-88929
 	if(beaker.reagents.total_volume)
 		var/conduction_modifier = beaker_conduction_power
 		switch(set_mode)
@@ -409,7 +452,6 @@
 			item.interact_with_atom(beaker, user)
 		return
 
-
 /obj/machinery/space_heater/improvised_chem_heater/on_deconstruction(disassembled = TRUE)
 	. = ..()
 	if(disassembled)
@@ -436,11 +478,9 @@
 	update_appearance()
 	return TRUE
 
-/obj/machinery/space_heater/improvised_chem_heater/AltClick(mob/living/user)
-	. = ..()
-	if(!can_interact(user) || !user.can_perform_action(src, FORBID_TELEKINESIS_REACH))
-		return
+/obj/machinery/space_heater/improvised_chem_heater/click_alt(mob/living/user)
 	replace_beaker(user)
+	return CLICK_ACTION_SUCCESS
 
 /obj/machinery/space_heater/improvised_chem_heater/update_icon_state()
 	. = ..()
@@ -474,7 +514,11 @@
 		settable_temperature_median + settable_temperature_range)
 
 	// No time integration is used, so we should clamp this to prevent being able to overshoot if there was a subtype with a high initial value.
+<<<<<<< HEAD
 	beaker_conduction_power = min((capacitors_rating + 1) * 0.5 * initial(beaker_conduction_power), 1 SECONDS)
+=======
+	beaker_conduction_power = min((capacitors_rating + 1) * 0.5 * initial(beaker_conduction_power), 1 SECONDS / our_subsystem.wait)
+>>>>>>> tg-pr-88929
 
 #undef HEATER_MODE_STANDBY
 #undef HEATER_MODE_HEAT

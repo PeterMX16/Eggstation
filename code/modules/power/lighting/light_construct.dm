@@ -5,7 +5,6 @@
 	icon_state = "tube-construct-stage1"
 	anchored = TRUE
 	layer = WALL_OBJ_LAYER
-	plane = GAME_PLANE_UPPER
 	max_integrity = 200
 	armor_type = /datum/armor/structure_light_construct
 
@@ -18,7 +17,11 @@
 	///Reference for light object
 	var/obj/machinery/light/new_light = null
 	///Reference for the internal cell
+<<<<<<< HEAD
 	var/obj/item/stock_parts/power_store/cell/cell
+=======
+	var/obj/item/stock_parts/power_store/cell
+>>>>>>> tg-pr-88929
 	///Can we support a cell?
 	var/cell_connectors = TRUE
 
@@ -33,6 +36,7 @@
 	. = ..()
 	if(building)
 		setDir(ndir)
+	find_and_hang_on_wall()
 
 /obj/structure/light_construct/Destroy()
 	QDEL_NULL(cell)
@@ -45,16 +49,16 @@
 	. = ..()
 	switch(stage)
 		if(LIGHT_CONSTRUCT_EMPTY)
-			. += "It's an empty frame."
+			. += span_notice("It's an empty frame with no wires.")
 		if(LIGHT_CONSTRUCT_WIRED)
-			. += "It's wired."
+			. += span_notice("It is wired, but the bolts are not screwed in.")
 		if(LIGHT_CONSTRUCT_CLOSED)
-			. += "The casing is closed."
+			. += span_notice("The casing is closed.")
 	if(cell_connectors)
 		if(cell)
-			. += "You see [cell] inside the casing."
+			. += span_notice("You see [cell] inside the casing.")
 		else
-			. += "The casing has no power cell for backup power."
+			. += span_notice("The casing has no power cell for backup power.")
 	else
 		. += span_danger("This casing doesn't support power cells for backup power.")
 
@@ -63,7 +67,6 @@
 		return
 	user.visible_message(span_notice("[user] removes [cell] from [src]!"), span_notice("You remove [cell]."))
 	user.put_in_hands(cell)
-	cell.update_appearance()
 	cell = null
 	add_fingerprint(user)
 
@@ -71,7 +74,11 @@
 	if(!cell)
 		return
 	to_chat(user, span_notice("You telekinetically remove [cell]."))
+<<<<<<< HEAD
 	var/obj/item/stock_parts/power_store/cell/cell_reference = cell
+=======
+	var/obj/item/stock_parts/power_store/cell_reference = cell
+>>>>>>> tg-pr-88929
 	cell = null
 	cell_reference.forceMove(drop_location())
 	return cell_reference.attack_tk(user)
@@ -162,10 +169,8 @@
 	if(attacking_blob && attacking_blob.loc == loc)
 		qdel(src)
 
-/obj/structure/light_construct/deconstruct(disassembled = TRUE)
-	if(!(flags_1 & NODECONSTRUCT_1))
-		new /obj/item/stack/sheet/iron(loc, sheets_refunded)
-	qdel(src)
+/obj/structure/light_construct/atom_deconstruct(disassembled = TRUE)
+	new /obj/item/stack/sheet/iron(loc, sheets_refunded)
 
 /obj/structure/light_construct/small
 	name = "small light fixture frame"

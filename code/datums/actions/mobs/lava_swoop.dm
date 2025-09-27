@@ -14,11 +14,11 @@
 
 /datum/action/cooldown/mob_cooldown/lava_swoop/Grant(mob/M)
 	. = ..()
-	M.add_traits(list(TRAIT_LAVA_IMMUNE, TRAIT_NOFIRE), REF(src))
+	M.add_traits(list(TRAIT_LAVA_IMMUNE, TRAIT_NOFIRE), ACTION_TRAIT)
 
 /datum/action/cooldown/mob_cooldown/lava_swoop/Remove(mob/M)
 	. = ..()
-	M.remove_traits(list(TRAIT_LAVA_IMMUNE, TRAIT_NOFIRE), REF(src))
+	M.remove_traits(list(TRAIT_LAVA_IMMUNE, TRAIT_NOFIRE), ACTION_TRAIT)
 
 /datum/action/cooldown/mob_cooldown/lava_swoop/Activate(atom/target_atom)
 	disable_cooldown_actions()
@@ -111,7 +111,11 @@
 	for(var/mob/observer in range(7, owner))
 		shake_camera(observer, 15, 1)
 
+<<<<<<< HEAD
 	owner.remove_traits(list(TRAIT_UNDENSE, TRAIT_GODMODE), SWOOPING_TRAIT)
+=======
+	owner.remove_traits(list(TRAIT_GODMODE, TRAIT_UNDENSE), SWOOPING_TRAIT)
+>>>>>>> tg-pr-88929
 	SLEEP_CHECK_DEATH(1, owner)
 	swooping = FALSE
 	if(!lava_success)
@@ -197,14 +201,13 @@
 	plane = GAME_PLANE
 	pixel_x = -32
 	pixel_y = -32
-	color = "#FF0000"
+	color = COLOR_RED
 	duration = 10
 
 /obj/effect/temp_visual/dragon_flight
 	icon = 'icons/mob/simple/lavaland/96x96megafauna.dmi'
 	icon_state = "dragon"
 	layer = ABOVE_ALL_MOB_LAYER
-	plane = GAME_PLANE_UPPER_FOV_HIDDEN
 	pixel_x = -32
 	duration = 10
 	randomdir = FALSE

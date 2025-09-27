@@ -10,8 +10,11 @@
 	icon_state = "netguardian"
 	icon_living = "netguardian"
 	icon_dead = "crash"
+<<<<<<< HEAD
 	pixel_x = -8
 	base_pixel_x = -8
+=======
+>>>>>>> tg-pr-88929
 
 	gender = NEUTER
 	mob_biotypes = MOB_ROBOTIC
@@ -24,7 +27,11 @@
 
 	attack_verb_continuous = "drills"
 	attack_verb_simple = "drills"
+<<<<<<< HEAD
 	attack_sound = 'sound/weapons/drill.ogg'
+=======
+	attack_sound = 'sound/items/weapons/drill.ogg'
+>>>>>>> tg-pr-88929
 	attack_vis_effect = ATTACK_EFFECT_MECHFIRE
 	verb_say = "states"
 	verb_ask = "queries"
@@ -43,6 +50,10 @@
 		ROLE_SYNDICATE,
 	)
 
+<<<<<<< HEAD
+=======
+	combat_mode = TRUE
+>>>>>>> tg-pr-88929
 	speech_span = SPAN_ROBOT
 	death_message = "malfunctions!"
 
@@ -51,6 +62,7 @@
 	lighting_cutoff_blue = 20
 
 	habitable_atmos = null
+<<<<<<< HEAD
 	bodytemp_cold_damage_limit = TCMB
 	ai_controller = /datum/ai_controller/basic_controller/netguardian
 	damage_coeff = list(BRUTE = 1, BURN = 1, TOX = 0, CLONE = 0, STAMINA = 0, OXY = 0)
@@ -58,14 +70,24 @@
 	hud_possible = list(DIAG_STAT_HUD, DIAG_BOT_HUD, DIAG_HUD, DIAG_BATT_HUD, DIAG_PATH_HUD = HUD_LIST_LIST)
 	bodytemp_heat_damage_limit = INFINITY
 	bodytemp_cold_damage_limit = -1
+=======
+	minimum_survivable_temperature = TCMB
+	ai_controller = /datum/ai_controller/basic_controller/netguardian
+>>>>>>> tg-pr-88929
 
 /mob/living/basic/netguardian/Initialize(mapload)
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NO_FLOATING_ANIM, INNATE_TRAIT)
+<<<<<<< HEAD
 	ADD_TRAIT(src, TRAIT_SPACEWALK, INNATE_TRAIT)
 	AddComponent(/datum/component/ranged_attacks, \
 		casing_type = /obj/item/ammo_casing/c46x30mm, \
 		projectile_sound = 'sound/weapons/gun/smg/shot.ogg', \
+=======
+	AddComponent(/datum/component/ranged_attacks, \
+		casing_type = /obj/item/ammo_casing/c46x30mm, \
+		projectile_sound = 'sound/items/weapons/gun/smg/shot.ogg', \
+>>>>>>> tg-pr-88929
 		burst_shots = 6 \
 	)
 
@@ -78,7 +100,11 @@
 
 /mob/living/basic/netguardian/death(gibbed)
 	do_sparks(number = 3, cardinal_only = TRUE, source = src)
+<<<<<<< HEAD
 	playsound(src, 'sound/mecha/weapdestr.ogg', 100)
+=======
+	playsound(src, 'sound/vehicles/mecha/weapdestr.ogg', 100)
+>>>>>>> tg-pr-88929
 	return ..()
 
 /mob/living/basic/netguardian/update_overlays()
@@ -98,7 +124,11 @@
 
 /datum/action/cooldown/mob_cooldown/projectile_attack/rapid_fire/netguardian/Activate(atom/target_atom)
 	var/mob/living/player = owner
+<<<<<<< HEAD
 	playsound(player, 'sound/mecha/skyfall_power_up.ogg', 120)
+=======
+	playsound(player, 'sound/vehicles/mecha/skyfall_power_up.ogg', 120)
+>>>>>>> tg-pr-88929
 	player.say("target acquired.", "machine")
 
 	var/overlay_icon = 'icons/mob/nonhuman-player/netguardian.dmi'

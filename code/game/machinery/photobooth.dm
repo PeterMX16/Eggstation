@@ -13,7 +13,11 @@
 	state_open = TRUE
 	circuit = /obj/item/circuitboard/machine/photobooth
 	light_system = OVERLAY_LIGHT_DIRECTIONAL //Used as a flash here.
+<<<<<<< HEAD
 	light_outer_range = 6
+=======
+	light_range = 6
+>>>>>>> tg-pr-88929
 	light_color = COLOR_WHITE
 	light_power = FLASH_LIGHT_POWER
 	light_on = FALSE
@@ -104,12 +108,20 @@
 /obj/machinery/photobooth/screwdriver_act(mob/living/user, obj/item/tool)
 	if(!has_buckled_mobs() && default_deconstruction_screwdriver(user, icon_state, icon_state, tool))
 		update_appearance(UPDATE_ICON)
+<<<<<<< HEAD
 		return
+=======
+		return ITEM_INTERACT_SUCCESS
+>>>>>>> tg-pr-88929
 	return ..()
 
 /obj/machinery/photobooth/crowbar_act(mob/living/user, obj/item/tool)
 	if(default_deconstruction_crowbar(tool))
+<<<<<<< HEAD
 		return
+=======
+		return ITEM_INTERACT_SUCCESS
+>>>>>>> tg-pr-88929
 	return ..()
 
 /obj/machinery/photobooth/emag_act(mob/user, obj/item/card/emag/emag_card)
@@ -130,7 +142,11 @@
 	if(obj_flags & EMAGGED)
 		var/mob/living/carbon/carbon_occupant = occupant
 		for(var/i in 1 to 5) //play a ton of sounds to mimic it blinding you
+<<<<<<< HEAD
 			playsound(src, pick('sound/items/polaroid1.ogg', 'sound/items/polaroid2.ogg'), 75, TRUE)
+=======
+			playsound(src, SFX_POLAROID, 75, TRUE)
+>>>>>>> tg-pr-88929
 			if(carbon_occupant)
 				carbon_occupant.flash_act(5)
 			sleep(0.2 SECONDS)
@@ -141,12 +157,20 @@
 	if(!do_after(occupant, 2 SECONDS, src, timed_action_flags = IGNORE_HELD_ITEM)) //gives them time to put their hand items away.
 		taking_pictures = FALSE
 		return
+<<<<<<< HEAD
 	playsound(src, 'sound/items/polaroid1.ogg', 75, TRUE)
+=======
+	playsound(src, 'sound/items/polaroid/polaroid1.ogg', 75, TRUE)
+>>>>>>> tg-pr-88929
 	flash()
 	if(!do_after(occupant, 3 SECONDS, src, timed_action_flags = IGNORE_HELD_ITEM))
 		taking_pictures = FALSE
 		return
+<<<<<<< HEAD
 	playsound(src, 'sound/items/polaroid2.ogg', 75, TRUE)
+=======
+	playsound(src, 'sound/items/polaroid/polaroid2.ogg', 75, TRUE)
+>>>>>>> tg-pr-88929
 	flash()
 	if(!do_after(occupant, 2 SECONDS, src, timed_action_flags = IGNORE_HELD_ITEM))
 		taking_pictures = FALSE

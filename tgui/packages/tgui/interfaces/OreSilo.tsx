@@ -1,8 +1,12 @@
+<<<<<<< HEAD
 import { classes } from 'common/react';
 import { capitalize } from 'common/string';
 import { useLocalState } from '../backend';
 
 import { useBackend } from '../backend';
+=======
+import { useState } from 'react';
+>>>>>>> tg-pr-88929
 import {
   Box,
   Icon,
@@ -13,7 +17,16 @@ import {
   Stack,
   Tabs,
   Tooltip,
+<<<<<<< HEAD
 } from '../components';
+=======
+  VirtualList,
+} from 'tgui-core/components';
+import { classes } from 'tgui-core/react';
+import { capitalize } from 'tgui-core/string';
+
+import { useBackend } from '../backend';
+>>>>>>> tg-pr-88929
 import { Window } from '../layouts';
 import { MaterialAccessBar } from './Fabrication/MaterialAccessBar';
 import { Material } from './Fabrication/Types';
@@ -35,7 +48,16 @@ type Log = {
   noun: string;
 };
 
+<<<<<<< HEAD
 type OreSiloData = {
+=======
+enum Tab {
+  Machines,
+  Logs,
+}
+
+type Data = {
+>>>>>>> tg-pr-88929
   SHEET_MATERIAL_AMOUNT: number;
   materials: Material[];
   machines: Machine[];
@@ -43,10 +65,17 @@ type OreSiloData = {
 };
 
 export const OreSilo = (props: any) => {
+<<<<<<< HEAD
   const { act, data } = useBackend<OreSiloData>();
   const { SHEET_MATERIAL_AMOUNT, machines, logs } = data;
 
   const [currentTab, setCurrentTab] = useLocalState('currentTab', 0);
+=======
+  const { act, data } = useBackend<Data>();
+  const { SHEET_MATERIAL_AMOUNT, machines, logs } = data;
+
+  const [currentTab, setCurrentTab] = useState<Tab>(Tab.Logs);
+>>>>>>> tg-pr-88929
 
   return (
     <Window title="Ore Silo" width={620} height={600}>
@@ -56,21 +85,32 @@ export const OreSilo = (props: any) => {
             <Tabs fluid>
               <Tabs.Tab
                 icon="plug"
+<<<<<<< HEAD
                 selected={currentTab === 0}
                 onClick={() => setCurrentTab(0)}
+=======
+                selected={currentTab === Tab.Machines}
+                onClick={() => setCurrentTab(Tab.Machines)}
+>>>>>>> tg-pr-88929
               >
                 Connections
               </Tabs.Tab>
               <Tabs.Tab
                 icon="book-bookmark"
+<<<<<<< HEAD
                 selected={currentTab === 1}
                 onClick={() => setCurrentTab(1)}
+=======
+                selected={currentTab === Tab.Logs}
+                onClick={() => setCurrentTab(Tab.Logs)}
+>>>>>>> tg-pr-88929
               >
                 Logs
               </Tabs.Tab>
             </Tabs>
           </Stack.Item>
           <Stack.Item grow>
+<<<<<<< HEAD
             {currentTab === 0 ? (
               !!machines && machines.length > 0 ? (
                 <Section fill scrollable>
@@ -98,6 +138,16 @@ export const OreSilo = (props: any) => {
                 <NoticeBox>No log entries currently present!</NoticeBox>
               )
             ) : null}
+=======
+            {currentTab === Tab.Machines ? (
+              <MachineList
+                machines={machines!}
+                onPause={(index) => act('hold', { id: index })}
+                onRemove={(index) => act('remove', { id: index })}
+              />
+            ) : null}
+            {currentTab === Tab.Logs ? <LogsList logs={logs!} /> : null}
+>>>>>>> tg-pr-88929
           </Stack.Item>
           <Stack.Item>
             <Section fill>
@@ -116,6 +166,34 @@ export const OreSilo = (props: any) => {
   );
 };
 
+<<<<<<< HEAD
+=======
+type MachineListProps = {
+  machines: Machine[];
+  onPause: (index: number) => void;
+  onRemove: (index: number) => void;
+};
+
+const MachineList = (props: MachineListProps) => {
+  const { machines, onPause, onRemove } = props;
+
+  return machines.length > 0 ? (
+    <Section fill scrollable>
+      {machines.map((machine, index) => (
+        <MachineDisplay
+          key={index}
+          machine={machine}
+          onPause={() => onPause(index + 1)}
+          onRemove={() => onRemove(index + 1)}
+        />
+      ))}
+    </Section>
+  ) : (
+    <NoticeBox>No machines connected!</NoticeBox>
+  );
+};
+
+>>>>>>> tg-pr-88929
 type MachineProps = {
   machine: Machine;
   onPause: () => void;
@@ -130,7 +208,11 @@ const MachineDisplay = (props: MachineProps) => {
   if (index >= 0) {
     machineName = machineName.substring(0, index);
   }
+<<<<<<< HEAD
   machineName = `${machineName.trimEnd()}(${machine.location})`;
+=======
+  machineName = `${machineName.trimEnd()} (${machine.location})`;
+>>>>>>> tg-pr-88929
 
   return (
     <Box className="FabricatorRecipe">
@@ -190,6 +272,29 @@ const MachineDisplay = (props: MachineProps) => {
   );
 };
 
+<<<<<<< HEAD
+=======
+type LogsListProps = {
+  logs: Log[];
+};
+
+const LogsList = (props: LogsListProps) => {
+  const { logs } = props;
+
+  return logs.length > 0 ? (
+    <Box pr={1} height="100%" overflowY="scroll">
+      <VirtualList>
+        {logs.map((log, index) => (
+          <LogEntry key={index} log={log} />
+        ))}
+      </VirtualList>
+    </Box>
+  ) : (
+    <NoticeBox>No log entries currently present!</NoticeBox>
+  );
+};
+
+>>>>>>> tg-pr-88929
 type LogProps = {
   log: Log;
 };

@@ -6,7 +6,11 @@
 
 #define PANEL_OPEN (1<<0)
 #define ID_LOCK_ON (1<<1)
+<<<<<<< HEAD
 #define CANSTRAFE (1<<2)
+=======
+#define CAN_STRAFE (1<<2)
+>>>>>>> tg-pr-88929
 #define LIGHTS_ON (1<<3)
 #define SILICON_PILOT (1<<4)
 #define IS_ENCLOSED (1<<5)
@@ -46,6 +50,11 @@
 #define MECHA_SNOWFLAKE_ID_AIR_TANK "air_tank_snowflake"
 #define MECHA_SNOWFLAKE_ID_WEAPON_BALLISTIC "ballistic_weapon_snowflake"
 #define MECHA_SNOWFLAKE_ID_GENERATOR "generator_snowflake"
+<<<<<<< HEAD
+=======
+#define MECHA_SNOWFLAKE_ID_ORE_SCANNER "orescanner_snowflake"
+#define MECHA_SNOWFLAKE_ID_CLAW "lawclaw_snowflake"
+>>>>>>> tg-pr-88929
 #define MECHA_SNOWFLAKE_ID_RCD "rcd_snowflake"
 
 #define MECHA_AMMO_INCENDIARY "Incendiary bullet"
@@ -58,6 +67,7 @@
 #define MECHA_AMMO_PUNCHING_GLOVE "Punching glove"
 #define MECHA_AMMO_BANANA_PEEL "Banana peel"
 #define MECHA_AMMO_MOUSETRAP "Mousetrap"
+<<<<<<< HEAD
 //monke edit start
 #define MECHA_AMMO_PIPEGUN "Improvised shell"
 #define MECHA_AMMO_PEASHOOTER "Peashooter bullet"
@@ -67,3 +77,5 @@
 #define MECHA_AMMO_ATR "20x160mm"
 #define MECHA_AMMO_FLAME "Flames"
 //monke edit end
+=======
+>>>>>>> tg-pr-88929

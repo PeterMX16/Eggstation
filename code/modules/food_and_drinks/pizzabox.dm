@@ -44,8 +44,21 @@
 	update_appearance()
 	register_context()
 
+/obj/item/pizzabox/proc/register_bomb(new_bomb)
+	bomb = new_bomb
+	if(istype(bomb))
+		RegisterSignal(bomb, COMSIG_QDELETING, PROC_REF(clear_bomb))
+
+/obj/item/pizzabox/proc/clear_bomb(datum/source)
+	SIGNAL_HANDLER
+	if(isnull(bomb))
+		return
+	UnregisterSignal(bomb, COMSIG_QDELETING)
+	bomb = null
+
 /obj/item/pizzabox/Destroy()
 	unprocess()
+	clear_bomb()
 	return ..()
 
 /obj/item/pizzabox/update_desc()
@@ -87,7 +100,7 @@
 			pizza_overlay.pixel_y = -2
 			. += pizza_overlay
 		if(bomb)
-			var/mutable_appearance/bomb_overlay = mutable_appearance(bomb.icon, bomb.icon_state)
+			var/mutable_appearance/bomb_overlay = mutable_appearance(bomb.icon, bomb.icon_state, layer = layer + 0.01)
 			bomb_overlay.pixel_y = 8
 			. += bomb_overlay
 		return
@@ -96,13 +109,13 @@
 	for(var/stacked_box in boxes)
 		box_offset += 3
 		var/obj/item/pizzabox/box = stacked_box
-		var/mutable_appearance/box_overlay = mutable_appearance(box.icon, box.icon_state)
+		var/mutable_appearance/box_overlay = mutable_appearance(box.icon, box.icon_state, layer = layer + (box_offset * 0.01))
 		box_overlay.pixel_y = box_offset
 		. += box_overlay
 
 	var/obj/item/pizzabox/box = LAZYLEN(length(boxes)) ? boxes[length(boxes)] : src
 	if(box.boxtag != "")
-		var/mutable_appearance/tag_overlay = mutable_appearance(icon, "pizzabox_tag")
+		var/mutable_appearance/tag_overlay = mutable_appearance(icon, "pizzabox_tag", layer = layer + (box_offset * 0.02))
 		tag_overlay.pixel_y = box_offset
 		. += tag_overlay
 
@@ -151,7 +164,7 @@
 			if(wires.is_all_cut() && bomb_defused)
 				user.put_in_hands(bomb)
 				balloon_alert(user, "removed bomb")
-				bomb = null
+				clear_bomb()
 				update_appearance()
 				return
 			else
@@ -209,13 +222,21 @@
 			if(!user.transferItemToLoc(attacking_item, src))
 				return
 			set_wires(new /datum/wires/explosive/pizza(src))
+<<<<<<< HEAD
 			bomb = attacking_item
+=======
+			register_bomb(I)
+>>>>>>> tg-pr-88929
 			balloon_alert(user, "bomb placed")
 			update_appearance()
 			return
 		else if(bomb)
 			balloon_alert(user, "already rigged!")
+<<<<<<< HEAD
 	else if(IS_WRITING_UTENSIL(attacking_item))
+=======
+	else if(IS_WRITING_UTENSIL(I))
+>>>>>>> tg-pr-88929
 		if(!open)
 			if(!user.can_write(attacking_item))
 				return
@@ -224,6 +245,7 @@
 			if(!user.can_perform_action(src))
 				return
 			balloon_alert(user, "writing box tag...")
+			playsound(src, SFX_WRITING_PEN, 50, TRUE, SHORT_RANGE_SOUND_EXTRARANGE, SOUND_FALLOFF_EXPONENT + 3, ignore_walls = FALSE)
 			boxtag_set = TRUE
 			update_appearance()
 			return
@@ -293,9 +315,14 @@
 /obj/item/pizzabox/bomb/Initialize(mapload)
 	. = ..()
 	if(!pizza)
-		var/randompizza = pick(subtypesof(/obj/item/food/pizza))
+		var/randompizza = pick(subtypesof(/obj/item/food/pizza) - /obj/item/food/pizza/flatbread) //also disincludes another base type
 		pizza = new randompizza(src)
+<<<<<<< HEAD
 	bomb = new(src)
+=======
+		update_appearance()
+	register_bomb(new /obj/item/bombcore/miniature/pizza(src))
+>>>>>>> tg-pr-88929
 	set_wires(new /datum/wires/explosive/pizza(src))
 
 /obj/item/pizzabox/bomb/armed
@@ -373,7 +400,7 @@
 			var/list/pineapple_pizza_liker = pizza_types.Copy()
 			pineapple_pizza_liker -= /obj/item/food/pizza/pineapple
 			pizza_preferences[nommer.ckey] = pick_weight(pineapple_pizza_liker)
-		else if(nommer.mind?.assigned_role.title == /datum/job/botanist)
+		else if(istype(nommer.mind?.assigned_role, /datum/job/botanist))
 			pizza_preferences[nommer.ckey] = /obj/item/food/pizza/dank
 		else
 			pizza_preferences[nommer.ckey] = pick_weight(pizza_types)

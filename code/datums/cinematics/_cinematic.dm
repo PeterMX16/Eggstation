@@ -147,7 +147,10 @@
 
 	qdel(src)
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> tg-pr-88929
 /// Locks a mob, preventing them from moving, being hurt, or acting
 /datum/cinematic/proc/lock_mob(mob/to_lock)
 	locked += WEAKREF(to_lock)
@@ -155,7 +158,11 @@
 
 /// Unlocks a previously locked weakref
 /datum/cinematic/proc/unlock_mob(datum/weakref/mob_ref)
+<<<<<<< HEAD
 	var/mob/locked_mob = mob_ref?.resolve()
+=======
+	var/mob/locked_mob = mob_ref.resolve()
+>>>>>>> tg-pr-88929
 	if(isnull(locked_mob))
 		return
 	REMOVE_TRAIT(locked_mob, TRAIT_NO_TRANSFORM, CINEMATIC_SOURCE)

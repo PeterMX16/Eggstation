@@ -2,7 +2,10 @@
 	required_drink_type = /datum/reagent/consumable/ethanol/bilk
 	name = "glass of bilk"
 	desc = "A brew of milk and beer. For those alcoholics who fear osteoporosis."
+<<<<<<< HEAD
 	icon_state = "glass_brown"
+=======
+>>>>>>> tg-pr-88929
 
 /datum/glass_style/drinking_glass/threemileisland
 	required_drink_type = /datum/reagent/consumable/ethanol/threemileisland
@@ -118,6 +121,7 @@
 	icon = 'icons/obj/drinks/mixed_drinks.dmi'
 	icon_state = "manlydorfglass"
 
+<<<<<<< HEAD
 /datum/glass_style/drinking_glass/honeybee_mead
 	required_drink_type = /datum/reagent/consumable/ethanol/honeybee_mead
 	name = "Honeybee Mead"
@@ -125,6 +129,8 @@
 	icon = 'icons/obj/drinks/mixed_drinks.dmi'
 	icon_state = "honeybeemead"
 
+=======
+>>>>>>> tg-pr-88929
 /datum/glass_style/drinking_glass/longislandicedtea
 	required_drink_type = /datum/reagent/consumable/ethanol/longislandicedtea
 	name = "Long Island Iced Tea"
@@ -407,7 +413,10 @@
 	required_drink_type = /datum/reagent/consumable/ethanol/bacchus_blessing
 	name = "Bacchus' Blessing"
 	desc = "You didn't think it was possible for a liquid to be so utterly revolting. Are you sure about this...?"
+<<<<<<< HEAD
 	icon_state = "glass_brown2"
+=======
+>>>>>>> tg-pr-88929
 
 /datum/glass_style/drinking_glass/atomicbomb
 	required_drink_type = /datum/reagent/consumable/ethanol/atomicbomb
@@ -441,7 +450,10 @@
 	required_drink_type = /datum/reagent/consumable/ethanol/eggnog
 	name = "eggnog"
 	desc = "For enjoying the most wonderful time of the year."
+<<<<<<< HEAD
 	icon_state = "glass_yellow"
+=======
+>>>>>>> tg-pr-88929
 	drink_type = FRUIT
 
 /datum/glass_style/has_foodtype/juicebox/eggnog
@@ -451,6 +463,15 @@
 	icon_state = "nog2"
 	drink_type = FRUIT
 
+<<<<<<< HEAD
+=======
+/datum/glass_style/has_foodtype/drinking_glass/dreadnog
+	required_drink_type = /datum/reagent/consumable/ethanol/dreadnog
+	name = "eggnog"
+	desc = "For suffering during the best time of the year."
+	drink_type = FRUIT | GROSS
+
+>>>>>>> tg-pr-88929
 /datum/glass_style/drinking_glass/narsour
 	required_drink_type = /datum/reagent/consumable/ethanol/narsour
 	name = "Nar'Sour"
@@ -462,25 +483,37 @@
 	required_drink_type = /datum/reagent/consumable/ethanol/triple_sec
 	name = "Triple Sec"
 	desc = "A glass of straight Triple Sec."
+<<<<<<< HEAD
 	icon_state = "glass_orange"
+=======
+>>>>>>> tg-pr-88929
 
 /datum/glass_style/drinking_glass/creme_de_menthe
 	required_drink_type = /datum/reagent/consumable/ethanol/creme_de_menthe
 	name = "Creme de Menthe"
 	desc = "You can almost feel the first breath of spring just looking at it."
+<<<<<<< HEAD
 	icon_state = "glass_green"
+=======
+>>>>>>> tg-pr-88929
 
 /datum/glass_style/drinking_glass/creme_de_cacao
 	required_drink_type = /datum/reagent/consumable/ethanol/creme_de_cacao
 	name = "Creme de Cacao"
 	desc = "A million hazing lawsuits and alcohol poisonings have started with this humble ingredient."
+<<<<<<< HEAD
 	icon_state = "glass_brown"
+=======
+>>>>>>> tg-pr-88929
 
 /datum/glass_style/drinking_glass/creme_de_coconut
 	required_drink_type = /datum/reagent/consumable/ethanol/creme_de_coconut
 	name = "Creme de Coconut"
 	desc = "An unintimidating glass of coconut liqueur."
+<<<<<<< HEAD
 	icon_state = "glass_white"
+=======
+>>>>>>> tg-pr-88929
 
 /datum/glass_style/drinking_glass/quadruple_sec
 	required_drink_type = /datum/reagent/consumable/ethanol/quadruple_sec
@@ -788,7 +821,10 @@
 /datum/glass_style/drinking_glass/mushi_kombucha
 	required_drink_type = /datum/reagent/consumable/ethanol/mushi_kombucha
 	name = "glass of mushi kombucha"
+<<<<<<< HEAD
 	icon_state = "glass_orange"
+=======
+>>>>>>> tg-pr-88929
 
 /datum/glass_style/drinking_glass/triumphal_arch
 	required_drink_type = /datum/reagent/consumable/ethanol/triumphal_arch

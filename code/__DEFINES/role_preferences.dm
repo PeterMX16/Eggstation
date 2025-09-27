@@ -17,6 +17,7 @@
 #define ROLE_COMMANDO_OPERATIVE "Commando Operative"
 #define ROLE_TRAITOR "Traitor"
 #define ROLE_WIZARD "Wizard"
+<<<<<<< HEAD
 #define ROLE_CLOCK_CULTIST "Clock Cultist" //monkestation edit
 #define ROLE_BLOODLING "Bloodling" // monkestation edit
 #define ROLE_OPFOR_CANDIDATE "OPFOR Candidate"
@@ -28,6 +29,9 @@
 #define ROLE_DARKSPAWN_FIGHTER "Fighter"
 #define ROLE_DARKSPAWN_WARLOCK "Warlock"
 #define ROLE_DARKSPAWN_SCOUT "Scout"
+=======
+#define ROLE_SPY "Spy"
+>>>>>>> tg-pr-88929
 
 // Midround roles
 #define ROLE_ABDUCTOR "Abductor"
@@ -49,6 +53,7 @@
 #define ROLE_SPACE_DRAGON "Space Dragon"
 #define ROLE_SPIDER "Spider"
 #define ROLE_WIZARD_MIDROUND "Wizard (Midround)"
+<<<<<<< HEAD
 // monke midrounds
 #define ROLE_PLAGUERAT "Plague Rat"
 #define ROLE_CORTICAL_BORER "Cortical Borer"
@@ -61,9 +66,14 @@
 #define ROLE_BINGLE "Bingle"
 #define ROLE_BINGLE_MIDROUND "Bingle (Midround)"
 #define ROLE_WILLING_HOST "Willing Host"
+=======
+#define ROLE_VOIDWALKER "Voidwalker"
+
+>>>>>>> tg-pr-88929
 // Latejoin roles
 #define ROLE_HERETIC_SMUGGLER "Heretic Smuggler"
 #define ROLE_PROVOCATEUR "Provocateur"
+#define ROLE_STOWAWAY_CHANGELING "Stowaway Changeling"
 #define ROLE_SYNDICATE_INFILTRATOR "Syndicate Infiltrator"
 
 // Other roles
@@ -74,6 +84,7 @@
 #define ROLE_EMAGGED_BOT "Malfunctioning Bot"
 #define ROLE_HIVE "Hivemind Host" //Role removed, left here for safety.
 #define ROLE_HYPNOTIZED "Hypnotized Victim"
+<<<<<<< HEAD
 #define ROLE_SYNDICATE "Syndicate"
 #define ROLE_REV "Revolutionary"
 #define ROLE_REV_SUCCESSFUL "Victorious Revolutionary"
@@ -89,6 +100,22 @@
 #define ROLE_LAZARUS_BAD "Slaved Revived Mob"
 #define ROLE_LAZARUS_GOOD "Friendly Revived Mob"
 #define ROLE_BLOODLING_THRALL "Bloodling Thrall" // monkestation edit
+=======
+#define ROLE_LAVALAND "Lavaland"
+#define ROLE_LAZARUS_BAD "Slaved Revived Mob"
+#define ROLE_LAZARUS_GOOD "Friendly Revived Mob"
+#define ROLE_MIND_TRANSFER "Mind Transfer Potion"
+#define ROLE_MONKEY_HELMET "Monkey Mind Magnification Helmet"
+#define ROLE_OVERTHROW "Syndicate Mutineer" //Role removed, left here for safety.
+#define ROLE_PAI "pAI"
+#define ROLE_POSIBRAIN "Posibrain"
+#define ROLE_PYROCLASTIC_SLIME "Pyroclastic Anomaly Slime"
+#define ROLE_REV "Revolutionary"
+#define ROLE_REVENANT "Revenant"
+#define ROLE_SENTIENCE "Sentience Potion Spawn"
+#define ROLE_SOULTRAPPED_HERETIC "Soultrapped Heretic"
+#define ROLE_SYNDICATE "Syndicate"
+>>>>>>> tg-pr-88929
 
 #define ROLE_CLOWN_OPERATIVE "Clown Operative"
 #define ROLE_FREE_GOLEM "Free Golem"
@@ -100,14 +127,29 @@
 #define ROLE_SLAUGHTER_DEMON "Slaughter Demon"
 #define ROLE_WIZARD_APPRENTICE "apprentice"
 #define ROLE_SYNDICATE_MONKEY "Syndicate Monkey Agent"
+<<<<<<< HEAD
+=======
+#define ROLE_CONTRACTOR_SUPPORT "Contractor Support Unit"
+#define ROLE_OPERATIVE_OVERWATCH "Operative Overwatch Agent"
+#define ROLE_SYNDICATE_SABOBORG "Syndicate Sabotage Cyborg"
+#define ROLE_SYNDICATE_MEDBORG "Syndicate Medical Cyborg"
+#define ROLE_SYNDICATE_ASSAULTBORG "Syndicate Assault Cyborg"
+
+#define ROLE_RECOVERED_CREW "Recovered Crew"
+>>>>>>> tg-pr-88929
 
 //Spawner roles
 #define ROLE_ANCIENT_CREW "Ancient Crew"
 #define ROLE_ASHWALKER "Ash Walker"
+<<<<<<< HEAD
 #define ROLE_BAR_DRONE "Bardrone" // monkestation addition
 #define ROLE_BATTLECRUISER_CAPTAIN "Battlecruiser Captain"
 #define ROLE_BATTLECRUISER_CREW "Battlecruiser Crew"
 #define ROLE_FREE_MINER "Free Miner"
+=======
+#define ROLE_BATTLECRUISER_CAPTAIN "Battlecruiser Captain"
+#define ROLE_BATTLECRUISER_CREW "Battlecruiser Crew"
+>>>>>>> tg-pr-88929
 #define ROLE_BEACH_BUM "Beach Bum"
 #define ROLE_BOT "Bot"
 #define ROLE_DERELICT_DRONE "Derelict Drone"
@@ -127,10 +169,15 @@
 #define ROLE_SPACE_PIRATE "Space Pirate"
 #define ROLE_SPACE_SYNDICATE "Space Syndicate"
 #define ROLE_SYNDICATE_CYBERSUN "Cybersun Space Syndicate" //Ghost role syndi from Forgottenship ruin
+<<<<<<< HEAD
 #define ROLE_SYNDICATE_CYBERSUN_CAPTAIN "Cybersun Space Syndicate Captain" //Forgottenship captain syndi
 #define ROLE_ZOMBIE "Zombie"
+=======
+#define ROLE_SYNDICATE_CYBERSUN_CAPTAIN "Cybersun Space Syndicate Captain" //Forgottenship captain syndie
+>>>>>>> tg-pr-88929
 #define ROLE_SYNDICATE_DRONE "Syndicate Drone"
 #define ROLE_VENUSHUMANTRAP "Venus Human Trap"
+#define ROLE_ZOMBIE "Zombie"
 
 // Virtual dom related
 #define ROLE_GLITCH "Glitch" // the parent type of all vdom roles
@@ -154,11 +201,15 @@ GLOBAL_LIST_INIT(special_roles, list(
 	ROLE_REV_HEAD = 14,
 	ROLE_TRAITOR = 0,
 	ROLE_WIZARD = 14,
+<<<<<<< HEAD
 	ROLE_CLOCK_CULTIST = 14,
 	ROLE_BLOODSUCKER = 0,
 	ROLE_ASSAULT_OPERATIVE = 14,
 	ROLE_BLOODLING = 15,
 	ROLE_DARKSPAWN = 14,
+=======
+	ROLE_SPY = 0,
+>>>>>>> tg-pr-88929
 
 	// Midround
 	ROLE_ABDUCTOR = 0,
@@ -181,6 +232,7 @@ GLOBAL_LIST_INIT(special_roles, list(
 	ROLE_SPACE_DRAGON = 0,
 	ROLE_SPIDER = 0,
 	ROLE_WIZARD_MIDROUND = 14,
+<<<<<<< HEAD
 //monkestation edit start
 	ROLE_PLAGUERAT = 0,
 	ROLE_CORTICAL_BORER = 0,  // Module ID: CORTICAL_BORERS
@@ -200,16 +252,25 @@ GLOBAL_LIST_INIT(special_roles, list(
 	ROLE_DARKSPAWN_ADMEME = 0,
 	ROLE_DARKSPAWN_DEPRIVED = 0,
 //monkestation edit end
+=======
+	ROLE_VOIDWALKER = 0,
+>>>>>>> tg-pr-88929
 
 	// Latejoin
 	ROLE_HERETIC_SMUGGLER = 0,
 	ROLE_PROVOCATEUR = 14,
 	ROLE_SYNDICATE_INFILTRATOR = 0,
+<<<<<<< HEAD
 	ROLE_BLOODSUCKERBREAKOUT = 0,
+=======
+	ROLE_STOWAWAY_CHANGELING = 0,
+>>>>>>> tg-pr-88929
 
 	// I'm not too sure why these are here, but they're not moving.
+	ROLE_GLITCH = 0,
 	ROLE_PAI = 0,
 	ROLE_SENTIENCE = 0,
+	ROLE_RECOVERED_CREW = 0,
 ))
 
 //Job defines for what happens when you fail to qualify for any job during job selection

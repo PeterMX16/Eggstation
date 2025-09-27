@@ -19,7 +19,11 @@
 
 	var/expected_damage = 5
 	for (var/mob/living/segment as anything in segments)
+<<<<<<< HEAD
 		segment.istate |= ISTATE_HARM
+=======
+		segment.combat_mode = TRUE
+>>>>>>> tg-pr-88929
 		segment.melee_damage_lower = expected_damage
 		segment.melee_damage_upper = expected_damage
 

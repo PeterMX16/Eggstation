@@ -1,8 +1,13 @@
 /datum/status_effect/stop_drop_roll
 	id = "stop_drop_roll"
 	alert_type = null
+<<<<<<< HEAD
 	tick_interval = 0.8 SECONDS
 	processing_speed = STATUS_EFFECT_PRIORITY // monkestation edit: high-priority status effect processing
+=======
+
+	tick_interval = 0.8 SECONDS
+>>>>>>> tg-pr-88929
 
 /datum/status_effect/stop_drop_roll/on_apply()
 	if(!iscarbon(owner))
@@ -15,7 +20,11 @@
 
 	RegisterSignal(owner, COMSIG_MOVABLE_MOVED, PROC_REF(stop_rolling))
 	RegisterSignal(owner, COMSIG_LIVING_SET_BODY_POSITION, PROC_REF(body_position_changed))
+<<<<<<< HEAD
 	ADD_TRAIT(owner, TRAIT_HANDS_BLOCKED, TRAIT_STATUS_EFFECT(id)) // they're kinda busy!
+=======
+	ADD_TRAIT(owner, TRAIT_HANDS_BLOCKED, id) // they're kinda busy!
+>>>>>>> tg-pr-88929
 
 	owner.visible_message(
 		span_danger("[owner] rolls on the floor, trying to put [owner.p_them()]self out!"),
@@ -24,11 +33,21 @@
 	// Start with one weaker roll
 	owner.spin(spintime = actual_interval, speed = actual_interval / 4)
 	owner.adjust_fire_stacks(-0.25)
+<<<<<<< HEAD
+=======
+
+	for (var/obj/item/dropped in owner.loc)
+		dropped.extinguish() // Effectively extinguish your items by rolling on them
+>>>>>>> tg-pr-88929
 	return TRUE
 
 /datum/status_effect/stop_drop_roll/on_remove()
 	UnregisterSignal(owner, list(COMSIG_MOVABLE_MOVED, COMSIG_LIVING_SET_BODY_POSITION))
+<<<<<<< HEAD
 	REMOVE_TRAIT(owner, TRAIT_HANDS_BLOCKED, TRAIT_STATUS_EFFECT(id))
+=======
+	REMOVE_TRAIT(owner, TRAIT_HANDS_BLOCKED, id)
+>>>>>>> tg-pr-88929
 
 /datum/status_effect/stop_drop_roll/tick(seconds_between_ticks)
 	if(HAS_TRAIT(owner, TRAIT_IMMOBILIZED) || HAS_TRAIT(owner, TRAIT_INCAPACITATED))

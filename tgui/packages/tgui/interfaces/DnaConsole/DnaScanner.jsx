@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 import { useBackend } from '../../backend';
+=======
+>>>>>>> tg-pr-88929
 import {
   Box,
   Button,
@@ -6,6 +9,7 @@ import {
   LabeledList,
   ProgressBar,
   Section,
+<<<<<<< HEAD
 } from '../../components';
 import {
   SUBJECT_CONCIOUS,
@@ -16,6 +20,20 @@ import {
   SUBJECT_UNCONSCIOUS,
 } from './constants';
 
+=======
+} from 'tgui-core/components';
+
+import { useBackend } from '../../backend';
+import {
+  SUBJECT_CONCIOUS,
+  SUBJECT_DEAD,
+  SUBJECT_HARD_CRIT,
+  SUBJECT_SOFT_CRIT,
+  SUBJECT_TRANSFORMING,
+  SUBJECT_UNCONSCIOUS,
+} from './constants';
+
+>>>>>>> tg-pr-88929
 const DnaScannerButtons = (props) => {
   const { data, act } = useBackend();
   const {

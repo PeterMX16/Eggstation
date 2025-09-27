@@ -1,4 +1,14 @@
+import {
+  Button,
+  LabeledList,
+  NoticeBox,
+  ProgressBar,
+  Section,
+} from 'tgui-core/components';
+import { formatEnergy } from 'tgui-core/format';
+
 import { useBackend } from '../backend';
+<<<<<<< HEAD
 import {
   AnimatedNumber,
   Button,
@@ -7,6 +17,8 @@ import {
   ProgressBar,
   Section,
 } from '../components';
+=======
+>>>>>>> tg-pr-88929
 import { Window } from '../layouts';
 
 export const MechBayPowerConsole = (props) => {
@@ -58,8 +70,14 @@ export const MechBayPowerConsole = (props) => {
                       bad: [-Infinity, 0.3],
                     }}
                   >
+<<<<<<< HEAD
                     <AnimatedNumber value={cell.charge} />
                     {' / ' + cell.maxcharge}
+=======
+                    {formatEnergy(cell.charge) +
+                      '/' +
+                      formatEnergy(cell.maxcharge)}
+>>>>>>> tg-pr-88929
                   </ProgressBar>
                 )}
             </LabeledList.Item>

@@ -1,14 +1,15 @@
 /obj/item/reagent_containers/cup
-	name = "glass"
+	name = "open container"
 	amount_per_transfer_from_this = 10
 	possible_transfer_amounts = list(5, 10, 15, 20, 25, 30, 50)
 	volume = 50
 	reagent_flags = OPENCONTAINER | DUNKABLE
 	spillable = TRUE
 	resistance_flags = ACID_PROOF
-
+	icon_state = "bottle"
 	lefthand_file = 'icons/mob/inhands/items/drinks_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/items/drinks_righthand.dmi'
+	reagent_container_liquid_sound = SFX_DEFAULT_LIQUID_SLOSH
 
 	///Like Edible's food type, what kind of drink is this?
 	var/drink_type = NONE
@@ -18,12 +19,20 @@
 	var/gulp_size = 5
 	///Whether the 'bottle' is made of glass or not so that milk cartons dont shatter when someone gets hit by it.
 	var/isGlass = FALSE
+	///What kind of chem transfer method does this cup use. Defaults to INGEST
+	var/reagent_consumption_method = INGEST
+	///What sound does our consumption play on consuming from the container?
+	var/consumption_sound = 'sound/items/drink.ogg'
 
 /obj/item/reagent_containers/cup/examine(mob/user)
 	. = ..()
 	if(drink_type)
 		var/list/types = bitfield_to_list(drink_type, FOOD_FLAGS)
+<<<<<<< HEAD
 		. += span_notice("It is [lowertext(english_list(types))].")
+=======
+		. += span_notice("The label says it contains [LOWER_TEXT(english_list(types))] ingredients.")
+>>>>>>> tg-pr-88929
 
 /**
  * Checks if the mob actually liked drinking this cup.
@@ -85,6 +94,7 @@
 
 	SEND_SIGNAL(src, COMSIG_GLASS_DRANK, target_mob, user)
 	var/fraction = min(gulp_size/reagents.total_volume, 1)
+<<<<<<< HEAD
 	var/obj/item/organ/internal/bladder/contained_bladder = target_mob.get_organ_slot(ORGAN_SLOT_BLADDER)
 	if(contained_bladder)
 		contained_bladder.consume_act(reagents, gulp_size * 0.2)
@@ -93,6 +103,11 @@
 	////playsound(target_mob.loc,'sound/items/drink.ogg', rand(10,50), TRUE) // monkestation edit original
 	playsound(target_mob.loc,get_drink_sound(target_mob), rand(10,50), TRUE) // monkestation edit: synthesized drink sounds
 	SEND_SIGNAL(target_mob.reagents, COMSIG_DRANK_REAGENT, reagents, gulp_size)
+=======
+	reagents.trans_to(target_mob, gulp_size, transferred_by = user, methods = reagent_consumption_method)
+	checkLiked(fraction, target_mob)
+	playsound(target_mob.loc, consumption_sound, rand(10,50), TRUE)
+>>>>>>> tg-pr-88929
 	if(!iscarbon(target_mob))
 		return
 	var/mob/living/carbon/carbon_drinker = target_mob
@@ -106,6 +121,7 @@
 	if(LAZYLEN(diseases_to_add))
 		AddComponent(/datum/component/infective, diseases_to_add)
 
+<<<<<<< HEAD
 /obj/item/reagent_containers/cup/MouseDrop(atom/over, src_location, over_location, src_control, over_control, params)
 	. = ..()
 	if(!isliving(over))
@@ -159,6 +175,13 @@
 		return NONE
 	if(!spillable)
 		return NONE
+=======
+/obj/item/reagent_containers/cup/interact_with_atom(atom/target, mob/living/user, list/modifiers)
+	if(!check_allowed_items(target, target_self = TRUE))
+		return NONE
+	if(!spillable)
+		return NONE
+>>>>>>> tg-pr-88929
 
 	if(target.is_refillable()) //Something like a glass. Player probably wants to transfer TO it.
 		if(!reagents.total_volume)
@@ -169,7 +192,8 @@
 			to_chat(user, span_warning("[target] is full."))
 			return ITEM_INTERACT_BLOCKING
 
-		var/trans = reagents.trans_to(target, amount_per_transfer_from_this, transfered_by = user)
+		var/trans = reagents.trans_to(target, amount_per_transfer_from_this, transferred_by = user)
+		playsound(target.loc, SFX_LIQUID_POUR, 50, TRUE)
 		to_chat(user, span_notice("You transfer [trans] unit\s of the solution to [target]."))
 		SEND_SIGNAL(src, COMSIG_REAGENTS_CUP_TRANSFER_TO, target)
 		target.update_appearance()
@@ -184,7 +208,8 @@
 			to_chat(user, span_warning("[src] is full."))
 			return ITEM_INTERACT_BLOCKING
 
-		var/trans = target.reagents.trans_to(src, amount_per_transfer_from_this, transfered_by = user)
+		var/trans = target.reagents.trans_to(src, amount_per_transfer_from_this, transferred_by = user)
+		playsound(target.loc, SFX_LIQUID_POUR, 50, TRUE)
 		to_chat(user, span_notice("You fill [src] with [trans] unit\s of the contents of [target]."))
 		SEND_SIGNAL(src, COMSIG_REAGENTS_CUP_TRANSFER_FROM, target)
 		target.update_appearance()
@@ -193,7 +218,11 @@
 	return NONE
 
 /obj/item/reagent_containers/cup/interact_with_atom_secondary(atom/target, mob/living/user, list/modifiers)
+<<<<<<< HEAD
 	if(user.istate & ISTATE_HARM)
+=======
+	if(user.combat_mode)
+>>>>>>> tg-pr-88929
 		return NONE
 	if(!check_allowed_items(target, target_self = TRUE))
 		return NONE
@@ -209,11 +238,19 @@
 			to_chat(user, span_warning("[src] is full."))
 			return ITEM_INTERACT_BLOCKING
 
-		var/trans = target.reagents.trans_to(src, amount_per_transfer_from_this, transfered_by = user)
+		var/trans = target.reagents.trans_to(src, amount_per_transfer_from_this, transferred_by = user)
+		playsound(target.loc, SFX_LIQUID_POUR, 50, TRUE)
 		to_chat(user, span_notice("You fill [src] with [trans] unit\s of the contents of [target]."))
+		SEND_SIGNAL(src, COMSIG_REAGENTS_CUP_TRANSFER_FROM, target)
+		target.update_appearance()
+		return ITEM_INTERACT_SUCCESS
 
+<<<<<<< HEAD
 	target.update_appearance()
 	return ITEM_INTERACT_SUCCESS
+=======
+	return NONE
+>>>>>>> tg-pr-88929
 
 /obj/item/reagent_containers/cup/attackby(obj/item/attacking_item, mob/user, list/modifiers, list/attack_modifiers)
 	var/hotness = attacking_item.get_temperature()
@@ -240,6 +277,7 @@
 	if(istype(attacking_item, /obj/item/food/egg)) //breaking eggs
 		var/obj/item/food/egg/attacking_egg = attacking_item
 		if(!reagents)
+<<<<<<< HEAD
 			return ITEM_INTERACT_BLOCKING
 		if(reagents.holder_full())
 			to_chat(user, span_notice("[src] is full."))
@@ -248,6 +286,18 @@
 		attacking_egg.reagents.trans_to(src, attacking_egg.reagents.total_volume, transfered_by = user)
 		qdel(attacking_egg)
 		return ITEM_INTERACT_SUCCESS
+=======
+			return TRUE
+		if(reagents.holder_full())
+			to_chat(user, span_notice("[src] is full."))
+		else
+			to_chat(user, span_notice("You break [attacking_egg] in [src]."))
+			attacking_egg.reagents.trans_to(src, attacking_egg.reagents.total_volume, transferred_by = user)
+			qdel(attacking_egg)
+		return TRUE
+
+	return ..()
+>>>>>>> tg-pr-88929
 
 /*
  * On accidental consumption, make sure the container is partially glass, and continue to the reagent_container proc
@@ -278,6 +328,9 @@
 	worn_icon_state = "beaker"
 	custom_materials = list(/datum/material/glass=SMALL_MATERIAL_AMOUNT*5)
 	fill_icon_thresholds = list(0, 1, 20, 40, 60, 80, 100)
+	pickup_sound = 'sound/items/handling/beaker_pickup.ogg'
+	drop_sound = 'sound/items/handling/beaker_place.ogg'
+	sound_vary = TRUE
 
 /obj/item/reagent_containers/cup/beaker/Initialize(mapload)
 	. = ..()
@@ -392,6 +445,9 @@
 /obj/item/reagent_containers/cup/beaker/synthflesh
 	list_reagents = list(/datum/reagent/medicine/c2/synthflesh = 50)
 
+/obj/item/reagent_containers/cup/beaker/synthflesh/named
+	name = "synthflesh beaker"
+
 /obj/item/reagent_containers/cup/bucket
 	name = "bucket"
 	desc = "It's a bucket."
@@ -401,11 +457,16 @@
 	inhand_icon_state = "bucket"
 	lefthand_file = 'icons/mob/inhands/equipment/custodial_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/custodial_righthand.dmi'
+<<<<<<< HEAD
 	greyscale_colors = "#0085e5" //matches 1:1 with the original sprite color before gag-ification.
 	greyscale_config = /datum/greyscale_config/buckets
 	greyscale_config_worn = /datum/greyscale_config/buckets_worn
 	greyscale_config_inhand_left = /datum/greyscale_config/buckets_inhands_left
 	greyscale_config_inhand_right = /datum/greyscale_config/buckets_inhands_right
+=======
+	fill_icon_state = "bucket"
+	fill_icon_thresholds = list(50, 90)
+>>>>>>> tg-pr-88929
 	custom_materials = list(/datum/material/iron=SMALL_MATERIAL_AMOUNT * 2)
 	w_class = WEIGHT_CLASS_NORMAL
 	amount_per_transfer_from_this = 20
@@ -431,20 +492,18 @@
 	fire = 75
 	acid = 50
 
-/obj/item/reagent_containers/cup/bucket/Initialize(mapload, vol)
-	if(greyscale_colors == initial(greyscale_colors))
-		set_greyscale(pick(list("#0085e5", COLOR_OFF_WHITE, COLOR_ORANGE_BROWN, COLOR_SERVICE_LIME, COLOR_MOSTLY_PURE_ORANGE, COLOR_FADED_PINK, COLOR_RED, COLOR_YELLOW, COLOR_VIOLET, COLOR_WEBSAFE_DARK_GRAY)))
-	return ..()
-
 /obj/item/reagent_containers/cup/bucket/wooden
 	name = "wooden bucket"
 	icon_state = "woodbucket"
 	inhand_icon_state = "woodbucket"
+<<<<<<< HEAD
 	greyscale_colors = null
 	greyscale_config = null
 	greyscale_config_worn = null
 	greyscale_config_inhand_left = null
 	greyscale_config_inhand_right = null
+=======
+>>>>>>> tg-pr-88929
 	custom_materials = list(/datum/material/wood = SHEET_MATERIAL_AMOUNT * 2)
 	resistance_flags = FLAMMABLE
 	armor_type = /datum/armor/bucket_wooden
@@ -456,10 +515,10 @@
 /obj/item/reagent_containers/cup/bucket/attackby(obj/O, mob/user, params)
 	if(istype(O, /obj/item/mop))
 		if(reagents.total_volume < 1)
-			to_chat(user, span_warning("[src] is out of water!"))
+			user.balloon_alert(user, "empty!")
 		else
-			reagents.trans_to(O, 5, transfered_by = user)
-			to_chat(user, span_notice("You wet [O] in [src]."))
+			reagents.trans_to(O, 5, transferred_by = user)
+			user.balloon_alert(user, "doused [O]")
 			playsound(loc, 'sound/effects/slosh.ogg', 25, TRUE)
 		return
 	else if(isprox(O)) //This works with wooden buckets for now. Somewhat unintended, but maybe someone will add sprites for it soon(TM)
@@ -534,7 +593,11 @@
 	/// Reference to the item inside the mortar, ready to be grinded
 	var/obj/item/grinded
 
+<<<<<<< HEAD
 /obj/item/reagent_containers/cup/mortar/AltClick(mob/user)
+=======
+/obj/item/reagent_containers/cup/mortar/click_alt(mob/user)
+>>>>>>> tg-pr-88929
 	if(!grinded)
 		return CLICK_ACTION_BLOCKING
 	grinded.forceMove(drop_location())
@@ -542,6 +605,7 @@
 	balloon_alert(user, "ejected")
 	return CLICK_ACTION_SUCCESS
 
+<<<<<<< HEAD
 /obj/item/reagent_containers/cup/mortar/item_interaction(mob/living/user, obj/item/tool, list/modifiers)
 	. = ..()
 	if(. & ITEM_INTERACT_ANY_BLOCKER)
@@ -550,6 +614,34 @@
 	// Try to grind with a pestle
 	if(istype(tool, /obj/item/pestle))
 		if(!grinded)
+=======
+/obj/item/reagent_containers/cup/mortar/attackby(obj/item/I, mob/living/carbon/human/user)
+	..()
+	if(istype(I,/obj/item/pestle))
+		if(grinded)
+			if(user.getStaminaLoss() > 50)
+				to_chat(user, span_warning("You are too tired to work!"))
+				return
+			var/list/choose_options = list(
+				"Grind" = image(icon = 'icons/hud/radial.dmi', icon_state = "radial_grind"),
+				"Juice" = image(icon = 'icons/hud/radial.dmi', icon_state = "radial_juice")
+			)
+			var/picked_option = show_radial_menu(user, src, choose_options, radius = 38, require_near = TRUE)
+			if(grinded && in_range(src, user) && user.is_holding(I) && picked_option)
+				to_chat(user, span_notice("You start grinding..."))
+				if(do_after(user, 2.5 SECONDS, target = src))
+					user.adjustStaminaLoss(40)
+					switch(picked_option)
+						if("Juice")
+							return juice_item(grinded, user)
+						if("Grind")
+							return grind_item(grinded, user)
+						else
+							to_chat(user, span_notice("You try to grind the mortar itself instead of [grinded]. You failed."))
+							return
+			return
+		else
+>>>>>>> tg-pr-88929
 			to_chat(user, span_warning("There is nothing to grind!"))
 			return ITEM_INTERACT_BLOCKING
 		if(user.staminaloss > 50)
@@ -606,11 +698,50 @@
 	if(grinded)
 		to_chat(user, span_warning("There is something inside already!"))
 		return
+<<<<<<< HEAD
 	if(tool.juice_results || tool.grind_results)
 		tool.forceMove(src)
 		grinded = tool
+=======
+	if(!I.blend_requirements(src))
+		to_chat(user, span_warning("Cannot grind this!"))
 		return
-	to_chat(user, span_warning("You can't grind this!"))
+	if(length(I.grind_results) || I.reagents?.total_volume)
+		I.forceMove(src)
+		grinded = I
+
+/obj/item/reagent_containers/cup/mortar/blended(obj/item/blended_item, grinded)
+	src.grinded = null
+
+	return ..()
+
+/obj/item/reagent_containers/cup/mortar/proc/grind_item(obj/item/item, mob/living/carbon/human/user)
+	if(item.flags_1 & HOLOGRAM_1)
+		to_chat(user, span_notice("You try to grind [item], but it fades away!"))
+		qdel(item)
+>>>>>>> tg-pr-88929
+		return
+
+	if(!item.grind(reagents, user))
+		if(isstack(item))
+			to_chat(user, span_notice("[src] attempts to grind as many pieces of [item] as possible."))
+		else
+			to_chat(user, span_danger("You fail to grind [item]."))
+		return
+
+	to_chat(user, span_notice("You grind [item] into a nice powder."))
+
+/obj/item/reagent_containers/cup/mortar/proc/juice_item(obj/item/item, mob/living/carbon/human/user)
+	if(item.flags_1 & HOLOGRAM_1)
+		to_chat(user, span_notice("You try to juice [item], but it fades away!"))
+		qdel(item)
+		return
+
+	if(!item.juice(reagents, user))
+		to_chat(user, span_notice("You fail to juice [item]."))
+		return
+
+	to_chat(user, span_notice("You juice [item] into a fine liquid."))
 
 //Coffeepots: for reference, a standard cup is 30u, to allow 20u for sugar/sweetener/milk/creamer
 /obj/item/reagent_containers/cup/coffeepot
@@ -626,6 +757,7 @@
 	desc = "The most advanced coffeepot the eggheads could cook up: sleek design; graduated lines; connection to a pocket dimension for coffee containment; yep, it's got it all. Contains 8 standard cups."
 	volume = 240
 	icon_state = "coffeepot_bluespace"
+<<<<<<< HEAD
 	fill_icon_thresholds = list(0)
 
 /obj/item/reagent_containers/cup/coffeepot/bluespace/synthesiser
@@ -698,6 +830,9 @@
 		to_chat(user, span_notice("You swipe \the [src] with [emag_card]. A light on the side with 'tea mode' written under it starts to flash."))
 	return TRUE
 
+=======
+	fill_icon_thresholds = null
+>>>>>>> tg-pr-88929
 
 ///Test tubes created by chem master and pandemic and placed in racks
 /obj/item/reagent_containers/cup/tube
@@ -706,7 +841,11 @@
 	icon_state = "test_tube"
 	fill_icon_state = "tube"
 	inhand_icon_state = "atoxinbottle"
+<<<<<<< HEAD
 	worn_icon_state = "test_tube"
+=======
+	worn_icon_state = "beaker"
+>>>>>>> tg-pr-88929
 	possible_transfer_amounts = list(5, 10, 15, 30)
 	volume = 30
 	fill_icon_thresholds = list(0, 1, 20, 40, 60, 80, 100)

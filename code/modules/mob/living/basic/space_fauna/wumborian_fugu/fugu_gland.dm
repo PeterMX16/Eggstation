@@ -36,8 +36,13 @@
 	animal.health = min(animal.maxHealth, animal.health * 1.5)
 	animal.melee_damage_lower = max((animal.melee_damage_lower * 2), 10)
 	animal.melee_damage_upper = max((animal.melee_damage_upper * 2), 10)
+<<<<<<< HEAD
 	animal.transform *= 2
 	AddElement(/datum/element/wall_tearer)
+=======
+	animal.update_transform(2)
+	animal.AddElement(/datum/element/wall_tearer)
+>>>>>>> tg-pr-88929
 	to_chat(user, span_info("You increase the size of [animal], giving [animal.p_them()] a surge of strength!"))
 	qdel(src)
 	return ITEM_INTERACT_SUCCESS

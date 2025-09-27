@@ -6,8 +6,12 @@
 /datum/storage/fish_case/can_insert(obj/item/to_insert, mob/user, messages, force)
 	. = ..()
 	if(!.)
+<<<<<<< HEAD
 		return
 
+=======
+		return .
+>>>>>>> tg-pr-88929
 	if(!HAS_TRAIT(to_insert, TRAIT_AQUARIUM_CONTENT))
 		if(messages && user)
 			user.balloon_alert(user, "can't hold!")

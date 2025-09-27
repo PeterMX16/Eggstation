@@ -1,4 +1,7 @@
+export type AvailableJob = keyof typeof JOB2ICON;
+
 /** Icon map of jobs to their fontawesome5 (free) counterpart. */
+<<<<<<< HEAD
 const BASEICONS = {
   AI: 'eye',
   Assistant: 'toolbox',
@@ -14,12 +17,28 @@ const BASEICONS = {
   'Brig Physician': 'heart',
   Captain: 'crown',
   'Candy Salesman': 'cookie-bite',
+=======
+export const JOB2ICON = {
+  AI: 'eye',
+  Assistant: 'toolbox',
+  'Atmospheric Technician': 'fan',
+  Bartender: 'cocktail',
+  'Bit Avatar': 'code',
+  Bitrunner: 'gamepad',
+  Botanist: 'seedling',
+  'Bridge Assistant': 'building-shield',
+  Captain: 'crown',
+  'Cargo Gorilla': 'paw',
+>>>>>>> tg-pr-88929
   'Cargo Technician': 'box',
   'CentCom Commander': 'star',
   'CentCom Head Intern': 'pen-fancy',
   'CentCom Intern': 'pen-alt',
   'CentCom Official': 'medal',
+<<<<<<< HEAD
   'Nanotrasen Representative': 'medal',
+=======
+>>>>>>> tg-pr-88929
   Chaplain: 'cross',
   Chef: 'utensils',
   Chemist: 'prescription-bottle',
@@ -32,6 +51,7 @@ const BASEICONS = {
   'Cyber Police': 'qrcode',
   Cyborg: 'robot',
   Detective: 'user-secret',
+<<<<<<< HEAD
   'Diet Wizard': 'hat-wizard',
   'Discount Godzilla': 'ticket-alt', // like a movie ticket? IDK theres not many good icons for this.
   Explorer: 'rocket',
@@ -40,6 +60,12 @@ const BASEICONS = {
   Gorilla: 'exclamation-triangle',
   'Head of Personnel': 'dog',
   'Head of Security': 'user-shield',
+=======
+  Geneticist: 'dna',
+  'Head of Personnel': 'dog',
+  'Head of Security': 'user-shield',
+  'Big Brother': 'eye',
+>>>>>>> tg-pr-88929
   Janitor: 'soap',
   Lawyer: 'gavel',
   'Medical Doctor': 'staff-snake',
@@ -52,7 +78,10 @@ const BASEICONS = {
   'Research Director': 'user-graduate',
   Roboticist: 'battery-half',
   Scientist: 'flask',
+<<<<<<< HEAD
   'Security Assistant': 'file-invoice-dollar',
+=======
+>>>>>>> tg-pr-88929
   'Security Officer (Cargo)': 'shield-halved',
   'Security Officer (Engineering)': 'shield-halved',
   'Security Officer (Medical)': 'shield-halved',
@@ -63,6 +92,7 @@ const BASEICONS = {
   Skeleton: 'skull-crossbones',
   'Station Engineer': 'gears',
   'Syndicate Operative': 'dragon',
+<<<<<<< HEAD
   Virologist: 'virus',
   Warden: 'handcuffs',
   Xenobiologist: 'spaghetti-monster-flying', // Monkestation addition: Xenobio Job
@@ -323,3 +353,9 @@ const ALTTITLES = {
 export const JOB2ICON = { ...BASEICONS, ...ALTTITLES } as const;
 
 export type AvailableJob = keyof typeof JOB2ICON;
+=======
+  'Veteran Security Advisor': 'ribbon',
+  'Pun Pun': 'paw',
+  Warden: 'handcuffs',
+} as const;
+>>>>>>> tg-pr-88929

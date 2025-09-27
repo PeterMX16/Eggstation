@@ -9,7 +9,6 @@
 	bubble_icon = "alienroyal"
 	mob_size = MOB_SIZE_HUGE
 	layer = LARGE_MOB_LAYER //above most mobs, but below speechbubbles
-	plane = GAME_PLANE_UPPER_FOV_HIDDEN
 	pressure_resistance = 200 //Because big, stompy xenos should not be blown around like paper.
 	butcher_results = list(/obj/item/food/meat/slab/xeno = 20, /obj/item/stack/sheet/animalhide/xeno = 3)
 
@@ -19,15 +18,20 @@
 	. = ..()
 	// as a wise man once wrote: "pull over that ass too fat"
 	REMOVE_TRAIT(src, TRAIT_VENTCRAWLER_ALWAYS, INNATE_TRAIT)
+<<<<<<< HEAD
+=======
+	// that'd be a too cheeky shield bashing strat
+	ADD_TRAIT(src, TRAIT_BRAWLING_KNOCKDOWN_BLOCKED, INNATE_TRAIT)
+>>>>>>> tg-pr-88929
 	AddComponent(/datum/component/seethrough_mob)
 
 /mob/living/carbon/alien/adult/royal/on_lying_down(new_lying_angle)
 	. = ..()
-	SET_PLANE_IMPLICIT(src, GAME_PLANE_FOV_HIDDEN) //So it won't hide smaller mobs.
+	layer = LYING_MOB_LAYER
 
 /mob/living/carbon/alien/adult/royal/on_standing_up(new_lying_angle)
 	. = ..()
-	SET_PLANE_IMPLICIT(src, initial(plane))
+	layer = initial(layer)
 
 /mob/living/carbon/alien/adult/royal/can_inject(mob/user, target_zone, injection_flags)
 	return FALSE
@@ -35,11 +39,15 @@
 /mob/living/carbon/alien/adult/royal/queen
 	name = "alien queen"
 	caste = "q"
-	maxHealth = 400
-	health = 400
+	maxHealth = 500
+	health = 500
 	icon_state = "alienq"
+	melee_damage_lower = 50
+	melee_damage_upper = 50
+	alien_speed = 2
 
 /mob/living/carbon/alien/adult/royal/queen/Initialize(mapload)
+<<<<<<< HEAD
 	//there should only be one queen
 	for(var/mob/living/carbon/alien/adult/royal/queen/Q in GLOB.carbon_list)
 		if(Q == src)
@@ -57,15 +65,27 @@
 
 	var/datum/action/cooldown/alien/promote/promotion = new(src)
 	promotion.Grant(src)
+=======
+	var/static/list/innate_actions = list(
+		/datum/action/cooldown/alien/promote,
+		/datum/action/cooldown/spell/aoe/repulse/xeno,
+	)
+	grant_actions_by_list(innate_actions)
+>>>>>>> tg-pr-88929
 
 	return ..()
 
 /mob/living/carbon/alien/adult/royal/queen/create_internal_organs()
-	organs += new /obj/item/organ/internal/alien/plasmavessel/large/queen
-	organs += new /obj/item/organ/internal/alien/resinspinner
-	organs += new /obj/item/organ/internal/alien/acid
-	organs += new /obj/item/organ/internal/alien/neurotoxin
-	organs += new /obj/item/organ/internal/alien/eggsac
+	organs += new /obj/item/organ/alien/plasmavessel/large/queen
+	organs += new /obj/item/organ/alien/resinspinner
+	organs += new /obj/item/organ/alien/acid
+	organs += new /obj/item/organ/alien/neurotoxin
+	organs += new /obj/item/organ/alien/eggsac
+	return ..()
+
+/mob/living/carbon/alien/adult/royal/queen/set_name()
+	if(get_alien_type(/mob/living/carbon/alien/adult/royal/queen, ignored = src))
+		name = "alien princess"
 	return ..()
 
 //Queen verbs
@@ -164,10 +184,9 @@
 		span_noticealien("The queen has granted you a promotion to Praetorian!"),
 	)
 
-	var/mob/living/carbon/alien/adult/royal/praetorian/new_prae = new(to_promote.loc)
-	to_promote.mind.transfer_to(new_prae)
-
-	qdel(to_promote)
+	var/mob/living/carbon/alien/lucky_winner = to_promote
+	var/mob/living/carbon/alien/adult/royal/praetorian/new_prae = new(lucky_winner.loc)
+	lucky_winner.alien_evolve(new_prae)
 	qdel(src)
 	return TRUE
 

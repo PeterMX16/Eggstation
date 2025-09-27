@@ -91,7 +91,11 @@
 		return FALSE
 	if(istransparentturf(morsel))
 		return FALSE
+<<<<<<< HEAD
 	if(morsel.light_power <= 0 || morsel.light_outer_range <= 0 || !morsel.light_on)
+=======
+	if(morsel.light_power <= 0 || morsel.light_range <= 0 || !morsel.light_on)
+>>>>>>> tg-pr-88929
 		return FALSE
 	if(SEND_SIGNAL(morsel, COMSIG_LIGHT_EATER_ACT, eater) & COMPONENT_BLOCK_LIGHT_EATER)
 		return FALSE // Either the light eater can't eat it or it had special behaviors.
@@ -127,7 +131,23 @@
  */
 /datum/element/light_eater/proc/on_interacting_with(obj/item/source, mob/living/user, atom/target)
 	SIGNAL_HANDLER
+<<<<<<< HEAD
 	eat_lights(target, source)
+=======
+	if(eat_lights(target, source))
+		// do a "pretend" attack if we're hitting something that can't normally be
+		if(isobj(target))
+			var/obj/smacking = target
+			if(smacking.obj_flags & CAN_BE_HIT)
+				return NONE
+		else if(!isturf(target))
+			return NONE
+		user.do_attack_animation(target)
+		user.changeNext_move(CLICK_CD_RAPID)
+		target.play_attack_sound()
+	// not particularly picky about what happens afterwards in the attack chain
+	return NONE
+>>>>>>> tg-pr-88929
 
 /**
  * Called when a source object is used to block a thrown object, projectile, or attack
@@ -140,7 +160,7 @@
  * - final_block_chance: The probability of blocking the target with the source
  * - attack_type: The type of attack that was blocked
  */
-/datum/element/light_eater/proc/on_hit_reaction(obj/item/source, mob/living/carbon/human/owner, atom/movable/hitby, attack_text, final_block_chance, damage, attack_type)
+/datum/element/light_eater/proc/on_hit_reaction(obj/item/source, mob/living/carbon/human/owner, atom/movable/hitby, attack_text, final_block_chance, damage, attack_type, damage_type)
 	SIGNAL_HANDLER
 	if(prob(final_block_chance))
 		eat_lights(hitby, source)

@@ -10,10 +10,19 @@
 
 /obj/item/storage/belt/holster/equipped(mob/user, slot)
 	. = ..()
+<<<<<<< HEAD
 
 
 /obj/item/storage/belt/holster/dropped(mob/user)
 	. = ..()
+=======
+	if(slot & (ITEM_SLOT_BELT|ITEM_SLOT_SUITSTORE))
+		ADD_CLOTHING_TRAIT(user, TRAIT_GUNFLIP)
+
+/obj/item/storage/belt/holster/dropped(mob/user)
+	. = ..()
+	REMOVE_CLOTHING_TRAIT(user, TRAIT_GUNFLIP)
+>>>>>>> tg-pr-88929
 
 /obj/item/storage/belt/holster/Initialize(mapload)
 	. = ..()
@@ -32,6 +41,11 @@
 		/obj/item/gun/energy/laser/captain,
 		/obj/item/gun/energy/e_gun/hos,
 	))
+<<<<<<< HEAD
+=======
+	atom_storage.open_sound = 'sound/items/handling/holster_open.ogg'
+	atom_storage.open_sound_vary = TRUE
+>>>>>>> tg-pr-88929
 
 /obj/item/storage/belt/holster/energy
 	name = "energy shoulder holsters"
@@ -104,7 +118,7 @@
 		/obj/item/gun/ballistic/modular/mk_58,
 		/obj/item/ammo_box/c38, // Revolver speedloaders.
 		/obj/item/ammo_box/a357,
-		/obj/item/ammo_box/a762,
+		/obj/item/ammo_box/strilka310,
 		/obj/item/ammo_box/magazine/toy/pistol,
 		/obj/item/gun/energy/e_gun/mini,
 		/obj/item/gun/energy/disabler,
@@ -114,12 +128,12 @@
 		/obj/item/gun/energy/laser/captain,
 		/obj/item/gun/energy/e_gun/hos,
 		/obj/item/gun/ballistic/rifle/boltaction, //fits if you make it an obrez
-		))
+	))
 
 /obj/item/storage/belt/holster/detective/full/PopulateContents()
 	generate_items_inside(list(
-		/obj/item/gun/ballistic/revolver/c38/detective = 1,
 		/obj/item/ammo_box/c38 = 2,
+		/obj/item/gun/ballistic/revolver/c38/detective = 1,
 	), src)
 
 /obj/item/storage/belt/holster/detective/bis/full/PopulateContents()
@@ -137,8 +151,8 @@
 
 /obj/item/storage/belt/holster/detective/full/ert/PopulateContents()
 	generate_items_inside(list(
-		/obj/item/gun/ballistic/automatic/pistol/m1911 = 1,
 		/obj/item/ammo_box/magazine/m45 = 2,
+		/obj/item/gun/ballistic/automatic/pistol/m1911 = 1,
 	),src)
 
 /obj/item/storage/belt/holster/chameleon
@@ -148,35 +162,12 @@
 	inhand_icon_state = "syndicate_holster"
 	worn_icon_state = "syndicate_holster"
 	w_class = WEIGHT_CLASS_NORMAL
-	var/datum/action/item_action/chameleon/change/chameleon_action
-
-/obj/item/storage/belt/holster/chameleon/Initialize(mapload)
-	. = ..()
-
-	chameleon_action = new(src)
-	chameleon_action.chameleon_type = /obj/item/storage/belt
-	chameleon_action.chameleon_name = "Belt"
-	chameleon_action.initialize_disguises()
-	add_item_action(chameleon_action)
-
-/obj/item/storage/belt/holster/chameleon/Initialize(mapload)
-	. = ..()
-	atom_storage.silent = TRUE
-
-/obj/item/storage/belt/holster/chameleon/emp_act(severity)
-	. = ..()
-	if(. & EMP_PROTECT_SELF)
-		return
-	chameleon_action.emp_randomise()
-
-/obj/item/storage/belt/holster/chameleon/broken/Initialize(mapload)
-	. = ..()
-	chameleon_action.emp_randomise(INFINITY)
+	actions_types = list(/datum/action/item_action/chameleon/change/belt)
 
 /obj/item/storage/belt/holster/chameleon/Initialize(mapload)
 	. = ..()
 	atom_storage.max_slots = 2
-	atom_storage.max_total_storage = WEIGHT_CLASS_NORMAL
+	atom_storage.max_specific_storage = WEIGHT_CLASS_NORMAL
 	atom_storage.set_holdable(list(
 		/obj/item/gun/ballistic/automatic/pistol,
 		/obj/item/ammo_box/magazine/m9mm,
@@ -187,18 +178,22 @@
 		/obj/item/gun/ballistic/revolver,
 		/obj/item/ammo_box/c38,
 		/obj/item/ammo_box/a357,
-		/obj/item/ammo_box/a762,
+		/obj/item/ammo_box/strilka310,
 		/obj/item/ammo_box/magazine/toy/pistol,
 		/obj/item/gun/energy/recharge/ebow,
 		/obj/item/gun/energy/e_gun/mini,
 		/obj/item/gun/energy/disabler,
+<<<<<<< HEAD
 		/obj/item/gun/energy/taser,
+=======
+>>>>>>> tg-pr-88929
 		/obj/item/gun/energy/dueling,
 		/obj/item/gun/energy/laser/captain,
 		/obj/item/gun/energy/e_gun/hos,
 	))
 
 	atom_storage.silent = TRUE
+<<<<<<< HEAD
 
 // MONKESTATION ADDITION START
 /obj/item/storage/belt/holster/chameleon/attackby(obj/item/attacking_item, mob/user, list/modifiers, list/attack_modifiers)
@@ -217,6 +212,8 @@
 		log_game("[key_name(user)] has locked the disguise of the chameleon holster ([name]) with [attacking_item]")
 // MONKESTATION ADDITION END
 
+=======
+>>>>>>> tg-pr-88929
 
 /obj/item/storage/belt/holster/nukie
 	name = "operative holster"
@@ -235,11 +232,15 @@
 		/obj/item/ammo_box/magazine, // ALL magazines.
 		/obj/item/ammo_box/c38, //There isn't a speedloader parent type, so I just put these three here by hand.
 		/obj/item/ammo_box/a357, //I didn't want to just use /obj/item/ammo_box, because then this could hold huge boxes of ammo.
-		/obj/item/ammo_box/a762,
+		/obj/item/ammo_box/strilka310,
 		/obj/item/ammo_casing, // For shotgun shells, rockets, launcher grenades, and a few other things.
 		/obj/item/grenade, // All regular grenades, the big grenade launcher fires these.
+<<<<<<< HEAD
 		))
 
+=======
+	))
+>>>>>>> tg-pr-88929
 
 /obj/item/storage/belt/holster/nukie/cowboy
 	desc = "A deep shoulder holster capable of holding almost any form of small firearm and its ammo. This one's specialized for handguns."
@@ -251,6 +252,15 @@
 
 /obj/item/storage/belt/holster/nukie/cowboy/full/PopulateContents()
 	generate_items_inside(list(
+<<<<<<< HEAD
 		/obj/item/gun/ballistic/revolver/syndicate/cowboy = 1,
 		/obj/item/ammo_box/a357 = 2,
 	), src)
+=======
+		/obj/item/ammo_box/a357 = 2,
+		/obj/item/gun/ballistic/revolver/cowboy/nuclear = 1,
+	), src)
+
+
+
+>>>>>>> tg-pr-88929

@@ -1,6 +1,10 @@
 /datum/looping_sound/local_forecast
 	mid_sounds = list(
+<<<<<<< HEAD
 		'sound/ambience/music/elevator/robocop-short.ogg' = 1,
+=======
+		'sound/music/elevator/robocop-short.ogg' = 1,
+>>>>>>> tg-pr-88929
 	)
 	mid_length = 61 SECONDS
 	volume = 20
@@ -8,3 +12,7 @@
 	use_reverb = FALSE
 	direct = TRUE
 	sound_channel = CHANNEL_ELEVATOR
+<<<<<<< HEAD
+=======
+
+>>>>>>> tg-pr-88929

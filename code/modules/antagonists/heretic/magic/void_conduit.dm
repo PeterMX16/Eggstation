@@ -1,14 +1,23 @@
 /datum/action/cooldown/spell/conjure/void_conduit
 	name = "Void Conduit"
 	desc = "Opens a gate to the Void; it releases an intermittent pulse that damages windows and airlocks, \
+<<<<<<< HEAD
 		while afflicting Heathens with  void chill. \
 		Heretics are granted the cold resistance and low pressure resistance."
+=======
+		while afflicting Heathens with void chill. \
+		Affected Heretics instead receive low pressure resistance."
+>>>>>>> tg-pr-88929
 	background_icon_state = "bg_heretic"
 	overlay_icon_state = "bg_heretic_border"
 	button_icon = 'icons/mob/actions/actions_ecult.dmi'
 	button_icon_state = "void_rift"
 
+<<<<<<< HEAD
 	cooldown_time = 90 SECONDS
+=======
+	cooldown_time = 1 MINUTES
+>>>>>>> tg-pr-88929
 
 	sound = null
 	school = SCHOOL_FORBIDDEN
@@ -28,14 +37,21 @@
 	icon_state = "void_conduit"
 	anchored = TRUE
 	density = TRUE
+<<<<<<< HEAD
 	max_integrity = 150
 
+=======
+>>>>>>> tg-pr-88929
 	///Overlay to apply to the tiles in range of the conduit
 	var/static/image/void_overlay = image(icon = 'icons/turf/overlays.dmi', icon_state = "voidtile")
 	///List of tiles that we added an overlay to, so we can clear them when the conduit is deleted
 	var/list/overlayed_turfs = list()
 	///How many tiles far our effect is
+<<<<<<< HEAD
 	var/effect_range = 10
+=======
+	var/effect_range = 8
+>>>>>>> tg-pr-88929
 	///id of the deletion timer
 	var/timerid
 	///Audio loop for the rift being alive
@@ -44,9 +60,20 @@
 /obj/structure/void_conduit/Initialize(mapload)
 	. = ..()
 	soundloop = new(src, start_immediately = TRUE)
+<<<<<<< HEAD
 	timerid = QDEL_IN_STOPPABLE(src, 45 SECONDS)
 	START_PROCESSING(SSobj, src)
 	for(var/turf/affected_turf as anything in RANGE_TURFS(effect_range, src))
+=======
+	timerid = QDEL_IN_STOPPABLE(src, 1 MINUTES)
+	START_PROCESSING(SSobj, src)
+	build_view_turfs()
+
+/obj/structure/void_conduit/proc/build_view_turfs()
+	for(var/turf/affected_turf as anything in overlayed_turfs)
+		affected_turf.cut_overlay(void_overlay)
+	for(var/turf/affected_turf as anything in view(effect_range, src))
+>>>>>>> tg-pr-88929
 		if(!isopenturf(affected_turf))
 			continue
 		affected_turf.add_overlay(void_overlay)
@@ -63,12 +90,20 @@
 	return ..()
 
 /obj/structure/void_conduit/process(seconds_per_tick)
+<<<<<<< HEAD
+=======
+	build_view_turfs()
+>>>>>>> tg-pr-88929
 	do_conduit_pulse()
 
 ///Sends out a pulse
 /obj/structure/void_conduit/proc/do_conduit_pulse()
 	var/list/turfs_to_affect = list()
+<<<<<<< HEAD
 	for(var/turf/affected_turf as anything in RANGE_TURFS(effect_range, loc))
+=======
+	for(var/turf/affected_turf as anything in view(effect_range, loc))
+>>>>>>> tg-pr-88929
 		var/distance = get_dist(loc, affected_turf)
 		if(!turfs_to_affect["[distance]"])
 			turfs_to_affect["[distance]"] = list()
@@ -90,11 +125,16 @@
 				var/mob/living/affected_mob = thing_to_affect
 				if(affected_mob.can_block_magic(MAGIC_RESISTANCE))
 					continue
+<<<<<<< HEAD
 				if(IS_HERETIC(affected_mob))
+=======
+				if(IS_HERETIC_OR_MONSTER(affected_mob) || HAS_TRAIT(affected_mob, TRAIT_MANSUS_TOUCHED))
+>>>>>>> tg-pr-88929
 					affected_mob.apply_status_effect(/datum/status_effect/void_conduit)
 				else
 					affected_mob.apply_status_effect(/datum/status_effect/void_chill, 1)
 
+<<<<<<< HEAD
 			else if(istype(thing_to_affect, /obj/machinery/door) || istype(thing_to_affect, /obj/structure/door_assembly))
 				var/obj/affected_door = thing_to_affect
 				affected_door.take_damage(rand(15, 30))
@@ -105,12 +145,25 @@
 
 /datum/looping_sound/void_conduit
 	mid_sounds = 'sound/ambience/ambiatm1.ogg'
+=======
+			if(istype(thing_to_affect, /obj/machinery/door) || istype(thing_to_affect, /obj/structure/door_assembly))
+				var/obj/affected_door = thing_to_affect
+				affected_door.take_damage(rand(15, 30))
+
+			if(istype(thing_to_affect, /obj/structure/window) || istype(thing_to_affect, /obj/structure/grille))
+				var/obj/structure/affected_structure = thing_to_affect
+				affected_structure.take_damage(rand(10, 20))
+
+/datum/looping_sound/void_conduit
+	mid_sounds = 'sound/ambience/misc/ambiatm1.ogg'
+>>>>>>> tg-pr-88929
 	mid_length = 1 SECONDS
 	extra_range = 10
 	volume = 40
 	falloff_distance = 5
 	falloff_exponent = 20
 
+<<<<<<< HEAD
 //Effect applied to heretics in conduit radius
 /datum/status_effect/void_conduit
 	duration = 15 SECONDS
@@ -125,3 +178,17 @@
 /datum/status_effect/void_conduit/on_remove()
 	REMOVE_TRAIT(owner, TRAIT_RESISTLOWPRESSURE, TRAIT_STATUS_EFFECT(id))
 
+=======
+/datum/status_effect/void_conduit
+	id = "void_conduit"
+	duration = 15 SECONDS
+	status_type = STATUS_EFFECT_REPLACE
+	alert_type = null
+
+/datum/status_effect/void_conduit/on_apply()
+	ADD_TRAIT(owner, TRAIT_RESISTLOWPRESSURE, type)
+	return TRUE
+
+/datum/status_effect/void_conduit/on_remove()
+	REMOVE_TRAIT(owner, TRAIT_RESISTLOWPRESSURE, type)
+>>>>>>> tg-pr-88929

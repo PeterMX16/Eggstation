@@ -15,7 +15,10 @@
 	"particle_weathers": ["weather_snow"],
 	"traits": [
 		{
+<<<<<<< HEAD
 			"Up": true,
+=======
+>>>>>>> tg-pr-88929
 			"Mining": true,
 			"Linkage": null,
 			"Gravity": true,
@@ -26,8 +29,11 @@
 			"Forced Safety": true
 		},
 		{
+<<<<<<< HEAD
 			"Down": true,
 			"Up": true,
+=======
+>>>>>>> tg-pr-88929
 			"Mining": true,
 			"Linkage": null,
 			"Gravity": true,
@@ -37,7 +43,10 @@
 			"No Parallax": true
 		},
 		{
+<<<<<<< HEAD
 			"Down": true,
+=======
+>>>>>>> tg-pr-88929
 			"Mining": true,
 			"Linkage": null,
 			"Gravity": true,
@@ -50,11 +59,11 @@
 	"minetype": "none",
 	"blacklist_file": "iceruinblacklist.txt",
 	"job_changes": {
-		"Cook": {
-			"additional_cqc_areas": ["/area/station/service/kitchen/diner"]
-		},
 		"Captain": {
 			"special_charter": "moon"
+		},
+		"Cook": {
+			"additional_cqc_areas": ["/area/station/service/bar/atrium"]
 		}
 	}
 }

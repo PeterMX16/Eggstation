@@ -9,7 +9,10 @@
 	speak_emote = list("clicks")
 	melee_damage_lower = 2
 	melee_damage_upper = 2
+<<<<<<< HEAD
 	mob_biotypes = MOB_ORGANIC|MOB_CRUSTACEAN
+=======
+>>>>>>> tg-pr-88929
 	butcher_results = list(/obj/item/food/meat/slab/rawcrab = 2)
 	response_help_continuous = "pets"
 	response_help_simple = "pet"
@@ -24,7 +27,7 @@
 	///In the case 'melee_damage_upper' is somehow raised above 0
 	attack_verb_continuous = "snips"
 	attack_verb_simple = "snip"
-	attack_sound = 'sound/weapons/bite.ogg'
+	attack_sound = 'sound/items/weapons/bite.ogg'
 	attack_vis_effect = ATTACK_EFFECT_BITE
 	ai_controller = /datum/ai_controller/basic_controller/crab
 
@@ -35,6 +38,10 @@
 	AddElement(/datum/element/tiny_mob_hunter, MOB_SIZE_TINY)
 	AddElement(/datum/element/ai_retaliate)
 	AddElement(/datum/element/ai_flee_while_injured)
+<<<<<<< HEAD
+=======
+	AddComponent(/datum/component/speechmod, replacements = strings("crustacean_replacement.json", "crustacean"))
+>>>>>>> tg-pr-88929
 
 //COFFEE! SQUEEEEEEEEE!
 /mob/living/basic/crab/coffee
@@ -79,7 +86,11 @@
 /datum/ai_controller/basic_controller/crab
 	blackboard = list(
 		BB_ALWAYS_IGNORE_FACTION = TRUE,
+<<<<<<< HEAD
 		BB_TARGETING_STRATEGY = /datum/targeting_strategy/basic/of_size/ours_or_smaller,
+=======
+		BB_TARGETING_STRATEGY = /datum/targeting_strategy/basic/of_size/smaller,
+>>>>>>> tg-pr-88929
 		BB_FLEE_TARGETING_STRATEGY = /datum/targeting_strategy/basic,
 	)
 
@@ -89,8 +100,15 @@
 	planning_subtrees = list(
 		/datum/ai_planning_subtree/find_nearest_thing_which_attacked_me_to_flee/from_flee_key,
 		/datum/ai_planning_subtree/flee_target/from_flee_key,
+<<<<<<< HEAD
 		/datum/ai_planning_subtree/target_retaliate/to_flee,
 		/datum/ai_planning_subtree/simple_find_target,
 		/datum/ai_planning_subtree/basic_melee_attack_subtree,
 		/datum/ai_planning_subtree/random_speech/crab,
+=======
+		/datum/ai_planning_subtree/simple_find_target,
+		/datum/ai_planning_subtree/basic_melee_attack_subtree,
+		/datum/ai_planning_subtree/random_speech/crab,
+		/datum/ai_planning_subtree/go_for_swim,
+>>>>>>> tg-pr-88929
 	)

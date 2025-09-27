@@ -36,6 +36,13 @@
 	icon_state = "fedora_carpskin"
 	inhand_icon_state = null
 
+<<<<<<< HEAD
+=======
+/obj/item/clothing/head/fedora/carpskin/Initialize(mapload)
+	. = ..()
+	AddComponent(/datum/component/adjust_fishing_difficulty, -6)
+
+>>>>>>> tg-pr-88929
 /obj/item/clothing/head/fedora/beige/press
 	name = "press fedora"
 	desc = "An beige fedora with a piece of paper saying \"PRESS\" stuck in its rim."

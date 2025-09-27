@@ -25,7 +25,11 @@ GLOBAL_DATUM_INIT(eigenstate_manager, /datum/eigenstate_manager, new)
 			targets -= target
 			continue
 		if(!subtle)
+<<<<<<< HEAD
 			target.visible_message("[target] fizzes, collapsing it's unique wavefunction into the others!") //If we're in a eigenlink all on our own and are open to new friends
+=======
+			target.visible_message("[target] fizzes, collapsing its unique wavefunction into the others!") //If we're in a eigenlink all on our own and are open to new friends
+>>>>>>> tg-pr-88929
 		remove_eigen_entry(target) //clearup for new stuff
 	//Do we still have targets?
 	if(!length(targets))

@@ -29,4 +29,8 @@ Additional notes:
 
 This tool is considered final.
 
+<<<<<<< HEAD
 Made by EditorRUS/Delta Epsilon from Animus Station, ss13.ru
+=======
+Made by Delta Epsilon from Animus Station, ss13.ru
+>>>>>>> tg-pr-88929

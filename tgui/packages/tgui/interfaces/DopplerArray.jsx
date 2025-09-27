@@ -1,4 +1,16 @@
+import {
+  Box,
+  Button,
+  Flex,
+  LabeledList,
+  NoticeBox,
+  Section,
+  Stack,
+  Tabs,
+} from 'tgui-core/components';
+
 import { useBackend, useSharedState } from '../backend';
+<<<<<<< HEAD
 import {
   Box,
   Button,
@@ -13,6 +25,11 @@ import { Window } from '../layouts';
 
 export const DopplerArray = (props) => {
   const { act, data } = useBackend();
+=======
+import { Window } from '../layouts';
+
+export const DopplerArray = (props) => {
+>>>>>>> tg-pr-88929
   return (
     <Window width={650} height={320} resizable>
       <Window.Content>

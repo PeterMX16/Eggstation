@@ -8,15 +8,24 @@
 	icon_state = "morph"
 	icon_living = "morph"
 	icon_dead = "morph_dead"
+<<<<<<< HEAD
 	istate = ISTATE_HARM | ISTATE_BLOCKING
+=======
+	combat_mode = TRUE
+>>>>>>> tg-pr-88929
 
 	mob_biotypes = MOB_BEAST
 	pass_flags = PASSTABLE
 
 	maxHealth = 150
 	health = 150
+<<<<<<< HEAD
 	habitable_atmos = list("min_oxy" = 0, "max_oxy" = 0, "min_plas" = 0, "max_plas" = 0, "min_co2" = 0, "max_co2" = 0, "min_n2" = 0, "max_n2" = 0)
 	bodytemp_cold_damage_limit = TCMB
+=======
+	habitable_atmos = null
+	minimum_survivable_temperature = TCMB
+>>>>>>> tg-pr-88929
 
 	obj_damage = 50
 	melee_damage_lower = 20
@@ -30,7 +39,11 @@
 
 	attack_verb_continuous = "glomps"
 	attack_verb_simple = "glomp"
+<<<<<<< HEAD
 	attack_sound = 'sound/effects/blobattack.ogg'
+=======
+	attack_sound = 'sound/effects/blob/blobattack.ogg'
+>>>>>>> tg-pr-88929
 	attack_vis_effect = ATTACK_EFFECT_BITE //nom nom nom
 	butcher_results = list(/obj/item/food/meat/slab = 2)
 
@@ -51,14 +64,20 @@
 /mob/living/basic/morph/Initialize(mapload)
 	. = ..()
 	ADD_TRAIT(src, TRAIT_VENTCRAWLER_ALWAYS, INNATE_TRAIT)
+<<<<<<< HEAD
 	RegisterSignal(src, COMSIG_HOSTILE_PRE_ATTACKINGTARGET, PROC_REF(pre_attack))
+=======
+>>>>>>> tg-pr-88929
 	RegisterSignal(src, COMSIG_CLICK_SHIFT, PROC_REF(trigger_ability))
 	RegisterSignal(src, COMSIG_ACTION_DISGUISED_APPEARANCE, PROC_REF(on_disguise))
 	RegisterSignal(src, SIGNAL_REMOVETRAIT(TRAIT_DISGUISED), PROC_REF(on_undisguise))
 
 	AddElement(/datum/element/ai_retaliate)
 	AddElement(/datum/element/content_barfer)
+<<<<<<< HEAD
 	AddElement(/datum/element/prevent_attacking_of_types, GLOB.typecache_general_bad_hostile_attack_targets, "this tastes awful!") // MONKESTATION ADDITION
+=======
+>>>>>>> tg-pr-88929
 
 	disguise_ability = new(src)
 	disguise_ability.Grant(src)
@@ -79,16 +98,24 @@
 		return ..()
 
 	//we hide medical hud while in regular state or an item
+<<<<<<< HEAD
 	var/image/holder = hud_list[HEALTH_HUD]
 	holder.icon_state = null
+=======
+	set_hud_image_state(HEALTH_HUD, null)
+>>>>>>> tg-pr-88929
 
 /mob/living/basic/morph/med_hud_set_status()
 	if(isliving(form_typepath))
 		return ..()
 
 	//we hide medical hud while in regular state or an item
+<<<<<<< HEAD
 	var/image/holder = hud_list[STATUS_HUD]
 	holder.icon_state = null
+=======
+	set_hud_image_state(STATUS_HUD, null)
+>>>>>>> tg-pr-88929
 
 /mob/living/basic/morph/death(gibbed)
 	if(HAS_TRAIT(src, TRAIT_DISGUISED))
@@ -147,6 +174,7 @@
 	SIGNAL_HANDLER
 
 	// linters hate this if it's not async for some reason even though nothing blocks
+<<<<<<< HEAD
 	INVOKE_ASYNC(disguise_ability, TYPE_PROC_REF(/datum/action/cooldown, InterceptClickOn), user = source, target = target)
 	return COMSIG_MOB_CANCEL_CLICKON
 
@@ -157,10 +185,25 @@
 	if(HAS_TRAIT(src, TRAIT_DISGUISED) && (melee_damage_disguised <= 0))
 		balloon_alert(src, "can't attack while disguised!")
 		return COMPONENT_HOSTILE_NO_ATTACK
+=======
+	INVOKE_ASYNC(disguise_ability, TYPE_PROC_REF(/datum/action/cooldown, InterceptClickOn), clicker = source, target = target)
+	return COMSIG_MOB_CANCEL_CLICKON
+
+/// Handles the logic for attacking anything.
+/mob/living/basic/morph/early_melee_attack(atom/target, list/modifiers, ignore_cooldown)
+	. = ..()
+	if(!.)
+		return FALSE
+
+	if(HAS_TRAIT(src, TRAIT_DISGUISED) && (melee_damage_disguised <= 0))
+		balloon_alert(src, "can't attack while disguised!")
+		return FALSE
+>>>>>>> tg-pr-88929
 
 	if(isliving(target)) //Eat Corpses to regen health
 		var/mob/living/living_target = target
 		if(living_target.stat != DEAD)
+<<<<<<< HEAD
 			return
 
 		INVOKE_ASYNC(source, PROC_REF(eat), eatable = living_target, delay = 3 SECONDS, update_health = -50)
@@ -173,6 +216,21 @@
 
 		INVOKE_ASYNC(source, PROC_REF(eat), eatable = item_target, delay = 2 SECONDS)
 		return COMPONENT_HOSTILE_NO_ATTACK
+=======
+			return TRUE
+
+		eat(eatable = living_target, delay = 3 SECONDS, update_health = -50)
+		return FALSE
+
+	if(!isitem(target)) //Eat items just to be annoying
+		return TRUE
+
+	var/obj/item/item_target = target
+	if(item_target.anchored)
+		return TRUE
+	eat(eatable = item_target, delay = 2 SECONDS)
+	return FALSE
+>>>>>>> tg-pr-88929
 
 /// Eat stuff. Delicious. Return TRUE if we ate something, FALSE otherwise.
 /// Required: `eatable` is the thing (item or mob) that we are going to eat.

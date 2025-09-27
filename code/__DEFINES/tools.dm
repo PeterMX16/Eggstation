@@ -51,6 +51,7 @@
  * A helper for checking if an item interaction should be skipped.
  * This is only used explicitly because some interactions may not want to ever be skipped.
  */
+<<<<<<< HEAD
 #define SHOULD_SKIP_INTERACTION(target, item, user) (HAS_TRAIT(target, TRAIT_COMBAT_MODE_SKIP_INTERACTION) && (user.istate & ISTATE_HARM))
 
 // Used by the decal painter to get information about the decal being painted
@@ -62,3 +63,6 @@
 #define DECAL_INFO_DIR "dir"
 /// Alpha of the decal
 #define DECAL_INFO_ALPHA "alpha"
+=======
+#define SHOULD_SKIP_INTERACTION(target, item, user) (HAS_TRAIT(target, TRAIT_COMBAT_MODE_SKIP_INTERACTION) && user.combat_mode)
+>>>>>>> tg-pr-88929

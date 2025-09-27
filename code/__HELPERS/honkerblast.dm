@@ -5,7 +5,7 @@
 	var/list/properly_honked = list()
 	var/list/severely_honked = list()
 
-	playsound(origin_turf, 'sound/items/airhorn.ogg', 100, TRUE)
+	playsound(origin_turf, 'sound/items/airhorn/airhorn.ogg', 100, TRUE)
 
 	for(var/mob/living/carbon/victim in hearers(max(light_range, medium_range, heavy_range), origin_turf))
 		if(!victim.can_hear())
@@ -22,8 +22,13 @@
 		victim.Unconscious(40)
 		victim.Stun(100)
 		victim.adjust_stutter(30 SECONDS)
+<<<<<<< HEAD
 		victim.set_jitter_if_lower(30 SECONDS)
 		var/obj/item/organ/internal/ears/ears = victim.get_organ_slot(ORGAN_SLOT_EARS)
+=======
+		victim.set_jitter_if_lower(1000 SECONDS)
+		var/obj/item/organ/ears/ears = victim.get_organ_slot(ORGAN_SLOT_EARS)
+>>>>>>> tg-pr-88929
 		ears?.adjustEarDamage(10, 15)
 		to_chat(victim, "<font color='red' size='8'>HONK</font>")
 		var/obj/item/clothing/shoes/victim_shoes = victim.get_item_by_slot(ITEM_SLOT_FEET)
@@ -34,14 +39,24 @@
 	for(var/mob/living/carbon/victim in properly_honked)
 		victim.Paralyze(20)
 		victim.Stun(50)
+<<<<<<< HEAD
 		victim.set_jitter_if_lower(20 SECONDS)
 		var/obj/item/organ/internal/ears/ears = victim.get_organ_slot(ORGAN_SLOT_EARS)
+=======
+		victim.set_jitter_if_lower(500 SECONDS)
+		var/obj/item/organ/ears/ears = victim.get_organ_slot(ORGAN_SLOT_EARS)
+>>>>>>> tg-pr-88929
 		ears?.adjustEarDamage(7, 10)
 		to_chat(victim, "<font color='red' size='5'>HONK</font>")
 
 	for(var/mob/living/carbon/victim in lightly_honked)
 		victim.Knockdown(20)
+<<<<<<< HEAD
 		victim.set_jitter_if_lower(10 SECONDS)
 		var/obj/item/organ/internal/ears/ears = victim.get_organ_slot(ORGAN_SLOT_EARS)
+=======
+		victim.set_jitter_if_lower(200 SECONDS)
+		var/obj/item/organ/ears/ears = victim.get_organ_slot(ORGAN_SLOT_EARS)
+>>>>>>> tg-pr-88929
 		ears?.adjustEarDamage(4, 5)
 		to_chat(victim, "<font color='red' size='2'>HONK</font>")

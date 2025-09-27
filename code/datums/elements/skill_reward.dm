@@ -24,14 +24,25 @@
 	if(!LAZYACCESS(modifiers, CTRL_CLICK) && !check_equippable(user)) //Allows other players to drag it around at least.
 		to_chat(user, span_warning("You feel completely and utterly unworthy to even touch \the [source]."))
 		return COMPONENT_CANCEL_ATTACK_CHAIN
+<<<<<<< HEAD
+=======
+	return NONE
+>>>>>>> tg-pr-88929
 
 ///We check if the item can be equipped, otherwise we drop it.
 /datum/element/skill_reward/proc/drop_if_unworthy(datum/source, mob/living/user)
 	SIGNAL_HANDLER
+<<<<<<< HEAD
 	if(check_equippable(user) | !(source in user.get_equipped_items(include_pockets = TRUE, include_accessories = TRUE)))
 		return
 	to_chat(user, span_warning("You feel completely and utterly unworthy to even touch \the [source]."))
 	user.dropItemToGround(src, TRUE)
+=======
+	if(check_equippable(user) || !(source in user.get_equipped_items(INCLUDE_POCKETS | INCLUDE_ACCESSORIES)))
+		return NONE
+	to_chat(user, span_warning("You feel completely and utterly unworthy to even touch \the [source]."))
+	user.dropItemToGround(source, TRUE)
+>>>>>>> tg-pr-88929
 	return COMPONENT_EQUIPPED_FAILED
 
 /datum/element/skill_reward/proc/check_equippable(mob/living/user)

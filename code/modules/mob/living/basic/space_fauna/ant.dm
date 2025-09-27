@@ -15,7 +15,11 @@
 	melee_damage_upper = 10
 	attack_verb_continuous = "bites"
 	attack_verb_simple = "bite"
+<<<<<<< HEAD
 	attack_sound = 'sound/weapons/bite.ogg'
+=======
+	attack_sound = 'sound/items/weapons/bite.ogg'
+>>>>>>> tg-pr-88929
 	attack_vis_effect = ATTACK_EFFECT_BITE
 	butcher_results = list(/obj/effect/decal/cleanable/ants = 3) //It's just a bunch of ants glued together into a larger ant
 	response_help_continuous = "pets"
@@ -29,19 +33,45 @@
 	can_be_held = FALSE
 	health = 100
 	maxHealth = 100
+<<<<<<< HEAD
 	light_outer_range = 1.5 // Bioluminescence!
 	bodytemp_cold_damage_limit = T20C - 100
 	bodytemp_heat_damage_limit = T20C + 120
+=======
+	light_range = 1.5 // Bioluminescence!
+	minimum_survivable_temperature = T20C - 100
+	maximum_survivable_temperature = T20C + 120
+>>>>>>> tg-pr-88929
 	light_color = "#d43229" // The ants that comprise the giant ant still glow red despite the sludge.
 
 	ai_controller = /datum/ai_controller/basic_controller/ant
 
+<<<<<<< HEAD
 /mob/living/basic/ant/Initialize(mapload)
 	. = ..()
 	ADD_TRAIT(src, TRAIT_VENTCRAWLER_ALWAYS, INNATE_TRAIT)
 	AddElement(/datum/element/pet_bonus, "clacks happily!")
 	AddElement(/datum/element/ai_retaliate)
 	AddElement(/datum/element/footstep, FOOTSTEP_MOB_CLAW)
+=======
+/datum/emote/ant
+	mob_type_allowed_typecache = /mob/living/basic/ant
+	mob_type_blacklist_typecache = list()
+
+/datum/emote/ant/clack
+	key = "clack"
+	key_third_person = "clacks"
+	message = "clacks happily!"
+	emote_type = EMOTE_VISIBLE | EMOTE_AUDIBLE
+
+/mob/living/basic/ant/Initialize(mapload)
+	. = ..()
+	ADD_TRAIT(src, TRAIT_VENTCRAWLER_ALWAYS, INNATE_TRAIT)
+	AddElement(/datum/element/pet_bonus, "clack")
+	AddElement(/datum/element/ai_retaliate)
+	AddElement(/datum/element/footstep, FOOTSTEP_MOB_CLAW)
+	AddElement(/datum/element/basic_allergenic_attack, allergen = BUGS, allergen_chance = 20, histamine_add = 5)
+>>>>>>> tg-pr-88929
 
 /datum/ai_controller/basic_controller/ant
 	blackboard = list(

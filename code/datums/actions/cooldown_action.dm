@@ -11,8 +11,8 @@
 	var/panel
 	/// The default cooldown applied when StartCooldown() is called
 	var/cooldown_time = 0
-	/// The default melee cooldown applied after the ability ends
-	var/melee_cooldown_time
+	/// The default melee cooldown applied after the ability ends. If set to null, copies cooldown_time.
+	var/melee_cooldown_time = 0
 	/// The actual next time the owner of this action can melee
 	var/next_melee_use_time = 0
 	/// Whether or not you want the cooldown for the ability to display in text form
@@ -171,7 +171,12 @@
 	if(isnum(override_cooldown_time))
 		next_use_time = world.time + (override_cooldown_time * cooldown_multiplier)
 	else
+<<<<<<< HEAD
 		next_use_time = world.time + (cooldown_time * cooldown_multiplier)
+=======
+		next_use_time = world.time + cooldown_time
+	// Don't start a cooldown if we have a cooldown time of 0 seconds
+>>>>>>> tg-pr-88929
 	if(next_use_time == world.time)
 		return
 	build_all_button_icons(UPDATE_BUTTON_STATUS)
@@ -180,7 +185,11 @@
 /// Starts a cooldown time for other abilities that share a cooldown with this. Has some niche usage with more complicated attack ai!
 /// Will use default cooldown time if an override is not specified
 /datum/action/cooldown/proc/StartCooldownOthers(override_cooldown_time)
+<<<<<<< HEAD
 	if(!length(owner.actions))
+=======
+	if(!length(owner?.actions))
+>>>>>>> tg-pr-88929
 		return // Possible if they have an action they don't control
 	for(var/datum/action/cooldown/shared_ability in owner.actions - src)
 		if(!(shared_cooldown & shared_ability.shared_cooldown))
@@ -250,7 +259,11 @@
 	return PreActivate(user)
 
 /// Intercepts client owner clicks to activate the ability
+<<<<<<< HEAD
 /datum/action/cooldown/proc/InterceptClickOn(mob/living/user, params, atom/target)
+=======
+/datum/action/cooldown/proc/InterceptClickOn(mob/living/clicker, params, atom/target)
+>>>>>>> tg-pr-88929
 	if(!IsAvailable(feedback = TRUE))
 		return FALSE
 	if(!target)
@@ -261,8 +274,13 @@
 
 	// And if we reach here, the action was complete successfully
 	if(unset_after_click)
+<<<<<<< HEAD
 		unset_click_ability(user, refund_cooldown = FALSE)
 	user.next_click = world.time + click_cd_override
+=======
+		unset_click_ability(clicker, refund_cooldown = FALSE)
+	clicker.next_click = world.time + click_cd_override
+>>>>>>> tg-pr-88929
 
 	return TRUE
 

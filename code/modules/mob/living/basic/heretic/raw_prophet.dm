@@ -15,12 +15,22 @@
 	maxHealth = 65
 	health = 65
 	sight = SEE_MOBS|SEE_OBJS|SEE_TURFS
+<<<<<<< HEAD
 	/// Some ability we use to make people go blind
 	var/blind_action_type = /datum/action/cooldown/spell/pointed/blind/eldritch
+=======
+	/// List of innate abilities we have to add.
+	var/static/list/innate_abilities = list(
+		/datum/action/cooldown/spell/jaunt/ethereal_jaunt/ash/long = null,
+		/datum/action/cooldown/spell/list_target/telepathy/eldritch = null,
+		/datum/action/innate/expand_sight = null,
+	)
+>>>>>>> tg-pr-88929
 
 /mob/living/basic/heretic_summon/raw_prophet/Initialize(mapload)
 	. = ..()
 	AddElement(/datum/element/wheel)
+<<<<<<< HEAD
 	var/static/list/body_parts = list(/obj/effect/gibspawner/human, /obj/item/bodypart/arm/left, /obj/item/organ/internal/eyes)
 	AddElement(/datum/element/death_drops, body_parts)
 	AddComponent(/datum/component/focused_attacker)
@@ -37,6 +47,33 @@
 	var/datum/action/cooldown/blind = new blind_action_type(src)
 	blind.Grant(src)
 	ai_controller?.set_blackboard_key(BB_TARGETED_ACTION, blind)
+=======
+	var/static/list/body_parts = list(/obj/effect/gibspawner/human, /obj/item/bodypart/arm/left, /obj/item/organ/eyes)
+	AddElement(/datum/element/death_drops, body_parts)
+	AddComponent(/datum/component/focused_attacker)
+	var/on_link_message = "You feel something new enter your sphere of mind... \
+		You hear whispers of people far away, screeches of horror and a huming of welcome to [src]'s Mansus Link."
+	var/on_unlink_message = "Your mind shatters as [src]'s Mansus Link leaves your mind."
+	AddComponent( \
+		/datum/component/mind_linker/active_linking, \
+		network_name = "Mansus Link", \
+		chat_color = "#568b00", \
+		post_unlink_callback = CALLBACK(src, PROC_REF(after_unlink)), \
+		speech_action_background_icon_state = "bg_heretic", \
+		speech_action_overlay_state = "bg_heretic_border", \
+		linker_action_path = /datum/action/cooldown/spell/pointed/manse_link, \
+		link_message = on_link_message, \
+		unlink_message = on_unlink_message, \
+	)
+
+	grant_actions_by_list(get_innate_abilities())
+
+/// Returns a list of abilities that we should add.
+/mob/living/basic/heretic_summon/raw_prophet/proc/get_innate_abilities()
+	var/list/returnable_list = innate_abilities.Copy()
+	returnable_list += list(/datum/action/cooldown/spell/pointed/blind/eldritch = BB_TARGETED_ACTION)
+	return returnable_list
+>>>>>>> tg-pr-88929
 
 /*
  * Callback for the mind_linker component.
@@ -63,7 +100,15 @@
 /// NPC variant with a less bullshit ability
 /mob/living/basic/heretic_summon/raw_prophet/ruins
 	ai_controller = /datum/ai_controller/basic_controller/raw_prophet
+<<<<<<< HEAD
 	blind_action_type = /datum/action/cooldown/mob_cooldown/watcher_gaze
+=======
+
+/mob/living/basic/heretic_summon/raw_prophet/ruins/get_innate_abilities()
+	var/list/returnable_list = innate_abilities.Copy()
+	returnable_list += list(/datum/action/cooldown/mob_cooldown/watcher_gaze = BB_TARGETED_ACTION)
+	return returnable_list
+>>>>>>> tg-pr-88929
 
 /// Walk and attack people, blind them when we can
 /datum/ai_controller/basic_controller/raw_prophet

@@ -14,10 +14,16 @@
 
 	return INITIALIZE_HINT_LATELOAD
 
+<<<<<<< HEAD
 /obj/machinery/byteforge/LateInitialize()
 	. = ..()
 
 	byteforge_particles = mutable_appearance(initial(icon), "on_particles", ABOVE_MOB_LAYER)
+=======
+/obj/machinery/byteforge/post_machine_initialize()
+	. = ..()
+
+>>>>>>> tg-pr-88929
 	setup_particles()
 
 /obj/machinery/byteforge/update_appearance(updates)
@@ -27,7 +33,11 @@
 
 /// Does some sparks after it's done
 /obj/machinery/byteforge/proc/flash(atom/movable/thing)
+<<<<<<< HEAD
 	playsound(src, 'sound/magic/blink.ogg', 50, TRUE)
+=======
+	playsound(src, 'sound/effects/magic/blink.ogg', 50, TRUE)
+>>>>>>> tg-pr-88929
 
 	var/datum/effect_system/spark_spread/quantum/sparks = new()
 	sparks.set_up(5, 1, loc)
@@ -40,7 +50,11 @@
 	var/mutable_appearance/lighting = mutable_appearance(initial(icon), "on_overlay[angry ? "_angry" : ""]")
 	flick_overlay_view(lighting, 1 SECONDS)
 
+<<<<<<< HEAD
 	set_light(l_outer_range = 2, l_power = 1.5, l_color = angry ? LIGHT_COLOR_BUBBLEGUM : LIGHT_COLOR_BABY_BLUE, l_on = TRUE)
+=======
+	set_light(l_range = 2, l_power = 1.5, l_color = angry ? LIGHT_COLOR_BUBBLEGUM : LIGHT_COLOR_BABY_BLUE, l_on = TRUE)
+>>>>>>> tg-pr-88929
 
 /// Adds the particle overlays to the byteforge
 /obj/machinery/byteforge/proc/setup_particles(angry = FALSE)
@@ -51,6 +65,7 @@
 	if(is_operational)
 		add_overlay(byteforge_particles)
 
+<<<<<<< HEAD
 /// Begins spawning the crate - lights, overlays, etc
 /obj/machinery/byteforge/proc/start_to_spawn(obj/structure/closet/crate/secure/bitrunning/encrypted/cache)
 	addtimer(CALLBACK(src, PROC_REF(spawn_crate), cache), 1 SECONDS, TIMER_UNIQUE|TIMER_OVERRIDE|TIMER_STOPPABLE)
@@ -73,3 +88,20 @@
 
 	cache.forceMove(loc)
 	set_light(l_on = FALSE)
+=======
+/// Forge is done processing
+/obj/machinery/byteforge/proc/spawn_cache(obj/cache)
+	if(QDELETED(cache))
+		return
+
+	flash()
+
+	cache.forceMove(loc)
+
+/// Timed flash
+/obj/machinery/byteforge/proc/start_to_spawn(obj/cache)
+	flicker()
+
+	addtimer(CALLBACK(src, PROC_REF(spawn_cache), cache), 1 SECONDS)
+
+>>>>>>> tg-pr-88929

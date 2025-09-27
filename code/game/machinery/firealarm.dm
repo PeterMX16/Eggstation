@@ -5,7 +5,7 @@
 /obj/item/wallframe/firealarm
 	name = "fire alarm frame"
 	desc = "Used for building fire alarms."
-	icon = 'icons/obj/firealarm.dmi'
+	icon = 'icons/obj/machines/wallmounts.dmi'
 	icon_state = "fire_bitem"
 	result_path = /obj/machinery/firealarm
 	pixel_shift = 26
@@ -17,7 +17,7 @@
 /obj/machinery/firealarm
 	name = "fire alarm"
 	desc = "Pull this in case of emergency. Thus, keep pulling it forever."
-	icon = 'icons/obj/firealarm.dmi'
+	icon = 'icons/obj/machines/wallmounts.dmi'
 	icon_state = "fire0"
 	max_integrity = 250
 	integrity_failure = 0.4
@@ -32,12 +32,15 @@
 	light_outer_range = 1.6
 	light_color = LIGHT_COLOR_ELECTRIC_CYAN
 
-	//Trick to get the glowing overlay visible from a distance
-	luminosity = 1
 	//We want to use area sensitivity, let us
 	always_area_sensitive = TRUE
+<<<<<<< HEAD
 	///Buildstate for contruction steps.
 	var/buildstage = ALARM_COMPLETE
+=======
+	///Buildstate for contruction steps
+	var/buildstage = FIRE_ALARM_BUILD_SECURED
+>>>>>>> tg-pr-88929
 	///Our home area, set in Init. Due to loading step order, this seems to be null very early in the server setup process, which is why some procs use `my_area?` for var or list checks.
 	var/area/my_area = null
 	///looping sound datum for our fire alarm siren.
@@ -55,7 +58,11 @@
 	. = ..()
 	id_tag = assign_random_name()
 	if(building)
+<<<<<<< HEAD
 		buildstage = ALARM_NO_CIRCUIT
+=======
+		buildstage = FIRE_ALARM_BUILD_NO_CIRCUIT
+>>>>>>> tg-pr-88929
 		set_panel_open(TRUE)
 	if(name == initial(name))
 		update_name()
@@ -85,7 +92,15 @@
 		), \
 	)
 
+	var/static/list/hovering_mob_typechecks = list(
+		/mob/living/silicon = list(
+			SCREENTIP_CONTEXT_CTRL_LMB = "Toggle thermal sensors, which control auto-deploy",
+		)
+	)
+	AddElement(/datum/element/contextual_screentip_mob_typechecks, hovering_mob_typechecks)
+	find_and_hang_on_wall()
 	update_appearance()
+
 
 /obj/machinery/firealarm/Destroy()
 	if(my_area)
@@ -153,9 +168,9 @@
 /obj/machinery/firealarm/update_appearance(updates)
 	. = ..()
 	if((my_area?.fire || LAZYLEN(my_area?.active_firelocks)) && !(obj_flags & EMAGGED) && !(machine_stat & (BROKEN|NOPOWER)))
-		set_light(l_power = 3)
+		set_light(l_range = 2.5, l_power = 1.5)
 	else
-		set_light(l_power = 1)
+		set_light(l_range = 1.6, l_power = 1)
 
 /obj/machinery/firealarm/update_icon_state()
 	if(panel_open)
@@ -184,6 +199,7 @@
 		if(my_area?.fire_detect) //If this is false, someone disabled it. Leave the light missing, a good hint to anyone paying attention.
 			if(is_station_level(z))
 				. += emissive_appearance(icon, "fire_level_e", src, alpha = src.alpha)
+<<<<<<< HEAD
 				switch(SSsecurity_level.get_current_level_as_number())
 					if(SEC_LEVEL_GREEN)
 						set_light(l_color = LIGHT_COLOR_BLUEGREEN)
@@ -213,6 +229,9 @@
 						set_light(l_color = LIGHT_COLOR_FAINT_BLUE)
 						. += mutable_appearance(icon, "fire_offstation")
 
+=======
+				set_light(l_color = SSsecurity_level?.current_security_level?.fire_alarm_light_color || LIGHT_COLOR_BLUEGREEN)
+>>>>>>> tg-pr-88929
 			else
 				. += mutable_appearance(icon, "fire_offstation")
 				. += emissive_appearance(icon, "fire_level_e", src, alpha = src.alpha)
@@ -337,7 +356,11 @@
 	addtimer(CALLBACK(src, PROC_REF(ant_trigger)), rand(2,6) SECONDS)
 
 /obj/machinery/firealarm/attack_hand(mob/user, list/modifiers)
+<<<<<<< HEAD
 	if(buildstage != ALARM_COMPLETE)
+=======
+	if(buildstage != FIRE_ALARM_BUILD_SECURED)
+>>>>>>> tg-pr-88929
 		return
 	. = ..()
 	add_fingerprint(user)
@@ -348,7 +371,11 @@
 	alarm(user)
 
 /obj/machinery/firealarm/attack_hand_secondary(mob/user, list/modifiers)
+<<<<<<< HEAD
 	if(buildstage != ALARM_COMPLETE)
+=======
+	if(buildstage != FIRE_ALARM_BUILD_SECURED)
+>>>>>>> tg-pr-88929
 		return ..()
 	add_fingerprint(user)
 	reset(user)
@@ -369,7 +396,11 @@
 /obj/machinery/firealarm/attackby(obj/item/tool, mob/living/user, params)
 	add_fingerprint(user)
 
+<<<<<<< HEAD
 	if(tool.tool_behaviour == TOOL_SCREWDRIVER && buildstage == ALARM_COMPLETE)
+=======
+	if(tool.tool_behaviour == TOOL_SCREWDRIVER && buildstage == FIRE_ALARM_BUILD_SECURED)
+>>>>>>> tg-pr-88929
 		tool.play_tool_sound(src)
 		toggle_panel_open()
 		to_chat(user, span_notice("The wires have been [panel_open ? "exposed" : "unexposed"]."))
@@ -380,7 +411,7 @@
 
 		if(tool.tool_behaviour == TOOL_WELDER && !(user.istate & ISTATE_HARM))
 			if(atom_integrity < max_integrity)
-				if(!tool.tool_start_check(user, amount=0))
+				if(!tool.tool_start_check(user, amount=1))
 					return
 
 				to_chat(user, span_notice("You begin repairing [src]..."))
@@ -397,7 +428,11 @@
 					toggle_fire_detect(user)
 					return
 				if(tool.tool_behaviour == TOOL_WIRECUTTER)
+<<<<<<< HEAD
 					buildstage = ALARM_UNWIRED
+=======
+					buildstage = FIRE_ALARM_BUILD_NO_WIRES
+>>>>>>> tg-pr-88929
 					tool.play_tool_sound(src)
 					new /obj/item/stack/cable_coil(user.loc, 5)
 					to_chat(user, span_notice("You cut the wires from \the [src]."))
@@ -418,7 +453,11 @@
 						to_chat(user, span_warning("You need more cable for this!"))
 					else
 						coil.use(5)
+<<<<<<< HEAD
 						buildstage = ALARM_COMPLETE
+=======
+						buildstage = FIRE_ALARM_BUILD_SECURED
+>>>>>>> tg-pr-88929
 						to_chat(user, span_notice("You wire \the [src]."))
 						update_appearance()
 					return
@@ -427,31 +466,47 @@
 					user.visible_message(span_notice("[user.name] removes the electronics from [src.name]."), \
 										span_notice("You start prying out the circuit..."))
 					if(tool.use_tool(src, user, 20, volume=50))
+<<<<<<< HEAD
 						if(buildstage == ALARM_UNWIRED)
+=======
+						if(buildstage == FIRE_ALARM_BUILD_NO_WIRES)
+>>>>>>> tg-pr-88929
 							if(machine_stat & BROKEN)
 								to_chat(user, span_notice("You remove the destroyed circuit."))
 								set_machine_stat(machine_stat & ~BROKEN)
 							else
 								to_chat(user, span_notice("You pry out the circuit."))
 								new /obj/item/electronics/firealarm(user.loc)
+<<<<<<< HEAD
 							buildstage = ALARM_NO_CIRCUIT
+=======
+							buildstage = FIRE_ALARM_BUILD_NO_CIRCUIT
+>>>>>>> tg-pr-88929
 							update_appearance()
 					return
 			if(ALARM_NO_CIRCUIT)
 				if(istype(tool, /obj/item/electronics/firealarm))
 					to_chat(user, span_notice("You insert the circuit."))
 					qdel(tool)
+<<<<<<< HEAD
 					buildstage = ALARM_UNWIRED
+=======
+					buildstage = FIRE_ALARM_BUILD_NO_WIRES
+>>>>>>> tg-pr-88929
 					update_appearance()
 					return
 
 				else if(istype(tool, /obj/item/electroadaptive_pseudocircuit))
 					var/obj/item/electroadaptive_pseudocircuit/pseudoc = tool
-					if(!pseudoc.adapt_circuit(user, 15))
+					if(!pseudoc.adapt_circuit(user, circuit_cost = 0.015 * STANDARD_CELL_CHARGE))
 						return
 					user.visible_message(span_notice("[user] fabricates a circuit and places it into [src]."), \
 					span_notice("You adapt a fire alarm circuit and slot it into the assembly."))
+<<<<<<< HEAD
 					buildstage = ALARM_UNWIRED
+=======
+					buildstage = FIRE_ALARM_BUILD_NO_WIRES
+>>>>>>> tg-pr-88929
 					update_appearance()
 					return
 
@@ -466,16 +521,26 @@
 	return ..()
 
 /obj/machinery/firealarm/rcd_vals(mob/user, obj/item/construction/rcd/the_rcd)
+<<<<<<< HEAD
 	if((buildstage == ALARM_NO_CIRCUIT) && (the_rcd.upgrade & RCD_UPGRADE_SIMPLE_CIRCUITS))
 		return list("mode" = RCD_WALLFRAME, "delay" = 2 SECONDS, "cost" = 1)
+=======
+	if((buildstage == FIRE_ALARM_BUILD_NO_CIRCUIT) && (the_rcd.upgrade & RCD_UPGRADE_SIMPLE_CIRCUITS))
+		return list("delay" = 2 SECONDS, "cost" = 1)
+>>>>>>> tg-pr-88929
 	return FALSE
 
-/obj/machinery/firealarm/rcd_act(mob/user, obj/item/construction/rcd/the_rcd, passed_mode)
-	switch(passed_mode)
+/obj/machinery/firealarm/rcd_act(mob/user, obj/item/construction/rcd/the_rcd, list/rcd_data)
+	switch(rcd_data["[RCD_DESIGN_MODE]"])
 		if(RCD_WALLFRAME)
+<<<<<<< HEAD
 			user.visible_message(span_notice("[user] fabricates a circuit and places it into [src]."), \
 			span_notice("You adapt a fire alarm circuit and slot it into the assembly."))
 			buildstage = ALARM_UNWIRED
+=======
+			balloon_alert(user, "circuit installed")
+			buildstage = FIRE_ALARM_BUILD_NO_WIRES
+>>>>>>> tg-pr-88929
 			update_appearance()
 			return TRUE
 	return FALSE
@@ -483,29 +548,37 @@
 /obj/machinery/firealarm/take_damage(damage_amount, damage_type = BRUTE, damage_flag = 0, sound_effect = 1, attack_dir)
 	. = ..()
 	if(.) //damage received
+<<<<<<< HEAD
 		if(atom_integrity > 0 && !(machine_stat & BROKEN) && buildstage != ALARM_NO_CIRCUIT)
 			if(prob(33))
+=======
+		if(atom_integrity > 0 && !(machine_stat & BROKEN) && buildstage != FIRE_ALARM_BUILD_NO_CIRCUIT)
+			if(prob(33) && buildstage == FIRE_ALARM_BUILD_SECURED) //require fully wired electronics to set of the alarms
+>>>>>>> tg-pr-88929
 				alarm()
 
-/obj/machinery/firealarm/singularity_pull(S, current_size)
+/obj/machinery/firealarm/singularity_pull(atom/singularity, current_size)
 	if (current_size >= STAGE_FIVE) // If the singulo is strong enough to pull anchored objects, the fire alarm experiences integrity failure
 		deconstruct()
 	return ..()
 
 /obj/machinery/firealarm/atom_break(damage_flag)
+<<<<<<< HEAD
 	if(buildstage == ALARM_NO_CIRCUIT) //can't break the electronics if there isn't any inside.
+=======
+	if(buildstage == FIRE_ALARM_BUILD_NO_CIRCUIT) //can't break the electronics if there isn't any inside.
+>>>>>>> tg-pr-88929
 		return
 	return ..()
 
-/obj/machinery/firealarm/deconstruct(disassembled = TRUE)
-	if(!(flags_1 & NODECONSTRUCT_1))
-		new /obj/item/stack/sheet/iron(loc, 1)
-		if(!(machine_stat & BROKEN))
-			var/obj/item/item = new /obj/item/electronics/firealarm(loc)
-			if(!disassembled)
-				item.update_integrity(item.max_integrity * 0.5)
+/obj/machinery/firealarm/on_deconstruction(disassembled)
+	new /obj/item/stack/sheet/iron(loc, 1)
+	if(buildstage > FIRE_ALARM_BUILD_NO_CIRCUIT)
+		var/obj/item/item = new /obj/item/electronics/firealarm(loc)
+		if(!disassembled)
+			item.update_integrity(item.max_integrity * 0.5)
+	if(buildstage > FIRE_ALARM_BUILD_NO_WIRES)
 		new /obj/item/stack/cable_coil(loc, 3)
-	qdel(src)
 
 // Allows users to examine the state of the thermal sensor
 /obj/machinery/firealarm/examine(mob/user)
@@ -527,7 +600,7 @@
 
 // Allows Silicons to disable thermal sensor
 /obj/machinery/firealarm/BorgCtrlClick(mob/living/silicon/robot/user)
-	if(get_dist(src,user) <= user.interaction_range)
+	if(get_dist(src,user) <= user.interaction_range && !(user.control_disabled))
 		AICtrlClick(user)
 		return
 	return ..()

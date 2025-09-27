@@ -4,6 +4,7 @@
 	icon = 'icons/obj/service/janitor.dmi'
 	icon_state = "mop"
 	inhand_icon_state = "mop"
+	icon_angle = 135
 	lefthand_file = 'icons/mob/inhands/equipment/custodial_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/custodial_righthand.dmi'
 	force = 8
@@ -62,7 +63,11 @@
 	if(reagents.total_volume < 0.1)
 		cleaner.balloon_alert(cleaner, "mop is dry!")
 		return CLEAN_BLOCKED
+<<<<<<< HEAD
 	if(reagents.has_chemical_flag(REAGENT_CLEANS, amount = 1))
+=======
+	if(reagents.has_reagent(amount = 1, chemical_flags = REAGENT_CLEANS))
+>>>>>>> tg-pr-88929
 		return CLEAN_ALLOWED
 	return CLEAN_BLOCKED|CLEAN_NO_XP
 
@@ -114,7 +119,7 @@
 		START_PROCESSING(SSobj, src)
 	else
 		STOP_PROCESSING(SSobj,src)
-	to_chat(user, span_notice("You set the condenser switch to the '[refill_enabled ? "ON" : "OFF"]' position."))
+	user.balloon_alert(user, "condenser switch [refill_enabled ? "on" : "off"]")
 	playsound(user, 'sound/machines/click.ogg', 30, TRUE)
 
 /obj/item/mop/advanced/process(seconds_per_tick)

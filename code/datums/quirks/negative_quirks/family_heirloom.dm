@@ -5,12 +5,19 @@
 	value = -2
 	medical_record_text = "Patient demonstrates an unnatural attachment to a family heirloom."
 	hardcore_value = 1
+<<<<<<< HEAD
 	quirk_flags = QUIRK_HUMAN_ONLY | QUIRK_PROCESSES | QUIRK_MOODLET_BASED
 	mail_goodies = list(/obj/item/storage/secure/briefcase)
 	/// A weak reference to our heirloom.
 	var/datum/weakref/heirloom
 	/// If we had the heirloom the last time we checked or not
 	var/last_has_heirloom
+=======
+	quirk_flags = QUIRK_HUMAN_ONLY|QUIRK_PROCESSES|QUIRK_MOODLET_BASED
+	/// A weak reference to our heirloom.
+	var/datum/weakref/heirloom
+	mail_goodies = list(/obj/item/storage/briefcase/secure)
+>>>>>>> tg-pr-88929
 
 /datum/quirk/item_quirk/family_heirloom/add_unique(client/client_source)
 	var/mob/living/carbon/human/human_holder = quirk_holder
@@ -57,22 +64,35 @@
 	return ..()
 
 /datum/quirk/item_quirk/family_heirloom/process()
+<<<<<<< HEAD
 	var/obj/family_heirloom = heirloom?.resolve()
 
 	var/has_heirloom = family_heirloom && quirk_holder.contains(family_heirloom)
 	if(has_heirloom == last_has_heirloom && !isnull(last_has_heirloom))
 		return
 	if(has_heirloom)
+=======
+	if(quirk_holder.stat == DEAD)
+		return
+
+	var/obj/family_heirloom = heirloom?.resolve()
+
+	if(family_heirloom && (family_heirloom in quirk_holder.get_all_contents()))
+>>>>>>> tg-pr-88929
 		quirk_holder.clear_mood_event("family_heirloom_missing")
 		quirk_holder.add_mood_event("family_heirloom", /datum/mood_event/family_heirloom)
 	else
 		quirk_holder.clear_mood_event("family_heirloom")
 		quirk_holder.add_mood_event("family_heirloom_missing", /datum/mood_event/family_heirloom_missing)
+<<<<<<< HEAD
 	last_has_heirloom = has_heirloom
+=======
+>>>>>>> tg-pr-88929
 
 /datum/quirk/item_quirk/family_heirloom/remove()
 	quirk_holder.clear_mood_event("family_heirloom_missing")
 	quirk_holder.clear_mood_event("family_heirloom")
+<<<<<<< HEAD
 	last_has_heirloom = null
 
 /datum/quirk/item_quirk/family_heirloom/clone_data()
@@ -80,3 +100,5 @@
 
 /datum/quirk/item_quirk/family_heirloom/on_clone(mob/living/carbon/human/cloned_mob, client/client_source, data)
 	heirloom = data
+=======
+>>>>>>> tg-pr-88929

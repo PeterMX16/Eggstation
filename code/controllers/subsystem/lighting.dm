@@ -6,6 +6,7 @@ SUBSYSTEM_DEF(lighting)
 	var/static/list/sources_queue = list() // List of lighting sources queued for update.
 	var/static/list/corners_queue = list() // List of lighting corners queued for update.
 	var/static/list/objects_queue = list() // List of lighting objects queued for update.
+	var/static/list/current_sources = list()
 #ifdef VISUALIZE_LIGHT_UPDATES
 	var/allow_duped_values = FALSE
 	var/allow_duped_corners = FALSE
@@ -24,20 +25,47 @@ SUBSYSTEM_DEF(lighting)
 
 	return SS_INIT_SUCCESS
 
+
+/datum/controller/subsystem/lighting/proc/create_all_lighting_objects()
+	for(var/area/area as anything in GLOB.areas)
+		if(!area.static_lighting)
+			continue
+		for (var/list/zlevel_turfs as anything in area.get_zlevel_turf_lists())
+			for(var/turf/area_turf as anything in zlevel_turfs)
+				if(area_turf.space_lit)
+					continue
+				new /datum/lighting_object(area_turf)
+			CHECK_TICK
+		CHECK_TICK
+
 /datum/controller/subsystem/lighting/fire(resumed, init_tick_checks)
 	MC_SPLIT_TICK_INIT(3)
 	if(!init_tick_checks)
 		MC_SPLIT_TICK
 
+<<<<<<< HEAD
 	var/list/queue
 	var/i = 0
 	// UPDATE SOURCE QUEUE
 	queue = sources_queue
+=======
+	if(!resumed)
+		current_sources = sources_queue
+		sources_queue = list()
+
+	// UPDATE SOURCE QUEUE
+	var/i = 0
+	var/list/queue = current_sources
+>>>>>>> tg-pr-88929
 	while(i < length(queue)) //we don't use for loop here because i cannot be changed during an iteration
 		i += 1
 
 		var/datum/light_source/L = queue[i]
+<<<<<<< HEAD
 		L?.update_corners()
+=======
+		L.update_corners()
+>>>>>>> tg-pr-88929
 		if(!QDELETED(L))
 			L.needs_update = LIGHTING_NO_UPDATE
 		else
@@ -63,12 +91,20 @@ SUBSYSTEM_DEF(lighting)
 	queue = corners_queue
 	while(i < length(queue)) //we don't use for loop here because i cannot be changed during an iteration
 		i += 1
+<<<<<<< HEAD
 
 		var/datum/lighting_corner/C = queue[i]
 		if(!QDELETED(C))
 			C.needs_update = FALSE //update_objects() can call qdel if the corner is storing no data
 			C.update_objects()
 
+=======
+
+		var/datum/lighting_corner/C = queue[i]
+		C.needs_update = FALSE //update_objects() can call qdel if the corner is storing no data
+		C.update_objects()
+
+>>>>>>> tg-pr-88929
 		// We unroll TICK_CHECK here so we can clear out the queue to ensure any removals/additions when sleeping don't fuck us
 		if(init_tick_checks)
 			if(!TICK_CHECK)

@@ -76,9 +76,14 @@
 
 /// Start processing health regeneration, and show animation if provided
 /datum/component/regenerator/proc/start_regenerating()
+<<<<<<< HEAD
 	. = TRUE
 	if (!should_be_regenning(parent))
 		return FALSE
+=======
+	if (!should_be_regenning(parent))
+		return
+>>>>>>> tg-pr-88929
 	var/mob/living/living_parent = parent
 	living_parent.visible_message(span_notice("[living_parent]'s wounds begin to knit closed!"))
 	START_PROCESSING(SSobj, src)

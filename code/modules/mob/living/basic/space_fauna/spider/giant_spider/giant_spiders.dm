@@ -19,7 +19,18 @@
 	melee_damage_upper = 25
 	gold_core_spawnable = HOSTILE_SPAWN
 	ai_controller = /datum/ai_controller/basic_controller/giant_spider
+<<<<<<< HEAD
 
+=======
+	bite_injection_flags = INJECT_CHECK_PENETRATE_THICK
+	max_grab = GRAB_AGGRESSIVE
+	/// Actions to grant on Initialize
+	var/list/innate_actions = null
+
+/mob/living/basic/spider/giant/Initialize(mapload)
+	. = ..()
+	grant_actions_by_list(innate_actions)
+>>>>>>> tg-pr-88929
 
 /**
  * ### Ambush Spider
@@ -29,6 +40,10 @@
 /mob/living/basic/spider/giant/ambush
 	name = "ambush spider"
 	desc = "Furry and white, it makes you shudder to look at it. This one has sparkling pink eyes."
+<<<<<<< HEAD
+=======
+	icon = 'icons/mob/simple/arachnoid.dmi'
+>>>>>>> tg-pr-88929
 	icon_state = "ambush"
 	icon_living = "ambush"
 	icon_dead = "ambush_dead"
@@ -36,11 +51,20 @@
 	maxHealth = 125
 	health = 125
 	obj_damage = 45
+<<<<<<< HEAD
+=======
+
+>>>>>>> tg-pr-88929
 	melee_damage_lower = 25
 	melee_damage_upper = 30
 	speed = 5
 	player_speed_modifier = -3.1
+<<<<<<< HEAD
 	menu_description = "Slow spider variant specializing in stalking and ambushing prey, above avarage health and damage with a strong grip."
+=======
+	menu_description = "Slow spider, with a strong disarming pull and above average health and damage."
+	innate_actions = list(/datum/action/cooldown/mob_cooldown/sneak/spider)
+>>>>>>> tg-pr-88929
 
 /mob/living/basic/spider/giant/ambush/Initialize(mapload)
 	. = ..()
@@ -48,9 +72,12 @@
 
 	AddElement(/datum/element/web_walker, /datum/movespeed_modifier/slow_web)
 
+<<<<<<< HEAD
 	var/datum/action/cooldown/sneak/spider/sneak_web = new(src)
 	sneak_web.Grant(src)
 
+=======
+>>>>>>> tg-pr-88929
 /**
  * ### Guard Spider
  * A subtype of the giant spider which is similar on every single way,
@@ -59,6 +86,10 @@
 /mob/living/basic/spider/giant/guard
 	name = "guard spider"
 	desc = "Furry and black, it makes you shudder to look at it. This one has deep red eyes."
+<<<<<<< HEAD
+=======
+	icon = 'icons/mob/simple/arachnoid.dmi'
+>>>>>>> tg-pr-88929
 	icon_state = "guard"
 	icon_living = "guard"
 	icon_dead = "guard_dead"
@@ -70,6 +101,7 @@
 	obj_damage = 45
 	speed = 5
 	player_speed_modifier = -4
+<<<<<<< HEAD
 	menu_description = "Tanky and strong for the defense of the nest and other spiders."
 
 /mob/living/basic/spider/giant/guard/Initialize(mapload)
@@ -78,6 +110,14 @@
 	AddElement(/datum/element/web_walker, /datum/movespeed_modifier/average_web)
 	var/datum/action/cooldown/mob_cooldown/web_effigy/shed = new(src)
 	shed.Grant(src)
+=======
+	menu_description = "Tanky and strong able to shed a carcass for protection."
+	innate_actions = list(/datum/action/cooldown/mob_cooldown/web_effigy)
+
+/mob/living/basic/spider/giant/guard/Initialize(mapload)
+	. = ..()
+	AddElement(/datum/element/web_walker, /datum/movespeed_modifier/average_web)
+>>>>>>> tg-pr-88929
 
 /**
  * ### Hunter Spider
@@ -87,6 +127,10 @@
 /mob/living/basic/spider/giant/hunter
 	name = "hunter spider"
 	desc = "Furry and black, it makes you shudder to look at it. This one has sparkling purple eyes."
+<<<<<<< HEAD
+=======
+	icon = 'icons/mob/simple/arachnoid.dmi'
+>>>>>>> tg-pr-88929
 	icon_state = "hunter"
 	icon_living = "hunter"
 	icon_dead = "hunter_dead"
@@ -97,6 +141,7 @@
 	poison_per_bite = 5
 	speed = 3
 	player_speed_modifier = -3.1
+<<<<<<< HEAD
 	menu_description = "Fast spider variant specializing in catching running prey and toxin injection, but has less health and damage."
 
 /mob/living/basic/spider/giant/hunter/Initialize(mapload)
@@ -104,6 +149,19 @@
 
 	AddElement(/datum/element/web_walker, /datum/movespeed_modifier/fast_web)
 
+=======
+	menu_description = "Fast spider with toxin injection, but has less health and damage."
+
+/mob/living/basic/spider/giant/hunter/Initialize(mapload)
+	. = ..()
+	AddElement(/datum/element/web_walker, /datum/movespeed_modifier/fast_web)
+
+///Used in the caves away mission.
+/mob/living/basic/spider/giant/hunter/away_caves
+	minimum_survivable_temperature = 0
+	gold_core_spawnable = NO_SPAWN
+
+>>>>>>> tg-pr-88929
 /**
  * ### Scout Spider
  * A subtype of the giant spider which is faster, has thermal vision, but less health and damage.
@@ -112,6 +170,10 @@
 /mob/living/basic/spider/giant/scout
 	name = "scout spider"
 	desc = "Furry and blueish black, it makes you shudder to look at it. This one has sparkling blue eyes."
+<<<<<<< HEAD
+=======
+	icon = 'icons/mob/simple/arachnoid.dmi'
+>>>>>>> tg-pr-88929
 	icon_state = "scout"
 	icon_living = "scout"
 	icon_dead = "scout_dead"
@@ -125,15 +187,23 @@
 	speed = 2.8
 	player_speed_modifier = -3.1
 	sight = SEE_SELF|SEE_MOBS
+<<<<<<< HEAD
 	menu_description = "Fast spider variant specializing in scouting and alerting of prey, with the ability to travel in vents."
+=======
+	menu_description = "Fast spider able to see enemies through walls, send messages to the nest and the ability to travel in vents."
+	innate_actions = list(/datum/action/cooldown/mob_cooldown/command_spiders/communication_spiders)
+>>>>>>> tg-pr-88929
 
 /mob/living/basic/spider/giant/scout/Initialize(mapload)
 	. = ..()
 	ADD_TRAIT(src, TRAIT_VENTCRAWLER_ALWAYS, INNATE_TRAIT)
 
+<<<<<<< HEAD
 	var/datum/action/cooldown/mob_cooldown/command_spiders/communication_spiders/spiders_communication = new(src)
 	spiders_communication.Grant(src)
 
+=======
+>>>>>>> tg-pr-88929
 /**
  * ### Nurse Spider
  *
@@ -144,6 +214,10 @@
 /mob/living/basic/spider/giant/nurse
 	name = "nurse spider"
 	desc = "Furry and black, it makes you shudder to look at it. This one has brilliant green eyes."
+<<<<<<< HEAD
+=======
+	icon = 'icons/mob/simple/arachnoid.dmi'
+>>>>>>> tg-pr-88929
 	icon_state = "nurse"
 	icon_living = "nurse"
 	icon_dead = "nurse_dead"
@@ -157,18 +231,36 @@
 	player_speed_modifier = -3.1
 	web_speed = 0.25
 	web_type = /datum/action/cooldown/mob_cooldown/lay_web/sealer
+<<<<<<< HEAD
 	menu_description = "Support spider variant specializing in healing their brethren and placing webbings very swiftly, but has very low amount of health and deals low damage."
 	///The health HUD applied to the mob.
 	var/health_hud = DATA_HUD_MEDICAL_ADVANCED
 
+=======
+	menu_description = "Avarage speed spider able to heal other spiders and itself together with a fast web laying capability, has low damage and health."
+	///The health HUD applied to the mob.
+	var/health_hud = DATA_HUD_MEDICAL_ADVANCED
+
+///Used in the caves away mission.
+/mob/living/basic/spider/giant/nurse/away_caves
+	minimum_survivable_temperature = 0
+	gold_core_spawnable = NO_SPAWN
+
+>>>>>>> tg-pr-88929
 /mob/living/basic/spider/giant/nurse/Initialize(mapload)
 	. = ..()
 	var/datum/atom_hud/datahud = GLOB.huds[health_hud]
 	datahud.show_to(src)
 
 	AddComponent(/datum/component/healing_touch,\
+<<<<<<< HEAD
 		heal_brute = 25,\
 		heal_burn = 25,\
+=======
+		heal_brute = 10,\
+		heal_burn = 10,\
+		heal_time = 2.5 SECONDS,\
+>>>>>>> tg-pr-88929
 		interaction_key = DOAFTER_SOURCE_SPIDER,\
 		valid_targets_typecache = typecacheof(list(/mob/living/basic/spider/giant)),\
 		action_text = "%SOURCE% begins wrapping the wounds of %TARGET%.",\
@@ -187,6 +279,10 @@
 /mob/living/basic/spider/giant/tangle
 	name = "tangle spider"
 	desc = "Furry and brown, it makes you shudder to look at it. This one has dim brown eyes."
+<<<<<<< HEAD
+=======
+	icon = 'icons/mob/simple/arachnoid.dmi'
+>>>>>>> tg-pr-88929
 	icon_state = "tangle"
 	icon_living = "tangle"
 	icon_dead = "tangle_dead"
@@ -196,13 +292,18 @@
 	health = 55
 	melee_damage_lower = 1
 	melee_damage_upper = 1
+<<<<<<< HEAD
 	poison_per_bite = 5
+=======
+	poison_per_bite = 2.5
+>>>>>>> tg-pr-88929
 	poison_type = /datum/reagent/toxin/acid
 	obj_damage = 40
 	web_speed = 0.25
 	speed = 4
 	player_speed_modifier = -3.1
 	web_type = /datum/action/cooldown/mob_cooldown/lay_web/sealer
+<<<<<<< HEAD
 	menu_description = "Support spider variant specializing in contruction to protect their brethren, but has very low amount of health and deals low damage."
 
 /mob/living/basic/spider/giant/tangle/Initialize(mapload)
@@ -218,6 +319,18 @@
 
 	var/datum/action/cooldown/mob_cooldown/lay_web/sticky_web/web_sticky = new(src)
 	web_sticky.Grant(src)
+=======
+	menu_description = "Average speed spider with self healing abilities and multiple web types to reinforce the nest with little to no damage and low health."
+	innate_actions = list(
+		/datum/action/cooldown/mob_cooldown/lay_web/solid_web,
+		/datum/action/cooldown/mob_cooldown/lay_web/sticky_web,
+		/datum/action/cooldown/mob_cooldown/lay_web/web_passage,
+		/datum/action/cooldown/mob_cooldown/lay_web/web_spikes,
+	)
+
+/mob/living/basic/spider/giant/tangle/Initialize(mapload)
+	. = ..()
+>>>>>>> tg-pr-88929
 
 	AddElement(/datum/element/web_walker, /datum/movespeed_modifier/average_web)
 
@@ -225,6 +338,10 @@
 		heal_brute = 15,\
 		heal_burn = 15,\
 		heal_time = 3 SECONDS,\
+<<<<<<< HEAD
+=======
+		self_targeting = HEALING_TOUCH_SELF_ONLY,\
+>>>>>>> tg-pr-88929
 		interaction_key = DOAFTER_SOURCE_SPIDER,\
 		valid_targets_typecache = typecacheof(list(/mob/living/basic/spider/growing/young/tangle, /mob/living/basic/spider/giant/tangle)),\
 		extra_checks = CALLBACK(src, PROC_REF(can_mend)),\
@@ -240,6 +357,100 @@
 	return TRUE
 
 /**
+<<<<<<< HEAD
+=======
+ * ### Spider Tank
+ * A subtype of the giant spider, specialized in taking damage.
+ * This spider is only slightly slower than a human.
+ */
+/mob/living/basic/spider/giant/tank
+	name = "tank spider"
+	desc = "Furry and Purple with a white top, it makes you shudder to look at it. This one has bright yellow eyes."
+	icon_state = "tank"
+	icon_living = "tank"
+	icon_dead = "tank_dead"
+	maxHealth = 500
+	health = 500
+	damage_coeff = list(BRUTE = 1, BURN = 1, TOX = 1, STAMINA = 1, OXY = 1)
+	melee_damage_lower = 5
+	melee_damage_upper = 5
+	obj_damage = 15
+	speed = 5
+	player_speed_modifier = -4
+	menu_description = "Extremly tanky with very poor offence. Able to self heal and lay reflective silk screens."
+
+/mob/living/basic/spider/giant/tank/Initialize(mapload)
+	. = ..()
+	var/datum/action/cooldown/mob_cooldown/lay_web/web_reflector/reflector_web = new(src)
+	reflector_web.Grant(src)
+
+	var/datum/action/cooldown/mob_cooldown/lay_web/web_passage/passage_web = new(src)
+	passage_web.Grant(src)
+
+	AddElement(/datum/element/web_walker, /datum/movespeed_modifier/below_average_web)
+
+	AddComponent(/datum/component/healing_touch,\
+		heal_brute = 50,\
+		heal_burn = 50,\
+		heal_time = 5 SECONDS,\
+		self_targeting = HEALING_TOUCH_SELF_ONLY,\
+		interaction_key = DOAFTER_SOURCE_SPIDER,\
+		valid_targets_typecache = typecacheof(list(/mob/living/basic/spider/growing/young/tank, /mob/living/basic/spider/giant/tank)),\
+		extra_checks = CALLBACK(src, PROC_REF(can_mend)),\
+		action_text = "%SOURCE% begins mending themselves...",\
+		complete_text = "%SOURCE%'s wounds mend together.",\
+	)
+
+/// Prevent you from healing when on fire
+/mob/living/basic/spider/giant/tank/proc/can_mend(mob/living/source, mob/living/target)
+	if (on_fire)
+		balloon_alert(src, "on fire!")
+		return FALSE
+	return TRUE
+
+/**
+ * ### Spider Breacher
+ * A subtype of the giant spider, specialized in breaching and invasion.
+ * This spider is only slightly slower than a human.
+ */
+/mob/living/basic/spider/giant/breacher
+	name = "breacher spider"
+	desc = "Furry and light brown with dark brown and red highlights, it makes you shudder to look at it. This one has bright red eyes."
+	icon_state = "breacher"
+	icon_living = "breacher"
+	icon_dead = "breacher_dead"
+	maxHealth = 120
+	health = 120
+	melee_damage_lower = 5
+	melee_damage_upper = 10
+	unsuitable_atmos_damage = 0
+	minimum_survivable_temperature = 75
+	maximum_survivable_temperature = 700
+	unsuitable_cold_damage = 0
+	wound_bonus = 25
+	bare_wound_bonus = 50
+	sharpness = SHARP_EDGED
+	obj_damage = 60
+	web_speed = 0.25
+	limb_destroyer = 50
+	speed = 5
+	player_speed_modifier = -4
+	sight = SEE_TURFS
+	menu_description = "Has the ability to destroy walls and limbs, and to send warnings to the nest."
+
+/mob/living/basic/spider/giant/breacher/Initialize(mapload)
+	. = ..()
+	var/datum/action/cooldown/mob_cooldown/lay_web/solid_web/web_solid = new(src)
+	web_solid.Grant(src)
+
+	var/datum/action/cooldown/mob_cooldown/command_spiders/warning_spiders/spiders_warning = new(src)
+	spiders_warning.Grant(src)
+
+	AddElement(/datum/element/wall_tearer)
+	AddElement(/datum/element/web_walker, /datum/movespeed_modifier/below_average_web)
+
+/**
+>>>>>>> tg-pr-88929
  * ### Tarantula
  *
  * A subtype of the giant spider which specializes in pure strength and staying power.
@@ -248,6 +459,7 @@
 /mob/living/basic/spider/giant/tarantula
 	name = "tarantula"
 	desc = "Furry and black, it makes you shudder to look at it. This one has abyssal red eyes."
+<<<<<<< HEAD
 	icon_state = "tarantula"
 	icon_living = "tarantula"
 	icon_dead = "tarantula_dead"
@@ -257,6 +469,18 @@
 	melee_damage_upper = 40
 	obj_damage = 100
 	damage_coeff = list(BRUTE = 1, BURN = 1.25, TOX = 1, CLONE = 1, STAMINA = 0, OXY = 1)
+=======
+	icon = 'icons/mob/simple/arachnoid.dmi'
+	icon_state = "tarantula"
+	icon_living = "tarantula"
+	icon_dead = "tarantula_dead"
+	maxHealth = 400 // woah nelly
+	health = 400
+	melee_damage_lower = 35
+	melee_damage_upper = 40
+	obj_damage = 100
+	damage_coeff = list(BRUTE = 1, BURN = 1.25, TOX = 1, STAMINA = 0, OXY = 1)
+>>>>>>> tg-pr-88929
 	speed = 6
 	player_speed_modifier = -5.5 // Doesn't seem that slow but it gets a debuff off web
 	mob_size = MOB_SIZE_LARGE
@@ -264,11 +488,21 @@
 	web_speed = 0.7
 	web_type = /datum/action/cooldown/mob_cooldown/lay_web/sealer
 	menu_description = "Tank spider variant with an enormous amount of health and damage, but is very slow when not on webbing. It also has a charge ability to close distance with a target after a small windup."
+<<<<<<< HEAD
 	/// Charging ability
+=======
+	innate_actions = list(
+		/datum/action/cooldown/mob_cooldown/charge/basic_charge,
+		/datum/action/cooldown/mob_cooldown/lay_web/solid_web,
+		/datum/action/cooldown/mob_cooldown/lay_web/web_passage,
+	)
+	/// Charging ability, kept seperate from innate_actions due to implementation details
+>>>>>>> tg-pr-88929
 	var/datum/action/cooldown/mob_cooldown/charge/basic_charge/charge
 
 /mob/living/basic/spider/giant/tarantula/Initialize(mapload)
 	. = ..()
+<<<<<<< HEAD
 	var/datum/action/cooldown/mob_cooldown/lay_web/solid_web/web_solid = new(src)
 	web_solid.Grant(src)
 
@@ -279,6 +513,11 @@
 	charge.Grant(src)
 
 	AddElement(/datum/element/wall_tearer)
+=======
+	charge = new /datum/action/cooldown/mob_cooldown/charge/basic_charge()
+	charge.Grant(src)
+
+>>>>>>> tg-pr-88929
 	AddElement(/datum/element/web_walker, /datum/movespeed_modifier/slow_web)
 
 /mob/living/basic/spider/giant/tarantula/Destroy()
@@ -298,6 +537,10 @@
 /mob/living/basic/spider/giant/viper
 	name = "viper spider"
 	desc = "Furry and black, it makes you shudder to look at it. This one has effervescent purple eyes."
+<<<<<<< HEAD
+=======
+	icon = 'icons/mob/simple/arachnoid.dmi'
+>>>>>>> tg-pr-88929
 	icon_state = "viper"
 	icon_living = "viper"
 	icon_dead = "viper_dead"
@@ -311,6 +554,7 @@
 	player_speed_modifier = -2.5
 	gold_core_spawnable = NO_SPAWN
 	menu_description = "Assassin spider variant with an unmatched speed and very deadly poison, but has very low amount of health and damage."
+<<<<<<< HEAD
 
 /mob/living/basic/spider/giant/viper/Initialize(mapload)
 	. = ..()
@@ -320,6 +564,16 @@
 	var/datum/action/cooldown/mob_cooldown/defensive_mode/defensive_action = new(src)
 	defensive_action.Grant(src)
 
+=======
+	innate_actions = list(
+		/datum/action/cooldown/mob_cooldown/defensive_mode,
+	)
+
+/mob/living/basic/spider/giant/viper/Initialize(mapload)
+	. = ..()
+	AddElement(/datum/element/bonus_damage)
+
+>>>>>>> tg-pr-88929
 /**
  * ### Spider Broodmother
  *
@@ -332,6 +586,10 @@
 	name = "broodmother spider"
 	desc = "Furry and black, it makes you shudder to look at it. This one has scintillating green eyes. Might also be hiding a real knife somewhere."
 	gender = FEMALE
+<<<<<<< HEAD
+=======
+	icon = 'icons/mob/simple/arachnoid.dmi'
+>>>>>>> tg-pr-88929
 	icon_state = "midwife"
 	icon_living = "midwife"
 	icon_dead = "midwife_dead"
@@ -345,6 +603,7 @@
 	web_speed = 0.5
 	web_type = /datum/action/cooldown/mob_cooldown/lay_web/sealer
 	menu_description = "Royal spider variant specializing in reproduction and leadership, deals low damage."
+<<<<<<< HEAD
 
 /mob/living/basic/spider/giant/midwife/Initialize(mapload)
 	. = ..()
@@ -374,6 +633,23 @@
 
 	var/datum/action/cooldown/mob_cooldown/command_spiders/not_hivemind_talk = new(src)
 	not_hivemind_talk.Grant(src)
+=======
+	innate_actions = list(
+		/datum/action/cooldown/mob_cooldown/command_spiders,
+		/datum/action/cooldown/mob_cooldown/lay_eggs,
+		/datum/action/cooldown/mob_cooldown/lay_eggs/abnormal,
+		/datum/action/cooldown/mob_cooldown/lay_eggs/enriched,
+		/datum/action/cooldown/mob_cooldown/lay_web/solid_web,
+		/datum/action/cooldown/mob_cooldown/lay_web/sticky_web,
+		/datum/action/cooldown/mob_cooldown/lay_web/web_passage,
+		/datum/action/cooldown/mob_cooldown/lay_web/web_spikes,
+		/datum/action/cooldown/mob_cooldown/set_spider_directive,
+		/datum/action/cooldown/mob_cooldown/wrap,
+	)
+
+/mob/living/basic/spider/giant/midwife/Initialize(mapload)
+	. = ..()
+>>>>>>> tg-pr-88929
 
 	AddElement(/datum/element/web_walker, /datum/movespeed_modifier/average_web)
 
@@ -385,9 +661,15 @@
  */
 /mob/living/basic/spider/giant/ice
 	name = "giant ice spider"
+<<<<<<< HEAD
 	habitable_atmos = list("min_oxy" = 0, "max_oxy" = 0, "min_plas" = 0, "max_plas" = 0, "min_co2" = 0, "max_co2" = 0, "min_n2" = 0, "max_n2" = 0)
 	bodytemp_cold_damage_limit = -1
 	bodytemp_heat_damage_limit = 1500
+=======
+	habitable_atmos = null
+	minimum_survivable_temperature = 0
+	maximum_survivable_temperature = 1500
+>>>>>>> tg-pr-88929
 	color = rgb(114,228,250)
 	gold_core_spawnable = NO_SPAWN
 	menu_description = "Versatile ice spider variant for frontline combat with high health and damage. Immune to temperature damage."
@@ -399,9 +681,15 @@
  */
 /mob/living/basic/spider/giant/nurse/ice
 	name = "giant ice spider"
+<<<<<<< HEAD
 	habitable_atmos = list("min_oxy" = 0, "max_oxy" = 0, "min_plas" = 0, "max_plas" = 0, "min_co2" = 0, "max_co2" = 0, "min_n2" = 0, "max_n2" = 0)
 	bodytemp_cold_damage_limit = -1
 	bodytemp_heat_damage_limit = 1500
+=======
+	habitable_atmos = null
+	minimum_survivable_temperature = 0
+	maximum_survivable_temperature = 1500
+>>>>>>> tg-pr-88929
 	poison_type = /datum/reagent/consumable/frostoil
 	color = rgb(114,228,250)
 	menu_description = "Support ice spider variant specializing in healing their brethren and placing webbings very swiftly, but has very low amount of health and deals low damage. Immune to temperature damage."
@@ -413,9 +701,15 @@
  */
 /mob/living/basic/spider/giant/hunter/ice
 	name = "giant ice spider"
+<<<<<<< HEAD
 	habitable_atmos = list("min_oxy" = 0, "max_oxy" = 0, "min_plas" = 0, "max_plas" = 0, "min_co2" = 0, "max_co2" = 0, "min_n2" = 0, "max_n2" = 0)
 	bodytemp_cold_damage_limit = -1
 	bodytemp_heat_damage_limit = 1500
+=======
+	habitable_atmos = null
+	minimum_survivable_temperature = 0
+	maximum_survivable_temperature = 1500
+>>>>>>> tg-pr-88929
 	poison_type = /datum/reagent/consumable/frostoil
 	color = rgb(114,228,250)
 	gold_core_spawnable = NO_SPAWN
@@ -483,16 +777,28 @@
 	web_speed = 0.4
 	maxHealth = 80
 	health = 80
+<<<<<<< HEAD
 	damage_coeff = list(BRUTE = 1, BURN = 1, TOX = 1, CLONE = 1, STAMINA = 1, OXY = 1)
+=======
+	damage_coeff = list(BRUTE = 1, BURN = 1, TOX = 1, STAMINA = 1, OXY = 1)
+>>>>>>> tg-pr-88929
 	unsuitable_cold_damage = 1
 	unsuitable_heat_damage = 1
 	menu_description = "Stronger assassin spider variant with an unmatched speed, high amount of health and very deadly poison, but deals very low amount of damage. It also has ability to ventcrawl."
 	apply_spider_antag = FALSE
+<<<<<<< HEAD
+=======
+	innate_actions = list(
+		/datum/action/cooldown/mob_cooldown/lay_web/sticky_web,
+		/datum/action/cooldown/mob_cooldown/lay_web/web_spikes,
+	)
+>>>>>>> tg-pr-88929
 
 /mob/living/basic/spider/giant/viper/wizard/Initialize(mapload)
 	. = ..()
 	ADD_TRAIT(src, TRAIT_VENTCRAWLER_ALWAYS, INNATE_TRAIT)
 
+<<<<<<< HEAD
 	var/datum/action/cooldown/mob_cooldown/lay_web/web_spikes/spikes_web = new(src)
 	spikes_web.Grant(src)
 
@@ -500,6 +806,8 @@
 	web_sticky.Grant(src)
 
 
+=======
+>>>>>>> tg-pr-88929
 /**
  * ### Sergeant Araneus
  *
@@ -520,6 +828,10 @@
 
 /mob/living/basic/spider/giant/sgt_araneus/Initialize(mapload)
 	. = ..()
+<<<<<<< HEAD
 	AddElement(/datum/element/pet_bonus, "chitters proudly!")
+=======
+	AddElement(/datum/element/pet_bonus, "chitter")
+>>>>>>> tg-pr-88929
 	AddElement(/datum/element/ai_retaliate)
 	ADD_TRAIT(src, TRAIT_VENTCRAWLER_ALWAYS, INNATE_TRAIT)

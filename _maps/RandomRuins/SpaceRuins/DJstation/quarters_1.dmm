@@ -16,8 +16,13 @@
 /area/ruin/space/djstation)
 "k" = (
 /obj/structure/bed,
+<<<<<<< HEAD
 /obj/item/bedsheet/random,
 /turf/open/floor/carpet/grimey,
+=======
+/obj/effect/spawner/random/bedsheet/any,
+/turf/open/floor/iron/grimy,
+>>>>>>> tg-pr-88929
 /area/ruin/space/djstation)
 "p" = (
 /obj/machinery/door/airlock/public/glass{
@@ -41,7 +46,7 @@
 /obj/structure/bed{
 	dir = 4
 	},
-/obj/item/bedsheet/random{
+/obj/effect/spawner/random/bedsheet/any{
 	dir = 4
 	},
 /turf/open/floor/carpet/grimey,
@@ -67,8 +72,12 @@
 "M" = (
 /obj/structure/table,
 /obj/item/flashlight/lamp,
+<<<<<<< HEAD
 /obj/machinery/light/small/directional/north,
 /turf/open/floor/carpet/grimey,
+=======
+/turf/open/floor/iron/grimy,
+>>>>>>> tg-pr-88929
 /area/ruin/space/djstation)
 "R" = (
 /obj/structure/sink/directional/west,

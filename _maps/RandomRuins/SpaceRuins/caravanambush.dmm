@@ -14,10 +14,13 @@
 /obj/item/wallframe/camera,
 /turf/template_noop,
 /area/template_noop)
+<<<<<<< HEAD
 "ae" = (
 /obj/structure/broken_flooring/plating/directional/east,
 /turf/template_noop,
 /area/template_noop)
+=======
+>>>>>>> tg-pr-88929
 "af" = (
 /obj/structure/lattice/catwalk,
 /turf/template_noop,
@@ -35,11 +38,14 @@
 	},
 /turf/template_noop,
 /area/template_noop)
+<<<<<<< HEAD
 "ai" = (
 /obj/structure/lattice,
 /obj/structure/broken_flooring/plating/directional/south,
 /turf/template_noop,
 /area/template_noop)
+=======
+>>>>>>> tg-pr-88929
 "aj" = (
 /obj/docking_port/stationary{
 	dir = 2;
@@ -52,15 +58,19 @@
 	},
 /turf/template_noop,
 /area/template_noop)
+<<<<<<< HEAD
 "an" = (
 /obj/structure/lattice,
 /obj/structure/broken_flooring/plating/directional/east,
 /turf/template_noop,
 /area/template_noop)
+=======
+>>>>>>> tg-pr-88929
 "ao" = (
 /obj/item/stack/sheet/mineral/titanium,
 /turf/template_noop,
 /area/template_noop)
+<<<<<<< HEAD
 "ap" = (
 /obj/structure/lattice,
 /obj/structure/broken_flooring/pile/directional/west,
@@ -70,10 +80,13 @@
 /obj/structure/broken_flooring/singular/directional/east,
 /turf/template_noop,
 /area/template_noop)
+=======
+>>>>>>> tg-pr-88929
 "aD" = (
 /obj/item/stack/rods,
 /turf/template_noop,
 /area/template_noop)
+<<<<<<< HEAD
 "aE" = (
 /obj/structure/broken_flooring/pile/directional/east,
 /turf/template_noop,
@@ -82,6 +95,8 @@
 /obj/structure/broken_flooring/singular/directional/south,
 /turf/template_noop,
 /area/template_noop)
+=======
+>>>>>>> tg-pr-88929
 "bl" = (
 /mob/living/basic/carp,
 /turf/template_noop,
@@ -134,6 +149,18 @@
 	},
 /turf/open/floor/plating/airless,
 /area/shuttle/ruin/caravan/freighter2)
+<<<<<<< HEAD
+=======
+"cY" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/machinery/atmospherics/components/unary/vent_pump/on{
+	dir = 1
+	},
+/obj/effect/mapping_helpers/airalarm/all_access,
+/obj/machinery/airalarm/directional/west,
+/turf/open/floor/plating/airless,
+/area/shuttle/ruin/caravan/freighter2)
+>>>>>>> tg-pr-88929
 "dc" = (
 /obj/item/shard,
 /turf/template_noop,
@@ -254,6 +281,11 @@
 	},
 /turf/open/floor/iron/dark/airless,
 /area/shuttle/ruin/caravan/freighter3)
+"fE" = (
+/obj/structure/lattice,
+/obj/structure/broken_flooring/plating/directional/south,
+/turf/template_noop,
+/area/template_noop)
 "fG" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/structure/frame/computer,
@@ -341,6 +373,11 @@
 /obj/effect/mapping_helpers/broken_floor,
 /turf/open/floor/iron/airless,
 /area/shuttle/ruin/caravan/freighter2)
+"ly" = (
+/obj/structure/lattice,
+/obj/structure/broken_flooring/pile/directional/west,
+/turf/template_noop,
+/area/template_noop)
 "lC" = (
 /turf/closed/mineral/random/high_chance,
 /area/ruin/space/has_grav)
@@ -503,6 +540,10 @@
 	initial_gas_mix = "TEMP=2.7"
 	},
 /area/shuttle/ruin/caravan/freighter2)
+"re" = (
+/obj/structure/broken_flooring/singular/directional/east,
+/turf/template_noop,
+/area/template_noop)
 "rj" = (
 /obj/effect/turf_decal/bot_white/right,
 /obj/machinery/power/apc/auto_name/directional/west,
@@ -552,6 +593,17 @@
 /obj/effect/mapping_helpers/burnt_floor,
 /turf/open/floor/iron/airless,
 /area/shuttle/ruin/caravan/freighter2)
+<<<<<<< HEAD
+=======
+"tL" = (
+/obj/effect/turf_decal/bot_white,
+/obj/structure/closet/crate/secure/engineering,
+/obj/item/organ/cyberimp/arm/toolset,
+/obj/item/organ/cyberimp/eyes/hud/medical,
+/obj/item/organ/cyberimp/brain/anti_stun,
+/turf/open/floor/iron/dark/airless,
+/area/shuttle/ruin/caravan/freighter3)
+>>>>>>> tg-pr-88929
 "tO" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden{
 	dir = 4
@@ -598,6 +650,16 @@
 	},
 /turf/open/floor/plating/airless,
 /area/shuttle/ruin/caravan/freighter3)
+<<<<<<< HEAD
+=======
+"wc" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/effect/decal/cleanable/dirt,
+/obj/effect/mapping_helpers/airalarm/all_access,
+/obj/machinery/airalarm/directional/east,
+/turf/open/floor/iron/airless,
+/area/shuttle/ruin/caravan/freighter3)
+>>>>>>> tg-pr-88929
 "wB" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden{
 	dir = 4
@@ -646,6 +708,7 @@
 	initial_gas_mix = "TEMP=2.7"
 	},
 /area/shuttle/ruin/caravan/freighter3)
+<<<<<<< HEAD
 "yk" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/decal/cleanable/dirt,
@@ -654,6 +717,8 @@
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/plating/airless,
 /area/ruin/space/has_grav)
+=======
+>>>>>>> tg-pr-88929
 "zk" = (
 /turf/closed/mineral/random,
 /area/ruin/space/has_grav)
@@ -677,6 +742,10 @@
 	},
 /turf/open/floor/plating/airless,
 /area/shuttle/ruin/caravan/freighter3)
+"As" = (
+/obj/structure/broken_flooring/singular/directional/south,
+/turf/template_noop,
+/area/template_noop)
 "AA" = (
 /obj/effect/turf_decal/box/white/corners{
 	dir = 8
@@ -697,6 +766,7 @@
 	},
 /turf/open/floor/plating/airless,
 /area/shuttle/ruin/caravan/freighter2)
+<<<<<<< HEAD
 "Bb" = (
 /obj/machinery/airalarm/directional/west,
 /obj/effect/mapping_helpers/airalarm/all_access,
@@ -706,6 +776,12 @@
 	},
 /turf/open/floor/iron/dark/airless,
 /area/shuttle/ruin/caravan/freighter3)
+=======
+"Bq" = (
+/obj/structure/broken_flooring/pile/directional/east,
+/turf/template_noop,
+/area/template_noop)
+>>>>>>> tg-pr-88929
 "Bv" = (
 /obj/structure/chair{
 	dir = 4
@@ -853,6 +929,11 @@
 /obj/effect/mapping_helpers/airalarm/all_access,
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/decal/cleanable/dirt,
+<<<<<<< HEAD
+=======
+/obj/effect/mapping_helpers/airalarm/all_access,
+/obj/machinery/airalarm/directional/east,
+>>>>>>> tg-pr-88929
 /turf/open/floor/iron/airless,
 /area/shuttle/ruin/caravan/freighter3)
 "IZ" = (
@@ -896,6 +977,10 @@
 "JW" = (
 /turf/closed/wall/mineral/titanium/nodiagonal,
 /area/shuttle/ruin/caravan/freighter2)
+"Ku" = (
+/obj/structure/broken_flooring/plating/directional/east,
+/turf/template_noop,
+/area/template_noop)
 "KC" = (
 /obj/item/stack/cable_coil{
 	amount = 1
@@ -903,6 +988,11 @@
 /obj/effect/mapping_helpers/broken_floor,
 /turf/open/floor/plating/airless,
 /area/ruin/space/has_grav)
+"KQ" = (
+/obj/structure/lattice,
+/obj/structure/broken_flooring/plating/directional/east,
+/turf/template_noop,
+/area/template_noop)
 "Lx" = (
 /obj/structure/rack,
 /obj/item/tank/jetpack/carbondioxide,
@@ -921,6 +1011,18 @@
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron/dark/airless,
 /area/shuttle/ruin/caravan/freighter3)
+"MD" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/structure/broken_flooring/pile/directional/south,
+/obj/effect/mapping_helpers/broken_floor,
+/turf/open/floor/plating/airless,
+/area/shuttle/ruin/caravan/freighter2)
+"MG" = (
+/obj/effect/turf_decal/box/white/corners,
+/obj/structure/closet/crate/secure/weapon,
+/obj/item/knife/combat,
+/turf/open/floor/iron/dark/airless,
+/area/shuttle/ruin/caravan/freighter2)
 "MI" = (
 /obj/machinery/door/firedoor,
 /obj/effect/decal/cleanable/dirt,
@@ -934,12 +1036,24 @@
 	},
 /turf/open/floor/iron/dark/airless,
 /area/shuttle/ruin/caravan/freighter2)
+<<<<<<< HEAD
 "MT" = (
 /obj/effect/turf_decal/box/white/corners,
 /obj/structure/closet/crate/secure/weapon,
 /obj/item/gun/energy/e_gun/mini,
 /turf/open/floor/iron/dark/airless,
 /area/shuttle/ruin/caravan/freighter2)
+=======
+"Nl" = (
+/obj/effect/decal/cleanable/blood,
+/obj/machinery/atmospherics/components/unary/vent_pump/on{
+	dir = 1
+	},
+/obj/effect/mapping_helpers/airalarm/all_access,
+/obj/machinery/airalarm/directional/west,
+/turf/open/floor/iron/dark/airless,
+/area/shuttle/ruin/caravan/freighter3)
+>>>>>>> tg-pr-88929
 "Nm" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on,
 /obj/effect/decal/cleanable/dirt,
@@ -1041,6 +1155,14 @@
 	},
 /turf/open/floor/iron/airless,
 /area/shuttle/ruin/caravan/freighter2)
+"SK" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/effect/decal/cleanable/dirt,
+/obj/structure/broken_flooring/singular/directional/south,
+/obj/effect/decal/cleanable/blood,
+/obj/effect/decal/cleanable/dirt,
+/turf/open/floor/plating/airless,
+/area/ruin/space/has_grav)
 "TA" = (
 /obj/machinery/door/airlock/external/ruin,
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
@@ -1113,12 +1235,15 @@
 	},
 /turf/closed/wall/mineral/plastitanium,
 /area/ruin/space/has_grav)
+<<<<<<< HEAD
 "XE" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/structure/broken_flooring/pile/directional/south,
 /obj/effect/mapping_helpers/broken_floor,
 /turf/open/floor/plating/airless,
 /area/shuttle/ruin/caravan/freighter2)
+=======
+>>>>>>> tg-pr-88929
 "Yv" = (
 /obj/effect/turf_decal/bot_white/left,
 /obj/effect/decal/cleanable/dirt,
@@ -2205,7 +2330,7 @@ mR
 Po
 Po
 Po
-yk
+SK
 PY
 bs
 mR
@@ -2260,7 +2385,7 @@ mR
 bs
 bs
 aa
-ae
+Ku
 aa
 aa
 aa
@@ -2435,7 +2560,7 @@ aa
 aa
 aa
 aa
-aE
+Bq
 aa
 ao
 aa
@@ -2547,7 +2672,7 @@ aa
 aa
 aa
 aa
-as
+re
 zk
 zk
 zk
@@ -3630,7 +3755,7 @@ GY
 Gu
 kX
 FU
-MT
+MG
 wB
 Bz
 cF
@@ -3836,7 +3961,7 @@ aa
 aa
 dM
 AP
-XE
+MD
 bs
 mn
 Fr
@@ -3890,7 +4015,7 @@ aa
 bs
 dc
 aa
-an
+KQ
 FS
 dM
 dM
@@ -3992,7 +4117,7 @@ aa
 aa
 aa
 aa
-aT
+As
 aa
 aD
 aa
@@ -4984,7 +5109,7 @@ aa
 aa
 aa
 aa
-aT
+As
 aa
 aa
 aa
@@ -5034,7 +5159,7 @@ mc
 mc
 bs
 ab
-aE
+Bq
 aa
 aa
 aa
@@ -5136,8 +5261,8 @@ rj
 xD
 nc
 dX
-ai
-aT
+fE
+As
 aa
 aa
 aa
@@ -5190,7 +5315,7 @@ bv
 QE
 JQ
 wJ
-ap
+ly
 aa
 aa
 br

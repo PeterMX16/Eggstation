@@ -61,6 +61,7 @@
 "an" = (
 /turf/open/misc/asteroid/snow/icemoon,
 /area/ruin/unpowered/buried_library)
+<<<<<<< HEAD
 "ao" = (
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/wood{
@@ -74,6 +75,8 @@
 	initial_gas_mix = "ICEMOON_ATMOS"
 	},
 /area/ruin/unpowered/buried_library)
+=======
+>>>>>>> tg-pr-88929
 "aq" = (
 /obj/structure/fluff/paper/stack,
 /obj/effect/mapping_helpers/broken_floor,
@@ -111,10 +114,13 @@
 	initial_gas_mix = "ICEMOON_ATMOS"
 	},
 /area/ruin/unpowered/buried_library)
+<<<<<<< HEAD
 "aA" = (
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/plating/icemoon,
 /area/ruin/unpowered/buried_library)
+=======
+>>>>>>> tg-pr-88929
 "aC" = (
 /obj/item/feather,
 /turf/open/misc/asteroid/snow/icemoon,
@@ -150,6 +156,7 @@
 /obj/item/clothing/head/costume/rice_hat,
 /turf/open/floor/cult,
 /area/ruin/unpowered/buried_library)
+<<<<<<< HEAD
 "aJ" = (
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/cult,
@@ -166,6 +173,8 @@
 	initial_gas_mix = "ICEMOON_ATMOS"
 	},
 /area/ruin/unpowered/buried_library)
+=======
+>>>>>>> tg-pr-88929
 "aM" = (
 /obj/item/stack/sheet/mineral/wood,
 /obj/item/book/manual/random,
@@ -178,7 +187,11 @@
 	},
 /area/ruin/unpowered/buried_library)
 "aO" = (
+<<<<<<< HEAD
 /mob/living/basic/pet/fox,
+=======
+/mob/living/basic/pet/fox/icemoon,
+>>>>>>> tg-pr-88929
 /turf/open/floor/wood{
 	initial_gas_mix = "ICEMOON_ATMOS"
 	},
@@ -187,6 +200,7 @@
 /obj/item/keycard/library,
 /turf/closed/mineral/random/snow,
 /area/ruin/unpowered/buried_library)
+<<<<<<< HEAD
 "aQ" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/item/paper/fluff/awaymissions/moonoutpost19/research/larva_autopsy,
@@ -194,12 +208,15 @@
 	initial_gas_mix = "ICEMOON_ATMOS"
 	},
 /area/ruin/unpowered/buried_library)
+=======
+>>>>>>> tg-pr-88929
 "aR" = (
 /obj/structure/fluff/paper/stack,
 /turf/open/floor/wood{
 	initial_gas_mix = "ICEMOON_ATMOS"
 	},
 /area/ruin/unpowered/buried_library)
+<<<<<<< HEAD
 "aS" = (
 /obj/structure/table/wood/fancy/black,
 /obj/effect/decal/cleanable/dirt,
@@ -216,6 +233,8 @@
 	initial_gas_mix = "ICEMOON_ATMOS"
 	},
 /area/ruin/unpowered/buried_library)
+=======
+>>>>>>> tg-pr-88929
 "aU" = (
 /obj/item/stack/sheet/mineral/wood,
 /turf/open/misc/asteroid/snow/icemoon,
@@ -265,6 +284,7 @@
 	initial_gas_mix = "ICEMOON_ATMOS"
 	},
 /area/ruin/unpowered/buried_library)
+<<<<<<< HEAD
 "bd" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/structure/fluff/paper{
@@ -275,6 +295,8 @@
 	initial_gas_mix = "ICEMOON_ATMOS"
 	},
 /area/ruin/unpowered/buried_library)
+=======
+>>>>>>> tg-pr-88929
 "be" = (
 /obj/structure/fluff/paper{
 	dir = 5
@@ -283,6 +305,7 @@
 	initial_gas_mix = "ICEMOON_ATMOS"
 	},
 /area/ruin/unpowered/buried_library)
+<<<<<<< HEAD
 "bf" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/structure/fluff/paper{
@@ -292,10 +315,13 @@
 	initial_gas_mix = "ICEMOON_ATMOS"
 	},
 /area/ruin/unpowered/buried_library)
+=======
+>>>>>>> tg-pr-88929
 "bg" = (
 /obj/item/paper/fluff/ruins/oldstation/protogun,
 /turf/open/misc/asteroid/snow/icemoon,
 /area/ruin/unpowered/buried_library)
+<<<<<<< HEAD
 "bh" = (
 /obj/effect/decal/cleanable/dirt,
 /mob/living/basic/pet/fox,
@@ -303,6 +329,8 @@
 	initial_gas_mix = "ICEMOON_ATMOS"
 	},
 /area/ruin/unpowered/buried_library)
+=======
+>>>>>>> tg-pr-88929
 "bi" = (
 /obj/structure/fluff/paper,
 /turf/open/misc/asteroid/snow/icemoon,
@@ -343,10 +371,13 @@
 /obj/structure/girder,
 /turf/open/misc/asteroid/snow/icemoon,
 /area/ruin/unpowered/buried_library)
+<<<<<<< HEAD
 "bt" = (
 /obj/effect/decal/cleanable/dirt,
 /turf/template_noop,
 /area/template_noop)
+=======
+>>>>>>> tg-pr-88929
 "bu" = (
 /obj/item/stack/sheet/mineral/wood,
 /turf/closed/mineral/random/snow,
@@ -365,7 +396,7 @@
 /area/ruin/unpowered/buried_library)
 "bz" = (
 /obj/item/flashlight/lantern/jade{
-	on = 1
+	start_on = 1
 	},
 /turf/open/floor/plating/icemoon,
 /area/ruin/unpowered/buried_library)
@@ -379,6 +410,7 @@
 	initial_gas_mix = "ICEMOON_ATMOS"
 	},
 /area/ruin/unpowered/buried_library)
+<<<<<<< HEAD
 "bC" = (
 /obj/structure/fluff/paper{
 	dir = 1
@@ -404,6 +436,8 @@
 	initial_gas_mix = "ICEMOON_ATMOS"
 	},
 /area/ruin/unpowered/buried_library)
+=======
+>>>>>>> tg-pr-88929
 "bK" = (
 /obj/item/stack/sheet/mineral/wood,
 /obj/effect/mapping_helpers/broken_floor,
@@ -436,6 +470,113 @@
 	initial_gas_mix = "ICEMOON_ATMOS"
 	},
 /area/ruin/unpowered/buried_library)
+"cA" = (
+/obj/effect/decal/cleanable/dirt,
+/mob/living/basic/pet/fox/icemoon,
+/turf/open/floor/wood{
+	initial_gas_mix = "ICEMOON_ATMOS"
+	},
+/area/ruin/unpowered/buried_library)
+"gb" = (
+/obj/structure/table/wood/fancy/black,
+/obj/effect/decal/cleanable/dirt,
+/obj/item/paper/secretrecipe,
+/obj/item/flashlight/lantern/jade{
+	start_on = 1
+	},
+/turf/open/floor/cult,
+/area/ruin/unpowered/buried_library)
+"gv" = (
+/obj/effect/decal/cleanable/dirt,
+/turf/open/floor/wood{
+	initial_gas_mix = "ICEMOON_ATMOS"
+	},
+/area/ruin/unpowered/buried_library)
+"ms" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/structure/fluff/paper{
+	dir = 4
+	},
+/turf/open/floor/wood{
+	initial_gas_mix = "ICEMOON_ATMOS"
+	},
+/area/ruin/unpowered/buried_library)
+"oi" = (
+/obj/effect/decal/cleanable/dirt,
+/turf/open/floor/plating/icemoon,
+/area/ruin/unpowered/buried_library)
+"or" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/structure/fluff/paper/stack,
+/turf/open/floor/wood{
+	initial_gas_mix = "ICEMOON_ATMOS"
+	},
+/area/ruin/unpowered/buried_library)
+"pk" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/structure/fluff/paper,
+/obj/effect/mapping_helpers/broken_floor,
+/turf/open/floor/wood{
+	initial_gas_mix = "ICEMOON_ATMOS"
+	},
+/area/ruin/unpowered/buried_library)
+"Aq" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/structure/fluff/paper,
+/turf/open/floor/wood{
+	initial_gas_mix = "ICEMOON_ATMOS"
+	},
+/area/ruin/unpowered/buried_library)
+"DL" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/item/paper/fluff/awaymissions/moonoutpost19/research/larva_autopsy,
+/turf/open/floor/wood{
+	initial_gas_mix = "ICEMOON_ATMOS"
+	},
+/area/ruin/unpowered/buried_library)
+"Eh" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/structure/fluff/paper{
+	dir = 1
+	},
+/mob/living/basic/pet/fox/icemoon,
+/turf/open/floor/wood{
+	initial_gas_mix = "ICEMOON_ATMOS"
+	},
+/area/ruin/unpowered/buried_library)
+"Gs" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/structure/fluff/paper{
+	dir = 1
+	},
+/obj/effect/mapping_helpers/broken_floor,
+/turf/open/floor/wood{
+	initial_gas_mix = "ICEMOON_ATMOS"
+	},
+/area/ruin/unpowered/buried_library)
+"GM" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/effect/mapping_helpers/broken_floor,
+/turf/open/floor/wood{
+	initial_gas_mix = "ICEMOON_ATMOS"
+	},
+/area/ruin/unpowered/buried_library)
+"PF" = (
+/obj/effect/decal/cleanable/dirt,
+/turf/open/floor/cult,
+/area/ruin/unpowered/buried_library)
+"TP" = (
+/obj/item/feather,
+/obj/effect/decal/cleanable/dirt,
+/turf/open/floor/cult,
+/area/ruin/unpowered/buried_library)
+"Xd" = (
+/obj/item/stack/sheet/mineral/wood,
+/obj/effect/decal/cleanable/dirt,
+/turf/open/floor/wood{
+	initial_gas_mix = "ICEMOON_ATMOS"
+	},
+/area/ruin/unpowered/buried_library)
 
 (1,1,1) = {"
 aa
@@ -459,7 +600,7 @@ ad
 ad
 ad
 ad
-bt
+aa
 aa
 "}
 (2,1,1) = {"
@@ -529,9 +670,9 @@ bb
 av
 ak
 ah
-aL
+or
 ah
-aT
+Aq
 ac
 ad
 aa
@@ -548,13 +689,13 @@ ak
 an
 aC
 ae
-aQ
+DL
 ah
 ak
 av
 bg
 ah
-bH
+pk
 ah
 ak
 ac
@@ -577,9 +718,9 @@ aO
 ah
 au
 ah
-aA
+oi
 ah
-ao
+gv
 ah
 bM
 ac
@@ -597,16 +738,16 @@ ac
 ak
 au
 ak
-bE
+GM
 aR
-bE
-aA
-ao
+GM
+oi
+gv
 bw
 ah
 aZ
 ah
-bC
+Eh
 ac
 ad
 ad
@@ -621,15 +762,15 @@ ad
 ak
 ak
 av
-aA
+oi
 an
 aG
 aD
 aX
 an
-bE
+GM
 ae
-bE
+GM
 ah
 ae
 ac
@@ -654,9 +795,9 @@ aD
 bB
 ak
 ae
-bE
+GM
 ae
-bE
+GM
 ac
 an
 bw
@@ -669,7 +810,7 @@ aa
 ad
 ad
 ac
-ap
+Xd
 an
 ak
 aD
@@ -678,7 +819,7 @@ aN
 an
 aw
 ak
-ao
+gv
 bK
 aR
 ae
@@ -702,9 +843,9 @@ an
 aD
 aD
 by
-bE
+GM
 aw
-ao
+gv
 ae
 bm
 ac
@@ -741,14 +882,14 @@ ad
 ad
 al
 am
-aJ
+PF
 aW
 ay
 bw
 ah
-ao
+gv
 ae
-bE
+GM
 ae
 af
 an
@@ -765,15 +906,15 @@ ad
 (14,1,1) = {"
 ad
 al
-aS
+gb
 aW
-aK
+TP
 al
 at
 ah
 an
 ah
-bh
+cA
 ah
 az
 ah
@@ -781,7 +922,7 @@ ak
 ah
 ak
 bn
-bH
+pk
 ac
 ad
 aa
@@ -796,11 +937,11 @@ ar
 al
 bc
 ah
-aL
+or
 ah
-aA
+oi
 ah
-bE
+GM
 ah
 ak
 ak
@@ -819,11 +960,11 @@ al
 al
 al
 al
-bd
+Gs
 ah
-bE
+GM
 ah
-ao
+gv
 aV
 ak
 ah
@@ -845,7 +986,7 @@ ad
 ad
 ac
 be
-bf
+ms
 bw
 aP
 bw

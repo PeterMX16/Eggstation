@@ -4,7 +4,7 @@
 /datum/reagent/consumable/nutriment/soup
 	name = "Soup"
 	chemical_flags = NONE
-	nutriment_factor = 12 * REAGENTS_METABOLISM // Slightly less to that of nutriment as soups will come with nutriments in tow
+	nutriment_factor = 12 // Slightly less to that of nutriment as soups will come with nutriments in tow
 	burning_temperature = 520
 	default_container = /obj/item/reagent_containers/cup/bowl
 	glass_price = FOOD_PRICE_CHEAP
@@ -48,7 +48,7 @@
 	/// Tracks the total number of ingredient items needed, for calculating multipliers. Only done once in first on_reaction
 	VAR_FINAL/total_ingredient_max
 
-	/// Multiplier applied to all reagents transfered from reagents to pot when the soup is cooked
+	/// Multiplier applied to all reagents transferred from reagents to pot when the soup is cooked
 	var/ingredient_reagent_multiplier = 0.8
 	/// What percent of nutriment is converted to "soup" (what percent does not stay final product)?
 	/// Raise this if your ingredients have a lot of nutriment and is overpowering your other reagents
@@ -63,24 +63,45 @@
 	if(!length(required_ingredients))
 		return TRUE
 
-	// This is very unoptimized for something ran every handle-reaction for every soup recipe.
-	// Look into ways for improving this, cause bleh
+	//copy of all ingredients to check out
 	var/list/reqs_copy = required_ingredients.Copy()
+	//number of ingredients who's requested amounts has been satisfied
+	var/completed_ingredients = 0
 	for(var/obj/item/ingredient as anything in pot.added_ingredients)
-		// See if we fulfill all reqs
-		for(var/ingredient_type in required_ingredients)
-			if(!istype(ingredient, ingredient_type))
-				continue
-			if(isstack(ingredient))
-				var/obj/item/stack/stack_ingredient = ingredient
-				reqs_copy[ingredient_type] -= stack_ingredient.amount
-			else
-				reqs_copy[ingredient_type] -= 1
+		var/ingredient_type = ingredient.type
+		do
+		{
+			var/ingredient_count = reqs_copy[ingredient_type]
 
-	for(var/fulfilled in reqs_copy)
-		if(reqs_copy[fulfilled] > 0)
-			return FALSE
-	return TRUE
+			//means we still have left over ingredients
+			if(ingredient_count)
+				//decode ingredient type i.e. stack or not and fulfill request
+				if(ispath(ingredient_type, /obj/item/stack))
+					var/obj/item/stack/stack_ingredient = ingredient
+					ingredient_count -= stack_ingredient.amount
+				else
+					ingredient_count -= 1
+
+				//assign final values
+				if(ingredient_count <= 0)
+					completed_ingredients += 1
+					ingredient_count = 0
+				reqs_copy[ingredient_type] = ingredient_count
+
+				//work complete
+				break
+
+			//means we have to look for subtypes
+			else if(isnull(ingredient_count))
+				ingredient_type = type2parent(ingredient_type)
+
+			//means we have no more remaining ingredients so bail, can happen if multiple ingredients of the same type/subtype are in the pot
+			else
+				break
+		}
+		while(ingredient_type != /obj/item)
+
+	return completed_ingredients == reqs_copy.len
 
 /datum/chemical_reaction/food/soup/on_reaction(datum/reagents/holder, datum/equilibrium/reaction, created_volume)
 	if(!length(required_ingredients))
@@ -112,6 +133,40 @@
 		if(created_volume > ingredient_max_multiplier)
 			for(var/reagent_path in required_reagents)
 				holder.add_reagent(reagent_path,(required_reagents[reagent_path])*(created_volume-ingredient_max_multiplier))
+
+	// This only happens if we're being instant reacted so let's just skip to what we really want
+	if(isnull(reaction))
+		testing("Soup reaction of type [type] instant reacted, cleaning up.")
+		clean_up(holder)
+		return
+
+	// If a food item is supposed to be made, remove relevant ingredients from the pot, then make the item
+	if(!isnull(resulting_food_path))
+		var/list/tracked_ingredients
+		LAZYINITLIST(tracked_ingredients)
+		var/ingredient_max_multiplier = INFINITY
+		var/obj/item/reagent_containers/cup/soup_pot/pot = holder.my_atom
+
+		// Tracked ingredients are indexed by type and point to a list containing the actual items
+		for(var/obj/item/ingredient as anything in pot.added_ingredients)
+			if(is_type_in_list(ingredient, required_ingredients))
+				LAZYADD(tracked_ingredients[ingredient.type],ingredient)
+		// Find the max number of ingredients that may be used for making the food item
+		for(var/list/ingredient_type as anything in tracked_ingredients)
+			ingredient_max_multiplier = min(ingredient_max_multiplier,LAZYLEN(tracked_ingredients[ingredient_type]))
+		// Create the food items, removing the relavent ingredients at the same time
+		for(var/i in 1 to (min(created_volume,ingredient_max_multiplier)))
+			for(var/list/ingredient_type as anything in tracked_ingredients)
+				var/ingredient = tracked_ingredients[ingredient_type][i]
+				LAZYREMOVE(pot.added_ingredients,ingredient)
+				qdel(ingredient)
+			var/obj/item/created = new resulting_food_path(get_turf(pot))
+			created.pixel_y += 8
+		// Re-add required reagents that were not used in this step
+		if(created_volume > ingredient_max_multiplier)
+			for(var/reagent_path as anything in required_reagents)
+				holder.add_reagent(reagent_path,(required_reagents[reagent_path])*(created_volume-ingredient_max_multiplier))
+
 
 	// This only happens if we're being instant reacted so let's just skip to what we really want
 	if(isnull(reaction))
@@ -167,30 +222,41 @@
 			new_ingredient.reagents?.chem_temp = holder.chem_temp
 			cached_ingredients[new_ref] = new_ingredient.reagents?.total_volume || 1
 
+	var/turf/below_pot = get_turf(pot)
 	for(var/datum/weakref/ingredient_ref as anything in cached_ingredients)
 		var/obj/item/ingredient = ingredient_ref.resolve()
+
 		// An ingredient has gone missing, stop the reaction
 		if(QDELETED(ingredient) || ingredient.loc != holder.my_atom)
 			testing("Soup reaction ended due to having an invalid ingredient present.")
 			return END_REACTION
 
-		// Don't add any more reagents if we've boiled over
-		if(reaction.data["boiled_over"])
-			continue
-
-		// Transfer 20% of the initial reagent volume of the ingredient to the soup
-		transfer_ingredient_reagents(ingredient, holder, max(cached_ingredients[ingredient_ref] * 0.2, 2))
+		// Transfer 20% of the initial reagent volume of the ingredient to the soup.
+		if(!transfer_ingredient_reagents(ingredient, holder, max(cached_ingredients[ingredient_ref] * 0.2, 2)))
+			continue //all reagents were transfered
 
 		// Uh oh we reached the top of the pot, the soup's gonna boil over.
 		if(holder.total_volume >= holder.maximum_volume * 0.95)
-			boil_over(holder)
-			reaction.data["boiled_over"] = TRUE
+			below_pot.visible_message(span_warning("[pot] starts to boil over!"))
+			// Create a spread of dirty foam
+			var/datum/effect_system/fluid_spread/foam/dirty/soup_mess = new()
+			soup_mess.reagent_scale = 0.1 // (Just a little)
+			soup_mess.set_up(range = 1, holder = pot, location = below_pot, carry = holder, stop_reactions = TRUE)
+			soup_mess.start()
+			// Loses a bit from the foam
+			for(var/datum/reagent/reagent as anything in holder.reagent_list)
+				reagent.volume *= 0.5
+			holder.update_total()
 
 /datum/chemical_reaction/food/soup/reaction_finish(datum/reagents/holder, datum/equilibrium/reaction, react_vol)
 	. = ..()
 	var/obj/item/reagent_containers/cup/soup_pot/pot = holder.my_atom
 	if(!istype(pot))
+<<<<<<< HEAD
 		CRASH("[pot ? "Non-pot atom" : "Null pot"] made it to the end of the [type] reaction chain.")
+=======
+		CRASH("[pot ? "Non-pot atom" : "Null pot"]) made it to the end of the [type] reaction chain.")
+>>>>>>> tg-pr-88929
 
 	testing("Soup reaction finished with a total react volume of [react_vol] and [length(pot.added_ingredients)] ingredients. Cleaning up.")
 	clean_up(holder, reaction, react_vol)
@@ -217,7 +283,11 @@
 
 			// Everything else will just get fried
 			if(isnull(ingredient.reagents) && !is_type_in_list(ingredient, required_ingredients))
+<<<<<<< HEAD
 				ingredient.AddElement(/datum/element/fried_item, 30)
+=======
+				ingredient.AddElement(/datum/element/fried_item, 30 SECONDS)
+>>>>>>> tg-pr-88929
 				continue
 
 			// Things that had reagents or ingredients in the soup will get deleted
@@ -233,6 +303,7 @@
 
 /**
  * Transfers reagents from the passed reagent to the soup pot, as a "result"
+<<<<<<< HEAD
  *
  * Also handles deleting a portion of nutriment reagents present, pseudo-converting it into soup reagent
  *
@@ -243,19 +314,35 @@
 /datum/chemical_reaction/food/soup/proc/transfer_ingredient_reagents(obj/item/ingredient, datum/reagents/holder, amount)
 	if(ingredient_reagent_multiplier <= 0)
 		return
+=======
+ * Also handles deleting a portion of nutriment reagents present, pseudo-converting
+ * it into soup reagent. Returns TRUE if any reagents were transfered FALSE if there is
+ * nothing to transfer
+ *
+ * Arguments
+ * * obj/item/ingredient - The ingredient to transfer reagents from
+ * * datum/reagentsholder - The reagent holder of the soup pot the reaction is taking place in
+ * * amount - The amount of reagents to transfer, if null will transfer all reagents
+ */
+/datum/chemical_reaction/food/soup/proc/transfer_ingredient_reagents(obj/item/ingredient, datum/reagents/holder, amount)
+	if(ingredient_reagent_multiplier <= 0)
+		return FALSE
+>>>>>>> tg-pr-88929
 	var/datum/reagents/ingredient_pool = ingredient.reagents
 	// Some ingredients are purely flavor (no pun intended) and will have reagents
 	if(isnull(ingredient_pool) || ingredient_pool.total_volume <= 0)
-		return
+		return FALSE
 	if(isnull(amount))
 		amount = ingredient_pool.total_volume
 		testing("Soup reaction has made it to the finishing step with ingredients that still contain reagents. [amount] reagents left in [ingredient].")
 
 	// Some of the nutriment goes into "creating the soup reagent" itself, gets deleted.
 	// Mainly done so that nutriment doesn't overpower the main course
-	ingredient_pool.remove_reagent(/datum/reagent/consumable/nutriment, amount * percentage_of_nutriment_converted)
-	ingredient_pool.remove_reagent(/datum/reagent/consumable/nutriment/vitamin, amount * percentage_of_nutriment_converted)
+	var/remove_amount = amount * percentage_of_nutriment_converted
+	ingredient_pool.remove_reagent(/datum/reagent/consumable/nutriment, remove_amount)
+	ingredient_pool.remove_reagent(/datum/reagent/consumable/nutriment/vitamin, remove_amount)
 	// The other half of the nutriment, and the rest of the reagents, will get put directly into the pot
+<<<<<<< HEAD
 	ingredient_pool.trans_to(holder, amount, ingredient_reagent_multiplier, preserve_data = FALSE, no_react = TRUE)
 
 /// Called whenever the soup pot overfills with reagent.
@@ -272,6 +359,20 @@
 	for(var/datum/reagent/reagent as anything in holder.reagent_list)
 		reagent.volume = round(reagent.volume * 0.9, 0.05)
 	holder.update_total()
+=======
+	ingredient_pool.trans_to(holder, amount, ingredient_reagent_multiplier, no_react = TRUE)
+	return TRUE
+
+/// Adds text to the requirements list of the recipe
+/// Return a list of strings, each string will be a new line in the requirements list
+/datum/chemical_reaction/food/soup/proc/describe_recipe_details()
+	return
+
+/// Adds text to the results list of the recipe
+/// Return a list of strings, each string will be a new line in the results list
+/datum/chemical_reaction/food/soup/proc/describe_result()
+	return
+>>>>>>> tg-pr-88929
 
 #ifdef TESTING
 
@@ -331,15 +432,24 @@
 	ingredient_reagent_multiplier = 1
 	percentage_of_nutriment_converted = 0
 
+	/// Custom recipes will not start mixing until at least this many solid ingredients are present
+	var/num_ingredients_needed = 3
+
 /datum/chemical_reaction/food/soup/custom/pre_reaction_other_checks(datum/reagents/holder)
 	var/obj/item/reagent_containers/cup/soup_pot/pot = holder.my_atom
 	if(!istype(pot))
 		return FALSE // Not a pot
 	if(holder.is_reacting)
 		return FALSE // Another soup is being made
-	if(length(pot.added_ingredients) <= 3)
+	if(length(pot.added_ingredients) <= num_ingredients_needed)
 		return FALSE // Not a lot here to go off of
 	return TRUE
+
+/datum/chemical_reaction/food/soup/custom/describe_recipe_details()
+	return list("Created from burning soup with at least [num_ingredients_needed] ingredients present")
+
+/datum/chemical_reaction/food/soup/custom/describe_result()
+	return list("Whatever's in the pot")
 
 // Meatball Soup
 /datum/reagent/consumable/nutriment/soup/meatball_soup
@@ -527,7 +637,7 @@
 		"someone's parents" = 2,
 	)
 	glass_price = FOOD_PRICE_EXOTIC
-	color = "#FF0000"
+	color = COLOR_RED
 
 /datum/glass_style/has_foodtype/soup/clownchili
 	required_drink_type = /datum/reagent/consumable/nutriment/soup/clownchili
@@ -581,7 +691,7 @@
 	name = "Tomato Soup"
 	description = "Drinking this feels like being a vampire! A tomato vampire..."
 	data = list("tomato" = 1)
-	color = "#FF0000"
+	color = COLOR_RED
 
 /datum/glass_style/has_foodtype/soup/tomato
 	required_drink_type = /datum/reagent/consumable/nutriment/soup/tomato
@@ -624,7 +734,7 @@
 	required_reagents = list(/datum/reagent/water = 50)
 	required_ingredients = list(
 		/obj/item/food/grown/tomato = 2,
-		/obj/item/organ/internal/eyes = 1,
+		/obj/item/organ/eyes = 1,
 	)
 	results = list(
 		/datum/reagent/consumable/nutriment/soup/eyeball = 20,
@@ -734,7 +844,7 @@
 /datum/reagent/consumable/nutriment/soup/clown_tears
 	name = "Clown's Tears"
 	description = "The sorrow and melancholy of a thousand bereaved clowns, forever denied their Honkmechs."
-	nutriment_factor = 5 * REAGENTS_METABOLISM
+	nutriment_factor = 5
 	ph = 9.2
 	data = list("a bad joke" = 1, "mournful honking" = 1)
 	color = "#EEF442"
@@ -787,6 +897,8 @@
 	)
 	percentage_of_nutriment_converted = 0.33 // Full of garbage
 
+	/// Number of units of bonus reagent added
+	var/num_bonus = 10
 	/// A list of reagent types we can randomly gain in the soup on creation
 	var/list/extra_reagent_types = list(
 		/datum/reagent/blood,
@@ -802,7 +914,14 @@
 
 /datum/chemical_reaction/food/soup/mysterysoup/reaction_finish(datum/reagents/holder, datum/equilibrium/reaction, react_vol)
 	. = ..()
-	holder.add_reagent(pick(extra_reagent_types), 10)
+	holder.add_reagent(pick(extra_reagent_types), num_bonus)
+
+/datum/chemical_reaction/food/soup/mysterysoup/describe_result()
+	var/list/extra_sublist = list()
+	for(var/datum/reagent/extra_type as anything in extra_reagent_types)
+		extra_sublist += "[initial(extra_type.name)]"
+
+	return list("Will also contain [num_bonus] units of one randomly: [jointext(extra_sublist, ", ")]")
 
 // Monkey Soup
 /datum/reagent/consumable/nutriment/soup/monkey
@@ -822,9 +941,9 @@
 
 /datum/chemical_reaction/food/soup/monkey
 	required_reagents = list(
-		/datum/reagent/water = 25,
+		/datum/reagent/water = 20,
 		/datum/reagent/consumable/flour = 5,
-		/datum/reagent/consumable/salt = 5,
+		/datum/reagent/water/salt = 10,
 		/datum/reagent/consumable/blackpepper = 5,
 	)
 	required_ingredients = list(
@@ -837,6 +956,9 @@
 		/datum/reagent/consumable/salt = 4,
 		/datum/reagent/consumable/blackpepper = 4,
 	)
+
+/datum/chemical_reaction/food/soup/monkey/describe_result()
+	return list("May contain a monkey.")
 
 // Cream of mushroom soup
 /datum/reagent/consumable/nutriment/soup/mushroom
@@ -905,6 +1027,9 @@
 		/datum/reagent/water = 10,
 	)
 	percentage_of_nutriment_converted = 0.1
+
+/datum/chemical_reaction/food/soup/beetsoup/describe_result()
+	return list("Changes name randomly to a common misspelling of \"Borscht\".")
 
 // Stew
 /datum/reagent/consumable/nutriment/soup/stew
@@ -1176,7 +1301,6 @@
 	)
 	results =  list(
 		/datum/reagent/consumable/nutriment/soup/oatmeal = 20,
-		/datum/reagent/consumable/milk = 12,
 		/datum/reagent/consumable/nutriment/vitamin = 8,
 	)
 	percentage_of_nutriment_converted = 0 // Oats have barely any nutrients
@@ -1274,7 +1398,7 @@
 	name = "Corn Chowder"
 	description = "A creamy bowl of corn chowder, with bacon bits and mixed vegetables. One bowl is never enough."
 	data = list("creamy broth" = 1, "bacon" = 1, "mixed vegetables" = 1)
-	color = "#FFF200"
+	color = COLOR_CRAYON_YELLOW
 
 /datum/glass_style/has_foodtype/soup/corn_chowder
 	required_drink_type = /datum/reagent/consumable/nutriment/soup/corn_chowder
@@ -1418,6 +1542,20 @@
 		/datum/reagent/water = 5,
 	)
 
+//Fresh Jellyfish fillet soup!
+/datum/chemical_reaction/food/soup/jellyfish_stew_two
+	required_reagents = list(/datum/reagent/water = 50)
+	required_ingredients = list(
+		/obj/item/food/fishmeat/gunner_jellyfish = 1,
+		/obj/item/food/grown/soybeans = 1,
+		/obj/item/food/grown/redbeet = 1,
+		/obj/item/food/grown/potato = 1
+	)
+	results = list(
+		/datum/reagent/consumable/nutriment/soup/jellyfish = 50,
+	)
+
+
 // Rootbread Soup
 /datum/reagent/consumable/nutriment/soup/rootbread
 	name = "Rootbread Soup"
@@ -1432,12 +1570,15 @@
 	drink_type = MEAT | VEGETABLES
 
 /datum/chemical_reaction/food/soup/rootbread_soup
-	required_reagents = list(/datum/reagent/water = 50)
+	required_reagents = list(
+		/datum/reagent/water = 50,
+		/datum/reagent/consumable/eggyolk = 2,
+		/datum/reagent/consumable/eggwhite = 4
+	)
 	required_ingredients = list(
 		/obj/item/food/breadslice/root = 2,
 		/obj/item/food/grown/garlic = 1,
-		/obj/item/food/grown/chili = 1,
-		/obj/item/food/egg = 1
+		/obj/item/food/grown/chili = 1
 	)
 	results = list(
 		/datum/reagent/consumable/nutriment/soup/rootbread = 30,
@@ -1939,7 +2080,11 @@
 	name = "\improper New Osaka Sunrise soup"
 	icon = 'icons/obj/food/martian.dmi'
 	icon_state = "new_osaka_sunrise"
+<<<<<<< HEAD
 	drink_type = MEAT | GRAIN | DAIRY | VEGETABLES
+=======
+	drink_type = VEGETABLES | BREAKFAST
+>>>>>>> tg-pr-88929
 
 /datum/chemical_reaction/food/soup/new_osaka_sunrise
 	required_reagents = list(
@@ -2068,7 +2213,11 @@
 	name = "\improper Hong Kong macaroni soup"
 	icon = 'icons/obj/food/martian.dmi'
 	icon_state = "hong_kong_macaroni"
+<<<<<<< HEAD
 	drink_type = MEAT | VEGETABLES
+=======
+	drink_type = MEAT | VEGETABLES | GRAIN
+>>>>>>> tg-pr-88929
 
 /datum/chemical_reaction/food/soup/hong_kong_macaroni
 	required_reagents = list(
@@ -2126,7 +2275,11 @@
 	name = "secret noodle soup"
 	icon = 'icons/obj/food/martian.dmi'
 	icon_state = "secret_noodle_soup"
+<<<<<<< HEAD
 	drink_type = MEAT | VEGETABLES
+=======
+	drink_type = MEAT | VEGETABLES | GRAIN
+>>>>>>> tg-pr-88929
 
 /datum/chemical_reaction/food/soup/secret_noodle_soup
 	required_reagents = list(
@@ -2186,6 +2339,7 @@
 	resulting_food_path = /obj/item/food/volt_fish
 	ingredient_reagent_multiplier = 0
 	mix_message = "The air fills with a hellish mix of fish and artificial flavouring."
+<<<<<<< HEAD
 
 //Saimin, a Hawaiian noodle soup
 /datum/reagent/consumable/nutriment/soup/saimin
@@ -2217,3 +2371,5 @@
 		/datum/reagent/consumable/nutriment/protein = 4,
 		/datum/reagent/consumable/nutriment/vitamin = 4,
 	)
+=======
+>>>>>>> tg-pr-88929

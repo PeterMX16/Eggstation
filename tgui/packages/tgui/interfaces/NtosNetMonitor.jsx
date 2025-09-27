@@ -1,4 +1,16 @@
+import {
+  Box,
+  Button,
+  Icon,
+  LabeledList,
+  NoticeBox,
+  Section,
+  Stack,
+  Tabs,
+} from 'tgui-core/components';
+
 import { useBackend, useSharedState } from '../backend';
+<<<<<<< HEAD
 import {
   Box,
   Button,
@@ -9,6 +21,8 @@ import {
   Stack,
   Tabs,
 } from '../components';
+=======
+>>>>>>> tg-pr-88929
 import { NtosWindow } from '../layouts';
 
 export const NtosNetMonitor = (props) => {
@@ -21,6 +35,7 @@ export const NtosNetMonitor = (props) => {
     ntnetlogs = [],
     tablets = [],
   } = data;
+
   return (
     <NtosWindow>
       <NtosWindow.Content scrollable>
@@ -67,6 +82,10 @@ export const NtosNetMonitor = (props) => {
 const MainPage = (props) => {
   const { ntnetrelays, idsalarm, idsstatus, ntnetlogs = [] } = props;
   const { act, data } = useBackend();
+<<<<<<< HEAD
+=======
+
+>>>>>>> tg-pr-88929
   return (
     <Section>
       <NoticeBox>

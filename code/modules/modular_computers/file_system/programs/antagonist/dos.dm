@@ -17,11 +17,11 @@
 /datum/computer_file/program/ntnet_dos/process_tick(seconds_per_tick)
 	dos_speed = 0
 	switch(ntnet_status)
-		if(1)
+		if(NTNET_LOW_SIGNAL)
 			dos_speed = NTNETSPEED_LOWSIGNAL * 10
-		if(2)
+		if(NTNET_GOOD_SIGNAL)
 			dos_speed = NTNETSPEED_HIGHSIGNAL * 10
-		if(3)
+		if(NTNET_ETHERNET_SIGNAL)
 			dos_speed = NTNETSPEED_ETHERNET * 10
 	if(target && executed)
 		target.dos_overload += dos_speed
@@ -38,6 +38,10 @@
 	return ..()
 
 /datum/computer_file/program/ntnet_dos/ui_act(action, params, datum/tgui/ui, datum/ui_state/state)
+<<<<<<< HEAD
+=======
+	. = ..()
+>>>>>>> tg-pr-88929
 	switch(action)
 		if("PRG_target_relay")
 			for(var/obj/machinery/ntnet_relay/relays as anything in SSmachines.get_machines_by_type(/obj/machinery/ntnet_relay))

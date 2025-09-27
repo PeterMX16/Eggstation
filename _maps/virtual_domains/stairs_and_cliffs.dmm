@@ -5,6 +5,13 @@
 	},
 /turf/open/cliff/snowrock/virtual_domain,
 /area/icemoon/underground/explored/virtual_domain)
+<<<<<<< HEAD
+=======
+"bU" = (
+/mob/living/basic/bear/snow/ancient,
+/turf/open/misc/asteroid/snow,
+/area/icemoon/underground/explored/virtual_domain)
+>>>>>>> tg-pr-88929
 "cu" = (
 /obj/effect/turf_decal/weather/snow/corner{
 	dir = 4
@@ -19,6 +26,13 @@
 /obj/structure/chair/sofa/bench,
 /turf/open/floor/plating/snowed/smoothed,
 /area/icemoon/underground/explored/virtual_domain)
+<<<<<<< HEAD
+=======
+"cS" = (
+/obj/structure/barricade/wooden/snowed,
+/turf/open/floor/iron/stairs,
+/area/icemoon/underground/explored/virtual_domain)
+>>>>>>> tg-pr-88929
 "dR" = (
 /turf/open/misc/asteroid/snow,
 /area/icemoon/underground/explored/virtual_domain)
@@ -34,6 +48,26 @@
 /obj/structure/railing/corner,
 /turf/open/cliff/snowrock/virtual_domain,
 /area/icemoon/underground/explored/virtual_domain)
+<<<<<<< HEAD
+=======
+"gF" = (
+/obj/effect/landmark/bitrunning/curiosity_spawn,
+/turf/open/misc/asteroid/snow,
+/area/icemoon/underground/explored/virtual_domain)
+"gY" = (
+/obj/effect/decal/remains/human,
+/turf/open/misc/asteroid/snow,
+/area/icemoon/underground/explored/virtual_domain)
+"hc" = (
+/obj/structure/railing/corner/end{
+	dir = 8
+	},
+/obj/structure/railing/corner/end/flip{
+	dir = 8
+	},
+/turf/open/misc/asteroid/snow,
+/area/icemoon/underground/explored/virtual_domain)
+>>>>>>> tg-pr-88929
 "hE" = (
 /turf/open/floor/wood,
 /area/icemoon/underground/explored/virtual_domain)
@@ -56,6 +90,13 @@
 /obj/structure/flora/tree/pine/style_random,
 /turf/open/misc/asteroid/snow,
 /area/icemoon/underground/explored/virtual_domain)
+<<<<<<< HEAD
+=======
+"mr" = (
+/obj/structure/fluff/fokoff_sign,
+/turf/open/misc/asteroid/snow,
+/area/icemoon/underground/explored/virtual_domain)
+>>>>>>> tg-pr-88929
 "mx" = (
 /obj/structure/railing,
 /obj/structure/railing{
@@ -77,6 +118,16 @@
 	},
 /turf/open/floor/wood,
 /area/icemoon/underground/explored/virtual_domain)
+<<<<<<< HEAD
+=======
+"nY" = (
+/obj/structure/railing{
+	dir = 1
+	},
+/obj/structure/railing,
+/turf/open/floor/wood,
+/area/icemoon/underground/explored/virtual_domain)
+>>>>>>> tg-pr-88929
 "pl" = (
 /obj/structure/bonfire/prelit,
 /turf/open/misc/asteroid/snow,
@@ -103,9 +154,21 @@
 /turf/template_noop,
 /area/virtual_domain/safehouse)
 "vz" = (
+<<<<<<< HEAD
 /obj/effect/landmark/bitrunning/safehouse_spawn,
 /turf/template_noop,
 /area/virtual_domain/safehouse)
+=======
+/obj/modular_map_root/safehouse{
+	key = "ice"
+	},
+/turf/template_noop,
+/area/virtual_domain/safehouse)
+"wZ" = (
+/obj/effect/baseturf_helper/virtual_domain,
+/turf/closed/indestructible/rock/snow/ice,
+/area/icemoon/underground/explored/virtual_domain)
+>>>>>>> tg-pr-88929
 "xB" = (
 /obj/structure/railing/corner{
 	dir = 4
@@ -135,9 +198,12 @@
 	},
 /turf/open/floor/wood,
 /area/icemoon/underground/explored/virtual_domain)
+<<<<<<< HEAD
 "Am" = (
 /turf/closed/indestructible/binary,
 /area/icemoon/underground/explored/virtual_domain)
+=======
+>>>>>>> tg-pr-88929
 "AI" = (
 /obj/structure/flora/grass/green/style_random,
 /turf/open/floor/plating/snowed/smoothed,
@@ -146,6 +212,18 @@
 /obj/effect/decal/remains/plasma,
 /turf/open/misc/asteroid/snow,
 /area/icemoon/underground/explored/virtual_domain)
+<<<<<<< HEAD
+=======
+"Dz" = (
+/obj/structure/railing/corner/end{
+	dir = 4
+	},
+/obj/structure/railing/corner/end/flip{
+	dir = 4
+	},
+/turf/open/misc/asteroid/snow,
+/area/icemoon/underground/explored/virtual_domain)
+>>>>>>> tg-pr-88929
 "DB" = (
 /obj/structure/flora/rock/icy/style_random,
 /obj/structure/flora/rock/pile/icy/style_random,
@@ -185,7 +263,11 @@
 "KA" = (
 /obj/structure/statue/snow/snowman{
 	name = "Norm";
+<<<<<<< HEAD
 	desc = "Norm has seen many a man roll down these cliffs, some more stubborn than others. Its usually the stubborn ones who stop getting back up."
+=======
+	desc = "Norm has seen many a man roll down these cliffs, some more stubborn than others. It's usually the stubborn ones who stop getting back up."
+>>>>>>> tg-pr-88929
 	},
 /obj/item/pickaxe/mini,
 /turf/open/misc/asteroid/snow,
@@ -195,6 +277,18 @@
 /obj/structure/flora/grass/green/style_random,
 /turf/open/misc/asteroid/snow,
 /area/icemoon/underground/explored/virtual_domain)
+<<<<<<< HEAD
+=======
+"MP" = (
+/obj/structure/railing/corner/end/flip{
+	dir = 4
+	},
+/obj/structure/railing/corner/end{
+	dir = 4
+	},
+/turf/open/misc/asteroid/snow,
+/area/icemoon/underground/explored/virtual_domain)
+>>>>>>> tg-pr-88929
 "MT" = (
 /obj/structure/railing/corner{
 	dir = 8
@@ -204,6 +298,18 @@
 "Nv" = (
 /turf/open/floor/iron/stairs,
 /area/icemoon/underground/explored/virtual_domain)
+<<<<<<< HEAD
+=======
+"NM" = (
+/obj/structure/railing/corner/end/flip{
+	dir = 8
+	},
+/obj/structure/railing/corner/end{
+	dir = 8
+	},
+/turf/open/misc/asteroid/snow,
+/area/icemoon/underground/explored/virtual_domain)
+>>>>>>> tg-pr-88929
 "Pl" = (
 /obj/effect/turf_decal/weather/snow/corner{
 	dir = 4
@@ -218,9 +324,14 @@
 /turf/closed/indestructible/rock/snow/ice,
 /area/icemoon/underground/explored/virtual_domain)
 "RD" = (
+<<<<<<< HEAD
 /obj/effect/baseturf_helper/virtual_domain,
 /turf/closed/indestructible/binary,
 /area/icemoon/underground/explored/virtual_domain)
+=======
+/turf/closed/indestructible/binary,
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "Tz" = (
 /obj/item/pickaxe/mini,
 /turf/open/misc/asteroid/snow,
@@ -244,6 +355,7 @@
 /area/virtual_domain/safehouse)
 
 (1,1,1) = {"
+<<<<<<< HEAD
 Am
 Am
 Am
@@ -322,6 +434,86 @@ RD
 "}
 (2,1,1) = {"
 Am
+=======
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+"}
+(2,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 Qv
 Qv
@@ -394,11 +586,19 @@ Qv
 Qv
 Qv
 Qv
+<<<<<<< HEAD
 Qv
 Am
 "}
 (3,1,1) = {"
 Am
+=======
+wZ
+RD
+"}
+(3,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 Qv
 Qv
@@ -472,10 +672,17 @@ Qv
 Qv
 Qv
 Qv
+<<<<<<< HEAD
 Am
 "}
 (4,1,1) = {"
 Am
+=======
+RD
+"}
+(4,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 Qv
 Qv
@@ -549,20 +756,34 @@ Qv
 Qv
 Qv
 Qv
+<<<<<<< HEAD
 Am
 "}
 (5,1,1) = {"
 Am
+=======
+RD
+"}
+(5,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 Qv
 dR
 dR
 dR
 dR
+<<<<<<< HEAD
 sM
 sM
 sM
 sM
+=======
+Nv
+Nv
+Nv
+dR
+>>>>>>> tg-pr-88929
 sM
 sM
 sM
@@ -626,31 +847,57 @@ Qv
 Qv
 Qv
 Qv
+<<<<<<< HEAD
 Am
 "}
 (6,1,1) = {"
 Am
+=======
+RD
+"}
+(6,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 Qv
 kK
 sw
+<<<<<<< HEAD
+dR
+=======
+gY
+>>>>>>> tg-pr-88929
+dR
+sM
+sM
+sM
+<<<<<<< HEAD
+sM
+sM
+sM
+sM
+sM
+sM
+sM
+sM
+sM
+sM
+sM
+sM
+=======
+dR
+cS
+Nv
+Nv
 dR
 dR
+sw
 sM
 sM
 sM
-sM
-sM
-sM
-sM
-sM
-sM
-sM
-sM
-sM
-sM
-sM
-sM
+qc
+gF
+>>>>>>> tg-pr-88929
 sM
 sM
 sM
@@ -703,10 +950,17 @@ Qv
 Qv
 Qv
 Qv
+<<<<<<< HEAD
 Am
 "}
 (7,1,1) = {"
 Am
+=======
+RD
+"}
+(7,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 Qv
 dR
@@ -716,6 +970,7 @@ dR
 sM
 sM
 sM
+<<<<<<< HEAD
 sM
 sM
 sM
@@ -728,6 +983,20 @@ sM
 sM
 sM
 sM
+=======
+sa
+sM
+sM
+gY
+dR
+dR
+sa
+dR
+sM
+sM
+Dz
+dR
+>>>>>>> tg-pr-88929
 sM
 sM
 sM
@@ -780,15 +1049,23 @@ Qv
 Qv
 Qv
 Qv
+<<<<<<< HEAD
 Am
 "}
 (8,1,1) = {"
 Am
+=======
+RD
+"}
+(8,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 Qv
 eB
 sw
 dR
+<<<<<<< HEAD
 dR
 sM
 sM
@@ -804,6 +1081,23 @@ sM
 sM
 sM
 sM
+=======
+mr
+sM
+sM
+sM
+sM
+sM
+sM
+mr
+sa
+dR
+dR
+gY
+sM
+sM
+nY
+>>>>>>> tg-pr-88929
 sM
 sM
 sM
@@ -857,6 +1151,7 @@ Qv
 Qv
 Qv
 Qv
+<<<<<<< HEAD
 Am
 "}
 (9,1,1) = {"
@@ -867,12 +1162,25 @@ dR
 eB
 dR
 sw
+=======
+RD
+"}
+(9,1,1) = {"
+RD
+Qv
+Qv
+mr
+eB
+dR
+dR
+>>>>>>> tg-pr-88929
 dR
 sM
 sM
 sM
 sM
 sM
+<<<<<<< HEAD
 sM
 sM
 sM
@@ -881,6 +1189,16 @@ sM
 sM
 sM
 sM
+=======
+kK
+dR
+bU
+dR
+dR
+cS
+Nv
+hc
+>>>>>>> tg-pr-88929
 sM
 sM
 sM
@@ -934,10 +1252,17 @@ Qv
 Qv
 Qv
 Qv
+<<<<<<< HEAD
 Am
 "}
 (10,1,1) = {"
 Am
+=======
+RD
+"}
+(10,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 dR
 sw
@@ -951,10 +1276,17 @@ sM
 sM
 sM
 sM
+<<<<<<< HEAD
 sM
 sM
 sM
 sM
+=======
+dR
+sa
+gY
+dR
+>>>>>>> tg-pr-88929
 sM
 sM
 sM
@@ -1011,10 +1343,17 @@ Qv
 Qv
 Qv
 Qv
+<<<<<<< HEAD
 Am
 "}
 (11,1,1) = {"
 Am
+=======
+RD
+"}
+(11,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 dR
 eB
@@ -1025,6 +1364,7 @@ dR
 sM
 sM
 sM
+<<<<<<< HEAD
 sM
 sM
 sM
@@ -1032,6 +1372,15 @@ sM
 sM
 sM
 sM
+=======
+pL
+sM
+sM
+sw
+dR
+dR
+sa
+>>>>>>> tg-pr-88929
 sM
 sM
 sM
@@ -1088,10 +1437,17 @@ Qv
 Qv
 Qv
 Qv
+<<<<<<< HEAD
 Am
 "}
 (12,1,1) = {"
 Am
+=======
+RD
+"}
+(12,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 dR
 dR
@@ -1102,6 +1458,7 @@ sM
 sM
 sM
 sM
+<<<<<<< HEAD
 sM
 sM
 sM
@@ -1109,6 +1466,15 @@ sM
 sM
 sM
 sM
+=======
+pL
+pL
+sM
+sM
+dR
+dR
+sw
+>>>>>>> tg-pr-88929
 sM
 sM
 sM
@@ -1165,10 +1531,17 @@ Qv
 Qv
 Qv
 Qv
+<<<<<<< HEAD
 Am
 "}
 (13,1,1) = {"
 Am
+=======
+RD
+"}
+(13,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 dR
 sa
@@ -1179,8 +1552,13 @@ sM
 sM
 sM
 sM
+<<<<<<< HEAD
 sM
 sM
+=======
+pL
+pL
+>>>>>>> tg-pr-88929
 sM
 sM
 sM
@@ -1242,10 +1620,17 @@ Qv
 Qv
 Qv
 Qv
+<<<<<<< HEAD
 Am
 "}
 (14,1,1) = {"
 Am
+=======
+RD
+"}
+(14,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 dR
 dR
@@ -1257,11 +1642,19 @@ sM
 sM
 sM
 sM
+<<<<<<< HEAD
 sM
 sM
 sM
 sM
 sM
+=======
+pL
+pL
+pL
+pL
+pL
+>>>>>>> tg-pr-88929
 sM
 sM
 sM
@@ -1319,10 +1712,17 @@ Qv
 Qv
 Qv
 Qv
+<<<<<<< HEAD
 Am
 "}
 (15,1,1) = {"
 Am
+=======
+RD
+"}
+(15,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 sw
 sa
@@ -1335,8 +1735,13 @@ sM
 sM
 sM
 sM
+<<<<<<< HEAD
 sM
 sM
+=======
+pL
+pL
+>>>>>>> tg-pr-88929
 sM
 sM
 sM
@@ -1396,10 +1801,17 @@ Qv
 Qv
 Qv
 Qv
+<<<<<<< HEAD
 Am
 "}
 (16,1,1) = {"
 Am
+=======
+RD
+"}
+(16,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 dR
 sa
@@ -1473,10 +1885,17 @@ Qv
 Qv
 Qv
 Qv
+<<<<<<< HEAD
 Am
 "}
 (17,1,1) = {"
 Am
+=======
+RD
+"}
+(17,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 dR
 sa
@@ -1550,10 +1969,17 @@ Qv
 Qv
 Qv
 Qv
+<<<<<<< HEAD
 Am
 "}
 (18,1,1) = {"
 Am
+=======
+RD
+"}
+(18,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 Qv
 dR
@@ -1627,10 +2053,17 @@ Qv
 Qv
 Qv
 Qv
+<<<<<<< HEAD
 Am
 "}
 (19,1,1) = {"
 Am
+=======
+RD
+"}
+(19,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 Qv
 kK
@@ -1704,10 +2137,17 @@ Qv
 Qv
 Qv
 Qv
+<<<<<<< HEAD
 Am
 "}
 (20,1,1) = {"
 Am
+=======
+RD
+"}
+(20,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 Qv
 dR
@@ -1781,10 +2221,17 @@ Qv
 Qv
 Qv
 Qv
+<<<<<<< HEAD
 Am
 "}
 (21,1,1) = {"
 Am
+=======
+RD
+"}
+(21,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 Qv
 dR
@@ -1858,10 +2305,17 @@ Qv
 Qv
 Qv
 Qv
+<<<<<<< HEAD
 Am
 "}
 (22,1,1) = {"
 Am
+=======
+RD
+"}
+(22,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 Qv
 dR
@@ -1935,10 +2389,17 @@ Qv
 Qv
 Qv
 Qv
+<<<<<<< HEAD
 Am
 "}
 (23,1,1) = {"
 Am
+=======
+RD
+"}
+(23,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 Qv
 Qv
@@ -2012,10 +2473,17 @@ Qv
 Qv
 Qv
 Qv
+<<<<<<< HEAD
 Am
 "}
 (24,1,1) = {"
 Am
+=======
+RD
+"}
+(24,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 Qv
 sw
@@ -2089,10 +2557,17 @@ Qv
 Qv
 Qv
 Qv
+<<<<<<< HEAD
 Am
 "}
 (25,1,1) = {"
 Am
+=======
+RD
+"}
+(25,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 Qv
 dR
@@ -2166,10 +2641,17 @@ Qv
 Qv
 Qv
 Qv
+<<<<<<< HEAD
 Am
 "}
 (26,1,1) = {"
 Am
+=======
+RD
+"}
+(26,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 Qv
 dR
@@ -2243,10 +2725,17 @@ pL
 Qv
 Qv
 Qv
+<<<<<<< HEAD
 Am
 "}
 (27,1,1) = {"
 Am
+=======
+RD
+"}
+(27,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 Qv
 dR
@@ -2320,10 +2809,17 @@ pL
 Qv
 Qv
 Qv
+<<<<<<< HEAD
 Am
 "}
 (28,1,1) = {"
 Am
+=======
+RD
+"}
+(28,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 Qv
 sa
@@ -2397,10 +2893,17 @@ pL
 pL
 Qv
 Qv
+<<<<<<< HEAD
 Am
 "}
 (29,1,1) = {"
 Am
+=======
+RD
+"}
+(29,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 Qv
 sa
@@ -2429,7 +2932,11 @@ sM
 sM
 sM
 sM
+<<<<<<< HEAD
 dR
+=======
+MP
+>>>>>>> tg-pr-88929
 sM
 sM
 sM
@@ -2474,10 +2981,17 @@ pL
 Qv
 Qv
 Qv
+<<<<<<< HEAD
 Am
 "}
 (30,1,1) = {"
 Am
+=======
+RD
+"}
+(30,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 Qv
 qc
@@ -2551,10 +3065,17 @@ pL
 Qv
 Qv
 Qv
+<<<<<<< HEAD
 Am
 "}
 (31,1,1) = {"
 Am
+=======
+RD
+"}
+(31,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 pl
 qc
@@ -2628,10 +3149,17 @@ dR
 dR
 dR
 Qv
+<<<<<<< HEAD
 Am
 "}
 (32,1,1) = {"
 Am
+=======
+RD
+"}
+(32,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 sM
 sM
@@ -2705,10 +3233,17 @@ dR
 dR
 Qv
 Qv
+<<<<<<< HEAD
 Am
 "}
 (33,1,1) = {"
 Am
+=======
+RD
+"}
+(33,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 sM
 sM
@@ -2737,7 +3272,11 @@ dR
 sM
 sM
 sM
+<<<<<<< HEAD
 dR
+=======
+NM
+>>>>>>> tg-pr-88929
 sM
 sM
 sM
@@ -2782,10 +3321,17 @@ dR
 dR
 Qv
 Qv
+<<<<<<< HEAD
 Am
 "}
 (34,1,1) = {"
 Am
+=======
+RD
+"}
+(34,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 sM
 sM
@@ -2859,10 +3405,17 @@ dR
 dR
 dR
 Qv
+<<<<<<< HEAD
 Am
 "}
 (35,1,1) = {"
 Am
+=======
+RD
+"}
+(35,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 sM
 sM
@@ -2936,10 +3489,17 @@ YT
 YT
 vz
 Qv
+<<<<<<< HEAD
 Am
 "}
 (36,1,1) = {"
 Am
+=======
+RD
+"}
+(36,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 dR
 sM
@@ -3013,10 +3573,17 @@ YT
 YT
 YT
 Qv
+<<<<<<< HEAD
 Am
 "}
 (37,1,1) = {"
 Am
+=======
+RD
+"}
+(37,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 Qv
 dR
@@ -3090,10 +3657,17 @@ YT
 YT
 YT
 Qv
+<<<<<<< HEAD
 Am
 "}
 (38,1,1) = {"
 Am
+=======
+RD
+"}
+(38,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 Qv
 dR
@@ -3167,10 +3741,17 @@ YT
 YT
 YT
 Qv
+<<<<<<< HEAD
 Am
 "}
 (39,1,1) = {"
 Am
+=======
+RD
+"}
+(39,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 Qv
 dR
@@ -3244,10 +3825,17 @@ YT
 YT
 YT
 Qv
+<<<<<<< HEAD
 Am
 "}
 (40,1,1) = {"
 Am
+=======
+RD
+"}
+(40,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 Qv
 dR
@@ -3321,10 +3909,17 @@ YT
 YT
 YT
 Qv
+<<<<<<< HEAD
 Am
 "}
 (41,1,1) = {"
 Am
+=======
+RD
+"}
+(41,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 dR
 sa
@@ -3398,10 +3993,17 @@ YT
 YT
 uJ
 Qv
+<<<<<<< HEAD
 Am
 "}
 (42,1,1) = {"
 Am
+=======
+RD
+"}
+(42,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 dR
 AI
@@ -3475,10 +4077,17 @@ dR
 dR
 dR
 Qv
+<<<<<<< HEAD
 Am
 "}
 (43,1,1) = {"
 Am
+=======
+RD
+"}
+(43,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 yo
 yo
@@ -3552,10 +4161,17 @@ dR
 dR
 dR
 Qv
+<<<<<<< HEAD
 Am
 "}
 (44,1,1) = {"
 Am
+=======
+RD
+"}
+(44,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 dR
 yo
@@ -3629,10 +4245,17 @@ dR
 dR
 dR
 Qv
+<<<<<<< HEAD
 Am
 "}
 (45,1,1) = {"
 Am
+=======
+RD
+"}
+(45,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 dR
 dR
@@ -3706,10 +4329,17 @@ kK
 dR
 Qv
 Qv
+<<<<<<< HEAD
 Am
 "}
 (46,1,1) = {"
 Am
+=======
+RD
+"}
+(46,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 Qv
 sa
@@ -3783,10 +4413,17 @@ dR
 dR
 Qv
 Qv
+<<<<<<< HEAD
 Am
 "}
 (47,1,1) = {"
 Am
+=======
+RD
+"}
+(47,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 Qv
 dR
@@ -3860,10 +4497,17 @@ dR
 dR
 Qv
 Qv
+<<<<<<< HEAD
 Am
 "}
 (48,1,1) = {"
 Am
+=======
+RD
+"}
+(48,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 Qv
 dR
@@ -3937,10 +4581,17 @@ dR
 dR
 dR
 Qv
+<<<<<<< HEAD
 Am
 "}
 (49,1,1) = {"
 Am
+=======
+RD
+"}
+(49,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 Qv
 dR
@@ -4014,10 +4665,17 @@ sw
 dR
 dR
 Qv
+<<<<<<< HEAD
 Am
 "}
 (50,1,1) = {"
 Am
+=======
+RD
+"}
+(50,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 Qv
 sa
@@ -4091,10 +4749,17 @@ eB
 dR
 dR
 Qv
+<<<<<<< HEAD
 Am
 "}
 (51,1,1) = {"
 Am
+=======
+RD
+"}
+(51,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 Qv
 Qv
@@ -4168,10 +4833,17 @@ dR
 dR
 sa
 Qv
+<<<<<<< HEAD
 Am
 "}
 (52,1,1) = {"
 Am
+=======
+RD
+"}
+(52,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 Qv
 Qv
@@ -4245,10 +4917,17 @@ dR
 dR
 dR
 Qv
+<<<<<<< HEAD
 Am
 "}
 (53,1,1) = {"
 Am
+=======
+RD
+"}
+(53,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 Qv
 Qv
@@ -4267,7 +4946,11 @@ sM
 sM
 sM
 sw
+<<<<<<< HEAD
 dR
+=======
+Dz
+>>>>>>> tg-pr-88929
 sM
 sM
 sM
@@ -4322,10 +5005,17 @@ Qv
 dR
 dR
 Qv
+<<<<<<< HEAD
 Am
 "}
 (54,1,1) = {"
 Am
+=======
+RD
+"}
+(54,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 Qv
 Qv
@@ -4399,10 +5089,17 @@ Qv
 dR
 Qv
 Qv
+<<<<<<< HEAD
 Am
 "}
 (55,1,1) = {"
 Am
+=======
+RD
+"}
+(55,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 Qv
 dR
@@ -4476,10 +5173,17 @@ dR
 dR
 dR
 Qv
+<<<<<<< HEAD
 Am
 "}
 (56,1,1) = {"
 Am
+=======
+RD
+"}
+(56,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 Qv
 dR
@@ -4553,10 +5257,17 @@ dR
 dR
 dR
 Qv
+<<<<<<< HEAD
 Am
 "}
 (57,1,1) = {"
 Am
+=======
+RD
+"}
+(57,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 Qv
 dR
@@ -4630,10 +5341,17 @@ dR
 dR
 dR
 Qv
+<<<<<<< HEAD
 Am
 "}
 (58,1,1) = {"
 Am
+=======
+RD
+"}
+(58,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 Qv
 dR
@@ -4652,7 +5370,11 @@ sM
 sM
 sM
 dR
+<<<<<<< HEAD
 dR
+=======
+hc
+>>>>>>> tg-pr-88929
 sM
 sM
 sM
@@ -4707,10 +5429,17 @@ sa
 dR
 dR
 Qv
+<<<<<<< HEAD
 Am
 "}
 (59,1,1) = {"
 Am
+=======
+RD
+"}
+(59,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 Qv
 sa
@@ -4784,10 +5513,17 @@ dR
 Qv
 Qv
 Qv
+<<<<<<< HEAD
 Am
 "}
 (60,1,1) = {"
 Am
+=======
+RD
+"}
+(60,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 Qv
 dR
@@ -4861,10 +5597,17 @@ dR
 Qv
 Qv
 Qv
+<<<<<<< HEAD
 Am
 "}
 (61,1,1) = {"
 Am
+=======
+RD
+"}
+(61,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 dR
 kK
@@ -4938,10 +5681,17 @@ Qv
 Qv
 Qv
 Qv
+<<<<<<< HEAD
 Am
 "}
 (62,1,1) = {"
 Am
+=======
+RD
+"}
+(62,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 dR
 sa
@@ -5015,10 +5765,17 @@ Qv
 Qv
 Qv
 Qv
+<<<<<<< HEAD
 Am
 "}
 (63,1,1) = {"
 Am
+=======
+RD
+"}
+(63,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 dR
 Lw
@@ -5092,10 +5849,17 @@ Qv
 Qv
 Qv
 Qv
+<<<<<<< HEAD
 Am
 "}
 (64,1,1) = {"
 Am
+=======
+RD
+"}
+(64,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 dR
 sa
@@ -5169,10 +5933,17 @@ Qv
 Qv
 Qv
 Qv
+<<<<<<< HEAD
 Am
 "}
 (65,1,1) = {"
 Am
+=======
+RD
+"}
+(65,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 dR
 dR
@@ -5246,10 +6017,17 @@ Qv
 Qv
 Qv
 Qv
+<<<<<<< HEAD
 Am
 "}
 (66,1,1) = {"
 Am
+=======
+RD
+"}
+(66,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 dR
 kK
@@ -5323,10 +6101,17 @@ Qv
 Qv
 Qv
 Qv
+<<<<<<< HEAD
 Am
 "}
 (67,1,1) = {"
 Am
+=======
+RD
+"}
+(67,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 dR
 dR
@@ -5400,10 +6185,17 @@ Qv
 Qv
 Qv
 Qv
+<<<<<<< HEAD
 Am
 "}
 (68,1,1) = {"
 Am
+=======
+RD
+"}
+(68,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 dR
 dR
@@ -5477,10 +6269,17 @@ Qv
 Qv
 Qv
 Qv
+<<<<<<< HEAD
 Am
 "}
 (69,1,1) = {"
 Am
+=======
+RD
+"}
+(69,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 Qv
 dR
@@ -5554,10 +6353,17 @@ Qv
 Qv
 Qv
 Qv
+<<<<<<< HEAD
 Am
 "}
 (70,1,1) = {"
 Am
+=======
+RD
+"}
+(70,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 Qv
 Qv
@@ -5631,10 +6437,17 @@ Qv
 Qv
 Qv
 Qv
+<<<<<<< HEAD
 Am
 "}
 (71,1,1) = {"
 Am
+=======
+RD
+"}
+(71,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 Qv
 dR
@@ -5708,10 +6521,17 @@ Qv
 Qv
 Qv
 Qv
+<<<<<<< HEAD
 Am
 "}
 (72,1,1) = {"
 Am
+=======
+RD
+"}
+(72,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 Qv
 sa
@@ -5785,10 +6605,17 @@ Qv
 Qv
 Qv
 Qv
+<<<<<<< HEAD
 Am
 "}
 (73,1,1) = {"
 Am
+=======
+RD
+"}
+(73,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 Qv
 Qv
@@ -5862,10 +6689,17 @@ Qv
 Qv
 Qv
 Qv
+<<<<<<< HEAD
 Am
 "}
 (74,1,1) = {"
 Am
+=======
+RD
+"}
+(74,1,1) = {"
+RD
+>>>>>>> tg-pr-88929
 Qv
 Qv
 Qv
@@ -5939,6 +6773,7 @@ Qv
 Qv
 Qv
 Qv
+<<<<<<< HEAD
 Am
 "}
 (75,1,1) = {"
@@ -6017,4 +6852,84 @@ Am
 Am
 Am
 Am
+=======
+RD
+"}
+(75,1,1) = {"
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+RD
+>>>>>>> tg-pr-88929
 "}

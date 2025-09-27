@@ -17,7 +17,10 @@
 /obj/item/style_meter/Initialize(mapload)
 	. = ..()
 	meter_appearance = mutable_appearance(icon, icon_state)
+<<<<<<< HEAD
 	RegisterSignal(src, COMSIG_ATOM_TOOL_ACT(TOOL_MULTITOOL), PROC_REF(on_multitool))
+=======
+>>>>>>> tg-pr-88929
 
 /obj/item/style_meter/Destroy(force)
 	if(istype(loc, /obj/item/clothing/glasses))
@@ -28,16 +31,26 @@
 	. = ..()
 	. += span_notice("You feel like a <b>multitool</b> could be used on this.")
 
+<<<<<<< HEAD
 /obj/item/style_meter/interact_with_atom(atom/movable/interacting_with, mob/living/user, list/modifiers)
 	. = ..()
 	if(!istype(interacting_with, /obj/item/clothing/glasses))
 		return NONE
 
+=======
+/obj/item/style_meter/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
+	if(!istype(interacting_with, /obj/item/clothing/glasses))
+		return NONE
+
+	. = ITEM_INTERACT_SUCCESS
+
+>>>>>>> tg-pr-88929
 	forceMove(interacting_with)
 	interacting_with.add_overlay(meter_appearance)
 	RegisterSignal(interacting_with, COMSIG_ITEM_EQUIPPED, PROC_REF(check_wearing))
 	RegisterSignal(interacting_with, COMSIG_ITEM_DROPPED, PROC_REF(on_drop))
 	RegisterSignal(interacting_with, COMSIG_ATOM_EXAMINE, PROC_REF(on_examine))
+<<<<<<< HEAD
 	RegisterSignal(interacting_with, COMSIG_CLICK_ALT, PROC_REF(on_altclick))
 	RegisterSignal(interacting_with, COMSIG_ATOM_TOOL_ACT(TOOL_MULTITOOL), PROC_REF(on_multitool))
 	balloon_alert(user, "style meter attached")
@@ -51,6 +64,21 @@
 
 	style_meter = carbon_wearer.AddComponent(/datum/component/style, multitooled)
 	return ITEM_INTERACT_SUCCESS
+=======
+	RegisterSignal(interacting_with, COMSIG_CLICK_ALT, PROC_REF(on_click_alt))
+	RegisterSignal(interacting_with, COMSIG_ATOM_TOOL_ACT(TOOL_MULTITOOL), PROC_REF(redirect_multitool))
+	balloon_alert(user, "style meter attached")
+	playsound(src, 'sound/machines/click.ogg', 30, TRUE)
+	if(!iscarbon(interacting_with.loc))
+		return .
+
+	var/mob/living/carbon/carbon_wearer = interacting_with.loc
+	if(carbon_wearer.glasses != interacting_with)
+		return .
+
+	style_meter = carbon_wearer.AddComponent(/datum/component/style, multitooled)
+	return .
+>>>>>>> tg-pr-88929
 
 /obj/item/style_meter/Moved(atom/old_loc, Dir, momentum_change)
 	. = ..()
@@ -90,6 +118,7 @@
 
 
 /// Signal proc to remove from glasses
+<<<<<<< HEAD
 /obj/item/style_meter/proc/on_altclick(datum/source, mob/user)
 	SIGNAL_HANDLER
 
@@ -109,6 +138,30 @@
 	else
 		balloon_alert(user, "meter [multitooled ? "" : "un"]hacked")
 
+=======
+/obj/item/style_meter/proc/on_click_alt(datum/source, mob/user)
+	SIGNAL_HANDLER
+
+	if(!istype(loc, /obj/item/clothing/glasses) || !user.can_perform_action(source))
+		return CLICK_ACTION_BLOCKING
+
+	clean_up(loc)
+	forceMove(get_turf(src))
+	INVOKE_ASYNC(user, TYPE_PROC_REF(/mob, put_in_hands), src)
+	return CLICK_ACTION_SUCCESS
+
+/obj/item/style_meter/multitool_act(mob/living/user, obj/item/tool)
+	multitooled = !multitooled
+	balloon_alert(user, "meter [multitooled ? "" : "un"]hacked")
+	style_meter?.multitooled = multitooled
+	return ITEM_INTERACT_SUCCESS
+
+/// Redirect multitooling on our glasses to our style meter
+/obj/item/style_meter/proc/redirect_multitool(datum/source, mob/living/user, obj/item/tool, ...)
+	SIGNAL_HANDLER
+
+	return multitool_act(user, tool)
+>>>>>>> tg-pr-88929
 
 /// Unregister signals and just generally clean up ourselves after being removed from glasses
 /obj/item/style_meter/proc/clean_up(atom/movable/old_location)
@@ -128,7 +181,11 @@
 	maptext_height = 120
 	maptext_width = 105
 	maptext_x = 5
+<<<<<<< HEAD
 	maptext_y = 100
+=======
+	maptext_y = 94
+>>>>>>> tg-pr-88929
 	maptext = ""
 	layer = SCREENTIP_LAYER
 

@@ -11,7 +11,18 @@
 /datum/ai_planning_subtree/make_babies/SelectBehaviors(datum/ai_controller/controller, seconds_per_tick)
 	. = ..()
 
+<<<<<<< HEAD
 	if(!SPT_PROB(chance, seconds_per_tick))
+		return
+
+	if(controller.blackboard_key_exists(BB_BABIES_TARGET))
+		controller.queue_behavior(reproduce_behavior, BB_BABIES_TARGET, BB_BABIES_CHILD_TYPES)
+		return SUBTREE_RETURN_FINISH_PLANNING
+
+	if(controller.pawn.gender == FEMALE || !controller.blackboard[BB_BREED_READY])
+=======
+	if(!SPT_PROB(chance, seconds_per_tick) || controller.blackboard[BB_PARTNER_SEARCH_TIMEOUT] >= world.time)
+>>>>>>> tg-pr-88929
 		return
 
 	if(controller.blackboard_key_exists(BB_BABIES_TARGET))
@@ -21,14 +32,7 @@
 	if(controller.pawn.gender == FEMALE || !controller.blackboard[BB_BREED_READY])
 		return
 
-	var/partner_types = controller.blackboard[BB_BABIES_PARTNER_TYPES]
-	var/baby_types = controller.blackboard[BB_BABIES_CHILD_TYPES]
-
-	if(!partner_types || !baby_types)
-		return
-
-	// Baby can't reproduce
-	if(is_type_in_list(controller.pawn, baby_types))
+	if(!controller.blackboard[BB_BABIES_PARTNER_TYPES] || !controller.blackboard[BB_BABIES_CHILD_TYPES])
 		return
 
 	// Find target

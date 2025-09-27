@@ -7,16 +7,26 @@
 	icon_state = "bluespace-prison"
 	density = TRUE
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | ACID_PROOF //ha ha no getting out!!
+<<<<<<< HEAD
+=======
+	interaction_flags_mouse_drop = NEED_DEXTERITY
+>>>>>>> tg-pr-88929
 
 /obj/machinery/fugitive_capture/examine(mob/user)
 	. = ..()
 	. += span_notice("Add a prisoner by dragging them into the machine.")
 
+<<<<<<< HEAD
 /obj/machinery/fugitive_capture/MouseDrop_T(mob/target, mob/user)
 	var/mob/living/fugitive_hunter = user
 	if(!isliving(fugitive_hunter))
 		return
 	if(HAS_TRAIT(fugitive_hunter, TRAIT_UI_BLOCKED) || !Adjacent(fugitive_hunter) || !target.Adjacent(fugitive_hunter) || !ishuman(target))
+=======
+/obj/machinery/fugitive_capture/mouse_drop_receive(mob/target, mob/user, params)
+	var/mob/living/fugitive_hunter = user
+	if(!isliving(fugitive_hunter) || !ishuman(target))
+>>>>>>> tg-pr-88929
 		return
 	var/mob/living/carbon/human/fugitive = target
 	var/datum/antagonist/fugitive/fug_antag = fugitive.mind.has_antag_datum(/datum/antagonist/fugitive)
@@ -37,6 +47,10 @@
 	name = "shuttle console"
 	shuttleId = "huntership"
 	possible_destinations = "huntership_home;huntership_custom;whiteship_home;syndicate_nw"
+<<<<<<< HEAD
+=======
+	req_access = list(ACCESS_HUNTER)
+>>>>>>> tg-pr-88929
 
 /obj/machinery/computer/camera_advanced/shuttle_docker/syndicate/hunter
 	name = "shuttle navigation computer"
@@ -50,6 +64,11 @@
 
 /obj/structure/closet/crate/eva
 	name = "EVA crate"
+<<<<<<< HEAD
+=======
+	icon_state = "o2crate"
+	base_icon_state = "o2crate"
+>>>>>>> tg-pr-88929
 
 /obj/structure/closet/crate/eva/PopulateContents()
 	..()
@@ -68,7 +87,11 @@
 	name = "psyker navigation warper"
 	desc = "Uses amplified brainwaves to designate and map a precise transit location for the psyker shuttle."
 	icon_screen = "recharge_comp_on"
+<<<<<<< HEAD
 	interaction_flags_machine = INTERACT_MACHINE_ALLOW_SILICON | INTERACT_MACHINE_SET_MACHINE //blind friendly
+=======
+	interaction_flags_machine = INTERACT_MACHINE_ALLOW_SILICON //blind friendly
+>>>>>>> tg-pr-88929
 	x_offset = 0
 	y_offset = 11
 
@@ -128,10 +151,18 @@
 /obj/structure/bouncy_castle
 	name = "bouncy castle"
 	desc = "And if you do drugs, you go to hell before you die. Please."
+<<<<<<< HEAD
 	icon = 'icons/obj/bouncy_castle.dmi'
 	icon_state = "bouncy_castle"
 	anchored = TRUE
 	density = TRUE
+=======
+	icon = 'icons/obj/toys/bouncy_castle.dmi'
+	icon_state = "bouncy_castle"
+	anchored = TRUE
+	density = TRUE
+	layer = OBJ_LAYER
+>>>>>>> tg-pr-88929
 
 /obj/structure/bouncy_castle/Initialize(mapload, mob/gored)
 	. = ..()
@@ -155,11 +186,19 @@
 	switch(damage_type)
 		if(BRUTE)
 			if(damage_amount)
+<<<<<<< HEAD
 				playsound(src, 'sound/effects/attackblob.ogg', 50, TRUE)
 			else
 				playsound(src, 'sound/weapons/tap.ogg', 50, TRUE)
 		if(BURN)
 			playsound(src, 'sound/items/welder.ogg', 100, TRUE)
+=======
+				playsound(src, 'sound/effects/blob/attackblob.ogg', 50, TRUE)
+			else
+				playsound(src, 'sound/items/weapons/tap.ogg', 50, TRUE)
+		if(BURN)
+			playsound(src, 'sound/items/tools/welder.ogg', 100, TRUE)
+>>>>>>> tg-pr-88929
 
 /obj/item/paper/crumpled/fluff/fortune_teller
 	name = "scribbled note"
@@ -210,3 +249,25 @@
 			continue
 
 		return found_fugitive
+<<<<<<< HEAD
+=======
+
+/obj/item/radio/headset/psyker
+	name = "psychic headset"
+	desc = "A headset designed to boost psychic waves. Protects ears from flashbangs."
+	icon_state = "psyker_headset"
+	worn_icon_state = "syndie_headset"
+
+/obj/item/radio/headset/psyker/Initialize(mapload)
+	. = ..()
+	AddComponent(/datum/component/wearertargeting/earprotection, list(ITEM_SLOT_EARS))
+
+/obj/item/radio/headset/psyker/equipped(mob/living/user, slot)
+	. = ..()
+	if(slot_flags & slot)
+		ADD_CLOTHING_TRAIT(user, TRAIT_ECHOLOCATION_EXTRA_RANGE)
+
+/obj/item/radio/headset/psyker/dropped(mob/user, silent)
+	. = ..()
+	REMOVE_CLOTHING_TRAIT(user, TRAIT_ECHOLOCATION_EXTRA_RANGE)
+>>>>>>> tg-pr-88929

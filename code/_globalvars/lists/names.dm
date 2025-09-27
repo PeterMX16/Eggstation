@@ -8,12 +8,12 @@ GLOBAL_LIST_INIT(first_names, world.file2list("strings/names/first.txt"))
 GLOBAL_LIST_INIT(first_names_male, world.file2list("strings/names/first_male.txt"))
 GLOBAL_LIST_INIT(first_names_female, world.file2list("strings/names/first_female.txt"))
 GLOBAL_LIST_INIT(last_names, world.file2list("strings/names/last.txt"))
-GLOBAL_LIST_INIT(lizard_names_male, world.file2list("strings/names/lizard_male.txt"))
-GLOBAL_LIST_INIT(lizard_names_female, world.file2list("strings/names/lizard_female.txt"))
 GLOBAL_LIST_INIT(clown_names, world.file2list("strings/names/clown.txt"))
 GLOBAL_LIST_INIT(mime_names, world.file2list("strings/names/mime.txt"))
 GLOBAL_LIST_INIT(religion_names, world.file2list("strings/names/religion.txt"))
 GLOBAL_LIST_INIT(carp_names, world.file2list("strings/names/carp.txt"))
+GLOBAL_LIST_INIT(lizard_names_male, world.file2list("strings/names/lizard_male.txt"))
+GLOBAL_LIST_INIT(lizard_names_female, world.file2list("strings/names/lizard_female.txt"))
 GLOBAL_LIST_INIT(golem_names, world.file2list("strings/names/golem.txt"))
 GLOBAL_LIST_INIT(moth_first, world.file2list("strings/names/moth_first.txt"))
 GLOBAL_LIST_INIT(moth_last, world.file2list("strings/names/moth_last.txt"))
@@ -23,6 +23,7 @@ GLOBAL_LIST_INIT(posibrain_names, world.file2list("strings/names/posibrain.txt")
 GLOBAL_LIST_INIT(nightmare_names, world.file2list("strings/names/nightmare.txt"))
 GLOBAL_LIST_INIT(megacarp_first_names, world.file2list("strings/names/megacarp1.txt"))
 GLOBAL_LIST_INIT(megacarp_last_names, world.file2list("strings/names/megacarp2.txt"))
+<<<<<<< HEAD
 GLOBAL_LIST_INIT(oozeling_first_names, world.file2list("strings/names/ooze_first.txt"))
 GLOBAL_LIST_INIT(oozeling_last_names, world.file2list("strings/names/ooze_last.txt"))
 GLOBAL_LIST_INIT(simian_last_names, world.file2list("monkestation/strings/names/simian_last.txt"))
@@ -31,10 +32,20 @@ GLOBAL_LIST_INIT(simian_names_male, world.file2list("monkestation/strings/names/
 GLOBAL_LIST_INIT(cyberauth_names, world.file2list("strings/names/cyberauth.txt"))
 GLOBAL_LIST_INIT(random_monkey_names, world.file2list("strings/names/random_monkey_names.txt"))
 GLOBAL_LIST_INIT(syndicate_monkey_names, world.file2list("strings/names/syndicate_monkey.txt"))
+=======
+GLOBAL_LIST_INIT(cyberauth_names, world.file2list("strings/names/cyberauth.txt"))
+GLOBAL_LIST_INIT(hacker_aliases, world.file2list("strings/names/hackers.txt"))
+GLOBAL_LIST_INIT(syndicate_monkey_names, world.file2list("strings/names/syndicate_monkey.txt"))
+GLOBAL_LIST_INIT(cargorilla_names, world.file2list("strings/names/cargorilla.txt"))
+>>>>>>> tg-pr-88929
 GLOBAL_LIST_INIT(guardian_first_names, world.file2list("strings/names/guardian_descriptions.txt"))
 GLOBAL_LIST_INIT(guardian_tech_surnames, world.file2list("strings/names/guardian_gamepieces.txt"))
 GLOBAL_LIST_INIT(guardian_fantasy_surnames, world.file2list("strings/names/guardian_tarot.txt"))
 GLOBAL_LIST_INIT(operative_aliases, world.file2list("strings/names/operative_alias.txt"))
+<<<<<<< HEAD
+=======
+GLOBAL_LIST_INIT(voidwalker_names, world.file2list("strings/names/voidwalker.txt"))
+>>>>>>> tg-pr-88929
 
 GLOBAL_LIST_INIT(verbs, world.file2list("strings/names/verbs.txt"))
 GLOBAL_LIST_INIT(ing_verbs, world.file2list("strings/names/ing_verbs.txt"))

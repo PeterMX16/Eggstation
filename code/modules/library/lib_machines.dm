@@ -441,10 +441,12 @@ GLOBAL_VAR_INIT(library_table_modified, 0)
 			var/id = params["book_id"]
 			inventory -= id
 			inventory_update()
+			update_static_data_for_all_viewers()
 			return TRUE
 		if("switch_inventory_page")
 			inventory_page = sanitize_page_input(params["page"], inventory_page, inventory_page_count)
 			inventory_update()
+			update_static_data_for_all_viewers()
 			return TRUE
 		if("checkout")
 			var/list/available = list()
@@ -685,13 +687,24 @@ GLOBAL_VAR_INIT(library_table_modified, 0)
  */
 /obj/machinery/libraryscanner
 	name = "scanner control interface"
-	icon = 'icons/obj/library.dmi'
+	icon = 'icons/obj/service/library.dmi'
 	icon_state = "bigscanner"
 	desc = "It's an industrial strength book scanner. Perfect!"
+	circuit = /obj/item/circuitboard/machine/libraryscanner
 	density = TRUE
 	var/obj/item/book/held_book
 	///Our scanned-in book
 	var/datum/book_info/cache
+
+/obj/machinery/libraryscanner/screwdriver_act(mob/living/user, obj/item/tool)
+	. = ..()
+	if(default_deconstruction_screwdriver(user, "bigscanner2", "bigscanner", tool))
+		return ITEM_INTERACT_SUCCESS
+
+/obj/machinery/libraryscanner/crowbar_act(mob/living/user, obj/item/tool)
+	. = ..()
+	if(default_deconstruction_crowbar(tool))
+		return ITEM_INTERACT_SUCCESS
 
 /obj/machinery/libraryscanner/Destroy()
 	held_book = null
@@ -742,7 +755,7 @@ GLOBAL_VAR_INIT(library_table_modified, 0)
 				return
 			cache = held_book.book_data.return_copy()
 			flick("bigscanner1", src)
-			playsound(src, 'sound/machines/scanner.ogg', vol = 50, vary = TRUE)
+			playsound(src, 'sound/machines/scanner/scanner.ogg', vol = 50, vary = TRUE)
 			return TRUE
 		if("clear")
 			cache = null
@@ -757,9 +770,10 @@ GLOBAL_VAR_INIT(library_table_modified, 0)
  */
 /obj/machinery/bookbinder
 	name = "book binder"
-	icon = 'icons/obj/library.dmi'
+	icon = 'icons/obj/service/library.dmi'
 	icon_state = "binder"
 	desc = "Only intended for binding paper products."
+	circuit = /obj/item/circuitboard/machine/bookbinder
 	density = TRUE
 
 	/// Are we currently binding a book?
@@ -768,10 +782,22 @@ GLOBAL_VAR_INIT(library_table_modified, 0)
 	/// Name of the author for the book, set by scanning your ID.
 	var/scanned_name
 
+<<<<<<< HEAD
 /obj/machinery/bookbinder/wrench_act(mob/living/user, obj/item/tool)
 	. = ..()
 	default_unfasten_wrench(user, tool)
 	return ITEM_INTERACT_SUCCESS
+=======
+/obj/machinery/bookbinder/screwdriver_act(mob/living/user, obj/item/tool)
+	. = ..()
+	if(default_deconstruction_screwdriver(user, "binder2", "binder", tool))
+		return ITEM_INTERACT_SUCCESS
+
+/obj/machinery/bookbinder/crowbar_act(mob/living/user, obj/item/tool)
+	. = ..()
+	if(default_deconstruction_crowbar(tool))
+		return ITEM_INTERACT_SUCCESS
+>>>>>>> tg-pr-88929
 
 /obj/machinery/bookbinder/attackby(obj/hitby, mob/user, params)
 	if(istype(hitby, /obj/item/paper))

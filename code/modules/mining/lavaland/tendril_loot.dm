@@ -68,11 +68,12 @@
 /obj/item/rod_of_asclepius
 	name = "\improper Rod of Asclepius"
 	desc = "A wooden rod about the size of your forearm with a snake carved around it, winding its way up the sides of the rod. Something about it seems to inspire in you the responsibilty and duty to help others."
-	icon = 'icons/obj/lavaland/artefacts.dmi'
+	icon = 'icons/obj/mining_zones/artefacts.dmi'
 	lefthand_file = 'icons/mob/inhands/weapons/staves_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/weapons/staves_righthand.dmi'
 	icon_state = "asclepius_dormant"
 	inhand_icon_state = "asclepius_dormant"
+	icon_angle = -45
 	var/activated = FALSE
 
 /obj/item/rod_of_asclepius/Initialize(mapload)
@@ -105,25 +106,41 @@
 		return
 	var/failText = span_warning("The snake seems unsatisfied with your incomplete oath and returns to its previous place on the rod, returning to its dormant, wooden state. You must stand still while completing your oath!")
 	to_chat(itemUser, span_notice("The wooden snake that was carved into the rod seems to suddenly come alive and begins to slither down your arm! The compulsion to help others grows abnormally strong..."))
+<<<<<<< HEAD
 	//The "iscarbon" is to prevent telekinetic grabs using the rod.
 	//If we don't do this, we create a memory leak if someone uses telekinetic grab on the rod and binds it.
 	//For consistency (and the safety - we want to prevent this at all costs), we do this on each step.
 	if(do_after(itemUser, 4 SECONDS, target = itemUser) && iscarbon(src.loc))
+=======
+	if(do_after(itemUser, 4 SECONDS, target = itemUser))
+>>>>>>> tg-pr-88929
 		itemUser.say("I swear to fulfill, to the best of my ability and judgment, this covenant:", forced = "hippocratic oath")
 	else
 		to_chat(itemUser, failText)
 		return
+<<<<<<< HEAD
 	if(do_after(itemUser, 2 SECONDS, target = itemUser) && iscarbon(src.loc))
+=======
+	if(do_after(itemUser, 2 SECONDS, target = itemUser))
+>>>>>>> tg-pr-88929
 		itemUser.say("I will apply, for the benefit of the sick, all measures that are required, avoiding those twin traps of overtreatment and therapeutic nihilism.", forced = "hippocratic oath")
 	else
 		to_chat(itemUser, failText)
 		return
+<<<<<<< HEAD
 	if(do_after(itemUser, 3 SECONDS, target = itemUser) && iscarbon(src.loc))
+=======
+	if(do_after(itemUser, 3 SECONDS, target = itemUser))
+>>>>>>> tg-pr-88929
 		itemUser.say("I will remember that I remain a member of society, with special obligations to all my fellow human beings, those sound of mind and body as well as the infirm.", forced = "hippocratic oath")
 	else
 		to_chat(itemUser, failText)
 		return
+<<<<<<< HEAD
 	if(do_after(itemUser, 3 SECONDS, target = itemUser) && iscarbon(src.loc))
+=======
+	if(do_after(itemUser, 3 SECONDS, target = itemUser))
+>>>>>>> tg-pr-88929
 		itemUser.say("If I do not violate this oath, may I enjoy life and art, respected while I live and remembered with affection thereafter. May I always act so as to preserve the finest traditions of my calling and may I long experience the joy of healing those who seek my help.", forced = "hippocratic oath")
 	else
 		to_chat(itemUser, failText)
@@ -143,7 +160,7 @@
 /obj/item/clothing/neck/necklace/memento_mori
 	name = "Memento Mori"
 	desc = "A mysterious pendant. An inscription on it says: \"Certain death tomorrow means certain life today.\""
-	icon = 'icons/obj/lavaland/artefacts.dmi'
+	icon = 'icons/obj/mining_zones/artefacts.dmi'
 	icon_state = "memento_mori"
 	worn_icon_state = "memento"
 	actions_types = list(/datum/action/item_action/hands_free/memento_mori)
@@ -202,13 +219,13 @@
 	guardian.locked = TRUE
 	guardian.forceMove(src)
 	to_chat(guardian, span_userdanger("You have been locked away in your summoner's pendant!"))
-	guardian.playsound_local(get_turf(guardian), 'sound/magic/summonitems_generic.ogg', 50, TRUE)
+	guardian.playsound_local(get_turf(guardian), 'sound/effects/magic/summonitems_generic.ogg', 50, TRUE)
 
 /obj/item/clothing/neck/necklace/memento_mori/proc/regurgitate_guardian(mob/living/basic/guardian/guardian)
 	guardian.locked = FALSE
 	guardian.recall(forced = TRUE)
 	to_chat(guardian, span_notice("You have been returned back from your summoner's pendant!"))
-	guardian.playsound_local(get_turf(guardian), 'sound/magic/repulse.ogg', 50, TRUE)
+	guardian.playsound_local(get_turf(guardian), 'sound/effects/magic/repulse.ogg', 50, TRUE)
 
 /datum/action/item_action/hands_free/memento_mori
 	check_flags = NONE
@@ -247,13 +264,13 @@
 		inhand_icon_state = "lantern-blue"
 		wisp.orbit(user, 20)
 		SSblackbox.record_feedback("tally", "wisp_lantern", 1, "Freed")
+		return
 
-	else
-		to_chat(user, span_notice("You return the wisp to the lantern."))
-		icon_state = "lantern-blue-on"
-		inhand_icon_state = "lantern-blue-on"
-		wisp.forceMove(src)
-		SSblackbox.record_feedback("tally", "wisp_lantern", 1, "Returned")
+	to_chat(user, span_notice("You return the wisp to the lantern."))
+	icon_state = "lantern-blue-on"
+	inhand_icon_state = "lantern-blue-on"
+	wisp.forceMove(src)
+	SSblackbox.record_feedback("tally", "wisp_lantern", 1, "Returned")
 
 /obj/item/wisp_lantern/Initialize(mapload)
 	. = ..()
@@ -273,30 +290,40 @@
 	icon = 'icons/obj/lighting.dmi'
 	icon_state = "orb"
 	light_system = OVERLAY_LIGHT
+<<<<<<< HEAD
 	light_outer_range = 7
+=======
+	light_range = 6
+	light_power = 1.2
+	light_color = "#79f1ff"
+>>>>>>> tg-pr-88929
 	light_flags = LIGHT_ATTACHED
 	layer = ABOVE_ALL_MOB_LAYER
 	plane = ABOVE_GAME_PLANE
-	var/sight_flags = SEE_MOBS
 	var/list/color_cutoffs = list(10, 25, 25)
 
 /obj/effect/wisp/orbit(atom/thing, radius, clockwise, rotation_speed, rotation_segments, pre_rotation, lockinorbit)
 	. = ..()
-	if(ismob(thing))
-		RegisterSignal(thing, COMSIG_MOB_UPDATE_SIGHT, PROC_REF(update_user_sight))
-		var/mob/being = thing
-		being.update_sight()
-		to_chat(thing, span_notice("The wisp enhances your vision."))
+	if(!ismob(thing))
+		return
+	var/mob/being = thing
+	RegisterSignal(being, COMSIG_MOB_UPDATE_SIGHT, PROC_REF(update_user_sight))
+	to_chat(being, span_notice("The wisp enhances your vision."))
+	ADD_TRAIT(being, TRAIT_THERMAL_VISION, REF(src))
+	being.update_sight()
 
 /obj/effect/wisp/stop_orbit(datum/component/orbiter/orbits)
-	. = ..()
-	if(ismob(orbits.parent))
-		UnregisterSignal(orbits.parent, COMSIG_MOB_UPDATE_SIGHT)
-		to_chat(orbits.parent, span_notice("Your vision returns to normal."))
+	if(!ismob(orbit_target))
+		return ..()
+	var/mob/being = orbit_target
+	UnregisterSignal(being, COMSIG_MOB_UPDATE_SIGHT)
+	to_chat(being, span_notice("Your vision returns to normal."))
+	REMOVE_TRAIT(being, TRAIT_THERMAL_VISION, REF(src))
+	being.update_sight()
+	return ..()
 
 /obj/effect/wisp/proc/update_user_sight(mob/user)
 	SIGNAL_HANDLER
-	user.add_sight(sight_flags)
 	if(!isnull(color_cutoffs))
 		user.lighting_color_cutoffs = blend_cutoff_colors(user.lighting_color_cutoffs, color_cutoffs)
 
@@ -304,7 +331,7 @@
 /obj/item/warp_cube
 	name = "blue cube"
 	desc = "A mysterious blue cube."
-	icon = 'icons/obj/lavaland/artefacts.dmi'
+	icon = 'icons/obj/mining_zones/artefacts.dmi'
 	icon_state = "blue_cube"
 	var/teleport_color = "#3FBAFD"
 	var/obj/item/warp_cube/linked
@@ -318,8 +345,12 @@
 
 /obj/item/warp_cube/attack_self(mob/user)
 	var/turf/current_location = get_turf(user)
+<<<<<<< HEAD
 	var/area/current_area = current_location.loc
 	if(!linked || ((SSticker.current_state < GAME_STATE_FINISHED) && (current_area.area_flags & NOTELEPORT))) // monkestation edit: allow jaunts to work after roundend
+=======
+	if(!linked || !check_teleport_valid(src, current_location))
+>>>>>>> tg-pr-88929
 		to_chat(user, span_warning("[src] fizzles uselessly."))
 		return
 	if(teleporting)
@@ -372,7 +403,7 @@
 /obj/item/immortality_talisman
 	name = "\improper Immortality Talisman"
 	desc = "A dread talisman that can render you completely invulnerable."
-	icon = 'icons/obj/lavaland/artefacts.dmi'
+	icon = 'icons/obj/mining_zones/artefacts.dmi'
 	icon_state = "talisman"
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF
 	actions_types = list(/datum/action/item_action/immortality)
@@ -420,7 +451,11 @@
 	if(!user)
 		return
 
+<<<<<<< HEAD
 	user.remove_traits(list(TRAIT_NO_TRANSFORM, TRAIT_GODMODE), REF(src))
+=======
+	user.remove_traits(list(TRAIT_GODMODE, TRAIT_NO_TRANSFORM), REF(src))
+>>>>>>> tg-pr-88929
 	user.forceMove(get_turf(src))
 	user.visible_message(span_danger("[user] pops back into reality!"))
 
@@ -431,7 +466,11 @@
 	setDir(user.dir)
 
 	user.forceMove(src)
+<<<<<<< HEAD
 	user.add_traits(list(TRAIT_NO_TRANSFORM, TRAIT_GODMODE), REF(src))
+=======
+	user.add_traits(list(TRAIT_GODMODE, TRAIT_NO_TRANSFORM), REF(src))
+>>>>>>> tg-pr-88929
 
 	user_ref = WEAKREF(user)
 
@@ -448,7 +487,7 @@
 	// but regardless block all relayed moves, because no, you cannot move in the void.
 	return
 
-/obj/effect/immortality_talisman/singularity_pull()
+/obj/effect/immortality_talisman/singularity_pull(atom/singularity, current_size)
 	return
 
 /obj/effect/immortality_talisman/void
@@ -459,15 +498,13 @@
 /obj/item/shared_storage
 	name = "paradox bag"
 	desc = "Somehow, it's in two places at once."
-	icon = 'icons/obj/lavaland/artefacts.dmi'
+	icon = 'icons/obj/mining_zones/artefacts.dmi'
 	icon_state = "paradox_bag"
 	worn_icon_state = "paradoxbag"
 	slot_flags = ITEM_SLOT_BELT
 	resistance_flags = INDESTRUCTIBLE
 
 /obj/item/shared_storage/red
-	name = "paradox bag"
-	desc = "Somehow, it's in two places at once."
 
 /obj/item/shared_storage/red/Initialize(mapload)
 	. = ..()
@@ -489,7 +526,7 @@
 /obj/item/book_of_babel
 	name = "Book of Babel"
 	desc = "An ancient tome written in countless tongues."
-	icon = 'icons/obj/library.dmi'
+	icon = 'icons/obj/service/library.dmi'
 	icon_state = "book1"
 	w_class = WEIGHT_CLASS_SMALL
 
@@ -511,9 +548,9 @@
 
 //Potion of Flight
 /obj/item/reagent_containers/cup/bottle/potion
-	icon = 'icons/obj/lavaland/artefacts.dmi'
+	icon = 'icons/obj/mining_zones/artefacts.dmi'
 	icon_state = "potionflask"
-	fill_icon = 'icons/obj/lavaland/artefacts.dmi'
+	fill_icon = 'icons/obj/mining_zones/artefacts.dmi'
 	fill_icon_state = "potion_fill"
 	fill_icon_thresholds = list(0, 1)
 
@@ -530,16 +567,26 @@
 /datum/reagent/flightpotion
 	name = "Flight Potion"
 	description = "Strange mutagenic compound of unknown origins."
+<<<<<<< HEAD
 	reagent_state = LIQUID
 	process_flags = ORGANIC | SYNTHETIC
+=======
+>>>>>>> tg-pr-88929
 	color = "#976230"
 
 /datum/reagent/flightpotion/expose_mob(mob/living/exposed_mob, methods=TOUCH, reac_volume, show_message = TRUE)
 	. = ..()
 	if(!ishuman(exposed_mob) || exposed_mob.stat == DEAD)
 		return
+	if(!(methods & (INGEST | TOUCH)))
+		return
 	var/mob/living/carbon/human/exposed_human = exposed_mob
+<<<<<<< HEAD
 	if(reac_volume < 5 || !exposed_human.dna)
+=======
+	var/obj/item/bodypart/chest/chest = exposed_human.get_bodypart(BODY_ZONE_CHEST)
+	if(!chest.wing_types || reac_volume < 5 || !exposed_human.dna)
+>>>>>>> tg-pr-88929
 		if((methods & INGEST) && show_message)
 			to_chat(exposed_human, span_notice("<i>You feel nothing but a terrible aftertaste.</i>"))
 		return
@@ -547,24 +594,27 @@
 		to_chat(exposed_human, span_userdanger("A terrible pain travels down your back as your wings change shape!"))
 	else
 		to_chat(exposed_human, span_userdanger("A terrible pain travels down your back as wings burst out!"))
-	var/obj/item/organ/external/wings/functional/wings = get_wing_choice(exposed_human)
+	var/obj/item/organ/wings/functional/wings = get_wing_choice(exposed_human, chest)
 	wings = new wings()
 	wings.Insert(exposed_human)
-	exposed_human.dna.species.handle_mutant_bodyparts(exposed_human)
-	playsound(exposed_human.loc, 'sound/items/poster_ripped.ogg', 50, TRUE, -1)
-	exposed_human.adjustBruteLoss(20)
+	playsound(exposed_human.loc, 'sound/items/poster/poster_ripped.ogg', 50, TRUE, -1)
+	exposed_human.apply_damage(20, def_zone = BODY_ZONE_CHEST, forced = TRUE, wound_bonus = CANT_WOUND)
 	exposed_human.emote("scream")
 
+<<<<<<< HEAD
 /datum/reagent/flightpotion/proc/get_wing_choice(mob/living/carbon/human/needs_wings)
 	var/obj/item/bodypart/chest/chest = needs_wings.get_bodypart(BODY_ZONE_CHEST)
+=======
+/datum/reagent/flightpotion/proc/get_wing_choice(mob/needs_wings, obj/item/bodypart/chest/chest)
+>>>>>>> tg-pr-88929
 	var/list/wing_types = chest.wing_types.Copy()
 	if(wing_types.len == 1 || !needs_wings.client)
 		return wing_types[1]
 	var/list/radial_wings = list()
 	var/list/name2type = list()
-	for(var/obj/item/organ/external/wings/functional/possible_type as anything in wing_types)
+	for(var/obj/item/organ/wings/functional/possible_type as anything in wing_types)
 		var/datum/sprite_accessory/accessory = initial(possible_type.sprite_accessory_override) //get the type
-		accessory = GLOB.wings_list[initial(accessory.name)] //get the singleton instance
+		accessory = SSaccessories.wings_list[initial(accessory.name)] //get the singleton instance
 		var/image/img = image(icon = accessory.icon, icon_state = "m_wingsopen_[accessory.icon_state]_BEHIND") //Process the HUD elements
 		img.transform *= 0.5
 		img.pixel_x = -32
@@ -624,6 +674,7 @@
 	min_cold_protection_temperature = GLOVES_MIN_TEMP_PROTECT
 
 	max_heat_protection_temperature = GLOVES_MAX_TEMP_PROTECT
+	body_parts_covered = HANDS|ARMS
 	resistance_flags = LAVA_PROOF | FIRE_PROOF //they are from lavaland after all
 	armor_type = /datum/armor/gloves_gauntlets
 
@@ -640,7 +691,7 @@
 	. = ..()
 	if(slot & ITEM_SLOT_GLOVES)
 		tool_behaviour = TOOL_MINING
-		RegisterSignal(user, COMSIG_HUMAN_EARLY_UNARMED_ATTACK, PROC_REF(rocksmash))
+		RegisterSignal(user, COMSIG_LIVING_UNARMED_ATTACK, PROC_REF(rocksmash))
 		RegisterSignal(user, COMSIG_MOVABLE_BUMP, PROC_REF(rocksmash))
 	else
 		stopmining(user)
@@ -651,19 +702,24 @@
 
 /obj/item/clothing/gloves/gauntlets/proc/stopmining(mob/user)
 	tool_behaviour = initial(tool_behaviour)
-	UnregisterSignal(user, COMSIG_HUMAN_EARLY_UNARMED_ATTACK)
+	UnregisterSignal(user, COMSIG_LIVING_UNARMED_ATTACK)
 	UnregisterSignal(user, COMSIG_MOVABLE_BUMP)
 
 /obj/item/clothing/gloves/gauntlets/proc/rocksmash(mob/living/carbon/human/user, atom/rocks, proximity)
 	SIGNAL_HANDLER
+	if(!proximity)
+		return NONE
 	if(!ismineralturf(rocks) && !isasteroidturf(rocks))
-		return
+		return NONE
 	rocks.attackby(src, user)
 	return COMPONENT_CANCEL_ATTACK_CHAIN
 
 /obj/item/clothing/suit/hooded/berserker
 	name = "berserker armor"
-	desc = "Voices echo from the armor, driving the user insane. Is not space-proof."
+	desc = "This hulking armor seems to possess some kind of dark force within; howling in rage, hungry for carnage. \
+		The self-sealing stem bolts that allowed this suit to be spaceworthy have long since corroded. However, the entity \
+		sealed within the suit seems to hunger for the fleeting lifeforce found in the remains left in the remains of drakes. \
+		Feeding it drake remains seems to empower a suit piece, though turns the remains back to lifeless ash."
 	icon_state = "berserker"
 	icon = 'icons/obj/clothing/suits/armor.dmi'
 	worn_icon = 'icons/mob/clothing/suits/armor.dmi'
@@ -674,19 +730,9 @@
 
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
 	body_parts_covered = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
-	resistance_flags = FIRE_PROOF
-	clothing_flags = THICKMATERIAL
-	allowed = list(
-		/obj/item/flashlight,
-		/obj/item/tank/internals,
-		/obj/item/pickaxe,
-		/obj/item/spear,
-		/obj/item/organ/internal/monster_core,
-		/obj/item/knife,
-		/obj/item/kinetic_crusher,
-		/obj/item/resonator,
-		/obj/item/melee/cleaving_saw,
-	)
+	flags_inv = HIDEGLOVES|HIDESHOES|HIDEJUMPSUIT
+	resistance_flags = FIRE_PROOF | ACID_PROOF
+	clothing_flags = THICKMATERIAL|HEADINTERNALS
 
 /datum/armor/hooded_berserker
 	melee = 30
@@ -694,23 +740,35 @@
 	laser = 10
 	energy = 20
 	bomb = 50
+	bio = 60
 	fire = 100
 	acid = 100
+	wound = 10
+
+/datum/armor/drake_empowerment
+	melee = 35
+	laser = 30
+	energy = 20
+	bomb = 20
 
 /obj/item/clothing/suit/hooded/berserker/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/anti_magic, ALL, inventory_flags = ITEM_SLOT_OCLOTHING)
+	AddComponent(/datum/component/armor_plate, maxamount = 1, upgrade_item = /obj/item/drake_remains, armor_mod = /datum/armor/drake_empowerment, upgrade_prefix = "empowered")
+	allowed = GLOB.mining_suit_allowed
 
 #define MAX_BERSERK_CHARGE 100
 #define PROJECTILE_HIT_MULTIPLIER 1.5
 #define DAMAGE_TO_CHARGE_SCALE 0.75
 #define CHARGE_DRAINED_PER_SECOND 5
-#define BERSERK_MELEE_ARMOR_ADDED 50
 #define BERSERK_ATTACK_SPEED_MODIFIER 0.25
 
 /obj/item/clothing/head/hooded/berserker
 	name = "berserker helmet"
-	desc = "Peering into the eyes of the helmet is enough to seal damnation."
+	desc = "This burdensome helmet seems to possess some kind of dark force within; howling in rage, hungry for carnage. \
+		The self-sealing stem bolts that allowed this helmet to be spaceworthy have long since corroded. However, the entity \
+		sealed within the suit seems to hunger for the fleeting lifeforce found in the remains left in the remains of drakes. \
+		Feeding it drake remains seems to empower a suit piece, though turns the remains back to lifeless ash."
 	icon_state = "berserker"
 	icon = 'icons/obj/clothing/head/helmet.dmi'
 	worn_icon = 'icons/mob/clothing/head/helmet.dmi'
@@ -720,7 +778,8 @@
 	min_cold_protection_temperature = FIRE_SUIT_MIN_TEMP_PROTECT
 
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
-	resistance_flags = FIRE_PROOF
+	flags_inv = HIDEHAIR|HIDEFACE|HIDEEARS|HIDESNOUT
+	resistance_flags = FIRE_PROOF | ACID_PROOF
 	clothing_flags = SNUG_FIT|THICKMATERIAL
 	/// Current charge of berserk, goes from 0 to 100
 	var/berserk_charge = 0
@@ -730,6 +789,8 @@
 /obj/item/clothing/head/hooded/berserker/Initialize(mapload)
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, LOCKED_HELMET_TRAIT)
+	AddComponent(/datum/component/armor_plate, maxamount = 1, upgrade_item = /obj/item/drake_remains, armor_mod = /datum/armor/drake_empowerment, upgrade_prefix = "empowered")
+	AddComponent(/datum/component/item_equipped_movement_rustle, SFX_PLATE_ARMOR_RUSTLE, 8)
 
 /obj/item/clothing/head/hooded/berserker/examine()
 	. = ..()
@@ -746,7 +807,7 @@
 	. = ..()
 	end_berserk(user)
 
-/obj/item/clothing/head/hooded/berserker/hit_reaction(mob/living/carbon/human/owner, atom/movable/hitby, attack_text = "the attack", final_block_chance = 0, damage = 0, attack_type = MELEE_ATTACK)
+/obj/item/clothing/head/hooded/berserker/hit_reaction(mob/living/carbon/human/owner, atom/movable/hitby, attack_text = "the attack", final_block_chance = 0, damage = 0, attack_type = MELEE_ATTACK, damage_type = BRUTE)
 	if(berserk_active)
 		return
 	var/berserk_value = damage * DAMAGE_TO_CHARGE_SCALE
@@ -754,25 +815,29 @@
 		berserk_value *= PROJECTILE_HIT_MULTIPLIER
 	berserk_charge = clamp(round(berserk_charge + berserk_value), 0, MAX_BERSERK_CHARGE)
 	if(berserk_charge >= MAX_BERSERK_CHARGE)
+		var/datum/action/item_action/berserk_mode/ragemode = locate() in actions
 		to_chat(owner, span_notice("Berserk mode is fully charged."))
 		balloon_alert(owner, "berserk charged")
+		ragemode?.build_all_button_icons(UPDATE_BUTTON_STATUS)
 
 /obj/item/clothing/head/hooded/berserker/IsReflect()
 	if(berserk_active)
 		return TRUE
 
-/// Starts berserk, giving the wearer 50 melee armor, doubled attacking speed, NOGUNS trait, adding a color and giving them the berserk movespeed modifier
+/// Starts berserk, reducing incoming brute by 50%, doubled attacking speed, NOGUNS trait, adding a color and giving them the berserk movespeed modifier
 /obj/item/clothing/head/hooded/berserker/proc/berserk_mode(mob/living/carbon/human/user)
+	var/datum/action/item_action/berserk_mode/ragemode = locate() in actions
 	to_chat(user, span_warning("You enter berserk mode."))
-	playsound(user, 'sound/magic/staff_healing.ogg', 50)
+	playsound(user, 'sound/effects/magic/staff_healing.ogg', 50)
 	user.add_movespeed_modifier(/datum/movespeed_modifier/berserk)
-	user.physiology.armor = user.physiology.armor.generate_new_with_modifiers(list(MELEE = BERSERK_MELEE_ARMOR_ADDED))
+	user.physiology.brute_mod *= 0.5
 	user.next_move_modifier *= BERSERK_ATTACK_SPEED_MODIFIER
 	user.add_atom_colour(COLOR_BUBBLEGUM_RED, TEMPORARY_COLOUR_PRIORITY)
-	ADD_TRAIT(user, TRAIT_NOGUNS, BERSERK_TRAIT)
+	user.add_traits(list(TRAIT_NOGUNS, TRAIT_TOSS_GUN_HARD), BERSERK_TRAIT)
 	ADD_TRAIT(src, TRAIT_NODROP, BERSERK_TRAIT)
 	berserk_active = TRUE
 	START_PROCESSING(SSobj, src)
+	ragemode?.build_all_button_icons(UPDATE_BUTTON_STATUS)
 
 /// Ends berserk, reverting the changes from the proc [berserk_mode]
 /obj/item/clothing/head/hooded/berserker/proc/end_berserk(mob/living/carbon/human/user)
@@ -781,13 +846,15 @@
 	berserk_active = FALSE
 	if(QDELETED(user))
 		return
+	var/datum/action/item_action/berserk_mode/ragemode = locate() in actions
+	ragemode?.build_all_button_icons(UPDATE_BUTTON_STATUS)
 	to_chat(user, span_warning("You exit berserk mode."))
-	playsound(user, 'sound/magic/summonitems_generic.ogg', 50)
+	playsound(user, 'sound/effects/magic/summonitems_generic.ogg', 50)
 	user.remove_movespeed_modifier(/datum/movespeed_modifier/berserk)
-	user.physiology.armor = user.physiology.armor.generate_new_with_modifiers(list(MELEE = -BERSERK_MELEE_ARMOR_ADDED))
+	user.physiology.brute_mod *= 2
 	user.next_move_modifier /= BERSERK_ATTACK_SPEED_MODIFIER
 	user.remove_atom_colour(TEMPORARY_COLOUR_PRIORITY, COLOR_BUBBLEGUM_RED)
-	REMOVE_TRAIT(user, TRAIT_NOGUNS, BERSERK_TRAIT)
+	user.remove_traits(list(TRAIT_NOGUNS, TRAIT_TOSS_GUN_HARD), BERSERK_TRAIT)
 	REMOVE_TRAIT(src, TRAIT_NODROP, BERSERK_TRAIT)
 	STOP_PROCESSING(SSobj, src)
 
@@ -795,8 +862,21 @@
 #undef PROJECTILE_HIT_MULTIPLIER
 #undef DAMAGE_TO_CHARGE_SCALE
 #undef CHARGE_DRAINED_PER_SECOND
-#undef BERSERK_MELEE_ARMOR_ADDED
 #undef BERSERK_ATTACK_SPEED_MODIFIER
+
+/obj/item/drake_remains
+	name = "drake remains"
+	desc = "The gathered remains of a drake. It still crackles with heat, and smells distinctly of brimstone."
+	icon = 'icons/obj/clothing/head/helmet.dmi'
+	icon_state = "dragon"
+
+/obj/item/drake_remains/Initialize(mapload)
+	. = ..()
+	add_shared_particles(/particles/bonfire)
+
+/obj/item/drake_remains/Destroy(force)
+	remove_shared_particles(/particles/bonfire)
+	return ..()
 
 /obj/item/clothing/glasses/godeye
 	name = "eye of god"
@@ -887,7 +967,9 @@
 	living_scanned.add_filter("scan", 2, list("type" = "outline", "color" = COLOR_RED, "size" = 1))
 	addtimer(CALLBACK(living_scanned, TYPE_PROC_REF(/datum, remove_filter), "scan"), 30 SECONDS)
 
-	owner.playsound_local(get_turf(owner), 'sound/magic/smoke.ogg', 50, TRUE)
+	healthscan(living_owner, living_scanned, 1, TRUE)
+
+	owner.playsound_local(get_turf(owner), 'sound/effects/magic/smoke.ogg', 50, TRUE)
 	owner.balloon_alert(owner, "[living_scanned] scanned")
 	addtimer(CALLBACK(src, PROC_REF(send_cooldown_end_message), cooldown_time))
 
@@ -910,6 +992,7 @@
 	name = "Scan Target"
 	desc = "Contact may or may not be close."
 
+<<<<<<< HEAD
 /obj/item/organ/internal/cyberimp/arm/item_set/katana
 	name = "dark shard"
 	desc = "An eerie metal shard surrounded by dark energies."
@@ -921,28 +1004,51 @@
 	retract_sound = 'sound/items/sheath.ogg'
 
 /obj/item/organ/internal/cyberimp/arm/item_set/katana/attack_self(mob/user, modifiers)
+=======
+/obj/item/organ/cyberimp/arm/shard
+	name = "dark spoon shard"
+	desc = "An eerie metal shard surrounded by dark energies...of soup drinking. You probably don't think you should have been able to find this."
+	icon = 'icons/obj/mining_zones/artefacts.dmi'
+	icon_state = "cursed_katana_organ"
+	organ_flags = ORGAN_ORGANIC | ORGAN_FROZEN | ORGAN_UNREMOVABLE
+	items_to_create = list(/obj/item/kitchen/spoon)
+	extend_sound = 'sound/items/unsheath.ogg'
+	retract_sound = 'sound/items/sheath.ogg'
+
+/obj/item/organ/cyberimp/arm/shard/attack_self(mob/user, modifiers)
+>>>>>>> tg-pr-88929
 	. = ..()
 	to_chat(user, span_userdanger("The mass goes up your arm and goes inside it!"))
-	playsound(user, 'sound/magic/demon_consume.ogg', 50, TRUE)
+	playsound(user, 'sound/effects/magic/demon_consume.ogg', 50, TRUE)
 	var/index = user.get_held_index_of_item(src)
 	zone = (index == LEFT_HANDS ? BODY_ZONE_L_ARM : BODY_ZONE_R_ARM)
 	SetSlotFromZone()
 	user.temporarilyRemoveItemFromInventory(src, TRUE)
 	Insert(user)
 
+<<<<<<< HEAD
 /obj/item/organ/internal/cyberimp/arm/item_set/katana/screwdriver_act(mob/living/user, obj/item/screwtool)
 	return
 
 /obj/item/organ/internal/cyberimp/arm/item_set/katana/Retract()
+=======
+/obj/item/organ/cyberimp/arm/shard/screwdriver_act(mob/living/user, obj/item/screwtool)
+	return
+
+/obj/item/organ/cyberimp/arm/shard/katana
+	name = "dark shard"
+	desc = "An eerie metal shard surrounded by dark energies."
+	items_to_create = list(/obj/item/cursed_katana)
+
+/obj/item/organ/cyberimp/arm/shard/katana/Retract()
+>>>>>>> tg-pr-88929
 	var/obj/item/cursed_katana/katana = active_item
 	if(!katana || katana.shattered)
 		return FALSE
 	if(!katana.drew_blood)
 		to_chat(owner, span_userdanger("[katana] lashes out at you in hunger!"))
-		playsound(owner, 'sound/magic/demon_attack1.ogg', 50, TRUE)
-		var/obj/item/bodypart/part = owner.get_holding_bodypart_of_item(katana)
-		if(part)
-			part.receive_damage(brute = 25, wound_bonus = 10, sharpness = SHARP_EDGED)
+		playsound(owner, 'sound/effects/magic/demon_attack1.ogg', 50, TRUE)
+		owner.apply_damage(25, BRUTE, hand, wound_bonus = 10, sharpness = SHARP_EDGED)
 	katana.drew_blood = FALSE
 	katana.wash(CLEAN_TYPE_BLOOD)
 	return ..()
@@ -958,19 +1064,24 @@
 	name = "cursed katana"
 	desc = "A katana used to seal something vile away long ago. \
 	Even with the weapon destroyed, all the pieces containing the creature have coagulated back together to find a new host."
-	icon = 'icons/obj/lavaland/artefacts.dmi'
+	icon = 'icons/obj/mining_zones/artefacts.dmi'
 	icon_state = "cursed_katana"
+	icon_angle = -45
 	lefthand_file = 'icons/mob/inhands/weapons/swords_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/weapons/swords_righthand.dmi'
 	force = 15
 	armour_penetration = 30
 	block_chance = 30
+<<<<<<< HEAD
 	block_sound = 'sound/weapons/parry.ogg'
+=======
+	block_sound = 'sound/items/weapons/parry.ogg'
+>>>>>>> tg-pr-88929
 	sharpness = SHARP_EDGED
 	w_class = WEIGHT_CLASS_HUGE
-	attack_verb_continuous = list("attacks", "slashes", "stabs", "slices", "tears", "lacerates", "rips", "dices", "cuts")
-	attack_verb_simple = list("attack", "slash", "stab", "slice", "tear", "lacerate", "rip", "dice", "cut")
-	hitsound = 'sound/weapons/bladeslice.ogg'
+	attack_verb_continuous = list("attacks", "slashes", "slices", "tears", "lacerates", "rips", "dices", "cuts")
+	attack_verb_simple = list("attack", "slash", "slice", "tear", "lacerate", "rip", "dice", "cut")
+	hitsound = 'sound/items/weapons/bladeslice.ogg'
 	resistance_flags = LAVA_PROOF | FIRE_PROOF | UNACIDABLE | FREEZE_PROOF
 	var/shattered = FALSE
 	var/drew_blood = FALSE
@@ -982,9 +1093,14 @@
 		ATTACK_CLOAK = list(COMBO_STEPS = list(LEFT_ATTACK, RIGHT_ATTACK, LEFT_ATTACK, RIGHT_ATTACK), COMBO_PROC = PROC_REF(cloak)),
 		ATTACK_SHATTER = list(COMBO_STEPS = list(RIGHT_ATTACK, LEFT_ATTACK, RIGHT_ATTACK, LEFT_ATTACK), COMBO_PROC = PROC_REF(shatter)),
 	)
+	var/list/alt_continuous = list("stabs", "pierces", "impales")
+	var/list/alt_simple = list("stab", "pierce", "impale")
 
 /obj/item/cursed_katana/Initialize(mapload)
 	. = ..()
+	alt_continuous = string_list(alt_continuous)
+	alt_simple = string_list(alt_simple)
+	AddComponent(/datum/component/alternative_sharpness, SHARP_POINTY, alt_continuous, alt_simple)
 	AddComponent( \
 		/datum/component/combo_attacks, \
 		combos = combo_list, \
@@ -1010,9 +1126,9 @@
 			user.changeNext_move(CLICK_CD_RAPID)
 	return ..()
 
-/obj/item/cursed_katana/hit_reaction(mob/living/carbon/human/owner, atom/movable/hitby, attack_text = "the attack", final_block_chance = 0, damage = 0, attack_type = MELEE_ATTACK)
-	if(attack_type == PROJECTILE_ATTACK)
-		final_block_chance = 0 //Don't bring a sword to a gunfight
+/obj/item/cursed_katana/hit_reaction(mob/living/carbon/human/owner, atom/movable/hitby, attack_text = "the attack", final_block_chance = 0, damage = 0, attack_type = MELEE_ATTACK, damage_type = BRUTE)
+	if(attack_type == PROJECTILE_ATTACK || attack_type == LEAP_ATTACK)
+		final_block_chance = 0 //Don't bring a sword to a gunfight, and also you aren't going to really block someone full body tackling you with a sword
 	return ..()
 
 /obj/item/cursed_katana/proc/can_combo_attack(mob/user, mob/living/target)
@@ -1022,7 +1138,7 @@
 	user.visible_message(span_warning("[user] strikes [target] with [src]'s hilt!"),
 		span_notice("You hilt strike [target]!"))
 	to_chat(target, span_userdanger("You've been struck by [user]!"))
-	playsound(src, 'sound/weapons/genhit3.ogg', 50, TRUE)
+	playsound(src, 'sound/items/weapons/genhit3.ogg', 50, TRUE)
 	RegisterSignal(target, COMSIG_MOVABLE_IMPACT, PROC_REF(strike_throw_impact))
 	var/atom/throw_target = get_edge_target_turf(target, user.dir)
 	target.throw_at(throw_target, 5, 3, user, FALSE, gentle = TRUE)
@@ -1047,7 +1163,8 @@
 /obj/item/cursed_katana/proc/slice(mob/living/target, mob/user)
 	user.visible_message(span_warning("[user] does a wide slice!"),
 		span_notice("You do a wide slice!"))
-	playsound(src, 'sound/weapons/bladeslice.ogg', 50, TRUE)
+	playsound(src, 'sound/items/weapons/bladeslice.ogg', 50, TRUE)
+	user.do_item_attack_animation(target, used_item = src, animation_type = ATTACK_ANIMATION_SLASH)
 	var/turf/user_turf = get_turf(user)
 	var/dir_to_target = get_dir(user_turf, get_turf(target))
 	var/static/list/cursed_katana_slice_angles = list(0, -45, 45, -90, 90) //so that the animation animates towards the target clicked and not towards a side target
@@ -1062,12 +1179,12 @@
 
 /obj/item/cursed_katana/proc/cloak(mob/living/target, mob/user)
 	user.alpha = 150
-	user.invisibility = INVISIBILITY_OBSERVER // so hostile mobs cant see us or target us
+	user.SetInvisibility(INVISIBILITY_OBSERVER, id=type) // so hostile mobs cant see us or target us
 	user.add_sight(SEE_SELF) // so we can see us
 	user.visible_message(span_warning("[user] vanishes into thin air!"),
 		span_notice("You enter the dark cloak."))
 	new /obj/effect/temp_visual/mook_dust(get_turf(src))
-	playsound(src, 'sound/magic/smoke.ogg', 50, TRUE)
+	playsound(src, 'sound/effects/magic/smoke.ogg', 50, TRUE)
 	if(ishostile(target))
 		var/mob/living/simple_animal/hostile/hostile_target = target
 		if(hostile_target.target == user)
@@ -1076,20 +1193,21 @@
 
 /obj/item/cursed_katana/proc/uncloak(mob/user)
 	user.alpha = 255
-	user.invisibility = 0
+	user.RemoveInvisibility(type)
 	user.clear_sight(SEE_SELF)
 	user.visible_message(span_warning("[user] appears from thin air!"),
 		span_notice("You exit the dark cloak."))
-	playsound(src, 'sound/magic/summonitems_generic.ogg', 50, TRUE)
+	playsound(src, 'sound/effects/magic/summonitems_generic.ogg', 50, TRUE)
 	new /obj/effect/temp_visual/mook_dust(get_turf(src))
 
 /obj/item/cursed_katana/proc/cut(mob/living/target, mob/user)
 	user.visible_message(span_warning("[user] cuts [target]'s tendons!"),
 		span_notice("You tendon cut [target]!"))
 	to_chat(target, span_userdanger("Your tendons have been cut by [user]!"))
+	user.do_item_attack_animation(target, used_item = src, animation_type = ATTACK_ANIMATION_SLASH)
 	target.apply_damage(damage = 15, sharpness = SHARP_EDGED, wound_bonus = 15)
 	user.do_attack_animation(target, ATTACK_EFFECT_DISARM)
-	playsound(src, 'sound/weapons/rapierhit.ogg', 50, TRUE)
+	playsound(src, 'sound/items/weapons/rapierhit.ogg', 50, TRUE)
 	var/datum/status_effect/stacking/saw_bleed/bloodletting/status = target.has_status_effect(/datum/status_effect/stacking/saw_bleed/bloodletting)
 	if(!status)
 		target.apply_status_effect(/datum/status_effect/stacking/saw_bleed/bloodletting, 6)
@@ -1100,7 +1218,7 @@
 	user.visible_message(span_warning("[user] dashes through [target]!"),
 		span_notice("You dash through [target]!"))
 	to_chat(target, span_userdanger("[user] dashes through you!"))
-	playsound(src, 'sound/magic/blink.ogg', 50, TRUE)
+	playsound(src, 'sound/effects/magic/blink.ogg', 50, TRUE)
 	target.apply_damage(damage = 17, sharpness = SHARP_POINTY, bare_wound_bonus = 10)
 	var/turf/dash_target = get_turf(target)
 	for(var/distance in 0 to 8)
@@ -1120,7 +1238,7 @@
 	to_chat(target, span_userdanger("[user] shatters [src] over you!"))
 	target.apply_damage(damage = ismining(target) ? 75 : 35, wound_bonus = 20)
 	user.do_attack_animation(target, ATTACK_EFFECT_SMASH)
-	playsound(src, 'sound/effects/glassbr3.ogg', 100, TRUE)
+	playsound(src, 'sound/effects/glass/glassbr3.ogg', 100, TRUE)
 	shattered = TRUE
 	moveToNullspace()
 	balloon_alert(user, "katana shattered")
@@ -1129,7 +1247,7 @@
 /obj/item/cursed_katana/proc/coagulate(mob/user)
 	balloon_alert(user, "katana coagulated")
 	shattered = FALSE
-	playsound(src, 'sound/magic/demon_consume.ogg', 50, TRUE)
+	playsound(src, 'sound/effects/magic/demon_consume.ogg', 50, TRUE)
 
 #undef ATTACK_STRIKE
 #undef ATTACK_SLICE

@@ -28,22 +28,21 @@
 	. = ..()
 	if(get_integrity() < (max_integrity/2))
 		icon_state = "[base_icon_state]_damaged"
-	if(damage_amount >= 10) // Swing means minimum damage threshhold for dropping candy is met.
+	if(damage_amount >= 10) // Swing means minimum damage threshold for dropping candy is met.
 		flick("[icon_state]_swing", src)
 
 /obj/structure/pinata/play_attack_sound(damage_amount, damage_type, damage_flag)
 	switch(damage_type)
 		if(BRUTE)
 			if(damage_amount)
-				playsound(src, 'sound/weapons/slash.ogg', 50, TRUE)
+				playsound(src, 'sound/items/weapons/slash.ogg', 50, TRUE)
 			else
-				playsound(src, 'sound/weapons/tap.ogg', 50, TRUE)
+				playsound(src, 'sound/items/weapons/tap.ogg', 50, TRUE)
 		if(BURN)
-			playsound(src, 'sound/items/welder.ogg', 100, TRUE)
+			playsound(src, 'sound/items/tools/welder.ogg', 100, TRUE)
 
-/obj/structure/pinata/deconstruct(disassembled)
+/obj/structure/pinata/atom_deconstruct(disassembled)
 	new debris(get_turf(src))
-	return ..()
 
 ///An item that when used inhand spawns an immovable pinata
 /obj/item/pinata
@@ -91,7 +90,10 @@
 	icon_state = "pinata_syndie"
 	pinata_type = /obj/structure/pinata/syndie
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> tg-pr-88929
 /obj/structure/pinata/donk
 	name = "donk corgi pinata"
 	desc = "A papier-mâché representation of a corgi that contains all sorts of savory treats."

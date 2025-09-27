@@ -32,7 +32,7 @@
 		var/turf/victim_turf = get_turf(victim)
 		if(!is_valid_z_level(victim_turf, sm_turf))
 			continue
-		victim.playsound_local(victim_turf, 'sound/magic/charge.ogg')
+		victim.playsound_local(victim_turf, 'sound/effects/magic/charge.ogg')
 		if(victim.z == 0) //victim is inside an object, this is to maintain an old bug turned feature with lockers n shit i guess. tg issue #69687
 			var/message = ""
 			var/location = victim.loc
@@ -40,9 +40,9 @@
 				message = "You hear a lot of rattling in the disposal pipes around you as reality itself distorts. Yet, you feel safe."
 			else
 				message = "You hold onto \the [victim.loc] as hard as you can, as reality distorts around you. You feel safe."
-			to_chat(victim, span_boldannounce(message))
+			to_chat(victim, span_bolddanger(message))
 			continue
-		to_chat(victim, span_boldannounce("You feel reality distort for a moment..."))
+		to_chat(victim, span_bolddanger("You feel reality distort for a moment..."))
 		if (isliving(victim))
 			var/mob/living/living_victim = victim
 			living_victim.add_mood_event("delam", /datum/mood_event/delam)
@@ -120,7 +120,7 @@
 	// set supermatter cascade to true, to prevent auto evacuation due to no way of calling the shuttle
 	SSshuttle.supermatter_cascade = TRUE
 	// set hijack completion timer to infinity, so that you cant prematurely end the round with a hijack
-	for(var/obj/machinery/computer/emergency_shuttle/console in GLOB.machines)
+	for(var/obj/machinery/computer/emergency_shuttle/console as anything in SSmachines.get_machines_by_type_and_subtypes(/obj/machinery/computer/emergency_shuttle))
 		console.hijack_completion_flight_time_set = INFINITY
 
 	/* This logic is to keep uncalled shuttles uncalled
@@ -140,7 +140,11 @@
 		priority_announce(
 			text = "Fatal error occurred in emergency shuttle uplink during transit. Unable to reestablish connection.",
 			title = "Shuttle Failure",
+<<<<<<< HEAD
 			sound =  'sound/misc/announce_dig.ogg',
+=======
+			sound =  'sound/announcer/announcement/announce_dig.ogg',
+>>>>>>> tg-pr-88929
 			sender_override = "Emergency Shuttle Uplink Alert",
 			color_override = "grey",
 		)
@@ -161,15 +165,15 @@
 	for(var/mob/player as anything in GLOB.player_list)
 		if(!isdead(player))
 			var/mob/living/living_player = player
-			to_chat(player, span_boldannounce("Everything around you is resonating with a powerful energy. This can't be good."))
+			to_chat(player, span_bolddanger("Everything around you is resonating with a powerful energy. This can't be good."))
 			living_player.add_mood_event("cascade", /datum/mood_event/cascade)
-		SEND_SOUND(player, 'sound/magic/charge.ogg')
+		SEND_SOUND(player, 'sound/effects/magic/charge.ogg')
 
 /datum/sm_delam/proc/effect_emergency_state()
 	if(SSsecurity_level.get_current_level_as_number() != SEC_LEVEL_DELTA)
 		SSsecurity_level.set_level(SEC_LEVEL_DELTA) // skip the announcement and shuttle timer adjustment in set_security_level()
 	make_maint_all_access()
-	for(var/obj/machinery/light/light_to_break in GLOB.machines)
+	for(var/obj/machinery/light/light_to_break as anything in SSmachines.get_machines_by_type_and_subtypes(/obj/machinery/light))
 		if(prob(35))
 			light_to_break.set_major_emergency_light()
 			continue

@@ -40,6 +40,10 @@
 		return
 
 	changeling.fakedeath(CHANGELING_TRAIT)
+<<<<<<< HEAD
+=======
+	ADD_TRAIT(changeling, TRAIT_STASIS, CHANGELING_TRAIT)
+>>>>>>> tg-pr-88929
 	addtimer(CALLBACK(src, PROC_REF(ready_to_regenerate), changeling), fakedeath_duration * duration_modifier, TIMER_UNIQUE)
 	// Basically, these let the ling exit stasis without giving away their ling-y-ness if revived through other means
 	RegisterSignal(changeling, SIGNAL_REMOVETRAIT(TRAIT_DEATHCOMA), PROC_REF(fakedeath_reset))
@@ -50,6 +54,7 @@
 /// healing a changeling who went into stasis after actually dying, and
 /// also removes changeling stasis
 /datum/action/changeling/fakedeath/proc/disable_stasis_and_fakedeath(mob/living/changeling)
+<<<<<<< HEAD
 	REMOVE_TRAIT(changeling, TRAIT_DEATHCOMA, CHANGELING_TRAIT)
 	UnregisterSignal(changeling, SIGNAL_REMOVETRAIT(TRAIT_DEATHCOMA))
 	UnregisterSignal(changeling, COMSIG_MOB_STATCHANGE)
@@ -57,6 +62,12 @@
 
 
 
+=======
+	REMOVE_TRAIT(changeling, TRAIT_STASIS, CHANGELING_TRAIT)
+	UnregisterSignal(changeling, SIGNAL_REMOVETRAIT(TRAIT_DEATHCOMA))
+	UnregisterSignal(changeling, COMSIG_MOB_STATCHANGE)
+
+>>>>>>> tg-pr-88929
 /// This proc is called to reset the chemical cost of the revival
 /// as well as the revive ready flag and button states.
 /datum/action/changeling/fakedeath/proc/reset_chemical_cost()
@@ -110,7 +121,7 @@
 	if(!length(user.get_missing_limbs() - dont_regenerate))
 		return
 
-	playsound(user, 'sound/magic/demon_consume.ogg', 50, TRUE)
+	playsound(user, 'sound/effects/magic/demon_consume.ogg', 50, TRUE)
 	user.visible_message(
 		span_warning("[user]'s missing limbs reform, making a loud, grotesque sound!"),
 		span_userdanger("Your limbs regrow, making a loud, crunchy sound and giving you great pain!"),
@@ -124,7 +135,11 @@
 	if(QDELETED(src) || QDELETED(user))
 		return
 
+<<<<<<< HEAD
 	var/datum/antagonist/changeling/ling = user.mind?.has_antag_datum(/datum/antagonist/changeling)
+=======
+	var/datum/antagonist/changeling/ling = IS_CHANGELING(user)
+>>>>>>> tg-pr-88929
 	if(QDELETED(ling) || !(src in (ling.innate_powers + ling.purchased_powers))) // checking both innate and purchased for full coverage
 		return
 	if(!HAS_TRAIT_FROM(user, TRAIT_DEATHCOMA, CHANGELING_TRAIT))

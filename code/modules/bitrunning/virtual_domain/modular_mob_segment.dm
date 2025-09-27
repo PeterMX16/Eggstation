@@ -77,7 +77,11 @@
 
 /datum/modular_mob_segment/gondolas
 	mobs = list(
+<<<<<<< HEAD
 		/mob/living/simple_animal/pet/gondola,
+=======
+		/mob/living/basic/pet/gondola,
+>>>>>>> tg-pr-88929
 	)
 
 

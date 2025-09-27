@@ -68,6 +68,13 @@
 	name = "\improper Restrooms"
 	icon_state = "toilet"
 
+<<<<<<< HEAD
+=======
+/area/station/commons/toilet/shower
+	name = "\improper Shower Room"
+	icon_state = "shower"
+
+>>>>>>> tg-pr-88929
 /*
 * Rec and Locker Rooms
 */
@@ -108,6 +115,21 @@
 	name = "\improper Entertainment Center"
 	icon_state = "entertainment"
 
+<<<<<<< HEAD
+=======
+/area/station/commons/fitness/recreation/pool
+	name = "\improper Swimming Pool"
+	icon_state = "pool"
+
+/area/station/commons/fitness/recreation/lasertag
+	name = "\improper Laser Tag Arena"
+	icon_state = "lasertag"
+
+/area/station/commons/fitness/recreation/sauna
+	name = "\improper Sauna"
+	icon_state = "sauna"
+
+>>>>>>> tg-pr-88929
 /*
 * Vacant Rooms
 */

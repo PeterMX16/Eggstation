@@ -3,7 +3,7 @@
 
 /obj/machinery/navbeacon
 
-	icon = 'icons/obj/objects.dmi'
+	icon = 'icons/obj/machines/floor.dmi'
 	icon_state = "navbeacon0"
 	name = "navigation beacon"
 	desc = "A radio beacon used for bot navigation."
@@ -165,7 +165,7 @@
 	controls["cover_locked"] = cover_locked
 
 	data["locked"] = controls_locked
-	data["siliconUser"] = issilicon(user)
+	data["siliconUser"] = HAS_SILICON_ACCESS(user)
 	data["controls"] = controls
 
 	return data
@@ -211,7 +211,11 @@
 			toggle_code(NAVBEACON_DELIVERY_MODE)
 			return TRUE
 		if("set_location")
+<<<<<<< HEAD
 			var/input_text = tgui_input_text(user, "Enter the beacon's location tag", "Beacon Location", location, 20)
+=======
+			var/input_text = tgui_input_text(user, "Enter the beacon's location tag", "Beacon Location", location, max_length = 20)
+>>>>>>> tg-pr-88929
 			if (!input_text || location == input_text)
 				return
 			glob_lists_deregister()
@@ -220,7 +224,11 @@
 			return TRUE
 		if("set_patrol_next")
 			var/next_patrol = codes[NAVBEACON_PATROL_NEXT]
+<<<<<<< HEAD
 			var/input_text = tgui_input_text(user, "Enter the tag of the next patrol location", "Beacon Location", next_patrol, 20)
+=======
+			var/input_text = tgui_input_text(user, "Enter the tag of the next patrol location", "Beacon Location", next_patrol, max_length = 20)
+>>>>>>> tg-pr-88929
 			if (!input_text || location == input_text)
 				return
 			codes[NAVBEACON_PATROL_NEXT] = input_text

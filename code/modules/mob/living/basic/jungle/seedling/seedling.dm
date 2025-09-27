@@ -14,8 +14,13 @@
 	icon_living = "seedling"
 	icon_dead = "seedling_dead"
 	habitable_atmos = list("min_oxy" = 2, "max_oxy" = 0, "min_plas" = 0, "max_plas" = 0, "min_co2" = 0, "max_co2" = 0, "min_n2" = 0, "max_n2" = 0)
+<<<<<<< HEAD
 	bodytemp_cold_damage_limit = -1
 	bodytemp_heat_damage_limit = 450
+=======
+	minimum_survivable_temperature = 0
+	maximum_survivable_temperature = 450
+>>>>>>> tg-pr-88929
 	mob_biotypes = MOB_ORGANIC | MOB_PLANT
 	maxHealth = 100
 	health = 100
@@ -30,7 +35,12 @@
 	lighting_cutoff_green = 20
 	lighting_cutoff_blue = 25
 	mob_size = MOB_SIZE_LARGE
+<<<<<<< HEAD
 	attack_sound = 'sound/weapons/bladeslice.ogg'
+=======
+	faction = list(FACTION_PLANTS)
+	attack_sound = 'sound/items/weapons/bladeslice.ogg'
+>>>>>>> tg-pr-88929
 	attack_vis_effect = ATTACK_EFFECT_SLASH
 	ai_controller = /datum/ai_controller/basic_controller/seedling
 	///the state of combat we are in
@@ -56,12 +66,21 @@
 
 /mob/living/basic/seedling/Initialize(mapload)
 	. = ..()
+<<<<<<< HEAD
 	var/datum/action/cooldown/mob_cooldown/projectile_attack/rapid_fire/seedling/seed_attack = new(src)
 	seed_attack.Grant(src)
 	ai_controller.set_blackboard_key(BB_RAPIDSEEDS_ABILITY, seed_attack)
 	var/datum/action/cooldown/mob_cooldown/solarbeam/beam_attack = new(src)
 	beam_attack.Grant(src)
 	ai_controller.set_blackboard_key(BB_SOLARBEAM_ABILITY, beam_attack)
+=======
+	var/static/list/innate_actions = list(
+		/datum/action/cooldown/mob_cooldown/projectile_attack/rapid_fire/seedling = BB_RAPIDSEEDS_ABILITY,
+		/datum/action/cooldown/mob_cooldown/solarbeam = BB_SOLARBEAM_ABILITY,
+	)
+
+	grant_actions_by_list(innate_actions)
+>>>>>>> tg-pr-88929
 
 	var/petal_color = pick(possible_colors)
 
@@ -79,6 +98,7 @@
 
 	AddElement(/datum/element/wall_tearer, allow_reinforced = FALSE)
 	AddComponent(/datum/component/obeys_commands, seedling_commands)
+<<<<<<< HEAD
 	RegisterSignal(src, COMSIG_HOSTILE_PRE_ATTACKINGTARGET, PROC_REF(pre_attack))
 	RegisterSignal(src, COMSIG_KB_MOB_DROPITEM_DOWN, PROC_REF(drop_can))
 	update_appearance()
@@ -119,13 +139,51 @@
 			balloon_alert(src, "weeds uprooted")
 			SEND_SIGNAL(hydro, COMSIG_PLANT_ADJUST_WEED, -10)
 			return
+=======
+	RegisterSignal(src, COMSIG_KB_MOB_DROPITEM_DOWN, PROC_REF(drop_can))
+	update_appearance()
+
+/mob/living/basic/seedling/early_melee_attack(atom/target, list/modifiers, ignore_cooldown)
+	. = ..()
+	if(!.)
+		return FALSE
+
+	if(istype(target, /obj/machinery/hydroponics))
+		treat_hydro_tray(target)
+		return FALSE
+
+	if(isnull(held_can))
+		return TRUE
+
+	if(istype(target, /obj/structure/sink) || istype(target, /obj/structure/reagent_dispensers))
+		held_can.melee_attack_chain(src, target)
+		return FALSE
+
+
+///seedlings can water trays, remove weeds, or remove dead plants
+/mob/living/basic/seedling/proc/treat_hydro_tray(obj/machinery/hydroponics/hydro)
+
+	if(hydro.plant_status == HYDROTRAY_PLANT_DEAD)
+		balloon_alert(src, "dead plant removed")
+		hydro.set_seed(null)
+		return
+
+	if(hydro.weedlevel > 0)
+		balloon_alert(src, "weeds uprooted")
+		hydro.set_weedlevel(0)
+		return
+>>>>>>> tg-pr-88929
 
 	var/list/can_reagents = held_can?.reagents.reagent_list
 
 	if(!length(can_reagents))
 		return
 
+<<<<<<< HEAD
 	if((locate(/datum/reagent/water) in can_reagents) && (growing.water_precent < 100))
+=======
+	if((locate(/datum/reagent/water) in can_reagents) && (hydro.waterlevel < hydro.maxwater))
+>>>>>>> tg-pr-88929
 		INVOKE_ASYNC(held_can, TYPE_PROC_REF(/obj/item, melee_attack_chain), src, hydro)
 		return
 
@@ -215,15 +273,25 @@
 /mob/living/basic/seedling/meanie
 	maxHealth = 400
 	health = 400
+<<<<<<< HEAD
 	faction = list(FACTION_JUNGLE)
+=======
+	faction = list(FACTION_JUNGLE, FACTION_PLANTS)
+>>>>>>> tg-pr-88929
 	ai_controller = /datum/ai_controller/basic_controller/seedling/meanie
 	seedling_commands = list(
 		/datum/pet_command/idle,
 		/datum/pet_command/free,
 		/datum/pet_command/follow,
+<<<<<<< HEAD
 		/datum/pet_command/point_targeting/attack,
 		/datum/pet_command/point_targeting/use_ability/solarbeam,
 		/datum/pet_command/point_targeting/use_ability/rapidseeds,
+=======
+		/datum/pet_command/attack,
+		/datum/pet_command/use_ability/solarbeam,
+		/datum/pet_command/use_ability/rapidseeds,
+>>>>>>> tg-pr-88929
 	)
 
 //abilities
@@ -237,7 +305,10 @@
 	default_projectile_spread = 10
 	shot_count = 10
 	shot_delay = 0.2 SECONDS
+<<<<<<< HEAD
 	melee_cooldown_time = 0 SECONDS
+=======
+>>>>>>> tg-pr-88929
 	shared_cooldown = NONE
 	///how long we must charge up before firing off
 	var/charge_up_timer = 3 SECONDS
@@ -333,6 +404,7 @@
 /datum/action/cooldown/mob_cooldown/solarbeam/proc/launch_beam(mob/living/firer, turf/target_turf)
 	for(var/atom/target_atom as anything in target_turf)
 
+<<<<<<< HEAD
 		if(target_atom.GetComponent(/datum/component/plant_growing))
 			var/datum/component/plant_growing/growing = target_atom.GetComponent(/datum/component/plant_growing)
 			for(var/item in growing.managed_seeds)
@@ -344,6 +416,14 @@
 			new /obj/effect/temp_visual/heal(target_turf, COLOR_HEALING_CYAN)
 
 		if(!isliving(target_atom) || istype(target_atom, /mob/living/basic/pet/potty))
+=======
+		if(istype(target_atom, /obj/machinery/hydroponics))
+			var/obj/machinery/hydroponics/hydro = target_atom
+			hydro.adjust_plant_health(10)
+			new /obj/effect/temp_visual/heal(target_turf, COLOR_HEALING_CYAN)
+
+		if(!isliving(target_atom))
+>>>>>>> tg-pr-88929
 			continue
 
 		var/mob/living/living_target = target_atom
@@ -351,7 +431,11 @@
 		living_target.ignite_mob()
 		living_target.adjustFireLoss(30)
 
+<<<<<<< HEAD
 	playsound(target_turf, 'sound/magic/lightningbolt.ogg', 50, TRUE)
+=======
+	playsound(target_turf, 'sound/effects/magic/lightningbolt.ogg', 50, TRUE)
+>>>>>>> tg-pr-88929
 	if(!is_seedling)
 		return
 	var/mob/living/basic/seedling/seed_firer = firer

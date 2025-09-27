@@ -18,6 +18,7 @@
 	var/listindex = 0
 	///The type of our last value for bar_loc, for debugging
 	var/location_type
+<<<<<<< HEAD
 	///border image
 	var/image/border
 	///shown image
@@ -35,6 +36,10 @@
 	///the icon_state of the bar
 	var/bar_look
 
+=======
+	///Where to draw the progress bar above the icon
+	var/offset_y
+>>>>>>> tg-pr-88929
 
 /datum/progressbar/New(mob/User, goal_number, atom/target, border_look = "border", border_look_accessory, bar_look = "prog_bar", old_format = FALSE, active_color = "#6699FF", finish_color = "#FFEE8C", fail_color = "#FF0033" , mutable_appearance/additional_image)
 	. = ..()
@@ -51,6 +56,7 @@
 		qdel(src)
 		return
 	goal = goal_number
+<<<<<<< HEAD
 	src.location_type = target.type
 	src.old_format = old_format
 	src.active_color = active_color
@@ -68,6 +74,16 @@
 
 	bar = image('monkestation/icons/effects/progessbar.dmi', target, bar_look, 1.1)
 
+=======
+	bar_loc = target
+	location_type = bar_loc.type
+
+	var/list/icon_offsets = target.get_oversized_icon_offsets()
+	var/offset_x = icon_offsets["x"]
+	offset_y = icon_offsets["y"]
+
+	bar = image('icons/effects/progressbar.dmi', bar_loc, "prog_bar_0", pixel_x = offset_x)
+>>>>>>> tg-pr-88929
 	SET_PLANE_EXPLICIT(bar, ABOVE_HUD_PLANE, User)
 	SET_PLANE_EXPLICIT(border, ABOVE_HUD_PLANE, User)
 	bar.appearance_flags = APPEARANCE_UI_IGNORE_ALPHA
@@ -101,7 +117,12 @@
 				continue
 			progress_bar.listindex--
 
+<<<<<<< HEAD
 			var/dist_to_travel = 32 + (PROGRESSBAR_HEIGHT * (progress_bar.listindex - 1)) - PROGRESSBAR_HEIGHT
+=======
+			progress_bar.bar.pixel_y = ICON_SIZE_Y + offset_y + (PROGRESSBAR_HEIGHT * (progress_bar.listindex - 1))
+			var/dist_to_travel = ICON_SIZE_Y + offset_y + (PROGRESSBAR_HEIGHT * (progress_bar.listindex - 1)) - PROGRESSBAR_HEIGHT
+>>>>>>> tg-pr-88929
 			animate(progress_bar.bar, pixel_y = dist_to_travel, time = PROGRESSBAR_ANIMATION_TIME, easing = SINE_EASING)
 			animate(progress_bar.border, pixel_y = dist_to_travel, time = PROGRESSBAR_ANIMATION_TIME, easing = SINE_EASING)
 			if(progress_bar.shown_image)
@@ -165,6 +186,7 @@
 	bar.pixel_y = -32
 	bar.alpha = 0
 	user_client.images += bar
+<<<<<<< HEAD
 	animate(bar, pixel_y = 32 + (PROGRESSBAR_HEIGHT * stored_index), alpha = 255, time = PROGRESSBAR_ANIMATION_TIME, easing = SINE_EASING)
 	border.pixel_y = -32
 	border.alpha = 0
@@ -180,6 +202,10 @@
 		src.border_look_accessory.alpha = 0
 		user_client.images += border_look_accessory
 		animate(src.border_look_accessory, pixel_y = 32 + (PROGRESSBAR_HEIGHT * stored_index), alpha = 255, time = PROGRESSBAR_ANIMATION_TIME, easing = SINE_EASING)
+=======
+	animate(bar, pixel_y = ICON_SIZE_Y + offset_y + (PROGRESSBAR_HEIGHT * (listindex - 1)), alpha = 255, time = PROGRESSBAR_ANIMATION_TIME, easing = SINE_EASING)
+
+>>>>>>> tg-pr-88929
 
 ///Updates the progress bar image visually.
 /datum/progressbar/proc/update(progress)
@@ -218,6 +244,7 @@
 		return
 	harddel_deets_dumped = TRUE
 	return "Owner's type: [location_type]"
+<<<<<<< HEAD
 
 /obj/effect/world_progressbar
 	///The progress bar visual element.
@@ -363,6 +390,8 @@
 	if(border_accessory)
 		animate(src.border_accessory, alpha = 0, time = PROGRESSBAR_ANIMATION_TIME)
 		QDEL_IN(src.border_accessory, PROGRESSBAR_ANIMATION_TIME)
+=======
+>>>>>>> tg-pr-88929
 
 #undef PROGRESSBAR_ANIMATION_TIME
 #undef PROGRESSBAR_HEIGHT

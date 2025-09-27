@@ -6,7 +6,7 @@
 	production_animation = "protolathe_n"
 	allowed_buildtypes = PROTOLATHE
 
-/obj/machinery/rnd/production/protolathe/deconstruct(disassembled)
+/obj/machinery/rnd/production/protolathe/on_deconstruction(disassembled)
 	log_game("Protolathe of type [type] [disassembled ? "disassembled" : "deconstructed"] by [key_name(usr)] at [get_area_name(src, TRUE)]")
 
 	return ..()
@@ -23,5 +23,8 @@
 	desc = "Converts raw materials into useful objects. Its ancient construction may limit its ability to print all known technology."
 	circuit = /obj/item/circuitboard/machine/protolathe/offstation
 	allowed_buildtypes = AWAY_LATHE
+<<<<<<< HEAD
 	charges_tax = FALSE
 	link_on_init = FALSE
+=======
+>>>>>>> tg-pr-88929

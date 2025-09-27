@@ -1,8 +1,16 @@
 import { sortBy } from 'common/collections';
+<<<<<<< HEAD
 import { classes } from 'common/react';
 import { useLocalState } from '../../backend';
 import { Flex, Button, AnimatedNumber } from '../../components';
 import { formatSiUnit } from '../../format';
+=======
+import { useState } from 'react';
+import { AnimatedNumber, Button, Flex } from 'tgui-core/components';
+import { formatSiUnit } from 'tgui-core/format';
+import { classes } from 'tgui-core/react';
+
+>>>>>>> tg-pr-88929
 import { MaterialIcon } from './MaterialIcon';
 import { Material } from './Types';
 
@@ -54,7 +62,7 @@ export const MaterialAccessBar = (props: MaterialAccessBarProps) => {
 
   return (
     <Flex wrap>
-      {sortBy((m: Material) => MATERIAL_RARITY[m.name])(availableMaterials).map(
+      {sortBy(availableMaterials, (m: Material) => MATERIAL_RARITY[m.name]).map(
         (material) => (
           <Flex.Item grow basis={4.5} key={material.name}>
             <MaterialCounter
@@ -80,10 +88,14 @@ type MaterialCounterProps = {
 const MaterialCounter = (props: MaterialCounterProps) => {
   const { material, onEjectRequested, SHEET_MATERIAL_AMOUNT } = props;
 
+<<<<<<< HEAD
   const [hovering, setHovering] = useLocalState(
     `MaterialCounter__${material.name}`,
     false,
   );
+=======
+  const [hovering, setHovering] = useState(false);
+>>>>>>> tg-pr-88929
 
   const sheets = material.amount / SHEET_MATERIAL_AMOUNT;
 

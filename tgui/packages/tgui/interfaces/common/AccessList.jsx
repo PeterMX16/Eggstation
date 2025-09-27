@@ -1,7 +1,14 @@
 import { sortBy } from 'common/collections';
+<<<<<<< HEAD
 import { useSharedState } from '../../backend';
 import { Button, Flex, Section, Tabs, Box } from '../../components';
 
+=======
+import { Button, Flex, Section, Tabs } from 'tgui-core/components';
+
+import { useSharedState } from '../../backend';
+
+>>>>>>> tg-pr-88929
 export const AccessList = (props) => {
   const {
     accesses = [],
@@ -309,8 +316,14 @@ const RegionAccessList = (props) => {
   const selectedAccess = accesses.find(
     (access) => access.name === selectedAccessName,
   );
+<<<<<<< HEAD
   const selectedAccessEntries = sortBy((entry) => entry.desc)(
     selectedAccess?.accesses || [],
+=======
+  const selectedAccessEntries = sortBy(
+    selectedAccess?.accesses || [],
+    (entry) => entry.desc,
+>>>>>>> tg-pr-88929
   );
 
   const allWildcards = Object.keys(wildcardSlots);

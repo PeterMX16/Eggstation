@@ -145,7 +145,11 @@ GLOBAL_REAL(Master, /datum/controller/master)
 		ss.Shutdown()
 	log_world("Shutdown complete")
 
+<<<<<<< HEAD
 ADMIN_VERB(cmd_controller_view_ui, R_SERVER|R_DEBUG, FALSE, "Controller Overview", "View the current states of the Subsystem Controllers.", ADMIN_CATEGORY_DEBUG)
+=======
+ADMIN_VERB(cmd_controller_view_ui, R_SERVER|R_DEBUG, "Controller Overview", "View the current states of the Subsystem Controllers.", ADMIN_CATEGORY_DEBUG)
+>>>>>>> tg-pr-88929
 	Master.ui_interact(user.mob)
 
 /datum/controller/master/ui_status(mob/user, datum/ui_state/state)
@@ -195,7 +199,11 @@ ADMIN_VERB(cmd_controller_view_ui, R_SERVER|R_DEBUG, FALSE, "Controller Overview
 			"cost_ms" = subsystem.cost,
 			"tick_usage" = subsystem.tick_usage,
 			"usage_per_tick" = average,
+<<<<<<< HEAD
 			"overtime" = subsystem.tick_overrun,
+=======
+			"tick_overrun" = subsystem.tick_overrun,
+>>>>>>> tg-pr-88929
 			"initialized" = subsystem.initialized,
 			"initialization_failure_message" = subsystem.initialization_failure_message,
 		))
@@ -313,7 +321,7 @@ ADMIN_VERB(cmd_controller_view_ui, R_SERVER|R_DEBUG, FALSE, "Controller Overview
 		Initialize(20, TRUE, FALSE)
 
 // Please don't stuff random bullshit here,
-// Make a subsystem, give it the SS_NO_FIRE flag, and do your work in it's Initialize()
+// Make a subsystem, give it the SS_NO_FIRE flag, and do your work in its Initialize()
 /datum/controller/master/Initialize(delay, init_sss, tgs_prime)
 	set waitfor = 0
 
@@ -326,6 +334,11 @@ ADMIN_VERB(cmd_controller_view_ui, R_SERVER|R_DEBUG, FALSE, "Controller Overview
 	init_stage_completed = 0
 	var/mc_started = FALSE
 
+<<<<<<< HEAD
+=======
+	to_chat(world, span_boldannounce("Initializing subsystems..."), MESSAGE_TYPE_DEBUG)
+
+>>>>>>> tg-pr-88929
 	var/list/stage_sorted_subsystems = new(INITSTAGE_MAX)
 	for (var/i in 1 to INITSTAGE_MAX)
 		stage_sorted_subsystems[i] = list()
@@ -354,7 +367,7 @@ ADMIN_VERB(cmd_controller_view_ui, R_SERVER|R_DEBUG, FALSE, "Controller Overview
 		if (!mc_started)
 			mc_started = TRUE
 			if (!current_runlevel)
-				SetRunLevel(1)
+				SetRunLevel(1) // Intentionally not using the defines here because the MC doesn't care about them
 			// Loop.
 			Master.StartProcessing(0)
 
@@ -370,7 +383,14 @@ ADMIN_VERB(cmd_controller_view_ui, R_SERVER|R_DEBUG, FALSE, "Controller Overview
 	// because who knows how long we took for initializations, and whatever.
 	SSticker.SetTimeLeft(CONFIG_GET(number/lobby_countdown) * 10) // monkestation edit
 
+<<<<<<< HEAD
 	SSplexora.serverinitdone(time) // Monkestation edit - plexora
+=======
+	var/msg = "Initializations complete within [time] second[time == 1 ? "" : "s"]!"
+	to_chat(world, span_boldannounce("[msg]"), MESSAGE_TYPE_DEBUG)
+	log_world(msg)
+
+>>>>>>> tg-pr-88929
 
 	if(world.system_type == MS_WINDOWS && CONFIG_GET(flag/toast_notification_on_init) && !length(GLOB.clients))
 		world.shelleo("start /min powershell -ExecutionPolicy Bypass -File tools/initToast/initToast.ps1 -name \"[world.name]\" -icon %CD%\\icons\\ui_icons\\common\\tg_16.png -port [world.port]")
@@ -403,6 +423,7 @@ ADMIN_VERB(cmd_controller_view_ui, R_SERVER|R_DEBUG, FALSE, "Controller Overview
 		SS_INIT_NONE,
 		SS_INIT_SUCCESS,
 		SS_INIT_NO_NEED,
+		SS_INIT_NO_MESSAGE,
 	)
 
 	if ((subsystem.flags & SS_NO_INIT) || subsystem.initialized) //Don't init SSs with the corresponding flag or if they already are initialized
@@ -449,9 +470,14 @@ ADMIN_VERB(cmd_controller_view_ui, R_SERVER|R_DEBUG, FALSE, "Controller Overview
 	switch(result)
 		if(SS_INIT_FAILURE)
 			message_prefix = "Failed to initialize [subsystem.name] subsystem after"
+<<<<<<< HEAD
 			screen_display = "<font color='red'>FAILED</font>"
 			always_show = TRUE
 		if(SS_INIT_SUCCESS)
+=======
+			chat_warning = TRUE
+		if(SS_INIT_SUCCESS, SS_INIT_NO_MESSAGE)
+>>>>>>> tg-pr-88929
 			message_prefix = "Initialized [subsystem.name] subsystem within"
 			screen_display = "<font color='green'>DONE</font>"
 		if(SS_INIT_NO_NEED)
@@ -468,17 +494,22 @@ ADMIN_VERB(cmd_controller_view_ui, R_SERVER|R_DEBUG, FALSE, "Controller Overview
 	else
 		SStitle.remove_init_text(subsystem.type)
 
+<<<<<<< HEAD
 	if(message_prefix)
 		log_world("[message_prefix] [seconds] second\s!")
+=======
+	if(result != SS_INIT_NO_MESSAGE)
+		to_chat(world, chat_message, MESSAGE_TYPE_DEBUG)
+	log_world(message)
+>>>>>>> tg-pr-88929
 
 /datum/controller/master/proc/SetRunLevel(new_runlevel)
 	var/old_runlevel = current_runlevel
-	if(isnull(old_runlevel))
-		old_runlevel = "NULL"
 
-	testing("MC: Runlevel changed from [old_runlevel] to [new_runlevel]")
+	testing("MC: Runlevel changed from [isnull(old_runlevel) ? "NULL" : old_runlevel] to [new_runlevel]")
 	current_runlevel = log(2, new_runlevel) + 1
 	if(current_runlevel < 1)
+		current_runlevel = old_runlevel
 		CRASH("Attempted to set invalid runlevel: [new_runlevel]")
 
 // Starts the mc, and sticks around to restart it if the loop ever ends.
@@ -590,7 +621,7 @@ ADMIN_VERB(cmd_controller_view_ui, R_SERVER|R_DEBUG, FALSE, "Controller Overview
 
 		//Anti-tick-contention heuristics:
 		if (init_stage == INITSTAGE_MAX)
-			//if there are mutiple sleeping procs running before us hogging the cpu, we have to run later.
+			//if there are multiple sleeping procs running before us hogging the cpu, we have to run later.
 			// (because sleeps are processed in the order received, longer sleeps are more likely to run first)
 			if (starting_tick_usage > TICK_LIMIT_MC) //if there isn't enough time to bother doing anything this tick, sleep a bit.
 				sleep_delta *= 2

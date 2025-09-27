@@ -12,7 +12,7 @@
 		to_chat(user, "<a href='byond://?src=[REF(user)];ai_take_control=[REF(src)]'>[span_userdanger("ASSUME DIRECT CONTROL?")]</a><br>")
 		return
 	examine(user)
-	if(length(return_drivers()) > 0)
+	if(length(return_occupants()) >= max_occupants)
 		to_chat(user, span_warning("This exosuit has a pilot and cannot be controlled."))
 		return
 	var/can_control_mech = FALSE
@@ -66,13 +66,15 @@
 			return
 
 		if(AI_MECH_HACK) //Called by AIs on the mech
-			AI.linked_core = new /obj/structure/ai_core/deactivated(AI.loc)
+			var/obj/structure/ai_core/deactivated/deactivated_core = new(AI.loc, FALSE, FALSE, AI)
+			AI.linked_core = deactivated_core
+			AI.linked_core.RegisterSignal(deactivated_core, COMSIG_ATOM_DESTRUCTION, TYPE_PROC_REF(/obj/structure/ai_core/deactivated, disable_doomsday)) //Protect that core! The structure goes bye-bye when we re-shunt back in so no need for cleanup.
+			AI.linked_core.remote_ai = AI
 			if(AI.can_dominate_mechs && LAZYLEN(occupants)) //Oh, I am sorry, were you using that?
 				to_chat(AI, span_warning("Occupants detected! Forced ejection initiated!"))
 				to_chat(occupants, span_danger("You have been forcibly ejected!"))
 				for(var/ejectee in occupants)
 					mob_exit(ejectee, silent = TRUE, randomstep = TRUE, forced = TRUE) //IT IS MINE, NOW. SUCK IT, RD!
-				AI.can_shunt = FALSE //ONE AI ENTERS. NO AI LEAVES.
 
 		if(AI_TRANS_FROM_CARD) //Using an AI card to upload to a mech.
 			AI = card.AI
@@ -99,9 +101,10 @@
 	mecha_flags |= SILICON_PILOT
 	moved_inside(AI)
 	AI.eyeobj?.forceMove(src)
-	AI.eyeobj?.RegisterSignal(src, COMSIG_MOVABLE_MOVED, TYPE_PROC_REF(/mob/camera/ai_eye, update_visibility))
+	AI.eyeobj?.RegisterSignal(src, COMSIG_MOVABLE_MOVED, TYPE_PROC_REF(/mob/eye/camera/ai, update_visibility))
 	AI.controlled_equipment = src
 	AI.remote_control = src
+	add_occupant(AI)
 	to_chat(AI, AI.can_dominate_mechs ? span_greenannounce("Takeover of [name] complete! You are now loaded onto the onboard computer. Do not attempt to leave the station sector!") :\
 		span_notice("You have been uploaded to a mech's onboard computer."))
 	to_chat(AI, "<span class='reallybig boldnotice'>Use Middle-Mouse or the action button in your HUD to toggle equipment safety. Clicks with safety enabled will pass AI commands.</span>")

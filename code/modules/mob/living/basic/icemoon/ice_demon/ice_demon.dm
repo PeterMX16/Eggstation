@@ -16,7 +16,11 @@
 	melee_damage_upper = 15
 	attack_verb_continuous = "slices"
 	attack_verb_simple = "slice"
+<<<<<<< HEAD
 	attack_sound = 'sound/weapons/bladeslice.ogg'
+=======
+	attack_sound = 'sound/items/weapons/bladeslice.ogg'
+>>>>>>> tg-pr-88929
 	attack_vis_effect = ATTACK_EFFECT_SLASH
 	move_force = MOVE_FORCE_VERY_STRONG
 	move_resist = MOVE_FORCE_VERY_STRONG
@@ -24,6 +28,7 @@
 	crusher_loot = /obj/item/crusher_trophy/ice_demon_cube
 	ai_controller = /datum/ai_controller/basic_controller/ice_demon
 	death_message = "fades as the energies that tied it to this world dissipate."
+<<<<<<< HEAD
 	death_sound = 'sound/magic/demon_dies.ogg'
 
 /mob/living/basic/mining/ice_demon/Initialize(mapload)
@@ -41,6 +46,23 @@
 		/datum/component/ranged_attacks,\
 		projectile_type = /obj/projectile/temp/ice_demon,\
 		projectile_sound = 'sound/weapons/pierce.ogg',\
+=======
+	death_sound = 'sound/effects/magic/demon_dies.ogg'
+
+/mob/living/basic/mining/ice_demon/Initialize(mapload)
+	. = ..()
+	var/static/list/innate_actions = list(
+		/datum/action/cooldown/mob_cooldown/slippery_ice_floors = BB_DEMON_SLIP_ABILITY,
+		/datum/action/cooldown/mob_cooldown/ice_demon_teleport = BB_DEMON_TELEPORT_ABILITY,
+		/datum/action/cooldown/spell/conjure/limit_summons/create_afterimages = BB_DEMON_CLONE_ABILITY,
+	)
+	grant_actions_by_list(innate_actions)
+
+	AddComponent(\
+		/datum/component/ranged_attacks,\
+		projectile_type = /obj/projectile/temp/ice_demon,\
+		projectile_sound = 'sound/items/weapons/pierce.ogg',\
+>>>>>>> tg-pr-88929
 	)
 	var/static/list/death_loot = list(/obj/item/stack/ore/bluespace_crystal = 3)
 	AddElement(/datum/element/death_drops, death_loot)
@@ -68,7 +90,11 @@
 	melee_damage_upper = 5
 	attack_verb_continuous = "slices"
 	attack_verb_simple = "slice"
+<<<<<<< HEAD
 	attack_sound = 'sound/weapons/bladeslice.ogg'
+=======
+	attack_sound = 'sound/items/weapons/bladeslice.ogg'
+>>>>>>> tg-pr-88929
 	alpha = 80
 	ai_controller = /datum/ai_controller/basic_controller/ice_demon/afterimage
 	///how long do we exist for

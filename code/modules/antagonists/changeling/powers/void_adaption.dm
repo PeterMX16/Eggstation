@@ -34,11 +34,19 @@
 
 	var/datum/gas_mixture/environment = void_adapted.loc.return_air()
 	if (!isnull(environment))
+<<<<<<< HEAD
 		var/vulnerable_temperature = void_adapted.bodytemp_cold_damage_limit
 		var/affected_temperature = environment.return_temperature()
 		if (ishuman(void_adapted))
 			var/mob/living/carbon/human/special_boy = void_adapted
 			var/cold_protection = special_boy.get_insulation(affected_temperature)
+=======
+		var/vulnerable_temperature = void_adapted.get_body_temp_cold_damage_limit()
+		var/affected_temperature = environment.return_temperature()
+		if (ishuman(void_adapted))
+			var/mob/living/carbon/human/special_boy = void_adapted
+			var/cold_protection = special_boy.get_cold_protection(affected_temperature)
+>>>>>>> tg-pr-88929
 			vulnerable_temperature *= (1 - cold_protection)
 
 			var/affected_pressure = special_boy.calculate_affecting_pressure(environment.return_pressure())
@@ -55,14 +63,22 @@
 	if (!should_be_active)
 		on_removed_adaption(void_adapted, "Our cells relax in safer air.")
 		return
+<<<<<<< HEAD
 	var/datum/antagonist/changeling/changeling_data = void_adapted.mind?.has_antag_datum(/datum/antagonist/changeling)
+=======
+	var/datum/antagonist/changeling/changeling_data = IS_CHANGELING(void_adapted)
+>>>>>>> tg-pr-88929
 	to_chat(void_adapted, span_changeling("Our cells harden themselves against the [pick(active_reasons)]."))
 	changeling_data?.chem_recharge_slowdown -= recharge_slowdown
 	currently_active = TRUE
 
 /// Called when we stop being adapted
 /datum/action/changeling/void_adaption/proc/on_removed_adaption(mob/living/former, message)
+<<<<<<< HEAD
 	var/datum/antagonist/changeling/changeling_data = former.mind?.has_antag_datum(/datum/antagonist/changeling)
+=======
+	var/datum/antagonist/changeling/changeling_data = IS_CHANGELING(former)
+>>>>>>> tg-pr-88929
 	to_chat(former, span_changeling(message))
 	changeling_data?.chem_recharge_slowdown += recharge_slowdown
 	currently_active = FALSE

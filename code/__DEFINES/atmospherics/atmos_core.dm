@@ -130,9 +130,13 @@
 ///Minimum temperature for fire to move to the next turf (150 °C or 433 K)
 #define FIRE_MINIMUM_TEMPERATURE_TO_SPREAD CELCIUS_TO_KELVIN(150 CELCIUS)
 ///Minimum temperature for fire to exist on a turf (100 °C or 373 K)
+<<<<<<< HEAD
 #define FIRE_MINIMUM_TEMPERATURE_TO_EXIST CELCIUS_TO_KELVIN(100 CELCIUS)
 ///Minimum temperature for items on fire
 #define BURNING_ITEM_MINIMUM_TEMPERATURE CELCIUS_TO_KELVIN(150 CELCIUS)
+=======
+#define FIRE_MINIMUM_TEMPERATURE_TO_EXIST (100+T0C)
+>>>>>>> tg-pr-88929
 ///Multiplier for the temperature shared to other turfs
 #define FIRE_SPREAD_RADIOSITY_SCALE 0.85
 ///Helper for small fires to grow

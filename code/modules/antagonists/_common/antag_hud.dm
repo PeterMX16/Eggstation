@@ -4,6 +4,7 @@ GLOBAL_LIST_EMPTY_TYPED(has_antagonist_huds, /datum/atom_hud/alternate_appearanc
 /// An alternate appearance that will only show if you have the antag datum
 /datum/atom_hud/alternate_appearance/basic/has_antagonist
 	var/antag_datum_type
+<<<<<<< HEAD
 	///The key or list of keys that are valid to see this hud, if unset then it will display to everyone with the antag datum like normal
 	var/list/valid_keys
 
@@ -11,6 +12,15 @@ GLOBAL_LIST_EMPTY_TYPED(has_antagonist_huds, /datum/atom_hud/alternate_appearanc
 	if(antag_datum_type)
 		src.antag_datum_type = antag_datum_type
 	src.valid_keys = valid_keys
+=======
+	/// Optionally, a weakref to antag team
+	var/datum/weakref/team_ref
+
+/datum/atom_hud/alternate_appearance/basic/has_antagonist/New(key, image/I, antag_datum_type, datum/weakref/team)
+	if(antag_datum_type)
+		src.antag_datum_type = antag_datum_type
+	src.team_ref = team
+>>>>>>> tg-pr-88929
 	GLOB.has_antagonist_huds += src
 	return ..(key, I, NONE)
 
@@ -18,6 +28,7 @@ GLOBAL_LIST_EMPTY_TYPED(has_antagonist_huds, /datum/atom_hud/alternate_appearanc
 	GLOB.has_antagonist_huds -= src
 	return ..()
 
+<<<<<<< HEAD
 /datum/atom_hud/alternate_appearance/basic/has_antagonist/mobShouldSee(mob/target)
 	if(add_ghost_version && isobserver(target))
 		return FALSE // use the ghost version instead
@@ -32,6 +43,15 @@ GLOBAL_LIST_EMPTY_TYPED(has_antagonist_huds, /datum/atom_hud/alternate_appearanc
 	if(!islist(valid_keys))
 		valid_keys = list(valid_keys)
 	return length(valid_keys - antag_datum.hud_keys) != length(valid_keys)
+=======
+/datum/atom_hud/alternate_appearance/basic/has_antagonist/mobShouldSee(mob/M)
+	if(add_ghost_version && isobserver(M))
+		return FALSE // use the ghost version instead
+	var/datum/team/antag_team = team_ref?.resolve()
+	if(!isnull(antag_team))
+		return !!(M.mind in antag_team.members)
+	return !!M.mind?.has_antag_datum(antag_datum_type)
+>>>>>>> tg-pr-88929
 
 /// An alternate appearance that will show all the antagonists this mob has
 /datum/atom_hud/alternate_appearance/basic/antagonist_hud

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import {
   Stack,
   Section,
@@ -13,6 +14,24 @@ import { NtMessage, NtMessenger, NtPicture } from './types';
 import { BooleanLike } from 'common/react';
 import { useBackend } from '../../backend';
 import { decodeHtmlEntities } from 'common/string';
+=======
+import { Component, createRef, RefObject } from 'react';
+import {
+  Box,
+  Button,
+  Icon,
+  Image,
+  Input,
+  Modal,
+  Section,
+  Stack,
+  Tooltip,
+} from 'tgui-core/components';
+import { BooleanLike } from 'tgui-core/react';
+
+import { useBackend } from '../../backend';
+import { NtMessage, NtMessenger, NtPicture } from './types';
+>>>>>>> tg-pr-88929
 
 type ChatScreenProps = {
   canReply: BooleanLike;
@@ -174,7 +193,11 @@ export class ChatScreen extends Component<ChatScreenProps, ChatScreenState> {
     } = this.props;
     const { message, canSend, previewingImage, selectingPhoto } = this.state;
 
+<<<<<<< HEAD
     let filteredMessages: Element[] = [];
+=======
+    let filteredMessages: JSX.Element[] = [];
+>>>>>>> tg-pr-88929
 
     for (let index = 0; index < messages.length; index++) {
       const message = messages[index];
@@ -205,7 +228,11 @@ export class ChatScreen extends Component<ChatScreenProps, ChatScreenState> {
       );
     }
 
+<<<<<<< HEAD
     let sendingBar: Element;
+=======
+    let sendingBar: JSX.Element;
+>>>>>>> tg-pr-88929
 
     if (!canReply) {
       sendingBar = (
@@ -226,7 +253,11 @@ export class ChatScreen extends Component<ChatScreenProps, ChatScreenState> {
               this.setState({ selectingPhoto: false });
             }}
           >
+<<<<<<< HEAD
             <Box as="img" src={photo.path} maxHeight={10} />
+=======
+            <Image src={photo.path} maxHeight={10} />
+>>>>>>> tg-pr-88929
           </Button>
         </Stack.Item>
       ));
@@ -291,7 +322,11 @@ export class ChatScreen extends Component<ChatScreenProps, ChatScreenState> {
                   tooltip="Remove attachment"
                   tooltipPosition="auto-end"
                 >
+<<<<<<< HEAD
                   <Box as="img" src={selectedPhoto} />
+=======
+                  <Image src={selectedPhoto} />
+>>>>>>> tg-pr-88929
                 </Button>
               </Stack.Item>
             )}
@@ -303,8 +338,11 @@ export class ChatScreen extends Component<ChatScreenProps, ChatScreenState> {
                     fluid
                     autoFocus
                     width="100%"
+<<<<<<< HEAD
                     justify
                     id="input"
+=======
+>>>>>>> tg-pr-88929
                     value={message}
                     maxLength={1024}
                     onInput={this.handleMessageInput}
@@ -349,7 +387,11 @@ export class ChatScreen extends Component<ChatScreenProps, ChatScreenState> {
             fill
             fitted
             title={`${recipient.name} (${recipient.job})`}
+<<<<<<< HEAD
             scrollableRef={this.scrollRef}
+=======
+            ref={this.scrollRef}
+>>>>>>> tg-pr-88929
           >
             <Stack vertical className="NtosChatLog">
               {!!(messages.length > 0 && canReply) && (
@@ -380,7 +422,11 @@ export class ChatScreen extends Component<ChatScreenProps, ChatScreenState> {
                 />
               }
             >
+<<<<<<< HEAD
               <Box as="img" src={previewingImage} />
+=======
+              <Image src={previewingImage} />
+>>>>>>> tg-pr-88929
             </Section>
           </Modal>
         )}
@@ -402,12 +448,22 @@ const ChatMessage = (props: ChatMessageProps) => {
   const { message, everyone, outgoing, photoPath, timestamp, onPreviewImage } =
     props;
 
+<<<<<<< HEAD
   const displayMessage = decodeHtmlEntities(message);
+=======
+  const messageHTML = {
+    __html: `${message}`,
+  };
+>>>>>>> tg-pr-88929
 
   return (
     <Box className={`NtosChatMessage${outgoing ? '_outgoing' : ''}`}>
       <Box className="NtosChatMessage__content">
+<<<<<<< HEAD
         <Box as="span">{displayMessage}</Box>
+=======
+        <Box as="span" dangerouslySetInnerHTML={messageHTML} />
+>>>>>>> tg-pr-88929
         <Tooltip content={timestamp} position={outgoing ? 'left' : 'right'}>
           <Icon
             className="NtosChatMessage__timestamp"
@@ -419,21 +475,33 @@ const ChatMessage = (props: ChatMessageProps) => {
       {!!everyone && (
         <Box className="NtosChatMessage__everyone">Sent to everyone</Box>
       )}
+<<<<<<< HEAD
       {photoPath !== null && (
+=======
+      {!!photoPath && (
+>>>>>>> tg-pr-88929
         <Button
           tooltip="View image"
           className="NtosChatMessage__image"
           color="transparent"
           onClick={onPreviewImage}
         >
+<<<<<<< HEAD
           <Box as="img" src={photoPath} mt={1} />
+=======
+          <Image src={photoPath} mt={1} />
+>>>>>>> tg-pr-88929
         </Button>
       )}
     </Box>
   );
 };
 
+<<<<<<< HEAD
 const ChatDivider: Inferno.SFC<{ mt: number }> = (props) => {
+=======
+const ChatDivider = (props: { mt: number }) => {
+>>>>>>> tg-pr-88929
   return (
     <Box className="UnreadDivider" m={0} mt={props.mt}>
       <div />

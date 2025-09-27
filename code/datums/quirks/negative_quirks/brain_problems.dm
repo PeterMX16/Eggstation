@@ -12,9 +12,14 @@
 	lose_text = span_notice("You feel wrinkled again.")
 	medical_record_text = "Patient has a tumor in their brain that is slowly driving them to brain death."
 	hardcore_value = 12
+<<<<<<< HEAD
 	quirk_flags = QUIRK_HUMAN_ONLY | QUIRK_PROCESSES | QUIRK_DONT_CLONE // monkestation edit: QUIRK_DONT_CLONE (the cloner isn't gonna clone ur tumor lol)
 	mail_goodies = list(/obj/item/storage/pill_bottle/mannitol/braintumor)
 	no_process_traits = list(TRAIT_TUMOR_SUPPRESSED)
+=======
+	quirk_flags = QUIRK_HUMAN_ONLY|QUIRK_PROCESSES
+	mail_goodies = list(/obj/item/storage/pill_bottle/mannitol/braintumor)
+>>>>>>> tg-pr-88929
 
 /datum/quirk/item_quirk/brainproblems/add_unique(client/client_source)
 	give_item_to_holder(
@@ -29,4 +34,13 @@
 	)
 
 /datum/quirk/item_quirk/brainproblems/process(seconds_per_tick)
+<<<<<<< HEAD
+=======
+	if(quirk_holder.stat == DEAD)
+		return
+
+	if(HAS_TRAIT(quirk_holder, TRAIT_TUMOR_SUPPRESSED))
+		return
+
+>>>>>>> tg-pr-88929
 	quirk_holder.adjustOrganLoss(ORGAN_SLOT_BRAIN, 0.2 * seconds_per_tick)

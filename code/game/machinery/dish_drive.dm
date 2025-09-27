@@ -3,15 +3,21 @@
 	desc = "A culinary marvel that uses matter-to-energy conversion to store dishes and shards. Convenient! \
 	Additional features include a vacuum function to suck in nearby dishes, and an automatic transfer beam that empties its contents into nearby disposal bins every now and then. \
 	Or you can just drop your plates on the floor, like civilized folk."
-	icon = 'icons/obj/kitchen.dmi'
+	icon = 'icons/obj/machines/kitchen.dmi'
 	icon_state = "synthesizer"
 	active_power_usage = BASE_MACHINE_ACTIVE_CONSUMPTION * 0.04
 	density = FALSE
 	circuit = /obj/item/circuitboard/machine/dish_drive
 	pass_flags = PASSTABLE
+<<<<<<< HEAD
 	/// List of dishes the drive can hold
 	var/list/collectable_items = list(/obj/item/trash/waffles, // NOVA EDIT CHANGE - non-static list
 		/obj/item/trash/waffles,
+=======
+	interaction_flags_click = ALLOW_SILICON_REACH
+	/// List of dishes the drive can hold
+	var/static/list/collectable_items = list(
+>>>>>>> tg-pr-88929
 		/obj/item/broken_bottle,
 		/obj/item/kitchen/fork,
 		/obj/item/plate,
@@ -22,8 +28,12 @@
 		/obj/item/trash/tray,
 	)
 	/// List of items the drive detects as trash
+<<<<<<< HEAD
 	var/static/list/disposable_items = list(/obj/item/trash/waffles,
 		/obj/item/trash/waffles,
+=======
+	var/static/list/disposable_items = list(
+>>>>>>> tg-pr-88929
 		/obj/item/broken_bottle,
 		/obj/item/plate_shard,
 		/obj/item/shard,
@@ -37,8 +47,11 @@
 	var/list/dish_drive_contents
 	/// Distance this is capable of sucking dishes up over. (2 + servo tier)
 	var/suck_distance = 0
+<<<<<<< HEAD
 	var/suck_distance_bonus = 8
 	var/binrange = 7
+=======
+>>>>>>> tg-pr-88929
 
 	COOLDOWN_DECLARE(time_since_dishes)
 
@@ -78,21 +91,36 @@
 	LAZYREMOVE(dish_drive_contents, dish)
 	user.put_in_hands(dish)
 	balloon_alert(user, "[dish] taken")
+<<<<<<< HEAD
 	playsound(src, 'sound/items/pshoom.ogg', 50, TRUE)
+=======
+	playsound(src, 'sound/items/pshoom/pshoom.ogg', 50, TRUE)
+>>>>>>> tg-pr-88929
 	flick("synthesizer_beam", src)
 
 /obj/machinery/dish_drive/wrench_act(mob/living/user, obj/item/tool)
 	. = ..()
 	default_unfasten_wrench(user, tool)
+<<<<<<< HEAD
 	return
 
 /obj/machinery/dish_drive/attackby(obj/item/dish, mob/living/user, params)
 	if(is_type_in_list(dish, collectable_items) && !(user.istate & ISTATE_HARM))
+=======
+	return ITEM_INTERACT_SUCCESS
+
+/obj/machinery/dish_drive/attackby(obj/item/dish, mob/living/user, params)
+	if(is_type_in_list(dish, collectable_items) && !user.combat_mode)
+>>>>>>> tg-pr-88929
 		if(!user.transferItemToLoc(dish, src))
 			return
 		LAZYADD(dish_drive_contents, dish)
 		balloon_alert(user, "[dish] placed in drive")
+<<<<<<< HEAD
 		playsound(src, 'sound/items/pshoom.ogg', 50, TRUE)
+=======
+		playsound(src, 'sound/items/pshoom/pshoom.ogg', 50, TRUE)
+>>>>>>> tg-pr-88929
 		flick("synthesizer_beam", src)
 		return
 	else if(default_deconstruction_screwdriver(user, "[initial(icon_state)]-o", initial(icon_state), dish))
@@ -104,7 +132,11 @@
 /obj/machinery/dish_drive/RefreshParts()
 	. = ..()
 	suck_distance = 0
+<<<<<<< HEAD
 	for(var/datum/stock_part/manipulator/servo in component_parts)
+=======
+	for(var/datum/stock_part/servo/servo in component_parts)
+>>>>>>> tg-pr-88929
 		suck_distance = servo.tier
 	// Lowers power use for total tier
 	var/total_rating = 0
@@ -126,14 +158,22 @@
 		do_the_dishes()
 	if(!suction_enabled)
 		return
+<<<<<<< HEAD
 
 	for(var/obj/item/dish in view(2 + suck_distance + suck_distance_bonus, src))
+=======
+	for(var/obj/item/dish in view(2 + suck_distance, src))
+>>>>>>> tg-pr-88929
 		if(is_type_in_list(dish, collectable_items) && dish.loc != src && (!dish.reagents || !dish.reagents.total_volume) && (dish.contents.len < 1))
 			if(dish.Adjacent(src))
 				LAZYADD(dish_drive_contents, dish)
 				visible_message(span_notice("[src] beams up [dish]!"))
 				dish.forceMove(src)
+<<<<<<< HEAD
 				playsound(src, 'sound/items/pshoom.ogg', 50, TRUE)
+=======
+				playsound(src, 'sound/items/pshoom/pshoom.ogg', 50, TRUE)
+>>>>>>> tg-pr-88929
 				flick("synthesizer_beam", src)
 			else
 				step_towards(dish, src)
@@ -144,9 +184,15 @@
 	balloon_alert(user, "disposal signal sent")
 	do_the_dishes(TRUE)
 
+<<<<<<< HEAD
 /obj/machinery/dish_drive/AltClick(mob/living/user)
 	do_the_dishes(TRUE)
 	return
+=======
+/obj/machinery/dish_drive/click_alt(mob/living/user)
+	do_the_dishes(TRUE)
+	return CLICK_ACTION_SUCCESS
+>>>>>>> tg-pr-88929
 
 /obj/machinery/dish_drive/proc/do_the_dishes(manual)
 	if(!LAZYLEN(dish_drive_contents))
@@ -157,7 +203,7 @@
 	if(!bin)
 		if(manual)
 			visible_message(span_warning("[src] buzzes. There are no disposal bins in range!"))
-			playsound(src, 'sound/machines/buzz-sigh.ogg', 50, TRUE)
+			playsound(src, 'sound/machines/buzz/buzz-sigh.ogg', 50, TRUE)
 		return
 	var/disposed = 0
 	for(var/obj/item/dish in dish_drive_contents)
@@ -170,8 +216,8 @@
 			disposed++
 	if (disposed)
 		visible_message(span_notice("[src] [pick("whooshes", "bwooms", "fwooms", "pshooms")] and beams [disposed] stored item\s into the nearby [bin.name]."))
-		playsound(src, 'sound/items/pshoom.ogg', 50, TRUE)
-		playsound(bin, 'sound/items/pshoom.ogg', 50, TRUE)
+		playsound(src, 'sound/items/pshoom/pshoom.ogg', 50, TRUE)
+		playsound(bin, 'sound/items/pshoom/pshoom.ogg', 50, TRUE)
 		Beam(bin, icon_state = "rped_upgrade", time = 5)
 		bin.update_appearance()
 		flick("synthesizer_beam", src)
@@ -180,6 +226,7 @@
 			visible_message(span_notice("There are no disposable items in [src]!"))
 		return
 	COOLDOWN_START(src, time_since_dishes, 1 MINUTES)
+<<<<<<< HEAD
 
 /obj/machinery/dish_drive/firing_range
 	resistance_flags = INDESTRUCTIBLE
@@ -189,3 +236,5 @@
 	collectable_items = list(/obj/item/ammo_casing,
 		/obj/item/bodypart,
 		/obj/item/organ,)
+=======
+>>>>>>> tg-pr-88929

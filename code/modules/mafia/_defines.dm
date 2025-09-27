@@ -18,6 +18,9 @@
 ///The length of the roundend report, where people can look over the round and the details.
 #define VICTORY_LAP_PERIOD_LENGTH (20 SECONDS)
 
+///The cooldown between being able to send your notes in chat.
+#define MAFIA_NOTE_SENDING_COOLDOWN (15 SECONDS)
+
 ///How fast the game will speed up when half the players are gone.
 #define MAFIA_SPEEDUP_INCREASE 2
 
@@ -50,7 +53,7 @@
 //role flags (special status of roles like detection immune)
 ///to all forms of detection, shows themselves as an assistant.
 #define ROLE_UNDETECTABLE (1<<0)
-///has the ability to kill at night and thus, blocks the game from ending with other teams alive.
+///has the ability to theoretically kill someone singlehandedly, blocks their team from losing against another teams.
 #define ROLE_CAN_KILL (1<<1)
 ///can only be one in a randomly generated game
 #define ROLE_UNIQUE (1<<2)
@@ -65,15 +68,15 @@
 #define CAN_USE_ON_OTHERS (1<<0)
 ///Flag that decides whether the Mafia ability can be used on themselves.
 #define CAN_USE_ON_SELF (1<<1)
-///Flag that decides whether the Mafia ability can be used on dead players. This overwrites the first two, and only allows for dead.
+///Flag that decides whether the Mafia ability can be used on dead players.
 #define CAN_USE_ON_DEAD (1<<2)
 
-#define MAFIA_PHASE_SETUP 1
-#define MAFIA_PHASE_DAY 2
-#define MAFIA_PHASE_VOTING 3
-#define MAFIA_PHASE_JUDGEMENT 4
-#define MAFIA_PHASE_NIGHT 5
-#define MAFIA_PHASE_VICTORY_LAP 6
+#define MAFIA_PHASE_SETUP "No Game"
+#define MAFIA_PHASE_DAY "Morning Period"
+#define MAFIA_PHASE_VOTING "Voting Period"
+#define MAFIA_PHASE_JUDGEMENT "Judgment"
+#define MAFIA_PHASE_NIGHT "Night Period"
+#define MAFIA_PHASE_VICTORY_LAP "Victory Lap"
 
 #define MAFIA_ALIVE 1
 #define MAFIA_DEAD 2
@@ -97,6 +100,8 @@
 /// now clearing refs to prepare for the next day. Do not do any actions here, it's just for ref clearing.
 #define COMSIG_MAFIA_NIGHT_END "night_end"
 
+/// signal sent to roles when the game is confirmed starting
+#define COMSIG_MAFIA_GAME_START "game_start"
 /// signal sent to roles when the game is confirmed ending
 #define COMSIG_MAFIA_GAME_END "game_end"
 
@@ -104,6 +109,8 @@
 GLOBAL_LIST_EMPTY(mafia_signup)
 /// list of ghosts who want to play mafia that have since disconnected. They are kept in the lobby, but not counted for starting a game.
 GLOBAL_LIST_EMPTY(mafia_bad_signup)
+/// list of PDAs who want to play mafia, every time someone enters the list it checks to see if enough are in
+GLOBAL_LIST_EMPTY(pda_mafia_signup)
 /// the current global mafia game running.
 GLOBAL_VAR(mafia_game)
 /// list of ghosts in mafia_signup who have voted to start early

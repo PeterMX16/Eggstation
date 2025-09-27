@@ -1,3 +1,13 @@
+<<<<<<< HEAD
+=======
+#define GRADE_D "D"
+#define GRADE_C "C"
+#define GRADE_B "B"
+#define GRADE_A "A"
+#define GRADE_S "S"
+
+
+>>>>>>> tg-pr-88929
 /// Handles calculating rewards based on number of players, parts, threats, etc
 /obj/machinery/quantum_server/proc/calculate_rewards()
 	var/rewards_base = 0.8
@@ -14,8 +24,15 @@
 
 	return rewards_base
 
+<<<<<<< HEAD
 /// Handles spawning the (new) crate and deleting the former
 /obj/machinery/quantum_server/proc/generate_loot(obj/cache, obj/machinery/byteforge/chosen_forge)
+=======
+
+/// Handles spawning the (new) crate and deleting the former
+/obj/machinery/quantum_server/proc/generate_loot(obj/cache, obj/machinery/byteforge/chosen_forge)
+	SSblackbox.record_feedback("tally", "bitrunning_domain_primary_completed", 1, generated_domain.key)
+>>>>>>> tg-pr-88929
 	for(var/mob/person in cache.contents)
 		SEND_SIGNAL(person, COMSIG_BITRUNNER_CACHE_SEVER)
 
@@ -24,6 +41,7 @@
 	SEND_SIGNAL(src, COMSIG_BITRUNNER_DOMAIN_COMPLETE, cache, generated_domain.reward_points)
 
 	points += generated_domain.reward_points
+<<<<<<< HEAD
 	playsound(src, 'sound/machines/terminal_success.ogg', 30, vary = TRUE)
 	radio.talk_into(src, "A prisoner has finished bitrunning, make sure to pick up the ore crate.", RADIO_CHANNEL_SECURITY) //MONKESTATION ADDITION: security forgets about crates so we make sure to remind them each time
 
@@ -31,6 +49,17 @@
 
 	var/obj/item/paper/certificate = new()
 	certificate.add_raw_text(get_completion_certificate())
+=======
+	playsound(src, 'sound/machines/terminal/terminal_success.ogg', 30, vary = TRUE)
+
+	var/bonus = calculate_rewards()
+
+	var/time_difference = world.time - generated_domain.start_time
+	var/grade = grade_completion(time_difference)
+
+	var/obj/item/paper/certificate = new()
+	certificate.add_raw_text(get_completion_certificate(time_difference, grade))
+>>>>>>> tg-pr-88929
 	certificate.name = "certificate of domain completion"
 	certificate.update_appearance()
 
@@ -38,11 +67,37 @@
 	reward_cache.manifest = certificate
 	reward_cache.update_appearance()
 
+<<<<<<< HEAD
 	chosen_forge.start_to_spawn(reward_cache)
 	return TRUE
 
 /// Returns the markdown text containing domain completion information
 /obj/machinery/quantum_server/proc/get_completion_certificate()
+=======
+	if(can_generate_tech_disk(grade))
+		SSblackbox.record_feedback("tally", "bitrunning_bepis_rewarded", 1, generated_domain.key)
+		new /obj/item/disk/design_disk/bepis/remove_tech(reward_cache)
+		generated_domain.disk_reward_spawned = TRUE
+
+	chosen_forge.start_to_spawn(reward_cache)
+	return TRUE
+
+
+/// Builds secondary loot if the achievements were met
+/obj/machinery/quantum_server/proc/generate_secondary_loot(obj/curiosity, obj/machinery/byteforge/chosen_forge)
+	SSblackbox.record_feedback("tally", "bitrunning_domain_secondary_completed", 1, generated_domain.key)
+	spark_at_location(curiosity) // abracadabra!
+	qdel(curiosity) // and it's gone!
+
+	var/obj/item/storage/lockbox/bitrunning/decrypted/reward_curiosity = new(src, generated_domain)
+
+	chosen_forge.start_to_spawn(reward_curiosity)
+	return TRUE
+
+
+/// Returns the markdown text containing domain completion information
+/obj/machinery/quantum_server/proc/get_completion_certificate(time_difference, grade)
+>>>>>>> tg-pr-88929
 	var/base_points = generated_domain.reward_points
 	if(domain_randomized)
 		base_points -= 1
@@ -51,11 +106,17 @@
 
 	var/domain_threats = length(spawned_threat_refs)
 
+<<<<<<< HEAD
 	var/time_difference = world.time - generated_domain.start_time
 
 	var/completion_time = "### Completion Time: [DisplayTimeText(time_difference)]\n"
 
 	var/grade = "\n---\n\n# Rating: [grade_completion(time_difference)]"
+=======
+	var/completion_time = "### Completion Time: [DisplayTimeText(time_difference)]\n"
+
+	var/completion_grade = "\n---\n\n# Rating: [grade]"
+>>>>>>> tg-pr-88929
 
 	var/text = "# Certificate of Domain Completion\n\n---\n\n"
 
@@ -67,7 +128,11 @@
 
 	if(bonuses <= 1)
 		text += completion_time
+<<<<<<< HEAD
 		text += grade
+=======
+		text += completion_grade
+>>>>>>> tg-pr-88929
 		return text
 
 	text += "### Bonuses\n"
@@ -86,10 +151,32 @@
 		text += "- **Components:** + [servo_rating]\n"
 
 	text += completion_time
+<<<<<<< HEAD
 	text += grade
 
 	return text
 
+=======
+	text += completion_grade
+
+	return text
+
+/// Checks if the players should get a bepis reward
+/obj/machinery/quantum_server/proc/can_generate_tech_disk(grade)
+	if(generated_domain.disk_reward_spawned)
+		return FALSE
+
+	if(!LAZYLEN(SSresearch.techweb_nodes_experimental))
+		return FALSE
+
+	var/static/list/passing_grades = list()
+	if(!passing_grades.len)
+		passing_grades = list(GRADE_A,GRADE_S)
+
+	return  generated_domain.difficulty >= BITRUNNER_DIFFICULTY_MEDIUM && (grade in passing_grades)
+
+
+>>>>>>> tg-pr-88929
 /// Grades the player's run based on several factors
 /obj/machinery/quantum_server/proc/grade_completion(completion_time)
 	var/score = length(spawned_threat_refs) * 5
@@ -110,12 +197,17 @@
 		time_score = 1
 
 	score += time_score * base
+<<<<<<< HEAD
 	
+=======
+
+>>>>>>> tg-pr-88929
 	// Increases the chance for glitches to spawn based on how well they're doing
 	threat += score
 
 	switch(score)
 		if(1 to 4)
+<<<<<<< HEAD
 			return "D"
 		if(5 to 7)
 			return "C"
@@ -125,3 +217,20 @@
 			return "A"
 		else
 			return "S"
+=======
+			return GRADE_D
+		if(5 to 7)
+			return GRADE_C
+		if(8 to 10)
+			return GRADE_B
+		if(11 to 13)
+			return GRADE_A
+		else
+			return GRADE_S
+
+#undef GRADE_D
+#undef GRADE_C
+#undef GRADE_B
+#undef GRADE_A
+#undef GRADE_S
+>>>>>>> tg-pr-88929

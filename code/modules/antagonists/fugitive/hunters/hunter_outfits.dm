@@ -11,6 +11,7 @@
 	ears = /obj/item/radio/headset
 	l_pocket = /obj/item/ammo_box/magazine/m45
 	r_pocket = /obj/item/restraints/handcuffs
+<<<<<<< HEAD
 	id = /obj/item/card/id/advanced
 
 /datum/outfit/spacepol/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
@@ -25,6 +26,30 @@
 /datum/outfit/russian_hunter
 	name = "Russian Hunter"
 	id = /obj/item/card/id/advanced
+=======
+	id = /obj/item/card/id/advanced/bountyhunter
+	id_trim = /datum/id_trim/bounty_hunter/police
+
+/datum/outfit/spacepol/post_equip(mob/living/carbon/human/H, visuals_only = FALSE)
+	if(visuals_only)
+		return
+	var/obj/item/card/id/W = H.wear_id
+	W.registered_name = H.real_name
+	W.icon_state = "card_black" //Less flamey, more modest, still unique enough to convey that they're fugitive hunters.
+	W.update_label()
+	W.update_icon()
+
+
+/datum/id_trim/bounty_hunter/police
+	assignment = "Police Officer"
+	trim_state = "trim_warden"
+	department_color = COLOR_STRONG_BLUE
+
+	access = list(ACCESS_HUNTER)
+
+/datum/outfit/russian_hunter
+	name = "Russian Hunter"
+>>>>>>> tg-pr-88929
 	uniform = /obj/item/clothing/under/costume/soviet
 	suit = /obj/item/clothing/suit/armor/bulletproof
 	suit_store = /obj/item/gun/ballistic/rifle/boltaction
@@ -34,8 +59,14 @@
 	gloves = /obj/item/clothing/gloves/tackler/combat
 	head = /obj/item/clothing/head/helmet/alt
 	shoes = /obj/item/clothing/shoes/russian
+<<<<<<< HEAD
 	l_pocket = /obj/item/ammo_box/a762
 	r_pocket = /obj/item/restraints/handcuffs/cable/zipties
+=======
+	l_pocket = /obj/item/ammo_box/strilka310
+	r_pocket = /obj/item/restraints/handcuffs/cable/zipties
+	id = /obj/item/card/id/advanced/bountyhunter
+>>>>>>> tg-pr-88929
 
 /datum/outfit/russian_hunter/pre_equip(mob/living/carbon/human/equip_to)
 
@@ -63,15 +94,23 @@
 	if(prob(50))
 		head = pick(alt_helmets)
 
+<<<<<<< HEAD
 /datum/outfit/russian_hunter/post_equip(mob/living/carbon/human/equip_to, visualsOnly = FALSE)
 	if(visualsOnly)
+=======
+/datum/outfit/russian_hunter/post_equip(mob/living/carbon/human/equip_to, visuals_only = FALSE)
+	if(visuals_only)
+>>>>>>> tg-pr-88929
 		return
 
 	if(istype(equip_to.wear_id, /obj/item/card/id))
 		var/obj/item/card/id/equipped_card = equip_to.wear_id
 		equipped_card.assignment = "Russian Bounty Hunter"
 		equipped_card.registered_name = equip_to.real_name
+<<<<<<< HEAD
 		equipped_card.access = list(ACCESS_BOUNTY_HUNTER)
+=======
+>>>>>>> tg-pr-88929
 		equipped_card.update_label()
 		equipped_card.update_icon()
 
@@ -92,7 +131,11 @@
 	name = "Bounty Hunter - Armored"
 	uniform = /obj/item/clothing/under/rank/prisoner
 	back = /obj/item/storage/backpack
+<<<<<<< HEAD
 	head = /obj/item/clothing/head/cowboy
+=======
+	head = /obj/item/clothing/head/cowboy/bounty
+>>>>>>> tg-pr-88929
 	suit = /obj/item/clothing/suit/space/hunter
 	belt = /obj/item/gun/ballistic/automatic/pistol/fire_mag
 	gloves = /obj/item/clothing/gloves/tackler/combat
@@ -110,8 +153,13 @@
 		/obj/item/ammo_casing/shotgun/incendiary/no_trail = 4,
 	)
 
+<<<<<<< HEAD
 /datum/outfit/bountyarmor/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	if(visualsOnly)
+=======
+/datum/outfit/bountyarmor/post_equip(mob/living/carbon/human/H, visuals_only = FALSE)
+	if(visuals_only)
+>>>>>>> tg-pr-88929
 		return
 	var/obj/item/card/id/W = H.wear_id
 	W.registered_name = H.real_name
@@ -135,8 +183,13 @@
 		/obj/item/ammo_casing/shotgun/incapacitate = 6
 		)
 
+<<<<<<< HEAD
 /datum/outfit/bountyhook/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	if(visualsOnly)
+=======
+/datum/outfit/bountyhook/post_equip(mob/living/carbon/human/H, visuals_only = FALSE)
+	if(visuals_only)
+>>>>>>> tg-pr-88929
 		return
 	var/obj/item/card/id/W = H.wear_id
 	W.registered_name = H.real_name
@@ -154,7 +207,10 @@
 	ears = /obj/item/radio/headset
 	id = /obj/item/card/id/advanced/bountyhunter
 	r_hand = /obj/item/storage/medkit/regular
+<<<<<<< HEAD
 	l_hand = /obj/item/pinpointer/shuttle
+=======
+>>>>>>> tg-pr-88929
 
 	backpack_contents = list(
 		/obj/item/bountytrap = 4
@@ -180,7 +236,11 @@
 	name = "Psyker-Shikari Hunter"
 	glasses = null
 	head = null
+<<<<<<< HEAD
 	ears = /obj/item/radio/headset/syndicate/alt/psyker
+=======
+	ears = /obj/item/radio/headset/psyker
+>>>>>>> tg-pr-88929
 	uniform = /obj/item/clothing/under/pants/track
 	gloves = /obj/item/clothing/gloves/fingerless
 	shoes = /obj/item/clothing/shoes/jackboots
@@ -205,9 +265,66 @@
 	shoes = /obj/item/clothing/shoes/sandal
 	l_pocket = /obj/item/restraints/handcuffs/cable/zipties
 	r_pocket = /obj/item/restraints/handcuffs/cable/zipties
+<<<<<<< HEAD
 
 	id_trim = /datum/id_trim/bounty_hunter/psykers/seer
 
+=======
+	id = /obj/item/card/id/advanced/bountyhunter
+
+	id_trim = /datum/id_trim/bounty_hunter/psykers/seer
+
+/datum/outfit/mi13_hunter
+	name = "\improper MI13 Fugitive Retrieval Agent"
+	uniform = /obj/item/clothing/under/syndicate/sniper
+	back = /obj/item/storage/backpack/satchel/leather
+	ears = /obj/item/radio/headset/syndicate
+	glasses = /obj/item/clothing/glasses/sunglasses
+	gloves = /obj/item/clothing/gloves/combat
+	shoes = /obj/item/clothing/shoes/laceup
+	belt = /obj/item/restraints/handcuffs/cable/zipties
+	l_pocket = /obj/item/gun/ballistic/automatic/pistol
+	r_pocket = /obj/item/suppressor
+	id = /obj/item/card/id/advanced/chameleon/black
+	box = /obj/item/storage/box/survival/syndie
+	implants = list(/obj/item/implant/explosive)
+
+/datum/outfit/mi13_hunter/pre_equip(mob/living/carbon/human/agent, visuals_only = FALSE)
+	backpack_contents = list()
+	backpack_contents += pick_weight(list(/obj/item/ammo_box/magazine/m9mm = 80,
+	/obj/item/ammo_box/magazine/m9mm/hp = 10,
+	/obj/item/ammo_box/magazine/m9mm/ap = 5,
+	/obj/item/ammo_box/magazine/m9mm/fire = 5,
+	))
+	backpack_contents += pick_weight(list(
+		/obj/item/pen/edagger = 40,
+		/obj/item/knife/combat = 30,
+		/obj/item/assembly/flash = 30,
+	))
+	backpack_contents += pick_weight(list(
+		/obj/item/grenade/c4 = 20,
+		/obj/item/implanter/freedom = 20,
+		/obj/item/clothing/mask/chameleon = 20,
+		/obj/item/language_manual/codespeak_manual/unlimited = 10,
+		/obj/item/storage/mail_counterfeit_device = 10,
+		/obj/item/clothing/glasses/thermal = 10,
+		/obj/item/gun/ballistic/automatic/pistol/clandestine/fisher = 10,
+	))
+
+/datum/outfit/mi13_hunter/post_equip(mob/living/carbon/human/agent, visuals_only = FALSE)
+	if(visuals_only)
+		return
+	var/obj/item/card/id/wearing = agent.wear_id
+	wearing.registered_name = agent.real_name
+	wearing.update_label()
+
+/datum/outfit/mi13_hunter/chef
+	name = "\improper MI13 Fugitive Retrieval Agent - Chef Disguise"
+	head = /obj/item/clothing/head/utility/chefhat
+	suit = /obj/item/clothing/suit/apron/chef
+	mask = /obj/item/clothing/mask/fakemoustache
+
+>>>>>>> tg-pr-88929
 //ids and ert code
 
 /obj/item/card/id/advanced/bountyhunter

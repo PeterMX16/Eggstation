@@ -1,4 +1,4 @@
-/obj/item/organ/internal/heart/gland/blood
+/obj/item/organ/heart/gland/blood
 	abductor_hint = "pseudonuclear hemo-destabilizer. Periodically randomizes the abductee's bloodtype into a random reagent."
 	cooldown_low = 2 MINUTES
 	cooldown_high = 3 MINUTES
@@ -9,7 +9,7 @@
 	mind_control_uses = 3
 	mind_control_duration = 2.5 MINUTES
 
-/obj/item/organ/internal/heart/gland/blood/activate()
+/obj/item/organ/heart/gland/blood/activate()
 	if(!ishuman(owner) || !owner.dna.species)
 		return
 	var/mob/living/carbon/human/H = owner

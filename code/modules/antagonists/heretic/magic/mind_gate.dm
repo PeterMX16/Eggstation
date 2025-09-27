@@ -7,7 +7,11 @@
 	button_icon = 'icons/mob/actions/actions_ecult.dmi'
 	button_icon_state = "mind_gate"
 
+<<<<<<< HEAD
 	sound = 'sound/magic/curse.ogg'
+=======
+	sound = 'sound/effects/magic/curse.ogg'
+>>>>>>> tg-pr-88929
 	school = SCHOOL_FORBIDDEN
 	cooldown_time = 20 SECONDS
 
@@ -39,6 +43,9 @@
 
 	var/mob/living/living_owner = owner
 	living_owner.adjustOrganLoss(ORGAN_SLOT_BRAIN, 20, 140)
+<<<<<<< HEAD
 
 	owner.log_message("used [name] on [key_name(cast_on)]", LOG_ATTACK)
 	cast_on.log_message("was hit by [key_name(owner)] with [name]", LOG_VICTIM, log_globally = FALSE)
+=======
+>>>>>>> tg-pr-88929

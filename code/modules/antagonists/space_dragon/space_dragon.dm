@@ -33,6 +33,10 @@
 					But now, we find intruders spread out amongst our claim, willing to fight our teeth with magics unimaginable, their dens like lights flickering in the depths of space.\n\
 					Today, we will snuff out one of those lights.</b>")
 	owner.announce_objectives()
+<<<<<<< HEAD
+=======
+	owner.current.playsound_local(get_turf(owner.current), 'sound/effects/magic/demon_attack1.ogg', 80)
+>>>>>>> tg-pr-88929
 
 /datum/antagonist/space_dragon/forge_objectives()
 	var/static/list/area/allowed_areas
@@ -62,12 +66,20 @@
 	forge_objectives()
 	rift_ability = new()
 	owner.special_role = ROLE_SPACE_DRAGON
+<<<<<<< HEAD
 	owner.set_assigned_role(SSjob.GetJobType(/datum/job/space_dragon))
+=======
+	owner.set_assigned_role(SSjob.get_job_type(/datum/job/space_dragon))
+>>>>>>> tg-pr-88929
 	return ..()
 
 /datum/antagonist/space_dragon/on_removal()
 	owner.special_role = null
+<<<<<<< HEAD
 	owner.set_assigned_role(SSjob.GetJobType(/datum/job/unassigned))
+=======
+	owner.set_assigned_role(SSjob.get_job_type(/datum/job/unassigned))
+>>>>>>> tg-pr-88929
 	return ..()
 
 /datum/antagonist/space_dragon/apply_innate_effects(mob/living/mob_override)
@@ -107,7 +119,7 @@
 	var/icon/icon = icon('icons/mob/nonhuman-player/spacedragon.dmi', "spacedragon")
 
 	icon.Blend(COLOR_STRONG_VIOLET, ICON_MULTIPLY)
-	icon.Blend(icon('icons/mob/nonhuman-player/spacedragon.dmi', "overlay_base"), ICON_OVERLAY)
+	icon.Blend(icon('icons/mob/nonhuman-player/spacedragon.dmi', "spacedragon_overlay_base"), ICON_OVERLAY)
 
 	icon.Crop(10, 9, 54, 53)
 	icon.Scale(ANTAGONIST_PREVIEW_ICON_SIZE, ANTAGONIST_PREVIEW_ICON_SIZE)
@@ -127,6 +139,22 @@
 /datum/antagonist/space_dragon/proc/rift_checks()
 	if((rifts_charged == 3 || (SSshuttle.emergency.mode == SHUTTLE_DOCKED && rifts_charged > 0)) && !objective_complete)
 		victory()
+<<<<<<< HEAD
+=======
+		return
+	if(riftTimer == -1)
+		return
+	riftTimer = min(riftTimer + 1, maxRiftTimer + 1)
+	if(riftTimer == (maxRiftTimer - 60))
+		to_chat(owner.current, span_boldwarning("You have a minute left to summon the rift! Get to it!"))
+		return
+	if(riftTimer >= maxRiftTimer)
+		to_chat(owner.current, span_boldwarning("You've failed to summon the rift in a timely manner! You're being pulled back from whence you came!"))
+		destroy_rifts()
+		SEND_SOUND(owner.current, sound('sound/effects/magic/demon_dies.ogg'))
+		owner.current.death(/* gibbed = */ TRUE)
+		QDEL_NULL(owner.current)
+>>>>>>> tg-pr-88929
 
 /**
  * Destroys all of Space Dragon's current rifts.
@@ -154,7 +182,7 @@
  * Triggers when Space Dragon completes his objective.
  * Calls the shuttle with a coefficient of 3, making it impossible to recall.
  * Sets all of his rifts to allow for infinite sentient carp spawns
- * Also plays appropiate sounds and CENTCOM messages.
+ * Also plays appropriate sounds and CENTCOM messages.
  */
 /datum/antagonist/space_dragon/proc/victory()
 	objective_complete = TRUE
@@ -163,21 +191,25 @@
 	main_objective?.completed = TRUE
 	priority_announce("A large amount of lifeforms have been detected approaching [station_name()] at extreme speeds. \
 		Remaining crew are advised to evacuate as soon as possible.", "[command_name()] Wildlife Observations", has_important_message = TRUE)
+<<<<<<< HEAD
 	sound_to_playing_players('sound/creatures/space_dragon_roar.ogg')
+=======
+	sound_to_playing_players('sound/mobs/non-humanoids/space_dragon/space_dragon_roar.ogg', volume = 75)
+>>>>>>> tg-pr-88929
 	for(var/obj/structure/carp_rift/rift as anything in rift_list)
 		rift.carp_stored = 999999
 		rift.time_charged = rift.max_charge
 
 /**
- * Gives Space Dragon their the rift speed buff permanantly and fully heals the user.
+ * Gives Space Dragon their the rift speed buff permanently and fully heals the user.
  *
- * Gives Space Dragon the enraged speed buff from charging rifts permanantly.
+ * Gives Space Dragon the enraged speed buff from charging rifts permanently.
  * Only happens in circumstances where Space Dragon completes their objective.
  * Also gives them a full heal.
  */
 /datum/antagonist/space_dragon/proc/permanant_empower()
 	owner.current.fully_heal()
-	owner.current.add_filter("anger_glow", 3, list("type" = "outline", "color" = "#ff330030", "size" = 5))
+	owner.current.add_filter("anger_glow", 3, list("type" = "outline", "color" = COLOR_CARP_RIFT_RED, "size" = 5))
 	owner.current.add_movespeed_modifier(/datum/movespeed_modifier/dragon_rage)
 
 /**
@@ -188,7 +220,7 @@
  */
 /datum/antagonist/space_dragon/proc/rift_empower()
 	owner.current.fully_heal()
-	owner.current.add_filter("anger_glow", 3, list("type" = "outline", "color" = "#ff330030", "size" = 5))
+	owner.current.add_filter("anger_glow", 3, list("type" = "outline", "color" = COLOR_CARP_RIFT_RED, "size" = 5))
 	owner.current.add_movespeed_modifier(/datum/movespeed_modifier/dragon_rage)
 	addtimer(CALLBACK(src, PROC_REF(rift_depower)), 30 SECONDS)
 
@@ -237,7 +269,11 @@
 		parts += "<span class='redtext big'>The [name] has failed!</span>"
 
 	if(length(carp))
+<<<<<<< HEAD
 		parts += "<br><span class='header'>The [name] was assisted by:</span>"
+=======
+		parts += span_header("<br>The [name] was assisted by:")
+>>>>>>> tg-pr-88929
 		parts += "<ul class='playerlist'>"
 		var/list/players_to_carp_taken = list()
 		for(var/datum/mind/carpy as anything in carp)

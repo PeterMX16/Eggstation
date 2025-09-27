@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 ADMIN_VERB(spawn_obj_as_mob, R_SPAWN, FALSE, "Spawn Object-Mob", "Spawn an object as if it were a mob.", ADMIN_CATEGORY_DEBUG, object as text)
+=======
+ADMIN_VERB(spawn_obj_as_mob, R_SPAWN, "Spawn Object-Mob", "Spawn an object as if it were a mob.", ADMIN_CATEGORY_DEBUG, object as text)
+>>>>>>> tg-pr-88929
 	var/chosen = pick_closest_path(object, make_types_fancy(subtypesof(/obj)))
 
 	if (!chosen)
@@ -9,6 +13,7 @@ ADMIN_VERB(spawn_obj_as_mob, R_SPAWN, FALSE, "Spawn Object-Mob", "Spawn an objec
 	var/obj/chosen_obj = text2path(chosen)
 
 	var/list/settings = list("mainsettings" = list(
+<<<<<<< HEAD
 	"name" = list(
 		"desc" = "Name",
 		"type" = "string",
@@ -60,6 +65,60 @@ ADMIN_VERB(spawn_obj_as_mob, R_SPAWN, FALSE, "Spawn Object-Mob", "Spawn an objec
 		"desc" = "ckey",
 		"type" = "ckey",
 		"value" = "none"
+=======
+		"name" = list(
+			"desc" = "Name",
+			"type" = "string",
+			"value" = "Bob",
+		),
+		"maxhealth" = list(
+			"desc" = "Max. health",
+			"type" = "number",
+			"value" = 100,
+		),
+		"access" = list(
+			"desc" = "Access ID",
+			"type" = "datum",
+			"path" = "/obj/item/card/id",
+			"value" = "Default",
+		),
+		"objtype" = list(
+			"desc" = "Base obj type",
+			"type" = "datum",
+			"path" = "/obj",
+			"value" = "[chosen]",
+		),
+		"googlyeyes" = list(
+			"desc" = "Googly eyes",
+			"type" = "boolean",
+			"value" = "No",
+		),
+		"disableai" = list(
+			"desc" = "Disable AI",
+			"type" = "boolean",
+			"value" = "Yes",
+		),
+		"idledamage" = list(
+			"desc" = "Damaged while idle",
+			"type" = "boolean",
+			"value" = "No",
+		),
+		"dropitem" = list(
+			"desc" = "Drop obj on death",
+			"type" = "boolean",
+			"value" = "Yes",
+		),
+		"mobtype" = list(
+			"desc" = "Base mob type",
+			"type" = "datum",
+			"path" = "/mob/living/simple_animal/hostile/mimic/copy",
+			"value" = "/mob/living/simple_animal/hostile/mimic/copy",
+		),
+		"ckey" = list(
+			"desc" = "ckey",
+			"type" = "ckey",
+			"value" = "none",
+>>>>>>> tg-pr-88929
 		),
 	))
 
@@ -70,7 +129,11 @@ ADMIN_VERB(spawn_obj_as_mob, R_SPAWN, FALSE, "Spawn Object-Mob", "Spawn an objec
 		chosen_obj = text2path(mainsettings["objtype"]["value"])
 
 		basemob = text2path(mainsettings["mobtype"]["value"])
+<<<<<<< HEAD
 		if (!ispath(basemob, /mob/living/basic/mimic/copy) || !ispath(chosen_obj, /obj))
+=======
+		if (!ispath(basemob, /mob/living/simple_animal/hostile/mimic/copy) || !ispath(chosen_obj, /obj))
+>>>>>>> tg-pr-88929
 			to_chat(user.mob, "Mob or object path invalid", confidential = TRUE)
 
 		basemob = new basemob(get_turf(user.mob), new chosen_obj(get_turf(user.mob)), user.mob, mainsettings["dropitem"]["value"] == "Yes" ? FALSE : TRUE, (mainsettings["googlyeyes"]["value"] == "Yes" ? FALSE : TRUE))

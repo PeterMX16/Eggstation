@@ -154,8 +154,13 @@
 /datum/crafting_recipe/food/butterbear //ITS ALIVEEEEEE!
 	name = "Living bear/butter hybrid"
 	reqs = list(
+<<<<<<< HEAD
 		/obj/item/organ/internal/brain = 1,
 		/obj/item/organ/internal/heart = 1,
+=======
+		/obj/item/organ/brain = 1,
+		/obj/item/organ/heart = 1,
+>>>>>>> tg-pr-88929
 		/obj/item/food/butter = 4,
 		/obj/item/food/meat/slab = 5,
 		/datum/reagent/blood = 50,
@@ -173,7 +178,7 @@
 		/obj/item/food/meat/slab/rawcrab = 1
 	)
 	result = /obj/item/food/crab_rangoon
-	category = CAT_MISCFOOD
+	category = CAT_SEAFOOD
 
 /datum/crafting_recipe/food/royalcheese
 	name = "Royal Cheese"
@@ -203,7 +208,7 @@
 		/datum/reagent/consumable/salt = 5,
 		/obj/item/food/grown/herbs = 2,
 		/obj/item/food/grown/garlic = 1,
-		/datum/reagent/consumable/quality_oil = 5,
+		/datum/reagent/consumable/nutriment/fat/oil/olive = 5,
 		/obj/item/food/canned/pine_nuts = 1
 	)
 	result = /obj/item/food/pesto
@@ -215,7 +220,7 @@
 		/obj/item/food/canned/tomatoes = 1,
 		/datum/reagent/consumable/salt = 2,
 		/obj/item/food/grown/herbs = 1,
-		/datum/reagent/consumable/quality_oil = 5
+		/datum/reagent/consumable/nutriment/fat/oil/olive = 5
 	)
 	result = /obj/item/food/tomato_sauce
 	category = CAT_MISCFOOD
@@ -433,7 +438,11 @@
 	reqs = list(
 		/obj/item/food/grown/eggplant = 1,
 		/obj/item/food/grown/garlic = 1,
+<<<<<<< HEAD
 		/datum/reagent/consumable/quality_oil = 3,
+=======
+		/datum/reagent/consumable/nutriment/fat/oil/olive = 3,
+>>>>>>> tg-pr-88929
 	)
 	result = /obj/item/food/sauteed_eggplant
 	category = CAT_MISCFOOD
@@ -457,7 +466,11 @@
 		/obj/item/food/pita_bread = 1,
 		/obj/item/food/grown/eggplant = 1,
 		/obj/item/food/grown/garlic = 1,
+<<<<<<< HEAD
 		/datum/reagent/consumable/quality_oil = 5,
+=======
+		/datum/reagent/consumable/nutriment/fat/oil/olive = 5,
+>>>>>>> tg-pr-88929
 		/datum/reagent/consumable/lemonjuice = 3,
 	)
 	result = /obj/item/food/baba_ghanoush
@@ -500,7 +513,11 @@
 	name = "Tzatziki sauce"
 	reqs = list(
 		/obj/item/food/grown/cucumber = 1,
+<<<<<<< HEAD
 		/datum/reagent/consumable/quality_oil = 2,
+=======
+		/datum/reagent/consumable/nutriment/fat/oil/olive = 2,
+>>>>>>> tg-pr-88929
 		/obj/item/food/grown/garlic = 1,
 		/datum/reagent/consumable/salt = 1,
 	)
@@ -547,7 +564,11 @@
 	reqs = list(
 		/datum/reagent/consumable/flour = 10,
 		/datum/reagent/water = 5,
+<<<<<<< HEAD
 		/datum/reagent/consumable/quality_oil = 2,
+=======
+		/datum/reagent/consumable/nutriment/fat/oil/olive = 2,
+>>>>>>> tg-pr-88929
 		/datum/reagent/consumable/sugar = 2,
 	)
 	result = /obj/item/food/raw_pita_bread

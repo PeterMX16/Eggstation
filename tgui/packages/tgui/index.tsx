@@ -30,20 +30,33 @@ import './styles/themes/clockwork.scss';
 import './styles/themes/admintickets.scss';
 // MONKESTATION ADDITION END
 
+<<<<<<< HEAD
 import './styles/themes/chicken_book.scss';
 import './styles/themes/generic-yellow.scss';
 import './styles/themes/generic.scss';
 
 import { configureStore } from './store';
+=======
+import { perf } from 'common/perf';
+import { setupGlobalEvents } from 'tgui-core/events';
+import { setupHotKeys } from 'tgui-core/hotkeys';
+import { setupHotReloading } from 'tgui-dev-server/link/client.cjs';
+>>>>>>> tg-pr-88929
 
+import { setGlobalStore } from './backend';
+import { loadIconRefMap } from './icons';
 import { captureExternalLinks } from './links';
 import { createRenderer } from './renderer';
+<<<<<<< HEAD
 import { perf } from 'common/perf';
 import { setupGlobalEvents } from './events';
 import { setupHotKeys } from './hotkeys';
 import { setupHotReloading } from 'tgui-dev-server/link/client.cjs';
 import { setGlobalStore } from './backend';
 import { loadIconRefMap } from './icons';
+=======
+import { configureStore } from './store';
+>>>>>>> tg-pr-88929
 
 perf.mark('inception', window.performance?.timing?.navigationStart);
 perf.mark('init');
@@ -59,7 +72,7 @@ const renderApp = createRenderer(() => {
   return <Component />;
 });
 
-const setupApp = () => {
+function setupApp() {
   // Delay setup
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', setupApp);
@@ -79,16 +92,10 @@ const setupApp = () => {
   // Enable hot module reloading
   if (module.hot) {
     setupHotReloading();
-    // prettier-ignore
-    module.hot.accept([
-      './components',
-      './debug',
-      './layouts',
-      './routes',
-    ], () => {
+    module.hot.accept(['./debug', './layouts', './routes'], () => {
       renderApp();
     });
   }
-};
+}
 
 setupApp();

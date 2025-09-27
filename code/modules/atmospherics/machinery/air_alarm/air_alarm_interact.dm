@@ -47,17 +47,19 @@
 
 /obj/machinery/airalarm/rcd_vals(mob/user, obj/item/construction/rcd/the_rcd)
 	if((buildstage == AIR_ALARM_BUILD_NO_CIRCUIT) && (the_rcd.upgrade & RCD_UPGRADE_SIMPLE_CIRCUITS))
+<<<<<<< HEAD
 		return list("mode" = RCD_WALLFRAME, "delay" = 2 SECONDS, "cost" = 1)
+=======
+		return list("delay" = 2 SECONDS, "cost" = 1)
+>>>>>>> tg-pr-88929
 	return FALSE
 
-/obj/machinery/airalarm/rcd_act(mob/user, obj/item/construction/rcd/the_rcd, passed_mode)
-	switch(passed_mode)
-		if(RCD_WALLFRAME)
-			user.visible_message(span_notice("[user] fabricates a circuit and places it into [src]."), \
-			span_notice("You adapt an air alarm circuit and slot it into the assembly."))
-			buildstage = AIR_ALARM_BUILD_NO_WIRES
-			update_appearance()
-			return TRUE
+/obj/machinery/airalarm/rcd_act(mob/user, obj/item/construction/rcd/the_rcd, list/rcd_data)
+	if(rcd_data["[RCD_DESIGN_MODE]"] == RCD_WALLFRAME)
+		balloon_alert(user, "circuit installed")
+		buildstage = AIR_ALARM_BUILD_NO_WIRES
+		update_appearance()
+		return TRUE
 	return FALSE
 
 /obj/machinery/airalarm/attack_hand_secondary(mob/user, list/modifiers)
@@ -73,6 +75,9 @@
 	if(machine_stat & (NOPOWER|BROKEN))
 		to_chat(user, span_warning("It does nothing!"))
 	else
+		if(HAS_SILICON_ACCESS(user))
+			locked = !locked
+			return
 		if(src.allowed(usr) && !wires.is_cut(WIRE_IDSCAN))
 			locked = !locked
 			to_chat(user, span_notice("You [ locked ? "lock" : "unlock"] the air alarm interface."))
@@ -80,7 +85,6 @@
 				ui_interact(user)
 		else
 			to_chat(user, span_danger("Access denied."))
-	return
 
 /obj/machinery/airalarm/emag_act(mob/user, obj/item/card/emag/emag_card)
 	if(obj_flags & EMAGGED)
@@ -91,14 +95,14 @@
 	playsound(src, SFX_SPARKS, 50, TRUE, SHORT_RANGE_SOUND_EXTRARANGE)
 	return TRUE
 
-/obj/machinery/airalarm/deconstruct(disassembled = TRUE)
-	if(!(flags_1 & NODECONSTRUCT_1))
-		new /obj/item/stack/sheet/iron(loc, 2)
-		var/obj/item/I = new /obj/item/electronics/airalarm(loc)
+/obj/machinery/airalarm/on_deconstruction(disassembled = TRUE)
+	new /obj/item/stack/sheet/iron(loc, 2)
+	if((buildstage == AIR_ALARM_BUILD_NO_WIRES) || (buildstage == AIR_ALARM_BUILD_COMPLETE))
+		var/obj/item/electronics/airalarm/alarm = new(loc)
 		if(!disassembled)
-			I.take_damage(I.max_integrity * 0.5, sound_effect=FALSE)
+			alarm.take_damage(alarm.max_integrity * 0.5, sound_effect = FALSE)
+	if((buildstage == AIR_ALARM_BUILD_COMPLETE))
 		new /obj/item/stack/cable_coil(loc, 3)
-	qdel(src)
 
 /obj/machinery/airalarm/attackby(obj/item/attacking_item, mob/user, list/modifiers, list/attack_modifiers)
 	update_last_used(user)
@@ -140,9 +144,15 @@
 					qdel(attacking_item)
 				return
 
+<<<<<<< HEAD
 			if(istype(attacking_item, /obj/item/electroadaptive_pseudocircuit))
 				var/obj/item/electroadaptive_pseudocircuit/P = attacking_item
 				if(!P.adapt_circuit(user, 25))
+=======
+			if(istype(W, /obj/item/electroadaptive_pseudocircuit))
+				var/obj/item/electroadaptive_pseudocircuit/P = W
+				if(!P.adapt_circuit(user, circuit_cost = 0.025 * STANDARD_CELL_CHARGE))
+>>>>>>> tg-pr-88929
 					return
 				user.visible_message(span_notice("[user] fabricates a circuit and places it into [src]."), \
 				span_notice("You adapt an air alarm circuit and slot it into the assembly."))
@@ -182,7 +192,7 @@
 /obj/item/wallframe/airalarm
 	name = "air alarm frame"
 	desc = "Used for building Air Alarms."
-	icon = 'icons/obj/monitors.dmi'
+	icon = 'icons/obj/machines/wallmounts.dmi'
 	icon_state = "alarm_bitem"
 	result_path = /obj/machinery/airalarm
 	pixel_shift = 27

@@ -50,9 +50,13 @@
 		notify_ghosts(
 			"[spawner.name] has been activated!",
 			source = spawner,
+<<<<<<< HEAD
 			action = NOTIFY_ORBIT,
 			header = "CTF has been activated",
 			notify_flags = NOTIFY_CATEGORY_DEFAULT,
+=======
+			header = "CTF has been activated",
+>>>>>>> tg-pr-88929
 		)
 
 /datum/ctf_controller/proc/stop_ctf()
@@ -65,7 +69,7 @@
 ///Unloading CTF removes the map entirely and allows for a new map to be loaded in its place.
 /datum/ctf_controller/proc/unload_ctf()
 	if(game_id != CTF_GHOST_CTF_GAME_ID)
-		return //At present we only support unloading standard centcom ctf, if we intend to support ctf unloading elsewhere then this proc will need to be ammended.
+		return //At present we only support unloading standard centcom ctf, if we intend to support ctf unloading elsewhere then this proc will need to be amended.
 	stop_ctf()
 	new /obj/effect/landmark/ctf(get_turf(GLOB.ctf_spawner))
 
@@ -121,7 +125,7 @@
 		if(user.ckey in enemy_team_members)
 			to_chat(user, span_warning("No switching teams while the round is going!"))
 			return FALSE
-		if(friendly_team_members.len > enemy_team_members.len)
+		else if(friendly_team_members.len > enemy_team_members.len)
 			to_chat(user, span_warning("[team_color] has more team members than [team]! Try joining [team] team to even things up."))
 			return FALSE
 	return TRUE
@@ -189,7 +193,7 @@
 			respawn_cooldown = CTF_DEFAULT_RESPAWN
 	instagib_mode = !instagib_mode
 
-///A datum that holds details about individual CTF teams, any team specific CTF functionality should be implimented here.
+///A datum that holds details about individual CTF teams, any team specific CTF functionality should be implemented here.
 /datum/ctf_team
 	///Reference to the spawn point that this team uses.
 	var/obj/machinery/ctf/spawner/spawner
@@ -208,7 +212,11 @@
 	team_color = spawner.team
 	team_span = spawner.team_span
 
+<<<<<<< HEAD
 ///If the team is destroyed all players in that team need their componenet removed.
+=======
+///If the team is destroyed all players in that team need their component removed.
+>>>>>>> tg-pr-88929
 /datum/ctf_team/Destroy(force)
 	for(var/player in team_members)
 		var/datum/component/ctf_player/ctf_player = team_members[player]
@@ -219,7 +227,7 @@
 /datum/ctf_team/proc/score_points(points_scored)
 	points += points_scored
 
-///Resets this teams score and clears its member list. All members will be dusted and have their player componenet removed.
+///Resets this teams score and clears its member list. All members will be dusted and have their player component removed.
 /datum/ctf_team/proc/reset_team()
 	points = 0
 	for(var/player in team_members)
@@ -233,7 +241,7 @@
 		var/datum/component/ctf_player/ctf_player = team_members[player]
 		ctf_player.send_message(message)
 
-///Creates a CTF game with the provided teeam ID then returns a reference to the new controller. If a controller already exists provides a reference to it.
+///Creates a CTF game with the provided team ID then returns a reference to the new controller. If a controller already exists provides a reference to it.
 /proc/create_ctf_game(game_id)
 	if(GLOB.ctf_games[game_id])
 		return GLOB.ctf_games[game_id]

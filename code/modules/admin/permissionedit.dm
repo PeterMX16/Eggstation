@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 ADMIN_VERB(edit_admin_permissions, R_PERMISSIONS, FALSE, "Permissions Panel", "Edit admin permissions.", ADMIN_CATEGORY_MAIN)
+=======
+
+ADMIN_VERB(edit_admin_permissions, R_PERMISSIONS, "Permissions Panel", "Edit admin permissions.", ADMIN_CATEGORY_MAIN)
+>>>>>>> tg-pr-88929
 	user.holder.edit_admin_permissions()
 
 /datum/admins/proc/edit_admin_permissions(action, target, operation, page)
@@ -139,9 +144,14 @@ ADMIN_VERB(edit_admin_permissions, R_PERMISSIONS, FALSE, "Permissions Panel", "E
 	permissions_assets.send(usr.client)
 	var/admin_key = href_list["key"]
 	var/admin_ckey = ckey(admin_key)
-	var/datum/admins/D = GLOB.admin_datums[admin_ckey]
-	var/use_db
+
 	var/task = href_list["editrights"]
+	var/datum/admins/target_admin_datum = GLOB.admin_datums[admin_ckey]
+	if(!target_admin_datum)
+		target_admin_datum = GLOB.deadmins[admin_ckey]
+	if (!target_admin_datum && task != "add")
+		return
+	var/use_db
 	var/skip
 	var/legacy_only
 	if(task == "activate" || task == "deactivate" || task == "sync" || task == "verify")
@@ -151,7 +161,7 @@ ADMIN_VERB(edit_admin_permissions, R_PERMISSIONS, FALSE, "Permissions Panel", "E
 			to_chat(usr, "<span class='admin prefix'>Editing the rank of this admin is blocked by server configuration.</span>", confidential = TRUE)
 			return
 	if(!CONFIG_GET(flag/admin_legacy_system) && CONFIG_GET(flag/protect_legacy_ranks) && task == "permissions")
-		if((D.ranks & GLOB.protected_ranks).len > 0)
+		if((target_admin_datum.ranks & GLOB.protected_ranks).len > 0)
 			to_chat(usr, "<span class='admin prefix'>Editing the flags of this rank is blocked by server configuration.</span>", confidential = TRUE)
 			return
 	if(CONFIG_GET(flag/load_legacy_ranks_only) && (task == "add" || task == "rank" || task == "permissions"))
@@ -172,41 +182,40 @@ ADMIN_VERB(edit_admin_permissions, R_PERMISSIONS, FALSE, "Permissions Panel", "E
 					use_db = FALSE
 			if(QDELETED(usr))
 				return
-	if(task != "add")
-		D = GLOB.admin_datums[admin_ckey]
-		if(!D)
-			D = GLOB.deadmins[admin_ckey]
-		if(!D)
-			return
-		if((task != "sync") && !check_if_greater_rights_than_holder(D))
-			message_admins("[key_name_admin(usr)] attempted to change the rank of [admin_key] without sufficient rights.")
-			log_admin("[key_name(usr)] attempted to change the rank of [admin_key] without sufficient rights.")
-			return
+
+	if(target_admin_datum && (task != "sync" && task != "verify") && !check_if_greater_rights_than_holder(target_admin_datum))
+		message_admins("[key_name_admin(usr)] attempted to change the rank of [admin_key] without sufficient rights.")
+		log_admin("[key_name(usr)] attempted to change the rank of [admin_key] without sufficient rights.")
+		return
 	switch(task)
 		if("add")
 			admin_ckey = add_admin(admin_ckey, admin_key, use_db)
 			if(!admin_ckey)
 				return
+
+			if(!admin_key) // Prevents failures in logging admin rank changes.
+				admin_key = admin_ckey
+
 			change_admin_rank(admin_ckey, admin_key, use_db, null, legacy_only)
 		if("remove")
-			remove_admin(admin_ckey, admin_key, use_db, D)
+			remove_admin(admin_ckey, admin_key, use_db, target_admin_datum)
 		if("rank")
-			change_admin_rank(admin_ckey, admin_key, use_db, D, legacy_only)
+			change_admin_rank(admin_ckey, admin_key, use_db, target_admin_datum, legacy_only)
 		if("permissions")
-			change_admin_flags(admin_ckey, admin_key, D)
+			change_admin_flags(admin_ckey, admin_key, target_admin_datum)
 		if("activate")
-			force_readmin(admin_key, D)
+			force_readmin(admin_key, target_admin_datum)
 		if("deactivate")
-			force_deadmin(admin_key, D)
+			force_deadmin(admin_key, target_admin_datum)
 		if("sync")
-			sync_lastadminrank(admin_ckey, admin_key, D)
+			sync_lastadminrank(admin_ckey, admin_key, target_admin_datum)
 		if("verify")
 			var/msg = "has authenticated [admin_ckey]"
 			message_admins("[key_name_admin(usr)] [msg]")
 			log_admin("[key_name(usr)] [msg]")
 
-			D.bypass_2fa = TRUE
-			D.associate(GLOB.directory[admin_ckey])
+			target_admin_datum.bypass_2fa = TRUE
+			target_admin_datum.associate(GLOB.directory[admin_ckey])
 	edit_admin_permissions()
 
 /datum/admins/proc/add_admin(admin_ckey, admin_key, use_db)
@@ -217,7 +226,11 @@ ADMIN_VERB(edit_admin_permissions, R_PERMISSIONS, FALSE, "Permissions Panel", "E
 		. = ckey(admin_key)
 	if(!.)
 		return FALSE
+<<<<<<< HEAD
 	if(!admin_ckey && (. in (GLOB.admin_datums + GLOB.deadmins)))
+=======
+	if(!admin_ckey && (. in (GLOB.admin_datums+GLOB.deadmins)))
+>>>>>>> tg-pr-88929
 		to_chat(usr, span_danger("[admin_key] is already an admin."), confidential = TRUE)
 		return FALSE
 	if(use_db)
@@ -244,8 +257,8 @@ ADMIN_VERB(edit_admin_permissions, R_PERMISSIONS, FALSE, "Permissions Panel", "E
 		qdel(query_add_admin)
 		var/datum/db_query/query_add_admin_log = SSdbcore.NewQuery({"
 			INSERT INTO [format_table_name("admin_log")] (datetime, round_id, adminckey, adminip, operation, target, log)
-			VALUES (:time, :round_id, :adminckey, INET_ATON(:adminip), 'add admin', :target, CONCAT('New admin added: ', :target))
-		"}, list("time" = SQLtime(), "round_id" = "[GLOB.round_id]", "adminckey" = usr.ckey, "adminip" = usr.client.address, "target" = .))
+			VALUES (NOW(), :round_id, :adminckey, INET_ATON(:adminip), 'add admin', :target, CONCAT('New admin added: ', :target))
+		"}, list("round_id" = "[GLOB.round_id]", "adminckey" = usr.ckey, "adminip" = usr.client.address, "target" = .))
 		if(!query_add_admin_log.warn_execute())
 			qdel(query_add_admin_log)
 			return FALSE
@@ -270,8 +283,8 @@ ADMIN_VERB(edit_admin_permissions, R_PERMISSIONS, FALSE, "Permissions Panel", "E
 			qdel(query_add_rank)
 			var/datum/db_query/query_add_rank_log = SSdbcore.NewQuery({"
 				INSERT INTO [format_table_name("admin_log")] (datetime, round_id, adminckey, adminip, operation, target, log)
-				VALUES (:time, :round_id, :adminckey, INET_ATON(:adminip), 'remove admin', :admin_ckey, CONCAT('Admin removed: ', :admin_ckey))
-			"}, list("time" = SQLtime(), "round_id" = "[GLOB.round_id]", "adminckey" = usr.ckey, "adminip" = usr.client.address, "admin_ckey" = admin_ckey))
+				VALUES (NOW(), :round_id, :adminckey, INET_ATON(:adminip), 'remove admin', :admin_ckey, CONCAT('Admin removed: ', :admin_ckey))
+			"}, list("round_id" = "[GLOB.round_id]", "adminckey" = usr.ckey, "adminip" = usr.client.address, "admin_ckey" = admin_ckey))
 			if(!query_add_rank_log.warn_execute())
 				qdel(query_add_rank_log)
 				return
@@ -295,7 +308,9 @@ ADMIN_VERB(edit_admin_permissions, R_PERMISSIONS, FALSE, "Permissions Panel", "E
 	D.deactivate() //after logs so the deadmined admin can see the message.
 
 /datum/admins/proc/auto_deadmin()
-	if (owner.prefs.read_preference(/datum/preference/toggle/bypass_deadmin_in_centcom) && is_centcom_level(owner.mob.z))
+	if(owner.is_localhost())
+		return FALSE
+	if(owner.prefs.read_preference(/datum/preference/toggle/bypass_deadmin_in_centcom) && is_centcom_level(owner.mob.z))
 		return FALSE
 
 	to_chat(owner, span_interface("You are now a normal player."), confidential = TRUE)
@@ -418,8 +433,8 @@ ADMIN_VERB(edit_admin_permissions, R_PERMISSIONS, FALSE, "Permissions Panel", "E
 				qdel(query_add_rank)
 				var/datum/db_query/query_add_rank_log = SSdbcore.NewQuery({"
 					INSERT INTO [format_table_name("admin_log")] (datetime, round_id, adminckey, adminip, operation, target, log)
-					VALUES (:time, :round_id, :adminckey, INET_ATON(:adminip), 'add rank', :new_rank, CONCAT('New rank added: ', :new_rank))
-				"}, list("time" = SQLtime(), "round_id" = "[GLOB.round_id]", "adminckey" = usr.ckey, "adminip" = usr.client.address, "new_rank" = custom_rank.name))
+					VALUES (NOW(), :round_id, :adminckey, INET_ATON(:adminip), 'add rank', :new_rank, CONCAT('New rank added: ', :new_rank))
+				"}, list("round_id" = "[GLOB.round_id]", "adminckey" = usr.ckey, "adminip" = usr.client.address, "new_rank" = custom_rank.name))
 				if(!query_add_rank_log.warn_execute())
 					qdel(query_add_rank_log)
 					return
@@ -435,8 +450,8 @@ ADMIN_VERB(edit_admin_permissions, R_PERMISSIONS, FALSE, "Permissions Panel", "E
 		qdel(query_change_rank)
 		var/datum/db_query/query_change_rank_log = SSdbcore.NewQuery({"
 			INSERT INTO [format_table_name("admin_log")] (datetime, round_id, adminckey, adminip, operation, target, log)
-			VALUES (:time, :round_id, :adminckey, INET_ATON(:adminip), 'change admin rank', :target, CONCAT('Rank of ', :target, ' changed from ', :old_rank, ' to ', :new_rank))
-		"}, list("time" = SQLtime(), "round_id" = "[GLOB.round_id]", "adminckey" = usr.ckey, "adminip" = usr.client.address, "target" = admin_ckey, "old_rank" = old_rank, "new_rank" = joined_rank))
+			VALUES (NOW(), :round_id, :adminckey, INET_ATON(:adminip), 'change admin rank', :target, CONCAT('Rank of ', :target, ' changed from ', :old_rank, ' to ', :new_rank))
+		"}, list("round_id" = "[GLOB.round_id]", "adminckey" = usr.ckey, "adminip" = usr.client.address, "target" = admin_ckey, "old_rank" = old_rank, "new_rank" = joined_rank))
 		if(!query_change_rank_log.warn_execute())
 			qdel(query_change_rank_log)
 			return
@@ -534,8 +549,8 @@ ADMIN_VERB(edit_admin_permissions, R_PERMISSIONS, FALSE, "Permissions Panel", "E
 		qdel(query_add_rank)
 		var/datum/db_query/query_add_rank_log = SSdbcore.NewQuery({"
 			INSERT INTO [format_table_name("admin_log")] (datetime, round_id, adminckey, adminip, operation, target, log)
-			VALUES (:time, :round_id, :adminckey, INET_ATON(:adminip), 'remove rank', :admin_rank, CONCAT('Rank removed: ', :admin_rank))
-		"}, list("time" = SQLtime(), "round_id" = "[GLOB.round_id]", "adminckey" = usr.ckey, "adminip" = usr.client.address, "admin_rank" = admin_rank))
+			VALUES (NOW(), :round_id, :adminckey, INET_ATON(:adminip), 'remove rank', :admin_rank, CONCAT('Rank removed: ', :admin_rank))
+		"}, list("round_id" = "[GLOB.round_id]", "adminckey" = usr.ckey, "adminip" = usr.client.address, "admin_rank" = admin_rank))
 		if(!query_add_rank_log.warn_execute())
 			qdel(query_add_rank_log)
 			return

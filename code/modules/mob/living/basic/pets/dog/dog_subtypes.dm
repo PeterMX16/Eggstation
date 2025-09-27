@@ -9,6 +9,10 @@
 	icon_living = "pug"
 	icon_dead = "pug_dead"
 	butcher_results = list(/obj/item/food/meat/slab/pug = 3)
+<<<<<<< HEAD
+=======
+	cult_icon_state = "pug_cult"
+>>>>>>> tg-pr-88929
 	gold_core_spawnable = FRIENDLY_SPAWN
 	collar_icon_state = "pug"
 	held_state = "pug"
@@ -37,6 +41,7 @@
 	collar_icon_state = "bullterrier"
 	held_state = "bullterrier"
 
+<<<<<<< HEAD
 /mob/living/basic/pet/dog/dobermann
 	name = "\improper dobermann"
 	desc = "A larger breed of dog."
@@ -47,6 +52,48 @@
 	icon_dead = "dobbydead"
 	butcher_results = list(/obj/item/food/meat/slab/corgi = 3) // Would feel redundant to add more new dog meats.
 	gold_core_spawnable = FRIENDLY_SPAWN
+=======
+/mob/living/basic/pet/dog/bullterrier/lavaland_party
+	name = "Saint Nick's Helpful Associate"
+	desc = "Undergraduate in 'Being a Good Boy'."
+	habitable_atmos = null
+	gold_core_spawnable = NO_SPAWN
+	unique_pet = TRUE
+
+/mob/living/basic/pet/dog/bullterrier/guarddog //hostile dog variant for space ruins
+	name = "\improper guard dog"
+	real_name = "guard dog"
+	desc = "A vicious bull terrier. They look aggressive and territorial."
+	collar_icon_state = "spiked"
+	//slightly weaker than a bear, but not as slow
+	health = 60
+	maxHealth = 60
+	obj_damage = 20
+	melee_damage_lower = 10
+	melee_damage_upper = 15
+	wound_bonus = -25
+	bare_wound_bonus = 45
+	sharpness = SHARP_EDGED
+	gold_core_spawnable = HOSTILE_SPAWN
+	faction = list(FACTION_HOSTILE)
+	ai_controller = /datum/ai_controller/basic_controller/guarddog
+
+/datum/ai_controller/basic_controller/guarddog
+	blackboard = list(
+		BB_TARGETING_STRATEGY = /datum/targeting_strategy/basic,
+		BB_PET_TARGETING_STRATEGY = /datum/targeting_strategy/basic/not_friends,
+		BB_AGGRO_RANGE = 7,
+		BB_TARGET_MINIMUM_STAT = HARD_CRIT,
+	)
+
+	ai_movement = /datum/ai_movement/basic_avoidance
+	idle_behavior = /datum/idle_behavior/idle_random_walk
+	planning_subtrees = list(
+		/datum/ai_planning_subtree/target_retaliate,
+		/datum/ai_planning_subtree/simple_find_target,
+		/datum/ai_planning_subtree/basic_melee_attack_subtree,
+	)
+>>>>>>> tg-pr-88929
 
 /mob/living/basic/pet/dog/breaddog //Most of the code originates from Cak
 	name = "Kobun"
@@ -59,8 +106,13 @@
 	health = 50
 	maxHealth = 50
 	gender = NEUTER
+<<<<<<< HEAD
 	damage_coeff = list(BRUTE = 3, BURN = 3, TOX = 1, CLONE = 1, STAMINA = 0, OXY = 1)
 	butcher_results = list(/obj/item/organ/internal/brain = 1, /obj/item/organ/internal/heart = 1, /obj/item/food/breadslice/plain = 3,  \
+=======
+	damage_coeff = list(BRUTE = 3, BURN = 3, TOX = 1, STAMINA = 0, OXY = 1)
+	butcher_results = list(/obj/item/organ/brain = 1, /obj/item/organ/heart = 1, /obj/item/food/breadslice/plain = 3,  \
+>>>>>>> tg-pr-88929
 	/obj/item/food/meat/slab = 2)
 	response_harm_continuous = "takes a bite out of"
 	response_harm_simple = "take a bite out of"
@@ -70,7 +122,11 @@
 
 /mob/living/basic/pet/dog/breaddog/CheckParts(list/parts)
 	. = ..()
+<<<<<<< HEAD
 	var/obj/item/organ/internal/brain/candidate = locate(/obj/item/organ/internal/brain) in contents
+=======
+	var/obj/item/organ/brain/candidate = locate(/obj/item/organ/brain) in contents
+>>>>>>> tg-pr-88929
 	if(!candidate || !candidate.brainmob || !candidate.brainmob.mind)
 		return
 	candidate.brainmob.mind.transfer_to(src)
@@ -97,6 +153,10 @@
 
 /mob/living/basic/pet/dog/breaddog/attack_hand(mob/living/user, list/modifiers)
 	. = ..()
+<<<<<<< HEAD
 	if((user.istate & ISTATE_HARM) && user.reagents && !stat)
+=======
+	if(user.combat_mode && user.reagents && !stat)
+>>>>>>> tg-pr-88929
 		user.reagents.add_reagent(/datum/reagent/consumable/nutriment, 0.4)
 		user.reagents.add_reagent(/datum/reagent/consumable/nutriment/vitamin, 0.4)

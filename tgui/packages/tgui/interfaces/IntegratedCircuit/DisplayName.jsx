@@ -1,9 +1,19 @@
+<<<<<<< HEAD
 import { Box, Button, Flex } from '../../components';
 import {
   FUNDAMENTAL_DATA_TYPES,
   DATATYPE_DISPLAY_HANDLERS,
 } from './FundamentalTypes';
 
+=======
+import { Box, Button, Flex } from 'tgui-core/components';
+
+import {
+  DATATYPE_DISPLAY_HANDLERS,
+  FUNDAMENTAL_DATA_TYPES,
+} from './FundamentalTypes';
+
+>>>>>>> tg-pr-88929
 export const DisplayName = (props) => {
   const { port, isOutput, componentId, portIndex, act, ...rest } = props;
 

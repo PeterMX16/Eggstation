@@ -18,6 +18,7 @@ GLOBAL_DATUM_INIT(interviews, /datum/interview_manager, new)
 	/// Ckeys which are currently in the cooldown system, they will be unable to create new interviews
 	var/list/cooldown_ckeys = list()
 
+<<<<<<< HEAD
 
 /datum/interview_manager/New()
 	. = ..()
@@ -31,6 +32,9 @@ GLOBAL_DATUM_INIT(interviews, /datum/interview_manager, new)
 
 /datum/interview_manager/Destroy(force)
 	SSpersistence.save_keys(approved_ckeys)
+=======
+/datum/interview_manager/Destroy(force)
+>>>>>>> tg-pr-88929
 	QDEL_LIST(open_interviews)
 	QDEL_LIST(interview_queue)
 	QDEL_LIST(closed_interviews)

@@ -111,7 +111,7 @@ The y axis is the purity of the product made for that time step. This is recalcu
 
 If you're designing a reaction you can define an optimal range between the OptimalpHMin to OptimalpHMax (5 - 7 in this case) and a deterministic region set by the ReactpHLim (5 - 4, 9 + 4 aka between 1 to 5 and 9 to 13). This deterministic region is exponential, so if you set it to 2 then it’ll exponentially grow, but since our CurveSharpph = 1, it’s linear (basically normalise the range in the determinsitic region, then put that to the power of CurveSharppH). Finally values outside of these ranges will prevent reactions from starting, but if a reaction drifts out during a reaction, the purity of volume created for each step will be 0 (It does not stop ongoing reactions). It’s entirely possible to design a reaction without a deterministic or optimal phase if you wanted.
 
-Though to note; if your purity dips below the PurityMin of a reaction it’ll call the overly_impure() function – which by default reduces the purity of all reagents in the beaker. Additionally, if the purity at the end of a reaction is below the PurityMin, it’ll convert into the failed chem defined by the product’s failed_chem defined in it's reagent datum. For default the PurityMin is 0.15, and is pretty difficult to fail. This is all customisable however, if you wanted to use these hooks to design a even more unique reaction, just don’t call the parent proc when using methods.
+Though to note; if your purity dips below the PurityMin of a reaction it’ll call the overly_impure() function – which by default reduces the purity of all reagents in the beaker. Additionally, if the purity at the end of a reaction is below the PurityMin, it’ll convert into the failed chem defined by the product’s failed_chem defined in its reagent datum. For default the PurityMin is 0.15, and is pretty difficult to fail. This is all customisable however, if you wanted to use these hooks to design a even more unique reaction, just don’t call the parent proc when using methods.
 
 ### Conditional changes in reagents datum per timestep
 
@@ -131,7 +131,11 @@ Reaction_flags can be used to set these defines:
 ```dm
 #define REACTION_CLEAR_IMPURE   //Convert into impure/pure on reaction completion in the datum/reagents holder instead of on consumption
 #define REACTION_CLEAR_INVERSE  //Convert into inverse on reaction completion when purity is low enough in the datum/reagents holder instead of on consumption
+<<<<<<< HEAD
 #define REACTION_CLEAR_RETAIN	//Clear converted chems retain their purities/inverted purities. Requires 1 or both of the above. This is so that it can split again after splitting from a reaction (i.e. if your impure_chem or inverse_chem has it's own impure_chem/inverse_chem and you want it to split again on consumption).
+=======
+#define REACTION_CLEAR_RETAIN	//Clear converted chems retain their purities/inverted purities. Requires 1 or both of the above. This is so that it can split again after splitting from a reaction (i.e. if your impure_chem or inverse_chem has its own impure_chem/inverse_chem and you want it to split again on consumption).
+>>>>>>> tg-pr-88929
 #define REACTION_INSTANT        //Used to create instant reactions
 
 /datum/chemical_reaction
@@ -163,7 +167,11 @@ The new vars that are introduced are below:
 	var/ph = 7
 	///Purity of the reagent
 	var/purity = 1
+<<<<<<< HEAD
 	///the purity of the reagent on creation (i.e. when it's added to a mob and it's purity split it into 2 chems; the purity of the resultant chems are kept as 1, this tracks what the purity was before that)
+=======
+	///the purity of the reagent on creation (i.e. when it's added to a mob and its purity split it into 2 chems; the purity of the resultant chems are kept as 1, this tracks what the purity was before that)
+>>>>>>> tg-pr-88929
 	var/creation_purity = 1
 	//impure chem values (see fermi_readme.dm for more details):
 	var/impure_chem		 = /datum/reagent/impurity			// What chemical path is made when metabolised as a function of purity
@@ -176,9 +184,13 @@ The new vars that are introduced are below:
 - `pH` is the innate pH of the reagent and is used to calculate the pH of a reagents datum on addition/removal. This does not change and is a reference value. The reagents datum pH changes.
 - `purity` is the INTERNAL value for splitting. This is set to 1 after splitting so that it doesn't infinite split
 - `creation_purity` is the purity of the reagent on creation. This won't change. If you want to write code that checks the purity in any of the methods, use this.
-- `impure_chem` is the datum type that is created provided that it's `creation_purity` is above the `inverse_chem_val`. When the reagent is consumed it will split into this OR if the associated `datum/chemical_recipe` has a REACTION_CLEAR_IMPURE flag it will split at the end of the reaction in the `datum/reagents` holder
+- `impure_chem` is the datum type that is created provided that its `creation_purity` is above the `inverse_chem_val`. When the reagent is consumed it will split into this OR if the associated `datum/chemical_recipe` has a REACTION_CLEAR_IMPURE flag it will split at the end of the reaction in the `datum/reagents` holder
 - `inverse_chem_val` if a reagent's purity is below this value it will 100% convert into `inverse_chem`. If above it will split into `impure_chem`. See the note on purity effects above
+<<<<<<< HEAD
 - `inverse_chem` is the datum type that is created provided that it's `creation_purity` is below the `inverse_chem_val`. When the reagent is consumed it will 100% convert into this OR if the associated `datum/chemical_recipe` has a REACTION_CLEAR_INVERSE flag it will 100% convert at the end of the reaction in the `datum/reagents` holder
+=======
+- `inverse_chem` is the datum type that is created provided that its `creation_purity` is below the `inverse_chem_val`. When the reagent is consumed it will 100% convert into this OR if the associated  `datum/chemical_recipe` has a REACTION_CLEAR_INVERSE flag it will 100% convert at the end of the reaction in the `datum/reagents` holder
+>>>>>>> tg-pr-88929
 - `failed_chem` is the chem that the product is 100% converted into if the purity is below the associated `datum/chemical_recipies`' `PurityMin` AT THE END OF A REACTION.
 
 When writing any reagent code ALWAYS use creation_purity. Purity is kept for internal mechanics only and won’t reflect the purity on creation.
@@ -186,7 +198,10 @@ When writing any reagent code ALWAYS use creation_purity. Purity is kept for int
 See above for purity mechanics, but this is where you set the reagents that are created. If you’re making an impure reagent I recommend looking at impure_reagents.dm to see how they’re set up and consider using the `datum/reagents/impure` as a parent.
 
 The flags you can set for `var/chemical_flags` are:
+<<<<<<< HEAD
 
+=======
+>>>>>>> tg-pr-88929
 ```dm
 #define REAGENT_DEAD_PROCESS		(1<<0)	//allows on_mob_dead() if present in a dead body
 #define REAGENT_DONOTSPLIT			(1<<1)	//Do not split the chem at all during processing - ignores all purity effects
@@ -203,7 +218,10 @@ While you might think reagent_flags is a more sensible name - it is already used
 # Relivant vars from the holder.dm / reagents datum
 
 There are a few variables that are useful to know about
+<<<<<<< HEAD
 
+=======
+>>>>>>> tg-pr-88929
 ```dm
 /datum/reagents
 	/// Current temp of the holder volume

@@ -15,13 +15,19 @@
 	lefthand_file = 'icons/mob/inhands/items/devices_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/items/devices_righthand.dmi'
 	w_class = WEIGHT_CLASS_SMALL
-	flags_1 = CONDUCT_1
+	obj_flags = CONDUCTS_ELECTRICITY
 	slot_flags = ITEM_SLOT_BELT
 	custom_materials = list(/datum/material/iron= SMALL_MATERIAL_AMOUNT * 0.5, /datum/material/glass= SMALL_MATERIAL_AMOUNT * 0.2)
 	actions_types = list(/datum/action/item_action/toggle_light)
+<<<<<<< HEAD
 	action_slots = ALL
 	light_system = OVERLAY_LIGHT_DIRECTIONAL
 	light_outer_range = 4
+=======
+	light_system = OVERLAY_LIGHT_DIRECTIONAL
+	light_color = COLOR_LIGHT_ORANGE
+	light_range = 4
+>>>>>>> tg-pr-88929
 	light_power = 1
 	light_on = FALSE
 	/// If we've been forcibly disabled for a temporary amount of time.
@@ -29,36 +35,52 @@
 	/// Can we toggle this light on and off (used for contexual screentips only)
 	var/toggle_context = TRUE
 	/// The sound the light makes when it's turned on
-	var/sound_on = 'sound/weapons/magin.ogg'
+	var/sound_on = 'sound/items/weapons/magin.ogg'
 	/// The sound the light makes when it's turned off
+<<<<<<< HEAD
 	var/sound_off = 'sound/weapons/magout.ogg'
 	/// Is the light turned on or off currently
 	var/on = FALSE
+=======
+	var/sound_off = 'sound/items/weapons/magout.ogg'
+	/// Should the flashlight start turned on?
+>>>>>>> tg-pr-88929
 	var/start_on = FALSE
 
 /obj/item/flashlight/Initialize(mapload)
 	. = ..()
 	if(start_on)
 		set_light_on(TRUE)
+<<<<<<< HEAD
 	if(icon_state == "[initial(icon_state)]-on")
 		on = TRUE
+=======
+>>>>>>> tg-pr-88929
 	update_brightness()
 	register_context()
 
+	var/static/list/slapcraft_recipe_list = list(/datum/crafting_recipe/flashlight_eyes)
+
+	AddElement(
+		/datum/element/slapcrafting,\
+		slapcraft_recipes = slapcraft_recipe_list,\
+	)
+
 /obj/item/flashlight/add_context(atom/source, list/context, obj/item/held_item, mob/living/user)
 	// single use lights can be toggled on once
-	if(isnull(held_item) && (toggle_context || !on))
+	if(isnull(held_item) && (toggle_context || !light_on))
 		context[SCREENTIP_CONTEXT_RMB] = "Toggle light"
 		return CONTEXTUAL_SCREENTIP_SET
 
-	if(istype(held_item, /obj/item/flashlight) && (toggle_context || !on))
+	if(istype(held_item, /obj/item/flashlight) && (toggle_context || !light_on))
 		context[SCREENTIP_CONTEXT_LMB] = "Toggle light"
 		return CONTEXTUAL_SCREENTIP_SET
 
 	return NONE
 
-/obj/item/flashlight/proc/update_brightness()
-	if(on)
+/obj/item/flashlight/update_icon_state()
+	. = ..()
+	if(light_on)
 		icon_state = "[initial(icon_state)]-on"
 		if(!isnull(inhand_icon_state))
 			inhand_icon_state = "[initial(inhand_icon_state)]-on"
@@ -66,11 +88,18 @@
 		icon_state = initial(icon_state)
 		if(!isnull(inhand_icon_state))
 			inhand_icon_state = initial(inhand_icon_state)
+<<<<<<< HEAD
 	set_light_on(on)
+=======
+
+/obj/item/flashlight/proc/update_brightness()
+	update_appearance(UPDATE_ICON)
+>>>>>>> tg-pr-88929
 	if(light_system == COMPLEX_LIGHT)
 		update_light()
 
 /obj/item/flashlight/proc/toggle_light(mob/user)
+<<<<<<< HEAD
 	var/disrupted = FALSE
 	on = !on
 	playsound(src, on ? sound_on : sound_off, 40, TRUE)
@@ -85,6 +114,24 @@
 
 /obj/item/flashlight/attack_self(mob/user)
 	toggle_light(user)
+=======
+	playsound(src, light_on ? sound_off : sound_on, 40, TRUE)
+	if(!COOLDOWN_FINISHED(src, disabled_time))
+		if(user)
+			balloon_alert(user, "disrupted!")
+		set_light_on(FALSE)
+		update_brightness()
+		update_item_action_buttons()
+		return FALSE
+	var/old_light_on = light_on
+	set_light_on(!light_on)
+	update_brightness()
+	update_item_action_buttons()
+	return light_on != old_light_on // If the value of light_on didn't change, return false. Otherwise true.
+
+/obj/item/flashlight/attack_self(mob/user)
+	return toggle_light(user)
+>>>>>>> tg-pr-88929
 
 /obj/item/flashlight/attack_hand_secondary(mob/user, list/modifiers)
 	attack_self(user)
@@ -103,13 +150,22 @@
 		to_chat(user, span_warning("You're going to need to remove that [(M.head && M.head.flags_cover & HEADCOVERSEYES) ? "helmet" : (M.wear_mask && M.wear_mask.flags_cover & MASKCOVERSEYES) ? "mask": "glasses"] first!"))
 		return
 
+<<<<<<< HEAD
 	var/obj/item/organ/internal/eyes/E = M.get_organ_slot(ORGAN_SLOT_EYES)
 	var/obj/item/organ/internal/brain = M.get_organ_slot(ORGAN_SLOT_BRAIN)
+=======
+	var/obj/item/organ/eyes/E = M.get_organ_slot(ORGAN_SLOT_EYES)
+	var/obj/item/organ/brain = M.get_organ_slot(ORGAN_SLOT_BRAIN)
+>>>>>>> tg-pr-88929
 	if(!E)
 		to_chat(user, span_warning("[M] doesn't have any eyes!"))
 		return
 
+<<<<<<< HEAD
 	M.flash_act(visual = TRUE, length = (user.istate & ISTATE_HARM) ? 2.5 SECONDS : 1 SECONDS) // Apply a 1 second flash effect to the target. The duration increases to 2.5 Seconds if you have combat mode on.
+=======
+	M.flash_act(visual = TRUE, length = (user.combat_mode) ? 2.5 SECONDS : 1 SECONDS) // Apply a 1 second flash effect to the target. The duration increases to 2.5 Seconds if you have combat mode on.
+>>>>>>> tg-pr-88929
 
 	if(M == user) //they're using it on themselves
 		user.visible_message(span_warning("[user] shines [src] into [M.p_their()] eyes."), ignored_mobs = user)
@@ -131,6 +187,12 @@
 		else
 			. += "<span class='notice ml-1'>[M.p_Their()] pupils narrow.</span>\n"//they're okay :D
 
+<<<<<<< HEAD
+=======
+		if(M.dna && M.dna.check_mutation(/datum/mutation/human/xray))
+			. += "<span class='danger ml-1'>[M.p_Their()] pupils give an eerie glow!</span>\n"//mob has X-ray vision
+
+>>>>>>> tg-pr-88929
 	return .
 
 /obj/item/flashlight/proc/mouth_examine(mob/living/carbon/human/M, mob/living/user)
@@ -156,7 +218,11 @@
 			organ_list += (O.gender == "plural" ? O.name : "\an [O.name]")
 
 	var/pill_count = 0
+<<<<<<< HEAD
 	for(var/datum/action/item_action/hands_free/activate_pill/AP in M.actions)
+=======
+	for(var/datum/action/item_action/activate_pill/AP in M.actions)
+>>>>>>> tg-pr-88929
 		pill_count++
 
 	if(M == user)//if we're looking on our own mouth
@@ -229,7 +295,11 @@
 	if(!light_on)
 		return NONE
 	add_fingerprint(user)
+<<<<<<< HEAD
 	if((user.istate & ISTATE_HARM) || (user.zone_selected != BODY_ZONE_PRECISE_EYES && user.zone_selected != BODY_ZONE_PRECISE_MOUTH))
+=======
+	if(user.combat_mode || (user.zone_selected != BODY_ZONE_PRECISE_EYES && user.zone_selected != BODY_ZONE_PRECISE_MOUTH))
+>>>>>>> tg-pr-88929
 		return NONE
 	if((HAS_TRAIT(user, TRAIT_CLUMSY) || HAS_TRAIT(user, TRAIT_DUMB)) && prob(50)) //too dumb to use flashlight properly
 		return ITEM_INTERACT_SKIP_TO_ATTACK //just hit them in the head
@@ -242,7 +312,11 @@
 	if(!scanning.get_bodypart(BODY_ZONE_HEAD))
 		to_chat(user, span_warning("[scanning] doesn't have a head!"))
 		return
+<<<<<<< HEAD
 	if(light_power < 1)
+=======
+	if(light_power < 0.5)
+>>>>>>> tg-pr-88929
 		to_chat(user, span_warning("[src] isn't bright enough to see anything!"))
 		return
 
@@ -274,7 +348,11 @@
 /// when hit by a light disruptor - turns the light off, forces the light to be disabled for a few seconds
 /obj/item/flashlight/on_saboteur(datum/source, disrupt_duration)
 	. = ..()
+<<<<<<< HEAD
 	if(on)
+=======
+	if(light_on)
+>>>>>>> tg-pr-88929
 		toggle_light()
 	COOLDOWN_START(src, disabled_time, disrupt_duration)
 	return TRUE
@@ -287,8 +365,15 @@
 	inhand_icon_state = ""
 	worn_icon_state = "pen"
 	w_class = WEIGHT_CLASS_TINY
+<<<<<<< HEAD
 	flags_1 = CONDUCT_1
 	light_outer_range = 2
+=======
+	obj_flags = CONDUCTS_ELECTRICITY
+	light_range = 2
+	light_power = 0.8
+	light_color = "#CCFFFF"
+>>>>>>> tg-pr-88929
 	COOLDOWN_DECLARE(holosign_cooldown)
 
 /obj/item/flashlight/pen/ranged_interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
@@ -312,6 +397,7 @@
 	name = "paramedic penlight"
 	desc = "A high-powered UV penlight intended to help stave off infection in the field on serious burned patients. Probably really bad to look into."
 	icon_state = "penlight_surgical"
+	light_color = LIGHT_COLOR_PURPLE
 	/// Our current UV cooldown
 	COOLDOWN_DECLARE(uv_cooldown)
 	/// How long between UV fryings
@@ -341,8 +427,15 @@
 	lefthand_file = 'icons/mob/inhands/equipment/security_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/security_righthand.dmi'
 	force = 9 // Not as good as a stun baton.
+<<<<<<< HEAD
 	light_outer_range = 5 // A little better than the standard flashlight.
 	hitsound = 'sound/weapons/genhit1.ogg'
+=======
+	light_range = 5 // A little better than the standard flashlight.
+	light_power = 0.8
+	light_color = "#99ccff"
+	hitsound = 'sound/items/weapons/genhit1.ogg'
+>>>>>>> tg-pr-88929
 
 // the desk lamps are a bit special
 /obj/item/flashlight/lamp
@@ -353,13 +446,17 @@
 	lefthand_file = 'icons/mob/inhands/items_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/items_righthand.dmi'
 	force = 10
+<<<<<<< HEAD
 	light_outer_range = 3.5
+=======
+	light_range = 3.5
+>>>>>>> tg-pr-88929
 	light_system = COMPLEX_LIGHT
 	light_color = LIGHT_COLOR_FAINT_BLUE
 	w_class = WEIGHT_CLASS_BULKY
-	flags_1 = CONDUCT_1
+	obj_flags = CONDUCTS_ELECTRICITY
 	custom_materials = null
-	on = TRUE
+	start_on = TRUE
 
 // green-shaded desk lamp
 /obj/item/flashlight/lamp/green
@@ -388,6 +485,10 @@
 	heat = 1000
 	light_color = LIGHT_COLOR_FLARE
 	light_system = OVERLAY_LIGHT
+<<<<<<< HEAD
+=======
+	light_power = 2
+>>>>>>> tg-pr-88929
 	grind_results = list(/datum/reagent/sulfur = 15)
 	sound_on = 'sound/items/match_strike.ogg'
 	toggle_context = FALSE
@@ -406,11 +507,11 @@
 /obj/item/flashlight/flare/Initialize(mapload)
 	. = ..()
 	if(randomize_fuel)
-		fuel = rand(25 MINUTES, 35 MINUTES)
-	if(on)
+		fuel = rand(10 MINUTES, 15 MINUTES)
+	if(light_on)
 		attack_verb_continuous = string_list(list("burns", "singes"))
 		attack_verb_simple = string_list(list("burn", "singe"))
-		hitsound = 'sound/items/welder.ogg'
+		hitsound = 'sound/items/tools/welder.ogg'
 		force = on_damage
 		damtype = BURN
 		update_brightness()
@@ -424,26 +525,31 @@
 	if(!isliving(victim))
 		return ..()
 
+<<<<<<< HEAD
 	if(on && victim.ignite_mob())
+=======
+	if(light_on && victim.ignite_mob())
+>>>>>>> tg-pr-88929
 		message_admins("[ADMIN_LOOKUPFLW(user)] set [key_name_admin(victim)] on fire with [src] at [AREACOORD(user)]")
 		user.log_message("set [key_name(victim)] on fire with [src]", LOG_ATTACK)
 
 	return ..()
 
 /obj/item/flashlight/flare/toggle_light()
-	if(on || !fuel)
+	if(light_on || !fuel)
 		return FALSE
+	. = ..()
 
 	name = "lit [initial(name)]"
 	attack_verb_continuous = string_list(list("burns", "singes"))
 	attack_verb_simple = string_list(list("burn", "singe"))
-	hitsound = 'sound/items/welder.ogg'
+	hitsound = 'sound/items/tools/welder.ogg'
 	force = on_damage
 	damtype = BURN
-	. = ..()
+
 
 /obj/item/flashlight/flare/proc/turn_off()
-	on = FALSE
+	set_light_on(FALSE)
 	name = initial(name)
 	attack_verb_continuous = initial(attack_verb_continuous)
 	attack_verb_simple = initial(attack_verb_simple)
@@ -459,14 +565,14 @@
 
 /obj/item/flashlight/flare/update_brightness()
 	..()
-	inhand_icon_state = "[initial(inhand_icon_state)]" + (on ? "-on" : "")
+	inhand_icon_state = "[initial(inhand_icon_state)]" + (light_on ? "-on" : "")
 	update_appearance()
 
 /obj/item/flashlight/flare/process(seconds_per_tick)
 	open_flame(heat)
 	fuel = max(fuel - seconds_per_tick * (1 SECONDS), 0)
 
-	if(!fuel || !on)
+	if(!fuel || !light_on)
 		turn_off()
 		STOP_PROCESSING(SSobj, src)
 
@@ -479,7 +585,7 @@
 		if(user)
 			balloon_alert(user, "out of fuel!")
 		return NO_FUEL
-	if(on)
+	if(light_on)
 		if(user)
 			balloon_alert(user, "already lit!")
 		return ALREADY_LIT
@@ -500,7 +606,7 @@
 		user.visible_message(span_notice("[user] lights \the [src]."), span_notice("You light \the [initial(src.name)]!"))
 
 /obj/item/flashlight/flare/get_temperature()
-	return on * heat
+	return light_on * heat
 
 //fire isn't one light source, it's several constantly appearing and disappearing... or something
 /obj/item/flashlight/flare/proc/on_light_eater(atom/source, datum/light_eater)
@@ -520,8 +626,14 @@
 	righthand_file = 'icons/mob/inhands/items_righthand.dmi'
 	w_class = WEIGHT_CLASS_TINY
 	heat = 1000
+<<<<<<< HEAD
 	light_color = LIGHT_COLOR_FIRE
 	light_outer_range = 2
+=======
+	light_range = 2
+	light_power = 1.5
+	light_color = LIGHT_COLOR_FIRE
+>>>>>>> tg-pr-88929
 	fuel = 35 MINUTES
 	randomize_fuel = FALSE
 	trash_type = /obj/item/trash/candle
@@ -536,7 +648,7 @@
 
 /obj/item/flashlight/flare/candle/Initialize(mapload)
 	. = ..()
-	AddElement(/datum/element/update_icon_updates_onmob, ITEM_SLOT_HANDS)
+	AddElement(/datum/element/update_icon_updates_onmob)
 
 /**
  * Just checks the wax level of the candle for displaying the correct sprite.
@@ -558,8 +670,8 @@
 
 /obj/item/flashlight/flare/candle/update_icon_state()
 	. = ..()
-	icon_state = "candle[current_wax_level][on ? "_lit" : ""]"
-	inhand_icon_state = "candle[on ? "_lit" : ""]"
+	icon_state = "candle[current_wax_level][light_on ? "_lit" : ""]"
+	inhand_icon_state = "candle[light_on ? "_lit" : ""]"
 
 /**
  * Try to ignite the candle.
@@ -618,7 +730,7 @@
 	return ..()
 
 /obj/item/flashlight/flare/candle/attack_self(mob/user)
-	if(on && (fuel != INFINITY || !can_be_extinguished)) // can't extinguish eternal candles
+	if(light_on && (fuel != INFINITY || !can_be_extinguished)) // can't extinguish eternal candles
 		turn_off()
 		user.visible_message(span_notice("[user] snuffs [src]."))
 
@@ -634,14 +746,19 @@
 /obj/item/flashlight/flare/candle/infinite
 	name = "eternal candle"
 	fuel = INFINITY
-	on = TRUE
 	randomize_fuel = FALSE
 	can_be_extinguished = FALSE
+	start_on = TRUE
 
 /obj/item/flashlight/flare/torch
 	name = "torch"
 	desc = "A torch fashioned from some leaves and a log."
+<<<<<<< HEAD
 	light_outer_range = 4
+=======
+	light_range = 4
+	light_power = 1.3
+>>>>>>> tg-pr-88929
 	icon_state = "torch"
 	inhand_icon_state = "torch"
 	lefthand_file = 'icons/mob/inhands/items_lefthand.dmi'
@@ -659,26 +776,49 @@
 	lefthand_file = 'icons/mob/inhands/equipment/mining_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/mining_righthand.dmi'
 	desc = "A mining lantern."
+<<<<<<< HEAD
 	light_outer_range = 6 // luminosity when on
 	light_system = OVERLAY_LIGHT
+=======
+	light_range = 5 // luminosity when on
+	light_power = 1.5
+	light_color = "#ffcc66"
+	light_system = OVERLAY_LIGHT
+
+/obj/item/flashlight/lantern/on
+	start_on = TRUE
+>>>>>>> tg-pr-88929
 
 /obj/item/flashlight/lantern/heirloom_moth
 	name = "old lantern"
 	desc = "An old lantern that has seen plenty of use."
+<<<<<<< HEAD
 	light_outer_range = 4
+=======
+	light_range = 3.5
+>>>>>>> tg-pr-88929
 
 /obj/item/flashlight/lantern/syndicate
 	name = "suspicious lantern"
 	desc = "A suspicious looking lantern."
 	icon_state = "syndilantern"
 	inhand_icon_state = "syndilantern"
+<<<<<<< HEAD
 	light_outer_range = 10
+=======
+	light_range = 6
+	light_power = 2
+	light_color = "#ffffe6"
+>>>>>>> tg-pr-88929
 
 /obj/item/flashlight/lantern/jade
 	name = "jade lantern"
 	desc = "An ornate, green lantern."
 	color = LIGHT_COLOR_GREEN
 	light_color = LIGHT_COLOR_GREEN
+
+/obj/item/flashlight/lantern/jade/on
+	start_on = TRUE
 
 /obj/item/flashlight/slime
 	gender = PLURAL
@@ -690,6 +830,7 @@
 	w_class = WEIGHT_CLASS_SMALL
 	slot_flags = ITEM_SLOT_BELT
 	custom_materials = null
+<<<<<<< HEAD
 	light_outer_range = 7 //luminosity when on
 	light_system = OVERLAY_LIGHT
 
@@ -699,6 +840,11 @@
 	icon_state = "pineappolantern"
 	inhand_icon_state = "pineappolantern"
 	light_outer_range = 5
+=======
+	light_range = 6 //luminosity when on
+	light_color = "#ffff66"
+	light_system = OVERLAY_LIGHT
+>>>>>>> tg-pr-88929
 
 /obj/item/flashlight/emp
 	var/emp_max_charges = 4
@@ -724,7 +870,7 @@
 	return TRUE
 
 /obj/item/flashlight/emp/attack(mob/living/M, mob/living/user)
-	if(on && (user.zone_selected in list(BODY_ZONE_PRECISE_EYES, BODY_ZONE_PRECISE_MOUTH))) // call original attack when examining organs
+	if(light_on && (user.zone_selected in list(BODY_ZONE_PRECISE_EYES, BODY_ZONE_PRECISE_MOUTH))) // call original attack when examining organs
 		..()
 	return
 
@@ -755,13 +901,18 @@
 	emp_cur_charges = 100
 
 // Glowsticks, in the uncomfortable range of similar to flares,
-// but not similar enough to make it worth a refactor
+// Flares need to process (for hotspots) tho so this becomes irrelevant
 /obj/item/flashlight/glowstick
 	name = "glowstick"
 	desc = "A military-grade glowstick."
 	custom_price = PAYCHECK_LOWER
 	w_class = WEIGHT_CLASS_SMALL
+<<<<<<< HEAD
 	light_outer_range = 4
+=======
+	light_range = 3.5
+	light_power = 2
+>>>>>>> tg-pr-88929
 	light_system = OVERLAY_LIGHT
 	color = LIGHT_COLOR_GREEN
 	icon_state = "glowstick"
@@ -771,116 +922,200 @@
 	grind_results = list(/datum/reagent/phenol = 15, /datum/reagent/hydrogen = 10, /datum/reagent/oxygen = 5) //Meth-in-a-stick
 	sound_on = 'sound/effects/wounds/crack2.ogg' // the cracking sound isn't just for wounds silly
 	toggle_context = FALSE
-	/// How many seconds of fuel we have left
-	var/fuel = 0
+	/// How much max fuel we have
+	var/max_fuel = 0
+	/// How much oxygen gets added upon cracking the stick. Doesn't actually produce a reaction with the fluid but it does allow for bootleg chemical "grenades"
+	var/oxygen_added = 5
+	/// How much temperature gets added for every unit of fuel burned down
+	var/temp_per_fuel = 3
+	/// Type of reagent we add as fuel
+	var/fuel_type = /datum/reagent/luminescent_fluid
+	/// The timer id powering our burning
+	var/timer_id = TIMER_ID_NULL
 
-/obj/item/flashlight/glowstick/Initialize(mapload)
-	fuel = rand(50 MINUTES, 60 MINUTES)
+/obj/item/flashlight/glowstick/Initialize(mapload, fuel_override = null)
+	. = ..()
+	max_fuel = isnull(fuel_override) ? rand(20, 25) : fuel_override
+	create_reagents(max_fuel + oxygen_added, DRAWABLE | INJECTABLE)
+	reagents.add_reagent(fuel_type, max_fuel)
 	set_light_color(color)
-	return ..()
+	AddComponent(/datum/component/edible,\
+		food_flags = FOOD_NO_EXAMINE,\
+		volume = reagents.total_volume,\
+		bite_consumption = round(reagents.total_volume / (rand(20, 30) * 0.1)),\
+	)
+	RegisterSignals(reagents, list(COMSIG_REAGENTS_REM_REAGENT, COMSIG_REAGENTS_DEL_REAGENT, COMSIG_REAGENTS_CLEAR_REAGENTS, COMSIG_REAGENTS_REACTED), PROC_REF(on_reagent_change))
+	RegisterSignal(reagents, COMSIG_QDELETING, PROC_REF(on_reagents_del))
 
-/obj/item/flashlight/glowstick/Destroy()
-	STOP_PROCESSING(SSobj, src)
-	return ..()
+/obj/item/flashlight/glowstick/proc/on_reagents_del(datum/reagents/reagents)
+	SIGNAL_HANDLER
+	UnregisterSignal(reagents, list(COMSIG_REAGENTS_REM_REAGENT, COMSIG_REAGENTS_DEL_REAGENT, COMSIG_REAGENTS_CLEAR_REAGENTS, COMSIG_REAGENTS_REACTED, COMSIG_QDELETING))
 
-/obj/item/flashlight/glowstick/process(seconds_per_tick)
-	fuel = max(fuel - seconds_per_tick * (1 SECONDS), 0)
-	if(fuel <= 0)
+/obj/item/flashlight/glowstick/proc/get_fuel()
+	return reagents?.get_reagent_amount(fuel_type)
+
+/// Burns down the glowstick by the specified time
+/// Returns the amount of time we need to burn before a visual change will occur
+/obj/item/flashlight/glowstick/proc/burn_down(amount = 0)
+	if (!reagents.remove_all(amount))
 		turn_off()
-		STOP_PROCESSING(SSobj, src)
+		return 0
+
+	var/fuel = get_fuel()
+	if (fuel <= 0)
+		turn_off()
+		return 0
+
+	reagents.expose_temperature(amount * temp_per_fuel)
+	if(fuel >= max_fuel * 0.4)
+		set_light_range(3)
+		set_light_power(1.5)
+	else if(fuel >= max_fuel * 0.3)
+		set_light_range(2)
+		set_light_power(1.25)
+	else if(fuel >= max_fuel * 0.2)
+		set_light_power(1)
+	else if(fuel >= max_fuel * 0.1)
+		set_light_range(1.5)
+		set_light_power(0.5)
+
+	return round(reagents.total_volume * 0.1)
+
+/obj/item/flashlight/glowstick/proc/burn_loop(amount = 0)
+	timer_id = TIMER_ID_NULL
+	var/burn_next = burn_down(amount)
+	if(burn_next <= 0)
+		return
+	timer_id = addtimer(CALLBACK(src, PROC_REF(burn_loop), burn_next), burn_next MINUTES, TIMER_UNIQUE|TIMER_STOPPABLE|TIMER_OVERRIDE)
+
+/obj/item/flashlight/glowstick/proc/turn_on()
+	reagents.add_reagent(/datum/reagent/oxygen, oxygen_added)
+	grind_results -= /datum/reagent/oxygen
+	set_light_on(TRUE) // Just in case
+	var/datum/action/toggle = locate(/datum/action/item_action/toggle_light) in actions
+	// No sense having a toggle light action that we don't use eh?
+	if(toggle)
+		remove_item_action(toggle)
+	burn_loop(round(reagents.total_volume * 0.1))
 
 /obj/item/flashlight/glowstick/proc/turn_off()
-	on = FALSE
+	var/datum/action/toggle = locate(/datum/action/item_action/toggle_light) in actions
+	if(get_fuel() && !toggle)
+		add_item_action(/datum/action/item_action/toggle_light)
+	if(timer_id != TIMER_ID_NULL)
+		deltimer(timer_id)
+		timer_id = TIMER_ID_NULL
+	set_light_on(FALSE)
 	update_appearance(UPDATE_ICON)
 
-/obj/item/flashlight/glowstick/update_appearance(updates=ALL)
-	. = ..()
-	if(fuel <= 0)
-		set_light_on(FALSE)
-		return
-	if(on)
-		set_light_on(TRUE)
-		return
+/obj/item/flashlight/glowstick/proc/on_reagent_change(datum/source)
+	SIGNAL_HANDLER
+
+	if (!get_fuel() && light_on)
+		turn_off()
 
 /obj/item/flashlight/glowstick/update_icon_state()
-	icon_state = "[base_icon_state][(fuel <= 0) ? "-empty" : ""]"
-	inhand_icon_state = "[base_icon_state][((fuel > 0) && on) ? "-on" : ""]"
-	return ..()
+	. = ..()
+	icon_state = "[base_icon_state][(get_fuel() <= 0) ? "-empty" : ""]"
+	inhand_icon_state = "[base_icon_state][((get_fuel() > 0) && light_on) ? "-on" : ""]"
 
 /obj/item/flashlight/glowstick/update_overlays()
 	. = ..()
-	if(fuel <= 0 && !on)
+	if(get_fuel() <= 0 && !light_on)
 		return
 
 	var/mutable_appearance/glowstick_overlay = mutable_appearance(icon, "glowstick-glow")
 	glowstick_overlay.color = color
 	. += glowstick_overlay
 
+/obj/item/flashlight/glowstick/toggle_light(mob/user)
+	if(get_fuel() <= 0)
+		return FALSE
+	if(light_on)
+		return FALSE
+	return ..()
+
 /obj/item/flashlight/glowstick/attack_self(mob/user)
-	if(fuel <= 0)
+	if(get_fuel() <= 0)
 		balloon_alert(user, "glowstick is spent!")
 		return
-	if(on)
+	if(light_on)
 		balloon_alert(user, "already lit!")
 		return
 
 	. = ..()
 	if(.)
 		user.visible_message(span_notice("[user] cracks and shakes [src]."), span_notice("You crack and shake [src], turning it on!"))
-		START_PROCESSING(SSobj, src)
+		turn_on()
 
 /obj/item/flashlight/glowstick/suicide_act(mob/living/carbon/human/user)
-	if(!fuel)
+	if(!get_fuel())
 		user.visible_message(span_suicide("[user] is trying to squirt [src]'s fluids into [user.p_their()] eyes... but it's empty!"))
 		return SHAME
-	var/obj/item/organ/internal/eyes/eyes = user.get_organ_slot(ORGAN_SLOT_EYES)
+	var/obj/item/organ/eyes/eyes = user.get_organ_slot(ORGAN_SLOT_EYES)
 	if(!eyes)
 		user.visible_message(span_suicide("[user] is trying to squirt [src]'s fluids into [user.p_their()] eyes... but [user.p_they()] don't have any!"))
 		return SHAME
 	user.visible_message(span_suicide("[user] is squirting [src]'s fluids into [user.p_their()] eyes! It looks like [user.p_theyre()] trying to commit suicide!"))
-	fuel = 0
+	burn_loop(get_fuel())
 	return FIRELOSS
 
 /obj/item/flashlight/glowstick/red
 	name = "red glowstick"
 	color = COLOR_SOFT_RED
+	fuel_type = /datum/reagent/luminescent_fluid/red
 
 /obj/item/flashlight/glowstick/blue
 	name = "blue glowstick"
 	color = LIGHT_COLOR_BLUE
+	fuel_type = /datum/reagent/luminescent_fluid/blue
 
 /obj/item/flashlight/glowstick/cyan
 	name = "cyan glowstick"
 	color = LIGHT_COLOR_CYAN
+	fuel_type = /datum/reagent/luminescent_fluid/cyan
 
 /obj/item/flashlight/glowstick/orange
 	name = "orange glowstick"
 	color = LIGHT_COLOR_ORANGE
+	fuel_type = /datum/reagent/luminescent_fluid/orange
 
 /obj/item/flashlight/glowstick/yellow
 	name = "yellow glowstick"
 	color = LIGHT_COLOR_DIM_YELLOW
+	fuel_type = /datum/reagent/luminescent_fluid/yellow
 
 /obj/item/flashlight/glowstick/pink
 	name = "pink glowstick"
 	color = LIGHT_COLOR_PINK
+	fuel_type = /datum/reagent/luminescent_fluid/pink
 
 /obj/item/flashlight/spotlight //invisible lighting source
 	name = "disco light"
 	desc = "Groovy..."
 	icon_state = null
 	light_system = OVERLAY_LIGHT
+<<<<<<< HEAD
 	light_outer_range = 4
 	light_power = 10
+=======
+	light_range = 4
+	light_power = 2
+>>>>>>> tg-pr-88929
 	alpha = 0
+	layer = ABOVE_OPEN_TURF_LAYER
 	plane = FLOOR_PLANE
-	on = TRUE
 	anchored = TRUE
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF
 	///Boolean that switches when a full color flip ends, so the light can appear in all colors.
 	var/even_cycle = FALSE
 	///Base light_range that can be set on Initialize to use in smooth light range expansions and contractions.
+<<<<<<< HEAD
 	var/base_light_outer_range = 4
+=======
+	var/base_light_range = 4
+	start_on = TRUE
+>>>>>>> tg-pr-88929
 
 /obj/item/flashlight/spotlight/Initialize(mapload, _light_range, _light_power, _light_color)
 	. = ..()
@@ -898,7 +1133,11 @@
 	icon_state = "flashdark"
 	inhand_icon_state = "flashdark"
 	light_system = COMPLEX_LIGHT //The overlay light component is not yet ready to produce darkness.
+<<<<<<< HEAD
 	light_outer_range = 0
+=======
+	light_range = 0
+>>>>>>> tg-pr-88929
 	///Variable to preserve old lighting behavior in flashlights, to handle darkness.
 	var/dark_light_outer_range = 2.5
 	///Variable to preserve old lighting behavior in flashlights, to handle darkness.
@@ -906,15 +1145,20 @@
 
 /obj/item/flashlight/flashdark/update_brightness()
 	. = ..()
+<<<<<<< HEAD
 	if(on)
 		set_light(l_outer_range = dark_light_outer_range, l_power = dark_light_power)
 	else
 		set_light(0)
+=======
+	set_light(dark_light_range, dark_light_power)
+>>>>>>> tg-pr-88929
 
 //type and subtypes spawned and used to give some eyes lights,
 /obj/item/flashlight/eyelight
 	name = "eyelight"
 	desc = "This shouldn't exist outside of someone's head, how are you seeing this?"
+<<<<<<< HEAD
 	light_system = OVERLAY_LIGHT
 	light_outer_range = 15
 	light_power = 1
@@ -935,10 +1179,22 @@
 	light_outer_range = 4
 	light_power = 2
 
+=======
+	obj_flags = CONDUCTS_ELECTRICITY
+	item_flags = DROPDEL
+	actions_types = list()
+
+/obj/item/flashlight/eyelight/glow
+	light_system = OVERLAY_LIGHT_BEAM
+	light_range = 4
+	light_power = 2
+
+>>>>>>> tg-pr-88929
 #undef FAILURE
 #undef SUCCESS
 #undef NO_FUEL
 #undef ALREADY_LIT
+<<<<<<< HEAD
 
 #define SLOWDOWN_ON 1
 
@@ -1063,3 +1319,5 @@
 ///Pre-core activated one for admin spawning.
 /obj/item/flashlight/lamp/space_bubble/preactivated
 	installed_pyro_core = TRUE
+=======
+>>>>>>> tg-pr-88929

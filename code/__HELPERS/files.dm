@@ -5,7 +5,10 @@
  */
 GLOBAL_VAR_INIT(fileaccess_timer, 0)
 
+<<<<<<< HEAD
 /* monkestation edit: replaced in [monkestation\code\__HELPERS\files.dm]
+=======
+>>>>>>> tg-pr-88929
 /client/proc/browse_files(root_type=BROWSE_ROOT_ALL_LOGS, max_iterations=10, list/valid_extensions=list("txt","log","htm", "html", "gz", "json"))
 	// wow why was this ever a parameter
 	var/root = "data/logs/"

@@ -41,9 +41,15 @@
 			if(!field || !(field in target?.vars))
 				return FALSE
 
+<<<<<<< HEAD
 			var/value = reject_bad_name(params["value"], allow_numbers = TRUE, max_length = MAX_BROADCAST_LEN, strict = TRUE, cap_after_symbols = FALSE) || "Unknown"
 			investigate_log("[key_name(user)] changed the field: \"[field]\" with value: \"[target.vars[field]]\" to new value: \"[value]\"", INVESTIGATE_RECORDS)
 			target.vars[field] = value
+=======
+			var/value = trim(params["value"], MAX_BROADCAST_LEN)
+			investigate_log("[key_name(user)] changed the field: \"[field]\" with value: \"[target.vars[field]]\" to new value: \"[value || "Unknown"]\"", INVESTIGATE_RECORDS)
+			target.vars[field] = value || "Unknown"
+>>>>>>> tg-pr-88929
 
 			return TRUE
 
@@ -57,7 +63,11 @@
 
 			expunge_record_info(target)
 			balloon_alert(user, "record expunged")
+<<<<<<< HEAD
 			playsound(src, 'sound/machines/terminal_eject.ogg', 70, TRUE)
+=======
+			playsound(src, 'sound/machines/terminal/terminal_eject.ogg', 70, TRUE)
+>>>>>>> tg-pr-88929
 			investigate_log("[key_name(user)] expunged the record of [target.name].", INVESTIGATE_RECORDS)
 
 			return TRUE
@@ -69,7 +79,11 @@
 
 		if("logout")
 			balloon_alert(user, "logged out")
+<<<<<<< HEAD
 			playsound(src, 'sound/machines/terminal_off.ogg', 70, TRUE)
+=======
+			playsound(src, 'sound/machines/terminal/terminal_off.ogg', 70, TRUE)
+>>>>>>> tg-pr-88929
 			authenticated = FALSE
 
 			return TRUE
@@ -82,14 +96,22 @@
 
 			ui.close()
 			balloon_alert(user, "purging records...")
+<<<<<<< HEAD
 			playsound(src, 'sound/machines/terminal_alert.ogg', 70, TRUE)
+=======
+			playsound(src, 'sound/machines/terminal/terminal_alert.ogg', 70, TRUE)
+>>>>>>> tg-pr-88929
 
 			if(do_after(user, 5 SECONDS))
 				for(var/datum/record/crew/entry in GLOB.manifest.general)
 					expunge_record_info(entry)
 
 				balloon_alert(user, "records purged")
+<<<<<<< HEAD
 				playsound(src, 'sound/machines/terminal_off.ogg', 70, TRUE)
+=======
+				playsound(src, 'sound/machines/terminal/terminal_off.ogg', 70, TRUE)
+>>>>>>> tg-pr-88929
 				investigate_log("[key_name(user)] purged all records.", INVESTIGATE_RECORDS)
 			else
 				balloon_alert(user, "interrupted!")
@@ -100,21 +122,33 @@
 			if(!target)
 				return FALSE
 
+<<<<<<< HEAD
 			playsound(src, SFX_TERMINAL_TYPE, 50, TRUE)
 			update_preview(user, params["assigned_view"], target, ui.window)
+=======
+			update_preview(user, params["assigned_view"], target)
+>>>>>>> tg-pr-88929
 			return TRUE
 
 	return FALSE
 
 /// Creates a character preview view for the UI.
+<<<<<<< HEAD
 /obj/machinery/computer/records/proc/create_character_preview_view(mob/user, datum/tgui_window/window)
+=======
+/obj/machinery/computer/records/proc/create_character_preview_view(mob/user)
+>>>>>>> tg-pr-88929
 	var/assigned_view = USER_PREVIEW_ASSIGNED_VIEW(user.ckey)
 	if(user.client?.screen_maps[assigned_view])
 		return
 
 	var/atom/movable/screen/map_view/char_preview/new_view = new(null, src)
 	new_view.generate_view(assigned_view)
+<<<<<<< HEAD
 	new_view.display_to(user, window)
+=======
+	new_view.display_to(user)
+>>>>>>> tg-pr-88929
 	return new_view
 
 /// Takes a record and updates the character preview view to match it.
@@ -134,48 +168,30 @@
 /obj/machinery/computer/records/proc/expunge_record_info(datum/record/crew/target)
 	return
 
-/// Detects whether a user can use buttons on the machine
-/obj/machinery/computer/records/proc/has_auth(mob/user)
-	if(issilicon(user) || isAdminGhostAI(user)) // Silicons don't need to authenticate
-		return TRUE
-
-	if(!isliving(user))
-		return FALSE
-	var/mob/living/player = user
-
-	var/obj/item/card/auth = player.get_idcard(TRUE)
-	if(!auth)
-		return FALSE
-	var/list/access = auth.GetAccess()
-	if(!check_access_list(access))
-		return FALSE
-
-	return TRUE
-
 /// Inserts a new record into GLOB.manifest.general. Requires a photo to be taken.
 /obj/machinery/computer/records/proc/insert_new_record(mob/user, obj/item/photo/mugshot)
 	if(!mugshot || !is_operational || !user.can_perform_action(src, ALLOW_SILICON_REACH))
 		return FALSE
 
-	if(!authenticated && !has_auth(user))
+	if(!authenticated && !allowed(user))
 		balloon_alert(user, "access denied")
-		playsound(src, 'sound/machines/terminal_error.ogg', 70, TRUE)
+		playsound(src, 'sound/machines/terminal/terminal_error.ogg', 70, TRUE)
 		return FALSE
 
-	if(mugshot.picture.psize_x > world.icon_size || mugshot.picture.psize_y > world.icon_size)
+	if(mugshot.picture.psize_x > ICON_SIZE_X || mugshot.picture.psize_y > ICON_SIZE_Y)
 		balloon_alert(user, "photo too large!")
-		playsound(src, 'sound/machines/terminal_error.ogg', 70, TRUE)
+		playsound(src, 'sound/machines/terminal/terminal_error.ogg', 70, TRUE)
 		return FALSE
 
 	var/trimmed = copytext(mugshot.name, 9, MAX_NAME_LEN) // Remove "photo - "
-	var/name = tgui_input_text(user, "Enter the name of the new record.", "New Record", trimmed, MAX_NAME_LEN)
+	var/name = tgui_input_text(user, "Enter the name of the new record.", "New Record", trimmed, max_length = MAX_NAME_LEN)
 	if(!name || !is_operational || !user.can_perform_action(src, ALLOW_SILICON_REACH) || !mugshot || QDELETED(mugshot) || QDELETED(src))
 		return FALSE
 
 	new /datum/record/crew(name = name, character_appearance = mugshot.picture.picture_image)
 
 	balloon_alert(user, "record created")
-	playsound(src, 'sound/machines/terminal_insert_disc.ogg', 70, TRUE)
+	playsound(src, 'sound/machines/terminal/terminal_insert_disc.ogg', 70, TRUE)
 
 	qdel(mugshot)
 
@@ -186,12 +202,12 @@
 	if(!user.can_perform_action(src, ALLOW_SILICON_REACH) || !is_operational)
 		return FALSE
 
-	if(!has_auth(user))
+	if(!allowed(user))
 		balloon_alert(user, "access denied")
-		playsound(src, 'sound/machines/terminal_error.ogg', 70, TRUE)
+		playsound(src, 'sound/machines/terminal/terminal_error.ogg', 70, TRUE)
 		return FALSE
 
 	balloon_alert(user, "logged in")
-	playsound(src, 'sound/machines/terminal_on.ogg', 70, TRUE)
+	playsound(src, 'sound/machines/terminal/terminal_on.ogg', 70, TRUE)
 
 	return TRUE

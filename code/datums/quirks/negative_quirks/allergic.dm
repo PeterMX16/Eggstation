@@ -7,23 +7,38 @@
 	lose_text = span_notice("You feel your immune system phase back into perfect shape.")
 	medical_record_text = "Patient's immune system responds violently to certain chemicals."
 	hardcore_value = 3
+<<<<<<< HEAD
 	quirk_flags = QUIRK_HUMAN_ONLY | QUIRK_PROCESSES
 	mail_goodies = list(/obj/item/reagent_containers/hypospray/medipen) // epinephrine medipen stops allergic reactions
 	no_process_traits = list(TRAIT_STASIS)
+=======
+	quirk_flags = QUIRK_HUMAN_ONLY|QUIRK_PROCESSES
+	mail_goodies = list(/obj/item/reagent_containers/hypospray/medipen) // epinephrine medipen stops allergic reactions
+>>>>>>> tg-pr-88929
 	var/list/allergies = list()
 	var/list/blacklist = list(
 		/datum/reagent/medicine/c2,
 		/datum/reagent/medicine/epinephrine,
 		/datum/reagent/medicine/adminordrazine,
+<<<<<<< HEAD
+=======
+		/datum/reagent/medicine/adminordrazine/quantum_heal,
+>>>>>>> tg-pr-88929
 		/datum/reagent/medicine/omnizine/godblood,
 		/datum/reagent/medicine/cordiolis_hepatico,
 		/datum/reagent/medicine/synaphydramine,
 		/datum/reagent/medicine/diphenhydramine,
+<<<<<<< HEAD
 		/datum/reagent/medicine/changelingadrenaline,
 		/datum/reagent/medicine/spaceacillin
 	)
 	var/allergy_string
 	species_blacklist = list(SPECIES_IPC)
+=======
+		/datum/reagent/medicine/sansufentanyl
+		)
+	var/allergy_string
+>>>>>>> tg-pr-88929
 
 /datum/quirk/item_quirk/allergic/add_unique(client/client_source)
 	var/list/chem_list = subtypesof(/datum/reagent/medicine) - blacklist
@@ -47,18 +62,47 @@
 	to_chat(quirk_holder, span_boldnotice("You are allergic to [allergy_string], make sure not to consume any of these!"))
 
 /datum/quirk/item_quirk/allergic/process(seconds_per_tick)
+<<<<<<< HEAD
 	var/mob/living/carbon/carbon_quirk_holder = quirk_holder
+=======
+	if(!iscarbon(quirk_holder))
+		return
+
+	if(HAS_TRAIT(quirk_holder, TRAIT_STASIS))
+		return
+
+	if(quirk_holder.stat == DEAD)
+		return
+
+	var/mob/living/carbon/carbon_quirk_holder = quirk_holder
+	//Just halts the progression, I'd suggest you run to medbay asap to get it fixed
+	if(carbon_quirk_holder.reagents.has_reagent(/datum/reagent/medicine/epinephrine))
+		for(var/allergy in allergies)
+			var/datum/reagent/instantiated_med = carbon_quirk_holder.reagents.has_reagent(allergy)
+			if(!instantiated_med)
+				continue
+			instantiated_med.reagent_removal_skip_list |= ALLERGIC_REMOVAL_SKIP
+		return //block damage so long as epinephrine exists
+
+>>>>>>> tg-pr-88929
 	for(var/allergy in allergies)
 		var/datum/reagent/instantiated_med = carbon_quirk_holder.reagents.has_reagent(allergy)
 		if(!instantiated_med)
 			continue
+<<<<<<< HEAD
 		//Just halts the progression, I'd suggest you run to medbay asap to get it fixed
 		if(carbon_quirk_holder.reagents.has_reagent(/datum/reagent/medicine/epinephrine))
 			instantiated_med.reagent_removal_skip_list |= ALLERGIC_REMOVAL_SKIP
 			return //intentionally stops the entire proc so we avoid the organ damage after the loop
+=======
+>>>>>>> tg-pr-88929
 		instantiated_med.reagent_removal_skip_list -= ALLERGIC_REMOVAL_SKIP
 		carbon_quirk_holder.adjustToxLoss(3 * seconds_per_tick)
 		carbon_quirk_holder.reagents.add_reagent(/datum/reagent/toxin/histamine, 3 * seconds_per_tick)
 		if(SPT_PROB(10, seconds_per_tick))
+<<<<<<< HEAD
 			carbon_quirk_holder.vomit()
+=======
+			carbon_quirk_holder.vomit(VOMIT_CATEGORY_DEFAULT)
+>>>>>>> tg-pr-88929
 			carbon_quirk_holder.adjustOrganLoss(pick(ORGAN_SLOT_BRAIN,ORGAN_SLOT_APPENDIX,ORGAN_SLOT_LUNGS,ORGAN_SLOT_HEART,ORGAN_SLOT_LIVER,ORGAN_SLOT_STOMACH),10)

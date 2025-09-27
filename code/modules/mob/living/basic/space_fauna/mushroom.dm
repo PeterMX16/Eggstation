@@ -16,11 +16,18 @@
 	speed = 1
 	melee_damage_lower = 4
 	melee_damage_upper = 4
+<<<<<<< HEAD
 	health = 60
 	maxHealth = 60
 	attack_verb_continuous = "chomps"
 	attack_verb_simple = "chomp"
 	attack_sound = 'sound/weapons/bite.ogg'
+=======
+	maxHealth = 60
+	attack_verb_continuous = "chomps"
+	attack_verb_simple = "chomp"
+	attack_sound = 'sound/items/weapons/bite.ogg'
+>>>>>>> tg-pr-88929
 	attack_vis_effect = ATTACK_EFFECT_BITE
 
 	faction = list(FACTION_MUSHROOM)
@@ -54,7 +61,10 @@
 	health = maxHealth
 	AddElement(/datum/element/swabable, CELL_LINE_TABLE_WALKING_MUSHROOM, CELL_VIRUS_TABLE_GENERIC_MOB, 1, 5)
 	ADD_TRAIT(src, TRAIT_VENTCRAWLER_ALWAYS, INNATE_TRAIT)
+<<<<<<< HEAD
 	RegisterSignal(src, COMSIG_HOSTILE_POST_ATTACKINGTARGET, PROC_REF(on_attacked_target))
+=======
+>>>>>>> tg-pr-88929
 
 /datum/ai_controller/basic_controller/mushroom
 	blackboard = list(
@@ -79,6 +89,7 @@
 
 /datum/ai_planning_subtree/find_and_hunt_target/mushroom_food
 	target_key = BB_LOW_PRIORITY_HUNTING_TARGET
+<<<<<<< HEAD
 	hunting_behavior = /datum/ai_behavior/hunt_target/unarmed_attack_target/mushroom_food
 	hunt_targets = list(/obj/item/food/grown/mushroom)
 	hunt_range = 6
@@ -88,6 +99,12 @@
 	hunt_cooldown = 15 SECONDS
 	always_reset_target = TRUE
 
+=======
+	hunting_behavior = /datum/ai_behavior/hunt_target/interact_with_target/reset_target
+	hunt_targets = list(/obj/item/food/grown/mushroom)
+	hunt_range = 6
+
+>>>>>>> tg-pr-88929
 /mob/living/basic/mushroom/UnarmedAttack(atom/attack_target, proximity_flag, list/modifiers)
 	. = ..()
 	if(!.)
@@ -100,6 +117,7 @@
 		recover(attack_target)
 		return TRUE
 
+<<<<<<< HEAD
 /mob/living/basic/mushroom/proc/on_attacked_target(mob/living/basic/attacker, atom/target)
 	SIGNAL_HANDLER
 
@@ -114,6 +132,19 @@
 
 	victim.faint_ticker++
 	visible_message(span_notice("[src] chews a bit on [victim]."))
+=======
+/mob/living/basic/mushroom/melee_attack(mob/living/basic/mushroom/target, list/modifiers, ignore_cooldown = FALSE)
+	. = ..()
+	if(!.)
+		return FALSE
+	if(!istype(target) || target.stat != DEAD)
+		return
+	if(target.faint_ticker >= 3)
+		consume_mushroom(target)
+		return
+	target.faint_ticker++
+	visible_message(span_notice("[src] chews a bit on [target]."))
+>>>>>>> tg-pr-88929
 
 /mob/living/basic/mushroom/proc/consume_mushroom(mob/living/basic/mushroom/consumed)
 	visible_message(span_warning("[src] devours [consumed]!"))
@@ -174,7 +205,11 @@
 	if(istype(mush, /obj/item/food/grown/mushroom))
 		recover(mush)
 		return
+<<<<<<< HEAD
 	if(mush.force || (user.istate & ISTATE_HARM))
+=======
+	if(mush.force || user.combat_mode)
+>>>>>>> tg-pr-88929
 		bruised = TRUE
 	return ..()
 

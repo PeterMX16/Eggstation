@@ -10,8 +10,13 @@
 	to_chat(owner, span_boldwarning("You feel filled with a rage that is not your own!"))
 	return TRUE
 
+<<<<<<< HEAD
 /datum/status_effect/amok/tick()
 	var/prev_combat_mode = (owner.istate & ISTATE_HARM)
+=======
+/datum/status_effect/amok/tick(seconds_between_ticks)
+	var/prev_combat_mode = owner.combat_mode
+>>>>>>> tg-pr-88929
 	owner.set_combat_mode(TRUE)
 
 	// If we're holding a gun, expand the range a bit.
@@ -64,7 +69,7 @@
 	to_chat(owner, span_userdanger("Your body starts to break apart!"))
 	return TRUE
 
-/datum/status_effect/corrosion_curse/tick()
+/datum/status_effect/corrosion_curse/tick(seconds_between_ticks)
 	. = ..()
 	if(!ishuman(owner))
 		return
@@ -72,7 +77,7 @@
 	var/chance = rand(0, 100)
 	switch(chance)
 		if(0 to 10)
-			human_owner.vomit()
+			human_owner.vomit(VOMIT_CATEGORY_DEFAULT)
 		if(20 to 30)
 			human_owner.set_timed_status_effect(100 SECONDS, /datum/status_effect/dizziness, only_if_higher = TRUE)
 			human_owner.set_timed_status_effect(100 SECONDS, /datum/status_effect/jitter, only_if_higher = TRUE)
@@ -177,6 +182,11 @@
 	REMOVE_TRAIT(owner, TRAIT_IGNORESLOWDOWN, TRAIT_STATUS_EFFECT(id))
 	owner.AdjustUnconscious(20 SECONDS, ignore_canstun = TRUE)
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> tg-pr-88929
 /// Used by moon heretics to make people mad
 /datum/status_effect/moon_converted
 	id = "moon converted"
@@ -202,7 +212,11 @@
 	moon_insanity_overlay = mutable_appearance(effect_icon, effect_icon_state, ABOVE_MOB_LAYER)
 
 /datum/status_effect/moon_converted/Destroy()
+<<<<<<< HEAD
 	moon_insanity_overlay = null
+=======
+	QDEL_NULL(moon_insanity_overlay)
+>>>>>>> tg-pr-88929
 	return ..()
 
 /datum/status_effect/moon_converted/on_apply()
@@ -214,7 +228,11 @@
 	to_chat(owner, span_hypnophrase(("THE MOON SHOWS YOU THE TRUTH AND THE LIARS WISH TO COVER IT, SLAY THEM ALL!!!</span>")))
 	owner.balloon_alert(owner, "they lie..THEY ALL LIE!!!")
 	owner.AdjustUnconscious(7 SECONDS, ignore_canstun = FALSE)
+<<<<<<< HEAD
 	ADD_TRAIT(owner, TRAIT_MUTE, TRAIT_STATUS_EFFECT(id))
+=======
+	ADD_TRAIT(owner, TRAIT_MUTE, REF(src))
+>>>>>>> tg-pr-88929
 	RegisterSignal(owner, COMSIG_ATOM_UPDATE_OVERLAYS, PROC_REF(update_owner_overlay))
 	owner.update_appearance(UPDATE_OVERLAYS)
 	owner.cause_hallucination(/datum/hallucination/delusion/preset/moon, "[id] status effect", duration = duration, affects_us = FALSE, affects_others = TRUE)
@@ -240,8 +258,13 @@
 
 /datum/status_effect/moon_converted/on_remove()
 	// Span warning and unconscious so they realize they aren't evil anymore
+<<<<<<< HEAD
 	to_chat(owner, span_warning("Your mind is cleared from the effects of The Mansus, your alligiences are as they were before."))
 	REMOVE_TRAIT(owner, TRAIT_MUTE, TRAIT_STATUS_EFFECT(id))
+=======
+	to_chat(owner, span_warning("Your mind is cleared from the effect of the mansus, your alligiences are as they were before"))
+	REMOVE_TRAIT(owner, TRAIT_MUTE, REF(src))
+>>>>>>> tg-pr-88929
 	owner.AdjustUnconscious(5 SECONDS, ignore_canstun = FALSE)
 	owner.log_message("[owner] is no longer insane.", LOG_GAME)
 	UnregisterSignal(owner, COMSIG_ATOM_UPDATE_OVERLAYS)

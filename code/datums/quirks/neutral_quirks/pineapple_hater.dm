@@ -15,13 +15,21 @@
 	)
 
 /datum/quirk/pineapple_hater/add(client/client_source)
+<<<<<<< HEAD
 	var/obj/item/organ/internal/tongue/tongue = quirk_holder.get_organ_slot(ORGAN_SLOT_TONGUE)
+=======
+	var/obj/item/organ/tongue/tongue = quirk_holder.get_organ_slot(ORGAN_SLOT_TONGUE)
+>>>>>>> tg-pr-88929
 	if(!tongue)
 		return
 	tongue.disliked_foodtypes |= PINEAPPLE
 
 /datum/quirk/pineapple_hater/remove()
+<<<<<<< HEAD
 	var/obj/item/organ/internal/tongue/tongue = quirk_holder.get_organ_slot(ORGAN_SLOT_TONGUE)
+=======
+	var/obj/item/organ/tongue/tongue = quirk_holder.get_organ_slot(ORGAN_SLOT_TONGUE)
+>>>>>>> tg-pr-88929
 	if(!tongue)
 		return
 	tongue.disliked_foodtypes = initial(tongue.disliked_foodtypes)

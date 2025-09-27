@@ -1,5 +1,18 @@
-import { BooleanLike } from 'common/react';
+import {
+  Button,
+  Collapsible,
+  Dimmer,
+  Flex,
+  Icon,
+  LabeledList,
+  NoticeBox,
+  Section,
+  Stack,
+} from 'tgui-core/components';
+import { BooleanLike } from 'tgui-core/react';
+
 import { useBackend } from '../backend';
+<<<<<<< HEAD
 import {
   Button,
   Collapsible,
@@ -11,6 +24,8 @@ import {
   Section,
   Stack,
 } from '../components';
+=======
+>>>>>>> tg-pr-88929
 import { Window } from '../layouts';
 
 const lawtype_to_color = {
@@ -301,7 +316,7 @@ export const Lawpanel = (props) => {
   const { all_silicons } = data;
 
   return (
-    <Window title="Law Panel" theme="admin" width="800" height="600">
+    <Window title="Law Panel" theme="admin" width={800} height={600}>
       <Window.Content>
         <Section
           fill

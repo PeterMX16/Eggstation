@@ -1,6 +1,10 @@
 /obj/effect/decal/cleanable
 	gender = PLURAL
+<<<<<<< HEAD
 	layer = FLOOR_CLEAN_LAYER
+=======
+	layer = CLEANABLE_FLOOR_OBJECT_LAYER
+>>>>>>> tg-pr-88929
 	var/list/random_icon_states = null
 	///I'm sorry but cleanable/blood code is ass, and so is blood_DNA
 	var/blood_state = ""
@@ -15,6 +19,19 @@
 	var/datum/reagent/decal_reagent
 	///The amount of reagent this decal holds, if decal_reagent is defined
 	var/reagent_amount = 0
+	/// If TRUE, gains TRAIT_MOPABLE on init - thus this cleanable will cleaned if its turf is cleaned
+	/// Set to FALSE for things that hang high on the walls or things which generally shouldn't be mopped up
+	var/is_mopped = TRUE
+
+/// Creates a cleanable decal on a turf
+/// Use this if your decal is one of one, and thus we should not spawn it if it's there already
+/// Returns either the existing cleanable, the one we created, or null if we can't spawn on that turf
+/turf/proc/spawn_unique_cleanable(obj/effect/decal/cleanable/cleanable_type)
+	// There is no need to spam unique cleanables, they don't stack and it just chews cpu
+	var/obj/effect/decal/cleanable/existing = locate(cleanable_type) in src
+	if(existing)
+		return existing
+	return new cleanable_type(src)
 
 	var/list/diseases = list()
 
@@ -31,6 +48,9 @@
 				if (replace_decal(C))
 					handle_merge_decal(C)
 					return INITIALIZE_HINT_QDEL
+
+	if(is_mopped)
+		ADD_TRAIT(src, TRAIT_MOPABLE, INNATE_TRAIT)
 
 	if(LAZYLEN(diseases))
 
@@ -76,6 +96,7 @@
 			if(attacking_item.reagents.total_volume >= attacking_item.reagents.maximum_volume)
 				to_chat(user, span_notice("[attacking_item] is full!"))
 				return
+<<<<<<< HEAD
 			to_chat(user, span_notice("You scoop up [src] into [attacking_item]!"))
 			reagents.trans_to(attacking_item, reagents.total_volume, transfered_by = user)
 			if(!reagents.total_volume) //scooped up all of it
@@ -83,6 +104,15 @@
 				return
 	if(attacking_item.get_temperature()) //todo: make heating a reagent holder proc
 		if(istype(attacking_item, /obj/item/clothing/mask/cigarette))
+=======
+			to_chat(user, span_notice("You scoop up [src] into [W]!"))
+			reagents.trans_to(W, reagents.total_volume, transferred_by = user)
+			if(!reagents.total_volume) //scooped up all of it
+				qdel(src)
+				return
+	if(W.get_temperature()) //todo: make heating a reagent holder proc
+		if(istype(W, /obj/item/cigarette))
+>>>>>>> tg-pr-88929
 			return
 		var/hotness = attacking_item.get_temperature()
 		reagents?.expose_temperature(hotness)

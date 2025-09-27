@@ -4,7 +4,11 @@
  * This sets up a listening relationship such that when the target object emits a signal
  * the source datum this proc is called upon, will receive a callback to the given proctype
  * Use PROC_REF(procname), TYPE_PROC_REF(type,procname) or GLOBAL_PROC_REF(procname) macros to validate the passed in proc at compile time.
+<<<<<<< HEAD
  * PROC_REF for procs defined on current type or it's ancestors, TYPE_PROC_REF for procs defined on unrelated type and GLOBAL_PROC_REF for global procs.
+=======
+ * PROC_REF for procs defined on current type or its ancestors, TYPE_PROC_REF for procs defined on unrelated type and GLOBAL_PROC_REF for global procs.
+>>>>>>> tg-pr-88929
  * Return values from procs registered must be a bitfield
  *
  * Arguments:
@@ -38,7 +42,11 @@
 
 	if(exists)
 		if(!override)
+<<<<<<< HEAD
 			var/override_message = "[signal_type] overridden. Use override = TRUE to suppress this warning.\nTarget: [target] ([target.type]) Proc: [proctype]"
+=======
+			var/override_message = "[signal_type] overridden. Use override = TRUE to suppress this warning.\nTarget: [target] ([target.type]) Existing Proc: [exists] New Proc: [proctype]"
+>>>>>>> tg-pr-88929
 			log_signal(override_message)
 			stack_trace(override_message)
 		return
@@ -69,7 +77,11 @@
  * * sig_typeor_types Signal string key or list of signal keys to stop listening to specifically
  */
 /datum/proc/UnregisterSignal(datum/target, sig_type_or_types)
+<<<<<<< HEAD
 	var/list/lookup = target?._listen_lookup
+=======
+	var/list/lookup = target._listen_lookup
+>>>>>>> tg-pr-88929
 	if(!_signal_procs || !_signal_procs[target] || !lookup)
 		return
 	if(!islist(sig_type_or_types))

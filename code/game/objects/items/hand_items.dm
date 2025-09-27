@@ -41,7 +41,7 @@
 
 	if(!istype(sucker) || !in_range(owner, sucker))
 		return
-	addtimer(CALLBACK(src, PROC_REF(waitASecond), owner, sucker), 4)
+	addtimer(CALLBACK(src, PROC_REF(waitASecond), owner, sucker), 0.4 SECONDS)
 
 /// Stage 2: Fear sets in
 /obj/item/hand_item/circlegame/proc/waitASecond(mob/living/owner, mob/living/sucker)
@@ -50,10 +50,10 @@
 
 	if(owner == sucker) // big mood
 		to_chat(owner, span_danger("Wait a second... you just looked at your own [src.name]!"))
-		addtimer(CALLBACK(src, PROC_REF(selfGottem), owner), 10)
+		addtimer(CALLBACK(src, PROC_REF(selfGottem), owner), 1 SECONDS)
 	else
 		to_chat(sucker, span_danger("Wait a second... was that a-"))
-		addtimer(CALLBACK(src, PROC_REF(GOTTEM), owner, sucker), 6)
+		addtimer(CALLBACK(src, PROC_REF(GOTTEM), owner, sucker), 0.6 SECONDS)
 
 /// Stage 3A: We face our own failures
 /obj/item/hand_item/circlegame/proc/selfGottem(mob/living/owner)
@@ -143,7 +143,11 @@
 		affix_desc = "on [target.p_their()] sensitive antennae"
 		affix_desc_target = "on your highly sensitive antennae"
 		brutal_noogie = TRUE
+<<<<<<< HEAD
 	if(user.dna?.check_mutation(/datum/mutation/hulk))
+=======
+	if(HAS_TRAIT(user, TRAIT_HULK))
+>>>>>>> tg-pr-88929
 		prefix_desc = "sickeningly brutal"
 		brutal_noogie = TRUE
 
@@ -178,7 +182,11 @@
 	var/damage = rand(1, 5)
 	if(HAS_TRAIT(target, TRAIT_ANTENNAE))
 		damage += rand(3,7)
+<<<<<<< HEAD
 	if(user.dna?.check_mutation(/datum/mutation/hulk))
+=======
+	if(HAS_TRAIT(user, TRAIT_HULK))
+>>>>>>> tg-pr-88929
 		damage += rand(3,7)
 
 	if(damage >= 5)
@@ -186,8 +194,13 @@
 
 	log_combat(user, target, "given a noogie to", addition = "([damage] brute before armor)")
 	target.apply_damage(damage, BRUTE, BODY_ZONE_HEAD)
+<<<<<<< HEAD
 	user.stamina.adjust(-iteration + 5)
 	playsound(get_turf(user), pick('sound/effects/rustle1.ogg','sound/effects/rustle2.ogg','sound/effects/rustle3.ogg','sound/effects/rustle4.ogg','sound/effects/rustle5.ogg'), 50)
+=======
+	user.adjustStaminaLoss(iteration + 5)
+	playsound(get_turf(user), SFX_RUSTLE, 50)
+>>>>>>> tg-pr-88929
 
 	if(prob(33))
 		user.visible_message(span_danger("[user] continues noogie'ing [target]!"), span_warning("You continue giving [target] a noogie!"), vision_distance=COMBAT_MESSAGE_RANGE, ignored_mobs=target)
@@ -218,10 +231,11 @@
 
 /obj/item/hand_item/slapper/attack(mob/living/slapped, mob/living/carbon/human/user)
 	SEND_SIGNAL(user, COMSIG_LIVING_SLAP_MOB, slapped)
+	SEND_SIGNAL(slapped, COMSIG_LIVING_SLAPPED, user)
 
-	if(ishuman(slapped))
-		var/mob/living/carbon/human/human_slapped = slapped
-		SEND_SIGNAL(human_slapped, COMSIG_ORGAN_WAG_TAIL, FALSE)
+	if(iscarbon(slapped))
+		var/mob/living/carbon/potential_tailed = slapped
+		potential_tailed.unwag_tail()
 	user.do_attack_animation(slapped)
 
 	var/slap_volume = 50
@@ -241,7 +255,7 @@
 		)
 		to_chat(slapped, span_userdanger("You see [user] scoff and pull back [user.p_their()] arm, then suddenly you're on the ground with an ungodly ringing in your ears!"))
 		slap_volume = 120
-		SEND_SOUND(slapped, sound('sound/weapons/flash_ring.ogg'))
+		SEND_SOUND(slapped, sound('sound/items/weapons/flash_ring.ogg'))
 		shake_camera(slapped, 2, 2)
 		slapped.Paralyze(2.5 SECONDS)
 		slapped.adjust_confusion(7 SECONDS)
@@ -263,8 +277,8 @@
 				)
 
 				// Worse than just help intenting people.
-				slapped.AdjustSleeping(-75)
-				slapped.AdjustUnconscious(-50)
+				slapped.AdjustSleeping(-7.5 SECONDS)
+				slapped.AdjustUnconscious(-5 SECONDS)
 
 			else
 				user.visible_message(
@@ -272,6 +286,12 @@
 					span_notice("You slap [slapped] in the face!"),
 					span_hear("You hear a slap."),
 				)
+	else if(user.zone_selected == BODY_ZONE_L_ARM || user.zone_selected == BODY_ZONE_R_ARM)
+		user.visible_message(
+			span_danger("[user] gives [slapped] a slap on the wrist!"),
+			span_notice("You give [slapped] a slap on the wrist!"),
+			span_hear("You hear a slap."),
+		)
 	else
 		user.visible_message(
 			//MONKESTATION EDIT START
@@ -283,6 +303,7 @@
 			span_hear("You hear a [no_harm?"light ":""]slap."),
 			//MONKESTATION EDIT END
 		)
+<<<<<<< HEAD
 	playsound(slapped, 'sound/weapons/slap.ogg', slap_volume, TRUE, -1)
 	//MONKESTATION EDIT START
 	if (feeble && !no_harm)
@@ -297,6 +318,9 @@
 			span_userdanger("[user]'s slap really hurt!"),
 		)
 	//MONKESTATION EDIT END
+=======
+	playsound(slapped, 'sound/items/weapons/slap.ogg', slap_volume, TRUE, -1)
+>>>>>>> tg-pr-88929
 	return
 
 /obj/item/hand_item/slapper/pre_attack_secondary(atom/target, mob/living/user, params)
@@ -510,8 +534,8 @@
 	blown_kiss.original = target
 	blown_kiss.fired_from = user
 	blown_kiss.firer = user // don't hit ourself that would be really annoying
-	blown_kiss.impacted = list(user = TRUE) // just to make sure we don't hit the wearer
-	blown_kiss.preparePixelProjectile(target, user)
+	blown_kiss.impacted = list(WEAKREF(user) = TRUE) // just to make sure we don't hit the wearer
+	blown_kiss.aim_projectile(target, user)
 	blown_kiss.fire()
 	qdel(src)
 	return ITEM_INTERACT_SUCCESS
@@ -532,13 +556,13 @@
 	to_chat(taker, span_nicegreen("[offerer] gives you \a [blown_kiss][cheek_kiss ? " on the cheek" : ""]!"))
 	offerer.face_atom(taker)
 	taker.face_atom(offerer)
-	offerer.do_item_attack_animation(taker, used_item=src)
+	offerer.do_item_attack_animation(taker, used_item = src)
 	//We're still firing a shot here because I don't want to deal with some weird edgecase where direct impacting them with the projectile causes it to freak out because there's no angle or something
 	blown_kiss.original = taker
 	blown_kiss.fired_from = offerer
 	blown_kiss.firer = offerer // don't hit ourself that would be really annoying
-	blown_kiss.impacted = list(offerer = TRUE) // just to make sure we don't hit the wearer
-	blown_kiss.preparePixelProjectile(taker, offerer)
+	blown_kiss.impacted = list(WEAKREF(offerer) = TRUE) // just to make sure we don't hit the wearer
+	blown_kiss.aim_projectile(taker, offerer)
 	blown_kiss.suppressed = SUPPRESSED_VERY // this also means it's a direct offer
 	blown_kiss.fire()
 	qdel(src)
@@ -556,14 +580,23 @@
 	color = COLOR_SYNDIE_RED
 	kiss_type = /obj/projectile/kiss/syndie
 
+<<<<<<< HEAD
+=======
+/obj/item/hand_item/kisser/ink
+	name = "ink kiss"
+	desc = "Is that a blot of ink in your pocket or are you just happy to see me?"
+	color = COLOR_ALMOST_BLACK
+	kiss_type = /obj/projectile/kiss/ink
+
+>>>>>>> tg-pr-88929
 /obj/projectile/kiss
 	name = "kiss"
 	icon = 'icons/mob/simple/animal.dmi'
 	icon_state = "heart"
-	hitsound = 'sound/effects/kiss.ogg'
-	hitsound_wall = 'sound/effects/kiss.ogg'
+	hitsound = 'sound/effects/emotes/kiss.ogg'
+	hitsound_wall = 'sound/effects/emotes/kiss.ogg'
 	pass_flags = PASSTABLE | PASSGLASS | PASSGRILLE
-	speed = 1.6
+	speed = 0.66
 	damage_type = BRUTE
 	damage = 0 // love can't actually hurt you
 	armour_penetration = 100 // but if it could, it would cut through even the thickest plate
@@ -579,7 +612,11 @@
 
 	return ..()
 
+<<<<<<< HEAD
 /obj/projectile/kiss/Impact(atom/A)
+=======
+/obj/projectile/kiss/impact(atom/A)
+>>>>>>> tg-pr-88929
 	def_zone = BODY_ZONE_HEAD // let's keep it PG, people
 
 	if(damage > 0 || !isliving(A)) // if we do damage or we hit a nonliving thing, we don't have to worry about a harmless hit because we can't wrongly do damage anyway
@@ -653,9 +690,28 @@
 	if(!iscarbon(target))
 		return
 	var/mob/living/carbon/heartbreakee = target
-	var/obj/item/organ/internal/heart/dont_go_breakin_my_heart = heartbreakee.get_organ_slot(ORGAN_SLOT_HEART)
+	var/obj/item/organ/heart/dont_go_breakin_my_heart = heartbreakee.get_organ_slot(ORGAN_SLOT_HEART)
 	dont_go_breakin_my_heart.apply_organ_damage(999)
 
+<<<<<<< HEAD
+=======
+/obj/projectile/kiss/ink
+	name = "ink kiss"
+	color = COLOR_ALMOST_BLACK
+	damage = /obj/projectile/ink_spit::damage
+	damage_type = /obj/projectile/ink_spit::damage_type
+	armor_flag = /obj/projectile/ink_spit::armor_flag
+	armour_penetration = /obj/projectile/ink_spit::armour_penetration
+	impact_effect_type = /obj/projectile/ink_spit::impact_effect_type
+	hitsound = /obj/projectile/ink_spit::hitsound
+	hitsound_wall = /obj/projectile/ink_spit::hitsound_wall
+
+/obj/projectile/kiss/ink/on_hit(atom/target, blocked, pierce_hit)
+	. = ..()
+	var/obj/projectile/ink_spit/ink_spit =  new (target)
+	ink_spit.on_hit(target)
+
+>>>>>>> tg-pr-88929
 // Based on energy gun characteristics
 /obj/projectile/kiss/syndie
 	name = "syndie kiss"
@@ -705,7 +761,7 @@
 		to_chat(firer, span_warning("You've already blessed [target.name] with your heart and soul."))
 		return
 
-	var/amount_nutriment = target.reagents.get_multiple_reagent_amounts(typesof(/datum/reagent/consumable/nutriment))
+	var/amount_nutriment = target.reagents.get_reagent_amount(/datum/reagent/consumable/nutriment, type_check = REAGENT_PARENT_TYPE)
 	if(amount_nutriment <= 0)
 		to_chat(firer, span_warning("There's not enough nutrition in [target.name] for it to be a proper meal."))
 		return

@@ -34,12 +34,20 @@
 	do { \
 		if(mapload) { \
 			var/turf/spawn_turf = get_turf(src); \
+<<<<<<< HEAD
 			var/fixed_type = trim_directional_helper_suffix(type); \
 			if(is_station_level(spawn_turf?.z || 0)) { \
 				var/datum/required_item/existing_value = GLOB.required_map_items[fixed_type]; \
 				if(isnull(existing_value)) { \
 					var/datum/required_item/new_value = new(fixed_type, min, max); \
 					GLOB.required_map_items[fixed_type] = new_value; \
+=======
+			if(is_station_level(spawn_turf?.z || 0)) { \
+				var/datum/required_item/existing_value = GLOB.required_map_items[type]; \
+				if(isnull(existing_value)) { \
+					var/datum/required_item/new_value = new(type, min, max); \
+					GLOB.required_map_items[type] = new_value; \
+>>>>>>> tg-pr-88929
 				} else { \
 					existing_value.total_amount += 1; \
 				}; \

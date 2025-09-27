@@ -19,10 +19,15 @@
 
 /datum/station_goal/dna_vault/New()
 	..()
-	animal_count = rand(15,20) //might be too few given ~15 roundstart stationside ones
+	animal_count = rand(10,15) //might be too few given ~15 roundstart stationside ones
 	human_count = rand(round(0.75 * SSticker.totalPlayersReady) , SSticker.totalPlayersReady) // 75%+ roundstart population.
+<<<<<<< HEAD
 	//var/non_standard_plants = non_standard_plants_count()
 	plant_count = rand(8, 15) // monkestation edit: make the dna vault actually viable
+=======
+	var/non_standard_plants = non_standard_plants_count()
+	plant_count = rand(round(0.2 * non_standard_plants),round(0.4 * non_standard_plants))
+>>>>>>> tg-pr-88929
 
 /* monkestation removal
 /datum/station_goal/dna_vault/proc/non_standard_plants_count()
@@ -57,11 +62,10 @@
 /datum/station_goal/dna_vault/check_completion()
 	if(..())
 		return TRUE
-	for(var/obj/machinery/dna_vault/V in GLOB.machines)
+	for(var/obj/machinery/dna_vault/V as anything in SSmachines.get_machines_by_type_and_subtypes(/obj/machinery/dna_vault))
 		if(V.animal_dna.len >= animal_count && V.plant_dna.len >= plant_count && V.human_dna.len >= human_count)
 			return TRUE
 	return FALSE
-
 
 /obj/machinery/dna_vault
 	name = "DNA Vault"
@@ -104,12 +108,11 @@
 		F.parent = src
 		fillers += F
 
-	if(SSticker.mode)
-		var/datum/station_goal/dna_vault/dna_vault_goal = locate() in GLOB.station_goals
-		if (!isnull(dna_vault_goal))
-			animals_max = dna_vault_goal.animal_count
-			plants_max = dna_vault_goal.plant_count
-			dna_max = dna_vault_goal.human_count
+	var/datum/station_goal/dna_vault/dna_vault_goal = SSstation.get_station_goal(/datum/station_goal/dna_vault)
+	if(!isnull(dna_vault_goal))
+		animals_max = dna_vault_goal.animal_count
+		plants_max = dna_vault_goal.plant_count
+		dna_max = dna_vault_goal.human_count
 
 	return ..()
 

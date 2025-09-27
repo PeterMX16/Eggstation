@@ -52,6 +52,14 @@
 	/// full key we are bound to
 	var/full_key
 
+	/// full key we are bound to
+	var/full_key
+
+	/// Toggles whether this action is usable or not
+	var/action_disabled = FALSE
+	/// Can this action be shared with our rider?
+	var/can_be_shared = TRUE
+
 /datum/action/New(Target)
 	link_to(Target)
 
@@ -158,7 +166,7 @@
 /// Actually triggers the effects of the action.
 /// Called when the on-screen button is clicked, for example.
 /datum/action/proc/Trigger(trigger_flags)
-	if(!IsAvailable(feedback = TRUE))
+	if(!(trigger_flags & TRIGGER_FORCE_AVAILABLE) && !IsAvailable(feedback = TRUE))
 		return FALSE
 	if(SEND_SIGNAL(src, COMSIG_ACTION_TRIGGER, src) & COMPONENT_ACTION_BLOCK_TRIGGER)
 		return FALSE
@@ -322,8 +330,11 @@
  * force - whether an update is forced regardless of existing status
  */
 /datum/action/proc/update_button_status(atom/movable/screen/movable/action_button/current_button, force = FALSE)
+<<<<<<< HEAD
 	if(QDELETED(current_button))
 		return
+=======
+>>>>>>> tg-pr-88929
 	current_button.update_keybind_maptext(full_key)
 	if(IsAvailable())
 		current_button.color = rgb(255,255,255,255)
@@ -411,7 +422,7 @@
 	build_all_button_icons(update_flag, forced)
 
 /// A general use signal proc that reacts to an event and updates JUST our button's status
-/datum/action/proc/update_status_on_signal(datum/source)
+/datum/action/proc/update_status_on_signal(datum/source, new_stat, old_stat)
 	SIGNAL_HANDLER
 
 	build_all_button_icons(UPDATE_BUTTON_STATUS)
@@ -435,5 +446,9 @@
 		if(source.next_click > world.time)
 			return
 		else
+<<<<<<< HEAD
 			source.next_click = world.time + CLICK_CD_RANGE
+=======
+			source.next_click = world.time + CLICK_CD_ACTIVATE_ABILITY
+>>>>>>> tg-pr-88929
 	INVOKE_ASYNC(src, PROC_REF(Trigger))

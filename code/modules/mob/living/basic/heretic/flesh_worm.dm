@@ -20,7 +20,11 @@
 	pull_force = MOVE_FORCE_OVERPOWERING
 	mob_size = MOB_SIZE_HUGE
 	sentience_type = SENTIENCE_BOSS
+<<<<<<< HEAD
 	mob_biotypes = MOB_ORGANIC
+=======
+	mob_biotypes = MOB_ORGANIC|MOB_SPECIAL
+>>>>>>> tg-pr-88929
 	///Previous segment in the chain, we hold onto this purely to keep track of how long we currently are and to attach new growth to the back
 	var/mob/living/basic/heretic_summon/armsy/back
 	///How many arms do we have to eat to expand?
@@ -35,8 +39,13 @@
 /mob/living/basic/heretic_summon/armsy/Initialize(mapload, spawn_bodyparts = TRUE, worm_length = 6)
 	. = ..()
 	AddElement(/datum/element/wall_smasher, ENVIRONMENT_SMASH_RWALLS)
+<<<<<<< HEAD
 	AddElement(\
 		/datum/element/amputating_limbs,\
+=======
+	AddComponent(\
+		/datum/component/amputating_limbs,\
+>>>>>>> tg-pr-88929
 		surgery_time = 0 SECONDS,\
 		surgery_verb = "tears",\
 		minimum_stat = CONSCIOUS,\
@@ -56,7 +65,11 @@
 /mob/living/basic/heretic_summon/armsy/has_gravity(turf/gravity_turf)
 	return TRUE
 
+<<<<<<< HEAD
 /mob/living/basic/heretic_summon/armsy/can_be_pulled()
+=======
+/mob/living/basic/heretic_summon/armsy/can_be_pulled(user, force)
+>>>>>>> tg-pr-88929
 	return FALSE // The component does this but not on the head. We don't want the head to be pulled either.
 
 /mob/living/basic/heretic_summon/armsy/proc/build_tail(worm_length)
@@ -98,7 +111,11 @@
 	if(!istype(target, /obj/item/bodypart/arm))
 		return ..()
 	visible_message(span_warning("[src] devours [target]!"))
+<<<<<<< HEAD
 	playsound(src, 'sound/magic/demon_consume.ogg', 50, TRUE)
+=======
+	playsound(src, 'sound/effects/magic/demon_consume.ogg', 50, TRUE)
+>>>>>>> tg-pr-88929
 	qdel(target)
 	on_arm_eaten()
 

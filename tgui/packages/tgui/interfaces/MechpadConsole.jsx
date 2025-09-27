@@ -1,4 +1,15 @@
+import {
+  Box,
+  Button,
+  Divider,
+  Flex,
+  Input,
+  NoticeBox,
+  Section,
+} from 'tgui-core/components';
+
 import { useBackend } from '../backend';
+<<<<<<< HEAD
 import {
   Box,
   Button,
@@ -8,6 +19,8 @@ import {
   NoticeBox,
   Section,
 } from '../components';
+=======
+>>>>>>> tg-pr-88929
 import { Window } from '../layouts';
 
 export const MechpadControl = (props) => {

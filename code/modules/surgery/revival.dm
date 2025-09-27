@@ -2,9 +2,15 @@
 	name = "Revival"
 	desc = "An experimental surgical procedure which involves reconstruction and reactivation of the patient's brain even long after death. \
 		The body must still be able to sustain life."
+<<<<<<< HEAD
 	requires_bodypart_type = NONE
 	possible_locs = list(BODY_ZONE_CHEST)
 	target_mobtypes = list(/mob/living)
+=======
+	possible_locs = list(BODY_ZONE_CHEST)
+	target_mobtypes = list(/mob/living)
+	surgery_flags = SURGERY_REQUIRE_RESTING | SURGERY_MORBID_CURIOSITY
+>>>>>>> tg-pr-88929
 	steps = list(
 		/datum/surgery_step/incise,
 		/datum/surgery_step/retract_skin,
@@ -15,6 +21,22 @@
 		/datum/surgery_step/close,
 	)
 
+<<<<<<< HEAD
+=======
+/datum/surgery/revival/mechanic
+	name = "Full System Reboot"
+	requires_bodypart_type = BODYTYPE_ROBOTIC
+	steps = list(
+		/datum/surgery_step/mechanic_open,
+		/datum/surgery_step/open_hatch,
+		/datum/surgery_step/mechanic_unwrench,
+		/datum/surgery_step/prepare_electronics,
+		/datum/surgery_step/revive,
+		/datum/surgery_step/mechanic_wrench,
+		/datum/surgery_step/mechanic_close,
+	)
+
+>>>>>>> tg-pr-88929
 /datum/surgery/revival/can_start(mob/user, mob/living/target)
 	if(!..())
 		return FALSE
@@ -22,8 +44,11 @@
 		return FALSE
 	if(HAS_TRAIT(target, TRAIT_SUICIDED) || HAS_TRAIT(target, TRAIT_HUSK) || HAS_TRAIT(target, TRAIT_DEFIB_BLACKLISTED))
 		return FALSE
+<<<<<<< HEAD
 	if(target.mob_biotypes & MOB_ROBOTIC) // MONKESTATION ADDITION. If you want to do this to robot carbons, use /datum/surgery/positronic_restoration
 		return FALSE
+=======
+>>>>>>> tg-pr-88929
 	if(!is_valid_target(target))
 		return FALSE
 	return TRUE
@@ -33,6 +58,16 @@
 	if (iscarbon(patient))
 		return FALSE
 	if (!(patient.mob_biotypes & (MOB_ORGANIC|MOB_HUMANOID)))
+<<<<<<< HEAD
+=======
+		return FALSE
+	return TRUE
+
+/datum/surgery/revival/mechanic/is_valid_target(mob/living/patient)
+	if (iscarbon(patient))
+		return FALSE
+	if (!(patient.mob_biotypes & (MOB_ROBOTIC|MOB_HUMANOID)))
+>>>>>>> tg-pr-88929
 		return FALSE
 	return TRUE
 
@@ -45,8 +80,8 @@
 		/obj/item/gun/energy = 60)
 	repeatable = TRUE
 	time = 5 SECONDS
-	success_sound = 'sound/magic/lightningbolt.ogg'
-	failure_sound = 'sound/magic/lightningbolt.ogg'
+	success_sound = 'sound/effects/magic/lightningbolt.ogg'
+	failure_sound = 'sound/effects/magic/lightningbolt.ogg'
 
 /datum/surgery_step/revive/tool_check(mob/user, obj/item/tool)
 	. = TRUE
@@ -76,15 +111,15 @@
 		span_notice("[user] prepares to shock [target]'s brain with [tool]."),
 		span_notice("[user] prepares to shock [target]'s brain with [tool]."),
 	)
-	target.notify_ghost_cloning("Someone is trying to zap your brain.", source = target)
+	target.notify_revival("Someone is trying to zap your brain.", source = target)
 
-/datum/surgery_step/revive/play_preop_sound(mob/user, mob/living/carbon/target, target_zone, obj/item/tool, datum/surgery/surgery)
+/datum/surgery_step/revive/play_preop_sound(mob/user, mob/living/target, target_zone, obj/item/tool, datum/surgery/surgery)
 	if(istype(tool, /obj/item/shockpaddles))
-		playsound(tool, 'sound/machines/defib_charge.ogg', 75, 0)
+		playsound(tool, 'sound/machines/defib/defib_charge.ogg', 75, 0)
 	else
 		..()
 
-/datum/surgery_step/revive/success(mob/user, mob/living/carbon/target, target_zone, obj/item/tool, datum/surgery/surgery, default_display_results)
+/datum/surgery_step/revive/success(mob/user, mob/living/target, target_zone, obj/item/tool, datum/surgery/surgery, default_display_results)
 	display_results(
 		user,
 		target,
@@ -93,8 +128,10 @@
 		span_notice("[user] send a powerful shock to [target]'s brain with [tool]..."),
 	)
 	target.grab_ghost()
-	target.adjustOxyLoss(-50, 0)
-	target.updatehealth()
+	target.adjustOxyLoss(-50)
+	if(iscarbon(target))
+		var/mob/living/carbon/carbon_target = target
+		carbon_target.set_heartattack(FALSE)
 	if(target.revive())
 		on_revived(user, target)
 		return TRUE
@@ -106,6 +143,12 @@
 /datum/surgery_step/revive/proc/on_revived(mob/surgeon, mob/living/patient)
 	patient.visible_message(span_notice("...[patient] wakes up, alive and aware!"))
 	patient.emote("gasp")
+<<<<<<< HEAD
+=======
+	if(HAS_MIND_TRAIT(surgeon, TRAIT_MORBID) && ishuman(surgeon)) // Contrary to their typical hatred of resurrection, it wouldn't be very thematic if morbid people didn't love playing god
+		var/mob/living/carbon/human/morbid_weirdo = surgeon
+		morbid_weirdo.add_mood_event("morbid_revival_success", /datum/mood_event/morbid_revival_success)
+>>>>>>> tg-pr-88929
 
 /datum/surgery_step/revive/failure(mob/user, mob/living/target, target_zone, obj/item/tool, datum/surgery/surgery)
 	display_results(
@@ -121,9 +164,16 @@
 /datum/surgery/revival/carbon
 	possible_locs = list(BODY_ZONE_HEAD)
 	target_mobtypes = list(/mob/living/carbon)
+<<<<<<< HEAD
 
 /datum/surgery/revival/carbon/is_valid_target(mob/living/carbon/patient)
 	var/obj/item/organ/internal/brain/target_brain = patient.get_organ_slot(ORGAN_SLOT_BRAIN)
+=======
+	surgery_flags = parent_type::surgery_flags | SURGERY_REQUIRE_LIMB
+
+/datum/surgery/revival/carbon/is_valid_target(mob/living/carbon/patient)
+	var/obj/item/organ/brain/target_brain = patient.get_organ_slot(ORGAN_SLOT_BRAIN)
+>>>>>>> tg-pr-88929
 	return !isnull(target_brain)
 
 /datum/surgery_step/revive/carbon

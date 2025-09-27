@@ -16,7 +16,11 @@
  */
 /proc/get_path_to(atom/movable/requester, atom/end, max_distance = 30, mintargetdist, access=list(), simulated_only = TRUE, turf/exclude, skip_first=TRUE, diagonal_handling=DIAGONAL_REMOVE_CLUNKY)
 	var/list/hand_around = list()
+<<<<<<< HEAD
 	// We're guarenteed that list will be the first list in pathfinding_finished's argset because of how callback handles the arguments list
+=======
+	// We're guaranteed that list will be the first list in pathfinding_finished's argset because of how callback handles the arguments list
+>>>>>>> tg-pr-88929
 	var/datum/callback/await = list(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(pathfinding_finished), hand_around))
 	if(!SSpathfinder.pathfind(requester, end, max_distance, mintargetdist, access, simulated_only, exclude, skip_first, diagonal_handling, await))
 		return list()
@@ -49,7 +53,11 @@
  */
 /proc/get_swarm_path_to(atom/movable/requester, atom/end, max_distance = 30, mintargetdist, age = MAP_REUSE_INSTANT, access = list(), simulated_only = TRUE, turf/exclude, skip_first=TRUE)
 	var/list/hand_around = list()
+<<<<<<< HEAD
 	// We're guarenteed that list will be the first list in pathfinding_finished's argset because of how callback handles the arguments list
+=======
+	// We're guaranteed that list will be the first list in pathfinding_finished's argset because of how callback handles the arguments list
+>>>>>>> tg-pr-88929
 	var/datum/callback/await = list(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(pathfinding_finished), hand_around))
 	if(!SSpathfinder.swarmed_pathfind(requester, end, max_distance, mintargetdist, age, access, simulated_only, exclude, skip_first, await))
 		return list()
@@ -62,7 +70,11 @@
 
 /proc/get_sssp(atom/movable/requester, max_distance = 30, access = list(), simulated_only = TRUE, turf/exclude)
 	var/list/hand_around = list()
+<<<<<<< HEAD
 	// We're guarenteed that list will be the first list in pathfinding_finished's argset because of how callback handles the arguments list
+=======
+	// We're guaranteed that list will be the first list in pathfinding_finished's argset because of how callback handles the arguments list
+>>>>>>> tg-pr-88929
 	var/datum/callback/await = list(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(pathfinding_finished), hand_around))
 	if(!SSpathfinder.build_map(requester, get_turf(requester), max_distance, access, simulated_only, exclude, await))
 		return null
@@ -264,8 +276,13 @@
  * Passed into CanAStarPass to provide context for a pathing attempt
  *
  * Also used to check if using a cached path_map is safe
+<<<<<<< HEAD
  * There are some vars here that are unused. They exist to cover cases where caller_ref is used
  * They're the properties of caller_ref used in those cases.
+=======
+ * There are some vars here that are unused. They exist to cover cases where requester_ref is used
+ * They're the properties of requester_ref used in those cases.
+>>>>>>> tg-pr-88929
  * It's kinda annoying, but there's some proc chains we can't convert to this datum
  */
 /datum/can_pass_info
@@ -281,7 +298,11 @@
 	/// Are we being thrown?
 	var/thrown = FALSE
 	/// Are we anchored
+<<<<<<< HEAD
 	var/anchored = FLASH_LIGHT_POWER
+=======
+	var/anchored = FALSE
+>>>>>>> tg-pr-88929
 
 	/// Are we a ghost? (they have effectively unique pathfinding)
 	var/is_observer = FALSE
@@ -297,10 +318,13 @@
 	var/incapacitated = FALSE
 	/// Is our mob incorporeal
 	var/incorporeal_move = FALSE
+<<<<<<< HEAD
 	/// monkestation addition: is our mob a xenofauna or slime
 	var/xenofauna_or_slime = FALSE
 	/// monkestation addition: do we have TRAIT_GOES_THROUGH_WOODEN_BARRICADES
 	var/goes_thru_barricades = FALSE
+=======
+>>>>>>> tg-pr-88929
 	/// If our mob has a rider, what does it look like
 	var/datum/can_pass_info/rider_info = null
 	/// If our mob is buckled to something, what's it like
@@ -318,7 +342,11 @@
 	/// Weakref to the requester used to generate this info
 	/// Should not use this almost ever, it's for context and to allow for proc chains that
 	/// Require a movable
+<<<<<<< HEAD
 	var/datum/weakref/caller_ref = null
+=======
+	var/datum/weakref/requester_ref = null
+>>>>>>> tg-pr-88929
 
 /datum/can_pass_info/New(atom/movable/construct_from, list/access, no_id = FALSE, call_depth = 0)
 	// No infiniloops
@@ -331,7 +359,11 @@
 	if(isnull(construct_from))
 		return
 
+<<<<<<< HEAD
 	src.caller_ref = WEAKREF(construct_from)
+=======
+	src.requester_ref = WEAKREF(construct_from)
+>>>>>>> tg-pr-88929
 	src.pass_flags = construct_from.pass_flags
 	src.movement_type = construct_from.movement_type
 	src.thrown = !!construct_from.throwing
@@ -339,7 +371,11 @@
 	src.has_gravity = construct_from.has_gravity()
 	if(ismob(construct_from))
 		var/mob/living/mob_construct = construct_from
+<<<<<<< HEAD
 		src.incapacitated = mob_construct.incapacitated()
+=======
+		src.incapacitated = mob_construct.incapacitated
+>>>>>>> tg-pr-88929
 		if(mob_construct.buckled)
 			src.buckled_info = new(mob_construct.buckled, access, no_id, call_depth + 1)
 	if(isobserver(construct_from))
@@ -350,6 +386,7 @@
 		src.can_ventcrawl = HAS_TRAIT(living_construct, TRAIT_VENTCRAWLER_ALWAYS) || HAS_TRAIT(living_construct, TRAIT_VENTCRAWLER_NUDE)
 		src.mob_size = living_construct.mob_size
 		src.incorporeal_move = living_construct.incorporeal_move
+<<<<<<< HEAD
 		if(istype(living_construct, /mob/living/basic/slime) || istype(living_construct, /mob/living/basic/xenofauna))
 			src.xenofauna_or_slime = TRUE
 
@@ -362,6 +399,12 @@
 		goes_thru_barricades = TRUE
 	// monkestation end
 
+=======
+	if(iseyemob(construct_from))
+		src.camera_type = construct_from.type
+	src.is_bot = isbot(construct_from)
+
+>>>>>>> tg-pr-88929
 	if(construct_from.pulling)
 		src.pulling_info = new(construct_from.pulling, access, no_id, call_depth + 1)
 
@@ -373,8 +416,13 @@ GLOBAL_LIST_INIT(can_pass_info_vars, GLOBAL_PROC_REF(can_pass_check_vars))
 	var/datum/isaac = new()
 	var/list/altar = assoc_to_keys(lamb.vars - isaac.vars)
 	// Don't compare against calling atom, it's not relevant here
+<<<<<<< HEAD
 	altar -= "caller_ref"
 	ASSERT("caller_ref" in lamb.vars, "caller_ref var was not found in /datum/can_pass_info, why are we filtering for it?")
+=======
+	altar -= "requester_ref"
+	ASSERT("requester_ref" in lamb.vars, "requester_ref var was not found in /datum/can_pass_info, why are we filtering for it?")
+>>>>>>> tg-pr-88929
 	// We will bespoke handle pulling_info
 	altar -= "pulling_info"
 	ASSERT("pulling_info" in lamb.vars, "pulling_info var was not found in /datum/can_pass_info, why are we filtering for it?")

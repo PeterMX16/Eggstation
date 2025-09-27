@@ -4,7 +4,7 @@
  */
 /obj/item/mecha_parts/mecha_equipment
 	name = "mecha equipment"
-	icon = 'icons/mecha/mecha_equipment.dmi'
+	icon = 'icons/obj/devices/mecha_equipment.dmi'
 	icon_state = "mecha_equip"
 	force = 5
 	max_integrity = 300
@@ -33,7 +33,7 @@
 	///Boolean: whether a pacifist can use this equipment
 	var/harmful = FALSE
 	///Sound file: Sound to play when this equipment is destroyed while still attached to the mech
-	var/destroy_sound = 'sound/mecha/critdestr.ogg'
+	var/destroy_sound = 'sound/vehicles/mecha/critdestr.ogg'
 
 	///what equipment flags does this have
 	var/equipment_flags
@@ -67,8 +67,11 @@
 	switch(action)
 		if("detach")
 			chassis.ui_selected_module_index = null
+<<<<<<< HEAD
 			if(equipment_flags & NOT_ABLE_TO_REMOVE_FROM_MECHA) //monkestation edit
 				return //monkestation edit
+=======
+>>>>>>> tg-pr-88929
 			detach(get_turf(src))
 			. = TRUE
 		if("toggle")
@@ -154,6 +157,10 @@
 		return FALSE
 	if(equipment_slot == MECHA_WEAPON)
 		if(attach_right)
+<<<<<<< HEAD
+=======
+			// We need to check for length in case a mech doesn't support any arm attachments at all
+>>>>>>> tg-pr-88929
 			if((!isnull(mech.equip_by_category[MECHA_R_ARM]) || !mech.max_equip_by_category[MECHA_R_ARM]) && (!special_attaching_interaction(attach_right, mech, user, checkonly = TRUE)))
 				to_chat(user, span_warning("\The [mech]'s right arm is full![mech.equip_by_category[MECHA_L_ARM] || !mech.max_equip_by_category[MECHA_L_ARM] ? "" : " Try left arm!"]"))
 				return FALSE
@@ -206,7 +213,11 @@
 /obj/item/mecha_parts/mecha_equipment/proc/detach(atom/moveto)
 	moveto = moveto || get_turf(chassis)
 	forceMove(moveto)
+<<<<<<< HEAD
 	playsound(chassis, 'sound/weapons/tap.ogg', 50, TRUE)
+=======
+	playsound(chassis, 'sound/items/weapons/tap.ogg', 50, TRUE)
+>>>>>>> tg-pr-88929
 	LAZYREMOVE(chassis.flat_equipment, src)
 	var/to_unequip_slot = equipment_slot
 	if(equipment_slot == MECHA_WEAPON)
@@ -225,7 +236,11 @@
 /obj/item/mecha_parts/mecha_equipment/proc/set_active(active)
 	src.active = active
 
+<<<<<<< HEAD
 /obj/item/mecha_parts/mecha_equipment/log_message(message, message_type=LOG_GAME, color=null, log_globally)
+=======
+/obj/item/mecha_parts/mecha_equipment/log_message(message, message_type=LOG_GAME, color=null, log_globally, list/data)
+>>>>>>> tg-pr-88929
 	if(chassis)
 		return chassis.log_message("ATTACHMENT: [src] [message]", message_type, color)
 	return ..()

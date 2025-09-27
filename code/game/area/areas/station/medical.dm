@@ -4,14 +4,21 @@
 	ambience_index = AMBIENCE_MEDICAL
 	airlock_wires = /datum/wires/airlock/medbay
 	sound_environment = SOUND_AREA_STANDARD_STATION
+<<<<<<< HEAD
 	min_ambience_cooldown = 90 SECONDS
 	max_ambience_cooldown = 180 SECONDS
+=======
+>>>>>>> tg-pr-88929
 
 /area/station/medical/abandoned
 	name = "\improper Abandoned Medbay"
 	icon_state = "abandoned_medbay"
 	ambientsounds = list(
+<<<<<<< HEAD
 		'sound/ambience/signal.ogg',
+=======
+		'sound/ambience/misc/signal.ogg',
+>>>>>>> tg-pr-88929
 		)
 	sound_environment = SOUND_AREA_SMALL_ENCLOSED
 
@@ -19,6 +26,13 @@
 	name = "Medbay Central"
 	icon_state = "med_central"
 
+<<<<<<< HEAD
+=======
+/area/station/medical/lower
+	name = "\improper Lower Medbay"
+	icon_state = "lower_med"
+
+>>>>>>> tg-pr-88929
 /area/station/medical/medbay/lobby
 	name = "\improper Medbay Lobby"
 	icon_state = "med_lobby"
@@ -79,6 +93,12 @@
 	name = "Chemistry"
 	icon_state = "chem"
 
+<<<<<<< HEAD
+=======
+/area/station/medical/chemistry/minisat
+	name = "Chemistry Mini-Satellite"
+
+>>>>>>> tg-pr-88929
 /area/station/medical/pharmacy
 	name = "\improper Pharmacy"
 	icon_state = "pharmacy"
@@ -121,5 +141,9 @@
 	mood_bonus = 3
 	mood_message = "I feel at ease here."
 	ambientsounds = list(
+<<<<<<< HEAD
 		'sound/ambience/aurora_caelus_short.ogg',
+=======
+		'sound/ambience/aurora_caelus/aurora_caelus_short.ogg',
+>>>>>>> tg-pr-88929
 		)

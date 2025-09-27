@@ -1,6 +1,10 @@
-import { useBackend } from '../../backend';
-import { Box, Button, Icon, LabeledList } from '../../components';
+import { Box, Button, Icon, LabeledList } from 'tgui-core/components';
 
+<<<<<<< HEAD
+=======
+import { useBackend } from '../../backend';
+
+>>>>>>> tg-pr-88929
 export const ReagentLookup = (props) => {
   const { reagent } = props;
   const { act } = useBackend();

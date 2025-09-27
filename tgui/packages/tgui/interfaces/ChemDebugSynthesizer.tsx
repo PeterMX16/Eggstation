@@ -1,5 +1,7 @@
-import { BooleanLike } from 'common/react';
+import { Button, NumberInput, Section } from 'tgui-core/components';
+
 import { useBackend } from '../backend';
+<<<<<<< HEAD
 import {
   AnimatedNumber,
   Box,
@@ -8,19 +10,21 @@ import {
   NumberInput,
   Section,
 } from '../components';
+=======
+>>>>>>> tg-pr-88929
 import { Window } from '../layouts';
+import { Beaker, BeakerDisplay } from './common/BeakerDisplay';
 
 type Data = {
   amount: number;
+  temp: number;
   purity: number;
-  beakerCurrentVolume: number;
-  beakerMaxVolume: number;
-  isBeakerLoaded: BooleanLike;
-  beakerContents: { name: string; volume: number }[];
+  beaker: Beaker;
 };
 
 export const ChemDebugSynthesizer = (props) => {
   const { act, data } = useBackend<Data>();
+<<<<<<< HEAD
   const {
     amount,
     purity,
@@ -29,6 +33,9 @@ export const ChemDebugSynthesizer = (props) => {
     isBeakerLoaded,
     beakerContents = [],
   } = data;
+=======
+  const { amount, temp, purity, beaker } = data;
+>>>>>>> tg-pr-88929
 
   return (
     <Window width={390} height={330}>
@@ -36,22 +43,30 @@ export const ChemDebugSynthesizer = (props) => {
         <Section
           title="Recipient"
           buttons={
-            isBeakerLoaded ? (
+            beaker ? (
               <>
-                <Button
-                  icon="eject"
-                  content="Eject"
-                  onClick={() => act('ejectBeaker')}
-                />
                 <NumberInput
                   value={amount}
                   unit="u"
                   minValue={1}
-                  maxValue={beakerMaxVolume}
+                  maxValue={beaker.maxVolume}
                   step={1}
                   stepPixelSize={2}
-                  onChange={(e, value) =>
+                  onChange={(value) =>
                     act('amount', {
+                      amount: value,
+                    })
+                  }
+                />
+                <NumberInput
+                  value={temp}
+                  unit="K"
+                  minValue={0}
+                  maxValue={1000}
+                  step={1}
+                  stepPixelSize={2}
+                  onChange={(value) =>
+                    act('temp', {
                       amount: value,
                     })
                   }
@@ -63,7 +78,7 @@ export const ChemDebugSynthesizer = (props) => {
                   maxValue={120}
                   step={1}
                   stepPixelSize={2}
-                  onChange={(e, value) =>
+                  onChange={(value) =>
                     act('purity', {
                       amount: value,
                     })
@@ -84,6 +99,7 @@ export const ChemDebugSynthesizer = (props) => {
             )
           }
         >
+<<<<<<< HEAD
           {isBeakerLoaded ? (
             <>
               <Box>
@@ -105,6 +121,9 @@ export const ChemDebugSynthesizer = (props) => {
           ) : (
             <Box color="average">No Recipient</Box>
           )}
+=======
+          <BeakerDisplay beaker={beaker} showpH />
+>>>>>>> tg-pr-88929
         </Section>
       </Window.Content>
     </Window>

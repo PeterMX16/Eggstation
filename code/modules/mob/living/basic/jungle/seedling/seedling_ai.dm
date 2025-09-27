@@ -6,7 +6,11 @@
 		BB_WATERLEVEL_THRESHOLD = 90,
 	)
 
+<<<<<<< HEAD
 	ai_movement = /datum/ai_movement/jps // monkestation edit: use jps instead of basic avoidance
+=======
+	ai_movement = /datum/ai_movement/basic_avoidance
+>>>>>>> tg-pr-88929
 	idle_behavior = /datum/idle_behavior/idle_random_walk
 	planning_subtrees = list(
 		/datum/ai_planning_subtree/pet_planning,
@@ -19,7 +23,11 @@
 /datum/ai_planning_subtree/find_and_hunt_target/watering_can
 	target_key = BB_WATERCAN_TARGET
 	finding_behavior = /datum/ai_behavior/find_hunt_target
+<<<<<<< HEAD
 	hunting_behavior = /datum/ai_behavior/hunt_target/unarmed_attack_target
+=======
+	hunting_behavior = /datum/ai_behavior/hunt_target/interact_with_target
+>>>>>>> tg-pr-88929
 	hunt_targets = list(/obj/item/reagent_containers/cup/watering_can)
 	hunt_range = 7
 
@@ -32,11 +40,20 @@
 /datum/ai_planning_subtree/find_and_hunt_target/treat_hydroplants
 	target_key = BB_HYDROPLANT_TARGET
 	finding_behavior = /datum/ai_behavior/find_and_set/treatable_hydro
+<<<<<<< HEAD
 	hunting_behavior = /datum/ai_behavior/hunt_target/unarmed_attack_target/treat_hydroplant
 	hunt_targets = list(/obj/machinery/growing/tray)
 	hunt_range = 7
 
 /datum/ai_behavior/find_and_set/treatable_hydro
+=======
+	hunting_behavior = /datum/ai_behavior/hunt_target/interact_with_target/treat_hydroplant
+	hunt_targets = list(/obj/machinery/hydroponics)
+	hunt_range = 7
+
+/datum/ai_behavior/find_and_set/treatable_hydro
+	action_cooldown = 5 SECONDS
+>>>>>>> tg-pr-88929
 
 /datum/ai_behavior/find_and_set/treatable_hydro/search_tactic(datum/ai_controller/controller, locate_path, search_range)
 	var/list/possible_trays = list()
@@ -45,6 +62,7 @@
 	var/weedlevel_threshold = controller.blackboard[BB_WEEDLEVEL_THRESHOLD]
 	var/watering_can = locate(/obj/item/reagent_containers/cup/watering_can) in living_pawn
 
+<<<<<<< HEAD
 	for(var/atom/movable/hydro in oview(search_range, controller.pawn))
 		if(!hydro.GetComponent(/datum/component/plant_growing))
 			continue
@@ -56,12 +74,22 @@
 			possible_trays += hydro
 			continue
 		if(grow.weed_level > weedlevel_threshold)
+=======
+	for(var/obj/machinery/hydroponics/hydro in oview(search_range, controller.pawn))
+		if(isnull(hydro.myseed))
+			continue
+		if(hydro.waterlevel < waterlevel_threshold && watering_can)
+			possible_trays += hydro
+			continue
+		if(hydro.weedlevel > weedlevel_threshold || hydro.plant_status == HYDROTRAY_PLANT_DEAD)
+>>>>>>> tg-pr-88929
 			possible_trays += hydro
 			continue
 
 	if(possible_trays.len)
 		return pick(possible_trays)
 
+<<<<<<< HEAD
 /datum/ai_behavior/hunt_target/unarmed_attack_target/treat_hydroplant
 	hunt_cooldown = 2 SECONDS
 	always_reset_target = TRUE
@@ -81,6 +109,18 @@
 		var/datum/component/growth_information/info = seed.GetComponent(/datum/component/growth_information)
 		if(info.plant_state == HYDROTRAY_PLANT_DEAD)
 			living_pawn.manual_emote("weeps...") //weep over the dead plants
+=======
+/datum/ai_behavior/hunt_target/interact_with_target/treat_hydroplant
+	hunt_cooldown = 2 SECONDS
+	always_reset_target = TRUE
+
+/datum/ai_behavior/hunt_target/interact_with_target/treat_hydroplant/target_caught(mob/living/living_pawn, obj/machinery/hydroponics/hydro_target)
+	if(QDELETED(hydro_target) || QDELETED(hydro_target.myseed))
+		return
+
+	if(hydro_target.plant_status == HYDROTRAY_PLANT_DEAD)
+		living_pawn.manual_emote("weeps...") //weep over the dead plants
+>>>>>>> tg-pr-88929
 	return ..()
 
 
@@ -88,7 +128,11 @@
 	target_key = BB_BEAMABLE_HYDROPLANT_TARGET
 	finding_behavior = /datum/ai_behavior/find_and_set/beamable_hydroplants
 	hunting_behavior = /datum/ai_behavior/hunt_target/use_ability_on_target/solarbeam
+<<<<<<< HEAD
 	hunt_targets = list(/obj/machinery/growing)
+=======
+	hunt_targets = list(/obj/machinery/hydroponics)
+>>>>>>> tg-pr-88929
 	hunt_range = 7
 
 /datum/ai_planning_subtree/find_and_hunt_target/beamable_hydroplants/SelectBehaviors(datum/ai_controller/controller, seconds_per_tick)
@@ -110,6 +154,7 @@
 		return FALSE
 	set_movement_target(controller, target)
 
+<<<<<<< HEAD
 /datum/ai_behavior/find_and_set/beamable_hydroplants/search_tactic(datum/ai_controller/controller, locate_path, search_range)
 	var/list/possible_trays = list()
 
@@ -128,6 +173,19 @@
 			if(info.health_value < seed.endurance)
 				possible_trays |= hydro
 				break
+=======
+/datum/ai_behavior/find_and_set/beamable_hydroplants
+	action_cooldown = 15 SECONDS
+
+/datum/ai_behavior/find_and_set/beamable_hydroplants/search_tactic(datum/ai_controller/controller, locate_path, search_range)
+	var/list/possible_trays = list()
+
+	for(var/obj/machinery/hydroponics/hydro in oview(search_range, controller.pawn))
+		if(isnull(hydro.myseed))
+			continue
+		if(hydro.plant_health < hydro.myseed.endurance)
+			possible_trays += hydro
+>>>>>>> tg-pr-88929
 
 	if(possible_trays.len)
 		return pick(possible_trays)
@@ -135,7 +193,11 @@
 /datum/ai_planning_subtree/find_and_hunt_target/fill_watercan
 	target_key = BB_LOW_PRIORITY_HUNTING_TARGET
 	finding_behavior = /datum/ai_behavior/find_hunt_target/suitable_dispenser
+<<<<<<< HEAD
 	hunting_behavior = /datum/ai_behavior/hunt_target/unarmed_attack_target/water_source
+=======
+	hunting_behavior = /datum/ai_behavior/hunt_target/interact_with_target/water_source
+>>>>>>> tg-pr-88929
 	hunt_targets = list(/obj/structure/sink, /obj/structure/reagent_dispensers)
 	hunt_range = 7
 
@@ -145,7 +207,11 @@
 
 	if(isnull(can))
 		return
+<<<<<<< HEAD
 	if(can.reagents?.has_reagent(/datum/reagent/water)) // monkestation edit: just use has_reagent instead of locate()
+=======
+	if(locate(/datum/reagent/water) in can.reagents.reagent_list)
+>>>>>>> tg-pr-88929
 		return
 
 	return ..()
@@ -153,13 +219,23 @@
 /datum/ai_behavior/find_hunt_target/suitable_dispenser
 
 /datum/ai_behavior/find_hunt_target/suitable_dispenser/valid_dinner(mob/living/source, obj/structure/water_source, radius)
+<<<<<<< HEAD
 	if(!water_source.reagents?.has_reagent(/datum/reagent/water)) // monkestation edit: just use has_reagent instead of locate()
+=======
+	if(!(locate(/datum/reagent/water) in water_source.reagents.reagent_list))
+>>>>>>> tg-pr-88929
 		return FALSE
 
 	return can_see(source, water_source, radius)
 
+<<<<<<< HEAD
 /datum/ai_behavior/hunt_target/unarmed_attack_target/water_source
 	behavior_flags = AI_BEHAVIOR_REQUIRE_MOVEMENT | AI_BEHAVIOR_REQUIRE_REACH | AI_BEHAVIOR_CAN_PLAN_DURING_EXECUTION
+=======
+/datum/ai_behavior/hunt_target/interact_with_target/water_source
+	behavior_flags = AI_BEHAVIOR_REQUIRE_MOVEMENT | AI_BEHAVIOR_REQUIRE_REACH
+	always_reset_target = TRUE
+>>>>>>> tg-pr-88929
 	hunt_cooldown = 5 SECONDS
 
 /datum/ai_controller/basic_controller/seedling/meanie
@@ -184,7 +260,11 @@
 	finish_planning = FALSE
 
 ///pet commands
+<<<<<<< HEAD
 /datum/pet_command/point_targeting/use_ability/solarbeam
+=======
+/datum/pet_command/use_ability/solarbeam
+>>>>>>> tg-pr-88929
 	command_name = "Launch solarbeam"
 	command_desc = "Command your pet to launch a solarbeam at your target!"
 	radial_icon = 'icons/effects/beam.dmi'
@@ -192,10 +272,24 @@
 	speech_commands = list("beam", "solar")
 	pet_ability_key = BB_SOLARBEAM_ABILITY
 
+<<<<<<< HEAD
 /datum/pet_command/point_targeting/use_ability/rapidseeds
+=======
+/datum/pet_command/use_ability/solarbeam/retrieve_command_text(atom/living_pet, atom/target)
+	return isnull(target) ? null : "signals [living_pet] to use a solar beam on [target]!"
+
+
+/datum/pet_command/use_ability/rapidseeds
+>>>>>>> tg-pr-88929
 	command_name = "Rapid seeds"
 	command_desc = "Command your pet to launch a volley of seeds at your target!"
 	radial_icon = 'icons/obj/weapons/guns/projectiles.dmi'
 	radial_icon_state = "seedling"
 	speech_commands = list("rapid", "seeds", "volley")
 	pet_ability_key = BB_RAPIDSEEDS_ABILITY
+<<<<<<< HEAD
+=======
+
+/datum/pet_command/use_ability/rapidseeds/retrieve_command_text(atom/living_pet, atom/target)
+	return isnull(target) ? null : "signals [living_pet] to unleash a volley of seeds on [target]!"
+>>>>>>> tg-pr-88929

@@ -6,7 +6,7 @@
 #define AIRLOCK_STATE_OUTOPEN "outopen"
 
 /obj/machinery/airlock_controller
-	icon = 'icons/obj/airlock_machines.dmi'
+	icon = 'icons/obj/machines/wallmounts.dmi'
 	icon_state = "airlock_control_standby"
 	base_icon_state = "airlock_control"
 
@@ -34,7 +34,13 @@
 
 	var/processing = FALSE
 
+<<<<<<< HEAD
 /obj/machinery/airlock_controller/LateInitialize()
+=======
+/obj/machinery/airlock_controller/post_machine_initialize()
+	. = ..()
+
+>>>>>>> tg-pr-88929
 	var/obj/machinery/door/interior_door = GLOB.objects_by_id_tag[interior_door_tag]
 	if (!isnull(interior_door_tag) && !istype(interior_door))
 		stack_trace("interior_door_tag is set to [interior_door_tag], which is not a door ([interior_door || "null"])")

@@ -1,8 +1,8 @@
-import { classes } from 'common/react';
+import { Box, Button, Image, Section, Stack } from 'tgui-core/components';
+import { classes } from 'tgui-core/react';
+
 import { resolveAsset } from '../../assets';
 import { useBackend } from '../../backend';
-import { Box, Button, Section, Stack } from '../../components';
-import { MutationInfo } from './MutationInfo';
 import {
   CLEAR_GENE,
   GENE_COLORS,
@@ -12,6 +12,19 @@ import {
   SUBJECT_DEAD,
   SUBJECT_TRANSFORMING,
 } from './constants';
+import { MutationInfo } from './MutationInfo';
+<<<<<<< HEAD
+import {
+  CLEAR_GENE,
+  GENE_COLORS,
+  MUT_NORMAL,
+  NEXT_GENE,
+  PREV_GENE,
+  SUBJECT_DEAD,
+  SUBJECT_TRANSFORMING,
+} from './constants';
+=======
+>>>>>>> tg-pr-88929
 
 const GenomeImage = (props) => {
   const { url, selected, onClick } = props;
@@ -20,13 +33,12 @@ const GenomeImage = (props) => {
     outline = '2px solid #22aa00';
   }
   return (
-    <Box
-      as="img"
+    <Image
       src={url}
       style={{
         width: '64px',
         margin: '2px',
-        'margin-left': '4px',
+        marginLeft: '4px',
         outline,
       }}
       onClick={onClick}
@@ -61,7 +73,7 @@ const GeneCycler = (props) => {
 
         return;
       }}
-      oncontextmenu={(e) => {
+      onContextMenu={(e) => {
         e.preventDefault();
 
         act('pulse_gene', {

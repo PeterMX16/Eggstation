@@ -39,7 +39,7 @@
 /datum/crafting_recipe/food/appendixburger
 	name = "Appendix burger"
 	reqs = list(
-		/obj/item/organ/internal/appendix = 1,
+		/obj/item/organ/appendix = 1,
 		/obj/item/food/bun = 1
 	)
 	result = /obj/item/food/burger/appendix
@@ -48,7 +48,7 @@
 /datum/crafting_recipe/food/brainburger
 	name = "Brain burger"
 	reqs = list(
-		/obj/item/organ/internal/brain = 1,
+		/obj/item/organ/brain = 1,
 		/obj/item/food/bun = 1
 	)
 	result = /obj/item/food/burger/brain
@@ -306,8 +306,8 @@
 	reqs = list(
 		/obj/item/food/bun = 1,
 		/obj/item/food/patty/plain = 1,
-		/obj/item/organ/internal/ears/cat = 1,
-		/obj/item/organ/external/tail/cat = 1,
+		/obj/item/organ/ears/cat = 1,
+		/obj/item/organ/tail/cat = 1,
 	)
 	result = /obj/item/food/burger/catburger
 	category = CAT_BURGER
@@ -382,7 +382,7 @@
 			/obj/item/food/grown/cabbage = 1,
 			/obj/item/toy/crayon/green = 1,
 			/obj/item/flashlight/flare = 1,
-			/datum/reagent/consumable/cooking_oil = 15
+			/datum/reagent/consumable/nutriment/fat/oil = 15
 	)
 	result = /obj/item/food/burger/crazy
 	category = CAT_BURGER
@@ -398,7 +398,10 @@
 	result = /obj/item/food/burger/sloppy_moe
 	category = CAT_BURGER
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> tg-pr-88929
 /datum/crafting_recipe/food/kortaburger
 	name = "Plain Rootburger"
 	reqs = list(

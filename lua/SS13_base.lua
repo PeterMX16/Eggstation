@@ -19,6 +19,7 @@ function SS13.get_runner_client()
 	return dm.global_vars.GLOB.directory[SS13.get_runner_ckey()]
 end
 
+<<<<<<< HEAD
 function SS13.ispath(thing, path)
 	return dm.global_procs._ispath(thing, path) == 1
 end
@@ -32,11 +33,15 @@ function SS13.type(typepath)
 		return nil
 	end
 end
+=======
+SS13.type = dm.global_procs._text2path
+>>>>>>> tg-pr-88929
 
 function SS13.istype(thing, type)
 	return dm.global_procs._istype(thing, SS13.type(type)) == 1
 end
 
+<<<<<<< HEAD
 function SS13.typecacheof(string_types)
 	local types = {}
 	for _, path in string_types do
@@ -72,6 +77,8 @@ function SS13.get_area(thing)
 	return nil
 end
 
+=======
+>>>>>>> tg-pr-88929
 SS13.new = dm.new
 
 function SS13.qdel(datum)
@@ -86,6 +93,7 @@ function SS13.is_valid(datum)
 	return dm.is_valid_ref(datum) and not datum.gc_destroyed
 end
 
+<<<<<<< HEAD
 function SS13.check_tick(high_priority)
 	local tick_limit = if high_priority then 95 else dm.global_vars.Master.current_ticklimit
 	if dm.world.tick_usage > tick_limit then
@@ -93,6 +101,8 @@ function SS13.check_tick(high_priority)
 	end
 end
 
+=======
+>>>>>>> tg-pr-88929
 function SS13.await(thing_to_call, proc_to_call, ...)
 	if not SS13.istype(thing_to_call, "/datum") then
 		thing_to_call = SS13.global_proc
@@ -141,7 +151,11 @@ local function create_qdeleting_callback(datum)
 end
 
 function SS13.register_signal(datum, signal, func)
+<<<<<<< HEAD
 	if type(func) ~= "function" then
+=======
+	if not type(func) == "function" then
+>>>>>>> tg-pr-88929
 		return
 	end
 	if not SS13.istype(datum, "/datum") then

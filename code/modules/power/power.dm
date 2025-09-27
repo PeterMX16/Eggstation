@@ -8,7 +8,7 @@
 
 /obj/machinery/power
 	name = null
-	icon = 'icons/obj/power.dmi'
+	icon = 'icons/obj/machines/engine/other.dmi'
 	anchored = TRUE
 	obj_flags = CAN_BE_HIT
 	use_power = NO_POWER_USE
@@ -30,7 +30,7 @@
 
 /obj/machinery/power/Destroy()
 	disconnect_from_network()
-	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(update_cable_icons_on_turf), get_turf(src)), 3)
+	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(update_cable_icons_on_turf), get_turf(src)), 0.3 SECONDS)
 	return ..()
 
 ///////////////////////////////
@@ -53,11 +53,15 @@
 			. += span_notice("It's operating on the [LOWER_TEXT(GLOB.cable_layer_to_name["[cable_layer]"])].")
 		else
 			. += span_warning("It's disconnected from the [LOWER_TEXT(GLOB.cable_layer_to_name["[cable_layer]"])].")
+<<<<<<< HEAD
 		. += span_notice("It's power line can be changed with a [EXAMINE_HINT("multitool")].")
 
 ///does the required checks to see if this machinery layer can be changed
 /obj/machinery/power/proc/cable_layer_change_checks(mob/living/user, obj/item/tool)
 	return can_change_cable_layer
+=======
+		. += span_notice("Its power line can be changed with a [EXAMINE_HINT("multitool")].")
+>>>>>>> tg-pr-88929
 
 /obj/machinery/power/multitool_act(mob/living/user, obj/item/tool)
 	if(can_change_cable_layer)
@@ -121,8 +125,6 @@
 // returns true if the area has power on given channel (or doesn't require power).
 // defaults to power_channel
 /obj/machinery/proc/powered(chan = power_channel, ignore_use_power = FALSE)
-	if(!loc)
-		return FALSE
 	if(!use_power && !ignore_use_power)
 		return TRUE
 
@@ -256,7 +258,11 @@
  * - channel: The power channel to use.
  * Returns: The amount of energy the cell received.
  */
+<<<<<<< HEAD
 /obj/machinery/proc/charge_cell(amount, obj/item/stock_parts/power_store/cell/cell, grid_only = FALSE, channel = AREA_USAGE_EQUIP)
+=======
+/obj/machinery/proc/charge_cell(amount, obj/item/stock_parts/power_store/cell, grid_only = FALSE, channel = AREA_USAGE_EQUIP)
+>>>>>>> tg-pr-88929
 	var/demand = use_energy(min(amount, cell.used_charge()), channel = channel, ignore_apc = grid_only)
 	var/power_given = cell.give(demand)
 	return power_given
@@ -281,6 +287,7 @@
 	SHOULD_CALL_PARENT(TRUE)
 
 	if(machine_stat & BROKEN)
+		update_appearance()
 		return
 	var/initial_stat = machine_stat
 	if(powered(power_channel))
@@ -455,11 +462,19 @@
 		power_source = Cable.powernet
 
 	var/datum/powernet/PN
+<<<<<<< HEAD
 	var/obj/item/stock_parts/power_store/cell/cell
 
 	if (istype(power_source, /datum/powernet))
 		PN = power_source
 	else if (istype(power_source, /obj/item/stock_parts/power_store/cell))
+=======
+	var/obj/item/stock_parts/power_store/cell
+
+	if (istype(power_source, /datum/powernet))
+		PN = power_source
+	else if (istype(power_source, /obj/item/stock_parts/power_store))
+>>>>>>> tg-pr-88929
 		cell = power_source
 	else if (istype(power_source, /obj/machinery/power/apc))
 		var/obj/machinery/power/apc/apc = power_source
@@ -495,7 +510,11 @@
 		return FALSE
 
 	var/datum/powernet/PN = powernet_info["powernet"]
+<<<<<<< HEAD
 	var/obj/item/stock_parts/power_store/cell/cell = powernet_info["cell"]
+=======
+	var/obj/item/stock_parts/power_store/cell = powernet_info["cell"]
+>>>>>>> tg-pr-88929
 
 	// MONKESTATION ADDITION -- This whole proc is basically polluted because long ago we didnt care for modularization
 	if(victim.wearing_shock_proof_gloves() && (PN && PN?.netexcess < 100 MW) && !always_shock)
@@ -539,7 +558,11 @@
 		source_area.apc?.terminal?.use_energy(drained_energy)
 	else if (istype(power_source, /datum/powernet))
 		PN.delayedload += (min(drained_energy, max(PN.newavail - PN.delayedload, 0)))
+<<<<<<< HEAD
 	else if (istype(power_source, /obj/item/stock_parts/power_store/cell))
+=======
+	else if (istype(power_source, /obj/item/stock_parts/power_store))
+>>>>>>> tg-pr-88929
 		cell.use(drained_energy)
 	return drained_energy
 

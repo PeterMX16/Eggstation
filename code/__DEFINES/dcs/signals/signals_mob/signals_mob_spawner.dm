@@ -7,6 +7,9 @@
 
 /// called when a ghost clicks a spawner role: (mob/living)
 #define COMSIG_GHOSTROLE_SPAWNED "ghostrole_spawned"
+<<<<<<< HEAD
 
 #define COMSIG_SPAWNER_STOP_SPAWNING "stop_spawner_spawn"
 #define COMSIG_SPAWNER_START_SPAWNING "start_spawner_spawn"
+=======
+>>>>>>> tg-pr-88929

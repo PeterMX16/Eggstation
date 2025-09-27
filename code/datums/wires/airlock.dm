@@ -38,6 +38,10 @@
 	dictionary_key = /datum/wires/airlock/ai
 	proper_name = "AI Airlock"
 
+/datum/wires/airlock/cargo
+	dictionary_key = /datum/wires/airlock/cargo
+	proper_name = "Cargo Airlock"
+
 /datum/wires/airlock/New(atom/holder)
 	wires = list(
 		WIRE_AI,
@@ -61,7 +65,7 @@
 
 /datum/wires/airlock/interact(mob/user)
 	var/obj/machinery/door/airlock/airlock_holder = holder
-	if (!issilicon(user) && airlock_holder.isElectrified() && airlock_holder.shock(user, 100))
+	if (!HAS_SILICON_ACCESS(user) && airlock_holder.isElectrified() && airlock_holder.shock(user, 100))
 		return
 
 	return ..()
@@ -70,9 +74,13 @@
 	if(!..())
 		return FALSE
 	var/obj/machinery/door/airlock/airlock = holder
+<<<<<<< HEAD
 	if(!issilicon(user) && !isdrone(user) && airlock.isElectrified())
+=======
+	if(!HAS_SILICON_ACCESS(user) && !isdrone(user) && airlock.isElectrified() && airlock.hasPower())
+>>>>>>> tg-pr-88929
 		var/mob/living/carbon/carbon_user = user
-		if (!istype(carbon_user) || carbon_user.should_electrocute(src))
+		if (!istype(carbon_user) || carbon_user.should_electrocute(get_area(airlock)))
 			return FALSE
 	if(airlock.is_secure())
 		return FALSE
@@ -122,7 +130,7 @@
 			A.update_appearance()
 		if(WIRE_IDSCAN) // Pulse to disable emergency access and flash the red lights.
 			if(A.hasPower() && A.density)
-				A.do_animate("deny")
+				A.run_animation(DOOR_DENY_ANIMATION)
 				if(A.emergency)
 					A.emergency = FALSE
 					A.update_appearance()
@@ -148,7 +156,7 @@
 		if(WIRE_UNRESTRICTED_EXIT) // Pulse to switch the direction around by 180 degrees (North goes to South, East goes to West, vice-versa)
 			if(!A.unres_sensor) //only works if the "sensor" is installed (a variable that we assign to the door either upon creation of a door with unrestricted directions or if an unrestricted helper is added to a door in mapping)
 				return
-			A.unres_sides = DIRFLIP(A.unres_sides)
+			A.unres_sides = REVERSE_DIR(A.unres_sides)
 			A.update_appearance()
 
 /obj/machinery/door/airlock/proc/reset_ai_wire()
@@ -205,7 +213,11 @@
 		if(WIRE_TIMING) // Cut to disable auto-close, mend to re-enable.
 			A.autoclose = mend
 			if(A.autoclose && !A.density)
+<<<<<<< HEAD
 				A.close()
+=======
+				INVOKE_ASYNC(A, TYPE_PROC_REF(/obj/machinery/door/airlock, close))
+>>>>>>> tg-pr-88929
 		if(WIRE_BOLTLIGHT) // Cut to disable lights, mend to re-enable.
 			A.lights = mend
 			A.update_appearance()

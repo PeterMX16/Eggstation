@@ -21,7 +21,11 @@
 /datum/ai_planning_subtree/find_and_hunt_target/corpses/ice_whelp
 	target_key = BB_TARGET_CANNIBAL
 	finding_behavior = /datum/ai_behavior/find_hunt_target/corpses/dragon_corpse
+<<<<<<< HEAD
 	hunting_behavior = /datum/ai_behavior/hunt_target/unarmed_attack_target/dragon_cannibalise
+=======
+	hunting_behavior = /datum/ai_behavior/hunt_target/interact_with_target/dragon_cannibalise
+>>>>>>> tg-pr-88929
 	hunt_targets = list(/mob/living/basic/mining/ice_whelp)
 	hunt_range = 10
 
@@ -32,6 +36,7 @@
 		return FALSE
 	return ..()
 
+<<<<<<< HEAD
 /datum/ai_behavior/hunt_target/unarmed_attack_target/dragon_cannibalise
 	behavior_flags = AI_BEHAVIOR_REQUIRE_MOVEMENT | AI_BEHAVIOR_REQUIRE_REACH | AI_BEHAVIOR_CAN_PLAN_DURING_EXECUTION
 
@@ -40,6 +45,15 @@
 	if(QDELETED(target) || target.stat != DEAD || target.pulledby) //we were too slow
 		finish_action(controller, FALSE)
 		return
+=======
+/datum/ai_behavior/hunt_target/interact_with_target/dragon_cannibalise
+	behavior_flags = AI_BEHAVIOR_REQUIRE_MOVEMENT | AI_BEHAVIOR_REQUIRE_REACH | AI_BEHAVIOR_CAN_PLAN_DURING_EXECUTION
+
+/datum/ai_behavior/hunt_target/interact_with_target/dragon_cannibalise/perform(seconds_per_tick, datum/ai_controller/controller, target_key, attack_key)
+	var/mob/living/target = controller.blackboard[target_key]
+	if(QDELETED(target) || target.stat != DEAD || target.pulledby) //we were too slow
+		return AI_BEHAVIOR_INSTANT | AI_BEHAVIOR_FAILED
+>>>>>>> tg-pr-88929
 	return ..()
 
 /datum/ai_behavior/cannibalize/finish_action(datum/ai_controller/controller, succeeded, target_key)
@@ -67,6 +81,7 @@
 	set_movement_target(controller, target)
 
 /datum/ai_behavior/sculpt_statue/perform(seconds_per_tick, datum/ai_controller/controller, target_key)
+<<<<<<< HEAD
 	. = ..()
 
 	var/atom/target = controller.blackboard[target_key]
@@ -78,12 +93,20 @@
 
 	living_pawn.melee_attack(target)
 	finish_action(controller, TRUE, target_key)
+=======
+	if(!controller.ai_interact(target = target_key, combat_mode = FALSE))
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
+	return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_SUCCEEDED
+>>>>>>> tg-pr-88929
 
 /datum/ai_behavior/sculpt_statue/finish_action(datum/ai_controller/controller, succeeded, target_key)
 	. = ..()
 	controller.clear_blackboard_key(target_key)
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> tg-pr-88929
 //subtree to use our attacks on the victim
 /datum/ai_planning_subtree/targeted_mob_ability/ice_whelp
 	ability_key = BB_WHELP_STRAIGHTLINE_FIRE
@@ -123,8 +146,11 @@
 /datum/ai_behavior/set_target_tree
 
 /datum/ai_behavior/set_target_tree/perform(seconds_per_tick, datum/ai_controller/controller, tree_key)
+<<<<<<< HEAD
 	. = ..()
 
+=======
+>>>>>>> tg-pr-88929
 	var/mob/living_pawn = controller.pawn
 	var/list/possible_trees = list()
 
@@ -134,11 +160,18 @@
 		possible_trees += possible_tree
 
 	if(!length(possible_trees))
+<<<<<<< HEAD
 		finish_action(controller, FALSE)
 		return
 
 	controller.set_blackboard_key(tree_key, pick(possible_trees))
 	finish_action(controller, TRUE)
+=======
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
+
+	controller.set_blackboard_key(tree_key, pick(possible_trees))
+	return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_SUCCEEDED
+>>>>>>> tg-pr-88929
 
 /datum/ai_behavior/targeted_mob_ability/and_clear_target/burn_trees
 	behavior_flags = AI_BEHAVIOR_REQUIRE_MOVEMENT | AI_BEHAVIOR_CAN_PLAN_DURING_EXECUTION

@@ -3,15 +3,26 @@
 /obj/item/storage/backpack/duffelbag/syndie/surgery,
 /obj/structure/table/reinforced,
 /turf/open/floor/plastic,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "aw" = (
 /obj/structure/table/reinforced,
+=======
+/area/virtual_domain)
+"aw" = (
+>>>>>>> tg-pr-88929
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden,
+<<<<<<< HEAD
 /turf/open/floor/mineral/plastitanium,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/obj/effect/landmark/bitrunning/mob_segment,
+/turf/open/floor/mineral/plastitanium,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "aN" = (
 /obj/structure/closet/crate/secure/gear{
 	req_access = list("syndicate")
@@ -26,6 +37,7 @@
 /obj/item/stack/sheet/glass/fifty,
 /obj/item/stack/rods/fifty,
 /turf/open/floor/pod/dark,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain/protected_space)
 "aO" = (
 /obj/machinery/recharge_station,
@@ -53,6 +65,16 @@
 	},
 /turf/open/floor/mineral/plastitanium,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain/protected_space)
+"aO" = (
+/obj/machinery/recharge_station,
+/turf/open/floor/mineral/plastitanium,
+/area/virtual_domain)
+"bh" = (
+/turf/open/floor/carpet/royalblack,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "bD" = (
 /obj/structure/table/reinforced,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
@@ -60,21 +82,36 @@
 	dir = 4
 	},
 /turf/open/floor/mineral/plastitanium,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "bG" = (
 /turf/open/floor/pod/dark,
 /area/ruin/space/has_grav/powered/virtual_domain/protected_space)
+=======
+/area/virtual_domain)
+"bG" = (
+/turf/open/floor/pod/dark,
+/area/virtual_domain/protected_space)
+>>>>>>> tg-pr-88929
 "cc" = (
 /obj/structure/closet/crate/secure/gear{
 	req_access = list("syndicate")
 	},
 /obj/effect/spawner/random/clothing/costume,
 /turf/open/floor/mineral/plastitanium,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "cj" = (
 /obj/structure/transit_tube/crossing,
 /turf/closed/wall/r_wall/syndicate/hull,
 /area/ruin/space/has_grav/powered/virtual_domain/protected_space)
+=======
+/area/virtual_domain)
+"cj" = (
+/obj/structure/transit_tube/crossing,
+/turf/closed/wall/r_wall/syndicate,
+/area/virtual_domain/protected_space)
+>>>>>>> tg-pr-88929
 "ct" = (
 /obj/structure/closet/syndicate{
 	anchored = 1;
@@ -84,8 +121,14 @@
 	req_access = list("syndicate");
 	secure = 1
 	},
+<<<<<<< HEAD
 /turf/open/floor/mineral/plastitanium/red,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/obj/item/gun/ballistic/automatic/pistol,
+/turf/open/floor/mineral/plastitanium/red,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "cw" = (
 /obj/structure/closet/syndicate{
 	anchored = 1;
@@ -101,7 +144,11 @@
 /obj/item/clothing/mask/gas/syndicate,
 /obj/item/clothing/under/syndicate/skirt,
 /turf/open/floor/mineral/plastitanium/red,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "cy" = (
 /obj/machinery/door/airlock/grunge{
 	name = "Syndicate Ship Airlock"
@@ -115,7 +162,11 @@
 	dir = 4
 	},
 /turf/open/floor/mineral/plastitanium,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "cB" = (
 /obj/machinery/camera/xray{
 	c_tag = "Medbay";
@@ -124,6 +175,7 @@
 	screen_loc = ""
 	},
 /turf/open/floor/plastic,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "cI" = (
 /turf/open/floor/mineral/plastitanium,
@@ -151,6 +203,27 @@
 /obj/structure/sign/warning/vacuum/external,
 /turf/closed/wall/r_wall/syndicate/hull,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+"cR" = (
+/obj/machinery/light/small/directional/south,
+/turf/open/floor/carpet/royalblack,
+/area/virtual_domain)
+"cZ" = (
+/obj/structure/table/reinforced,
+/obj/item/gun/ballistic/automatic/l6_saw/unrestricted,
+/obj/item/ammo_box/magazine/m7mm,
+/turf/open/floor/mineral/plastitanium,
+/area/virtual_domain/protected_space)
+"da" = (
+/obj/machinery/stasis,
+/turf/open/floor/plastic,
+/area/virtual_domain)
+"dd" = (
+/obj/structure/sign/warning/vacuum/external,
+/turf/closed/wall/r_wall/syndicate,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "di" = (
 /obj/machinery/power/terminal{
 	dir = 1
@@ -158,6 +231,7 @@
 /obj/structure/cable,
 /obj/item/paper/fluff/ruins/forgottenship/powerissues,
 /turf/open/floor/mineral/plastitanium/red,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "dw" = (
 /obj/machinery/light/small/directional/south,
@@ -167,6 +241,20 @@
 /obj/effect/landmark/bitrunning/cache_spawn,
 /turf/open/floor/mineral/plastitanium/red,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+"dp" = (
+/turf/open/floor/mineral/plastitanium,
+/area/virtual_domain/protected_space)
+"dw" = (
+/obj/machinery/light/small/directional/south,
+/turf/open/floor/mineral/plastitanium,
+/area/virtual_domain)
+"dz" = (
+/obj/effect/landmark/bitrunning/cache_spawn,
+/turf/open/floor/mineral/plastitanium/red,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "dU" = (
 /obj/structure/cable,
 /obj/structure/fans/tiny,
@@ -175,7 +263,11 @@
 	},
 /obj/effect/mapping_helpers/airlock/access/all/syndicate/general,
 /turf/open/floor/mineral/plastitanium,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "eB" = (
 /obj/machinery/camera/xray{
 	c_tag = "Cargo pod";
@@ -191,17 +283,26 @@
 /obj/item/card/id/advanced/black/syndicate_command/crew_id,
 /obj/item/card/id/advanced/black/syndicate_command/crew_id,
 /turf/open/floor/mineral/plastitanium,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain/protected_space)
 "fd" = (
 /obj/structure/transit_tube/crossing,
 /turf/open/space/basic,
 /area/space)
+=======
+/area/virtual_domain/protected_space)
+"fd" = (
+/obj/structure/transit_tube/crossing,
+/turf/open/space/basic,
+/area/virtual_domain/protected_space)
+>>>>>>> tg-pr-88929
 "fG" = (
 /obj/structure/toilet{
 	dir = 1
 	},
 /obj/machinery/light/directional/south,
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "fJ" = (
 /obj/machinery/light/small/directional/north,
@@ -221,6 +322,21 @@
 /obj/effect/mob_spawn/ghost_role/human/syndicatespace,
 /turf/open/floor/mineral/plastitanium,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+"fJ" = (
+/obj/machinery/light/small/directional/north,
+/turf/open/floor/mineral/plastitanium,
+/area/virtual_domain)
+"fV" = (
+/obj/machinery/atmospherics/components/unary/vent_pump,
+/turf/open/floor/mineral/plastitanium/red,
+/area/virtual_domain)
+"gD" = (
+/obj/effect/mob_spawn/ghost_role/human/virtual_domain/syndie,
+/turf/open/floor/mineral/plastitanium,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "hg" = (
 /obj/structure/window/reinforced/plasma/plastitanium,
 /obj/machinery/door/poddoor{
@@ -229,11 +345,16 @@
 	state_open = 1
 	},
 /turf/open/floor/mineral/plastitanium,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "hy" = (
 /obj/structure/table/reinforced,
 /obj/item/paper/fluff/ruins/forgottenship/missionobj,
 /turf/open/floor/mineral/plastitanium,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "hA" = (
 /obj/effect/baseturf_helper/virtual_domain,
@@ -255,6 +376,29 @@
 /obj/structure/sign/departments/cargo,
 /turf/closed/wall/r_wall/syndicate/hull,
 /area/ruin/space/has_grav/powered/virtual_domain/protected_space)
+=======
+/area/virtual_domain)
+"hA" = (
+/obj/effect/baseturf_helper/virtual_domain,
+/turf/closed/wall/r_wall/syndicate,
+/area/virtual_domain)
+"hD" = (
+/obj/structure/table/reinforced,
+/turf/open/floor/mineral/plastitanium,
+/area/virtual_domain)
+"ip" = (
+/obj/effect/landmark/bitrunning/mob_segment,
+/turf/open/floor/plastic,
+/area/virtual_domain)
+"iB" = (
+/obj/machinery/light/directional/north,
+/turf/open/floor/mineral/plastitanium/red,
+/area/virtual_domain)
+"iL" = (
+/obj/structure/sign/departments/cargo,
+/turf/closed/wall/r_wall/syndicate,
+/area/virtual_domain/protected_space)
+>>>>>>> tg-pr-88929
 "iU" = (
 /obj/structure/closet/crate/secure/gear{
 	req_access = list("syndicate")
@@ -262,7 +406,11 @@
 /obj/item/melee/energy/sword/saber/red,
 /obj/machinery/light/small/directional/north,
 /turf/open/floor/pod/dark,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain/protected_space)
+=======
+/area/virtual_domain/protected_space)
+>>>>>>> tg-pr-88929
 "iW" = (
 /obj/structure/table/reinforced,
 /obj/machinery/button/door{
@@ -271,7 +419,11 @@
 	req_access = list("syndicate")
 	},
 /turf/open/floor/mineral/plastitanium/red,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "iX" = (
 /obj/structure/chair/comfy/shuttle{
 	dir = 4
@@ -282,28 +434,47 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden{
 	dir = 4
 	},
+<<<<<<< HEAD
 /mob/living/basic/trooper/syndicate/ranged/smg/space/stormtrooper,
 /turf/open/floor/mineral/plastitanium,
 /area/ruin/space/has_grav/powered/virtual_domain)
 "ja" = (
 /obj/machinery/door/window{
 	dir = 1;
+=======
+/turf/open/floor/mineral/plastitanium,
+/area/virtual_domain)
+"ja" = (
+/obj/machinery/door/window/left/directional/north{
+>>>>>>> tg-pr-88929
 	name = "Spare Equipment";
 	req_access = list("syndicate")
 	},
 /turf/open/floor/mineral/plastitanium/red,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "jl" = (
 /obj/structure/bodycontainer/crematorium{
 	id = "fscremate"
 	},
 /turf/open/floor/mineral/plastitanium,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "jA" = (
 /obj/structure/cable,
 /mob/living/basic/trooper/syndicate/melee/space/stormtrooper,
 /turf/open/floor/mineral/plastitanium,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "jJ" = (
 /obj/machinery/door/airlock/grunge{
 	name = "Syndicate Ship Airlock"
@@ -312,7 +483,11 @@
 /turf/open/floor/iron/dark/side{
 	dir = 1
 	},
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "kh" = (
 /obj/machinery/door/airlock/grunge{
 	name = "Syndicate Ship Airlock"
@@ -326,6 +501,7 @@
 	dir = 4
 	},
 /turf/open/floor/mineral/plastitanium,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "ki" = (
 /obj/structure/table/reinforced,
@@ -337,14 +513,25 @@
 	},
 /turf/open/floor/mineral/plastitanium,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "kI" = (
 /obj/machinery/computer/atmos_alert{
 	dir = 8
 	},
 /turf/open/floor/mineral/plastitanium/red,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "kJ" = (
 /obj/effect/landmark/bitrunning/safehouse_spawn,
+=======
+/area/virtual_domain)
+"kJ" = (
+/obj/modular_map_root/safehouse{
+	key = "shuttle_space"
+	},
+>>>>>>> tg-pr-88929
 /turf/template_noop,
 /area/virtual_domain/safehouse)
 "li" = (
@@ -352,7 +539,11 @@
 	dir = 4
 	},
 /turf/open/floor/mineral/plastitanium,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain/protected_space)
+=======
+/area/virtual_domain/protected_space)
+>>>>>>> tg-pr-88929
 "ln" = (
 /obj/machinery/turretid{
 	control_area = "/area/ruin/space/has_grav/syndicate_forgotten_ship";
@@ -364,7 +555,11 @@
 	req_access = list("syndicate")
 	},
 /turf/open/floor/mineral/plastitanium/red,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "lo" = (
 /obj/structure/fans/tiny,
 /obj/machinery/door/airlock/external/ruin{
@@ -372,29 +567,54 @@
 	},
 /obj/effect/mapping_helpers/airlock/access/all/syndicate/general,
 /turf/open/floor/mineral/plastitanium,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "lN" = (
 /obj/machinery/light/small/directional/east,
 /turf/open/floor/mineral/plastitanium,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+"lN" = (
+/obj/machinery/light/small/directional/east,
+/turf/open/floor/mineral/plastitanium,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "mo" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/layer2{
 	dir = 8
 	},
 /turf/open/floor/mineral/plastitanium/red,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+"mA" = (
+/obj/machinery/light/small/directional/south,
+/turf/open/floor/mineral/plastitanium,
+/area/virtual_domain/protected_space)
+>>>>>>> tg-pr-88929
 "mD" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden{
 	dir = 10
 	},
 /obj/item/wrench,
 /turf/open/floor/mineral/plastitanium/red,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+"mL" = (
+/obj/structure/tank_dispenser/oxygen,
+/turf/open/floor/mineral/plastitanium,
+/area/virtual_domain/protected_space)
+>>>>>>> tg-pr-88929
 "nk" = (
 /obj/machinery/power/apc/auto_name/directional/north,
 /obj/effect/mapping_helpers/apc/syndicate_access,
 /obj/structure/cable,
 /turf/open/floor/mineral/plastitanium,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "nB" = (
 /turf/closed/mineral/random,
@@ -423,12 +643,42 @@
 /mob/living/basic/trooper/syndicate/melee/sword/space/stormtrooper,
 /turf/open/floor/carpet/royalblack,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+"nn" = (
+/turf/closed/mineral/random,
+/area/virtual_domain/protected_space)
+"nB" = (
+/turf/closed/mineral/random,
+/area/ruin/space/virtual_domain)
+"nG" = (
+/obj/machinery/light/directional/south,
+/turf/open/floor/mineral/plastitanium/red,
+/area/virtual_domain)
+"nU" = (
+/obj/structure/sign/poster/contraband/syndicate_pistol,
+/turf/closed/wall/r_wall/syndicate,
+/area/virtual_domain)
+"og" = (
+/obj/structure/table/reinforced,
+/obj/item/reagent_containers/cup/glass/trophy/silver_cup,
+/turf/open/floor/mineral/plastitanium/red,
+/area/virtual_domain)
+"oM" = (
+/obj/structure/cable,
+/turf/open/floor/mineral/plastitanium,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "pl" = (
 /obj/machinery/atmospherics/components/tank/air{
 	dir = 8
 	},
 /turf/open/floor/mineral/plastitanium/red,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "pz" = (
 /obj/machinery/computer/security{
 	desc = "Used to access interrogation room camera.";
@@ -438,34 +688,55 @@
 	screen_loc = ""
 	},
 /turf/open/floor/mineral/plastitanium/red,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "pH" = (
 /obj/structure/table/reinforced,
 /obj/item/toy/plush/nukeplushie,
 /turf/open/floor/mineral/plastitanium/red,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "pM" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden{
 	dir = 4
 	},
 /turf/open/floor/mineral/plastitanium/red,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "pS" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden{
 	dir = 6
 	},
 /turf/open/floor/mineral/plastitanium/red,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "pU" = (
 /obj/machinery/shower/directional/north,
 /obj/machinery/light/directional/south,
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "qf" = (
 /obj/structure/table/optable,
 /obj/machinery/light/small/directional/north,
 /turf/open/floor/plastic,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "qx" = (
 /turf/open/space/basic,
@@ -478,21 +749,47 @@
 /obj/machinery/light/small/directional/south,
 /turf/open/floor/iron/dark,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+"qx" = (
+/turf/open/space/basic,
+/area/space/virtual_domain)
+"qU" = (
+/obj/structure/sign/poster/contraband/c20r,
+/turf/closed/wall/r_wall/syndicate,
+/area/virtual_domain/protected_space)
+"qY" = (
+/obj/machinery/light/small/directional/south,
+/obj/effect/landmark/bitrunning/cache_spawn,
+/turf/open/floor/iron/dark,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "rm" = (
 /obj/machinery/button/crematorium{
 	id = "fscremate";
 	pixel_x = -32
 	},
 /turf/open/floor/mineral/plastitanium,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "ru" = (
 /turf/closed/wall/r_wall/syndicate/hull,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+"ru" = (
+/turf/closed/wall/r_wall/syndicate,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "rH" = (
 /obj/machinery/airalarm/directional/north,
 /obj/effect/mapping_helpers/airalarm/syndicate_access,
 /turf/open/floor/mineral/plastitanium,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "rM" = (
 /obj/structure/closet/syndicate{
 	anchored = 1;
@@ -504,6 +801,7 @@
 	},
 /obj/effect/spawner/random/contraband/armory,
 /turf/open/floor/mineral/plastitanium/red,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "rP" = (
 /obj/effect/mob_spawn/ghost_role/human/syndicatespace,
@@ -516,16 +814,35 @@
 /area/ruin/space/has_grav/powered/virtual_domain/protected_space)
 "sq" = (
 /obj/machinery/door/window{
+=======
+/area/virtual_domain)
+"rP" = (
+/obj/machinery/light/small/directional/south,
+/obj/effect/mob_spawn/ghost_role/human/virtual_domain/syndie,
+/turf/open/floor/mineral/plastitanium,
+/area/virtual_domain)
+"sg" = (
+/obj/machinery/ore_silo,
+/turf/open/floor/mineral/plastitanium,
+/area/virtual_domain/protected_space)
+"sq" = (
+/obj/machinery/door/window/left/directional/south{
+>>>>>>> tg-pr-88929
 	name = "Control Room";
 	req_access = list("syndicate")
 	},
 /turf/open/floor/mineral/plastitanium/red,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "sz" = (
 /obj/machinery/atmospherics/components/unary/vent_pump{
 	dir = 4
 	},
 /turf/open/floor/mineral/plastitanium/red,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "sH" = (
 /obj/structure/displaycase{
@@ -534,6 +851,22 @@
 	},
 /turf/open/floor/mineral/plastitanium/red,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+"sH" = (
+/obj/structure/closet/syndicate{
+	anchored = 1;
+	desc = "A basic closet for all your villainous needs.";
+	locked = 1;
+	name = "Closet";
+	req_access = list("syndicate");
+	secure = 1
+	},
+/obj/item/ammo_box/c9mm,
+/obj/item/gun/ballistic/automatic/pistol,
+/turf/open/floor/mineral/plastitanium/red,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "sK" = (
 /obj/structure/closet/crate/secure/gear{
 	req_access = list("syndicate")
@@ -545,11 +878,19 @@
 	amount = 15
 	},
 /turf/open/floor/pod/dark,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain/protected_space)
 "sL" = (
 /obj/structure/chair/comfy,
 /turf/open/floor/mineral/plastitanium,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain/protected_space)
+"sL" = (
+/obj/structure/chair/comfy,
+/turf/open/floor/mineral/plastitanium,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "sM" = (
 /turf/template_noop,
 /area/virtual_domain/safehouse)
@@ -561,7 +902,11 @@
 	req_access = list("syndicate")
 	},
 /turf/open/floor/mineral/plastitanium,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "tI" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
 	dir = 4
@@ -570,6 +915,7 @@
 	dir = 4
 	},
 /turf/open/floor/mineral/plastitanium/red,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "uP" = (
 /turf/open/floor/mineral/plastitanium,
@@ -582,42 +928,79 @@
 /obj/machinery/portable_atmospherics/canister/oxygen,
 /turf/open/floor/mineral/plastitanium,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+"uP" = (
+/turf/open/floor/mineral/plastitanium,
+/area/virtual_domain)
+"vp" = (
+/obj/structure/table/reinforced,
+/turf/open/floor/mineral/plastitanium/red,
+/area/virtual_domain)
+"vD" = (
+/obj/machinery/portable_atmospherics/canister/oxygen,
+/turf/open/floor/mineral/plastitanium,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "vK" = (
 /obj/machinery/door/airlock/grunge{
 	name = "Syndicate Ship Airlock"
 	},
 /obj/effect/mapping_helpers/airlock/access/all/syndicate/general,
 /turf/open/floor/mineral/plastitanium,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "vU" = (
 /obj/structure/chair/comfy/shuttle{
 	dir = 4
 	},
 /turf/open/floor/mineral/plastitanium/red,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "wb" = (
 /obj/machinery/atmospherics/components/unary/portables_connector/visible/layer2,
 /obj/machinery/portable_atmospherics/scrubber{
 	anchored = 1
 	},
 /turf/open/floor/mineral/plastitanium/red,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "we" = (
 /turf/closed/mineral/random/high_chance,
 /area/space)
+=======
+/area/virtual_domain)
+"we" = (
+/turf/closed/mineral/random/high_chance,
+/area/ruin/space/virtual_domain)
+>>>>>>> tg-pr-88929
 "wK" = (
 /obj/machinery/door/airlock/grunge{
 	name = "Syndicate Ship Airlock"
 	},
 /obj/effect/mapping_helpers/airlock/access/all/syndicate/general,
 /turf/open/floor/iron/dark,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "wL" = (
 /obj/structure/table/reinforced,
 /obj/item/storage/medkit/regular,
 /obj/machinery/light/small/directional/north,
 /turf/open/floor/mineral/plastitanium,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain/protected_space)
+=======
+/area/virtual_domain/protected_space)
+>>>>>>> tg-pr-88929
 "xJ" = (
 /obj/structure/closet/syndicate{
 	anchored = 1;
@@ -629,6 +1012,7 @@
 	},
 /obj/item/ammo_box/c9mm,
 /turf/open/floor/mineral/plastitanium/red,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "xZ" = (
 /obj/machinery/computer/camera_advanced/syndie{
@@ -636,6 +1020,12 @@
 	},
 /turf/open/floor/mineral/plastitanium/red,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+"xS" = (
+/turf/closed/wall/r_wall/syndicate/nodiagonal,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "yl" = (
 /obj/machinery/door/airlock/grunge{
 	name = "Captain's Room"
@@ -647,16 +1037,24 @@
 	state_open = 1
 	},
 /turf/open/floor/mineral/plastitanium/red,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "yD" = (
 /mob/living/basic/trooper/syndicate/ranged/smg/space/stormtrooper,
 /turf/open/floor/mineral/plastitanium,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "yJ" = (
 /obj/structure/table/reinforced,
 /obj/machinery/atmospherics/components/unary/vent_scrubber/layer2,
 /turf/open/floor/mineral/plastitanium,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "yR" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
@@ -666,17 +1064,26 @@
 	dir = 4
 	},
 /turf/open/floor/mineral/plastitanium,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "yT" = (
 /obj/item/ai_module/core/full/cybersun,
 /obj/structure/table/reinforced,
 /turf/open/floor/mineral/plastitanium/red,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "yV" = (
 /obj/structure/table/reinforced,
 /obj/item/assembly/prox_sensor,
 /obj/item/assembly/prox_sensor,
 /turf/open/floor/mineral/plastitanium,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "yZ" = (
 /turf/closed/mineral,
@@ -685,12 +1092,23 @@
 /obj/machinery/vending/cigarette/syndicate,
 /turf/open/floor/mineral/plastitanium,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+"yZ" = (
+/turf/closed/mineral,
+/area/ruin/space/virtual_domain)
+"zi" = (
+/obj/machinery/vending/cigarette/syndicate,
+/turf/open/floor/mineral/plastitanium,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "zt" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/components/unary/vent_scrubber/layer2{
 	dir = 4
 	},
 /turf/open/floor/mineral/plastitanium/red,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "Aa" = (
 /obj/structure/chair/comfy/shuttle,
@@ -707,11 +1125,29 @@
 /obj/effect/baseturf_helper/virtual_domain,
 /turf/closed/indestructible/syndicate,
 /area/ruin/space/has_grav/powered/virtual_domain/protected_space)
+=======
+/area/virtual_domain)
+"zN" = (
+/turf/closed/wall/r_wall/syndicate,
+/area/virtual_domain/protected_space)
+"Aa" = (
+/obj/structure/chair/comfy/shuttle,
+/turf/open/floor/mineral/plastitanium,
+/area/virtual_domain)
+"Bm" = (
+/obj/effect/baseturf_helper/virtual_domain,
+/turf/closed/indestructible/syndicate,
+/area/virtual_domain/protected_space)
+>>>>>>> tg-pr-88929
 "BK" = (
 /obj/structure/lattice/catwalk,
 /obj/structure/cable,
 /turf/open/space/basic,
+<<<<<<< HEAD
 /area/space)
+=======
+/area/space/virtual_domain)
+>>>>>>> tg-pr-88929
 "BN" = (
 /obj/structure/transit_tube/crossing,
 /turf/template_noop,
@@ -719,7 +1155,11 @@
 "Cf" = (
 /obj/machinery/light/directional/south,
 /turf/open/floor/mineral/plastitanium,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Ci" = (
 /obj/structure/closet/syndicate{
 	anchored = 1;
@@ -732,8 +1172,14 @@
 /obj/item/crowbar/red,
 /obj/item/ammo_box/magazine/m9mm_aps,
 /obj/item/ammo_box/magazine/m9mm_aps,
+<<<<<<< HEAD
 /turf/open/floor/carpet/royalblack,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/obj/item/gun/ballistic/automatic/pistol/aps,
+/turf/open/floor/carpet/royalblack,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Cn" = (
 /obj/machinery/camera/xray/directional/east{
 	c_tag = "Conference room";
@@ -741,14 +1187,22 @@
 	screen_loc = ""
 	},
 /turf/open/floor/mineral/plastitanium,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "CK" = (
 /obj/structure/chair/comfy/shuttle{
 	dir = 4
 	},
 /mob/living/basic/trooper/syndicate/ranged/smg/pilot,
 /turf/open/floor/mineral/plastitanium/red,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "CR" = (
 /obj/structure/closet/syndicate{
 	anchored = 1;
@@ -763,14 +1217,22 @@
 /obj/item/storage/box/firingpins/syndicate,
 /obj/item/storage/box/firingpins/syndicate,
 /turf/open/floor/mineral/plastitanium/red,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "De" = (
 /obj/machinery/door/airlock/grunge{
 	name = "Syndicate Ship Airlock"
 	},
 /obj/effect/mapping_helpers/airlock/access/all/syndicate/general,
 /turf/open/floor/mineral/plastitanium/red,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Dj" = (
 /obj/structure/table/reinforced,
 /obj/item/ammo_box/magazine/smgm45,
@@ -778,7 +1240,11 @@
 /obj/item/ammo_box/magazine/smgm45,
 /obj/item/gun/ballistic/automatic/c20r/unrestricted,
 /turf/open/floor/mineral/plastitanium,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain/protected_space)
+=======
+/area/virtual_domain/protected_space)
+>>>>>>> tg-pr-88929
 "DA" = (
 /obj/structure/closet/crate/secure/gear{
 	req_access = list("syndicate")
@@ -786,7 +1252,11 @@
 /obj/effect/spawner/random/maintenance,
 /obj/effect/spawner/random/maintenance,
 /turf/open/floor/mineral/plastitanium,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "EB" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
@@ -794,6 +1264,7 @@
 	dir = 4
 	},
 /turf/open/floor/mineral/plastitanium/red,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "EX" = (
 /mob/living/basic/trooper/syndicate/ranged/shotgun/space/stormtrooper,
@@ -803,6 +1274,13 @@
 /obj/structure/tank_dispenser/oxygen,
 /turf/open/floor/mineral/plastitanium,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+"Fp" = (
+/obj/structure/tank_dispenser/oxygen,
+/turf/open/floor/mineral/plastitanium,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "FN" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
 	dir = 4
@@ -811,13 +1289,21 @@
 	dir = 4
 	},
 /turf/open/floor/mineral/plastitanium,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Gn" = (
 /obj/structure/chair/comfy{
 	dir = 1
 	},
 /turf/open/floor/mineral/plastitanium,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Gs" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
@@ -825,7 +1311,11 @@
 	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden,
 /turf/open/floor/mineral/plastitanium,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "GB" = (
 /obj/structure/cable,
 /obj/machinery/door/airlock/external/ruin{
@@ -833,17 +1323,28 @@
 	},
 /obj/effect/mapping_helpers/airlock/access/all/syndicate/general,
 /turf/open/floor/mineral/plastitanium,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "GZ" = (
 /obj/machinery/door/airlock/external/ruin{
 	name = "Syndicate Ship Airlock"
 	},
 /obj/effect/mapping_helpers/airlock/access/all/syndicate/general,
 /turf/open/floor/mineral/plastitanium,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "Hq" = (
 /turf/closed/indestructible/binary,
 /area/space)
+=======
+/area/virtual_domain)
+"Hq" = (
+/turf/closed/indestructible/binary,
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "HU" = (
 /obj/machinery/door/airlock/grunge{
 	name = "Bridge"
@@ -853,17 +1354,29 @@
 	dir = 4
 	},
 /turf/open/floor/mineral/plastitanium/red,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "Ia" = (
 /obj/effect/mob_spawn/ghost_role/human/syndicatespace/captain,
 /turf/open/floor/carpet/royalblack,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+"Ia" = (
+/obj/effect/mob_spawn/ghost_role/human/virtual_domain/syndie,
+/turf/open/floor/carpet/royalblack,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Id" = (
 /obj/machinery/power/shuttle_engine/huge{
 	dir = 8
 	},
 /turf/open/space/basic,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "If" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
 	dir = 4
@@ -871,8 +1384,14 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden{
 	dir = 9
 	},
+<<<<<<< HEAD
 /turf/open/floor/mineral/plastitanium/red,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/obj/effect/landmark/bitrunning/mob_segment,
+/turf/open/floor/mineral/plastitanium/red,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Ig" = (
 /obj/machinery/porta_turret/syndicate/energy{
 	dir = 4;
@@ -880,23 +1399,42 @@
 	on = 0;
 	shot_delay = 10
 	},
+<<<<<<< HEAD
 /turf/closed/wall/r_wall/syndicate/hull/nodiagonal,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/turf/closed/wall/r_wall/syndicate/nodiagonal,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Im" = (
 /obj/structure/table/reinforced,
 /obj/item/ammo_box/c9mm,
 /turf/open/floor/mineral/plastitanium,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "Io" = (
 /obj/effect/landmark/bitrunning/cache_spawn,
 /turf/open/floor/mineral/plastitanium,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+"Io" = (
+/obj/effect/landmark/bitrunning/cache_spawn,
+/turf/open/floor/mineral/plastitanium,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "IC" = (
 /obj/structure/table/reinforced,
 /obj/item/paper,
 /obj/item/pen,
+<<<<<<< HEAD
 /turf/open/floor/carpet/royalblack,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/obj/machinery/computer/security/telescreen/forgotten_ship/sci/directional/south,
+/turf/open/floor/carpet/royalblack,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "IH" = (
 /obj/machinery/door/airlock/external/ruin{
 	name = "Syndicate Ship Airlock"
@@ -905,30 +1443,50 @@
 /obj/structure/cable,
 /obj/structure/fans/tiny,
 /turf/open/floor/plating,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain/protected_space)
+=======
+/area/virtual_domain/protected_space)
+>>>>>>> tg-pr-88929
 "IV" = (
 /obj/machinery/door/airlock/grunge{
 	name = "Syndicate Ship Airlock"
 	},
 /obj/effect/mapping_helpers/airlock/access/all/syndicate/general,
 /turf/open/floor/plating,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "Jg" = (
 /obj/machinery/light/small/directional/south,
 /turf/open/floor/mineral/plastitanium/red,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+"Jg" = (
+/obj/machinery/light/small/directional/south,
+/turf/open/floor/mineral/plastitanium/red,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Jz" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden{
 	dir = 5
 	},
 /turf/open/floor/mineral/plastitanium/red,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "JA" = (
 /obj/structure/chair/comfy/shuttle{
 	dir = 4
 	},
 /turf/open/floor/mineral/plastitanium,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "JN" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
@@ -938,6 +1496,7 @@
 	dir = 5
 	},
 /turf/open/floor/mineral/plastitanium/red,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "JP" = (
 /obj/structure/sink/directional/south,
@@ -958,15 +1517,40 @@
 /obj/structure/filingcabinet,
 /obj/machinery/door/window{
 	dir = 8;
+=======
+/area/virtual_domain)
+"JP" = (
+/obj/structure/sink/directional/south,
+/turf/open/floor/iron/dark,
+/area/virtual_domain)
+"Kz" = (
+/turf/open/floor/mineral/plastitanium/red,
+/area/virtual_domain)
+"Lk" = (
+/obj/structure/transit_tube/crossing,
+/turf/closed/mineral/random,
+/area/virtual_domain/protected_space)
+"Lo" = (
+/obj/structure/filingcabinet,
+/obj/machinery/door/window/left/directional/west{
+>>>>>>> tg-pr-88929
 	name = "Syndicate Interior Door";
 	req_access = list("syndicate")
 	},
 /turf/open/floor/mineral/plastitanium/red,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "LN" = (
 /obj/structure/cable,
 /turf/open/floor/mineral/plastitanium,
 /area/ruin/space/has_grav/powered/virtual_domain/protected_space)
+=======
+/area/virtual_domain)
+"LB" = (
+/obj/structure/cable,
+/turf/open/floor/mineral/plastitanium,
+/area/virtual_domain/protected_space)
+>>>>>>> tg-pr-88929
 "Mc" = (
 /obj/structure/closet/syndicate{
 	anchored = 1;
@@ -979,8 +1563,14 @@
 /obj/item/crowbar/red,
 /obj/item/ammo_box/magazine/m9mm,
 /obj/item/ammo_box/magazine/m9mm,
+<<<<<<< HEAD
 /turf/open/floor/mineral/plastitanium,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/obj/item/gun/ballistic/automatic/pistol,
+/turf/open/floor/mineral/plastitanium,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Mm" = (
 /obj/structure/closet/syndicate{
 	anchored = 1;
@@ -998,20 +1588,32 @@
 /obj/item/clothing/gloves/combat,
 /obj/item/clothing/shoes/combat,
 /turf/open/floor/mineral/plastitanium/red,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "MR" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden{
 	dir = 4
 	},
 /obj/machinery/light/small/directional/south,
 /turf/open/floor/mineral/plastitanium/red,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Nm" = (
 /obj/structure/closet/crate/secure/gear{
 	req_access = list("syndicate")
 	},
 /turf/open/floor/pod/dark,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain/protected_space)
+=======
+/area/virtual_domain/protected_space)
+>>>>>>> tg-pr-88929
 "Nr" = (
 /obj/structure/closet/crate/secure/gear{
 	req_access = list("syndicate")
@@ -1024,18 +1626,23 @@
 	},
 /obj/machinery/light/small/directional/south,
 /turf/open/floor/pod/dark,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain/protected_space)
 "Nt" = (
 /obj/structure/table/reinforced,
 /obj/machinery/atmospherics/components/unary/vent_pump,
 /turf/open/floor/mineral/plastitanium,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain/protected_space)
+>>>>>>> tg-pr-88929
 "Of" = (
 /obj/structure/closet/crate/secure/gear{
 	req_access = list("syndicate")
 	},
 /obj/item/disk/surgery/forgottenship,
 /turf/open/floor/pod/dark,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain/protected_space)
 "Oo" = (
 /obj/structure/tank_dispenser/oxygen,
@@ -1045,20 +1652,35 @@
 /obj/machinery/atmospherics/components/unary/vent_pump,
 /turf/open/floor/mineral/plastitanium,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain/protected_space)
+"Ox" = (
+/obj/machinery/atmospherics/components/unary/vent_pump,
+/turf/open/floor/mineral/plastitanium,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "OH" = (
 /obj/structure/cable,
 /obj/structure/table/reinforced,
 /obj/item/storage/toolbox/syndicate,
 /obj/item/storage/toolbox/syndicate,
 /turf/open/floor/mineral/plastitanium,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain/protected_space)
+=======
+/area/virtual_domain/protected_space)
+>>>>>>> tg-pr-88929
 "OI" = (
 /obj/structure/chair/comfy/shuttle{
 	dir = 1
 	},
 /obj/structure/cable,
 /turf/open/floor/mineral/plastitanium,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "PR" = (
 /obj/machinery/door/password/voice/sfc{
 	password = null
@@ -1070,14 +1692,22 @@
 	},
 /obj/effect/mapping_helpers/airlock/access/all/syndicate/general,
 /turf/open/floor/pod/dark,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain/protected_space)
+=======
+/area/virtual_domain/protected_space)
+>>>>>>> tg-pr-88929
 "Qg" = (
 /obj/machinery/suit_storage_unit/syndicate{
 	helmet_type = /obj/item/clothing/head/helmet/space/syndicate/black;
 	suit_type = /obj/item/clothing/suit/space/syndicate/black
 	},
 /turf/open/floor/mineral/plastitanium,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Qi" = (
 /obj/item/stack/sheet/mineral/uranium{
 	amount = 15
@@ -1085,12 +1715,17 @@
 /obj/structure/cable,
 /obj/machinery/light/small/directional/north,
 /turf/open/floor/mineral/plastitanium/red,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "QF" = (
 /obj/structure/table/reinforced,
 /obj/item/dualsaber/green,
 /obj/machinery/light/small/directional/east,
 /turf/open/floor/mineral/plastitanium,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain/protected_space)
 "QG" = (
 /obj/structure/tank_dispenser/oxygen,
@@ -1103,22 +1738,45 @@
 /mob/living/basic/trooper/syndicate/ranged/space/stormtrooper,
 /turf/open/floor/mineral/plastitanium,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain/protected_space)
+"QG" = (
+/obj/structure/tank_dispenser/oxygen,
+/turf/closed/mineral/random,
+/area/ruin/space/virtual_domain)
+"QX" = (
+/obj/effect/landmark/bitrunning/mob_segment,
+/turf/open/floor/mineral/plastitanium,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Ra" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/layer2,
 /obj/machinery/light/small/directional/north,
 /turf/open/floor/mineral/plastitanium,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "RQ" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden{
 	dir = 4
 	},
 /turf/open/floor/mineral/plastitanium/red,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "RU" = (
 /obj/machinery/suit_storage_unit/syndicate,
 /turf/open/floor/mineral/plastitanium,
 /area/ruin/space/has_grav/powered/virtual_domain/protected_space)
+=======
+/area/virtual_domain)
+"RU" = (
+/obj/machinery/suit_storage_unit/syndicate,
+/turf/open/floor/mineral/plastitanium,
+/area/virtual_domain/protected_space)
+>>>>>>> tg-pr-88929
 "Sc" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
@@ -1126,7 +1784,11 @@
 	dir = 4
 	},
 /turf/open/floor/mineral/plastitanium,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Sd" = (
 /obj/structure/closet/syndicate{
 	anchored = 1;
@@ -1140,19 +1802,30 @@
 /obj/item/ammo_box/magazine/m9mm,
 /obj/item/ammo_box/magazine/m9mm,
 /obj/machinery/light/small/directional/north,
+<<<<<<< HEAD
 /turf/open/floor/mineral/plastitanium,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/obj/item/gun/ballistic/automatic/pistol,
+/turf/open/floor/mineral/plastitanium,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Sq" = (
 /obj/machinery/power/smes,
 /obj/structure/cable,
 /turf/open/floor/mineral/plastitanium/red,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Sv" = (
 /obj/structure/closet/crate/secure/gear{
 	req_access = list("syndicate")
 	},
 /obj/effect/spawner/random/food_or_drink/donkpockets,
 /turf/open/floor/mineral/plastitanium,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "Sz" = (
 /turf/open/floor/iron/dark,
@@ -1168,6 +1841,26 @@
 /obj/structure/sign/poster/contraband/syndicate_recruitment,
 /turf/closed/wall/r_wall/syndicate/hull,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+"Sz" = (
+/turf/open/floor/iron/dark,
+/area/virtual_domain)
+"SX" = (
+/obj/machinery/vending/medical/syndicate/cybersun,
+/turf/open/floor/plastic,
+/area/virtual_domain)
+"TB" = (
+/turf/closed/indestructible/syndicate,
+/area/virtual_domain/protected_space)
+"UQ" = (
+/obj/structure/sign/poster/contraband/syndicate_recruitment,
+/turf/closed/wall/r_wall/syndicate,
+/area/virtual_domain)
+"Vg" = (
+/turf/open/space/basic,
+/area/virtual_domain/protected_space)
+>>>>>>> tg-pr-88929
 "Vk" = (
 /obj/machinery/porta_turret/syndicate/energy{
 	dir = 4;
@@ -1175,8 +1868,13 @@
 	on = 0;
 	shot_delay = 10
 	},
+<<<<<<< HEAD
 /turf/closed/wall/r_wall/syndicate/hull,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/turf/closed/wall/r_wall/syndicate,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Vq" = (
 /obj/structure/transit_tube/station/dispenser/reverse{
 	dir = 8
@@ -1185,8 +1883,13 @@
 /area/virtual_domain/safehouse)
 "Wd" = (
 /obj/structure/sign/poster/contraband/tools,
+<<<<<<< HEAD
 /turf/closed/wall/r_wall/syndicate/hull,
 /area/ruin/space/has_grav/powered/virtual_domain/protected_space)
+=======
+/turf/closed/wall/r_wall/syndicate,
+/area/virtual_domain/protected_space)
+>>>>>>> tg-pr-88929
 "Wy" = (
 /obj/structure/closet/crate/secure/gear{
 	req_access = list("syndicate")
@@ -1195,13 +1898,18 @@
 	amount = 19
 	},
 /turf/open/floor/mineral/plastitanium,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "WR" = (
 /obj/machinery/power/port_gen/pacman/super{
 	anchored = 1
 	},
 /obj/structure/cable,
 /turf/open/floor/mineral/plastitanium/red,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "Xp" = (
 /turf/open/space/basic,
@@ -1210,6 +1918,16 @@
 /obj/machinery/light/directional/north,
 /turf/open/floor/mineral/plastitanium,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+"Xp" = (
+/turf/open/space/basic,
+/area/virtual_domain)
+"XS" = (
+/obj/machinery/light/directional/north,
+/turf/open/floor/mineral/plastitanium,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Yb" = (
 /obj/structure/closet/crate/secure/gear{
 	req_access = list("syndicate")
@@ -1217,11 +1935,19 @@
 /obj/item/clothing/head/helmet/space/syndicate/black/engie,
 /obj/item/clothing/suit/space/syndicate/black/engie,
 /turf/open/floor/pod/dark,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain/protected_space)
 "Yi" = (
 /obj/effect/landmark/bitrunning/cache_spawn,
 /turf/open/floor/plastic,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain/protected_space)
+"Yi" = (
+/obj/effect/landmark/bitrunning/cache_spawn,
+/turf/open/floor/plastic,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Yj" = (
 /obj/structure/closet/crate/secure/gear{
 	req_access = list("syndicate")
@@ -1230,7 +1956,11 @@
 	amount = 3
 	},
 /turf/open/floor/mineral/plastitanium,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Yk" = (
 /obj/machinery/door/airlock/grunge{
 	name = "Captain's Room"
@@ -1242,7 +1972,11 @@
 	state_open = 1
 	},
 /turf/open/floor/carpet/royalblack,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Yr" = (
 /obj/effect/baseturf_helper/virtual_domain,
 /turf/template_noop,
@@ -1250,11 +1984,16 @@
 "Yu" = (
 /obj/structure/chair/comfy/black,
 /turf/open/floor/carpet/royalblack,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "YV" = (
 /obj/structure/sink/directional/south,
 /obj/structure/mirror/directional/west,
 /turf/open/floor/iron/dark,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "Za" = (
 /obj/machinery/computer/operating,
@@ -1263,12 +2002,26 @@
 "Zb" = (
 /turf/open/floor/plastic,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+"Za" = (
+/obj/machinery/computer/operating,
+/turf/open/floor/plastic,
+/area/virtual_domain)
+"Zb" = (
+/turf/open/floor/plastic,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "ZA" = (
 /obj/machinery/power/shuttle_engine/propulsion{
 	dir = 8
 	},
 /turf/open/space/basic,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 
 (1,1,1) = {"
 Hq
@@ -2039,14 +2792,23 @@ ru
 Sv
 vD
 uP
+<<<<<<< HEAD
 uP
+=======
+Io
+>>>>>>> tg-pr-88929
 Yj
 vD
 uP
 Wy
 DA
+<<<<<<< HEAD
 uP
 QX
+=======
+Io
+uP
+>>>>>>> tg-pr-88929
 vD
 cc
 ru
@@ -2105,9 +2867,15 @@ uP
 uP
 lN
 uP
+<<<<<<< HEAD
 uP
 uP
 uP
+=======
+QX
+uP
+Io
+>>>>>>> tg-pr-88929
 hA
 qx
 qx
@@ -2267,7 +3035,11 @@ qx
 qx
 qx
 ru
+<<<<<<< HEAD
 vp
+=======
+og
+>>>>>>> tg-pr-88929
 Jg
 ru
 bh
@@ -2278,8 +3050,13 @@ sz
 Kz
 ru
 Mc
+<<<<<<< HEAD
 gD
 yD
+=======
+uP
+uP
+>>>>>>> tg-pr-88929
 uP
 rP
 ru
@@ -2325,10 +3102,17 @@ qx
 qx
 qx
 ru
+<<<<<<< HEAD
 sH
 Kz
 yl
 oZ
+=======
+Kz
+Kz
+yl
+bh
+>>>>>>> tg-pr-88929
 bh
 Yk
 pS
@@ -2337,7 +3121,11 @@ Jz
 vK
 uP
 uP
+<<<<<<< HEAD
 uP
+=======
+Io
+>>>>>>> tg-pr-88929
 sL
 hy
 ru
@@ -2395,7 +3183,11 @@ pM
 vK
 uP
 uP
+<<<<<<< HEAD
 EX
+=======
+QX
+>>>>>>> tg-pr-88929
 sL
 Im
 ru
@@ -2452,7 +3244,11 @@ JN
 MR
 ru
 Sd
+<<<<<<< HEAD
 gD
+=======
+uP
+>>>>>>> tg-pr-88929
 uP
 uP
 gD
@@ -2503,7 +3299,11 @@ ru
 Lo
 ru
 tv
+<<<<<<< HEAD
 ki
+=======
+hD
+>>>>>>> tg-pr-88929
 nU
 wb
 EB
@@ -2696,6 +3496,7 @@ qx
 nB
 nB
 we
+<<<<<<< HEAD
 QU
 QU
 cI
@@ -2711,6 +3512,23 @@ qx
 qx
 qx
 qx
+=======
+zN
+zN
+dp
+sg
+zN
+zN
+nn
+nn
+nn
+nn
+Vg
+Vg
+Vg
+Vg
+Vg
+>>>>>>> tg-pr-88929
 sM
 sM
 sM
@@ -2755,9 +3573,15 @@ qx
 nB
 nB
 qU
+<<<<<<< HEAD
 Oo
 cI
 cI
+=======
+mL
+dp
+dp
+>>>>>>> tg-pr-88929
 li
 cj
 Lk
@@ -2804,7 +3628,11 @@ ru
 ru
 ru
 ru
+<<<<<<< HEAD
 Vk
+=======
+ru
+>>>>>>> tg-pr-88929
 qx
 qx
 qx
@@ -2812,6 +3640,7 @@ qx
 qx
 nB
 nB
+<<<<<<< HEAD
 QU
 eB
 cI
@@ -2827,6 +3656,23 @@ qx
 qx
 qx
 qx
+=======
+zN
+eB
+dp
+dp
+dp
+zN
+nn
+Vg
+Vg
+Vg
+Vg
+Vg
+Vg
+Vg
+Vg
+>>>>>>> tg-pr-88929
 sM
 sM
 sM
@@ -2870,12 +3716,21 @@ qx
 qx
 qx
 nB
+<<<<<<< HEAD
 QU
 wL
 LN
 cI
 KM
 QU
+=======
+zN
+wL
+LB
+dp
+mA
+zN
+>>>>>>> tg-pr-88929
 yZ
 nB
 nB
@@ -2910,7 +3765,11 @@ dw
 ru
 rH
 uP
+<<<<<<< HEAD
 AN
+=======
+JA
+>>>>>>> tg-pr-88929
 JA
 iX
 JA
@@ -2930,10 +3789,17 @@ qx
 qx
 Wd
 OH
+<<<<<<< HEAD
 LN
 cI
 RU
 QU
+=======
+LB
+dp
+RU
+zN
+>>>>>>> tg-pr-88929
 we
 nB
 nB
@@ -2987,11 +3853,19 @@ BK
 BK
 BK
 IH
+<<<<<<< HEAD
 LN
 LN
 cI
 RU
 QU
+=======
+LB
+LB
+dp
+RU
+zN
+>>>>>>> tg-pr-88929
 nB
 nB
 qx
@@ -3025,6 +3899,7 @@ uP
 uP
 dd
 uP
+<<<<<<< HEAD
 Aa
 hD
 Nt
@@ -3032,6 +3907,15 @@ aw
 hD
 hD
 bo
+=======
+uP
+uP
+Ox
+aw
+uP
+uP
+uP
+>>>>>>> tg-pr-88929
 uP
 dd
 uP
@@ -3046,10 +3930,17 @@ qx
 qx
 iL
 cZ
+<<<<<<< HEAD
 cI
 cI
 RU
 QU
+=======
+dp
+dp
+RU
+zN
+>>>>>>> tg-pr-88929
 nB
 nB
 qx
@@ -3085,9 +3976,15 @@ ru
 XS
 uP
 uP
+<<<<<<< HEAD
 hD
 aZ
 hD
+=======
+uP
+FN
+uP
+>>>>>>> tg-pr-88929
 uP
 uP
 Cf
@@ -3102,12 +3999,21 @@ qx
 qx
 qx
 nB
+<<<<<<< HEAD
 QU
 QU
 Dj
 QF
 QU
 QU
+=======
+zN
+zN
+Dj
+QF
+zN
+zN
+>>>>>>> tg-pr-88929
 nB
 nB
 qx
@@ -3152,7 +4058,11 @@ uP
 ru
 hD
 ru
+<<<<<<< HEAD
 Ig
+=======
+xS
+>>>>>>> tg-pr-88929
 qx
 qx
 qx
@@ -3161,10 +4071,17 @@ qx
 nB
 nB
 nB
+<<<<<<< HEAD
 QU
 QU
 QU
 QU
+=======
+zN
+zN
+zN
+zN
+>>>>>>> tg-pr-88929
 nB
 nB
 we
@@ -3264,7 +4181,11 @@ tI
 Kz
 Kz
 ct
+<<<<<<< HEAD
 xJ
+=======
+sH
+>>>>>>> tg-pr-88929
 ru
 qx
 qx
@@ -3489,6 +4410,7 @@ ru
 Kz
 ru
 Kz
+<<<<<<< HEAD
 pz
 Kz
 xZ
@@ -3497,6 +4419,16 @@ fM
 Kz
 kI
 Kz
+=======
+Kz
+Kz
+pz
+Kz
+kI
+Kz
+Kz
+Kz
+>>>>>>> tg-pr-88929
 ru
 Mm
 ru
@@ -3554,7 +4486,11 @@ Kz
 Kz
 Kz
 Kz
+<<<<<<< HEAD
 Kz
+=======
+dz
+>>>>>>> tg-pr-88929
 ru
 ru
 ru

@@ -105,7 +105,10 @@
 	},
 /obj/effect/mapping_helpers/airlock/locked,
 /obj/effect/mapping_helpers/airlock/cutaiwire,
+<<<<<<< HEAD
 /obj/effect/mapping_helpers/airlock/access/any/syndicate,
+=======
+>>>>>>> tg-pr-88929
 /turf/open/floor/plating,
 /area/shuttle/pirate)
 "im" = (
@@ -226,9 +229,15 @@
 /obj/machinery/light/small/blacklight/directional{
 	dir = 1
 	},
+<<<<<<< HEAD
 /obj/effect/turf_decal/lunar_sand/plating,
 /obj/effect/turf_decal/stripes/white/line,
 /obj/item/stock_parts/manipulator/nano,
+=======
+/obj/item/stock_parts/servo/nano,
+/obj/effect/turf_decal/lunar_sand/plating,
+/obj/effect/turf_decal/stripes/white/line,
+>>>>>>> tg-pr-88929
 /turf/open/floor/iron/dark,
 /area/shuttle/pirate)
 "nR" = (
@@ -377,7 +386,10 @@
 	},
 /obj/effect/mapping_helpers/airlock/locked,
 /obj/effect/mapping_helpers/airlock/cutaiwire,
+<<<<<<< HEAD
 /obj/effect/mapping_helpers/airlock/access/any/syndicate,
+=======
+>>>>>>> tg-pr-88929
 /turf/open/floor/plating,
 /area/shuttle/pirate)
 "uH" = (
@@ -432,8 +444,12 @@
 "vY" = (
 /obj/machinery/computer/camera_advanced/shuttle_docker/syndicate/pirate{
 	dir = 8;
+<<<<<<< HEAD
 	x_offset = 10;
 	y_offset = 5
+=======
+	x_offset = -8
+>>>>>>> tg-pr-88929
 	},
 /obj/effect/turf_decal/weather/dirt{
 	dir = 3
@@ -489,7 +505,11 @@
 /obj/effect/turf_decal/stripes/white/line{
 	dir = 8
 	},
+<<<<<<< HEAD
 /turf/open/floor/plating,
+=======
+/turf/open/floor/plating/airless,
+>>>>>>> tg-pr-88929
 /area/shuttle/pirate)
 "yz" = (
 /obj/structure/flora/lunar_plant/style_3,
@@ -532,7 +552,10 @@
 /obj/effect/mapping_helpers/airlock/locked,
 /obj/structure/fans/tiny,
 /obj/effect/mapping_helpers/airlock/cutaiwire,
+<<<<<<< HEAD
 /obj/effect/mapping_helpers/airlock/access/any/syndicate,
+=======
+>>>>>>> tg-pr-88929
 /turf/open/floor/plating,
 /area/shuttle/pirate)
 "BA" = (
@@ -621,7 +644,10 @@
 /obj/effect/mapping_helpers/airlock/locked,
 /obj/structure/fans/tiny,
 /obj/effect/mapping_helpers/airlock/cutaiwire,
+<<<<<<< HEAD
 /obj/effect/mapping_helpers/airlock/access/any/syndicate,
+=======
+>>>>>>> tg-pr-88929
 /turf/open/floor/plating,
 /area/shuttle/pirate)
 "Gj" = (
@@ -720,9 +746,13 @@
 "Ku" = (
 /obj/effect/turf_decal/lunar_sand/plating,
 /obj/structure/cable,
+<<<<<<< HEAD
 /obj/machinery/power/smes/engineering{
 	charge = 1e+006
 	},
+=======
+/obj/machinery/power/smes/ship,
+>>>>>>> tg-pr-88929
 /turf/open/floor/plating,
 /area/shuttle/pirate)
 "KK" = (
@@ -844,7 +874,11 @@
 /obj/machinery/power/shuttle_engine/propulsion{
 	dir = 8
 	},
+<<<<<<< HEAD
 /turf/open/floor/plating,
+=======
+/turf/open/floor/plating/airless,
+>>>>>>> tg-pr-88929
 /area/shuttle/pirate)
 "Pr" = (
 /obj/structure/table/wood,

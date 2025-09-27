@@ -88,7 +88,7 @@
 
 /datum/design/rtd_loaded
 	name = "Rapid Tiling Device"
-	desc = "A tool that can lay & destory floor tiles on the fly."
+	desc = "A tool that can lay & destroy floor tiles on the fly."
 	id = "rtd_loaded"
 	build_type = PROTOLATHE | AWAY_LATHE
 	materials = list(/datum/material/iron =SHEET_MATERIAL_AMOUNT * 15, /datum/material/glass =SHEET_MATERIAL_AMOUNT*1.25)
@@ -137,7 +137,11 @@
 	name = "RCD anti disruption designs upgrade"
 	desc = "Prevents interruption of RCD construction and deconstruction."
 	id = "rcd_upgrade_anti_interrupt"
+<<<<<<< HEAD
 	build_type = PROTOLATHE
+=======
+	build_type = PROTOLATHE | AWAY_LATHE
+>>>>>>> tg-pr-88929
 	materials = list(
 		/datum/material/iron = SHEET_MATERIAL_AMOUNT * 2.5,
 		/datum/material/glass = SHEET_MATERIAL_AMOUNT * 1.25,
@@ -154,7 +158,11 @@
 	name = "RCD cooling upgrade"
 	desc = "Allows the RCD to more quickly perform multiple actions at once."
 	id = "rcd_upgrade_cooling"
+<<<<<<< HEAD
 	build_type = PROTOLATHE
+=======
+	build_type = PROTOLATHE | AWAY_LATHE
+>>>>>>> tg-pr-88929
 	materials = list(
 		/datum/material/iron = SHEET_MATERIAL_AMOUNT * 2,
 		/datum/material/glass = SHEET_MATERIAL_AMOUNT,
@@ -204,7 +212,7 @@
 
 /datum/design/rld_mini
 	name = "Mini Rapid Light Device (MRLD)"
-	desc = "A tool that can portable and standing lighting orbs and glowsticks."
+	desc = "A tool that can deploy portable and standing lighting orbs and glowsticks."
 	id = "rld_mini"
 	build_type = PROTOLATHE | AWAY_LATHE
 	materials = list(/datum/material/iron =SHEET_MATERIAL_AMOUNT*10, /datum/material/glass =SHEET_MATERIAL_AMOUNT*5, /datum/material/plastic =SHEET_MATERIAL_AMOUNT*4, /datum/material/gold =SHEET_MATERIAL_AMOUNT)
@@ -226,6 +234,7 @@
 	)
 	departmental_flags = DEPARTMENT_BITFLAG_SERVICE
 
+<<<<<<< HEAD
 /datum/design/plumbing_rcd_sci
 	name = "Research Plumbing Constructor"
 	id = "plumbing_rcd_sci"
@@ -237,6 +246,8 @@
 	)
 	departmental_flags = DEPARTMENT_BITFLAG_SCIENCE
 
+=======
+>>>>>>> tg-pr-88929
 /datum/design/plumbing_rcd_service
 	name = "Service Plumbing Constructor"
 	id = "plumbing_rcd_service"
@@ -344,7 +355,11 @@
 	desc = "An advanced scalpel obtained through Abductor technology."
 	id = "alien_scalpel"
 	build_path = /obj/item/scalpel/alien
+<<<<<<< HEAD
 	build_type = PROTOLATHE | AWAY_LATHE | MECHFAB // monkestation edit: allow robotics to print
+=======
+	build_type = PROTOLATHE | AWAY_LATHE
+>>>>>>> tg-pr-88929
 	materials = list(/datum/material/iron =SHEET_MATERIAL_AMOUNT, /datum/material/silver =HALF_SHEET_MATERIAL_AMOUNT * 1.5, /datum/material/plasma =SMALL_MATERIAL_AMOUNT*5, /datum/material/titanium =HALF_SHEET_MATERIAL_AMOUNT * 1.5)
 	category = list(
 		RND_CATEGORY_TOOLS + RND_SUBCATEGORY_TOOLS_MEDICAL_ALIEN
@@ -356,7 +371,11 @@
 	desc = "An advanced hemostat obtained through Abductor technology."
 	id = "alien_hemostat"
 	build_path = /obj/item/hemostat/alien
+<<<<<<< HEAD
 	build_type = PROTOLATHE | AWAY_LATHE | MECHFAB // monkestation edit: allow robotics to print
+=======
+	build_type = PROTOLATHE | AWAY_LATHE
+>>>>>>> tg-pr-88929
 	materials = list(/datum/material/iron =SHEET_MATERIAL_AMOUNT, /datum/material/silver =HALF_SHEET_MATERIAL_AMOUNT * 1.5, /datum/material/plasma =SMALL_MATERIAL_AMOUNT*5, /datum/material/titanium =HALF_SHEET_MATERIAL_AMOUNT * 1.5)
 	category = list(
 		RND_CATEGORY_TOOLS + RND_SUBCATEGORY_TOOLS_MEDICAL_ALIEN
@@ -368,7 +387,11 @@
 	desc = "An advanced retractor obtained through Abductor technology."
 	id = "alien_retractor"
 	build_path = /obj/item/retractor/alien
+<<<<<<< HEAD
 	build_type = PROTOLATHE | AWAY_LATHE | MECHFAB // monkestation edit: allow robotics to print
+=======
+	build_type = PROTOLATHE | AWAY_LATHE
+>>>>>>> tg-pr-88929
 	materials = list(/datum/material/iron =SHEET_MATERIAL_AMOUNT, /datum/material/silver =HALF_SHEET_MATERIAL_AMOUNT * 1.5, /datum/material/plasma =SMALL_MATERIAL_AMOUNT*5, /datum/material/titanium =HALF_SHEET_MATERIAL_AMOUNT * 1.5)
 	category = list(
 		RND_CATEGORY_TOOLS + RND_SUBCATEGORY_TOOLS_MEDICAL_ALIEN
@@ -380,7 +403,11 @@
 	desc = "An advanced surgical saw obtained through Abductor technology."
 	id = "alien_saw"
 	build_path = /obj/item/circular_saw/alien
+<<<<<<< HEAD
 	build_type = PROTOLATHE | AWAY_LATHE | MECHFAB // monkestation edit: allow robotics to print
+=======
+	build_type = PROTOLATHE | AWAY_LATHE
+>>>>>>> tg-pr-88929
 	materials = list(/datum/material/iron =SHEET_MATERIAL_AMOUNT*5, /datum/material/silver =SHEET_MATERIAL_AMOUNT*1.25, /datum/material/plasma =HALF_SHEET_MATERIAL_AMOUNT, /datum/material/titanium =HALF_SHEET_MATERIAL_AMOUNT * 1.5)
 	category = list(
 		RND_CATEGORY_TOOLS + RND_SUBCATEGORY_TOOLS_MEDICAL_ALIEN
@@ -392,7 +419,11 @@
 	desc = "An advanced drill obtained through Abductor technology."
 	id = "alien_drill"
 	build_path = /obj/item/surgicaldrill/alien
+<<<<<<< HEAD
 	build_type = PROTOLATHE | AWAY_LATHE | MECHFAB // monkestation edit: allow robotics to print
+=======
+	build_type = PROTOLATHE | AWAY_LATHE
+>>>>>>> tg-pr-88929
 	materials = list(/datum/material/iron =SHEET_MATERIAL_AMOUNT*5, /datum/material/silver =SHEET_MATERIAL_AMOUNT*1.25, /datum/material/plasma =HALF_SHEET_MATERIAL_AMOUNT, /datum/material/titanium =HALF_SHEET_MATERIAL_AMOUNT * 1.5)
 	category = list(
 		RND_CATEGORY_TOOLS + RND_SUBCATEGORY_TOOLS_MEDICAL_ALIEN
@@ -404,7 +435,11 @@
 	desc = "An advanced cautery obtained through Abductor technology."
 	id = "alien_cautery"
 	build_path = /obj/item/cautery/alien
+<<<<<<< HEAD
 	build_type = PROTOLATHE | AWAY_LATHE | MECHFAB // monkestation edit: allow robotics to print
+=======
+	build_type = PROTOLATHE | AWAY_LATHE
+>>>>>>> tg-pr-88929
 	materials = list(/datum/material/iron =SHEET_MATERIAL_AMOUNT, /datum/material/silver =HALF_SHEET_MATERIAL_AMOUNT * 1.5, /datum/material/plasma =SMALL_MATERIAL_AMOUNT*5, /datum/material/titanium =HALF_SHEET_MATERIAL_AMOUNT * 1.5)
 	category = list(
 		RND_CATEGORY_TOOLS + RND_SUBCATEGORY_TOOLS_MEDICAL_ALIEN

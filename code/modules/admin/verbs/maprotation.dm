@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 ADMIN_VERB(admin_change_map, R_SERVER, FALSE, "Change Map", "Set the next map.", ADMIN_CATEGORY_SERVER)
+=======
+ADMIN_VERB(admin_change_map, R_SERVER, "Change Map", "Set the next map.", ADMIN_CATEGORY_SERVER)
+>>>>>>> tg-pr-88929
 	var/list/maprotatechoices = list()
 	for (var/map in config.maplist)
 		var/datum/map_config/virtual_map = config.maplist[map]
@@ -29,7 +33,11 @@ ADMIN_VERB(admin_change_map, R_SERVER, FALSE, "Change Map", "Set the next map.",
 		log_admin("[key_name(user)] is changing the map to a custom map")
 		var/datum/map_config/virtual_map = new
 
+<<<<<<< HEAD
 		var/map_file = input(user, "Pick file:", "Map File") as null | file
+=======
+		var/map_file = input(user, "Pick file:", "Map File") as null|file
+>>>>>>> tg-pr-88929
 		if(isnull(map_file))
 			return
 
@@ -57,7 +65,11 @@ ADMIN_VERB(admin_change_map, R_SERVER, FALSE, "Change Map", "Set the next map.",
 		var/list/json_value = list()
 		var/config = tgui_alert(user,"Would you like to upload an additional config for this map?", "Map Config", list("Yes", "No"))
 		if(config == "Yes")
+<<<<<<< HEAD
 			config_file = input(user, "Pick file:", "Config JSON File") as null | file
+=======
+			config_file = input(user, "Pick file:", "Config JSON File") as null|file
+>>>>>>> tg-pr-88929
 			if(isnull(config_file))
 				return
 			if(copytext("[config_file]", -5) != ".json")
@@ -75,14 +87,22 @@ ADMIN_VERB(admin_change_map, R_SERVER, FALSE, "Change Map", "Set the next map.",
 				return
 		else
 			virtual_map = load_map_config()
+<<<<<<< HEAD
 			virtual_map.map_name = input(user, "Choose the name for the map", "Map Name") as null | text
+=======
+			virtual_map.map_name = input(user, "Choose the name for the map", "Map Name") as null|text
+>>>>>>> tg-pr-88929
 			if(isnull(virtual_map.map_name))
 				virtual_map.map_name = "Custom"
 
 			var/shuttles = tgui_alert(user,"Do you want to modify the shuttles?", "Map Shuttles", list("Yes", "No"))
 			if(shuttles == "Yes")
 				for(var/s in virtual_map.shuttles)
+<<<<<<< HEAD
 					var/shuttle = input(user, s, "Map Shuttles") as null | text
+=======
+					var/shuttle = input(user, s, "Map Shuttles") as null|text
+>>>>>>> tg-pr-88929
 					if(!shuttle)
 						continue
 					if(!SSmapping.shuttle_templates[shuttle])
@@ -111,9 +131,15 @@ ADMIN_VERB(admin_change_map, R_SERVER, FALSE, "Change Map", "Set the next map.",
 		var/datum/map_config/virtual_map = maprotatechoices[chosenmap]
 		message_admins("[key_name_admin(user)] is changing the map to [virtual_map.map_name]")
 		log_admin("[key_name(user)] is changing the map to [virtual_map.map_name]")
+<<<<<<< HEAD
 		if(SSmap_vote.set_next_map(virtual_map))
 			message_admins("[key_name_admin(user)] has changed the map to [virtual_map.map_name]")
 			SSmap_vote.admin_override = TRUE
 
 ADMIN_VERB(admin_revert_map, R_SERVER, FALSE, "Revert Map Vote", "Reverts the next map.", ADMIN_CATEGORY_SERVER)
 	SSmap_vote.revert_next_map()
+=======
+		if (SSmap_vote.set_next_map(virtual_map))
+			message_admins("[key_name_admin(user)] has changed the map to [virtual_map.map_name]")
+			SSmap_vote.admin_override = TRUE
+>>>>>>> tg-pr-88929

@@ -9,12 +9,19 @@
 /datum/security_level
 	/// The name of this security level.
 	var/name = "not set"
+<<<<<<< HEAD
 	/// A three-letter shortform of the security level.
 	var/name_shortform = "not set"
+=======
+>>>>>>> tg-pr-88929
 	/// The color of our announcement divider.
 	var/announcement_color = "default"
 	/// The numerical level of this security level, see defines for more information.
 	var/number_level = -1
+	/// Icon state that will be displayed on displays during this security level
+	var/status_display_icon_state
+	/// The color of the fire alarm light set when changed to this security level
+	var/fire_alarm_light_color
 	/// The sound that we will play when this security level is set
 	var/sound
 	/// The looping sound that will be played while the security level is set
@@ -50,13 +57,24 @@
  */
 /datum/security_level/green
 	name = "green"
+<<<<<<< HEAD
 	name_shortform = "GRN"
 	announcement_color = "green"
 	sound = 'sound/misc/notice2.ogg' // Friendly beep
+=======
+	announcement_color = "green"
+	sound = 'sound/announcer/notice/notice2.ogg' // Friendly beep
+>>>>>>> tg-pr-88929
 	number_level = SEC_LEVEL_GREEN
+	status_display_icon_state = "greenalert"
+	fire_alarm_light_color = LIGHT_COLOR_BLUEGREEN
 	lowering_to_configuration_key = /datum/config_entry/string/alert_green
+<<<<<<< HEAD
 	shuttle_call_time_mod = 2
 	can_set_via_comms_console = TRUE
+=======
+	shuttle_call_time_mod = ALERT_COEFF_GREEN
+>>>>>>> tg-pr-88929
 
 /**
  * BLUE
@@ -65,14 +83,25 @@
  */
 /datum/security_level/blue
 	name = "blue"
+<<<<<<< HEAD
 	name_shortform = "BLU"
 	announcement_color = "blue"
 	sound = 'sound/misc/notice1.ogg' // Angry alarm
+=======
+	announcement_color = "blue"
+	sound = 'sound/announcer/notice/notice1.ogg' // Angry alarm
+>>>>>>> tg-pr-88929
 	number_level = SEC_LEVEL_BLUE
+	status_display_icon_state = "bluealert"
+	fire_alarm_light_color = LIGHT_COLOR_ELECTRIC_CYAN
 	lowering_to_configuration_key = /datum/config_entry/string/alert_blue_downto
 	elevating_to_configuration_key = /datum/config_entry/string/alert_blue_upto
+<<<<<<< HEAD
 	shuttle_call_time_mod = 1
 	can_set_via_comms_console = TRUE
+=======
+	shuttle_call_time_mod = ALERT_COEFF_BLUE
+>>>>>>> tg-pr-88929
 
 /**
  * RED
@@ -81,13 +110,20 @@
  */
 /datum/security_level/red
 	name = "red"
+<<<<<<< HEAD
 	name_shortform = "RED"
 	announcement_color = "red"
 	sound = 'sound/misc/notice3.ogg' // More angry alarm
+=======
+	announcement_color = "red"
+	sound = 'sound/announcer/notice/notice3.ogg' // More angry alarm
+>>>>>>> tg-pr-88929
 	number_level = SEC_LEVEL_RED
+	status_display_icon_state = "redalert"
+	fire_alarm_light_color = LIGHT_COLOR_FLARE
 	lowering_to_configuration_key = /datum/config_entry/string/alert_red_downto
 	elevating_to_configuration_key = /datum/config_entry/string/alert_red_upto
-	shuttle_call_time_mod = 0.5
+	shuttle_call_time_mod = ALERT_COEFF_RED
 
 /**
  * DELTA
@@ -96,6 +132,7 @@
  */
 /datum/security_level/delta
 	name = "delta"
+<<<<<<< HEAD
 	name_shortform = "Δ"
 	announcement_color = "purple"
 	sound = 'sound/misc/airraid.ogg' // Air alarm to signify importance
@@ -185,3 +222,12 @@
 	shuttle_call_time_mod = 0.25 //This is as bad as the nuke going off. Everyone is fucked.
 	can_crew_change_alert = FALSE
 // monkestation end
+=======
+	announcement_color = "purple"
+	sound = 'sound/announcer/alarm/airraid.ogg' // Air alarm to signify importance
+	number_level = SEC_LEVEL_DELTA
+	status_display_icon_state = "deltaalert"
+	fire_alarm_light_color = LIGHT_COLOR_INTENSE_RED
+	elevating_to_configuration_key = /datum/config_entry/string/alert_delta
+	shuttle_call_time_mod = ALERT_COEFF_DELTA
+>>>>>>> tg-pr-88929

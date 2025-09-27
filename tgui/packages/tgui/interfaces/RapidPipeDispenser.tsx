@@ -1,7 +1,11 @@
+<<<<<<< HEAD
 import { BooleanLike, classes } from 'common/react';
 import { multiline } from 'common/string';
 import { capitalizeAll } from 'common/string';
 import { useBackend, useLocalState } from '../backend';
+=======
+import { useState } from 'react';
+>>>>>>> tg-pr-88929
 import {
   Box,
   Button,
@@ -9,9 +13,19 @@ import {
   LabeledList,
   Section,
   Stack,
+<<<<<<< HEAD
   Tabs,
   Table,
 } from '../components';
+=======
+  Table,
+  Tabs,
+} from 'tgui-core/components';
+import { BooleanLike, classes } from 'tgui-core/react';
+import { capitalizeAll } from 'tgui-core/string';
+
+import { useBackend } from '../backend';
+>>>>>>> tg-pr-88929
 import { Window } from '../layouts';
 
 const ROOT_CATEGORIES = ['Atmospherics', 'Disposals', 'Transit Tubes'];
@@ -26,7 +40,10 @@ export const ICON_BY_CATEGORY_NAME = {
   Devices: 'microchip',
   'Heat Exchange': 'thermometer-half',
   'Station Equipment': 'microchip',
+<<<<<<< HEAD
   'Air Sensors': 'microchip',
+=======
+>>>>>>> tg-pr-88929
 };
 
 const TOOLS = [
@@ -48,6 +65,7 @@ const TOOLS = [
   },
 ];
 
+<<<<<<< HEAD
 const LAYERS = [
   {
     name: '1',
@@ -71,6 +89,8 @@ const LAYERS = [
   },
 ] as const;
 
+=======
+>>>>>>> tg-pr-88929
 type DirectionsAllowed = {
   north: BooleanLike;
   south: BooleanLike;
@@ -113,19 +133,31 @@ type Preview = {
 };
 
 type Data = {
+<<<<<<< HEAD
+=======
+  // Static
+  paint_colors: Colors;
+  max_pipe_layers: number;
+>>>>>>> tg-pr-88929
   // Dynamic
   category: number;
   pipe_layers: number;
   multi_layer: BooleanLike;
+<<<<<<< HEAD
   ducting_layer: number;
+=======
+>>>>>>> tg-pr-88929
   categories: Category[];
   selected_recipe: string;
   selected_color: string;
   selected_category: string;
   mode: number;
   init_directions: DirectionsAllowed;
+<<<<<<< HEAD
   // Static
   paint_colors: Colors;
+=======
+>>>>>>> tg-pr-88929
 };
 
 export const ColorItem = (props) => {
@@ -168,13 +200,22 @@ const ModeItem = (props) => {
         <Button.Checkbox
           key={tool.bitmask}
           checked={mode & tool.bitmask}
+<<<<<<< HEAD
           content={tool.name}
+=======
+>>>>>>> tg-pr-88929
           onClick={() =>
             act('mode', {
               mode: tool.bitmask,
             })
           }
+<<<<<<< HEAD
         />
+=======
+        >
+          {tool.name}
+        </Button.Checkbox>
+>>>>>>> tg-pr-88929
       ))}
     </LabeledList.Item>
   );
@@ -201,7 +242,11 @@ const CategoryItem = (props) => {
 };
 
 const SelectionSection = (props) => {
+<<<<<<< HEAD
   const { act, data } = useBackend<Data>();
+=======
+  const { data } = useBackend<Data>();
+>>>>>>> tg-pr-88929
   const { category: rootCategoryIndex } = data;
   return (
     <Section fill>
@@ -215,6 +260,7 @@ const SelectionSection = (props) => {
   );
 };
 
+<<<<<<< HEAD
 // MONKESTATION ADDITION -- added context to layer select and useBackend<Data>()
 const LayerSelect = (props) => {
   const { act, data } = useBackend<Data>();
@@ -238,29 +284,78 @@ const LayerSelect = (props) => {
         key="multilayer"
         checked={multi_layer}
         content="Multi"
+=======
+const LayerSelect = (props) => {
+  const { act, data } = useBackend<Data>();
+  const { pipe_layers, multi_layer, max_pipe_layers } = data;
+  const layer_to_bitmask = (layer: number) => {
+    return 1 << layer;
+  };
+
+  return (
+    <LabeledList.Item label="Layer">
+      {Array(max_pipe_layers)
+        .keys()
+        .map((layer) => (
+          <Button.Checkbox
+            key={layer}
+            checked={
+              multi_layer
+                ? pipe_layers & layer_to_bitmask(layer)
+                : layer_to_bitmask(layer) === pipe_layers
+            }
+            onClick={() =>
+              act('pipe_layers', { pipe_layers: layer_to_bitmask(layer) })
+            }
+          >
+            {layer + 1}
+          </Button.Checkbox>
+        ))}
+      <Button.Checkbox
+        key="multilayer"
+        checked={multi_layer}
+>>>>>>> tg-pr-88929
         tooltip="Build on multiple pipe layers simultaneously"
         onClick={() => {
           act('toggle_multi_layer');
         }}
+<<<<<<< HEAD
       />
+=======
+      >
+        Multi
+      </Button.Checkbox>
+>>>>>>> tg-pr-88929
     </LabeledList.Item>
   );
 };
 
 const PreviewSelect = (props) => {
+<<<<<<< HEAD
   const { act, data } = useBackend<Data>();
+=======
+  const { act } = useBackend<Data>();
+>>>>>>> tg-pr-88929
   return (
     <Box>
       {props.previews.map((preview) => (
         <Button
           ml={0}
           key={preview.dir}
+<<<<<<< HEAD
           title={preview.dir_name}
+=======
+          tooltip={preview.dir_name}
+>>>>>>> tg-pr-88929
           selected={preview.selected}
           style={{
             width: '40px',
             height: '40px',
+<<<<<<< HEAD
             padding: 0,
+=======
+            padding: '0',
+>>>>>>> tg-pr-88929
           }}
           onClick={() => {
             act('pipe_type', {
@@ -280,8 +375,11 @@ const PreviewSelect = (props) => {
             ])}
             style={{
               transform: 'scale(1.5) translate(9.5%, 9.5%)',
+<<<<<<< HEAD
               '-ms-interpolation-mode': 'nearest-neighbor',
               'image-rendering': 'pixelated',
+=======
+>>>>>>> tg-pr-88929
             }}
           />
         </Button>
@@ -291,6 +389,7 @@ const PreviewSelect = (props) => {
 };
 
 const PipeTypeSection = (props) => {
+<<<<<<< HEAD
   const { act, data } = useBackend<Data>();
   const { categories = [], selected_category, selected_recipe } = data;
   const [categoryName, setCategoryName] = useLocalState(
@@ -300,12 +399,24 @@ const PipeTypeSection = (props) => {
   const shownCategory =
     categories.find((category) => category.cat_name === categoryName) ||
     categories[0];
+=======
+  const { data } = useBackend<Data>();
+  const { categories = [], selected_category } = data;
+  const [categoryName, setCategoryName] = useState(selected_category);
+  const shownCategory =
+    categories.find((category) => category.cat_name === categoryName) ||
+    categories[0];
+
+>>>>>>> tg-pr-88929
   return (
     <Section>
       <Tabs>
         {categories.map((category, i) => (
           <Tabs.Tab
+<<<<<<< HEAD
             fluid
+=======
+>>>>>>> tg-pr-88929
             key={category.cat_name}
             icon={ICON_BY_CATEGORY_NAME[category.cat_name]}
             selected={category.cat_name === shownCategory.cat_name}
@@ -319,7 +430,11 @@ const PipeTypeSection = (props) => {
         {shownCategory?.recipes.map((recipe) => (
           <Table.Row
             key={recipe.pipe_index}
+<<<<<<< HEAD
             style={{ 'border-bottom': '1px solid #333' }}
+=======
+            style={{ borderBottom: '1px solid #333' }}
+>>>>>>> tg-pr-88929
           >
             <Table.Cell collapsing py="2px" pb="1px">
               <PreviewSelect
@@ -329,7 +444,11 @@ const PipeTypeSection = (props) => {
               />
             </Table.Cell>
             <Table.Cell />
+<<<<<<< HEAD
             <Table.Cell style={{ 'vertical-align': 'middle' }}>
+=======
+            <Table.Cell style={{ verticalAlign: 'middle' }}>
+>>>>>>> tg-pr-88929
               {recipe.pipe_name}
             </Table.Cell>
           </Table.Row>
@@ -352,11 +471,18 @@ export const SmartPipeBlockSection = (props) => {
                 color="transparent"
                 icon="info"
                 tooltipPosition="right"
+<<<<<<< HEAD
                 tooltip={multiline`
                 This is a panel for blocking certain connection
                 directions for the smart pipes.
                 The button in the center resets to
                 default (all directions can connect)`}
+=======
+                tooltip="This is a panel for blocking certain connection
+                directions for the smart pipes.
+                The button in the center resets to
+                default (all directions can connect)"
+>>>>>>> tg-pr-88929
               />
             </Stack.Item>
             <Stack.Item>
@@ -418,7 +544,11 @@ export const SmartPipeBlockSection = (props) => {
 };
 
 export const RapidPipeDispenser = (props) => {
+<<<<<<< HEAD
   const { act, data } = useBackend<Data>();
+=======
+  const { data } = useBackend<Data>();
+>>>>>>> tg-pr-88929
   const { category: rootCategoryIndex } = data;
   return (
     <Window width={550} height={580}>

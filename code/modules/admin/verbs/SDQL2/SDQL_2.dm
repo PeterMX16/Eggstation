@@ -64,7 +64,7 @@
 	"SELECT /mob/living IN (@[/area/service/bar MAP contents])[1]"
 
 	What if some dumbass admin spawned a bajillion spiders and you need to kill them all?
-	Oh yeah you'd rather not delete all the spiders in maintenace. Only that one room the spiders were
+	Oh yeah you'd rather not delete all the spiders in maintenance. Only that one room the spiders were
 	spawned in.
 
 	"DELETE /mob/living/carbon/superior_animal/giant_spider WHERE loc.loc == marked"
@@ -109,7 +109,7 @@
 	By the way, queries are slow and take a while. Be patient.
 	They don't hang the entire server though.
 
-	With great power comes great responsability.
+	With great power comes great responsibility.
 
 	Here's a slightly more formal quick reference.
 
@@ -195,14 +195,22 @@
 		state = SDQL2_STATE_ERROR;\
 		CRASH("SDQL2 fatal error");};
 
+<<<<<<< HEAD
 ADMIN_VERB(sdql2_query, R_DEBUG, FALSE, "SDQL2 Query", "Run a SDQL2 query.", ADMIN_CATEGORY_DEBUG, query_text as message)
+=======
+ADMIN_VERB(sdql2_query, R_DEBUG, "SDQL2 Query", "Run a SDQL2 query.", ADMIN_CATEGORY_DEBUG, query_text as message)
+>>>>>>> tg-pr-88929
 	var/prompt = tgui_alert(user, "Run SDQL2 Query?", "SDQL2", list("Yes", "Cancel"))
 	if (prompt != "Yes")
 		return
 	var/list/results = world.SDQL2_query(query_text, key_name_admin(user), "[key_name(user)]")
 	if(length(results) == 3)
 		for(var/I in 1 to 3)
+<<<<<<< HEAD
 			to_chat(user, results[I], confidential = TRUE)
+=======
+			to_chat(user, span_admin(results[I]), confidential = TRUE)
+>>>>>>> tg-pr-88929
 	SSblackbox.record_feedback("nested tally", "SDQL query", 1, list(user.ckey, query_text))
 
 /world/proc/SDQL2_query(query_text, log_entry1, log_entry2, silent = FALSE)
@@ -298,9 +306,11 @@ ADMIN_VERB(sdql2_query, R_DEBUG, FALSE, "SDQL2 Query", "Run a SDQL2 query.", ADM
 	while(!finished)
 
 	var/end_time_total = REALTIMEOFDAY - start_time_total
-	return list(span_admin("SDQL query combined results: [query_text]"),\
-		span_admin("SDQL query completed: [objs_all] objects selected by path, and [selectors_used ? objs_eligible : objs_all] objects executed on after WHERE filtering/MAPping if applicable."),\
-		span_admin("SDQL combined querys took [DisplayTimeText(end_time_total)] to complete.")) + combined_refs
+	return list(
+		"SDQL query combined results: [query_text]",
+		"SDQL query completed: [objs_all] objects selected by path, and [selectors_used ? objs_eligible : objs_all] objects executed on after WHERE filtering/MAPping if applicable.",
+		"SDQL combined querys took [DisplayTimeText(end_time_total)] to complete.",
+	) + combined_refs
 
 GLOBAL_LIST_INIT(sdql2_queries, GLOB.sdql2_queries || list())
 GLOBAL_DATUM_INIT(sdql2_vv_statobj, /obj/effect/statclick/sdql2_vv_all, new(null, "VIEW VARIABLES (all)", null))
@@ -720,12 +730,20 @@ GLOBAL_DATUM_INIT(sdql2_vv_statobj, /obj/effect/statclick/sdql2_vv_all, new(null
 
 /datum/sdql2_query/proc/SDQL_print(object, list/text_list, print_nulls = TRUE)
 	if(isdatum(object))
+<<<<<<< HEAD
 		text_list += "<A HREF='byond://?_src_=vars;[HrefToken(forceGlobal = TRUE)];Vars=[REF(object)]'>[REF(object)]</A> : [object]"
+=======
+		text_list += "<A href='byond://?_src_=vars;[HrefToken(forceGlobal = TRUE)];Vars=[REF(object)]'>[REF(object)]</A> : [object]"
+>>>>>>> tg-pr-88929
 		if(istype(object, /atom))
 			var/atom/A = object
 			var/turf/T = A.loc
 			var/area/a
-			if(istype(T))
+			if(isturf(A))
+				a = A.loc
+				T = A //this should prevent the "inside" part
+				text_list += " <font color='gray'>at</font> [ADMIN_COORDJMP(A)]"
+			else if(istype(T))
 				text_list += " <font color='gray'>at</font> [T] [ADMIN_COORDJMP(T)]"
 				a = T.loc
 			else
@@ -1016,7 +1034,7 @@ GLOBAL_DATUM_INIT(sdql2_vv_statobj, /obj/effect/statclick/sdql2_vv_all, new(null
 		return null
 
 	else if(expression [start] == "{" && long)
-		if(lowertext(copytext(expression[start + 1], 1, 3)) != "0x") //3 == length("0x") + 1
+		if(LOWER_TEXT(copytext(expression[start + 1], 1, 3)) != "0x") //3 == length("0x") + 1
 			to_chat(usr, span_danger("Invalid pointer syntax: [expression[start + 1]]"), confidential = TRUE)
 			return null
 		var/datum/located = locate("\[[expression[start + 1]]]")

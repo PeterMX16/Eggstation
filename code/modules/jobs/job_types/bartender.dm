@@ -48,7 +48,8 @@
 	jobtype = /datum/job/bartender
 
 	id_trim = /datum/id_trim/job/bartender
-	uniform = /obj/item/clothing/under/rank/civilian/bartender
+	neck = /obj/item/clothing/neck/bowtie
+	uniform = /obj/item/clothing/under/costume/buttondown/slacks/service
 	suit = /obj/item/clothing/suit/armor/vest
 	backpack_contents = list(
 		/obj/item/storage/box/beanbag = 1,
@@ -58,7 +59,9 @@
 	glasses = /obj/item/clothing/glasses/sunglasses/reagent
 	shoes = /obj/item/clothing/shoes/laceup
 
-/datum/outfit/job/bartender/post_equip(mob/living/carbon/human/H, visualsOnly)
+	skillchips = list(/obj/item/skillchip/drunken_brawler)
+
+/datum/outfit/job/bartender/post_equip(mob/living/carbon/human/H, visuals_only)
 	. = ..()
 
 	var/obj/item/card/id/W = H.wear_id

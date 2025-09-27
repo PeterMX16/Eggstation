@@ -8,9 +8,16 @@
 	desc = "A scavenger that eats raw ores, often found alongside ash walkers. Produces a thick, nutritious milk."
 	icon = 'icons/mob/simple/lavaland/lavaland_monsters.dmi'
 	icon_state = "gutlunch"
+<<<<<<< HEAD
 	icon_living = "gutlunch"
 	icon_dead = "gutlunch"
 	mob_biotypes = MOB_ORGANIC|MOB_BUG|MOB_MINING
+=======
+	combat_mode = FALSE
+	icon_living = "gutlunch"
+	icon_dead = "gutlunch"
+	mob_biotypes = MOB_ORGANIC|MOB_BEAST
+>>>>>>> tg-pr-88929
 	basic_mob_flags = DEL_ON_DEATH
 	speak_emote = list("warbles", "quavers")
 	faction = list(FACTION_ASHWALKER)
@@ -33,6 +40,7 @@
 /mob/living/basic/mining/gutlunch/Initialize(mapload)
 	. = ..()
 	GLOB.gutlunch_count++
+<<<<<<< HEAD
 	RegisterSignal(src, COMSIG_HOSTILE_PRE_ATTACKINGTARGET, PROC_REF(pre_attack))
 	if(greyscale_config)
 		set_greyscale(colors = list(pick(possible_colors)))
@@ -46,11 +54,19 @@
 		post_birth = CALLBACK(src, PROC_REF(after_birth)),\
 		breed_timer = 3 MINUTES,\
 	)
+=======
+	if(greyscale_config)
+		set_greyscale(colors = list(pick(possible_colors)))
+	AddElement(/datum/element/ai_retaliate)
+	if(can_breed)
+		add_breeding_component()
+>>>>>>> tg-pr-88929
 
 /mob/living/basic/mining/gutlunch/Destroy()
 	GLOB.gutlunch_count--
 	return ..()
 
+<<<<<<< HEAD
 /mob/living/basic/mining/gutlunch/proc/pre_attack(mob/living/puncher, atom/target)
 	SIGNAL_HANDLER
 
@@ -64,6 +80,20 @@
 	else
 		melee_attack(ore_food)
 	return COMPONENT_HOSTILE_NO_ATTACK
+=======
+/mob/living/basic/mining/gutlunch/early_melee_attack(atom/target, list/modifiers, ignore_cooldown)
+	. = ..()
+	if(!.)
+		return
+	if(!istype(target, /obj/structure/ore_container/food_trough/gutlunch_trough))
+		return TRUE
+	var/obj/ore_food = locate(/obj/item/stack/ore) in target
+	if(isnull(ore_food))
+		balloon_alert(src, "no food!")
+	else
+		UnarmedAttack(ore_food, TRUE, modifiers)
+	return FALSE
+>>>>>>> tg-pr-88929
 
 /mob/living/basic/mining/gutlunch/proc/after_birth(mob/living/basic/mining/gutlunch/grub/baby, mob/living/partner)
 	var/our_color = LAZYACCESS(atom_colours, FIXED_COLOUR_PRIORITY) || COLOR_GRAY
@@ -79,6 +109,23 @@
 	maxHealth = rand(input_health, MAX_POSSIBLE_HEALTH)
 	health = maxHealth
 
+<<<<<<< HEAD
+=======
+/mob/living/basic/mining/gutlunch/proc/add_breeding_component()
+	var/static/list/partner_paths = typecacheof(list(/mob/living/basic/mining/gutlunch))
+	var/static/list/baby_paths = list(
+		/mob/living/basic/mining/gutlunch/grub = 1,
+	)
+
+	AddComponent(\
+		/datum/component/breed,\
+		can_breed_with = partner_paths,\
+		baby_paths = baby_paths,\
+		post_birth = CALLBACK(src, PROC_REF(after_birth)),\
+		breed_timer = 3 MINUTES,\
+	)
+
+>>>>>>> tg-pr-88929
 /mob/living/basic/mining/gutlunch/milk
 	name = "gubbuck"
 	gender = FEMALE
@@ -112,11 +159,20 @@
 	//pet commands when we tame the gutluncher
 	var/static/list/pet_commands = list(
 		/datum/pet_command/idle,
+<<<<<<< HEAD
 		/datum/pet_command/free,
 		/datum/pet_command/point_targeting/attack,
 		/datum/pet_command/point_targeting/breed/gutlunch,
 		/datum/pet_command/follow,
 		/datum/pet_command/point_targeting/fetch,
+=======
+		/datum/pet_command/move,
+		/datum/pet_command/free,
+		/datum/pet_command/attack,
+		/datum/pet_command/breed/gutlunch,
+		/datum/pet_command/follow,
+		/datum/pet_command/fetch,
+>>>>>>> tg-pr-88929
 		/datum/pet_command/mine_walls,
 	)
 
@@ -138,12 +194,19 @@
 	can_breed = FALSE
 	gender = NEUTER
 	ai_controller = /datum/ai_controller/basic_controller/gutlunch/gutlunch_baby
+<<<<<<< HEAD
+=======
+	initial_size = 0.6
+>>>>>>> tg-pr-88929
 	///list of stats we inherited
 	var/datum/gutlunch_inherited_stats/inherited_stats
 
 /mob/living/basic/mining/gutlunch/grub/Initialize(mapload)
 	. = ..()
+<<<<<<< HEAD
 	transform = transform.Scale(0.6, 0.6)
+=======
+>>>>>>> tg-pr-88929
 	AddComponent(\
 		/datum/component/growth_and_differentiation,\
 		growth_time = 3 MINUTES,\

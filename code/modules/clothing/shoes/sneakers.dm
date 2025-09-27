@@ -6,11 +6,31 @@
 	righthand_file = 'icons/mob/inhands/clothing/shoes_righthand.dmi'
 	greyscale_colors = "#2d2d33#ffffff"
 	greyscale_config = /datum/greyscale_config/sneakers
+<<<<<<< HEAD
 	greyscale_config_worn = /datum/greyscale_config/sneakers_worn
 	greyscale_config_worn_digitigrade = /datum/greyscale_config/sneakers_worn/digitigrade
 	greyscale_config_inhand_left = /datum/greyscale_config/sneakers_inhand_left
 	greyscale_config_inhand_right = /datum/greyscale_config/sneakers_inhand_right
+=======
+	greyscale_config_worn = /datum/greyscale_config/sneakers/worn
+	greyscale_config_inhand_left = /datum/greyscale_config/sneakers/inhand_left
+	greyscale_config_inhand_right = /datum/greyscale_config/sneakers/inhand_right
+	supports_variations_flags = CLOTHING_DIGITIGRADE_MASK
+>>>>>>> tg-pr-88929
 	flags_1 = IS_PLAYER_COLORABLE_1
+	interaction_flags_mouse_drop = NEED_HANDS
+
+/obj/item/clothing/shoes/sneakers/get_general_color(icon/base_icon)
+	var/colors = SSgreyscale.ParseColorString(greyscale_colors)
+	return colors ? colors[1] : ..()
+
+/obj/item/clothing/shoes/sneakers/generate_digitigrade_icons(icon/base_icon, greyscale_colors)
+	return icon(SSgreyscale.GetColoredIconByType(/datum/greyscale_config/digitigrade, greyscale_colors), "sneakers_worn")
+
+/obj/item/clothing/shoes/sneakers/random/Initialize(mapload)
+	. = ..()
+	greyscale_colors = "#" + random_color() + "#" + random_color()
+	update_greyscale()
 
 /obj/item/clothing/shoes/sneakers/random/Initialize(mapload)
 	. = ..()
@@ -60,7 +80,7 @@
 /obj/item/clothing/shoes/sneakers/white
 	name = "white shoes"
 	greyscale_colors = "#ffffff#ffffff"
-	icon_preview = 'icons/obj/previews.dmi'
+	icon_preview = 'icons/obj/fluff/previews.dmi'
 	icon_state_preview = "shoes_cloth"
 	armor_type = /datum/armor/sneakers_white
 
@@ -82,25 +102,26 @@
 
 /obj/item/clothing/shoes/sneakers/orange
 	name = "orange shoes"
-	icon_preview = 'icons/obj/previews.dmi'
+	icon_preview = 'icons/obj/fluff/previews.dmi'
 	icon_state_preview = "prisonshoes"
 	greyscale_colors = "#d15b1b#ffffff"
 	greyscale_config = /datum/greyscale_config/sneakers_orange
+<<<<<<< HEAD
 	greyscale_config_worn = /datum/greyscale_config/sneakers_orange_worn
 	greyscale_config_worn_digitigrade = /datum/greyscale_config/sneakers_orange_worn/digitigrade
 	greyscale_config_inhand_left = /datum/greyscale_config/sneakers_orange_inhand_left
 	greyscale_config_inhand_right = /datum/greyscale_config/sneakers_orange_inhand_right
+=======
+	greyscale_config_worn = /datum/greyscale_config/sneakers_orange/worn
+	greyscale_config_inhand_left = /datum/greyscale_config/sneakers_orange/inhand_left
+	greyscale_config_inhand_right = /datum/greyscale_config/sneakers_orange/inhand_right
+>>>>>>> tg-pr-88929
 	flags_1 = NONE
 	var/obj/item/restraints/handcuffs/attached_cuffs
 
 /obj/item/clothing/shoes/sneakers/orange/Initialize(mapload)
 	. = ..()
-	AddElement(/datum/element/update_icon_updates_onmob, (slot_flags|ITEM_SLOT_HANDCUFFED))
-
-/obj/item/clothing/shoes/sneakers/orange/handle_atom_del(atom/deleting_atom)
-	if(deleting_atom == attached_cuffs)
-		moveToNullspace(attached_cuffs)
-	return ..()
+	AddElement(/datum/element/update_icon_updates_onmob, ITEM_SLOT_HANDCUFFED)
 
 /obj/item/clothing/shoes/sneakers/orange/Destroy()
 	QDEL_NULL(attached_cuffs)
@@ -158,10 +179,9 @@
 			return FALSE
 	return ..()
 
-/obj/item/clothing/shoes/sneakers/orange/MouseDrop(atom/over)
-	var/mob/m = usr
-	if(ishuman(m))
-		var/mob/living/carbon/human/c = m
+/obj/item/clothing/shoes/sneakers/orange/mouse_drop_dragged(atom/over_object, mob/user)
+	if(ishuman(user))
+		var/mob/living/carbon/human/c = user
 		if(c.shoes == src && attached_cuffs)
 			to_chat(c, span_warning("You need help taking these off!"))
 			return

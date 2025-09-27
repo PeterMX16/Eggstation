@@ -10,3 +10,5 @@
 	additional_syllable_high = -2
 	default_priority = 80
 	syllables = list("poof", "pff", "pFfF", "piff", "puff", "pooof", "pfffff", "piffpiff", "puffpuff", "poofpoof", "pifpafpofpuf")
+	default_name_syllable_min = 1
+	default_name_syllable_max = 2

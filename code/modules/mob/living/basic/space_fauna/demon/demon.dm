@@ -19,11 +19,19 @@
 	icon_state = "demon"
 	icon_living = "demon"
 
+<<<<<<< HEAD
 	mob_biotypes = MOB_UNDEAD|MOB_HUMANOID // undead is important because it means we can't be healed with sutures and the like. keep this in mind if you ever decide to change this
 	status_flags = CANPUSH
 
 	istate = ISTATE_HARM | ISTATE_BLOCKING
 	attack_sound = 'sound/magic/demon_attack1.ogg'
+=======
+	mob_biotypes = MOB_BEAST|MOB_HUMANOID
+	status_flags = CANPUSH
+
+	combat_mode = TRUE
+	attack_sound = 'sound/effects/magic/demon_attack1.ogg'
+>>>>>>> tg-pr-88929
 	attack_vis_effect = ATTACK_EFFECT_CLAW
 	faction = list(FACTION_HELL)
 
@@ -32,12 +40,22 @@
 	obj_damage = 40
 	melee_damage_lower = 10
 	melee_damage_upper = 15
+<<<<<<< HEAD
 	death_message = "screams in agony as it sublimates into a sulfurous smoke."
 	death_sound = 'sound/magic/demon_dies.ogg'
 
 	habitable_atmos = list("min_oxy" = 0, "max_oxy" = 0, "min_plas" = 0, "max_plas" = 0, "min_co2" = 0, "max_co2" = 0, "min_n2" = 0, "max_n2" = 0)
 	bodytemp_cold_damage_limit = T0C - 25 //Weak to cold
 	bodytemp_heat_damage_limit = INFINITY
+=======
+	melee_attack_cooldown = CLICK_CD_MELEE
+	death_message = "screams in agony as it sublimates into a sulfurous smoke."
+	death_sound = 'sound/effects/magic/demon_dies.ogg'
+
+	habitable_atmos = null
+	minimum_survivable_temperature = T0C - 25 //Weak to cold
+	maximum_survivable_temperature = INFINITY
+>>>>>>> tg-pr-88929
 
 	basic_mob_flags = DEL_ON_DEATH
 
@@ -65,9 +83,17 @@
 	if(isnull(antag_type) || mind.has_antag_datum(antag_type))
 		return // we weren't built for this proc to run
 
+<<<<<<< HEAD
 	mind.set_assigned_role(SSjob.GetJobType(/datum/job/slaughter_demon))
 	mind.special_role = ROLE_SLAUGHTER_DEMON
 	mind.add_antag_datum(antag_type)
 
 	SEND_SOUND(src, 'sound/magic/demon_dies.ogg')
+=======
+	mind.set_assigned_role(SSjob.get_job_type(/datum/job/slaughter_demon))
+	mind.special_role = ROLE_SLAUGHTER_DEMON
+	mind.add_antag_datum(antag_type)
+
+	SEND_SOUND(src, 'sound/effects/magic/demon_dies.ogg')
+>>>>>>> tg-pr-88929
 	to_chat(src, span_bold("You are currently not currently in the same plane of existence as the station. Use your Blood Crawl ability near a pool of blood to manifest and wreak havoc."))

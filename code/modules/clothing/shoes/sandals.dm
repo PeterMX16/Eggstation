@@ -11,6 +11,12 @@
 	can_be_tied = FALSE
 	species_exception = list(/datum/species/golem)
 
+/obj/item/clothing/shoes/sandal/alt
+	desc = "A pair of shiny black wooden sandals."
+	name = "black sandals"
+	icon_state = "blacksandals"
+	inhand_icon_state = "blacksandals"
+
 /datum/armor/shoes_sandal
 	bio = 10
 
@@ -19,6 +25,7 @@
 	desc = "A pair of sandals imbued with magic."
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 
+<<<<<<< HEAD
 /obj/item/clothing/shoes/sandal/gilded
 	name = "gilded sandals"
 	desc = "A well maid pair of sandals that appear to have been made with gold."
@@ -31,3 +38,8 @@
 	icon_state = "blacksandals"
 	inhand_icon_state = "blacksandals"
 
+=======
+/obj/item/clothing/shoes/sandal/beach
+	name = "flip-flops"
+	desc = "A very fashionable pair of flip-flops."
+>>>>>>> tg-pr-88929

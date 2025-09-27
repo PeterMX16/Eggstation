@@ -4,13 +4,21 @@
 			"type": "icon_state",
 			"icon_state": "plushie_carp_body",
 			"blend_mode": "overlay",
+<<<<<<< HEAD
 			"color_ids": [1]
+=======
+			"color_ids": [ 1 ]
+>>>>>>> tg-pr-88929
 		},
 		{
 			"type": "icon_state",
 			"icon_state": "plushie_carp_eyes",
 			"blend_mode": "overlay",
+<<<<<<< HEAD
 			"color_ids": [2]
+=======
+			"color_ids": [ 2 ]
+>>>>>>> tg-pr-88929
 		},
 		{
 			"type": "icon_state",

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { NoteKeeper } from './NoteKeeper';
 import {
   Stack,
@@ -20,7 +21,32 @@ import {
   MENTALSTATUS2ICON,
 } from './constants';
 import { MedicalRecordData } from './types';
+=======
+import {
+  Box,
+  Button,
+  LabeledList,
+  NoticeBox,
+  RestrictedInput,
+  Section,
+  Stack,
+} from 'tgui-core/components';
+
+import { useBackend } from '../../backend';
+import { CharacterPreview } from '../common/CharacterPreview';
+>>>>>>> tg-pr-88929
 import { EditableText } from '../common/EditableText';
+import {
+  MENTALSTATUS2COLOR,
+  MENTALSTATUS2DESC,
+  MENTALSTATUS2ICON,
+  PHYSICALSTATUS2COLOR,
+  PHYSICALSTATUS2DESC,
+  PHYSICALSTATUS2ICON,
+} from './constants';
+import { getMedicalRecord, getQuirkStrings } from './helpers';
+import { NoteKeeper } from './NoteKeeper';
+import { MedicalRecordData } from './types';
 
 /** Views a selected record. */
 export const MedicalRecordView = (props) => {
@@ -78,7 +104,10 @@ export const MedicalRecordView = (props) => {
           fill
           scrollable
           title={name}
+<<<<<<< HEAD
           wrap
+=======
+>>>>>>> tg-pr-88929
         >
           <LabeledList>
             <LabeledList.Item label="Name">

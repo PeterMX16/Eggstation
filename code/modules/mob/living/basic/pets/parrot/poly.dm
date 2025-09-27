@@ -31,14 +31,35 @@
 
 /mob/living/basic/parrot/poly/Initialize(mapload)
 	. = ..()
+<<<<<<< HEAD
 	REGISTER_REQUIRED_MAP_ITEM(1, 1)
+=======
+>>>>>>> tg-pr-88929
 
 	if(!memory_saved)
 		roundend_callback = CALLBACK(src, PROC_REF(Write_Memory))
 		SSticker.OnRoundend(roundend_callback)
 
+<<<<<<< HEAD
 	update_appearance()
 
+=======
+	REGISTER_REQUIRED_MAP_ITEM(1, 1) // every map needs a poly!
+	update_appearance()
+
+	if(!SStts.tts_enabled)
+		return
+
+	voice = pick(SStts.available_speakers)
+	if(SStts.pitch_enabled)
+		if(findtext(voice, "Woman"))
+			pitch = 12 // up-pitch by one octave
+		else
+			pitch = 24 // up-pitch by 2 octaves
+	else
+		voice_filter = "rubberband=pitch=1.5" // Use the filter to pitch up if we can't naturally pitch up.
+
+>>>>>>> tg-pr-88929
 /mob/living/basic/parrot/poly/Destroy()
 	LAZYREMOVE(SSticker.round_end_events, roundend_callback) // we do the memory writing stuff on death, but this is important to yeet as fast as we can if we need to destroy
 	roundend_callback = null
@@ -55,7 +76,11 @@
 		if(mind)
 			mind.transfer_to(specter)
 		else
+<<<<<<< HEAD
 			specter.PossessByPlayer(key)
+=======
+			specter.key = key
+>>>>>>> tg-pr-88929
 	return ..()
 
 /mob/living/basic/parrot/poly/get_static_list_of_phrases() // there's only one poly, so there should only be one ongoing list of phrases. i guess
@@ -168,10 +193,14 @@
 			file_data["longestsurvival"] = longest_survival
 		file_data["longestdeathstreak"] = longest_deathstreak
 
+<<<<<<< HEAD
 	var/formatted_data
 	formatted_data = json_encode(file_data, JSON_PRETTY_PRINT)
 
 	rustg_file_write(formatted_data, file_path)
+=======
+	rustg_file_write(json_encode(file_data, JSON_PRETTY_PRINT), file_path)
+>>>>>>> tg-pr-88929
 	memory_saved = TRUE
 	return TRUE
 
@@ -193,7 +222,11 @@
 /mob/living/basic/parrot/poly/ghost/Initialize(mapload)
 	// block anything and everything that could possibly happen with writing memory for ghosts
 	memory_saved = TRUE
+<<<<<<< HEAD
 	add_traits(list(TRAIT_DONT_WRITE_MEMORY, TRAIT_GODMODE), INNATE_TRAIT)
+=======
+	add_traits(list(TRAIT_GODMODE, TRAIT_DONT_WRITE_MEMORY), INNATE_TRAIT)
+>>>>>>> tg-pr-88929
 	RegisterSignal(src, COMSIG_MOVABLE_MOVED, PROC_REF(on_moved))
 	return ..()
 
@@ -227,6 +260,13 @@
 		animate(filter, alpha = 200, time = 2 SECONDS, loop = -1)
 		animate(alpha = 60, time = 2 SECONDS)
 
+<<<<<<< HEAD
+=======
+	var/datum/disease/parrot_possession/on_possession = new /datum/disease/parrot_possession
+	on_possession.set_parrot(src)
+	possessed_human.ForceContractDisease(on_possession, make_copy = FALSE, del_on_fail = TRUE)
+
+>>>>>>> tg-pr-88929
 #undef POLY_DEFAULT
 #undef POLY_LONGEST_SURVIVAL
 #undef POLY_BEATING_DEATHSTREAK

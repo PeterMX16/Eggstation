@@ -14,7 +14,7 @@
 	barefootstep = FOOTSTEP_SAND
 	clawfootstep = FOOTSTEP_SAND
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
-
+	rust_resistance = RUST_RESISTANCE_ORGANIC
 	/// Base turf type to be created by the tunnel
 	var/turf_type = /turf/open/misc/asteroid
 			/// Whether this turf has different icon states
@@ -25,13 +25,16 @@
 	var/obj/item/stack/dig_result = /obj/item/stack/ore/glass
 	/// Whether the turf has been dug or not
 	var/dug = FALSE
-	/// Icon state to use when broken
-	var/broken_state = "asteroid_dug"
 	/// Percentage chance of receiving a bonus worm
 	var/worm_chance = 30
 	/// Set to TRUE to call ex_act parent
 	var/explodable = FALSE
 	var/changes_icon = TRUE
+
+/turf/open/misc/asteroid/broken_states()
+	if(initial(dug))
+		return list(icon_state)
+	return list("[base_icon_state]_dug")
 
 /turf/open/misc/asteroid/broken_states()
 	if(initial(dug))
@@ -55,6 +58,7 @@
 	if(has_floor_variance && prob(floor_variance))
 		icon_state = "[base_icon_state][rand(0,12)]"
 
+<<<<<<< HEAD
 /// Drops itemstack when dug and changes icon
 /turf/open/misc/asteroid/proc/getDug()
 	dug = TRUE
@@ -73,6 +77,8 @@
 
 /turf/open/misc/asteroid/burn_tile()
 	return
+=======
+>>>>>>> tg-pr-88929
 /turf/open/misc/asteroid/MakeSlippery(wet_setting, min_wet_time, wet_time_to_add, max_wet_time, permanent)
 	return
 
@@ -80,16 +86,26 @@
 	return
 
 /turf/open/misc/asteroid/ex_act(severity, target)
+<<<<<<< HEAD
 	if(!explodable)
 		return
 	return ..()
 
 /turf/open/misc/asteroid/attackby(obj/item/attacking_item, mob/user, list/modifiers, list/attack_modifiers)
+=======
+	return FALSE
+
+/turf/open/misc/asteroid/attackby(obj/item/attack_item, mob/user, params)
+>>>>>>> tg-pr-88929
 	. = ..()
 	if(.)
 		return TRUE
 
+<<<<<<< HEAD
 	if(attacking_item.tool_behaviour == TOOL_SHOVEL || attacking_item.tool_behaviour == TOOL_MINING)
+=======
+	if(attack_item.tool_behaviour == TOOL_SHOVEL || attack_item.tool_behaviour == TOOL_MINING)
+>>>>>>> tg-pr-88929
 		if(!can_dig(user))
 			return TRUE
 
@@ -98,6 +114,7 @@
 
 		balloon_alert(user, "digging...")
 
+<<<<<<< HEAD
 		if(attacking_item.use_tool(src, user, 40, volume=50))
 			if(!can_dig(user))
 				return TRUE
@@ -107,7 +124,44 @@
 	else if(istype(attacking_item, /obj/item/storage/bag/ore))
 		for(var/obj/item/stack/ore/O in src)
 			SEND_SIGNAL(attacking_item, COMSIG_ATOM_ATTACKBY, O)
+=======
+		if(attack_item.use_tool(src, user, 4 SECONDS, volume = 50))
+			if(!can_dig(user))
+				return TRUE
+			getDug()
+			SSblackbox.record_feedback("tally", "pick_used_mining", 1, attack_item.type)
+			return TRUE
+	else if(istype(attack_item, /obj/item/storage/bag/ore))
+		for(var/obj/item/stack/ore/dropped_ore in src)
+			SEND_SIGNAL(attack_item, COMSIG_ATOM_ATTACKBY, dropped_ore)
+>>>>>>> tg-pr-88929
 
+/// Drops itemstack when dug and changes icon
+/turf/open/misc/asteroid/proc/getDug()
+	if(dug || broken)
+		return
+	dug = TRUE
+	broken = TRUE
+	new dig_result(src, 5)
+	if(prob(worm_chance))
+		new /obj/item/food/bait/worm(src)
+	update_appearance()
+
+/// If the user can dig the turf
+/turf/open/misc/asteroid/proc/can_dig(mob/user)
+	if(!dug && !broken)
+		return TRUE
+	if(user)
+		balloon_alert(user, "already excavated!")
+
+///Refills the previously dug tile
+/turf/open/misc/asteroid/proc/refill_dug()
+	dug = FALSE
+	broken = FALSE
+	icon_state = base_icon_state
+	if(has_floor_variance && prob(floor_variance))
+		icon_state = "[base_icon_state][rand(0,12)]"
+	update_appearance()
 
 /turf/open/floor/plating/lavaland_baseturf
 	baseturfs = /turf/open/misc/asteroid/basalt/lava_land_surface
@@ -147,6 +201,11 @@ GLOBAL_LIST_EMPTY(dug_up_basalt)
 	GLOB.dug_up_basalt -= src
 	return ..()
 
+/turf/open/misc/asteroid/basalt/refill_dug()
+	. = ..()
+	GLOB.dug_up_basalt -= src
+	set_basalt_light()
+
 /turf/open/misc/asteroid/basalt/lava //lava underneath
 	baseturfs = /turf/open/lava/smooth
 
@@ -156,14 +215,20 @@ GLOBAL_LIST_EMPTY(dug_up_basalt)
 
 /turf/open/misc/asteroid/basalt/Initialize(mapload)
 	. = ..()
-	set_basalt_light(src)
+	set_basalt_light()
 
-/proc/set_basalt_light(turf/open/floor/B)
-	switch(B.icon_state)
+/turf/open/misc/asteroid/basalt/proc/set_basalt_light()
+	switch(icon_state)
 		if("basalt1", "basalt2", "basalt3")
+<<<<<<< HEAD
 			B.set_light(l_outer_range = 2, l_power = 0.6, l_color = LIGHT_COLOR_LAVA) //more light
 		if("basalt5", "basalt9")
 			B.set_light(l_outer_range = 1.4, l_power = 0.6, l_color = LIGHT_COLOR_LAVA) //barely anything!
+=======
+			set_light(BASALT_LIGHT_RANGE_BRIGHT, BASALT_LIGHT_POWER, LIGHT_COLOR_LAVA) //more light
+		if("basalt5", "basalt9")
+			set_light(BASALT_LIGHT_RANGE_DIM, BASALT_LIGHT_POWER, LIGHT_COLOR_LAVA) //barely anything!
+>>>>>>> tg-pr-88929
 
 ///////Surface. The surface is warm, but survivable without a suit. Internals are required. The floors break to chasms, which drop you into the underground.
 
@@ -174,6 +239,10 @@ GLOBAL_LIST_EMPTY(dug_up_basalt)
 
 /// Used for the lavaland icemoon ruin.
 /turf/open/misc/asteroid/basalt/lava_land_surface/no_ruins
+	turf_flags = NO_RUINS
+
+/// A turf that can't we can't build openspace chasms on or spawn ruins in.
+/turf/closed/mineral/volcanic/lava_land_surface/do_not_chasm
 	turf_flags = NO_RUINS
 
 /turf/open/misc/asteroid/lowpressure
@@ -213,7 +282,11 @@ GLOBAL_LIST_EMPTY(dug_up_basalt)
 		return TRUE
 	return FALSE
 
+<<<<<<< HEAD
 /turf/open/misc/grass/burnt_states()
+=======
+/turf/open/misc/asteroid/snow/burnt_states()
+>>>>>>> tg-pr-88929
 	return list("snow_dug")
 
 /turf/open/misc/asteroid/snow/icemoon
@@ -223,7 +296,8 @@ GLOBAL_LIST_EMPTY(dug_up_basalt)
 
 /// Exact subtype as parent, just used in ruins to prevent other ruins/chasms from spawning on top of it.
 /turf/open/misc/asteroid/snow/icemoon/do_not_chasm
-	turf_flags = CAN_BE_DIRTY_1 | IS_SOLID | NO_RUST | NO_RUINS
+	flags_1 = CAN_BE_DIRTY_1
+	turf_flags = IS_SOLID | NO_RUST | NO_RUINS
 
 /turf/open/misc/asteroid/snow/icemoon/do_not_scrape
 	flags_1 = CAN_BE_DIRTY_1
@@ -238,7 +312,7 @@ GLOBAL_LIST_EMPTY(dug_up_basalt)
 	name = "icy snow"
 	desc = "Looks colder."
 	baseturfs = /turf/open/misc/asteroid/snow/ice
-	initial_gas_mix = "n2=82;plasma=24;TEMP=120"
+	initial_gas_mix = BURNING_COLD
 	floor_variance = 0
 	icon_state = "snow-ice"
 	base_icon_state = "snow-ice"
@@ -265,17 +339,14 @@ GLOBAL_LIST_EMPTY(dug_up_basalt)
 	worm_chance = 0
 
 /turf/open/misc/asteroid/snow/temperatre
-	initial_gas_mix = "o2=22;n2=82;TEMP=255.37"
+	initial_gas_mix = COLD_ATMOS
 
 //Used for when you want to have real, genuine snow in your kitchen's cold room
 /turf/open/misc/asteroid/snow/coldroom
 	baseturfs = /turf/open/misc/asteroid/snow/coldroom
+	initial_gas_mix = KITCHEN_COLDROOM_ATMOS
 	planetary_atmos = FALSE
 	temperature = COLD_ROOM_TEMP
-
-/turf/open/misc/asteroid/snow/coldroom/Initialize(mapload)
-	initial_gas_mix = KITCHEN_COLDROOM_ATMOS
-	return ..()
 
 //Used in SnowCabin.dm
 /turf/open/misc/asteroid/snow/snow_cabin
@@ -303,3 +374,21 @@ GLOBAL_LIST_EMPTY(dug_up_basalt)
 	floor_variance = 0
 	base_icon_state = "moon_dug"
 	icon_state = "moon_dug"
+<<<<<<< HEAD
+=======
+
+	//used in outpost45
+
+/turf/open/misc/asteroid/plasma //floor piece
+	gender = PLURAL
+	name = "asteroid gravel"
+	desc = "It's coarse and rough and gets everywhere."
+	baseturfs = /turf/open/misc/asteroid
+	icon = 'icons/turf/floors.dmi'
+	damaged_dmi = 'icons/turf/floors.dmi'
+	icon_state = "asteroid"
+	base_icon_state = "asteroid"
+	initial_gas_mix = "co2=173.4;n2=135.1;plasma=229.8;TEMP=351.9"
+	planetary_atmos = TRUE
+
+>>>>>>> tg-pr-88929

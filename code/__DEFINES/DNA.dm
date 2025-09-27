@@ -15,6 +15,7 @@
 #define NEGATIVE 2
 #define MINOR_NEGATIVE 4
 
+<<<<<<< HEAD
 //Mutation sources. As long as there is at least one, the mutation will stay up after a remove_mutation call
 ///Source for mutations that have been activated by completing a sequence or using an activator
 #define MUTATION_SOURCE_ACTIVATED "activated"
@@ -40,6 +41,16 @@
 #define MUTATION_SOURCE_MAINT_ADAPT "maint_adapt"
 #define MUTATION_SOURCE_BURDENED_TRAUMA "burdened_trauma"
 #define MUTATION_SOURCE_GENE_SYMPTOM "gene_symptom"
+=======
+
+//Mutation classes. Normal being on them, extra being additional mutations with instability and other being stuff you don't want people to fuck with like wizard mutate
+/// A mutation that can be activated and deactivated by completing a sequence
+#define MUT_NORMAL 1
+/// A mutation that is in the mutations tab, and can be given and taken away through though the DNA console. Has a 0 before its name in the mutation section of the dna console
+#define MUT_EXTRA 2
+/// Cannot be interacted with by players through normal means. I.E. wizards mutate
+#define MUT_OTHER 3
+>>>>>>> tg-pr-88929
 
 //DNA - Because fuck you and your magic numbers being all over the codebase.
 #define DNA_BLOCK_SIZE 3
@@ -54,9 +65,20 @@
 #define DNA_HAIR_COLOR_BLOCK 6
 #define DNA_FACIAL_HAIRSTYLE_BLOCK 7
 #define DNA_FACIAL_HAIR_COLOR_BLOCK 8
+<<<<<<< HEAD
 
 #define DNA_UNI_IDENTITY_BLOCKS 8
 
+=======
+#define DNA_HAIRSTYLE_GRADIENT_BLOCK 9
+#define DNA_HAIR_COLOR_GRADIENT_BLOCK 10
+#define DNA_FACIAL_HAIRSTYLE_GRADIENT_BLOCK 11
+#define DNA_FACIAL_HAIR_COLOR_GRADIENT_BLOCK 12
+
+#define DNA_UNI_IDENTITY_BLOCKS 12
+
+/// This number needs to equal the total number of DNA blocks
+>>>>>>> tg-pr-88929
 #define DNA_MUTANT_COLOR_BLOCK 1
 #define DNA_ETHEREAL_COLOR_BLOCK 2
 #define DNA_LIZARD_MARKINGS_BLOCK 3
@@ -72,6 +94,7 @@
 #define DNA_MOTH_MARKINGS_BLOCK 13
 #define DNA_MUSHROOM_CAPS_BLOCK 14
 #define DNA_POD_HAIR_BLOCK 15
+<<<<<<< HEAD
 #define DNA_MUTANT_COLOR_SECONDARY 16
 #define DNA_ARM_WINGS_BLOCK 17 // NON-MODULE CHANGE
 #define DNA_AVIAN_EARS_BLOCK 18 // NON-MODULE CHANGE
@@ -80,11 +103,24 @@
 
 /// This number needs to equal the total number of DNA blocks
 #define DNA_FEATURE_BLOCKS 20
+=======
+#define DNA_FISH_TAIL_BLOCK 16
+
+// Hey! Listen up if you're here because you're adding a species feature!
+//
+// You don't need to add a DNA block for EVERY species feature!
+// You ONLY need DNA blocks if you intend to allow players to change it via GENETICS!
+// (Which means having a DNA block for a feature tied to a mob without DNA is entirely pointless.)
+
+/// Total amount of DNA blocks, must be equal to the highest DNA block number
+#define DNA_FEATURE_BLOCKS 16
+>>>>>>> tg-pr-88929
 
 #define DNA_SEQUENCE_LENGTH 4
 #define DNA_MUTATION_BLOCKS 8
 #define DNA_UNIQUE_ENZYMES_LEN 32
 
+<<<<<<< HEAD
 ///flag for the transfer_flag argument from dna/proc/copy_dna(). This one makes it so the SE is copied too.
 #define COPY_DNA_SE (1<<0)
 ///flag for the transfer_flag argument from dna/proc/copy_dna(). This one copies the species.
@@ -109,13 +145,15 @@
 
 #define REVIVESBYHEALING 13
 
+=======
+>>>>>>> tg-pr-88929
 //organ slots
 #define ORGAN_SLOT_ADAMANTINE_RESONATOR "adamantine_resonator"
 #define ORGAN_SLOT_APPENDIX "appendix"
 #define ORGAN_SLOT_BORER_ORGAN "borer_organ"
 #define ORGAN_SLOT_BRAIN "brain"
-#define ORGAN_SLOT_BRAIN_ANTIDROP "brain_antidrop"
-#define ORGAN_SLOT_BRAIN_ANTISTUN "brain_antistun"
+#define ORGAN_SLOT_BRAIN_CEREBELLUM "brain_antidrop"
+#define ORGAN_SLOT_BRAIN_CNS "brain_antistun"
 #define ORGAN_SLOT_BREATHING_TUBE "breathing_tube"
 #define ORGAN_SLOT_EARS "ears"
 #define ORGAN_SLOT_EYES "eye_sight"
@@ -131,6 +169,10 @@
 #define ORGAN_SLOT_LEFT_ARM_AUG "l_arm_device" //This one ignores alphabetical order cause the arms should be together
 #define ORGAN_SLOT_RIGHT_ARM_MUSCLE "r_arm_muscle"
 #define ORGAN_SLOT_LEFT_ARM_MUSCLE "l_arm_muscle" //same as above
+<<<<<<< HEAD
+=======
+#define ORGAN_SLOT_SPINE "spine"
+>>>>>>> tg-pr-88929
 #define ORGAN_SLOT_STOMACH "stomach"
 #define ORGAN_SLOT_STOMACH_AID "stomach_aid"
 #define ORGAN_SLOT_STORAGE_CAVITY "storage_cavity" // monkestation edit
@@ -155,7 +197,6 @@
 #define ORGAN_SLOT_EXTERNAL_HORNS "horns"
 #define ORGAN_SLOT_EXTERNAL_WINGS "wings"
 #define ORGAN_SLOT_EXTERNAL_ANTENNAE "antennae"
-#define ORGAN_SLOT_EXTERNAL_BODYMARKINGS "bodymarkings"
 #define ORGAN_SLOT_EXTERNAL_POD_HAIR "pod_hair"
 #define ORGAN_SLOT_EXTERNAL_ANIME_HEAD "anime_head"
 #define ORGAN_SLOT_EXTERNAL_ANIME_CHEST "anime_chest"
@@ -186,9 +227,11 @@
 #define MUTATION_COEFFICIENT_UNMODIFIABLE -1
 
 //used for mob's genetic gender (mainly just for pronouns, members of sexed species with plural gender refer to their physique for the actual sprites, which is not genetic)
+#define GENDERS 4
 #define G_MALE 1
 #define G_FEMALE 2
 #define G_PLURAL 3
+#define G_NEUTER 4
 
 /// Defines how a mob's organs_slot is ordered
 /// Exists so Life()'s organ process order is consistent
@@ -201,8 +244,11 @@ GLOBAL_LIST_INIT(organ_process_order, list(
 	ORGAN_SLOT_LEFT_ARM_AUG,
 	ORGAN_SLOT_LEFT_ARM_MUSCLE,
 	ORGAN_SLOT_RIGHT_ARM_MUSCLE,
+<<<<<<< HEAD
 	ORGAN_SLOT_RIGHT_LEG_AUG,
 	ORGAN_SLOT_LEFT_LEG_AUG,
+=======
+>>>>>>> tg-pr-88929
 	ORGAN_SLOT_STOMACH,
 	ORGAN_SLOT_STOMACH_AID,
 	ORGAN_SLOT_BREATHING_TUBE,
@@ -220,8 +266,8 @@ GLOBAL_LIST_INIT(organ_process_order, list(
 	ORGAN_SLOT_ADAMANTINE_RESONATOR,
 	ORGAN_SLOT_BORER_ORGAN,
 	ORGAN_SLOT_HEART_AID,
-	ORGAN_SLOT_BRAIN_ANTIDROP,
-	ORGAN_SLOT_BRAIN_ANTISTUN,
+	ORGAN_SLOT_BRAIN_CEREBELLUM,
+	ORGAN_SLOT_BRAIN_CNS,
 	ORGAN_SLOT_PARASITE_EGG,
 	ORGAN_SLOT_MONSTER_CORE,
 	ORGAN_SLOT_XENO_PLASMAVESSEL,
@@ -233,31 +279,6 @@ GLOBAL_LIST_INIT(organ_process_order, list(
 
 //Defines for Golem Species IDs
 #define SPECIES_GOLEM "golem"
-#define SPECIES_GOLEM_ADAMANTINE "a_golem"
-#define SPECIES_GOLEM_PLASMA "p_golem"
-#define SPECIES_GOLEM_DIAMOND "diamond_golem"
-#define SPECIES_GOLEM_GOLD "gold_golem"
-#define SPECIES_GOLEM_SILVER "silver_golem"
-#define SPECIES_GOLEM_PLASTEEL "plasteel_golem"
-#define SPECIES_GOLEM_TITANIUM "titanium_golem"
-#define SPECIES_GOLEM_PLASTITANIUM "plastitanium_golem"
-#define SPECIES_GOLEM_ALIEN "alloy_golem"
-#define SPECIES_GOLEM_WOOD "wood_golem"
-#define SPECIES_GOLEM_URANIUM "uranium_golem"
-#define SPECIES_GOLEM_SAND "sand_golem"
-#define SPECIES_GOLEM_GLASS "glass_golem"
-#define SPECIES_GOLEM_BLUESPACE "bluespace_golem"
-#define SPECIES_GOLEM_BANANIUM "ba_golem"
-#define SPECIES_GOLEM_CULT "cultgolem"
-#define SPECIES_GOLEM_CLOTH "clothgolem"
-#define SPECIES_GOLEM_PLASTIC "plastic_golem"
-#define SPECIES_GOLEM_BRONZE "bronze_golem"
-#define SPECIES_GOLEM_CARDBOARD "c_golem"
-#define SPECIES_GOLEM_LEATHER "leather_golem"
-#define SPECIES_GOLEM_DURATHREAD "d_golem"
-#define SPECIES_GOLEM_BONE "b_golem"
-#define SPECIES_GOLEM_SNOW "sn_golem"
-#define SPECIES_GOLEM_HYDROGEN "metallic_hydrogen_golem"
 
 // Defines for used in creating "perks" for the species preference pages.
 /// A key that designates UI icon displayed on the perk.
@@ -274,3 +295,63 @@ GLOBAL_LIST_INIT(organ_process_order, list(
 #define SPECIES_POSITIVE_PERK "positive"
 #define SPECIES_NEGATIVE_PERK "negative"
 #define SPECIES_NEUTRAL_PERK "neutral"
+
+/// Golem food defines
+#define GOLEM_FOOD_IRON "golem_food_iron"
+#define GOLEM_FOOD_GLASS "golem_food_glass"
+#define GOLEM_FOOD_URANIUM "golem_food_uranium"
+#define GOLEM_FOOD_SILVER "golem_food_silver"
+#define GOLEM_FOOD_PLASMA "golem_food_plasma"
+#define GOLEM_FOOD_GOLD "golem_food_gold"
+#define GOLEM_FOOD_DIAMOND "golem_food_diamond"
+#define GOLEM_FOOD_TITANIUM "golem_food_titanium"
+#define GOLEM_FOOD_PLASTEEL "golem_food_plasteel"
+#define GOLEM_FOOD_BANANIUM "golem_food_bananium"
+#define GOLEM_FOOD_BLUESPACE "golem_food_bluespace"
+#define GOLEM_FOOD_GIBTONITE "golem_food_gibtonite"
+#define GOLEM_FOOD_LIGHTBULB "golem_food_lightbulb"
+
+/// Golem food datum singletons
+GLOBAL_LIST_INIT(golem_stack_food_types, list(
+	GOLEM_FOOD_IRON = new /datum/golem_food_buff/iron(),
+	GOLEM_FOOD_GLASS = new /datum/golem_food_buff/glass(),
+	GOLEM_FOOD_URANIUM = new /datum/golem_food_buff/uranium(),
+	GOLEM_FOOD_SILVER = new /datum/golem_food_buff/silver(),
+	GOLEM_FOOD_PLASMA = new /datum/golem_food_buff/plasma(),
+	GOLEM_FOOD_GOLD = new /datum/golem_food_buff/gold(),
+	GOLEM_FOOD_DIAMOND = new /datum/golem_food_buff/diamond(),
+	GOLEM_FOOD_TITANIUM = new /datum/golem_food_buff/titanium(),
+	GOLEM_FOOD_PLASTEEL = new /datum/golem_food_buff/plasteel(),
+	GOLEM_FOOD_BANANIUM = new /datum/golem_food_buff/bananium(),
+	GOLEM_FOOD_BLUESPACE = new /datum/golem_food_buff/bluespace(),
+	GOLEM_FOOD_GIBTONITE = new /datum/golem_food_buff/gibtonite(),
+	GOLEM_FOOD_LIGHTBULB = new /datum/golem_food_buff/lightbulb(),
+))
+
+/// Associated list of stack types to a golem food
+GLOBAL_LIST_INIT(golem_stack_food_directory, list(
+	/obj/item/gibtonite = GLOB.golem_stack_food_types[GOLEM_FOOD_GIBTONITE],
+	/obj/item/light = GLOB.golem_stack_food_types[GOLEM_FOOD_LIGHTBULB],
+	/obj/item/stack/sheet/iron = GLOB.golem_stack_food_types[GOLEM_FOOD_IRON],
+	/obj/item/stack/ore/iron = GLOB.golem_stack_food_types[GOLEM_FOOD_IRON],
+	/obj/item/stack/sheet/glass = GLOB.golem_stack_food_types[GOLEM_FOOD_GLASS],
+	/obj/item/stack/sheet/mineral/uranium = GLOB.golem_stack_food_types[GOLEM_FOOD_URANIUM],
+	/obj/item/stack/ore/uranium = GLOB.golem_stack_food_types[GOLEM_FOOD_URANIUM],
+	/obj/item/stack/sheet/mineral/silver = GLOB.golem_stack_food_types[GOLEM_FOOD_SILVER],
+	/obj/item/stack/ore/silver = GLOB.golem_stack_food_types[GOLEM_FOOD_SILVER],
+	/obj/item/stack/sheet/mineral/plasma = GLOB.golem_stack_food_types[GOLEM_FOOD_PLASMA],
+	/obj/item/stack/ore/plasma = GLOB.golem_stack_food_types[GOLEM_FOOD_PLASMA],
+	/obj/item/stack/sheet/mineral/gold = GLOB.golem_stack_food_types[GOLEM_FOOD_GOLD],
+	/obj/item/stack/ore/gold = GLOB.golem_stack_food_types[GOLEM_FOOD_GOLD],
+	/obj/item/stack/sheet/mineral/diamond = GLOB.golem_stack_food_types[GOLEM_FOOD_DIAMOND],
+	/obj/item/stack/ore/diamond = GLOB.golem_stack_food_types[GOLEM_FOOD_DIAMOND],
+	/obj/item/stack/sheet/mineral/titanium = GLOB.golem_stack_food_types[GOLEM_FOOD_TITANIUM],
+	/obj/item/stack/ore/titanium = GLOB.golem_stack_food_types[GOLEM_FOOD_TITANIUM],
+	/obj/item/stack/sheet/plasteel = GLOB.golem_stack_food_types[GOLEM_FOOD_PLASTEEL],
+	/obj/item/stack/ore/bananium = GLOB.golem_stack_food_types[GOLEM_FOOD_BANANIUM],
+	/obj/item/stack/sheet/mineral/bananium = GLOB.golem_stack_food_types[GOLEM_FOOD_BANANIUM],
+	/obj/item/stack/ore/bluespace_crystal = GLOB.golem_stack_food_types[GOLEM_FOOD_BLUESPACE],
+	/obj/item/stack/ore/bluespace_crystal/refined = GLOB.golem_stack_food_types[GOLEM_FOOD_BLUESPACE],
+	/obj/item/stack/ore/bluespace_crystal/artificial = GLOB.golem_stack_food_types[GOLEM_FOOD_BLUESPACE],
+	/obj/item/stack/sheet/bluespace_crystal = GLOB.golem_stack_food_types[GOLEM_FOOD_BLUESPACE],
+))

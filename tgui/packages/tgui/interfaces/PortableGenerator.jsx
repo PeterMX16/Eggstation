@@ -1,4 +1,14 @@
+import {
+  Box,
+  Button,
+  LabeledList,
+  NoticeBox,
+  ProgressBar,
+  Section,
+} from 'tgui-core/components';
+
 import { useBackend } from '../backend';
+<<<<<<< HEAD
 import {
   Box,
   Button,
@@ -7,6 +17,8 @@ import {
   ProgressBar,
   Section,
 } from '../components';
+=======
+>>>>>>> tg-pr-88929
 import { Window } from '../layouts';
 
 export const PortableGenerator = (props) => {

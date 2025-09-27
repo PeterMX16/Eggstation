@@ -47,6 +47,7 @@
 					/obj/item/taperecorder,
 					/obj/item/toy/crayon/white,
 					/obj/item/clothing/head/fedora/det_hat,
+					/obj/item/wallframe/detectiveboard
 				)
 	crate_name = "forensics crate"
 
@@ -143,6 +144,7 @@
 					/obj/item/clothing/mask/gas/sechailer,
 				)
 	crate_name = "security clothing crate"
+	discountable = SUPPLY_PACK_RARE_DISCOUNTABLE
 
 /datum/supply_pack/security/baton
 	name = "Stun Batons Crate"
@@ -171,6 +173,8 @@
 					/obj/item/clothing/mask/whistle,
 					/obj/item/conversion_kit,
 				)
+	crate_name = "traditional equipment crate"
+	discountable = SUPPLY_PACK_RARE_DISCOUNTABLE
 
 /// Armory packs
 
@@ -213,6 +217,7 @@
 
 /datum/supply_pack/security/armory/dragnet //monkestation edit: dropped the amount to two from three
 	name = "DRAGnet Crate"
+<<<<<<< HEAD
 	desc = "Contains two \"Dynamic Rapid-Apprehension of the Guilty\" netting devices, \
 		a recent breakthrough in law enforcement prisoner management technology. Includes a DRAGnet beacon."
 	cost = CARGO_CRATE_VALUE * 5
@@ -220,6 +225,15 @@
 		/obj/item/gun/energy/e_gun/dragnet = 2,
 		/obj/item/dragnet_beacon = 1,
 		)
+=======
+	desc = "Contains three \"Dynamic Rapid-Apprehension of the Guilty\" netting devices, \
+		a recent breakthrough in law enforcement prisoner management technology. Includes a DRAGnet beacon."
+	cost = CARGO_CRATE_VALUE * 5
+	contains = list(
+		/obj/item/gun/energy/e_gun/dragnet = 3,
+		/obj/item/dragnet_beacon = 1
+	)
+>>>>>>> tg-pr-88929
 	crate_name = "\improper DRAGnet crate"
 
 /datum/supply_pack/security/armory/energy
@@ -239,15 +253,49 @@
 	crate_name = "laser carbine crate"
 	crate_type = /obj/structure/closet/crate/secure/plasma
 
+<<<<<<< HEAD
 /datum/supply_pack/security/disabler_smg //monkestation edit
 	name = "Disabler SMG Crate"
 	desc = "Contains three disabler SMGs, capable of rapidly firing weak disabler beams."
 	cost = CARGO_CRATE_VALUE * 6
 	access_view = ACCESS_SECURITY //monkestation edit
+=======
+/datum/supply_pack/security/armory/disabler_smg
+	name = "Disabler SMG Crate"
+	desc = "Contains three disabler SMGs, capable of rapidly firing weak disabler beams."
+	cost = CARGO_CRATE_VALUE * 7
+>>>>>>> tg-pr-88929
 	contains = list(/obj/item/gun/energy/disabler/smg = 3)
 	crate_name = "disabler smg crate"
 	crate_type = /obj/structure/closet/crate/secure/plasma
 
+<<<<<<< HEAD
+=======
+/datum/supply_pack/security/armory/battle_rifle
+	name = "NT BR-38 Crate"
+	desc = "An experimental energy-based ballistic battle rifle. Only available to \
+		Nanotrasen stations for security purposes. DO NOT RESELL TO OUTSIDE COMPANIES. \
+		Contains three NT BR-38 rifles and three magazines containing .38 Standard."
+	cost = CARGO_CRATE_VALUE * 100
+	contains = list(
+		/obj/item/gun/ballistic/automatic/battle_rifle = 2,
+		/obj/item/ammo_box/magazine/m38 = 4,
+	)
+	crate_name = "battle rifle crate"
+
+/datum/supply_pack/security/armory/br_mag
+	name = "NT BR-38 Magazine Crate"
+	desc = "Six .38 magazines, able to fit into the NT BR-38. Contains \
+		two standard magazines, two Hot Shot magazines and two Iceblox magazines."
+	cost = CARGO_CRATE_VALUE * 7
+	contains = list(
+		/obj/item/ammo_box/magazine/m38 = 2,
+		/obj/item/ammo_box/magazine/m38/hotshot = 2,
+		/obj/item/ammo_box/magazine/m38/iceblox =2,
+	)
+	crate_name = ".38 magazine crate"
+
+>>>>>>> tg-pr-88929
 /datum/supply_pack/security/armory/exileimp
 	name = "Exile Implants Crate"
 	desc = "Contains five Exile implants."
@@ -322,7 +370,7 @@
 	name = "SWAT Crate"
 	desc = "Contains two fullbody sets of tough, fireproof suits designed in a joint \
 		effort by IS-ERI and Nanotrasen. Each set contains a suit, helmet, mask, combat belt, \
-		and combat gloves."
+		and gorilla gloves."
 	cost = CARGO_CRATE_VALUE * 7
 	contains = list(/obj/item/clothing/head/helmet/swat/nanotrasen = 2,
 					/obj/item/clothing/suit/armor/swat = 2,
@@ -335,11 +383,12 @@
 /datum/supply_pack/security/armory/thermal
 	name = "Thermal Pistol Crate"
 	desc = "Contains a pair of holsters each with two experimental thermal pistols, \
-		using nanites as the basis for their ammo."
-	cost = CARGO_CRATE_VALUE * 7
+		using nanites as the basis for their ammo. Can be shaken to reload."
+	cost = CARGO_CRATE_VALUE * 10
 	contains = list(/obj/item/storage/belt/holster/energy/thermal = 2)
 	crate_name = "thermal pistol crate"
 
+<<<<<<< HEAD
 /datum/supply_pack/security/armory/antitank
 	name = "Disposable Anti-Tank Rocket Crate"
 	desc = "Contains a singular antiquated anti-tank rocket."
@@ -348,3 +397,12 @@
 				)
 	crate_name = "Anti-Tank Rocket crate"
 	dangerous = TRUE
+=======
+/datum/supply_pack/security/sunglasses
+	name = "Sunglasses Crate"
+	desc = "A single pair of flash-proof sunglasses."
+	cost = CARGO_CRATE_VALUE * 2
+	access_view = ACCESS_SECURITY
+	contains = list(/obj/item/clothing/glasses/sunglasses = 1)
+	crate_name = "sunglasses crate"
+>>>>>>> tg-pr-88929

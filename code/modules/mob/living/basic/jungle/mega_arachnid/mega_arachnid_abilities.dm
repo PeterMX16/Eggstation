@@ -2,7 +2,11 @@
 /datum/action/cooldown/spell/pointed/projectile/flesh_restraints
 	name = "fleshy restraints"
 	desc = "Launch at your prey to immobilize them."
+<<<<<<< HEAD
 	button_icon = 'icons/obj/restraints.dmi'
+=======
+	button_icon = 'icons/obj/weapons/restraints.dmi'
+>>>>>>> tg-pr-88929
 	button_icon_state = "flesh_snare"
 
 	cooldown_time = 6 SECONDS
@@ -22,7 +26,11 @@
 	if(!iscarbon(target) || blocked >= 100)
 		return
 	var/obj/item/restraints/legcuffs/beartrap/mega_arachnid/restraint = new(get_turf(target))
+<<<<<<< HEAD
 	restraint.spring_trap(null, target)
+=======
+	restraint.spring_trap(target)
+>>>>>>> tg-pr-88929
 
 /obj/item/restraints/legcuffs/beartrap/mega_arachnid
 	name = "fleshy restraints"
@@ -43,7 +51,10 @@
 	button_icon_state = "default"
 	desc = "Secrete a slippery acid!"
 	cooldown_time = 15 SECONDS
+<<<<<<< HEAD
 	melee_cooldown_time = 0 SECONDS
+=======
+>>>>>>> tg-pr-88929
 	click_to_activate = FALSE
 
 /datum/action/cooldown/mob_cooldown/secrete_acid/Activate(atom/target_atom)

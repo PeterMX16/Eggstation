@@ -1,6 +1,10 @@
+<<<<<<< HEAD
 import { BooleanLike } from 'common/react';
 
 import { useBackend } from '../../backend';
+=======
+import React, { ComponentProps, Dispatch, SetStateAction } from 'react';
+>>>>>>> tg-pr-88929
 import {
   Box,
   Button,
@@ -8,12 +12,22 @@ import {
   LabeledList,
   Section,
   Tooltip,
+<<<<<<< HEAD
 } from '../../components';
 import { BoxProps } from '../../components/Box';
 import { logger } from '../../logging';
 import { CallInfo, LuaEditorModal, Variant, VariantList } from './types';
 import { ListElement, ListPath } from './types';
 import { isValidElement } from 'inferno-compat';
+=======
+} from 'tgui-core/components';
+import { BooleanLike } from 'tgui-core/react';
+
+import { useBackend } from '../../backend';
+import { logger } from '../../logging';
+import { CallInfo, LuaEditorModal, Variant, VariantList } from './types';
+import { ListElement, ListPath } from './types';
+>>>>>>> tg-pr-88929
 
 const mapListVariantsInner = (value: any, variant: Variant) => {
   if (Array.isArray(variant)) {
@@ -94,7 +108,11 @@ const mapListVariants = (list: any[], variants: VariantList) => {
   });
 };
 
+<<<<<<< HEAD
 type ListMapperProps = BoxProps & {
+=======
+type ListMapperProps = ComponentProps<typeof Box> & {
+>>>>>>> tg-pr-88929
   list: ListElement[];
 } & Partial<{
     variants: VariantList;
@@ -105,8 +123,13 @@ type ListMapperProps = BoxProps & {
     collapsible: BooleanLike;
     callType: 'callFunction' | 'resumeTask';
     path: ListPath;
+<<<<<<< HEAD
     setToCall: (newValue: CallInfo | undefined) => void;
     setModal: (newValue: LuaEditorModal) => void;
+=======
+    setToCall: Dispatch<SetStateAction<CallInfo>>;
+    setModal: Dispatch<SetStateAction<LuaEditorModal>>;
+>>>>>>> tg-pr-88929
   }>;
 
 export const ListMapper = (props: ListMapperProps) => {
@@ -150,7 +173,11 @@ export const ListMapper = (props: ListMapperProps) => {
           {...overrideProps}
         />
       );
+<<<<<<< HEAD
     } else if (isValidElement(thing)) {
+=======
+    } else if (React.isValidElement<any>(thing)) {
+>>>>>>> tg-pr-88929
       switch (thing.key) {
         case 'ref':
           return (
@@ -215,7 +242,11 @@ export const ListMapper = (props: ListMapperProps) => {
     const uniquelyIndexable =
       typeof key === 'string' ||
       typeof key === 'number' ||
+<<<<<<< HEAD
       (isValidElement(key) && key.key === 'ref');
+=======
+      (React.isValidElement(key) && key.key === 'ref');
+>>>>>>> tg-pr-88929
     let valueNode = ThingNode(
       value,
       typeof key === 'number' ? keyPath : valuePath,

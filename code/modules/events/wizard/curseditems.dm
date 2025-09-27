@@ -32,12 +32,17 @@
 		VOICE_MODULATORS,
 		WIZARD_MIMICRY,
 	)
+<<<<<<< HEAD
 	var/list/loadout[SLOTS_AMT]
+=======
+	var/list/loadout = list()
+>>>>>>> tg-pr-88929
 	var/ruins_spaceworthiness = FALSE
 	var/ruins_wizard_loadout = FALSE
 
 	switch(item_set)
 		if(BIG_FAT_DOOBIE)
+<<<<<<< HEAD
 			loadout[ITEM_SLOT_MASK] = /obj/item/clothing/mask/cigarette/rollie/trippy
 			ruins_spaceworthiness = TRUE
 		if(BOXING)
@@ -56,6 +61,26 @@
 			loadout[ITEM_SLOT_OCLOTHING] = /obj/item/clothing/suit/wizrobe
 			loadout[ITEM_SLOT_FEET] = /obj/item/clothing/shoes/sandal/magic
 			loadout[ITEM_SLOT_HEAD] = /obj/item/clothing/head/wizard
+=======
+			loadout += /obj/item/cigarette/rollie/trippy
+			ruins_spaceworthiness = TRUE
+		if(BOXING)
+			loadout += /obj/item/clothing/mask/luchador
+			loadout += /obj/item/clothing/gloves/boxing
+			ruins_spaceworthiness = TRUE
+		if(CATGIRLS_2015)
+			loadout += /obj/item/clothing/head/costume/kitty
+			ruins_spaceworthiness += TRUE
+			ruins_wizard_loadout += TRUE
+		if(CURSED_SWORDS)
+			loadout += /obj/item/katana/cursed
+		if(VOICE_MODULATORS)
+			loadout += /obj/item/clothing/mask/chameleon
+		if(WIZARD_MIMICRY)
+			loadout += /obj/item/clothing/suit/wizrobe
+			loadout += /obj/item/clothing/shoes/sandal/magic
+			loadout += /obj/item/clothing/head/wizard
+>>>>>>> tg-pr-88929
 			ruins_spaceworthiness = TRUE
 
 	var/list/mob/living/carbon/human/victims = list()
@@ -67,6 +92,7 @@
 			continue
 		if(item_set == CATGIRLS_2015) //Wizard code means never having to say you're sorry
 			target.gender = FEMALE
+<<<<<<< HEAD
 		for(var/iterable in 1 to loadout.len)
 			if(!loadout[iterable])
 				continue
@@ -79,6 +105,20 @@
 			ADD_TRAIT(thing, TRAIT_NODROP, CURSED_ITEM_TRAIT(thing))
 			thing.item_flags |= DROPDEL
 			thing.name = "cursed " + thing.name
+=======
+		for(var/item_to_equip in loadout)
+			var/obj/item/new_item = new item_to_equip
+			var/slot_to_equip_to = ITEM_SLOT_HANDS
+			if(isclothing(new_item))
+				var/obj/item/clothing/clothing_item = new_item
+				slot_to_equip_to = clothing_item.slot_flags
+
+			target.dropItemToGround(target.get_item_by_slot(slot_to_equip_to), TRUE)
+			target.equip_to_slot_or_del(new_item, slot_to_equip_to, indirect_action = TRUE)
+			ADD_TRAIT(new_item, TRAIT_NODROP, CURSED_ITEM_TRAIT(new_item))
+			new_item.item_flags |= DROPDEL
+			new_item.name = "cursed " + new_item.name
+>>>>>>> tg-pr-88929
 
 		victims += target
 

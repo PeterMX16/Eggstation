@@ -8,10 +8,21 @@
 	foodtypes = MEAT | SUGAR
 	food_flags = FOOD_FINGER_FOOD
 	w_class = WEIGHT_CLASS_TINY
+<<<<<<< HEAD
+=======
+	/// Mob typepath to spawn when expanding
+>>>>>>> tg-pr-88929
 	var/spawned_mob = /mob/living/carbon/human/species/monkey
 	/// Whether we've been wetted and are expanding
 	var/expanding = FALSE
 
+<<<<<<< HEAD
+=======
+/obj/item/food/monkeycube/attempt_pickup(mob/user)
+	if(expanding)
+		return FALSE
+	return ..()
+>>>>>>> tg-pr-88929
 
 /obj/item/food/monkeycube/proc/Expand()
 	if(expanding)
@@ -24,6 +35,7 @@
 		holder.dropItemToGround(src)
 
 	var/mob/spammer = get_mob_by_key(fingerprintslast)
+<<<<<<< HEAD
 
 	var/mob/living/bananas
 	if(spawned_mob == /mob/living/carbon/human/species/monkey)
@@ -31,6 +43,9 @@
 	else
 		bananas = new spawned_mob(drop_location())
 
+=======
+	var/mob/living/bananas = new spawned_mob(drop_location(), TRUE, spammer) // funny that we pass monkey init args to non-monkey mobs, that's totally a future issue
+>>>>>>> tg-pr-88929
 	if (!QDELETED(bananas))
 		if(faction)
 			bananas.faction = faction
@@ -48,6 +63,10 @@
 		visible_message(span_notice("[src] fails to expand!"))
 		return
 
+<<<<<<< HEAD
+=======
+	animate(src, 0.4 SECONDS, alpha = 0, transform = transform.Scale(0), easing = QUAD_EASING|EASE_IN)
+>>>>>>> tg-pr-88929
 	QDEL_IN(src, 0.5 SECONDS)
 
 /obj/item/food/monkeycube/suicide_act(mob/living/user)
@@ -75,14 +94,14 @@
 		return
 	Expand()
 	user.visible_message(span_danger("[user]'s torso bursts open as a primate emerges!"))
-	user.gib(null, TRUE, null, TRUE)
+	user.gib(DROP_BRAIN|DROP_BODYPARTS|DROP_ITEMS) // just remove the organs
 
 /obj/item/food/monkeycube/syndicate
 	faction = list(FACTION_NEUTRAL, ROLE_SYNDICATE)
 
 /obj/item/food/monkeycube/gorilla
 	name = "gorilla cube"
-	desc = "A Waffle Co. brand gorilla cube. Now with extra molecules!"
+	desc = "A Waffle Corp. brand gorilla cube. Now with extra molecules!"
 	bite_consumption = 20
 	food_reagents = list(
 		/datum/reagent/monkey_powder = 30,
@@ -113,6 +132,7 @@
 	)
 	tastes = list("buzzing" = 1, "honey" = 1, "regret" = 1)
 	spawned_mob = /mob/living/basic/bee
+<<<<<<< HEAD
 
 /obj/item/food/monkeycube/cow
 	name = "Cow cube"
@@ -133,3 +153,5 @@
 	)
 	tastes = list("Pork" = 1, "Batons" =1)
 	spawned_mob = /mob/living/basic/pig
+=======
+>>>>>>> tg-pr-88929

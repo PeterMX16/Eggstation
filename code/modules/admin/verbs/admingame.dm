@@ -1,6 +1,15 @@
+<<<<<<< HEAD
 ADMIN_VERB_ONLY_CONTEXT_MENU(show_player_panel, R_ADMIN, FALSE, "Show Player Panel", mob/player in world)
 	log_admin("[key_name(user)] checked the individual player panel for [key_name(player)][isobserver(user.mob)?"":" while in game"].")
 
+=======
+ADMIN_VERB(cmd_player_panel, R_ADMIN, "Player Panel", "See all players and their Player Panel.", ADMIN_CATEGORY_GAME)
+	user.holder.player_panel_new()
+
+ADMIN_VERB_ONLY_CONTEXT_MENU(show_player_panel, R_ADMIN, "Show Player Panel", mob/player in world)
+	log_admin("[key_name(user)] checked the individual player panel for [key_name(player)][isobserver(user.mob)?"":" while in game"].")
+
+>>>>>>> tg-pr-88929
 	if(!player)
 		to_chat(user, span_warning("You seem to be selecting a mob that doesn't exist anymore."), confidential = TRUE)
 		return
@@ -71,6 +80,18 @@ ADMIN_VERB_ONLY_CONTEXT_MENU(show_player_panel, R_ADMIN, FALSE, "Show Player Pan
 
 	body += "<b>Mob type</b> = [player.type]<br><br>"
 
+<<<<<<< HEAD
+=======
+	if(player.client)
+		body += "<b>Old names:</b> "
+		var/datum/player_details/deets = GLOB.player_details[player.ckey]
+		if(deets)
+			body += deets.get_played_names()
+		else
+			body += "<i>None?!</i>"
+		body += "<br><br>"
+
+>>>>>>> tg-pr-88929
 	body += "<A href='byond://?_src_=holder;[HrefToken()];boot2=[REF(player)]'>Kick</A> | "
 	if(player.client)
 		body += "<A href='byond://?_src_=holder;[HrefToken()];newbankey=[player.key];newbanip=[player.client.address];newbancid=[player.client.computer_id]'>Ban</A> | "
@@ -150,7 +171,11 @@ ADMIN_VERB_ONLY_CONTEXT_MENU(show_player_panel, R_ADMIN, FALSE, "Show Player Pan
 	user << browse(body, "window=adminplayeropts-[REF(player)];size=550x515")
 	BLACKBOX_LOG_ADMIN_VERB("Player Panel")
 
+<<<<<<< HEAD
 /client/proc/cmd_admin_godmode(mob/mob in GLOB.mob_list) //MONKE EDIT TODO CONVERT TO AVD tg doesn't no idea why.
+=======
+/client/proc/cmd_admin_godmode(mob/mob in GLOB.mob_list)
+>>>>>>> tg-pr-88929
 	set category = "Admin.Game"
 	set name = "Godmode"
 	if(!check_rights(R_ADMIN))
@@ -163,6 +188,7 @@ ADMIN_VERB_ONLY_CONTEXT_MENU(show_player_panel, R_ADMIN, FALSE, "Show Player Pan
 		ADD_TRAIT(mob, TRAIT_GODMODE, ADMIN_TRAIT)
 	to_chat(usr, span_adminnotice("Toggled [had_trait ? "OFF" : "ON"]"), confidential = TRUE)
 
+<<<<<<< HEAD
 	// MONKESTATION EDIT START - tgui tickets
 	var/log_msg = "[key_name(usr)] has toggled [key_name(mob)]'s nodamage to [had_trait ? "Off" : "On"]"
 	log_admin()
@@ -170,6 +196,12 @@ ADMIN_VERB_ONLY_CONTEXT_MENU(show_player_panel, R_ADMIN, FALSE, "Show Player Pan
 	message_admins(msg)
 	admin_ticket_log(mob, log_msg)
 	// MONKESTATION EDIT END
+=======
+	log_admin("[key_name(usr)] has toggled [key_name(mob)]'s nodamage to [had_trait ? "Off" : "On"]")
+	var/msg = "[key_name_admin(usr)] has toggled [ADMIN_LOOKUPFLW(mob)]'s nodamage to [had_trait ? "Off" : "On"]"
+	message_admins(msg)
+	admin_ticket_log(mob, msg)
+>>>>>>> tg-pr-88929
 	SSblackbox.record_feedback("nested tally", "admin_toggle", 1, list("Godmode", "[had_trait ? "Disabled" : "Enabled"]")) // If you are copy-pasting this, ensure the 4th parameter is unique to the new proc!
 
 /*
@@ -177,7 +209,11 @@ If a guy was gibbed and you want to revive him, this is a good way to do so.
 Works kind of like entering the game with a new character. Character receives a new mind if they didn't have one.
 Traitors and the like can also be revived with the previous role mostly intact.
 /N */
+<<<<<<< HEAD
 ADMIN_VERB(respawn_character, R_ADMIN, FALSE, "Respawn Character", "Respawn a player that has been round removed in some manner. They must be a ghost.", ADMIN_CATEGORY_GAME)
+=======
+ADMIN_VERB(respawn_character, R_ADMIN, "Respawn Character", "Respawn a player that has been round removed in some manner. They must be a ghost.", ADMIN_CATEGORY_GAME)
+>>>>>>> tg-pr-88929
 	var/input = ckey(input(user, "Please specify which key will be respawned.", "Key", ""))
 	if(!input)
 		return
@@ -197,7 +233,7 @@ ADMIN_VERB(respawn_character, R_ADMIN, FALSE, "Respawn Character", "Respawn a pl
 		if(findtext(G_found.real_name,"monkey"))
 			if(tgui_alert(user,"This character appears to have been a monkey. Would you like to respawn them as such?",,list("Yes","No")) == "Yes")
 				var/mob/living/carbon/human/species/monkey/new_monkey = new
-				SSjob.SendToLateJoin(new_monkey)
+				SSjob.send_to_late_join(new_monkey)
 				G_found.mind.transfer_to(new_monkey) //be careful when doing stuff like this! I've already checked the mind isn't in use
 				new_monkey.PossessByPlayer(G_found.key)
 				to_chat(new_monkey, "You have been fully respawned. Enjoy the game.", confidential = TRUE)
@@ -209,7 +245,7 @@ ADMIN_VERB(respawn_character, R_ADMIN, FALSE, "Respawn Character", "Respawn a pl
 
 	//Ok, it's not a monkey. So, spawn a human.
 	var/mob/living/carbon/human/new_character = new//The mob being spawned.
-	SSjob.SendToLateJoin(new_character)
+	SSjob.send_to_late_join(new_character)
 
 	var/datum/record/locked/record_found //Referenced to later to either randomize or not randomize the character.
 	if(G_found.mind && !G_found.mind.active) //mind isn't currently in use by someone/something
@@ -217,7 +253,7 @@ ADMIN_VERB(respawn_character, R_ADMIN, FALSE, "Respawn Character", "Respawn a pl
 
 	if(record_found)//If they have a record we can determine a few things.
 		new_character.real_name = record_found.name
-		new_character.gender = lowertext(record_found.gender)
+		new_character.gender = LOWER_TEXT(record_found.gender)
 		new_character.age = record_found.age
 		var/datum/dna/found_dna = record_found.locked_dna
 		new_character.hardset_dna(found_dna.unique_identity, found_dna.mutation_index, null, record_found.name, record_found.blood_type, new record_found.species_type, found_dna.features)
@@ -232,7 +268,7 @@ ADMIN_VERB(respawn_character, R_ADMIN, FALSE, "Respawn Character", "Respawn a pl
 	else
 		new_character.mind_initialize()
 	if(is_unassigned_job(new_character.mind.assigned_role))
-		new_character.mind.set_assigned_role(SSjob.GetJobType(SSjob.overflow_role))
+		new_character.mind.set_assigned_role(SSjob.get_job_type(SSjob.overflow_role))
 
 	new_character.PossessByPlayer(G_found.key)
 
@@ -249,7 +285,7 @@ ADMIN_VERB(respawn_character, R_ADMIN, FALSE, "Respawn Character", "Respawn a pl
 	//Now for special roles and equipment.
 	var/datum/antagonist/traitor/traitordatum = new_character.mind.has_antag_datum(/datum/antagonist/traitor)
 	if(traitordatum)
-		SSjob.EquipRank(new_character, new_character.mind.assigned_role, new_character.client)
+		SSjob.equip_rank(new_character, new_character.mind.assigned_role, new_character.client)
 		new_character.mind.give_uplink(silent = TRUE, antag_datum = traitordatum)
 
 	switch(new_character.mind.special_role)
@@ -278,7 +314,7 @@ ADMIN_VERB(respawn_character, R_ADMIN, FALSE, "Respawn Character", "Respawn a pl
 					new_character = new_character.AIize()
 				else
 					if(!traitordatum) // Already equipped there.
-						SSjob.EquipRank(new_character, new_character.mind.assigned_role, new_character.client)//Or we simply equip them.
+						SSjob.equip_rank(new_character, new_character.mind.assigned_role, new_character.client)//Or we simply equip them.
 
 	//Announces the character on all the systems, based on the record.
 	if(!record_found && (new_character.mind.assigned_role.job_flags & JOB_CREW_MEMBER))
@@ -298,7 +334,11 @@ ADMIN_VERB(respawn_character, R_ADMIN, FALSE, "Respawn Character", "Respawn a pl
 	BLACKBOX_LOG_ADMIN_VERB("Respawn Character")
 	return new_character
 
+<<<<<<< HEAD
 ADMIN_VERB(manage_job_slots, R_ADMIN, FALSE, "Manage Job Slots", "Manage the number of available job slots.", ADMIN_CATEGORY_GAME)
+=======
+ADMIN_VERB(manage_job_slots, R_ADMIN, "Manage Job Slots", "Manage the number of available job slots.", ADMIN_CATEGORY_GAME)
+>>>>>>> tg-pr-88929
 	user.holder.manage_free_slots()
 	BLACKBOX_LOG_ADMIN_VERB("Manage Job Slots")
 
@@ -342,7 +382,11 @@ ADMIN_VERB(manage_job_slots, R_ADMIN, FALSE, "Manage Job Slots", "Manage the num
 	browser.set_content(dat.Join())
 	browser.open()
 
+<<<<<<< HEAD
 ADMIN_VERB(toggle_view_range, R_ADMIN, FALSE, "Change View Range", "Switch between 1x and custom views.", ADMIN_CATEGORY_GAME)
+=======
+ADMIN_VERB(toggle_view_range, R_ADMIN, "Change View Range", "Switch between 1x and custom views.", ADMIN_CATEGORY_GAME)
+>>>>>>> tg-pr-88929
 	if(user.view_size.getView() == user.view_size.default)
 		user.view_size.setTo(input(user, "Select view range:", "FUCK YE", 7) in list(1,2,3,4,5,6,7,8,9,10,11,12,13,14,37) - 7)
 	else
@@ -351,7 +395,11 @@ ADMIN_VERB(toggle_view_range, R_ADMIN, FALSE, "Change View Range", "Switch betwe
 	log_admin("[key_name(user)] changed their view range to [user.view].")
 	SSblackbox.record_feedback("nested tally", "admin_toggle", 1, list("Change View Range", "[user.view]")) // If you are copy-pasting this, ensure the 4th parameter is unique to the new proc!
 
+<<<<<<< HEAD
 ADMIN_VERB(combo_hud, R_ADMIN, FALSE, "Toggle Combo HUD", "Toggles the Admin Combo HUD.", ADMIN_CATEGORY_GAME)
+=======
+ADMIN_VERB(combo_hud, R_ADMIN, "Toggle Combo HUD", "Toggles the Admin Combo HUD.", ADMIN_CATEGORY_GAME)
+>>>>>>> tg-pr-88929
 	if(user.combo_hud_enabled)
 		user.disable_combo_hud()
 	else
@@ -360,7 +408,11 @@ ADMIN_VERB(combo_hud, R_ADMIN, FALSE, "Toggle Combo HUD", "Toggles the Admin Com
 	to_chat(user, "You toggled your admin combo HUD [user.combo_hud_enabled ? "ON" : "OFF"].", confidential = TRUE)
 	message_admins("[key_name_admin(user)] toggled their admin combo HUD [user.combo_hud_enabled ? "ON" : "OFF"].")
 	log_admin("[key_name(user)] toggled their admin combo HUD [user.combo_hud_enabled ? "ON" : "OFF"].")
+<<<<<<< HEAD
 	SSblackbox.record_feedback("nested tally", "admin_toggle", 1, list("Toggle Combo HUD", "[user.combo_hud_enabled ? "Enabled" : "Disabled"]")) //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
+=======
+	SSblackbox.record_feedback("nested tally", "admin_toggle", 1, list("Toggle Combo HUD", "[user.combo_hud_enabled ? "Enabled" : "Disabled"]")) // If you are copy-pasting this, ensure the 4th parameter is unique to the new proc!
+>>>>>>> tg-pr-88929
 
 /client/proc/enable_combo_hud()
 	if (combo_hud_enabled)
@@ -368,7 +420,7 @@ ADMIN_VERB(combo_hud, R_ADMIN, FALSE, "Toggle Combo HUD", "Toggles the Admin Com
 
 	combo_hud_enabled = TRUE
 
-	for (var/hudtype in list(DATA_HUD_SECURITY_ADVANCED, DATA_HUD_MEDICAL_ADVANCED, DATA_HUD_DIAGNOSTIC_ADVANCED))
+	for (var/hudtype in list(DATA_HUD_SECURITY_ADVANCED, DATA_HUD_MEDICAL_ADVANCED, DATA_HUD_DIAGNOSTIC, DATA_HUD_BOT_PATH))
 		var/datum/atom_hud/atom_hud = GLOB.huds[hudtype]
 		atom_hud.show_to(mob)
 
@@ -384,7 +436,7 @@ ADMIN_VERB(combo_hud, R_ADMIN, FALSE, "Toggle Combo HUD", "Toggles the Admin Com
 
 	combo_hud_enabled = FALSE
 
-	for (var/hudtype in list(DATA_HUD_SECURITY_ADVANCED, DATA_HUD_MEDICAL_ADVANCED, DATA_HUD_DIAGNOSTIC_ADVANCED))
+	for (var/hudtype in list(DATA_HUD_SECURITY_ADVANCED, DATA_HUD_MEDICAL_ADVANCED, DATA_HUD_DIAGNOSTIC, DATA_HUD_BOT_PATH))
 		var/datum/atom_hud/atom_hud = GLOB.huds[hudtype]
 		atom_hud.hide_from(mob)
 
@@ -394,7 +446,11 @@ ADMIN_VERB(combo_hud, R_ADMIN, FALSE, "Toggle Combo HUD", "Toggles the Admin Com
 	mob.lighting_cutoff = mob.default_lighting_cutoff()
 	mob.update_sight()
 
+<<<<<<< HEAD
 ADMIN_VERB(show_traitor_panel, R_ADMIN, FALSE, "Show Traitor Panel", "Edit mobs's memory and role", ADMIN_CATEGORY_GAME, mob/target_mob)
+=======
+ADMIN_VERB(show_traitor_panel, R_ADMIN, "Show Traitor Panel", "Edit mobs's memory and role", ADMIN_CATEGORY_GAME, mob/target_mob)
+>>>>>>> tg-pr-88929
 	var/datum/mind/target_mind = target_mob.mind
 	if(!target_mind)
 		to_chat(user, "This mob has no mind!", confidential = TRUE)
@@ -405,7 +461,11 @@ ADMIN_VERB(show_traitor_panel, R_ADMIN, FALSE, "Show Traitor Panel", "Edit mobs'
 	target_mind.traitor_panel()
 	BLACKBOX_LOG_ADMIN_VERB("Traitor Panel")
 
+<<<<<<< HEAD
 ADMIN_VERB(show_skill_panel, R_ADMIN, FALSE, "Show Skill Panel", "Edit mobs's experience and skill levels", ADMIN_CATEGORY_GAME, mob/target_mob)
+=======
+ADMIN_VERB(show_skill_panel, R_ADMIN, "Show Skill Panel", "Edit mobs's experience and skill levels", ADMIN_CATEGORY_GAME, mob/target_mob)
+>>>>>>> tg-pr-88929
 	var/datum/mind/target_mind
 	if(istype(target_mob, /datum/mind))
 		target_mind = target_mob
@@ -414,6 +474,7 @@ ADMIN_VERB(show_skill_panel, R_ADMIN, FALSE, "Show Skill Panel", "Edit mobs's ex
 
 	var/datum/skill_panel/SP = new(user, target_mind)
 	SP.ui_interact(user.mob)
+<<<<<<< HEAD
 	BLACKBOX_LOG_ADMIN_VERB("Skil Panel") //MONKE EDIT
 
 ADMIN_VERB(lag_switch_panel, R_ADMIN, FALSE, "Show Lag Switches", "Display the controls for drastic lag mitigation.", ADMIN_CATEGORY_GAME)
@@ -421,6 +482,13 @@ ADMIN_VERB(lag_switch_panel, R_ADMIN, FALSE, "Show Lag Switches", "Display the c
 		to_chat(user, span_notice("The Lag Switch subsystem has not yet been initialized."))
 		return
 
+=======
+
+ADMIN_VERB(lag_switch_panel, R_ADMIN, "Show Lag Switches", "Display the controls for drastic lag mitigation.", ADMIN_CATEGORY_GAME)
+	if(!SSlag_switch.initialized)
+		to_chat(user, span_notice("The Lag Switch subsystem has not yet been initialized."))
+		return
+>>>>>>> tg-pr-88929
 	var/list/dat = list("<html><head><meta http-equiv='Content-Type' content='text/html; charset=UTF-8'><title>Lag Switches</title></head><body><h2><B>Lag (Reduction) Switches</B></h2>")
 	dat += "Automatic Trigger: <a href='byond://?_src_=holder;[HrefToken()];change_lag_switch_option=TOGGLE_AUTO'><b>[SSlag_switch.auto_switch ? "On" : "Off"]</b></a><br/>"
 	dat += "Population Threshold: <a href='byond://?_src_=holder;[HrefToken()];change_lag_switch_option=NUM'><b>[SSlag_switch.trigger_pop]</b></a><br/>"
@@ -439,4 +507,7 @@ ADMIN_VERB(lag_switch_panel, R_ADMIN, FALSE, "Show Lag Switches", "Display the c
 	dat += "Disable footsteps: <a href='byond://?_src_=holder;[HrefToken()];change_lag_switch=[DISABLE_FOOTSTEPS]'><b>[SSlag_switch.measures[DISABLE_FOOTSTEPS] ? "On" : "Off"]</b></a> - <span style='font-size:80%'>trait applies to character</span><br />"
 	dat += "</body></html>"
 	user << browse(dat.Join(), "window=lag_switch_panel;size=420x480")
+<<<<<<< HEAD
 	BLACKBOX_LOG_ADMIN_VERB("Lag Switch Panel") //MONKE EDIT
+=======
+>>>>>>> tg-pr-88929

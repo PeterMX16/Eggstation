@@ -1,6 +1,13 @@
+<<<<<<< HEAD
 import { Component } from 'inferno';
 import { useBackend } from '../backend';
 import { Box, Stack } from '../components';
+=======
+import { Component } from 'react';
+import { Box, Stack } from 'tgui-core/components';
+
+import { useBackend } from '../backend';
+>>>>>>> tg-pr-88929
 import { Window } from '../layouts';
 
 export class Thermometer extends Component {
@@ -26,7 +33,11 @@ export class Thermometer extends Component {
           justify="space-around"
           backgroundColor="#242322"
           style={{
+<<<<<<< HEAD
             'background-image':
+=======
+            backgroundImage:
+>>>>>>> tg-pr-88929
               "url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACAQMAAABIeJ9nAAAABlBMVEVya3UjIyN3S/1dAAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAMSURBVAjXY2hgcAAAAcQAwUlFKkkAAAAASUVORK5CYII=')",
           }}
         >
@@ -52,12 +63,21 @@ const ThermometerIcon = (props) => {
           width: '22px',
           height: '340px',
           margin: '0 auto',
+<<<<<<< HEAD
           'background-color': '#595959',
           border: '4px solid #363636',
           'border-radius': '12px',
           'border-bottom': 'none',
           'border-index': '0',
           'box-shadow': '4px 4px #000000',
+=======
+          backgroundColor: '#595959',
+          border: '4px solid #363636',
+          borderRadius: '12px',
+          borderBottom: 'none',
+          borderIndex: '0',
+          boxShadow: '4px 4px #000000',
+>>>>>>> tg-pr-88929
         }}
       >
         <Box
@@ -70,10 +90,17 @@ const ThermometerIcon = (props) => {
             transition: 'height 2s ease-out',
             // Temp in %
             height: `${(temperature / maxTemperature) * 100}%`,
+<<<<<<< HEAD
             'background-color': '#bd2020',
             'border-radius': '8px',
             'border-bottom': 'none',
             'z-index': '1',
+=======
+            backgroundColor: '#bd2020',
+            borderRadius: '8px',
+            borderBottom: 'none',
+            zIndex: '1',
+>>>>>>> tg-pr-88929
           }}
         />
       </Box>
@@ -81,6 +108,7 @@ const ThermometerIcon = (props) => {
         style={{
           position: 'relative',
           width: '56px',
+<<<<<<< HEAD
           'line-height': '48px',
           'text-align': 'center',
           margin: '-8px auto 0 auto',
@@ -92,6 +120,19 @@ const ThermometerIcon = (props) => {
           'border-bottom': '0.1',
           'box-shadow': '4px 4px #000000',
           'z-index': '0',
+=======
+          lineHeight: '48px',
+          textAlign: 'center',
+          margin: '-8px auto 0 auto',
+          backgroundColor: '#bd2020',
+          border: '4px solid #363636',
+          borderSpacing: '5px',
+          borderRadius: '35px',
+          borderIndex: '1',
+          borderBottom: '0.1',
+          boxShadow: '4px 4px #000000',
+          zIndex: '0',
+>>>>>>> tg-pr-88929
         }}
       >
         {temperature}K

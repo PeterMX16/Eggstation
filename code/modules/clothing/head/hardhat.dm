@@ -9,13 +9,19 @@
 	inhand_icon_state = null
 	armor_type = /datum/armor/utility_hardhat
 	flags_inv = 0
+	hair_mask = HAIR_MASK_HIDE_ABOVE_45_DEG_MEDIUM
 	actions_types = list(/datum/action/item_action/toggle_helmet_light)
-	clothing_flags = SNUG_FIT | PLASMAMAN_HELMET_EXEMPT
+	clothing_flags = SNUG_FIT | STACKABLE_HELMET_EXEMPT
 	resistance_flags = FIRE_PROOF
 
 	light_system = OVERLAY_LIGHT_DIRECTIONAL
+<<<<<<< HEAD
 	light_outer_range = 4
+=======
+	light_range = 4
+>>>>>>> tg-pr-88929
 	light_power = 0.8
+	light_color = "#ffcc99"
 	light_on = FALSE
 	dog_fashion = /datum/dog_fashion/head
 
@@ -23,7 +29,7 @@
 	var/hat_type = "yellow"
 	///Whether the headlamp is on or off.
 	var/on = FALSE
-
+	clothing_traits = list(TRAIT_HEAD_INJURY_BLOCKED)
 
 /datum/armor/utility_hardhat
 	melee = 15
@@ -38,7 +44,11 @@
 
 /obj/item/clothing/head/utility/hardhat/Initialize(mapload)
 	. = ..()
+<<<<<<< HEAD
 	AddElement(/datum/element/update_icon_updates_onmob, ITEM_SLOT_HEAD)
+=======
+	AddElement(/datum/element/update_icon_updates_onmob)
+>>>>>>> tg-pr-88929
 
 /obj/item/clothing/head/utility/hardhat/proc/toggle_helmet_light(mob/living/user)
 	on = !on
@@ -79,8 +89,13 @@
 	hat_type = "red"
 	dog_fashion = null
 	name = "firefighter helmet"
+<<<<<<< HEAD
 	clothing_flags = STOPSPRESSUREDAMAGE | PLASMAMAN_HELMET_EXEMPT
 
+=======
+	clothing_flags = STOPSPRESSUREDAMAGE | STACKABLE_HELMET_EXEMPT
+	heat_protection = HEAD
+>>>>>>> tg-pr-88929
 	max_heat_protection_temperature = FIRE_HELM_MAX_TEMP_PROTECT
 
 	min_cold_protection_temperature = FIRE_HELM_MIN_TEMP_PROTECT
@@ -99,8 +114,13 @@
 	icon_state = "hardhat0_white"
 	inhand_icon_state = null
 	hat_type = "white"
+<<<<<<< HEAD
 	clothing_flags = STOPSPRESSUREDAMAGE | PLASMAMAN_HELMET_EXEMPT
 
+=======
+	clothing_flags = STOPSPRESSUREDAMAGE | STACKABLE_HELMET_EXEMPT
+	heat_protection = HEAD
+>>>>>>> tg-pr-88929
 	max_heat_protection_temperature = FIRE_HELM_MAX_TEMP_PROTECT
 
 	min_cold_protection_temperature = FIRE_HELM_MIN_TEMP_PROTECT
@@ -121,32 +141,27 @@
 	flash_protect = FLASH_PROTECTION_WELDER
 	tint = 2
 	flags_inv = HIDEEYES | HIDEFACE | HIDESNOUT
-	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH
+	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH | PEPPERPROOF
 	visor_vars_to_toggle = VISOR_FLASHPROTECT | VISOR_TINT
 	visor_flags_inv = HIDEEYES | HIDEFACE | HIDESNOUT
 	visor_flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH | PEPPERPROOF
 	///Icon state of the welding visor.
 	var/visor_state = "weldvisor"
 
-/obj/item/clothing/head/utility/hardhat/welding/Initialize(mapload)
-	. = ..()
-	update_appearance()
-
 /obj/item/clothing/head/utility/hardhat/welding/attack_self_secondary(mob/user, modifiers)
-	toggle_welding_screen(user)
+	adjust_visor(user)
 	return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
 /obj/item/clothing/head/utility/hardhat/welding/ui_action_click(mob/user, actiontype)
 	if(istype(actiontype, /datum/action/item_action/toggle_welding_screen))
-		toggle_welding_screen(user)
+		adjust_visor(user)
 		return
-
 	return ..()
 
-/obj/item/clothing/head/utility/hardhat/welding/proc/toggle_welding_screen(mob/living/user)
-	if(weldingvisortoggle(user))
-		playsound(src, 'sound/mecha/mechmove03.ogg', 50, TRUE) //Visors don't just come from nothing
-	update_appearance()
+/obj/item/clothing/head/utility/hardhat/welding/adjust_visor(mob/living/user)
+	. = ..()
+	if(.)
+		playsound(src, up ? SFX_VISOR_UP : SFX_VISOR_DOWN, 50, TRUE)
 
 /obj/item/clothing/head/utility/hardhat/welding/worn_overlays(mutable_appearance/standing, isinhands)
 	. = ..()
@@ -161,6 +176,14 @@
 	if(!up)
 		. += visor_state
 
+/obj/item/clothing/head/utility/hardhat/welding/up
+	up = TRUE // for calls to worn_overlays before init (prefs)
+
+/obj/item/clothing/head/utility/hardhat/welding/up/Initialize(mapload)
+	. = ..()
+	up = FALSE
+	visor_toggling()
+
 /obj/item/clothing/head/utility/hardhat/welding/orange
 	icon_state = "hardhat0_orange"
 	inhand_icon_state = null
@@ -172,11 +195,25 @@
 	inhand_icon_state = null
 	light_outer_range = 4 //Boss always takes the best stuff
 	hat_type = "white"
+<<<<<<< HEAD
 	clothing_flags = STOPSPRESSUREDAMAGE | PLASMAMAN_HELMET_EXEMPT
 
+=======
+	clothing_flags = STOPSPRESSUREDAMAGE | STACKABLE_HELMET_EXEMPT
+	heat_protection = HEAD
+>>>>>>> tg-pr-88929
 	max_heat_protection_temperature = FIRE_HELM_MAX_TEMP_PROTECT
 
 	min_cold_protection_temperature = FIRE_HELM_MIN_TEMP_PROTECT
+
+/obj/item/clothing/head/utility/hardhat/welding/white/up
+	up = TRUE // for calls to worn_overlays before init (prefs)
+
+/obj/item/clothing/head/utility/hardhat/welding/white/up/Initialize(mapload)
+	. = ..()
+	up = FALSE
+	visor_toggling()
+
 
 /obj/item/clothing/head/utility/hardhat/welding/dblue
 	icon_state = "hardhat0_dblue"
@@ -190,14 +227,21 @@
 	dog_fashion = null
 	name = "atmospheric firefighter helmet"
 	desc = "A firefighter's helmet, able to keep the user cool in any situation. Comes with a light and a welding visor."
+<<<<<<< HEAD
 	clothing_flags = STOPSPRESSUREDAMAGE | THICKMATERIAL | BLOCK_GAS_SMOKE_EFFECT | PLASMAMAN_HELMET_EXEMPT | HEADINTERNALS
 
+=======
+	clothing_flags = STOPSPRESSUREDAMAGE | THICKMATERIAL | BLOCK_GAS_SMOKE_EFFECT | STACKABLE_HELMET_EXEMPT | HEADINTERNALS
+	heat_protection = HEAD
+>>>>>>> tg-pr-88929
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
 
 	min_cold_protection_temperature = FIRE_HELM_MIN_TEMP_PROTECT
 	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH | PEPPERPROOF
 	visor_flags_cover = NONE
-	flags_inv = HIDEEARS|HIDEFACE|HIDEHAIR|HIDEFACIALHAIR|HIDESNOUT
+	flags_inv = HIDEEARS|HIDEHAIR|HIDEFACE|HIDEFACIALHAIR|HIDESNOUT
+	hair_mask = ""
+	transparent_protection = HIDEMASK|HIDEEYES
 	visor_flags_inv = NONE
 	visor_state = "weldvisor_atmos"
 
@@ -214,19 +258,30 @@
 	icon_state = "hardhat0_pumpkin"
 	inhand_icon_state = null
 	hat_type = "pumpkin"
-	clothing_flags = SNUG_FIT | PLASMAMAN_HELMET_EXEMPT
+	clothing_flags = SNUG_FIT | STACKABLE_HELMET_EXEMPT
 	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES|HIDEFACE|HIDEHAIR|HIDEFACIALHAIR|HIDESNOUT
+	hair_mask = ""
+
 	armor_type = /datum/armor/none
 	light_outer_range = 2 //luminosity when on
 	flags_cover = HEADCOVERSEYES
 	light_color = "#fff2bf"
 	worn_y_offset = 1
 	dog_fashion = /datum/dog_fashion/head/pumpkin/unlit
+	clothing_traits = list()
+
+/obj/item/clothing/head/utility/hardhat/pumpkinhead/Initialize(mapload)
+	. = ..()
+	AddComponent(/datum/component/adjust_fishing_difficulty, 3)
 
 /obj/item/clothing/head/utility/hardhat/pumpkinhead/set_light_on(new_value)
 	. = ..()
 	if(isnull(.))
 		return
+	if(new_value)
+		AddElement(/datum/element/wearable_client_colour, /datum/client_colour/halloween_helmet, ITEM_SLOT_HEAD, forced = TRUE)
+	else
+		RemoveElement(/datum/element/wearable_client_colour, /datum/client_colour/halloween_helmet, ITEM_SLOT_HEAD, forced = TRUE)
 	update_icon(UPDATE_OVERLAYS)
 
 /obj/item/clothing/head/utility/hardhat/pumpkinhead/update_overlays()
@@ -273,9 +328,15 @@
 	inhand_icon_state = null
 	hat_type = "reindeer"
 	flags_inv = 0
+	hair_mask = ""
 	armor_type = /datum/armor/none
+<<<<<<< HEAD
 	light_outer_range = 1 //luminosity when on
 
+=======
+	light_range = 1 //luminosity when on
+	clothing_traits = list()
+>>>>>>> tg-pr-88929
 
 	dog_fashion = /datum/dog_fashion/head/reindeer
 

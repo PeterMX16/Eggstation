@@ -1,3 +1,6 @@
+///Energy used to say an error message.
+#define ENERGY_TO_SPEAK (0.001 * STANDARD_CELL_CHARGE)
+
 /**
  * # N-spect scanner
  *
@@ -5,8 +8,10 @@
  */
 /obj/item/inspector
 	name = "\improper N-spect scanner"
-	desc = "Central Command-issued inspection device. Performs inspections according to Nanotrasen protocols when activated, then prints an encrypted report regarding the maintenance of the station. Definitely not giving you cancer."
-	icon = 'icons/obj/device.dmi'
+	desc = "Central Command standard issue inspection device. \
+	Performs wide area scan reports for inspectors to use to verify the security and integrity of the station. \
+	Can additionally be used for precision scans to determine if an item contains, or is itself, contraband."
+	icon = 'icons/obj/devices/scanner.dmi'
 	icon_state = "inspector"
 	worn_icon_state = "salestagger"
 	inhand_icon_state = "electronic"
@@ -14,6 +19,7 @@
 	righthand_file = 'icons/mob/inhands/items/devices_righthand.dmi'
 	throwforce = 0
 	w_class = WEIGHT_CLASS_TINY
+	interaction_flags_click = NEED_DEXTERITY
 	throw_range = 1
 	throw_speed = 1
 	///How long it takes to print on time each mode, ordered NORMAL, FAST, HONK
@@ -23,30 +29,35 @@
 	///determines the sound that plays when printing a report
 	var/print_sound_mode = INSPECTOR_PRINT_SOUND_MODE_NORMAL
 	///Power cell used to power the scanner. Paths g
+<<<<<<< HEAD
 	var/obj/item/stock_parts/power_store/cell/cell = /obj/item/stock_parts/power_store/cell/crap
+=======
+	var/obj/item/stock_parts/power_store/cell = /obj/item/stock_parts/power_store/cell/crap
+>>>>>>> tg-pr-88929
 	///Cell cover status
 	var/cell_cover_open = FALSE
 	///Energy used per print.
 	var/energy_per_print = INSPECTOR_ENERGY_USAGE_NORMAL
+<<<<<<< HEAD
 	///Energy used to say an error message.
 	var/energy_to_speak = 1 KILO JOULES
+=======
+	///Does this item scan for contraband correctly? If not, will provide a flipped response.
+	var/scans_correctly = TRUE
+>>>>>>> tg-pr-88929
 
 /obj/item/inspector/Initialize(mapload)
 	. = ..()
 	if(ispath(cell))
 		cell = new cell(src)
+	register_context()
+	register_item_context()
 
 // Clean up the cell on destroy
-/obj/item/clothing/suit/space/Destroy()
-	if(isatom(cell))
-		QDEL_NULL(cell)
-	return ..()
-
-// Clean up the cell on destroy
-/obj/item/inspector/handle_atom_del(atom/A)
-	if(A == cell)
+/obj/item/inspector/Exited(atom/movable/gone, direction)
+	. = ..()
+	if(gone == cell)
 		cell = null
-	return ..()
 
 // support for items that interact with the cell
 /obj/item/inspector/get_cell()
@@ -65,8 +76,13 @@
 	balloon_alert(user, "[cell_cover_open ? "opened" : "closed"] cell cover")
 	return TRUE
 
+<<<<<<< HEAD
 /obj/item/inspector/attackby(obj/item/attacking_item, mob/user, list/modifiers, list/attack_modifiers)
 	if(cell_cover_open && istype(attacking_item, /obj/item/stock_parts/power_store/cell))
+=======
+/obj/item/inspector/attackby(obj/item/I, mob/user, params)
+	if(cell_cover_open && istype(I, /obj/item/stock_parts/power_store/cell))
+>>>>>>> tg-pr-88929
 		if(cell)
 			to_chat(user, span_warning("[src] already has a cell installed."))
 			return
@@ -76,25 +92,100 @@
 			return
 	return ..()
 
-/obj/item/inspector/CtrlClick(mob/living/user)
-	if(!user.can_perform_action(src, NEED_DEXTERITY) || !cell_cover_open || !cell)
-		return ..()
+/obj/item/inspector/item_ctrl_click(mob/user)
+	if(!cell_cover_open || !cell)
+		return CLICK_ACTION_BLOCKING
 	user.visible_message(span_notice("[user] removes \the [cell] from [src]!"), \
 		span_notice("You remove [cell]."))
 	cell.add_fingerprint(user)
 	user.put_in_hands(cell)
 	cell = null
+	return CLICK_ACTION_SUCCESS
 
 /obj/item/inspector/examine(mob/user)
 	. = ..()
+	. += span_info("Use in-hand to scan the local area, creating an encrypted security inspection.")
+	. += span_info("Use on an item to scan if it contains, or is, contraband.")
 	if(!cell_cover_open)
-		. += "Its cell cover is closed. It looks like it could be <strong>pried</strong> out, but doing so would require an appropriate tool."
+		. += span_notice("Its cell cover is closed. It looks like it could be <strong>pried</strong> out, but doing so would require an appropriate tool.")
 		return
-	. += "It's cell cover is open, exposing the cell slot. It looks like it could be <strong>pried</strong> in, but doing so would require an appropriate tool."
+	. += span_notice("Its cell cover is open, exposing the cell slot. It looks like it could be <strong>pried</strong> in, but doing so would require an appropriate tool.")
 	if(!cell)
-		. += "The slot for a cell is empty."
+		. += span_notice("The slot for a cell is empty.")
 	else
-		. += "\The [cell] is firmly in place. [span_info("Ctrl-click with an empty hand to remove it.")]"
+		. += span_notice("\The [cell] is firmly in place. Ctrl-click with an empty hand to remove it.")
+
+/obj/item/inspector/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
+	if(!user.Adjacent(interacting_with))
+		return ITEM_INTERACT_BLOCKING
+	if(cell_cover_open)
+		balloon_alert(user, "close cover first!")
+		return ITEM_INTERACT_BLOCKING
+	if(!cell || !cell.use(INSPECTOR_ENERGY_USAGE_LOW))
+		balloon_alert(user, "check cell!")
+		return ITEM_INTERACT_BLOCKING
+
+	if(iscarbon(interacting_with)) // Prevents scanning people
+		return
+
+	if(contraband_scan(interacting_with, user))
+		playsound(src, 'sound/machines/uplink/uplinkerror.ogg', 40)
+		balloon_alert(user, "contraband detected!")
+		return ITEM_INTERACT_SUCCESS
+	else
+		playsound(src, 'sound/machines/ping.ogg', 20)
+		balloon_alert(user, "clear")
+		return ITEM_INTERACT_SUCCESS
+
+
+/obj/item/inspector/add_context(atom/source, list/context, obj/item/held_item, mob/user)
+	var/update_context = FALSE
+	if(cell_cover_open && cell)
+		context[SCREENTIP_CONTEXT_CTRL_LMB] = "Remove cell"
+		update_context = TRUE
+
+	if(cell_cover_open && !cell && istype(held_item, /obj/item/stock_parts/power_store/cell))
+		context[SCREENTIP_CONTEXT_LMB] = "Install cell"
+		update_context = TRUE
+
+	if(held_item?.tool_behaviour == TOOL_CROWBAR)
+		context[SCREENTIP_CONTEXT_LMB] = "[cell_cover_open ? "close" : "open"] battery panel"
+		update_context = TRUE
+
+	if(update_context)
+		return CONTEXTUAL_SCREENTIP_SET
+	return NONE
+
+/obj/item/inspector/add_item_context(obj/item/source, list/context, atom/target, mob/living/user)
+	if(cell_cover_open || !cell)
+		return NONE
+	if(isitem(target))
+		context[SCREENTIP_CONTEXT_LMB] = "Contraband Scan"
+		return CONTEXTUAL_SCREENTIP_SET
+	return NONE
+
+/**
+ * Scans the carbon or item for contraband.
+ *
+ * Arguments:
+ * - scanned - what or who is scanned?
+ * - user - who is performing the scanning?
+ */
+/obj/item/inspector/proc/contraband_scan(scanned, user)
+	if(iscarbon(scanned))
+		var/mob/living/carbon/scanned_carbon = scanned
+		for(var/obj/item/content in scanned_carbon.get_all_contents_skipping_traits(TRAIT_CONTRABAND_BLOCKER))
+			var/contraband_content = content.is_contraband()
+			if((contraband_content && scans_correctly) || (!contraband_content && !scans_correctly))
+				return TRUE
+
+	if(isitem(scanned))
+		var/obj/item/contraband_item = scanned
+		var/contraband_status = contraband_item.is_contraband()
+		if((contraband_status && scans_correctly) || (!contraband_status && !scans_correctly))
+			return TRUE
+
+	return FALSE
 
 /**
  * Create our report
@@ -112,13 +203,17 @@
 */
 /obj/item/inspector/proc/print_report(mob/user)
 	if(!cell)
-		to_chat(user, "<span class='info'>\The [src] doesn't seem to be on... It feels quite light. Perhaps it lacks a power cell?")
+		to_chat(user, span_info("\The [src] doesn't seem to be on... It feels quite light. Perhaps it lacks a power cell?"))
 		return
 	if(cell.charge == 0)
-		to_chat(user, "<span class='info'>\The [src] doesn't seem to be on... Perhaps it ran out of power?")
+		to_chat(user, span_info("\The [src] doesn't seem to be on... Perhaps it ran out of power?"))
 		return
 	if(!cell.use(energy_per_print))
+<<<<<<< HEAD
 		if(cell.use(energy_to_speak))
+=======
+		if(cell.use(ENERGY_TO_SPEAK))
+>>>>>>> tg-pr-88929
 			say("ERROR! POWER CELL CHARGE LEVEL TOO LOW TO PRINT REPORT!")
 		return
 
@@ -181,6 +276,7 @@
  * Can be crafted into a bananium HONK-spect scanner
  */
 /obj/item/inspector/clown
+	scans_correctly = FALSE
 	///will only cycle through modes with numbers lower than this
 	var/max_mode = CLOWN_INSPECTOR_PRINT_SOUND_MODE_LAST
 	///names of modes, ordered first to last
@@ -264,7 +360,11 @@
 
 /obj/item/inspector/clown/bananium/proc/check_settings_legality()
 	if(print_sound_mode == INSPECTOR_PRINT_SOUND_MODE_NORMAL && time_mode == INSPECTOR_TIME_MODE_HONK)
+<<<<<<< HEAD
 		if(cell.use(energy_to_speak))
+=======
+		if(cell.use(ENERGY_TO_SPEAK))
+>>>>>>> tg-pr-88929
 			say("Setting combination forbidden by Geneva convention revision CCXXIII selected, reverting to defaults")
 		time_mode = INSPECTOR_TIME_MODE_SLOW
 		print_sound_mode = INSPECTOR_PRINT_SOUND_MODE_NORMAL
@@ -302,10 +402,14 @@
 	if(time_mode != INSPECTOR_TIME_MODE_HONK)
 		return ..()
 	if(paper_charges == 0)
+<<<<<<< HEAD
 		if(cell.use(energy_to_speak))
+=======
+		if(cell.use(ENERGY_TO_SPEAK))
+>>>>>>> tg-pr-88929
 			say("ERROR! OUT OF PAPER! MAXIMUM PRINTING SPEED UNAVAIBLE! SWITCH TO A SLOWER SPEED TO OR PROVIDE PAPER!")
 		else
-			to_chat(user, "<span class='info'>\The [src] doesn't seem to be on... Perhaps it ran out of power?")
+			to_chat(user, span_info("\The [src] doesn't seem to be on... Perhaps it ran out of power?"))
 		return
 	paper_charges--
 	return ..()
@@ -378,15 +482,17 @@
  */
 /obj/item/paper/fake_report/water
 	grind_results = list(/datum/reagent/water = 5)
+	interaction_flags_click = NEED_DEXTERITY|NEED_HANDS|ALLOW_RESTING
 
-/obj/item/paper/fake_report/water/AltClick(mob/living/user, obj/item/I)
-	if(!user.can_perform_action(src, NEED_DEXTERITY|NEED_HANDS))
-		return
+/obj/item/paper/fake_report/water/click_alt(mob/living/user)
 	var/datum/action/innate/origami/origami_action = locate() in user.actions
 	if(origami_action?.active) //Origami masters can fold water
-		make_plane(user, I, /obj/item/paperplane/syndicate)
+		make_plane(user, /obj/item/paperplane/syndicate)
 	else if(do_after(user, 1 SECONDS, target = src, progress=TRUE))
 		var/turf/open/target = get_turf(src)
 		target.MakeSlippery(TURF_WET_WATER, min_wet_time = 10 SECONDS, wet_time_to_add = 5 SECONDS)
 		to_chat(user, span_notice("As you try to fold [src] into the shape of a plane, it disintegrates into water!"))
 		qdel(src)
+	return CLICK_ACTION_SUCCESS
+
+#undef ENERGY_TO_SPEAK

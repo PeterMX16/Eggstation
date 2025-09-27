@@ -1,5 +1,18 @@
-import { NtosWindow } from '../layouts';
+import {
+  Box,
+  Button,
+  Divider,
+  Input,
+  NoticeBox,
+  RestrictedInput,
+  Section,
+  Stack,
+  Table,
+  Tooltip,
+} from 'tgui-core/components';
+
 import { useBackend } from '../backend';
+<<<<<<< HEAD
 import {
   Stack,
   Section,
@@ -12,6 +25,9 @@ import {
   Divider,
   RestrictedInput,
 } from '../components';
+=======
+import { NtosWindow } from '../layouts';
+>>>>>>> tg-pr-88929
 
 type Data = {
   name: string;
@@ -90,7 +106,7 @@ const TransferSection = (props) => {
   return (
     <Stack>
       <Stack.Item>
-        <Section vertical title="Transfer Money">
+        <Section title="Transfer Money">
           <Box>
             <Tooltip
               content="Enter the pay token of the account you want to transfer credits to."
@@ -160,9 +176,9 @@ const TransactionHistory = (props) => {
     <Section fill title="Transaction History">
       <Section fill scrollable title={<TableHeaders />}>
         <Table>
-          {transaction_list.map((log) => (
+          {transaction_list.map((log, index) => (
             <Table.Row
-              key={log}
+              key={index}
               className="candystripe"
               color={log.adjusted_money < 1 ? 'red' : 'green'}
             >

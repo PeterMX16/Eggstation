@@ -1,4 +1,4 @@
-/obj/item/organ/internal/heart/gland/chem
+/obj/item/organ/heart/gland/chem
 	abductor_hint = "intrinsic pharma-provider. The abductee constantly produces random chemicals inside their bloodstream. They also quickly regenerate toxin damage."
 	cooldown_low = 5 SECONDS
 	cooldown_high = 5 SECONDS
@@ -8,13 +8,13 @@
 	mind_control_duration = 2 MINUTES
 	var/list/possible_reagents = list()
 
-/obj/item/organ/internal/heart/gland/chem/Initialize(mapload)
+/obj/item/organ/heart/gland/chem/Initialize(mapload)
 	. = ..()
 	for(var/R in subtypesof(/datum/reagent/drug) + subtypesof(/datum/reagent/medicine) + typesof(/datum/reagent/toxin))
 		possible_reagents += R
 
-/obj/item/organ/internal/heart/gland/chem/activate()
+/obj/item/organ/heart/gland/chem/activate()
 	var/chem_to_add = pick(possible_reagents)
 	owner.reagents.add_reagent(chem_to_add, 2)
-	owner.adjustToxLoss(-5, TRUE, TRUE)
+	owner.adjustToxLoss(-5, forced = TRUE)
 	..()

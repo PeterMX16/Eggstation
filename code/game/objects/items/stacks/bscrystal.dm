@@ -22,6 +22,8 @@
 	points = 0
 	refined_type = null
 	merge_type = /obj/item/stack/ore/bluespace_crystal/refined
+	drop_sound = null //till I make a better one
+	pickup_sound = null
 
 /obj/item/stack/ore/bluespace_crystal/Initialize(mapload, new_amount, merge = TRUE, list/mat_override=null, mat_amt=1)
 	. = ..()
@@ -61,13 +63,16 @@
 	refined_type = null
 	grind_results = list(/datum/reagent/bluespace = 10, /datum/reagent/silicon = 20)
 	merge_type = /obj/item/stack/ore/bluespace_crystal/artificial
+	drop_sound = null //till I make a better one
+	pickup_sound = null
 
 //Polycrystals, aka stacks
 /obj/item/stack/sheet/bluespace_crystal
 	name = "bluespace polycrystal"
-	icon = 'icons/obj/telescience.dmi'
+	icon = 'icons/obj/stack_objects.dmi'
 	icon_state = "polycrystal"
 	inhand_icon_state = null
+	gulag_valid = TRUE
 	singular_name = "bluespace polycrystal"
 	desc = "A stable polycrystal, made of fused-together bluespace crystals. You could probably break one off."
 	mats_per_unit = list(/datum/material/bluespace=SHEET_MATERIAL_AMOUNT)
@@ -75,13 +80,15 @@
 	attack_verb_simple = list("bluespace polybash", "bluespace polybatter", "bluespace polybludgeon", "bluespace polythrash", "bluespace polysmash")
 	novariants = TRUE
 	grind_results = list(/datum/reagent/bluespace = 20)
-	point_value = 30
 	merge_type = /obj/item/stack/sheet/bluespace_crystal
 	material_type = /datum/material/bluespace
 	var/crystal_type = /obj/item/stack/ore/bluespace_crystal/refined
 
+<<<<<<< HEAD
 /obj/item/stack/sheet/bluespace_crystal/five
 	amount = 5
+=======
+>>>>>>> tg-pr-88929
 
 /obj/item/stack/sheet/bluespace_crystal/attack_self(mob/user)// to prevent the construction menu from ever happening
 	to_chat(user, span_warning("You cannot crush the polycrystal in-hand, try breaking one off."))

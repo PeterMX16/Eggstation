@@ -1,7 +1,12 @@
+<<<<<<< HEAD
 import { BooleanLike } from 'common/react';
 import { InfernoNode } from 'inferno';
 
 import { useBackend, useLocalState, useSharedState } from '../../backend';
+=======
+import { useState } from 'react';
+import { Tooltip } from 'tgui-core/components';
+>>>>>>> tg-pr-88929
 import {
   Box,
   Button,
@@ -12,8 +17,15 @@ import {
   Section,
   Stack,
   Tabs,
+<<<<<<< HEAD
   Tooltip,
 } from '../../components';
+=======
+} from 'tgui-core/components';
+import { BooleanLike } from 'tgui-core/react';
+
+import { useBackend } from '../../backend';
+>>>>>>> tg-pr-88929
 
 type GenericUplinkProps = {
   currency?: string | InfernoNode;
@@ -30,6 +42,7 @@ export const GenericUplink = (props: GenericUplinkProps) => {
 
     handleBuy,
   } = props;
+<<<<<<< HEAD
   const [searchText, setSearchText] = useLocalState('searchText', '');
   const [selectedCategory, setSelectedCategory] = useLocalState(
     'category',
@@ -39,6 +52,11 @@ export const GenericUplink = (props: GenericUplinkProps) => {
     'compactModeUplink',
     false,
   );
+=======
+  const [searchText, setSearchText] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState(categories[0]);
+  const [compactMode, setCompactMode] = useState(false);
+>>>>>>> tg-pr-88929
   let items = props.items.filter((value) => {
     if (searchText.length === 0) {
       return value.category === selectedCategory;
@@ -52,16 +70,26 @@ export const GenericUplink = (props: GenericUplinkProps) => {
         <Stack vertical fill>
           <Stack.Item>
             <Stack>
+<<<<<<< HEAD
               <Stack.Item grow>
+=======
+              <Stack.Item grow={1}>
+>>>>>>> tg-pr-88929
                 <Button
                   bold
                   fluid
                   lineHeight={2}
                   style={{
                     overflow: 'hidden',
+<<<<<<< HEAD
                     'white-space': 'nowrap',
                     'text-overflow': 'ellipsis',
                     'text-align': 'center',
+=======
+                    whiteSpace: 'nowrap',
+                    textOverflow: 'ellipsis',
+                    textAlign: 'center',
+>>>>>>> tg-pr-88929
                   }}
                   onClick={() => act('buy_raw_tc')}
                 >
@@ -89,7 +117,11 @@ export const GenericUplink = (props: GenericUplinkProps) => {
               fluid
             />
           </Stack.Item>
+<<<<<<< HEAD
           <Stack.Item grow>
+=======
+          <Stack.Item grow={1}>
+>>>>>>> tg-pr-88929
             <Tabs vertical fill>
               {categories.map((category) => (
                 <Tabs.Tab
@@ -110,9 +142,15 @@ export const GenericUplink = (props: GenericUplinkProps) => {
           </Stack.Item>
         </Stack>
       </Stack.Item>
+<<<<<<< HEAD
       <Stack.Item grow>
         <Box height="100%" pr={1} mr={-1}>
           {items.length === 0 ? (
+=======
+      <Stack.Item grow={1}>
+        <Box height="100%" pr={1} mr={-1} style={{ overflowY: 'auto' }}>
+          {items.length === 0 && (
+>>>>>>> tg-pr-88929
             <NoticeBox>
               {searchText.length === 0
                 ? 'No items in this category.'
@@ -125,6 +163,14 @@ export const GenericUplink = (props: GenericUplinkProps) => {
               handleBuy={handleBuy}
             />
           )}
+<<<<<<< HEAD
+=======
+          <ItemList
+            compactMode={searchText.length > 0 || compactMode}
+            items={items}
+            handleBuy={handleBuy}
+          />
+>>>>>>> tg-pr-88929
         </Box>
       </Stack.Item>
     </Stack>
@@ -140,7 +186,10 @@ export type Item = {
   cost: InfernoNode | string;
   desc: InfernoNode | string;
   disabled: BooleanLike;
+<<<<<<< HEAD
   is_locked: BooleanLike;
+=======
+>>>>>>> tg-pr-88929
 };
 
 export type ItemListProps = {
@@ -156,6 +205,7 @@ const ItemList = (props: ItemListProps) => {
     <Icon m={compactMode ? '10px' : '26px'} name="spinner" spin />
   );
   return (
+<<<<<<< HEAD
     <Section fill scrollable>
       <Stack vertical mt={compactMode ? -0.5 : -1}>
         {items.map((item, index) => (
@@ -239,5 +289,87 @@ const ItemList = (props: ItemListProps) => {
         ))}
       </Stack>
     </Section>
+=======
+    <Stack vertical mt={compactMode ? -0.5 : -1}>
+      {items.map((item, index) => (
+        <Stack.Item key={index} mt={compactMode ? 0.5 : 1}>
+          <Section key={item.name} fitted={compactMode ? true : false}>
+            <Stack>
+              <Stack.Item>
+                <Box
+                  width={compactMode ? '32px' : '64px'}
+                  height={compactMode ? '32px' : '64px'}
+                  position="relative"
+                  m={compactMode ? '2px' : 0}
+                  mr={1}
+                >
+                  <DmIcon
+                    position="absolute"
+                    bottom="0"
+                    fallback={fallback}
+                    icon={item.icon}
+                    icon_state={item.icon_state}
+                    width={compactMode ? '32px' : '64px'}
+                  />
+                </Box>
+              </Stack.Item>
+              <Stack.Item grow={1}>
+                {compactMode ? (
+                  <Stack>
+                    <Stack.Item
+                      bold
+                      grow={1}
+                      lineHeight="36px"
+                      style={{
+                        overflow: 'hidden',
+                        whiteSpace: 'nowrap',
+                        textOverflow: 'ellipsis',
+                      }}
+                    >
+                      {item.name}
+                    </Stack.Item>
+                    <Stack.Item>
+                      <Tooltip content={item.desc}>
+                        <Icon name="info-circle" lineHeight="36px" />
+                      </Tooltip>
+                    </Stack.Item>
+                    <Stack.Item>
+                      <Button
+                        m="8px"
+                        disabled={item.disabled}
+                        onClick={(e) => handleBuy(item)}
+                      >
+                        {item.cost}
+                      </Button>
+                    </Stack.Item>
+                  </Stack>
+                ) : (
+                  <Section
+                    title={item.name}
+                    buttons={
+                      <Button
+                        disabled={item.disabled}
+                        onClick={(e) => handleBuy(item)}
+                      >
+                        {item.cost}
+                      </Button>
+                    }
+                  >
+                    <Box
+                      style={{
+                        opacity: '0.75',
+                      }}
+                    >
+                      {item.desc}
+                    </Box>
+                  </Section>
+                )}
+              </Stack.Item>
+            </Stack>
+          </Section>
+        </Stack.Item>
+      ))}
+    </Stack>
+>>>>>>> tg-pr-88929
   );
 };

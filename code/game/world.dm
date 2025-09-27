@@ -7,6 +7,111 @@
 #define NO_INIT_PARAMETER "no-init"
 
 GLOBAL_VAR(restart_counter)
+GLOBAL_VAR(tracy_log)
+GLOBAL_PROTECT(tracy_log)
+GLOBAL_VAR(tracy_initialized)
+GLOBAL_PROTECT(tracy_initialized)
+GLOBAL_VAR(tracy_init_error)
+GLOBAL_PROTECT(tracy_init_error)
+GLOBAL_VAR(tracy_init_reason)
+GLOBAL_PROTECT(tracy_init_reason)
+
+/**
+ * WORLD INITIALIZATION
+ * THIS IS THE INIT ORDER:
+ *
+ * BYOND =>
+ * - (secret init native) =>
+ *   - world.Genesis() =>
+ *     - world.init_byond_tracy()
+ *     - (Start native profiling)
+ *     - world.init_debugger()
+ *     - Master =>
+ *       - config *unloaded
+ *       - (all subsystems) PreInit()
+ *       - GLOB =>
+ *         - make_datum_reference_lists()
+ *   - (/static variable inits, reverse declaration order)
+ * - (all pre-mapped atoms) /atom/New()
+ * - world.New() =>
+ *   - config.Load()
+ *   - world.InitTgs() =>
+ *     - TgsNew() *may sleep
+ *     - GLOB.rev_data.load_tgs_info()
+ *   - world.ConfigLoaded() =>
+ *     - SSdbcore.InitializeRound()
+ *     - world.SetupLogs()
+ *     - load_admins()
+ *     - ...
+ *   - Master.Initialize() =>
+ *     - (all subsystems) Initialize()
+ *     - Master.StartProcessing() =>
+ *       - Master.Loop() =>
+ *         - Failsafe
+ *   - world.RunUnattendedFunctions()
+ *
+ * Now listen up because I want to make something clear:
+ * If something is not in this list it should almost definitely be handled by a subsystem Initialize()ing
+ * If whatever it is that needs doing doesn't fit in a subsystem you probably aren't trying hard enough tbhfam
+ *
+ * GOT IT MEMORIZED?
+ * - Dominion/Cyberboss
+ *
+ * Where to put init shit quick guide:
+ * If you need it to happen before the mc is created: world/Genesis.
+ * If you need it to happen last: world/New(),
+ * Otherwise, in a subsystem preinit or init. Subsystems can set an init priority.
+ */
+
+/**
+ * THIS !!!SINGLE!!! PROC IS WHERE ANY FORM OF INIITIALIZATION THAT CAN'T BE PERFORMED IN SUBSYSTEMS OR WORLD/NEW IS DONE
+ * NOWHERE THE FUCK ELSE
+ * I DON'T CARE HOW MANY LAYERS OF DEBUG/PROFILE/TRACE WE HAVE, YOU JUST HAVE TO DEAL WITH THIS PROC EXISTING
+ * I'M NOT EVEN GOING TO TELL YOU WHERE IT'S CALLED FROM BECAUSE I'M DECLARING THAT FORBIDDEN KNOWLEDGE
+ * SO HELP ME GOD IF I FIND ABSTRACTION LAYERS OVER THIS!
+ */
+/world/proc/Genesis(tracy_initialized = FALSE)
+	RETURN_TYPE(/datum/controller/master)
+
+	if(!tracy_initialized)
+		GLOB.tracy_initialized = FALSE
+#ifndef OPENDREAM
+	if(!tracy_initialized)
+#ifdef USE_BYOND_TRACY
+#warn USE_BYOND_TRACY is enabled
+		var/should_init_tracy = TRUE
+		GLOB.tracy_init_reason = "USE_BYOND_TRACY defined"
+#else
+		var/should_init_tracy = FALSE
+		if(USE_TRACY_PARAMETER in params)
+			should_init_tracy = TRUE
+			GLOB.tracy_init_reason = "world.params"
+		if(fexists(TRACY_ENABLE_PATH))
+			GLOB.tracy_init_reason ||= "enabled for round"
+			SEND_TEXT(world.log, "[TRACY_ENABLE_PATH] exists, initializing byond-tracy!")
+			should_init_tracy = TRUE
+			fdel(TRACY_ENABLE_PATH)
+#endif
+		if(should_init_tracy)
+			init_byond_tracy()
+			Genesis(tracy_initialized = TRUE)
+			return
+#endif
+
+	Profile(PROFILE_RESTART)
+	Profile(PROFILE_RESTART, type = "sendmaps")
+
+	// Write everything to this log file until we get to SetupLogs() later
+	_initialize_log_files("data/logs/config_error.[GUID()].log")
+
+	// Init the debugger first so we can debug Master
+	init_debugger()
+
+	// Create the logger
+	logger = new
+
+	// THAT'S IT, WE'RE DONE, THE. FUCKING. END.
+	Master = new
 
 /**
  * WORLD INITIALIZATION
@@ -163,8 +268,11 @@ GLOBAL_VAR(restart_counter)
 	SetupLogs()
 
 	load_admins()
+<<<<<<< HEAD
 	load_mentors()
 	MentorizeAdmins()
+=======
+>>>>>>> tg-pr-88929
 
 	load_poll_data()
 
@@ -229,11 +337,18 @@ GLOBAL_VAR(restart_counter)
 		GLOB.picture_logging_prefix = "O_[override_dir]_"
 		GLOB.picture_log_directory = "data/picture_logs/[override_dir]"
 
+<<<<<<< HEAD
 	GLOB.demo_log = "[GLOB.demo_directory]/[GLOB.round_id]_demo.txt" //Guh //Monkestation Edit: REPLAYS
 	logger.init_logging()
 
 	if(Tracy.trace_path)
 		rustg_file_write("[Tracy.trace_path]", "[GLOB.log_directory]/tracy.loc")
+=======
+	logger.init_logging()
+
+	if(GLOB.tracy_log)
+		rustg_file_write("[GLOB.tracy_log]", "[GLOB.log_directory]/tracy.loc")
+>>>>>>> tg-pr-88929
 
 	var/latest_changelog = file("[global.config.directory]/../html/changelogs/archive/" + time2text(world.timeofday, "YYYY-MM") + ".yml")
 	GLOB.changelog_hash = fexists(latest_changelog) ? md5(latest_changelog) : 0 //for telling if the changelog has changed recently
@@ -326,8 +441,7 @@ GLOBAL_VAR(restart_counter)
 	#ifdef UNIT_TESTS
 	FinishTestRun()
 	return
-	#endif
-
+	#else
 	if(TgsAvailable())
 		var/do_hard_reboot
 		// check the hard reboot counter
@@ -347,9 +461,14 @@ GLOBAL_VAR(restart_counter)
 		if(do_hard_reboot)
 			log_world("World hard rebooted at [time_stamp()]")
 			shutdown_logging() // See comment below.
+<<<<<<< HEAD
 			QDEL_NULL(Tracy)
 			QDEL_NULL(Debugger)
 			SSplexora.notify_shutdown(PLEXORA_SHUTDOWN_KILLDD)
+=======
+			shutdown_byond_tracy()
+			auxcleanup()
+>>>>>>> tg-pr-88929
 			TgsEndProcess()
 			return ..()
 
@@ -357,16 +476,33 @@ GLOBAL_VAR(restart_counter)
 	log_world("World rebooted at [time_stamp()]")
 
 	shutdown_logging() // Past this point, no logging procs can be used, at risk of data loss.
+<<<<<<< HEAD
 	QDEL_NULL(Tracy)
 	QDEL_NULL(Debugger)
+=======
+	shutdown_byond_tracy()
+	auxcleanup()
+>>>>>>> tg-pr-88929
 
 	TgsReboot() // TGS can decide to kill us right here, so it's important to do it last
 
 	..()
+	#endif
 
+<<<<<<< HEAD
 /world/Del()
 	QDEL_NULL(Tracy)
 	QDEL_NULL(Debugger)
+=======
+/world/proc/auxcleanup()
+	var/debug_server = world.GetConfig("env", "AUXTOOLS_DEBUG_DLL")
+	if (debug_server)
+		call_ext(debug_server, "auxtools_shutdown")()
+
+/world/Del()
+	shutdown_byond_tracy()
+	auxcleanup()
+>>>>>>> tg-pr-88929
 	. = ..()
 
 /world/proc/update_status()
@@ -382,8 +518,8 @@ GLOBAL_VAR(restart_counter)
 		var/server_name = CONFIG_GET(string/servername)
 		if (server_name)
 			new_status += "<b>[server_name]</b> "
-		if(!CONFIG_GET(flag/norespawn))
-			features += "respawn"
+		if(CONFIG_GET(flag/allow_respawn))
+			features += "respawn" // show "respawn" regardless of "respawn as char" or "free respawn"
 		if(!CONFIG_GET(flag/allow_ai))
 			features += "AI disabled"
 		hostedby = CONFIG_GET(string/hostedby)
@@ -401,6 +537,7 @@ GLOBAL_VAR(restart_counter)
 	if(length(features))
 		new_status += ": [jointext(features, ", ")]"
 
+<<<<<<< HEAD
 	new_status += "<br>Beginner Friendly: <b>Learn to play SS13!</b>"
 	new_status += "<br>Roleplay: \[<b>Medium-Rare</b>\]"
 
@@ -410,6 +547,25 @@ GLOBAL_VAR(restart_counter)
 	var/alert_text = SSsecurity_level.get_current_level_as_text()
 	if(alert_text)
 		new_status += "<br>Alert: <b>[capitalize(alert_text)]</b>"
+=======
+	if(!SSticker || SSticker?.current_state == GAME_STATE_STARTUP)
+		new_status += "<br><b>STARTING</b>"
+	else if(SSticker)
+		if(SSticker.current_state == GAME_STATE_PREGAME && SSticker.GetTimeLeft() > 0)
+			new_status += "<br>Starting: <b>[round((SSticker.GetTimeLeft())/10)]</b>"
+		else if(SSticker.current_state == GAME_STATE_SETTING_UP)
+			new_status += "<br>Starting: <b>Now</b>"
+		else if(SSticker.IsRoundInProgress())
+			new_status += "<br>Time: <b>[time2text(STATION_TIME_PASSED(), "hh:mm", 0)]</b>"
+			if(SSshuttle?.emergency && SSshuttle?.emergency?.mode != (SHUTTLE_IDLE || SHUTTLE_ENDGAME))
+				new_status += " | Shuttle: <b>[SSshuttle.emergency.getModeStr()] [SSshuttle.emergency.getTimerStr()]</b>"
+		else if(SSticker.current_state == GAME_STATE_FINISHED)
+			new_status += "<br><b>RESTARTING</b>"
+	if(SSmapping.current_map)
+		new_status += "<br>Map: <b>[SSmapping.current_map.map_path == CUSTOM_MAP_PATH ? "Uncharted Territory" : SSmapping.current_map.map_name]</b>"
+	if(SSmap_vote.next_map_config)
+		new_status += "[SSmapping.current_map ? " | " : "<br>"]Next: <b>[SSmap_vote.next_map_config.map_path == CUSTOM_MAP_PATH ? "Uncharted Territory" : SSmap_vote.next_map_config.map_name]</b>"
+>>>>>>> tg-pr-88929
 
 	status = new_status
 
@@ -423,7 +579,11 @@ GLOBAL_VAR(restart_counter)
 		hub_password = "SORRYNOPASSWORD"
 
 /**
+<<<<<<< HEAD
  * Handles incresing the world's maxx var and intializing the new turfs and assigning them to the global area.
+=======
+ * Handles increasing the world's maxx var and initializing the new turfs and assigning them to the global area.
+>>>>>>> tg-pr-88929
  * If map_load_z_cutoff is passed in, it will only load turfs up to that z level, inclusive.
  * This is because maploading will handle the turfs it loads itself.
  */
@@ -450,7 +610,11 @@ GLOBAL_VAR(restart_counter)
 	maxy = new_maxy
 	if(!map_load_z_cutoff)
 		return
+<<<<<<< HEAD
 	var/area/global_area = GLOB.areas_by_type[world.area] // We're guarenteed to be touching the global area, so we'll just do this
+=======
+	var/area/global_area = GLOB.areas_by_type[world.area] // We're guaranteed to be touching the global area, so we'll just do this
+>>>>>>> tg-pr-88929
 	LISTASSERTLEN(global_area.turfs_by_zlevel, map_load_z_cutoff, list())
 	for (var/zlevel in 1 to map_load_z_cutoff)
 		var/list/to_add = block(
@@ -485,9 +649,46 @@ GLOBAL_VAR(restart_counter)
 
 /world/proc/on_tickrate_change()
 	SStimer?.reset_buckets()
+<<<<<<< HEAD
 #ifndef DISABLE_DREAMLUAU
 	DREAMLUAU_SET_EXECUTION_LIMIT_MILLIS(tick_lag * 100)
 #endif
+=======
+	DREAMLUAU_SET_EXECUTION_LIMIT_MILLIS(tick_lag * 100)
+
+/world/proc/init_byond_tracy()
+	if(!fexists(TRACY_DLL_PATH))
+		SEND_TEXT(world.log, "Error initializing byond-tracy: [TRACY_DLL_PATH] not found!")
+		CRASH("Error initializing byond-tracy: [TRACY_DLL_PATH] not found!")
+
+	var/init_result = call_ext(TRACY_DLL_PATH, "init")("block")
+	if(length(init_result) != 0 && init_result[1] == ".") // if first character is ., then it returned the output filename
+		SEND_TEXT(world.log, "byond-tracy initialized (logfile: [init_result])")
+		GLOB.tracy_initialized = TRUE
+		return GLOB.tracy_log = init_result
+	else if(init_result == "already initialized") // not gonna question it.
+		GLOB.tracy_initialized = TRUE
+		SEND_TEXT(world.log, "byond-tracy already initialized ([GLOB.tracy_log ? "logfile: [GLOB.tracy_log]" : "no logfile"])")
+	else if(init_result != "0")
+		GLOB.tracy_init_error = init_result
+		SEND_TEXT(world.log, "Error initializing byond-tracy: [init_result]")
+		CRASH("Error initializing byond-tracy: [init_result]")
+	else
+		GLOB.tracy_initialized = TRUE
+		SEND_TEXT(world.log, "byond-tracy initialized (no logfile)")
+
+/world/proc/shutdown_byond_tracy()
+	if(GLOB.tracy_initialized)
+		SEND_TEXT(world.log, "Shutting down byond-tracy")
+		GLOB.tracy_initialized = FALSE
+		call_ext(TRACY_DLL_PATH, "destroy")()
+
+/world/proc/init_debugger()
+	var/dll = GetConfig("env", "AUXTOOLS_DEBUG_DLL")
+	if (dll)
+		call_ext(dll, "auxtools_init")()
+		enable_debugging()
+>>>>>>> tg-pr-88929
 
 /world/Profile(command, type, format)
 	if((command & PROFILE_STOP) || !global.config?.loaded || !CONFIG_GET(flag/forbid_all_profiling))

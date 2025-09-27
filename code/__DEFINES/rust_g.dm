@@ -15,8 +15,15 @@
 // On Windows, looks in the standard places for `rust_g.dll`.
 // On Linux, looks in `.`, `$LD_LIBRARY_PATH`, and `~/.byond/bin` for either of
 // `librust_g.so` (preferred) or `rust_g` (old).
+// On OpenDream, `rust_g64.dll` / `librust_g64.so` are used instead.
 
 /* This comment bypasses grep checks */ /var/__rust_g
+
+#ifndef OPENDREAM
+#define RUST_G_BASE	"rust_g"
+#else
+#define RUST_G_BASE	"rust_g64"
+#endif
 
 /proc/__detect_rust_g()
 	var/arch_suffix = null
@@ -24,6 +31,7 @@
 	arch_suffix = "64"
 	#endif
 	if (world.system_type == UNIX)
+<<<<<<< HEAD
 		if (fexists("./librust_g[arch_suffix].so"))
 			// No need for LD_LIBRARY_PATH badness.
 			return __rust_g = "./librust_g[arch_suffix].so"
@@ -38,6 +46,26 @@
 			return __rust_g = "librust_g[arch_suffix].so"
 	else
 		return __rust_g = "rust_g[arch_suffix]"
+=======
+		if (fexists("./lib[RUST_G_BASE].so"))
+			// No need for LD_LIBRARY_PATH badness.
+			return __rust_g = "./lib[RUST_G_BASE].so"
+#ifndef OPENDREAM
+		else if (fexists("./[RUST_G_BASE]"))
+			// Old dumb filename.
+			return __rust_g = "./[RUST_G_BASE]"
+		else if (fexists("[world.GetConfig("env", "HOME")]/.byond/bin/[RUST_G_BASE]"))
+			// Old dumb filename in `~/.byond/bin`.
+			return __rust_g = RUST_G_BASE
+#endif
+		else
+			// It's not in the current directory, so try others
+			return __rust_g = "lib[RUST_G_BASE].so"
+	else
+		return __rust_g = RUST_G_BASE
+
+#undef RUST_G_BASE
+>>>>>>> tg-pr-88929
 
 #define RUST_G (__rust_g || __detect_rust_g())
 #endif
@@ -137,6 +165,7 @@
  * output: json_encode'd list. json_decode to get a flat list with icon states in the order they're in inside the .dmi
  */
 #define rustg_dmi_icon_states(fname) RUSTG_CALL(RUST_G, "dmi_icon_states")(fname)
+<<<<<<< HEAD
 
 /**
  * The below functions involve dmi metadata represented in the following format:
@@ -167,6 +196,8 @@
  * `metadata` must be a json_encode'd list in the metadata format listed above.
  */
 #define rustg_dmi_inject_metadata(path, metadata) RUSTG_CALL(RUST_G, "dmi_inject_metadata")(path, metadata)
+=======
+>>>>>>> tg-pr-88929
 
 #define rustg_file_read(fname) RUSTG_CALL(RUST_G, "file_read")(fname)
 #define rustg_file_exists(fname) (RUSTG_CALL(RUST_G, "file_exists")(fname) == "true")
@@ -197,6 +228,7 @@
  */
 /proc/rustg_git_commit_date_head(format = "%F")
 	return RUSTG_CALL(RUST_G, "rg_git_commit_date_head")(format)
+<<<<<<< HEAD
 
 #define rustg_hash_string(algorithm, text) RUSTG_CALL(RUST_G, "hash_string")(algorithm, text)
 #define rustg_hash_file(algorithm, fname) RUSTG_CALL(RUST_G, "hash_file")(algorithm, fname)
@@ -218,6 +250,8 @@
 #ifdef RUSTG_OVERRIDE_BUILTINS
 	#define md5(thing) (isfile(thing) ? rustg_hash_file(RUSTG_HASH_MD5, "[thing]") : rustg_hash_string(RUSTG_HASH_MD5, thing))
 #endif
+=======
+>>>>>>> tg-pr-88929
 
 #define RUSTG_HTTP_METHOD_GET "get"
 #define RUSTG_HTTP_METHOD_PUT "put"
@@ -348,6 +382,7 @@
  */
 #define rustg_noise_poisson_map(seed, width, length, radius) RUSTG_CALL(RUST_G, "noise_poisson_map")(seed, width, length, radius)
 
+<<<<<<< HEAD
 /**
  * Register a list of nodes into a rust library. This list of nodes must have been serialized in a json.
  * Node {// Index of this node in the list of nodes
@@ -381,6 +416,8 @@
  */
 #define rustg_generate_path_astar(start_node_id, goal_node_id) RUSTG_CALL(RUST_G, "generate_path_astar")("[start_node_id]", "[goal_node_id]")
 
+=======
+>>>>>>> tg-pr-88929
 /*
  * Takes in a string and json_encode()"d lists to produce a sanitized string.
  * This function operates on whitelists, there is currently no way to blacklist.
@@ -391,6 +428,7 @@
  */
 #define rustg_sanitize_html(text, attribute_whitelist_json, tag_whitelist_json) RUSTG_CALL(RUST_G, "sanitize_html")(text, attribute_whitelist_json, tag_whitelist_json)
 
+<<<<<<< HEAD
 /// Provided a static RSC file path or a raw text file path, returns the duration of the file in deciseconds as a float.
 /proc/rustg_sound_length(file_path)
 	var/static/list/sound_cache
@@ -434,6 +472,8 @@
 */
 #define rustg_sound_length_list(file_paths) json_decode(RUSTG_CALL(RUST_G, "sound_len_list")(json_encode(file_paths)))
 
+=======
+>>>>>>> tg-pr-88929
 #define rustg_sql_connect_pool(options) RUSTG_CALL(RUST_G, "sql_connect_pool")(options)
 #define rustg_sql_query_async(handle, query, params) RUSTG_CALL(RUST_G, "sql_query_async")(handle, query, params)
 #define rustg_sql_query_blocking(handle, query, params) RUSTG_CALL(RUST_G, "sql_query_blocking")(handle, query, params)
@@ -445,6 +485,7 @@
 #define rustg_time_milliseconds(id) text2num(RUSTG_CALL(RUST_G, "time_milliseconds")(id))
 #define rustg_time_reset(id) RUSTG_CALL(RUST_G, "time_reset")(id)
 
+<<<<<<< HEAD
 /// Returns the current timestamp (in local time), formatted with the given format string.
 /// See https://docs.rs/chrono/latest/chrono/format/strftime/index.html for documentation on the formatting syntax.
 #define rustg_formatted_timestamp(format) RUSTG_CALL(RUST_G, "formatted_timestamp")(format)
@@ -453,6 +494,8 @@
 /// See https://docs.rs/chrono/latest/chrono/format/strftime/index.html for documentation on the formatting syntax.
 #define rustg_formatted_timestamp_tz(format, offset) RUSTG_CALL(RUST_G, "formatted_timestamp")(format, offset)
 
+=======
+>>>>>>> tg-pr-88929
 /// Returns the timestamp as a string
 /proc/rustg_unix_timestamp()
 	return RUSTG_CALL(RUST_G, "unix_timestamp")()
@@ -483,3 +526,45 @@
 	#define url_decode(text) rustg_url_decode(text)
 #endif
 
+/// Provided a static RSC file path or a raw text file path, returns the duration of the file in deciseconds as a float.
+/proc/rustg_sound_length(file_path)
+	var/static/list/sound_cache
+	if(isnull(sound_cache))
+		sound_cache = list()
+
+	. = 0
+
+	if(!istext(file_path))
+		if(!isfile(file_path))
+			CRASH("rustg_sound_length error: Passed non-text object")
+
+		if(length("[file_path]")) // Runtime generated RSC references stringify into 0-length strings.
+			file_path = "[file_path]"
+		else
+			CRASH("rustg_sound_length does not support non-static file refs.")
+
+	var/cached_length = sound_cache[file_path]
+	if(!isnull(cached_length))
+		return cached_length
+
+	var/ret = RUSTG_CALL(RUST_G, "sound_len")(file_path)
+	var/as_num = text2num(ret)
+	if(isnull(ret))
+		. = 0
+		CRASH("rustg_sound_length error: [ret]")
+
+	sound_cache[file_path] = as_num
+	return as_num
+
+
+#define RUSTG_SOUNDLEN_SUCCESSES "successes"
+#define RUSTG_SOUNDLEN_ERRORS "errors"
+/**
+ * Returns a nested key-value list containing "successes" and "errors"
+ * The format is as follows:
+ * list(
+ *  RUSTG_SOUNDLEN_SUCCESES = list("sounds/test.ogg" = 25.34),
+ *  RUSTG_SOUNDLEN_ERRORS = list("sound/bad.png" = "SoundLen: Unable to decode file."),
+ *)
+*/
+#define rustg_sound_length_list(file_paths) json_decode(RUSTG_CALL(RUST_G, "sound_len_list")(json_encode(file_paths)))

@@ -42,11 +42,15 @@ SUBSYSTEM_DEF(security_level)
 
 	if(SSnightshift.can_fire && (selected_level.number_level >= SEC_LEVEL_RED || current_security_level.number_level >= SEC_LEVEL_RED))
 		SSnightshift.next_fire = world.time + 7 SECONDS // Fire nightshift after the security level announcement is complete
+<<<<<<< HEAD
 
 	if(announce)
 		level_announce(selected_level, current_security_level.number_level) // We want to announce BEFORE updating to the new level
+=======
+>>>>>>> tg-pr-88929
 
-	var/old_shuttle_call_time_mod = current_security_level.shuttle_call_time_mod // Need this before we set the new one
+	if(announce)
+		level_announce(selected_level, current_security_level.number_level) // We want to announce BEFORE updating to the new level
 
 	SSsecurity_level.current_security_level = selected_level
 
@@ -57,9 +61,7 @@ SUBSYSTEM_DEF(security_level)
 		can_fire = FALSE
 
 	if(SSshuttle.emergency.mode == SHUTTLE_CALL || SSshuttle.emergency.mode == SHUTTLE_RECALL) // By god this is absolutely shit
-		old_shuttle_call_time_mod = 1 / old_shuttle_call_time_mod
-		SSshuttle.emergency.modTimer(old_shuttle_call_time_mod)
-		SSshuttle.emergency.modTimer(selected_level.shuttle_call_time_mod)
+		SSshuttle.emergency.alert_coeff_change(selected_level.shuttle_call_time_mod)
 
 	SEND_SIGNAL(src, COMSIG_SECURITY_LEVEL_CHANGED, selected_level.number_level)
 	SSblackbox.record_feedback("tally", "security_level_changes", 1, selected_level.name)

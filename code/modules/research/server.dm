@@ -27,8 +27,14 @@
 
 /obj/machinery/rnd/server/Initialize(mapload)
 	. = ..()
-	if(CONFIG_GET(flag/no_default_techweb_link) && !stored_research)
-		stored_research = new /datum/techweb
+	//servers handle techwebs differently as we are expected to be there to connect
+	//every other machinery on-station.
+	if(!stored_research)
+		if(CONFIG_GET(flag/no_default_techweb_link))
+			stored_research = new /datum/techweb
+		else
+			var/datum/techweb/science_web = locate(/datum/techweb/science) in SSresearch.techwebs
+			connect_techweb(science_web)
 	stored_research.techweb_servers |= src
 	name += " [num2hex(rand(1,65535), -1)]" //gives us a random four-digit hex number as part of the name. Y'know, for fluff.
 
@@ -149,6 +155,7 @@
 			. += "The front panel is dangling open. The hdd inside is destroyed and the wires are all burned."
 
 /obj/machinery/rnd/server/master/tool_act(mob/living/user, obj/item/tool, list/modifiers)
+<<<<<<< HEAD
 	// Only antags are given the training and knowledge to disassemble this thing.
 	if(is_special_character(user))
 		return ..()
@@ -158,6 +165,17 @@
 
 	balloon_alert(user, "you can't find an obvious maintenance hatch!")
 	return TRUE
+=======
+	if(!tool.tool_behaviour)
+		return ..()
+	// Only antags are given the training and knowledge to disassemble this thing.
+	if(!is_special_character(user))
+		if(user.combat_mode)
+			return ITEM_INTERACT_SKIP_TO_ATTACK
+		balloon_alert(user, "you can't find an obvious maintenance hatch!")
+		return ITEM_INTERACT_BLOCKING
+	return ..()
+>>>>>>> tg-pr-88929
 
 /obj/machinery/rnd/server/master/attackby(obj/item/attacking_item, mob/user, list/modifiers, list/attack_modifiers)
 	if(istype(attacking_item, /obj/item/computer_disk/hdd_theft))
@@ -223,7 +241,7 @@
 		to_chat(user, span_notice("You delicately cut the wire. [hdd_wires] wire\s left..."))
 	return TRUE
 
-/obj/machinery/rnd/server/master/on_deconstruction()
+/obj/machinery/rnd/server/master/on_deconstruction(disassembled)
 	// If the machine contains a source code HDD, destroying it will negatively impact research speed. Safest to log this.
 	if(source_code_hdd)
 		// Destroyed with a hard drive inside = harm income

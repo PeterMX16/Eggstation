@@ -16,8 +16,15 @@
 		"Object Property Saving" = SAVE_OBJECT_PROPERTIES,
 	)
 	var/what_to_change = tgui_input_list(builder, "What export setting would you like to toggle?", "Map Exporter", options)
+<<<<<<< HEAD
 	save_flag ^= options[what_to_change]
 	to_chat(builder, "<span class='notice'>[what_to_change] is now [save_flag & options[what_to_change] ? "ENABLED" : "DISABLED"].</span>")
+=======
+	if (!what_to_change)
+		return
+	save_flag ^= options[what_to_change]
+	to_chat(builder, span_notice("[what_to_change] is now [save_flag & options[what_to_change] ? "ENABLED" : "DISABLED"]."))
+>>>>>>> tg-pr-88929
 
 /datum/buildmode_mode/map_export/show_help(client/builder)
 	to_chat(builder, span_purple(boxed_message(

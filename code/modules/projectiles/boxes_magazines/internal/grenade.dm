@@ -12,10 +12,11 @@
 
 /obj/item/ammo_box/magazine/internal/rocketlauncher
 	name = "rocket launcher internal magazine"
-	ammo_type = /obj/item/ammo_casing/caseless/rocket
+	ammo_type = /obj/item/ammo_casing/rocket
 	caliber = CALIBER_84MM
 	max_ammo = 1
 
+<<<<<<< HEAD
 /obj/item/ammo_box/magazine/internal/china_lake
 	name = "china lake internal magazine"
 	ammo_type = /obj/item/ammo_casing/a40mm
@@ -29,3 +30,7 @@
 	caliber = CALIBER_40MM_KINETIC
 	max_ammo = 6
 
+=======
+/obj/item/ammo_box/magazine/internal/rocketlauncher/empty
+	start_empty = TRUE
+>>>>>>> tg-pr-88929

@@ -44,11 +44,19 @@
 /datum/ai_controller/basic_controller/giant_spider/pest
 	blackboard = list(
 		BB_TARGETING_STRATEGY = /datum/targeting_strategy/basic/of_size/ours_or_smaller, // Hunt mobs our size
+<<<<<<< HEAD
+=======
+		BB_PET_TARGETING_STRATEGY = /datum/targeting_strategy/basic/not_friends,
+>>>>>>> tg-pr-88929
 		BB_FLEE_TARGETING_STRATEGY = /datum/targeting_strategy/basic/of_size/larger, // Run away from mobs bigger than we are
 	)
 	idle_behavior = /datum/idle_behavior/idle_random_walk
 
 	planning_subtrees = list(
+<<<<<<< HEAD
+=======
+		/datum/ai_planning_subtree/pet_planning,
+>>>>>>> tg-pr-88929
 		/datum/ai_planning_subtree/target_retaliate/to_flee,
 		/datum/ai_planning_subtree/flee_target/from_flee_key,
 		/datum/ai_planning_subtree/simple_find_target,
@@ -57,6 +65,7 @@
 		/datum/ai_planning_subtree/find_unwebbed_turf,
 		/datum/ai_planning_subtree/spin_web,
 	)
+<<<<<<< HEAD
 
 /// Search for a nearby location to put webs on
 /datum/ai_planning_subtree/find_unwebbed_turf
@@ -152,3 +161,5 @@
 /datum/ai_behavior/spin_web/finish_action(datum/ai_controller/controller, succeeded, action_key, target_key)
 	controller.clear_blackboard_key(target_key)
 	return ..()
+=======
+>>>>>>> tg-pr-88929

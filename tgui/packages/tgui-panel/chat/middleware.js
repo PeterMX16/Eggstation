@@ -4,8 +4,8 @@
  * @license MIT
  */
 
-import DOMPurify from 'dompurify';
 import { storage } from 'common/storage';
+<<<<<<< HEAD
 import {
   loadSettings,
   updateSettings,
@@ -13,6 +13,16 @@ import {
   removeHighlightSetting,
   updateHighlightSetting,
   importSettings,
+=======
+import DOMPurify from 'dompurify';
+
+import {
+  addHighlightSetting,
+  loadSettings,
+  removeHighlightSetting,
+  updateHighlightSetting,
+  updateSettings,
+>>>>>>> tg-pr-88929
 } from '../settings/actions';
 import { selectSettings } from '../settings/selectors';
 import {
@@ -137,14 +147,21 @@ export const chatMiddleware = (store) => {
             requesting < sequence;
             requesting++
           ) {
+<<<<<<< HEAD
             sequences_requested.push(requesting);
+=======
+            requested_sequences.push(requesting);
+>>>>>>> tg-pr-88929
             Byond.sendMessage('chat/resend', requesting);
           }
         }
       }
 
       chatRenderer.processBatch([payload_obj.content]);
+<<<<<<< HEAD
       sequences.push(sequence);
+=======
+>>>>>>> tg-pr-88929
       return;
     }
     if (type === loadChat.type) {
@@ -185,8 +202,13 @@ export const chatMiddleware = (store) => {
       next(action);
       const nextSettings = selectSettings(store.getState());
       chatRenderer.setHighlight(
+<<<<<<< HEAD
         nextSettings.highlightSettings,
         nextSettings.highlightSettingById,
+=======
+        settings.highlightSettings,
+        settings.highlightSettingById,
+>>>>>>> tg-pr-88929
       );
       chatRenderer.setColoredNames(nextSettings.coloredNames);
 
@@ -203,7 +225,10 @@ export const chatMiddleware = (store) => {
     }
     if (type === clearChat.type) {
       chatRenderer.clearChat();
+<<<<<<< HEAD
       saveChatToStorage(store); // save chat when its cleared
+=======
+>>>>>>> tg-pr-88929
       return;
     }
     return next(action);

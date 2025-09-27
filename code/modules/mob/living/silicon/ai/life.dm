@@ -12,17 +12,14 @@
 	if(isturf(loc) && (QDELETED(eyeobj) || !eyeobj.loc))
 		view_core()
 
-	if(machine)
-		machine.check_eye(src)
-
 	// Handle power damage (oxy)
+	if (battery <= 0)
+		to_chat(src, span_warning("Your backup battery's output drops below usable levels. It takes only a moment longer for your systems to fail, corrupted and unusable."))
+		adjustOxyLoss(200)
+
 	if(aiRestorePowerRoutine)
 		// Lost power
-		if (!battery)
-			to_chat(src, span_warning("Your backup battery's output drops below usable levels. It takes only a moment longer for your systems to fail, corrupted and unusable."))
-			adjustOxyLoss(200)
-		else
-			battery--
+		battery--
 	else
 		// Gain Power
 		if (battery < 200)
@@ -82,8 +79,6 @@
 	if(aiRestorePowerRoutine)
 		clear_sight(SEE_TURFS|SEE_MOBS|SEE_OBJS)
 
-	if(see_override)
-		set_invis_see(see_override)
 	return ..()
 
 
@@ -140,7 +135,11 @@
 				sleep(5 SECONDS)
 				to_chat(src, span_notice("Receiving control information from APC."))
 				sleep(0.2 SECONDS)
+<<<<<<< HEAD
 				to_chat(src, "<A HREF='byond://?src=[REF(src)];emergencyAPC=[TRUE]'>APC ready for connection.</A>")
+=======
+				to_chat(src, "<A href=byond://?src=[REF(src)];emergencyAPC=[TRUE]>APC ready for connection.</A>")
+>>>>>>> tg-pr-88929
 				apc_override = theAPC
 				apc_override.ui_interact(src)
 				setAiRestorePowerRoutine(POWER_RESTORATION_APC_FOUND)
@@ -166,4 +165,4 @@
 	adjust_temp_blindness(2 SECONDS)
 	update_sight()
 	to_chat(src, span_alert("You've lost power!"))
-	addtimer(CALLBACK(src, PROC_REF(start_RestorePowerRoutine)), 20)
+	addtimer(CALLBACK(src, PROC_REF(start_RestorePowerRoutine)), 2 SECONDS)

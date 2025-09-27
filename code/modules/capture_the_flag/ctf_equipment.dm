@@ -1,4 +1,3 @@
-
 // GENERIC PROJECTILE
 
 /obj/projectile/beam/ctf
@@ -20,17 +19,16 @@
 		return BULLET_ACT_HIT
 
 /obj/item/ammo_box/magazine/recharge/ctf
-	ammo_type = /obj/item/ammo_casing/caseless/laser/ctf
+	ammo_type = /obj/item/ammo_casing/laser/ctf
 
 /obj/item/ammo_box/magazine/recharge/ctf/Initialize(mapload)
 	. = ..()
 	AddElement(/datum/element/delete_on_drop)
 
-
-/obj/item/ammo_casing/caseless/laser/ctf
+/obj/item/ammo_casing/laser/ctf
 	projectile_type = /obj/projectile/beam/ctf/
 
-/obj/item/ammo_casing/caseless/laser/ctf/Initialize(mapload)
+/obj/item/ammo_casing/laser/ctf/Initialize(mapload)
 	. = ..()
 	AddElement(/datum/element/delete_on_drop)
 
@@ -47,14 +45,11 @@
 	. = ..()
 	AddElement(/datum/element/delete_on_drop)
 
-
 /obj/item/ammo_box/magazine/recharge/ctf/rifle
-	ammo_type = /obj/item/ammo_casing/caseless/laser/ctf/rifle
+	ammo_type = /obj/item/ammo_casing/laser/ctf/rifle
 
-
-/obj/item/ammo_casing/caseless/laser/ctf/rifle
+/obj/item/ammo_casing/laser/ctf/rifle
 	projectile_type = /obj/projectile/beam/ctf/rifle
-
 
 /obj/projectile/beam/ctf/rifle
 	damage = 45
@@ -72,7 +67,7 @@
 	slot_flags = null
 	accepted_magazine_type = /obj/item/ammo_box/magazine/recharge/ctf/shotgun
 	empty_indicator = TRUE
-	fire_sound = 'sound/weapons/gun/shotgun/shot_alt.ogg'
+	fire_sound = 'sound/items/weapons/gun/shotgun/shot_alt.ogg'
 	semi_auto = TRUE
 	internal_magazine = FALSE
 	tac_reloads = TRUE
@@ -82,15 +77,13 @@
 	AddElement(/datum/element/delete_on_drop)
 
 /obj/item/ammo_box/magazine/recharge/ctf/shotgun
-	ammo_type = /obj/item/ammo_casing/caseless/laser/ctf/shotgun
+	ammo_type = /obj/item/ammo_casing/laser/ctf/shotgun
 	max_ammo = 6
 
-
-/obj/item/ammo_casing/caseless/laser/ctf/shotgun
+/obj/item/ammo_casing/laser/ctf/shotgun
 	projectile_type = /obj/projectile/beam/ctf/shotgun
 	pellets = 6
 	variance = 25
-
 
 /obj/projectile/beam/ctf/shotgun
 	damage = 15
@@ -106,11 +99,15 @@
 	accepted_magazine_type = /obj/item/ammo_box/magazine/recharge/ctf/marksman
 	fire_delay = 1 SECONDS
 
+/obj/item/gun/ballistic/automatic/laser/ctf/marksman/Initialize(mapload)
+	. = ..()
+	AddComponent(/datum/component/scope, range_modifier = 1.7)
+
 /obj/item/ammo_box/magazine/recharge/ctf/marksman
-	ammo_type = /obj/item/ammo_casing/caseless/laser/ctf/marksman
+	ammo_type = /obj/item/ammo_casing/laser/ctf/marksman
 	max_ammo = 10
 
-/obj/item/ammo_casing/caseless/laser/ctf/marksman
+/obj/item/ammo_casing/laser/ctf/marksman
 	projectile_type = /obj/projectile/beam/ctf/marksman
 
 /obj/projectile/beam/ctf/marksman
@@ -131,15 +128,12 @@
 	. = ..()
 	AddElement(/datum/element/delete_on_drop)
 
-
 /obj/item/ammo_box/magazine/recharge/ctf/deagle
-	ammo_type = /obj/item/ammo_casing/caseless/laser/ctf/deagle
+	ammo_type = /obj/item/ammo_casing/laser/ctf/deagle
 	max_ammo = 7
 
-
-/obj/item/ammo_casing/caseless/laser/ctf/deagle
+/obj/item/ammo_casing/laser/ctf/deagle
 	projectile_type = /obj/projectile/beam/ctf/deagle
-
 
 /obj/projectile/beam/ctf/deagle
 	icon_state = "bullet"
@@ -162,11 +156,17 @@
 	ammo_x_offset = 2
 	shaded_charge = FALSE
 
+<<<<<<< HEAD
 /obj/item/gun/energy/laser/instakill/give_manufacturer_examine()
 	return
 
 /obj/item/gun/energy/laser/instakill/emp_act() //implying you could stop the instagib
 	return
+=======
+/obj/item/gun/energy/laser/instakill/Initialize(mapload)
+	. = ..()
+	AddElement(/datum/element/empprotection, EMP_PROTECT_ALL)
+>>>>>>> tg-pr-88929
 
 /obj/item/gun/energy/laser/instakill/ctf/Initialize(mapload)
 	. = ..()
@@ -204,24 +204,30 @@
 	armor_type = /datum/armor/none
 	allowed = null
 	greyscale_config = /datum/greyscale_config/ctf_standard
-	greyscale_config_worn = /datum/greyscale_config/ctf_standard_worn
+	greyscale_config_worn = /datum/greyscale_config/ctf_standard/worn
 	greyscale_colors = "#ffffff"
 
 	///Icon state to be fed into the shielded component
 	var/team_shield_icon = "shield-old"
 	var/max_charges = 150
-	var/recharge_start_delay = 20 SECONDS
+	var/recharge_start_delay = 12 SECONDS
 	var/charge_increment_delay = 1 SECONDS
 	var/charge_recovery = 30
 	var/lose_multiple_charges = TRUE
 	var/show_charge_as_alpha = TRUE
 
-/obj/item/clothing/suit/armor/vest/ctf/equipped(mob/user, slot)
+/obj/item/clothing/suit/armor/vest/ctf/Initialize(mapload)
 	. = ..()
-	if(!slot || slot & ITEM_SLOT_HANDS)
-		return
-	AddComponent(/datum/component/shielded, max_charges = max_charges, recharge_start_delay = recharge_start_delay, charge_increment_delay = charge_increment_delay, \
-	charge_recovery = charge_recovery, lose_multiple_charges = lose_multiple_charges, show_charge_as_alpha = show_charge_as_alpha, shield_icon = team_shield_icon)
+	AddComponent( \
+		/datum/component/shielded, \
+		max_charges = max_charges, \
+		recharge_start_delay = recharge_start_delay, \
+		charge_increment_delay = charge_increment_delay, \
+		charge_recovery = charge_recovery, \
+		lose_multiple_charges = lose_multiple_charges, \
+		show_charge_as_alpha = show_charge_as_alpha, \
+		shield_icon = team_shield_icon, \
+	)
 
 // LIGHT SHIELDED VEST
 
@@ -230,9 +236,8 @@
 	desc = "Lightweight vest for playing capture the flag."
 	icon_state = "light"
 	greyscale_config = /datum/greyscale_config/ctf_light
-	greyscale_config_worn = /datum/greyscale_config/ctf_light_worn
+	greyscale_config_worn = /datum/greyscale_config/ctf_light/worn
 	slowdown = -0.25
-
 	max_charges = 30
 
 // RED TEAM GUNS
@@ -242,9 +247,9 @@
 	accepted_magazine_type = /obj/item/ammo_box/magazine/recharge/ctf/rifle/red
 
 /obj/item/ammo_box/magazine/recharge/ctf/rifle/red
-	ammo_type = /obj/item/ammo_casing/caseless/laser/ctf/rifle/red
+	ammo_type = /obj/item/ammo_casing/laser/ctf/rifle/red
 
-/obj/item/ammo_casing/caseless/laser/ctf/rifle/red
+/obj/item/ammo_casing/laser/ctf/rifle/red
 	projectile_type = /obj/projectile/beam/ctf/rifle/red
 
 /obj/projectile/beam/ctf/rifle/red
@@ -252,15 +257,14 @@
 	light_color = COLOR_SOFT_RED
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/red_laser
 
-
 // Shotgun
 /obj/item/gun/ballistic/shotgun/ctf/red
 	accepted_magazine_type = /obj/item/ammo_box/magazine/recharge/ctf/shotgun/red
 
 /obj/item/ammo_box/magazine/recharge/ctf/shotgun/red
-	ammo_type = /obj/item/ammo_casing/caseless/laser/ctf/shotgun/red
+	ammo_type = /obj/item/ammo_casing/laser/ctf/shotgun/red
 
-/obj/item/ammo_casing/caseless/laser/ctf/shotgun/red
+/obj/item/ammo_casing/laser/ctf/shotgun/red
 	projectile_type = /obj/projectile/beam/ctf/shotgun/red
 
 /obj/projectile/beam/ctf/shotgun/red
@@ -268,15 +272,14 @@
 	light_color = COLOR_SOFT_RED
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/red_laser
 
-
 // DMR
 /obj/item/gun/ballistic/automatic/laser/ctf/marksman/red
 	accepted_magazine_type = /obj/item/ammo_box/magazine/recharge/ctf/marksman/red
 
 /obj/item/ammo_box/magazine/recharge/ctf/marksman/red
-	ammo_type = /obj/item/ammo_casing/caseless/laser/ctf/marksman/red
+	ammo_type = /obj/item/ammo_casing/laser/ctf/marksman/red
 
-/obj/item/ammo_casing/caseless/laser/ctf/marksman/red
+/obj/item/ammo_casing/laser/ctf/marksman/red
 	projectile_type = /obj/projectile/beam/ctf/marksman/red
 
 /obj/projectile/beam/ctf/marksman/red
@@ -284,7 +287,6 @@
 	tracer_type = /obj/effect/projectile/tracer/laser
 	muzzle_type = /obj/effect/projectile/muzzle/laser
 	impact_type = /obj/effect/projectile/impact/laser
-
 
 // Instakill
 /obj/item/gun/energy/laser/instakill/ctf/red
@@ -308,9 +310,9 @@
 	accepted_magazine_type = /obj/item/ammo_box/magazine/recharge/ctf/rifle/blue
 
 /obj/item/ammo_box/magazine/recharge/ctf/rifle/blue
-	ammo_type = /obj/item/ammo_casing/caseless/laser/ctf/rifle/blue
+	ammo_type = /obj/item/ammo_casing/laser/ctf/rifle/blue
 
-/obj/item/ammo_casing/caseless/laser/ctf/rifle/blue
+/obj/item/ammo_casing/laser/ctf/rifle/blue
 	projectile_type = /obj/projectile/beam/ctf/rifle/blue
 
 /obj/projectile/beam/ctf/rifle/blue
@@ -322,28 +324,26 @@
 	accepted_magazine_type = /obj/item/ammo_box/magazine/recharge/ctf/shotgun/blue
 
 /obj/item/ammo_box/magazine/recharge/ctf/shotgun/blue
-	ammo_type = /obj/item/ammo_casing/caseless/laser/ctf/shotgun/blue
+	ammo_type = /obj/item/ammo_casing/laser/ctf/shotgun/blue
 
-/obj/item/ammo_casing/caseless/laser/ctf/shotgun/blue
+/obj/item/ammo_casing/laser/ctf/shotgun/blue
 	projectile_type = /obj/projectile/beam/ctf/shotgun/blue
 
 /obj/projectile/beam/ctf/shotgun/blue
 	icon_state = "bluelaser"
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/blue_laser
 
-
 // DMR
 /obj/item/gun/ballistic/automatic/laser/ctf/marksman/blue
 	accepted_magazine_type = /obj/item/ammo_box/magazine/recharge/ctf/marksman/blue
 
 /obj/item/ammo_box/magazine/recharge/ctf/marksman/blue
-	ammo_type = /obj/item/ammo_casing/caseless/laser/ctf/marksman/blue
+	ammo_type = /obj/item/ammo_casing/laser/ctf/marksman/blue
 
-/obj/item/ammo_casing/caseless/laser/ctf/marksman/blue
+/obj/item/ammo_casing/laser/ctf/marksman/blue
 	projectile_type = /obj/projectile/beam/ctf/marksman/blue
 
 /obj/projectile/beam/ctf/marksman/blue
-
 
 // Instakill
 /obj/item/gun/energy/laser/instakill/ctf/blue
@@ -367,9 +367,9 @@
 	accepted_magazine_type = /obj/item/ammo_box/magazine/recharge/ctf/rifle/green
 
 /obj/item/ammo_box/magazine/recharge/ctf/rifle/green
-	ammo_type = /obj/item/ammo_casing/caseless/laser/ctf/rifle/green
+	ammo_type = /obj/item/ammo_casing/laser/ctf/rifle/green
 
-/obj/item/ammo_casing/caseless/laser/ctf/rifle/green
+/obj/item/ammo_casing/laser/ctf/rifle/green
 	projectile_type = /obj/projectile/beam/ctf/rifle/green
 
 /obj/projectile/beam/ctf/rifle/green
@@ -377,15 +377,14 @@
 	light_color = COLOR_VERY_PALE_LIME_GREEN
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/green_laser
 
-
 // Shotgun
 /obj/item/gun/ballistic/shotgun/ctf/green
 	accepted_magazine_type = /obj/item/ammo_box/magazine/recharge/ctf/shotgun/green
 
 /obj/item/ammo_box/magazine/recharge/ctf/shotgun/green
-	ammo_type = /obj/item/ammo_casing/caseless/laser/ctf/shotgun/green
+	ammo_type = /obj/item/ammo_casing/laser/ctf/shotgun/green
 
-/obj/item/ammo_casing/caseless/laser/ctf/shotgun/green
+/obj/item/ammo_casing/laser/ctf/shotgun/green
 	projectile_type = /obj/projectile/beam/ctf/shotgun/green
 
 /obj/projectile/beam/ctf/shotgun/green
@@ -393,15 +392,14 @@
 	light_color = COLOR_VERY_PALE_LIME_GREEN
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/green_laser
 
-
 // DMR
 /obj/item/gun/ballistic/automatic/laser/ctf/marksman/green
 	accepted_magazine_type = /obj/item/ammo_box/magazine/recharge/ctf/marksman/green
 
 /obj/item/ammo_box/magazine/recharge/ctf/marksman/green
-	ammo_type = /obj/item/ammo_casing/caseless/laser/ctf/marksman/green
+	ammo_type = /obj/item/ammo_casing/laser/ctf/marksman/green
 
-/obj/item/ammo_casing/caseless/laser/ctf/marksman/green
+/obj/item/ammo_casing/laser/ctf/marksman/green
 	projectile_type = /obj/projectile/beam/ctf/marksman/green
 
 /obj/projectile/beam/ctf/marksman/green
@@ -409,7 +407,6 @@
 	tracer_type = /obj/effect/projectile/tracer/xray
 	muzzle_type = /obj/effect/projectile/muzzle/xray
 	impact_type = /obj/effect/projectile/impact/xray
-
 
 // Instakill
 /obj/item/gun/energy/laser/instakill/ctf/green
@@ -433,9 +430,9 @@
 	accepted_magazine_type = /obj/item/ammo_box/magazine/recharge/ctf/rifle/yellow
 
 /obj/item/ammo_box/magazine/recharge/ctf/rifle/yellow
-	ammo_type = /obj/item/ammo_casing/caseless/laser/ctf/rifle/yellow
+	ammo_type = /obj/item/ammo_casing/laser/ctf/rifle/yellow
 
-/obj/item/ammo_casing/caseless/laser/ctf/rifle/yellow
+/obj/item/ammo_casing/laser/ctf/rifle/yellow
 	projectile_type = /obj/projectile/beam/ctf/rifle/yellow
 
 /obj/projectile/beam/ctf/rifle/yellow
@@ -443,15 +440,14 @@
 	light_color = COLOR_VERY_SOFT_YELLOW
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/yellow_laser
 
-
 // Shotgun
 /obj/item/gun/ballistic/shotgun/ctf/yellow
 	accepted_magazine_type = /obj/item/ammo_box/magazine/recharge/ctf/shotgun/yellow
 
 /obj/item/ammo_box/magazine/recharge/ctf/shotgun/yellow
-	ammo_type = /obj/item/ammo_casing/caseless/laser/ctf/shotgun/yellow
+	ammo_type = /obj/item/ammo_casing/laser/ctf/shotgun/yellow
 
-/obj/item/ammo_casing/caseless/laser/ctf/shotgun/yellow
+/obj/item/ammo_casing/laser/ctf/shotgun/yellow
 	projectile_type = /obj/projectile/beam/ctf/shotgun/yellow
 
 /obj/projectile/beam/ctf/shotgun/yellow
@@ -459,15 +455,14 @@
 	light_color = COLOR_VERY_SOFT_YELLOW
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/yellow_laser
 
-
 // DMR
 /obj/item/gun/ballistic/automatic/laser/ctf/marksman/yellow
 	accepted_magazine_type = /obj/item/ammo_box/magazine/recharge/ctf/marksman/yellow
 
 /obj/item/ammo_box/magazine/recharge/ctf/marksman/yellow
-	ammo_type = /obj/item/ammo_casing/caseless/laser/ctf/marksman/yellow
+	ammo_type = /obj/item/ammo_casing/laser/ctf/marksman/yellow
 
-/obj/item/ammo_casing/caseless/laser/ctf/marksman/yellow
+/obj/item/ammo_casing/laser/ctf/marksman/yellow
 	projectile_type = /obj/projectile/beam/ctf/marksman/yellow
 
 /obj/projectile/beam/ctf/marksman/yellow
@@ -475,7 +470,6 @@
 	tracer_type = /obj/effect/projectile/tracer/solar
 	muzzle_type = /obj/effect/projectile/muzzle/solar
 	impact_type = /obj/effect/projectile/impact/solar
-
 
 // Instakill
 /obj/item/gun/energy/laser/instakill/ctf/yellow

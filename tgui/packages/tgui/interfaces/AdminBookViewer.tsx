@@ -12,7 +12,11 @@ type ViewerData = {
 export const AdminBookViewer = (_: any) => {
   const { data } = useBackend<ViewerData>();
   return (
+<<<<<<< HEAD
     <Window title={'Reading: ' + data.title}>
+=======
+    <Window title={'Reading: ' + data.title} height={400} width={400}>
+>>>>>>> tg-pr-88929
       <Window.Content scrollable>
         {data.view_raw ? (
           data.content

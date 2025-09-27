@@ -1,6 +1,11 @@
 # Balistic gun icon states explained
 
+<<<<<<< HEAD
 For a unknown period of time, `/obj/item/gun/ballistic` used the wrong icon state for it's `bolt_type` and so, if you tried to copy how it worked to make your own gun, you'd get a broken sprite. This documentation is intended to explain in detail what some of the variables and functions do, and how to make your own gun subtypes that work properly.
+=======
+
+For a unknown period of time, `/obj/item/gun/ballistic` used the wrong icon state for its `bolt_type` and so, if you tried to copy how it worked to make your own gun, you'd get a broken sprite.  This documentation is intended to explain in detail what some of the variables and functions do, and how to make your own gun subtypes that work properly.
+>>>>>>> tg-pr-88929
 
 ## Bolt Types
 

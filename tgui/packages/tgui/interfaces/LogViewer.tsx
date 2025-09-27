@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { useBackend, useLocalState } from '../backend';
+=======
+import { useState } from 'react';
+>>>>>>> tg-pr-88929
 import {
   Button,
   Collapsible,
@@ -6,7 +10,13 @@ import {
   NoticeBox,
   Section,
   Stack,
+<<<<<<< HEAD
 } from '../components';
+=======
+} from 'tgui-core/components';
+
+import { useBackend } from '../backend';
+>>>>>>> tg-pr-88929
 import { Window } from '../layouts';
 
 type LogViewerData = {
@@ -40,10 +50,14 @@ const CATEGORY_ALL = 'all';
 export const LogViewer = (_: any) => {
   const { data, act } = useBackend<LogViewerData>();
 
+<<<<<<< HEAD
   const [activeCategory, setActiveCategory] = useLocalState(
     'activeCategory',
     '',
   );
+=======
+  const [activeCategory, setActiveCategory] = useState('');
+>>>>>>> tg-pr-88929
 
   let viewerData: LogViewerCategoryData = {
     entry_count: 0,
@@ -90,10 +104,14 @@ type CategoryBarProps = {
 
 const CategoryBar = (props: CategoryBarProps) => {
   const sorted = [...props.options].sort();
+<<<<<<< HEAD
   const [categorySearch, setCategorySearch] = useLocalState(
     'categorySearch',
     '',
   );
+=======
+  const [categorySearch, setCategorySearch] = useState('');
+>>>>>>> tg-pr-88929
 
   return (
     <Section
@@ -101,6 +119,7 @@ const CategoryBar = (props: CategoryBarProps) => {
       scrollableHorizontal
       buttons={
         <Input
+<<<<<<< HEAD
           grow
           placeholder="Search"
           value={categorySearch}
@@ -138,6 +157,42 @@ const CategoryBar = (props: CategoryBarProps) => {
             </Stack.Item>
           );
         })}
+=======
+          placeholder="Search"
+          value={categorySearch}
+          onChange={(_, value) => setCategorySearch(value)}
+        />
+      }
+    >
+      <Stack>
+        {/** these are not in stack items to have them directly next to eachother */}
+        <Button
+          selected={props.active === ''}
+          onClick={() => props.setActive('')}
+        >
+          None
+        </Button>
+        <Button
+          tooltip="This can be slow!"
+          selected={props.active === CATEGORY_ALL}
+          onClick={() => props.setActive(CATEGORY_ALL)}
+        >
+          All
+        </Button>
+        {sorted
+          .filter((cat) =>
+            cat.toLowerCase().includes(categorySearch.toLowerCase()),
+          )
+          .map((category) => (
+            <Button
+              key={category}
+              selected={category === props.active}
+              onClick={() => props.setActive(category)}
+            >
+              {category}
+            </Button>
+          ))}
+>>>>>>> tg-pr-88929
       </Stack>
     </Section>
   );
@@ -158,9 +213,15 @@ const validateRegExp = (str: string) => {
 };
 
 const CategoryViewer = (props: CategoryViewerProps) => {
+<<<<<<< HEAD
   const [search, setSearch] = useLocalState('search', '');
   let [searchRegex, setSearchRegex] = useLocalState('searchRegex', false);
   let [caseSensitive, setCaseSensitive] = useLocalState('caseSensitive', false);
+=======
+  const [search, setSearch] = useState('');
+  let [searchRegex, setSearchRegex] = useState(false);
+  let [caseSensitive, setCaseSensitive] = useState(false);
+>>>>>>> tg-pr-88929
   if (!search && searchRegex) {
     setSearchRegex(false);
     searchRegex = false;
@@ -180,6 +241,7 @@ const CategoryViewer = (props: CategoryViewerProps) => {
       buttons={
         <>
           <Input
+<<<<<<< HEAD
             grow
             fill
             placeholder="Search"
@@ -188,12 +250,24 @@ const CategoryViewer = (props: CategoryViewerProps) => {
           />
           <Button
             icon={'code'}
+=======
+            placeholder="Search"
+            value={search}
+            onInput={(_, value) => setSearch(value)}
+          />
+          <Button
+            icon="code"
+>>>>>>> tg-pr-88929
             tooltip="RegEx Search"
             selected={searchRegex}
             onClick={() => setSearchRegex(!searchRegex)}
           />
           <Button
+<<<<<<< HEAD
             icon={'font'}
+=======
+            icon="font"
+>>>>>>> tg-pr-88929
             selected={caseSensitive}
             tooltip="Case Sensitive"
             onClick={() => setCaseSensitive(!caseSensitive)}
@@ -236,11 +310,15 @@ const CategoryViewer = (props: CategoryViewerProps) => {
 
             return (
               <Stack.Item key={entry.id}>
+<<<<<<< HEAD
                 <Collapsible
                   fitted
                   tooltip={entry.timestamp}
                   title={`[${entry.id}] - ${entry.message}`}
                 >
+=======
+                <Collapsible title={`[${entry.id}] - ${entry.message}`}>
+>>>>>>> tg-pr-88929
                   <Stack vertical fill>
                     <Stack.Item>
                       <p font-family="Courier">{entry.message}</p>

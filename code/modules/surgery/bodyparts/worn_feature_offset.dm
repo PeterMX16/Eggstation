@@ -64,4 +64,9 @@
 /// When we change direction, re-apply the offset
 /datum/worn_feature_offset/proc/on_dir_change(mob/living/carbon/owner, olddir, newdir)
 	SIGNAL_HANDLER
+<<<<<<< HEAD
 	owner.update_features(feature_key)
+=======
+	if(olddir != newdir)
+		owner.update_features(feature_key)
+>>>>>>> tg-pr-88929

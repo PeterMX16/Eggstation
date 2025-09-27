@@ -95,7 +95,7 @@ export const applyMiddleware = (
     return (reducer, ...args): Store => {
       const store = createStoreFunction(reducer, ...args);
 
-      let dispatch: Dispatch = () => {
+      let dispatch: Dispatch = (action, ...args) => {
         throw new Error(
           'Dispatching while constructing your middleware is not allowed.',
         );
@@ -163,7 +163,7 @@ export const combineReducers = (
  * @param {string} type The action type to use for created actions.
  * @param {any} prepare (optional) a method that takes any number of arguments
  * and returns { payload } or { payload, meta }. If this is given, the
- * resulting action creator will pass it's arguments to this method to
+ * resulting action creator will pass its arguments to this method to
  * calculate payload & meta.
  *
  * @public
@@ -194,6 +194,7 @@ export const createAction = <TAction extends string>(
 
   return actionCreator;
 };
+<<<<<<< HEAD
 
 // Implementation specific
 // --------------------------------------------------------
@@ -214,3 +215,5 @@ export const useSelector = <State, Selected>(
 
   return selector(context?.store?.getState());
 };
+=======
+>>>>>>> tg-pr-88929

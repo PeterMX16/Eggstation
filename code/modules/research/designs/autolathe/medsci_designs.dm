@@ -36,6 +36,20 @@
 	departmental_flags = DEPARTMENT_BITFLAG_MEDICAL
 
 // Science Designs
+<<<<<<< HEAD
+=======
+/datum/design/slime_scanner
+	name = "Slime Scanner"
+	id = "slime_scanner"
+	build_type = AUTOLATHE | PROTOLATHE | AWAY_LATHE
+	materials = list(/datum/material/iron =SMALL_MATERIAL_AMOUNT * 3, /datum/material/glass =SMALL_MATERIAL_AMOUNT * 2)
+	build_path = /obj/item/slime_scanner
+	category = list(
+		RND_CATEGORY_INITIAL,
+		RND_CATEGORY_EQUIPMENT + RND_SUBCATEGORY_EQUIPMENT_XENOBIOLOGY,
+	)
+	departmental_flags = DEPARTMENT_BITFLAG_SCIENCE
+>>>>>>> tg-pr-88929
 
 /datum/design/petridish
 	name = "Petri Dish"

@@ -12,7 +12,11 @@
 	response_disarm_simple = "gently push aside"
 	response_harm_continuous = "robusts"
 	response_harm_simple = "robust"
+<<<<<<< HEAD
 	istate = ISTATE_HARM
+=======
+	combat_mode = TRUE
+>>>>>>> tg-pr-88929
 	maxHealth = 75
 	health = 75
 	melee_damage_lower = 10
@@ -23,8 +27,13 @@
 	basic_mob_flags = DEL_ON_DEATH
 	initial_language_holder = /datum/language_holder/clown
 	habitable_atmos = list("min_oxy" = 5, "max_oxy" = 0, "min_plas" = 0, "max_plas" = 1, "min_co2" = 0, "max_co2" = 5, "min_n2" = 0, "max_n2" = 0)
+<<<<<<< HEAD
 	bodytemp_cold_damage_limit = T0C
 	bodytemp_heat_damage_limit = (T0C + 100)
+=======
+	minimum_survivable_temperature = T0C
+	maximum_survivable_temperature = (T0C + 100)
+>>>>>>> tg-pr-88929
 	unsuitable_atmos_damage = 10
 	unsuitable_heat_damage = 15
 	faction = list(FACTION_CLOWN)
@@ -49,7 +58,11 @@
 	ai_controller.set_blackboard_key(BB_BASIC_MOB_SPEAK_LINES, emotes)
 	//im not putting dynamic humans or whatever its called here because this is the base path of nonhuman clownstrosities
 	if(waddles)
+<<<<<<< HEAD
 		AddElement(/datum/element/waddling)
+=======
+		AddElementTrait(TRAIT_WADDLING, INNATE_TRAIT, /datum/element/waddling)
+>>>>>>> tg-pr-88929
 	if(length(loot))
 		loot = string_list(loot)
 		AddElement(/datum/element/death_drops, loot)
@@ -88,7 +101,7 @@
 
 /mob/living/basic/clown/lube/Initialize(mapload)
 	. = ..()
-	AddElement(/datum/element/snailcrawl)
+	AddElement(/datum/element/lube_walking)
 
 /mob/living/basic/clown/honkling
 	name = "Honkling"
@@ -112,7 +125,16 @@
 	var/static/list/injection_range
 	if(!injection_range)
 		injection_range = string_numbers_list(list(1, 5))
+<<<<<<< HEAD
 	AddElement(/datum/element/venomous, /datum/reagent/consumable/laughter, injection_range)
+=======
+	AddElement(\
+		/datum/element/venomous,\
+		/datum/reagent/consumable/laughter,\
+		injection_range,\
+		injection_flags = INJECT_CHECK_PENETRATE_THICK | INJECT_CHECK_IGNORE_SPECIES,\
+	)
+>>>>>>> tg-pr-88929
 
 /mob/living/basic/clown/fleshclown
 	name = "Fleshclown"
@@ -242,7 +264,11 @@
 	armour_penetration = 20
 	attack_verb_continuous = "steals the girlfriend of"
 	attack_verb_simple = "steal the girlfriend of"
+<<<<<<< HEAD
 	attack_sound = 'sound/items/airhorn2.ogg'
+=======
+	attack_sound = 'sound/items/airhorn/airhorn2.ogg'
+>>>>>>> tg-pr-88929
 	loot = list(
 		/obj/effect/gibspawner/human,
 		/obj/effect/spawner/foam_starter/small,
@@ -288,7 +314,16 @@
 	var/static/list/injection_range
 	if(!injection_range)
 		injection_range = string_numbers_list(list(1, 5))
+<<<<<<< HEAD
 	AddElement(/datum/element/venomous, /datum/reagent/peaceborg/confuse, injection_range)
+=======
+	AddElement(\
+		/datum/element/venomous,\
+		/datum/reagent/peaceborg/confuse,\
+		injection_range,\
+		injection_flags = INJECT_CHECK_PENETRATE_THICK | INJECT_CHECK_IGNORE_SPECIES,\
+	) // I don't really know what a clown is using to inject people but let's assume it doesn't need to penetrate at all
+>>>>>>> tg-pr-88929
 
 /mob/living/basic/clown/clownhulk/destroyer
 	name = "The Destroyer"
@@ -370,8 +405,12 @@
 	speed = 1
 	melee_damage_lower = 10
 	melee_damage_upper = 15
+<<<<<<< HEAD
 	force_threshold = 10 //lots of fat to cushion blows.
 	damage_coeff = list(BRUTE = 1, BURN = 1, TOX = 1, CLONE = 2, STAMINA = 0, OXY = 1)
+=======
+	damage_coeff = list(BRUTE = 1, BURN = 1, TOX = 1, STAMINA = 0, OXY = 1)
+>>>>>>> tg-pr-88929
 	attack_verb_continuous = "slams"
 	attack_verb_simple = "slam"
 	loot = list(
@@ -391,11 +430,23 @@
 
 /mob/living/basic/clown/mutant/glutton/Initialize(mapload)
 	. = ..()
+<<<<<<< HEAD
 	var/datum/action/cooldown/regurgitate/spit = new(src)
 	spit.Grant(src)
 
 	AddElement(/datum/element/swabable, CELL_LINE_TABLE_GLUTTON, CELL_VIRUS_TABLE_GENERIC_MOB, 1, 5)
 	AddComponent(/datum/component/tameable, food_types = list(/obj/item/food/cheesiehonkers, /obj/item/food/cornchips), tame_chance = 30, bonus_tame_chance = 0)
+=======
+	GRANT_ACTION(/datum/action/cooldown/regurgitate)
+
+	AddElement(/datum/element/swabable, CELL_LINE_TABLE_GLUTTON, CELL_VIRUS_TABLE_GENERIC_MOB, 1, 5)
+	var/static/list/food_types = list(
+		/obj/item/food/cheesiehonkers,
+		/obj/item/food/cornchips,
+	)
+	AddComponent(/datum/component/tameable, food_types = food_types, tame_chance = 30, bonus_tame_chance = 0)
+	AddElement(/datum/element/damage_threshold, 10) //lots of fat to cushion blows.
+>>>>>>> tg-pr-88929
 
 /mob/living/basic/clown/mutant/glutton/attacked_by(obj/item/item, mob/living/user)
 	if(!check_edible(item))
@@ -469,7 +520,10 @@
 	button_icon = 'icons/mob/actions/actions_animal.dmi'
 	button_icon_state = "regurgitate"
 	check_flags = AB_CHECK_CONSCIOUS|AB_CHECK_INCAPACITATED
+<<<<<<< HEAD
 	melee_cooldown_time = 0 SECONDS
+=======
+>>>>>>> tg-pr-88929
 	click_to_activate = TRUE
 
 /datum/action/cooldown/regurgitate/set_click_ability(mob/on_who)
@@ -540,6 +594,7 @@
 		BB_EMOTE_SEE = list("bites into the banana", "plucks a banana off its head", "photosynthesizes"),
 		BB_EMOTE_SOUND = list('sound/items/bikehorn.ogg'),
 	)
+<<<<<<< HEAD
 	///Our peel dropping ability
 	var/datum/action/cooldown/rustle/banana_rustle
 	///Our banana bunch spawning ability
@@ -556,6 +611,17 @@
 	. = ..()
 	QDEL_NULL(banana_rustle)
 	QDEL_NULL(banana_bunch)
+=======
+
+/mob/living/basic/clown/banana/Initialize(mapload)
+	. = ..()
+
+	var/static/list/innate_actions = list(
+		/datum/action/cooldown/exquisite_bunch,
+		/datum/action/cooldown/rustle,
+	)
+	grant_actions_by_list(innate_actions)
+>>>>>>> tg-pr-88929
 
 ///drops peels around the mob when activated
 /datum/action/cooldown/rustle
@@ -582,7 +648,11 @@
 	var/peels_to_spawn = min(peel_amount, reachable_turfs.len)
 	for(var/i in 1 to peels_to_spawn)
 		new banana_type(pick_n_take(reachable_turfs))
+<<<<<<< HEAD
 	playsound(owner, 'sound/creatures/clown/clownana_rustle.ogg', 60)
+=======
+	playsound(owner, 'sound/mobs/non-humanoids/clown/clownana_rustle.ogg', 60)
+>>>>>>> tg-pr-88929
 	animate(owner, time = 1, pixel_x = 6, easing = CUBIC_EASING | EASE_OUT)
 	animate(time = 2, pixel_x = -8, easing = CUBIC_EASING)
 	animate(time = 1, pixel_x = 0, easing = CUBIC_EASING | EASE_IN)
@@ -592,7 +662,11 @@
 /datum/action/cooldown/exquisite_bunch
 	name = "Exquisite Bunch"
 	desc = "Pluck your finest bunch of bananas from your head. This bunch is especially nutrious to monkeykind. A gentle tap will trigger an explosive ripening process."
+<<<<<<< HEAD
 	button_icon = 'icons/obj/hydroponics/harvest.dmi'
+=======
+	button_icon = 'icons/obj/service/hydroponics/harvest.dmi'
+>>>>>>> tg-pr-88929
 	cooldown_time = 60 SECONDS
 	button_icon_state = "banana_bunch"
 	background_icon_state = "bg_nature"
@@ -613,7 +687,11 @@
 	if(!do_after(owner, 1 SECONDS))
 		activating = FALSE
 		return
+<<<<<<< HEAD
 	playsound(owner, 'sound/creatures/clown/hehe.ogg', 100)
+=======
+	playsound(owner, 'sound/mobs/non-humanoids/clown/hehe.ogg', 100)
+>>>>>>> tg-pr-88929
 	if(!do_after(owner, 1 SECONDS))
 		activating = FALSE
 		return
@@ -624,5 +702,9 @@
 	. = ..()
 	new /obj/item/food/grown/banana/bunch(get_step(owner.loc, owner.dir))
 	playsound(owner, 'sound/items/bikehorn.ogg', 60)
+<<<<<<< HEAD
 	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(playsound), owner, 'sound/creatures/clown/hohoho.ogg', 100, 1), 1 SECONDS)
+=======
+	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(playsound), owner, 'sound/mobs/non-humanoids/clown/hohoho.ogg', 100, 1), 1 SECONDS)
+>>>>>>> tg-pr-88929
 	StartCooldown()

@@ -49,8 +49,11 @@
 ///from obj/machinery/bsa/full/proc/fire(): ()
 #define COMSIG_ATOM_BSA_BEAM "atom_bsa_beam_pass"
 	#define COMSIG_ATOM_BLOCKS_BSA_BEAM (1<<0)
+<<<<<<< HEAD
 /// from base of atom/Exited(): (mob/user, obj/item/extrapolator/E, scan = TRUE)
 #define COMSIG_ATOM_EXTRAPOLATOR_ACT "atom_extrapolator_act"
+=======
+>>>>>>> tg-pr-88929
 
 /// Sent from [atom/proc/item_interaction], when this atom is left-clicked on by a mob with an item
 /// Sent from the very beginning of the click chain, intended for generic atom-item interactions
@@ -87,23 +90,35 @@
 #define COMSIG_ATOM_RANGED_ITEM_INTERACTION "atom_ranged_item_interaction"
 /// Sent from [atom/proc/ranged_item_interaction], when this atom is right-clicked on by a mob with an item while not adjacent
 #define COMSIG_ATOM_RANGED_ITEM_INTERACTION_SECONDARY "atom_ranged_item_interaction_secondary"
+<<<<<<< HEAD
 
 /// Sent from [atom/proc/ranged_item_interaction], when a mob is using this item while left-clicking on an atom while not adjacent
 #define COMSIG_RANGED_ITEM_INTERACTING_WITH_ATOM "ranged_item_interacting_with_atom"
 /// Sent from [atom/proc/ranged_item_interaction], when a mob is using this item while right-clicking on an atom while not adjacent
+=======
+/// Sent from [atom/proc/ranged_item_interaction], when a mob is using this item while left-clicking on by an atom while not adjacent
+#define COMSIG_RANGED_ITEM_INTERACTING_WITH_ATOM "ranged_item_interacting_with_atom"
+/// Sent from [atom/proc/ranged_item_interaction], when a mob is using this item while right-clicking on by an atom while not adjacent
+>>>>>>> tg-pr-88929
 #define COMSIG_RANGED_ITEM_INTERACTING_WITH_ATOM_SECONDARY "ranged_item_interacting_with_atom_secondary"
 
 /// Sent from [atom/proc/item_interaction], when this atom is used as a tool and an event occurs
 #define COMSIG_ITEM_TOOL_ACTED "tool_item_acted"
 
+<<<<<<< HEAD
 #define COMSIG_ATOM_DOOR_OPEN "atom_door_open"
 
+=======
+>>>>>>> tg-pr-88929
 /// from /obj/projectile/energy/fisher/on_hit() or /obj/item/gun/energy/recharge/fisher when striking a target
 #define COMSIG_ATOM_SABOTEUR_ACT "hit_by_saboteur"
 	#define COMSIG_SABOTEUR_SUCCESS 1
 
 /// signal sent when a mouse is hovering over us, sent by atom/proc/on_mouse_entered
 #define COMSIG_ATOM_MOUSE_ENTERED "mouse_entered"
+<<<<<<< HEAD
 
 /// Sent from [/datum/element/burn_on_item_ignition] to an atom being ignited by something: (mob/living/user, obj/item/burning_thing)
 #define COMSIG_ATOM_IGNITED_BY_ITEM "atom_ignited_by_item"
+=======
+>>>>>>> tg-pr-88929

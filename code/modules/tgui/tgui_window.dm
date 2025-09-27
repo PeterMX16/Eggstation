@@ -39,8 +39,11 @@
 		"Ctrl+UP" = "byond/ctrlup",
 	)
 
+<<<<<<< HEAD
 	var/list/oversized_payloads = list()
 
+=======
+>>>>>>> tg-pr-88929
 /**
  * public
  *
@@ -402,6 +405,7 @@
 			reinitialize()
 		if("chat/resend")
 			SSchat.handle_resend(client, payload)
+<<<<<<< HEAD
 		if("oversizedPayloadRequest")
 			var/payload_id = payload["id"]
 			var/chunk_count = payload["chunkCount"]
@@ -413,6 +417,8 @@
 			var/payload_id = payload["id"]
 			append_payload_chunk(payload_id, payload["chunk"])
 			send_message("acknowlegePayloadChunk", list("id" = payload_id))
+=======
+>>>>>>> tg-pr-88929
 
 /datum/tgui_window/vv_edit_var(var_name, var_value)
 	return var_name != NAMEOF(src, id) && ..()

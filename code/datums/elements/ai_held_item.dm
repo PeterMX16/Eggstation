@@ -20,7 +20,11 @@
 
 /// Returns the item held in a mob's blackboard, if it has one
 /datum/element/ai_held_item/proc/get_held_item(mob/living/source)
+<<<<<<< HEAD
 	return source.ai_controller?.blackboard[BB_SIMPLE_CARRY_ITEM]
+=======
+	return source.ai_controller.blackboard[BB_SIMPLE_CARRY_ITEM]
+>>>>>>> tg-pr-88929
 
 /// Someone's interacting with us by hand, if we have an item and like them we'll hand it over
 /datum/element/ai_held_item/proc/on_click(mob/living/source, mob/living/user)
@@ -29,7 +33,11 @@
 	if ((user.istate & ISTATE_HARM))
 		return
 
+<<<<<<< HEAD
 	if (!(user in source.ai_controller?.blackboard[BB_FRIENDS_LIST]))
+=======
+	if (!(user in source.ai_controller.blackboard[BB_FRIENDS_LIST]))
+>>>>>>> tg-pr-88929
 		return // We don't care about this bozo
 	var/obj/item/carried_item = get_held_item(source)
 	if (!carried_item)
@@ -37,7 +45,11 @@
 
 	source.visible_message(span_danger("[source] drops [carried_item] at [user]'s feet!"))
 	carried_item.forceMove(get_turf(user))
+<<<<<<< HEAD
 	source.ai_controller?.clear_blackboard_key(BB_SIMPLE_CARRY_ITEM)
+=======
+	source.ai_controller.clear_blackboard_key(BB_SIMPLE_CARRY_ITEM)
+>>>>>>> tg-pr-88929
 
 /// If our held item is removed from our atom then take it off the blackboard
 /datum/element/ai_held_item/proc/atom_exited(mob/living/source, atom/movable/gone)
@@ -45,7 +57,11 @@
 
 	var/obj/item/carried_item = get_held_item(source)
 	if (carried_item == gone)
+<<<<<<< HEAD
 		source.ai_controller?.clear_blackboard_key(BB_SIMPLE_CARRY_ITEM)
+=======
+		source.ai_controller.clear_blackboard_key(BB_SIMPLE_CARRY_ITEM)
+>>>>>>> tg-pr-88929
 
 /// Report that we're holding an item.
 /datum/element/ai_held_item/proc/on_examined(mob/living/source, mob/user, list/examine_text)
@@ -54,7 +70,7 @@
 	var/obj/item/carried_item = get_held_item(source)
 	if (!carried_item)
 		return
-	examine_text += span_notice("[source.p_they(TRUE)] [source.p_are()] carrying [carried_item.get_examine_string(user)].")
+	examine_text += span_notice("[source.p_They()] [source.p_are()] carrying [carried_item.examine_title(user)].")
 
 /// If we died, drop anything we were carrying
 /datum/element/ai_held_item/proc/on_death(mob/living/ol_yeller)
@@ -66,4 +82,8 @@
 
 	ol_yeller.visible_message(span_danger("[ol_yeller] drops [carried_item] as [ol_yeller.p_they()] die[ol_yeller.p_s()]."))
 	carried_item.forceMove(ol_yeller.drop_location())
+<<<<<<< HEAD
 	ol_yeller.ai_controller?.clear_blackboard_key(BB_SIMPLE_CARRY_ITEM)
+=======
+	ol_yeller.ai_controller.clear_blackboard_key(BB_SIMPLE_CARRY_ITEM)
+>>>>>>> tg-pr-88929

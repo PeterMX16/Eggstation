@@ -11,7 +11,7 @@
 
 // Base type. Subtypes are found in /grown dir. Lavaland-based subtypes can be found in mining/ash_flora.dm
 /obj/item/food/grown
-	icon = 'icons/obj/hydroponics/harvest.dmi'
+	icon = 'icons/obj/service/hydroponics/harvest.dmi'
 	icon_state = "berrypile"
 	worn_icon = 'icons/mob/clothing/head/hydroponics.dmi'
 	name = "fresh produce" // so recipe text doesn't say 'snack'
@@ -44,6 +44,9 @@
 	var/offset_at_init = TRUE
 	//This volume can be altered by densified chemicals trait
 	var/volume_rate = 1 //Monkestation Edit
+
+/obj/item/food/grown/New(loc, obj/item/seeds/new_seed)
+	return ..()
 
 /obj/item/food/grown/Initialize(mapload, obj/item/seeds/new_seed)
 	if(!tastes)
@@ -81,17 +84,19 @@
 	bite_consumption = 1 + round(max((seed.potency * BITE_SIZE_POTENCY_MULTIPLIER), 1) * (max_volume * BITE_SIZE_VOLUME_MULTIPLIER) * bite_consumption_mod)
 
 	. = ..() //Only call it here because we want all the genes and shit to be applied before we add edibility. God this code is a mess.
+<<<<<<< HEAD
 	//Monkestation Edit Begin
 	//We want this trait to run after reagents component is added to the plant
 	var/datum/plant_gene/trait/trait_noreact = seed.get_gene(/datum/plant_gene/trait/noreact)
 	if(trait_noreact)
 		trait_noreact.on_new_plant(src, loc)
 	//Monkestation Edit End
+=======
+
+	reagents.clear_reagents()
+>>>>>>> tg-pr-88929
 	seed.prepare_result(src)
 	transform *= TRANSFORM_USING_VARIABLE(seed.potency, 100) + 0.5 //Makes the resulting produce's sprite larger or smaller based on potency!
-
-	if(seed.get_gene(/datum/plant_gene/trait/brewing))
-		ferment()
 
 /obj/item/food/grown/Destroy()
 	if(isatom(seed))
@@ -115,7 +120,7 @@
 
 	return new trash_type(location || drop_location())
 
-/obj/item/food/grown/grind_requirements()
+/obj/item/food/grown/blend_requirements()
 	if(dry_grind && !HAS_TRAIT(src, TRAIT_DRIED))
 		to_chat(usr, span_warning("[src] needs to be dry before it can be ground up!"))
 		return
@@ -123,32 +128,38 @@
 
 /// Turns the nutriments and vitamins into the distill reagent or fruit wine
 /obj/item/food/grown/proc/ferment()
+	var/reagent_purity = seed.get_reagent_purity()
+	var/purity_above_base = clamp((reagent_purity - 0.5) * 2, 0, 1)
+	var/quality_min = DRINK_NICE
+	var/quality_max = DRINK_FANTASTIC
+	var/quality = round(LERP(quality_min, quality_max, purity_above_base))
 	for(var/datum/reagent/reagent in reagents.reagent_list)
 		if(reagent.type != /datum/reagent/consumable/nutriment && reagent.type != /datum/reagent/consumable/nutriment/vitamin)
 			continue
-		var/purity = clamp(seed.lifespan/200 + seed.endurance/200, 0, 1)
-		var/quality_min = 0
-		var/quality_max = DRINK_FANTASTIC
-		var/quality = round(LERP(quality_min, quality_max, purity))
 		if(distill_reagent)
 			var/data = list()
 			var/datum/reagent/consumable/ethanol/booze = distill_reagent
 			data["quality"] = quality
-			data["boozepwr"] = round(initial(booze.boozepwr) * purity)
-			reagents.add_reagent(distill_reagent, reagent.volume, data, added_purity = purity)
+			data["boozepwr"] = round(initial(booze.boozepwr) * reagent_purity * 2) // default boozepwr at 50% purity
+			reagents.add_reagent(distill_reagent, reagent.volume, data, added_purity = reagent_purity)
 		else
 			var/data = list()
 			data["names"] = list("[initial(name)]" = 1)
 			data["color"] = filling_color || reagent.color // filling_color is not guaranteed to be set for every plant. try to use it if we have it, otherwise use the reagent's color var
+<<<<<<< HEAD
 			data["boozepwr"] = round(wine_power * purity)
+=======
+			data["boozepwr"] = round(wine_power * reagent_purity * 2) // default boozepwr at 50% purity
+>>>>>>> tg-pr-88929
 			data["quality"] = quality
 			if(wine_flavor)
 				data["tastes"] = list(wine_flavor = 1)
 			else
 				data["tastes"] = list(tastes[1] = 1)
-			reagents.add_reagent(/datum/reagent/consumable/ethanol/fruit_wine, reagent.volume, data, added_purity = purity)
+			reagents.add_reagent(/datum/reagent/consumable/ethanol/fruit_wine, reagent.volume, data, added_purity = reagent_purity)
 		reagents.del_reagent(reagent.type)
 
+<<<<<<< HEAD
 /obj/item/food/grown/on_grind()
 	. = ..()
 	if(reagents && length(grind_results))
@@ -165,6 +176,19 @@
 			juice_results[juice_results[i]] = nutriment
 		reagents.del_reagent(/datum/reagent/consumable/nutriment)
 		reagents.del_reagent(/datum/reagent/consumable/nutriment/vitamin)
+=======
+/obj/item/food/grown/grind_atom(datum/reagents/target_holder, mob/user)
+	var/grind_results_num = LAZYLEN(grind_results)
+	if(grind_results_num)
+		var/average_purity = reagents.get_average_purity()
+		var/total_nutriment_amount = reagents.get_reagent_amount(/datum/reagent/consumable/nutriment, type_check = REAGENT_SUB_TYPE)
+		var/single_reagent_amount = grind_results_num > 1 ? round(total_nutriment_amount / grind_results_num, CHEMICAL_QUANTISATION_LEVEL) : total_nutriment_amount
+		reagents.remove_reagent(/datum/reagent/consumable/nutriment, total_nutriment_amount, include_subtypes = TRUE)
+		for(var/reagent in grind_results)
+			reagents.add_reagent(reagent, single_reagent_amount, added_purity = average_purity)
+
+	return reagents?.trans_to(target_holder, reagents.total_volume, transferred_by = user)
+>>>>>>> tg-pr-88929
 
 #undef BITE_SIZE_POTENCY_MULTIPLIER
 #undef BITE_SIZE_VOLUME_MULTIPLIER

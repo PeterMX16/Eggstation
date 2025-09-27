@@ -5,7 +5,10 @@
 	tick_interval = STATUS_EFFECT_NO_TICK
 	duration = 1 MINUTES // set in on creation, this just needs to be any value to process
 	alert_type = null
+<<<<<<< HEAD
 	remove_on_fullheal = TRUE
+=======
+>>>>>>> tg-pr-88929
 	/// A reference to a COPY of the DNA that the mob will be transformed into.
 	var/datum/dna/new_dna
 	/// A reference to a COPY of the DNA of the mob prior to transformation.
@@ -17,7 +20,11 @@
 	QDEL_NULL(old_dna)
 
 /datum/status_effect/temporary_transformation/on_creation(mob/living/new_owner, new_duration = 1 MINUTES, datum/dna/dna_to_copy)
+<<<<<<< HEAD
 	src.duration = (new_duration == INFINITY) ? -1 : new_duration
+=======
+	src.duration = new_duration
+>>>>>>> tg-pr-88929
 	src.new_dna = new()
 	src.old_dna = new()
 	dna_to_copy.copy_dna(new_dna)
@@ -34,7 +41,11 @@
 	// Save the old DNA
 	transforming.dna.copy_dna(old_dna)
 	// Makes them into the new DNA
+<<<<<<< HEAD
 	new_dna.copy_dna(transforming.dna, COPY_DNA_SPECIES)
+=======
+	new_dna.transfer_identity(transforming)
+>>>>>>> tg-pr-88929
 	transforming.real_name = new_dna.real_name
 	transforming.name = transforming.get_visible_name()
 	transforming.updateappearance(mutcolor_update = TRUE)
@@ -45,7 +56,11 @@
 	var/mob/living/carbon/transforming = owner
 
 	if(!QDELING(owner)) // Don't really need to do appearance stuff if we're being deleted
+<<<<<<< HEAD
 		old_dna.copy_dna(transforming.dna, COPY_DNA_SPECIES)
+=======
+		old_dna.transfer_identity(transforming)
+>>>>>>> tg-pr-88929
 		transforming.updateappearance(mutcolor_update = TRUE)
 		transforming.domutcheck()
 
@@ -66,8 +81,13 @@
 
 /datum/status_effect/temporary_transformation/trans_sting/on_apply()
 	. = ..()
+<<<<<<< HEAD
 	if(!. || HAS_TRAIT(owner, TRAIT_NO_TRANSFORMATION_STING))
 		return FALSE
+=======
+	if(!.)
+		return
+>>>>>>> tg-pr-88929
 	RegisterSignals(owner, update_on_signals, PROC_REF(pause_effect))
 	pause_effect(owner) // for if we sting a dead guy
 
@@ -80,7 +100,11 @@
 
 	// Pause if we're dead, appear dead, or in stasis
 	if(source.stat == DEAD || HAS_TRAIT(source, TRAIT_DEATHCOMA) || HAS_TRAIT(source, TRAIT_STASIS))
+<<<<<<< HEAD
 		if(duration == -1)
+=======
+		if(duration == STATUS_EFFECT_PERMANENT)
+>>>>>>> tg-pr-88929
 			return // Already paused
 
 		time_before_pause = duration - world.time

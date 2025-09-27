@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { useBackend } from '../backend';
 import {
   Box,
@@ -14,6 +15,23 @@ import { JOB2ICON } from './common/JobToIcon';
 import { deepMerge } from 'common/collections';
 import { BooleanLike } from 'common/react';
 import { LobbyNotices, LobbyNoticesType } from './common/LobbyNotices';
+=======
+import { deepMerge } from 'common/collections';
+import { Color } from 'tgui-core/color';
+import {
+  Box,
+  Button,
+  Icon,
+  NoticeBox,
+  Stack,
+  StyleableSection,
+} from 'tgui-core/components';
+import { BooleanLike } from 'tgui-core/react';
+
+import { useBackend } from '../backend';
+import { Window } from '../layouts';
+import { JOB2ICON } from './common/JobToIcon';
+>>>>>>> tg-pr-88929
 
 type Job = {
   unavailable_reason: string | null;
@@ -41,12 +59,16 @@ type Data = {
   notices: LobbyNoticesType;
 };
 
+<<<<<<< HEAD
 export const JobEntry: Inferno.SFC<{
+=======
+export const JobEntry = (data: {
+>>>>>>> tg-pr-88929
   jobName: string;
   job: Job;
   department: Department;
   onClick: () => void;
-}> = (data) => {
+}) => {
   const jobName = data.jobName;
   const job = data.job;
   const department = data.department;
@@ -56,7 +78,7 @@ export const JobEntry: Inferno.SFC<{
       fluid
       style={{
         // Try not to think too hard about this one.
-        'background-color': job.unavailable_reason
+        backgroundColor: job.unavailable_reason
           ? '#949494' // Grey background
           : job.prioritized
             ? '#16fc0f' // Bright green background
@@ -64,14 +86,18 @@ export const JobEntry: Inferno.SFC<{
         color: job.unavailable_reason
           ? '#616161' // Dark grey font
           : Color.fromHex(department.color).darken(90).toString(),
+<<<<<<< HEAD
         'font-size': '1.1rem',
+=======
+        fontSize: '1.1rem',
+>>>>>>> tg-pr-88929
         cursor: job.unavailable_reason ? 'initial' : 'pointer',
       }}
       tooltip={
         job.unavailable_reason ||
         (job.prioritized ? (
           <>
-            <p style={{ 'margin-top': '0px' }}>
+            <p style={{ marginTop: '0px' }}>
               <b>The HoP wants more people in this job!</b>
             </p>
             {job.description}
@@ -89,7 +115,11 @@ export const JobEntry: Inferno.SFC<{
         {job.command ? <b>{jobName}</b> : jobName}
         <span
           style={{
+<<<<<<< HEAD
             'white-space': 'nowrap',
+=======
+            whiteSpace: 'nowrap',
+>>>>>>> tg-pr-88929
             position: 'absolute',
             right: '0.5em',
           }}
@@ -115,10 +145,13 @@ export const JobSelection = (props) => {
     <Window
       width={1012}
       height={data.shuttle_status ? 690 : 666 /* Hahahahahaha */}
+<<<<<<< HEAD
       onComponentDidMount={() => {
         // Send a heartbeat back to DM to let it know the window is alive and well
         act('ui_mounted_with_no_bluescreen');
       }}
+=======
+>>>>>>> tg-pr-88929
     >
       <Window.Content scrollable>
         <LobbyNotices notices={data.notices} />
@@ -139,9 +172,15 @@ export const JobSelection = (props) => {
               />
             </>
           }
+<<<<<<< HEAD
           titleStyle={{ 'min-height': '3.4em' }}
         >
           <Box wrap="wrap" style={{ columns: '20em' }}>
+=======
+          titleStyle={{ minHeight: '3.4em' }}
+        >
+          <Box style={{ columns: '20em' }}>
+>>>>>>> tg-pr-88929
             {Object.entries(departments).map((departmentEntry) => {
               const departmentName = departmentEntry[0];
               const entry = departmentEntry[1];
@@ -153,8 +192,13 @@ export const JobSelection = (props) => {
                         {departmentName}
                         <span
                           style={{
+<<<<<<< HEAD
                             'font-size': '1rem',
                             'white-space': 'nowrap',
+=======
+                            fontSize: '1rem',
+                            whiteSpace: 'nowrap',
+>>>>>>> tg-pr-88929
                             position: 'absolute',
                             right: '1em',
                             color: Color.fromHex(entry.color)
@@ -169,9 +213,9 @@ export const JobSelection = (props) => {
                       </>
                     }
                     style={{
-                      'background-color': entry.color,
-                      'margin-bottom': '1em',
-                      'break-inside': 'avoid-column',
+                      backgroundColor: entry.color,
+                      marginBottom: '1em',
+                      breakInside: 'avoid-column',
                     }}
                     titleStyle={{
                       'border-bottom-color': Color.fromHex(entry.color)

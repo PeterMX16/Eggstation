@@ -1,11 +1,19 @@
 import {
   CheckboxInput,
+<<<<<<< HEAD
   FeatureColorInput,
   Feature,
   FeatureDropdownInput,
   FeatureToggle,
 } from '../base';
 import { multiline } from 'common/string';
+=======
+  Feature,
+  FeatureColorInput,
+  FeatureToggle,
+} from '../base';
+import { FeatureDropdownInput } from '../dropdowns';
+>>>>>>> tg-pr-88929
 
 export const asaycolor: Feature<string> = {
   name: 'Admin chat color',
@@ -48,7 +56,7 @@ export const fast_mc_refresh: FeatureToggle = {
 export const ghost_roles_as_admin: FeatureToggle = {
   name: 'Get ghost roles while adminned',
   category: 'ADMIN',
-  description: multiline`
+  description: `
     If you de-select this, you will not get any ghost role pop-ups while
     adminned! Every single pop-up WILL never show up for you in an adminned
     state. However, this does not suppress notifications when you are

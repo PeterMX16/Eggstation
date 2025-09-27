@@ -5,6 +5,7 @@
  */
 
 import { createAction } from 'common/redux';
+
 import { createHighlightSetting } from './model';
 
 export const updateSettings = createAction('settings/update');
@@ -23,6 +24,7 @@ export const removeHighlightSetting = createAction(
 );
 export const updateHighlightSetting = createAction(
   'settings/updateHighlightSetting',
+<<<<<<< HEAD
 );
 export const exportSettings = createAction('settings/export');
 export const importSettings = createAction(
@@ -30,4 +32,6 @@ export const importSettings = createAction(
   (settings, pages) => ({
     payload: { newSettings: settings, newPages: pages },
   }),
+=======
+>>>>>>> tg-pr-88929
 );

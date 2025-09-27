@@ -24,11 +24,14 @@
 		var/datum/component/edible/edible_component = target.GetComponent(/datum/component/edible)
 		edible_component?.enable_food_crossed()
 		RegisterSignal(target, COMSIG_FOOD_CROSSED, PROC_REF(food_crossed))
-	RegisterSignal(target, COMSIG_ITEM_ON_GRIND, PROC_REF(generate_trash))
-	RegisterSignal(target, COMSIG_ITEM_ON_JUICE, PROC_REF(generate_trash))
-	RegisterSignal(target, COMSIG_ITEM_USED_AS_INGREDIENT, PROC_REF(generate_trash))
-	RegisterSignal(target, COMSIG_ITEM_ON_COMPOSTED, PROC_REF(generate_trash))
-	RegisterSignal(target, COMSIG_ITEM_SOLD_TO_CUSTOMER, PROC_REF(generate_trash))
+	RegisterSignals(target, list(
+		COMSIG_ITEM_ON_GRIND,
+		COMSIG_ITEM_ON_JUICE,
+		COMSIG_ITEM_USED_AS_INGREDIENT,
+		COMSIG_ITEM_ON_COMPOSTED,
+		COMSIG_ITEM_SOLD_TO_CUSTOMER,
+		COMSIG_MOVABLE_SPLAT,
+	), PROC_REF(generate_trash))
 
 /datum/element/food_trash/Detach(datum/target)
 	. = ..()
@@ -41,6 +44,10 @@
 		COMSIG_ITEM_USED_AS_INGREDIENT,
 		COMSIG_ITEM_ON_COMPOSTED,
 		COMSIG_ITEM_SOLD_TO_CUSTOMER,
+<<<<<<< HEAD
+=======
+		COMSIG_MOVABLE_SPLAT,
+>>>>>>> tg-pr-88929
 	))
 
 /datum/element/food_trash/proc/generate_trash(datum/source, mob/living/eater, mob/living/feeder)
@@ -51,8 +58,14 @@
 
 /datum/element/food_trash/proc/async_generate_trash(datum/source)
 	var/atom/edible_object = source
+	var/obj/item/trash_item
 
-	var/obj/item/trash_item = generate_trash_procpath ? call(source, generate_trash_procpath)() : new trash(edible_object.drop_location())
+	if(istype(source, /obj/item/food/grown) && ispath(trash, /obj/item/food))
+		var/obj/item/food/grown/plant = source
+		trash_item = new trash(edible_object.drop_location())
+		trash_item.reagents?.set_all_reagents_purity(plant.seed.get_reagent_purity())
+	else
+		trash_item = generate_trash_procpath ? call(source, generate_trash_procpath)() : new trash(edible_object.drop_location())
 
 	if(isliving(edible_object.loc))
 		var/mob/living/food_holding_mob = edible_object.loc

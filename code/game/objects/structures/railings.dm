@@ -4,17 +4,25 @@
 	icon = 'icons/obj/railings.dmi'
 	icon_state = "railing"
 	flags_1 = ON_BORDER_1
-	obj_flags = CAN_BE_HIT | BLOCKS_CONSTRUCTION_DIR
+	obj_flags = CAN_BE_HIT | BLOCKS_CONSTRUCTION_DIR | IGNORE_DENSITY
 	density = TRUE
 	anchored = TRUE
 	pass_flags_self = LETPASSTHROW|PASSSTRUCTURE
+<<<<<<< HEAD
+=======
+	layer = ABOVE_TREE_LAYER
+	plane = ABOVE_GAME_PLANE
+>>>>>>> tg-pr-88929
 	/// armor is a little bit less than a grille. max_integrity about half that of a grille.
 	armor_type = /datum/armor/structure_railing
 	max_integrity = 25
 
 	var/climbable = TRUE
+<<<<<<< HEAD
 	///Initial direction of the railing.
 	var/ini_dir
+=======
+>>>>>>> tg-pr-88929
 	///item released when deconstructed
 	var/item_deconstruct = /obj/item/stack/rods
 
@@ -25,13 +33,30 @@
 	energy = 100
 	bomb = 10
 
+/obj/structure/railing/unbreakable
+	resistance_flags = INDESTRUCTIBLE
+
 /obj/structure/railing/corner //aesthetic corner sharp edges hurt oof ouch
 	density = FALSE
 	climbable = FALSE
 
+/obj/structure/railing/corner/unbreakable
+	resistance_flags = INDESTRUCTIBLE
+
+/obj/structure/railing/corner/end //end of a segment of railing without making a loop
+	icon_state = "railing_end"
+
+/obj/structure/railing/corner/end/unbreakable
+	resistance_flags = INDESTRUCTIBLE
+
+/obj/structure/railing/corner/end/flip //same as above but flipped around
+	icon_state = "railing_end_flip"
+
+/obj/structure/railing/corner/end/flip/unbreakable
+	resistance_flags = INDESTRUCTIBLE
+
 /obj/structure/railing/Initialize(mapload)
 	. = ..()
-	ini_dir = dir
 	if(climbable)
 		AddElement(/datum/element/climbable)
 
@@ -56,13 +81,28 @@
 
 	AddComponent(/datum/component/simple_rotation, ROTATION_NEEDS_ROOM)
 
+<<<<<<< HEAD
 /obj/structure/railing/attackby(obj/item/attacking_item, mob/user, list/modifiers, list/attack_modifiers)
+=======
+/obj/structure/railing/examine(mob/user)
+	. = ..()
+	if(anchored == TRUE)
+		. += span_notice("The railing is <b>bolted</b> to the floor.")
+	else
+		. += span_notice("The railing is <i>unbolted</i> from the floor and can be deconstructed with <b>wirecutters</b>.")
+
+/obj/structure/railing/attackby(obj/item/I, mob/living/user, params)
+>>>>>>> tg-pr-88929
 	..()
 	add_fingerprint(user)
 
 	if(attacking_item.tool_behaviour == TOOL_WELDER && !(user.istate & ISTATE_HARM))
 		if(atom_integrity < max_integrity)
+<<<<<<< HEAD
 			if(!attacking_item.tool_start_check(user, amount=0))
+=======
+			if(!I.tool_start_check(user, amount=1))
+>>>>>>> tg-pr-88929
 				return
 
 			to_chat(user, span_notice("You begin repairing [src]..."))
@@ -73,16 +113,22 @@
 			to_chat(user, span_warning("[src] is already in good condition!"))
 		return
 
-/obj/structure/railing/AltClick(mob/user)
-	return ..() // This hotkey is BLACKLISTED since it's used by /datum/component/simple_rotation
 
 /* monkestation edit: replaced in [monkestation\code\modules\blueshift\structures\wooden_fence.dm]
 /obj/structure/railing/wirecutter_act(mob/living/user, obj/item/I)
 	. = ..()
+<<<<<<< HEAD
+=======
+	if(resistance_flags & INDESTRUCTIBLE)
+		to_chat(user, span_warning("You try to cut apart the railing, but it's too hard!"))
+		I.play_tool_sound(src, 100)
+		return TRUE
+>>>>>>> tg-pr-88929
 	to_chat(user, span_warning("You cut apart the railing."))
 	I.play_tool_sound(src, 100)
 	deconstruct()
 	return TRUE
+<<<<<<< HEAD
 monkestation end */
 
 /obj/structure/railing/deconstruct(disassembled)
@@ -92,12 +138,17 @@ monkestation end */
 	var/obj/rod = new item_deconstruct(drop_location(), rods_to_make)
 	transfer_fingerprints_to(rod)
 	return ..()
+=======
+
+/obj/structure/railing/atom_deconstruct(disassembled)
+	var/rods_to_make = istype(src,/obj/structure/railing/corner) ? 1 : 2
+	var/obj/rod = new item_deconstruct(drop_location(), rods_to_make)
+	transfer_fingerprints_to(rod)
+>>>>>>> tg-pr-88929
 
 ///Implements behaviour that makes it possible to unanchor the railing.
 /obj/structure/railing/wrench_act(mob/living/user, obj/item/I)
 	. = ..()
-	if(flags_1&NODECONSTRUCT_1)
-		return
 	to_chat(user, span_notice("You begin to [anchored ? "unfasten the railing from":"fasten the railing to"] the floor..."))
 	if(I.use_tool(src, user, volume = 75, extra_checks = CALLBACK(src, PROC_REF(check_anchored), anchored)))
 		set_anchored(!anchored)
@@ -107,7 +158,7 @@ monkestation end */
 /obj/structure/railing/CanPass(atom/movable/mover, border_dir)
 	. = ..()
 	if(border_dir & dir)
-		return . || mover.throwing || mover.movement_type & (FLYING | FLOATING)
+		return . || mover.throwing || (mover.movement_type & MOVETYPES_NOT_TOUCHING_GROUND)
 	return TRUE
 
 /obj/structure/railing/CanAStarPass(to_dir, datum/can_pass_info/pass_info)
@@ -130,7 +181,7 @@ monkestation end */
 	if (leaving.throwing)
 		return
 
-	if (leaving.movement_type & (PHASING | FLYING | FLOATING))
+	if (leaving.movement_type & (PHASING|MOVETYPES_NOT_TOUCHING_GROUND))
 		return
 
 	if (leaving.move_force >= MOVE_FORCE_EXTREMELY_STRONG)
@@ -150,9 +201,14 @@ monkestation end */
 	icon = 'icons/obj/structures.dmi'
 	icon_state = "wooden_railing"
 	item_deconstruct = /obj/item/stack/sheet/mineral/wood
+<<<<<<< HEAD
 	plane = GAME_PLANE_FOV_HIDDEN
 	layer = ABOVE_MOB_LAYER
 	standard_smoothing = FALSE
+=======
+	layer = ABOVE_MOB_LAYER
+	plane = GAME_PLANE
+>>>>>>> tg-pr-88929
 
 /obj/structure/railing/wooden_fence/Initialize(mapload)
 	. = ..()
@@ -164,8 +220,12 @@ monkestation end */
 	adjust_dir_layer(new_dir)
 
 /obj/structure/railing/wooden_fence/proc/adjust_dir_layer(direction)
+<<<<<<< HEAD
 	var/new_layer = (direction & NORTH) ? MOB_LAYER : ABOVE_MOB_LAYER
 	layer = new_layer
+=======
+	layer = (direction & NORTH) ? MOB_LAYER : initial(layer)
+>>>>>>> tg-pr-88929
 
 
 /obj/structure/railing/corner/end/wooden_fence

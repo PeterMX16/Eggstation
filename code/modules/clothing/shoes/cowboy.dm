@@ -5,15 +5,25 @@
 	armor_type = /datum/armor/shoes_cowboy
 	custom_price = PAYCHECK_CREW
 	can_be_tied = FALSE
+<<<<<<< HEAD
 	var/max_occupants = 4
+=======
+	interaction_flags_mouse_drop = NEED_HANDS | NEED_DEXTERITY
+
+	var/max_occupants = 4
+	/// Do these boots have spur sounds?
+	var/has_spurs = FALSE
+	/// The jingle jangle jingle of our spurs
+	var/list/spur_sound = list('sound/effects/footstep/spurs1.ogg'=1,'sound/effects/footstep/spurs2.ogg'=1,'sound/effects/footstep/spurs3.ogg'=1)
+>>>>>>> tg-pr-88929
 
 /datum/armor/shoes_cowboy
 	bio = 90
 
 /obj/item/clothing/shoes/cowboy/Initialize(mapload)
 	. = ..()
-
 	create_storage(storage_type = /datum/storage/pockets/shoes)
+<<<<<<< HEAD
 
 	if(prob(2))
 		//There's a snake in my boot
@@ -21,6 +31,13 @@
 
 	AddComponent(/datum/component/shoesteps/combine_boot_sounds) //MONKESTATION EDIT
 
+=======
+	if(prob(2)) //There's a snake in my boot
+		new /mob/living/basic/snake(src)
+	if(has_spurs)
+		LoadComponent(/datum/component/squeak, spur_sound, 50, falloff_exponent = 20)
+	AddElement(/datum/element/ignites_matches)
+>>>>>>> tg-pr-88929
 
 /obj/item/clothing/shoes/cowboy/equipped(mob/living/carbon/user, slot)
 	. = ..()
@@ -33,11 +50,7 @@
 			occupant.forceMove(user.drop_location())
 			user.visible_message(span_warning("[user] recoils as something slithers out of [src]."), span_userdanger("You feel a sudden stabbing pain in your [pick("foot", "toe", "ankle")]!"))
 			user.Knockdown(20) //Is one second paralyze better here? I feel you would fall on your ass in some fashion.
-			user.apply_damage(5, BRUTE, target_zone)
-			if(istype(occupant, /mob/living/simple_animal/hostile/retaliate))
-				user.reagents.add_reagent(/datum/reagent/toxin, 7)
-
-
+			occupant.UnarmedAttack(user, proximity_flag = TRUE)
 
 /obj/item/clothing/shoes/cowboy/dropped(mob/living/user)
 	. = ..()
@@ -51,9 +64,9 @@
 	user.say(pick("Hot damn!", "Hoo-wee!", "Got-dang!"), spans = list(SPAN_YELL), forced=TRUE)
 	user.client?.give_award(/datum/award/achievement/misc/hot_damn, user)
 
-/obj/item/clothing/shoes/cowboy/MouseDrop_T(mob/living/target, mob/living/user)
+/obj/item/clothing/shoes/cowboy/mouse_drop_receive(mob/living/target, mob/living/user, params)
 	. = ..()
-	if(!(user.mobility_flags & MOBILITY_USE) || user.stat != CONSCIOUS || HAS_TRAIT(user, TRAIT_HANDS_BLOCKED) || !Adjacent(user) || !isliving(target) || !user.Adjacent(target) || target.stat == DEAD)
+	if(!(user.mobility_flags & MOBILITY_USE) || !isliving(target))
 		return
 	if(contents.len >= max_occupants)
 		to_chat(user, span_warning("[src] are full!"))
@@ -105,3 +118,8 @@
 	name = "black spurred cowboy boots"
 	desc = "And they sing, oh, ain't you glad you're single? And that song ain't so very far from wrong."
 	armor_type = /datum/armor/shoes_combat
+<<<<<<< HEAD
+=======
+	has_spurs = TRUE
+	body_parts_covered = FEET|LEGS
+>>>>>>> tg-pr-88929

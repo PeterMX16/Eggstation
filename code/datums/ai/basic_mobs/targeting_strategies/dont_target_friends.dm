@@ -10,6 +10,7 @@
 	if(attack_closed_turf && isclosedturf(target))
 		return TRUE
 
+<<<<<<< HEAD
 	if (ismob(target))
 		var/mob/mob_target = target
 		if (HAS_TRAIT(mob_target, TRAIT_GODMODE))
@@ -28,6 +29,12 @@
 		// We don't have any friends, anything's fair game
 		// OR This is not our friend, fire at will
 		return TRUE
+=======
+	if(target in living_mob.ai_controller.blackboard[BB_FRIENDS_LIST])
+		return FALSE
+
+	return ..()
+>>>>>>> tg-pr-88929
 
 ///friends dont care about factions
 /datum/targeting_strategy/basic/not_friends/faction_check(mob/living/living_mob, mob/living/the_target)

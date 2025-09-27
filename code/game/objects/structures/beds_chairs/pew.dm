@@ -1,7 +1,7 @@
 /obj/structure/chair/pew
 	name = "wooden pew"
 	desc = "Kneel here and pray."
-	icon = 'icons/obj/sofa.dmi'
+	icon = 'icons/obj/chairs_wide.dmi'
 	icon_state = "pewmiddle"
 	resistance_flags = FLAMMABLE
 	max_integrity = 70
@@ -16,6 +16,7 @@
 /obj/structure/chair/pew/left
 	name = "left wooden pew end"
 	icon_state = "pewend_left"
+<<<<<<< HEAD
 	var/mutable_appearance/leftpewarmrest
 
 /obj/structure/chair/pew/left/Initialize(mapload)
@@ -57,10 +58,14 @@
 /obj/structure/chair/pew/left/post_unbuckle_mob()
 	. = ..()
 	update_leftpewarmrest()
+=======
+	has_armrest = TRUE
+>>>>>>> tg-pr-88929
 
 /obj/structure/chair/pew/right
 	name = "right wooden pew end"
 	icon_state = "pewend_right"
+<<<<<<< HEAD
 	var/mutable_appearance/rightpewarmrest
 
 /obj/structure/chair/pew/right/Initialize(mapload)
@@ -99,3 +104,6 @@
 /obj/structure/chair/pew/right/post_unbuckle_mob()
 	. = ..()
 	update_rightpewarmrest()
+=======
+	has_armrest = TRUE
+>>>>>>> tg-pr-88929

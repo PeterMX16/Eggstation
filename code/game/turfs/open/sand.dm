@@ -1,16 +1,23 @@
 /turf/open/misc/beach
 	name = "beach"
 	desc = "Sandy."
-	icon = 'icons/misc/beach.dmi'
+	icon = 'icons/turf/sand.dmi'
 	flags_1 = NONE
 	bullet_bounce_sound = null
 	footstep = FOOTSTEP_SAND
 	barefootstep = FOOTSTEP_SAND
 	clawfootstep = FOOTSTEP_SAND
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
+	rust_resistance = RUST_RESISTANCE_ORGANIC
+
+/turf/open/misc/beach/Initialize(mapload)
+	. = ..()
+	add_lazy_fishing(/datum/fish_source/sand)
 
 /turf/open/misc/beach/ex_act(severity, target)
-	return
+	if(fish_source)
+		GLOB.preset_fish_sources[fish_source].spawn_reward_from_explosion(src, severity)
+	return FALSE
 
 /turf/open/misc/beach/sand
 	gender = PLURAL
@@ -20,39 +27,44 @@
 	base_icon_state = "sand"
 	baseturfs = /turf/open/misc/beach/sand
 
-/turf/open/misc/beach/coastline_t
+/turf/open/misc/beach/sand/Initialize(mapload)
+	. = ..()
+	if(prob(15))
+		icon_state = "sand[rand(1,4)]"
+
+/turf/open/misc/beach/coast
 	name = "coastline"
 	desc = "Tide's high tonight. Charge your batons."
-	icon_state = "sandwater_t"
-	base_icon_state = "sandwater_t"
-	baseturfs = /turf/open/misc/beach/coastline_t
+	icon = 'icons/turf/beach.dmi'
+	icon_state = "beach"
+	base_icon_state = "beach"
+	footstep = FOOTSTEP_WATER
+	barefootstep = FOOTSTEP_WATER
+	clawfootstep = FOOTSTEP_WATER
+	heavyfootstep = FOOTSTEP_WATER
 
-/turf/open/misc/beach/sand/coastline_t/break_tile()
+/turf/open/misc/beach/coast/Initialize(mapload)
 	. = ..()
-	icon_state = "sandwater_t"
+	ADD_TRAIT(src, TRAIT_MESSAGE_IN_A_BOTTLE_LOCATION, INNATE_TRAIT)
 
-/turf/open/misc/beach/coastline_t/sandwater_inner
-	icon_state = "sandwater_inner"
-
-/turf/open/misc/beach/coastline_b //need to make this water subtype.
-	name = "coastline"
-	icon_state = "sandwater_b"
-	base_icon_state = "sandwater_b"
-	baseturfs = /turf/open/misc/beach/coastline_b
-	footstep = FOOTSTEP_LAVA
-	barefootstep = FOOTSTEP_LAVA
-	clawfootstep = FOOTSTEP_LAVA
-	heavyfootstep = FOOTSTEP_LAVA
-
-/turf/open/misc/beach/sand/coastline_b/break_tile()
+/turf/open/misc/beach/coast/break_tile()
 	. = ..()
-	icon_state = "sandwater_b"
+	icon_state = "beach"
+
+/turf/open/misc/beach/coast/corner
+	icon_state = "beach-corner"
+	base_icon_state = "beach-corner"
+
+/turf/open/misc/beach/coast/corner/break_tile()
+	. = ..()
+	icon_state = "beach-corner"
 
 /turf/open/misc/sandy_dirt
 	gender = PLURAL
 	name = "dirt"
 	desc = "Upon closer examination, it's still dirt."
 	icon = 'icons/turf/floors.dmi'
+	damaged_dmi = 'icons/turf/damaged.dmi'
 	icon_state = "sand"
 	base_icon_state = "sand"
 	bullet_bounce_sound = null
@@ -61,10 +73,14 @@
 	clawfootstep = FOOTSTEP_SAND
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
 	tiled_dirt = FALSE
+	rust_resistance = RUST_RESISTANCE_ORGANIC
 
 /turf/open/misc/sandy_dirt/break_tile()
 	. = ..()
 	icon_state = "sand_damaged"
+
+/turf/open/misc/sandy_dirt/broken_states()
+	return list("sand_damaged")
 
 /turf/open/misc/ironsand
 	gender = PLURAL

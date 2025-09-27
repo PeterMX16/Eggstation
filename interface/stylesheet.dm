@@ -136,7 +136,11 @@ h1.alert, h2.alert		{color: #000000;}
 .robot					{font-family: "Courier New", cursive, sans-serif;}
 
 .command_headset		{font-weight: bold;	font-size: 3;}
+<<<<<<< HEAD
 .soapbox 				{font-weight: bold; font-size: 2;}
+=======
+.soapbox 				{font-weight: bold; font-size: 3;}
+>>>>>>> tg-pr-88929
 .small					{font-size: 1;}
 .big					{font-size: 3;}
 .reallybig				{font-size: 4;}
@@ -175,6 +179,7 @@ h1.alert, h2.alert		{color: #000000;}
 .resonate				{color: #298F85;}
 
 .upside_down			{display: inline; -moz-transform: scale(-1, -1); -webkit-transform: scale(-1, -1); -o-transform: scale(-1, -1); -ms-transform: scale(-1, -1); transform: scale(-1, -1);}
+<<<<<<< HEAD
 
 //MONKESTATION ADDITION START
 .brass {
@@ -240,4 +245,6 @@ h1.alert, h2.alert		{color: #000000;}
 .cyan					{color: #0ea1e6;}
 .uncommonradio			{color: #78a1b1;}
 // MONKESTATION ADDITION END
+=======
+>>>>>>> tg-pr-88929
 </style>"}

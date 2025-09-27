@@ -10,6 +10,7 @@
 		return
 	var/mob/living/carbon/carbon_target = target
 	for(var/obj/item/bodypart/limb as anything in carbon_target.bodyparts)
+<<<<<<< HEAD
 		var/severity = pick(list(
 			WOUND_SEVERITY_MODERATE,
 			WOUND_SEVERITY_SEVERE,
@@ -18,3 +19,11 @@
 			WOUND_SEVERITY_CRITICAL,
 		))
 		carbon_target.cause_wound_of_type_and_severity(WOUND_BLUNT, limb, severity, smited = TRUE)
+=======
+		var/severity = pick_weight(list(
+			WOUND_SEVERITY_MODERATE = 1,
+			WOUND_SEVERITY_SEVERE = 2,
+			WOUND_SEVERITY_CRITICAL = 2,
+		))
+		carbon_target.cause_wound_of_type_and_severity(WOUND_BLUNT, limb, severity)
+>>>>>>> tg-pr-88929

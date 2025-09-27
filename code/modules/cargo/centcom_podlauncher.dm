@@ -16,7 +16,11 @@
 //The user can change properties of the supplypod using the UI, and change the way that items are taken from the bay (One at a time, ordered, random, etc)
 //Many of the effects of the supplypod set here are put into action in supplypod.dm
 
+<<<<<<< HEAD
 ADMIN_VERB(centcom_podlauncher, R_ADMIN, FALSE, "Config/Launch Supplypod", "Configure and launch a CentCom supplypod full of whatever your heart desires!", ADMIN_CATEGORY_EVENTS)
+=======
+ADMIN_VERB(centcom_podlauncher, R_ADMIN, "Config/Launch Supplypod", "Configure and launch a CentCom supplypod full of whatever your heart desires!", ADMIN_CATEGORY_EVENTS)
+>>>>>>> tg-pr-88929
 	new /datum/centcom_podlauncher(user.mob)
 
 //Variables declared to change how items in the launch bay are picked and launched. (Almost) all of these are changed in the ui_act proc
@@ -31,6 +35,7 @@ ADMIN_VERB(centcom_podlauncher, R_ADMIN, FALSE, "Config/Launch Supplypod", "Conf
 		/obj/effect/particle_effect/sparks,
 		/obj/effect/pod_landingzone,
 		/obj/effect/client_image_holder,
+		/obj/effect/light_emitter/podbay,
 	))
 
 	var/turf/oldTurf //Keeps track of where the user was at if they use the "teleport to centcom" button, so they can go back
@@ -65,10 +70,19 @@ ADMIN_VERB(centcom_podlauncher, R_ADMIN, FALSE, "Config/Launch Supplypod", "Conf
 	var/atom/movable/screen/map_view/camera/cam_screen
 	var/tabIndex = 1
 	var/renderLighting = FALSE
+	var/static/list/pod_style_info
+	var/static/list/pod_style_lookup
 
 /datum/centcom_podlauncher/New(user) //user can either be a client or a mob
 	if (user) //Prevents runtimes on datums being made without clients
 		setup(user)
+	if (!isnull(pod_style_info))
+		return
+	pod_style_info = list()
+	pod_style_lookup = list()
+	for (var/datum/pod_style/style as anything in typesof(/datum/pod_style))
+		pod_style_info += list(list("id" = style::id, "title" = style::ui_name))
+		pod_style_lookup[style::id] = style
 
 /datum/centcom_podlauncher/proc/setup(user) //H can either be a client or a mob
 	if (istype(user,/client))
@@ -128,6 +142,7 @@ ADMIN_VERB(centcom_podlauncher, R_ADMIN, FALSE, "Config/Launch Supplypod", "Conf
 	var/list/data = list()
 	data["mapRef"] = map_name
 	data["defaultSoundVolume"] = initial(temp_pod.soundVolume) //default volume for pods
+	data["podStyles"] = pod_style_info
 	return data
 
 /datum/centcom_podlauncher/ui_data(mob/user) //Sends info about the pod to the UI.
@@ -146,7 +161,7 @@ ADMIN_VERB(centcom_podlauncher, R_ADMIN, FALSE, "Config/Launch Supplypod", "Conf
 	data["delays"] = temp_pod.delays
 	data["rev_delays"] = temp_pod.reverse_delays
 	data["custom_rev_delay"] = temp_pod.custom_rev_delay
-	data["styleChoice"] = temp_pod.style //Style is a variable that keeps track of what the pod is supposed to look like. It acts as an index to the GLOB.podstyles list in cargo.dm defines to get the proper icon/name/desc for the pod.
+	data["styleChoice"] = temp_pod.style::id //Style is a variable that keeps track of what the pod is supposed to look like.
 	data["effectShrapnel"] = temp_pod.effectShrapnel //If true, creates a cloud of shrapnel of a decided type and magnitude on landing
 	data["shrapnelType"] = "[temp_pod.shrapnel_type]" //Path2String
 	data["shrapnelMagnitude"] = temp_pod.shrapnel_magnitude
@@ -160,6 +175,7 @@ ADMIN_VERB(centcom_podlauncher, R_ADMIN, FALSE, "Config/Launch Supplypod", "Conf
 	data["effectCircle"] = temp_pod.effectCircle //If true, allows the pod to come in at any angle. Bit of a weird feature but whatever its here
 	data["effectBurst"] = effectBurst //IOf true, launches five pods at once (with a very small delay between for added coolness), in a 3x3 area centered around the area
 	data["effectReverse"] = temp_pod.reversing //If true, the pod will not send any items. Instead, after opening, it will close again (picking up items/mobs) and fly back to centcom
+	data["create_sparks"] = temp_pod.create_sparks //If true, the pod will create sparks before being deleted. This might cause fires if there is plasma in the air.
 	data["reverse_option_list"] = temp_pod.reverse_option_list
 	data["effectTarget"] = specificTarget //Launches the pod at the turf of a specific mob target, rather than wherever the user clicked. Useful for smites
 	data["effectName"] = temp_pod.adminNamed //Determines whether or not the pod has been named by an admin. If true, the pod's name will not get overridden when the style of the pod changes (changing the style of the pod normally also changes the name+desc)
@@ -183,13 +199,13 @@ ADMIN_VERB(centcom_podlauncher, R_ADMIN, FALSE, "Config/Launch Supplypod", "Conf
 		////////////////////////////UTILITIES//////////////////
 		if("gamePanel")
 			holder.holder.Game()
-			SSblackbox.record_feedback("tally", "admin_verb", 1, "Game Panel") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
+			BLACKBOX_LOG_ADMIN_VERB("Game Panel")
 			. = TRUE
 		if("buildMode")
 			var/mob/holder_mob = holder.mob
 			if (holder_mob && (holder.holder?.rank_flags() & R_BUILD))
 				togglebuildmode(holder_mob)
-				SSblackbox.record_feedback("tally", "admin_verb", 1, "Toggle Build Mode") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
+				BLACKBOX_LOG_ADMIN_VERB("Toggle Build Mode")
 			. = TRUE
 		if("loadDataFromPreset")
 			var/list/savedData = params["payload"]
@@ -286,7 +302,7 @@ ADMIN_VERB(centcom_podlauncher, R_ADMIN, FALSE, "Config/Launch Supplypod", "Conf
 					return
 				if (!isnum(boomInput[i])) //If the user doesn't input a number, set that specific explosion value to zero
 					tgui_alert(usr, "That wasn't a number! Value set to default (zero) instead.")
-					boomInput = 0
+					boomInput[i] = 0
 			explosionChoice = 1
 			temp_pod.explosionSize = boomInput
 			. = TRUE
@@ -325,12 +341,12 @@ ADMIN_VERB(centcom_podlauncher, R_ADMIN, FALSE, "Config/Launch Supplypod", "Conf
 		if("effectName") //Give the supplypod a custom name. Supplypods automatically get their name based on their style (see supplypod/setStyle() proc), so doing this overrides that.
 			if (temp_pod.adminNamed) //If we're already adminNamed, set the name of the pod back to default
 				temp_pod.adminNamed = FALSE
-				temp_pod.setStyle(temp_pod.style) //This resets the name of the pod based on it's current style (see supplypod/setStyle() proc)
+				temp_pod.setStyle(temp_pod.style) //This resets the name of the pod based on its current style (see supplypod/setStyle() proc)
 				return
-			var/nameInput= tgui_input_text(usr, "Enter a custom name", "Custom name", GLOB.podstyles[temp_pod.style][POD_NAME], MAX_NAME_LEN) //Gather input for name and desc
+			var/nameInput= tgui_input_text(usr, "Enter a custom name", "Custom name", temp_pod.style::name, max_length = MAX_NAME_LEN)
 			if (isnull(nameInput))
 				return
-			var/descInput = tgui_input_text(usr, "Enter a custom desc", "Custom description", GLOB.podstyles[temp_pod.style][POD_DESC])  //The GLOB.podstyles is used to get the name, desc, or icon state based on the pod's style
+			var/descInput = tgui_input_text(usr, "Enter a custom desc", "Custom description", temp_pod.style::desc, max_length = MAX_DESC_LEN)
 			if (isnull(descInput))
 				return
 			temp_pod.name = nameInput
@@ -394,6 +410,9 @@ ADMIN_VERB(centcom_podlauncher, R_ADMIN, FALSE, "Config/Launch Supplypod", "Conf
 		if("reverseOption")
 			var/reverseOption = params["reverseOption"]
 			temp_pod.reverse_option_list[reverseOption] = !temp_pod.reverse_option_list[reverseOption]
+			. = TRUE
+		if("create_sparks") //Toggle: The creates sparks before the pod is deleted
+			temp_pod.create_sparks = !temp_pod.create_sparks
 			. = TRUE
 		if("effectTarget") //Toggle: Launch at a specific mob (instead of at whatever turf you click on). Used for the supplypod smite
 			if (specificTarget)
@@ -498,7 +517,6 @@ ADMIN_VERB(centcom_podlauncher, R_ADMIN, FALSE, "Config/Launch Supplypod", "Conf
 			temp_pod.soundVolume = soundInput
 			. = TRUE
 		////////////////////////////STYLE CHANGES//////////////////
-		//Style is a value that is used to keep track of what the pod is supposed to look like. It can be used with the GLOB.podstyles list (in cargo.dm defines)
 		//as a way to get the proper icon state, name, and description of the pod.
 		if("tabSwitch")
 			tabIndex = params["tabIndex"]
@@ -512,7 +530,7 @@ ADMIN_VERB(centcom_podlauncher, R_ADMIN, FALSE, "Config/Launch Supplypod", "Conf
 			. = TRUE
 		if("setStyle")
 			var/chosenStyle = params["style"]
-			temp_pod.setStyle(chosenStyle+1)
+			temp_pod.setStyle(pod_style_lookup[chosenStyle])
 			. = TRUE
 		if("refresh") //Refresh the Pod bay. User should press this if they spawn something new in the centcom bay. Automatically called whenever the user launches a pod
 			refreshBay()
@@ -644,11 +662,6 @@ ADMIN_VERB(centcom_podlauncher, R_ADMIN, FALSE, "Config/Launch Supplypod", "Conf
 	preLaunch() //Fill acceptable turfs from orderedArea, then fill launchList from acceptableTurfs (see proc for more info)
 	refreshView()
 
-/area/centcom/central_command_areas/supplypod/pod_storage/Initialize(mapload) //temp_pod holding area
-	. = ..()
-	var/obj/imgbound = locate() in locate(200,SUPPLYPOD_X_OFFSET*-4.5, 1)
-	call(GLOB.podlauncher, "RegisterSignal")(imgbound, "ct[GLOB.podstyles[14][9]]", "[GLOB.podstyles[14][10]]dlauncher")
-
 /datum/centcom_podlauncher/proc/createOrderedArea(area/area_to_order) //This assumes the area passed in is a continuous square
 	if (isnull(area_to_order)) //If theres no supplypod bay mapped into centcom, throw an error
 		to_chat(holder.mob, "No /area/centcom/central_command_areas/supplypod/loading/one (or /two or /three or /four) in the world! You can make one yourself (then refresh) for now, but yell at a mapper to fix this, today!")
@@ -755,7 +768,7 @@ ADMIN_VERB(centcom_podlauncher, R_ADMIN, FALSE, "Config/Launch Supplypod", "Conf
 				else
 					var/atom/movable/movable_to_launch = thing_to_launch
 					movable_to_launch.forceMove(toLaunch) //and forceMove any atom/moveable into the supplypod
-	new /obj/effect/pod_landingzone(target_turf, toLaunch) //Then, create the DPTarget effect, which will eventually forceMove the temp_pod to it's location
+	new /obj/effect/pod_landingzone(target_turf, toLaunch) //Then, create the DPTarget effect, which will eventually forceMove the temp_pod to its location
 	if (launchClone)
 		launchCounter++ //We only need to increment launchCounter if we are cloning objects.
 		//If we aren't cloning objects, taking and removing the first item each time from the acceptableTurfs list will inherently iterate through the list in order
@@ -770,12 +783,16 @@ ADMIN_VERB(centcom_podlauncher, R_ADMIN, FALSE, "Config/Launch Supplypod", "Conf
 		selector.moveToNullspace() //Otherwise, we move the selector to nullspace until it is needed again
 
 /datum/centcom_podlauncher/proc/clearBay() //Clear all objs and mobs from the selected bay
-	for (var/obj/O in bay.get_all_contents())
-		qdel(O)
-	for (var/mob/M in bay.get_all_contents())
-		qdel(M)
+	for (var/obj/object in bay.get_all_contents())
+		if (istype(object.type, /obj/effect/light_emitter/podbay))
+			continue
+		qdel(object)
+	for (var/mob/mob in bay.get_all_contents())
+		qdel(mob)
 	for (var/bayturf in bay)
 		var/turf/turf_to_clear = bayturf
+		if (istype(turf_to_clear, /obj/effect/light_emitter/podbay))
+			continue
 		turf_to_clear.ChangeTurf(/turf/open/floor/iron)
 
 /datum/centcom_podlauncher/Destroy() //The Destroy() proc. This is called by ui_close proc, or whenever the user leaves the game
@@ -810,7 +827,7 @@ ADMIN_VERB(centcom_podlauncher, R_ADMIN, FALSE, "Config/Launch Supplypod", "Conf
 	temp_pod.delays = dataToLoad["delays"]
 	temp_pod.reverse_delays = dataToLoad["rev_delays"]
 	temp_pod.custom_rev_delay = dataToLoad["custom_rev_delay"]
-	temp_pod.setStyle(dataToLoad["styleChoice"])  //Style is a variable that keeps track of what the pod is supposed to look like. It acts as an index to the GLOB.podstyles list in cargo.dm defines to get the proper icon/name/desc for the pod.
+	temp_pod.setStyle(dataToLoad["styleChoice"])  //Style is a variable that keeps track of what the pod is supposed to look like.
 	temp_pod.effectShrapnel = dataToLoad["effectShrapnel"] //If true, creates a cloud of shrapnel of a decided type and magnitude on landing
 	temp_pod.shrapnel_type = text2path(dataToLoad["shrapnelType"])
 	temp_pod.shrapnel_magnitude = dataToLoad["shrapnelMagnitude"]
@@ -825,6 +842,7 @@ ADMIN_VERB(centcom_podlauncher, R_ADMIN, FALSE, "Config/Launch Supplypod", "Conf
 	effectBurst = dataToLoad["effectBurst"] //IOf true, launches five pods at once (with a very small delay between for added coolness), in a 3x3 area centered around the area
 	temp_pod.reversing = dataToLoad["effectReverse"] //If true, the pod will not send any items. Instead, after opening, it will close again (picking up items/mobs) and fly back to centcom
 	temp_pod.reverse_option_list = dataToLoad["reverse_option_list"]
+	temp_pod.create_sparks = dataToLoad["create_sparks"] // If true, creates sparks when the pod vanishes.
 	specificTarget = dataToLoad["effectTarget"] //Launches the pod at the turf of a specific mob target, rather than wherever the user clicked. Useful for smites
 	temp_pod.adminNamed = dataToLoad["effectName"] //Determines whether or not the pod has been named by an admin. If true, the pod's name will not get overridden when the style of the pod changes (changing the style of the pod normally also changes the name+desc)
 	temp_pod.name = dataToLoad["podName"]
@@ -842,14 +860,6 @@ ADMIN_VERB(centcom_podlauncher, R_ADMIN, FALSE, "Config/Launch Supplypod", "Conf
 	refreshView()
 
 GLOBAL_DATUM_INIT(podlauncher, /datum/centcom_podlauncher, new)
-//Proc for admins to enable others to use podlauncher after roundend
-/datum/centcom_podlauncher/proc/give_podlauncher(mob/living/user, override)
-	if (SSticker.current_state < GAME_STATE_FINISHED)
-		return
-	if (!istype(user))
-		user = override
-	if (user)
-		setup(user)//setup the datum
 
 //Set the dropoff location and indicator to either a specific turf or somewhere in an area
 /datum/centcom_podlauncher/proc/setDropoff(target)

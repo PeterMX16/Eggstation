@@ -1,8 +1,8 @@
 /obj/item/chameleon
 	name = "chameleon projector"
-	icon = 'icons/obj/device.dmi'
+	icon = 'icons/obj/devices/syndie_gadget.dmi'
 	icon_state = "shield0"
-	flags_1 = CONDUCT_1
+	obj_flags = CONDUCTS_ELECTRICITY
 	item_flags = NOBLUDGEON
 	slot_flags = ITEM_SLOT_BELT
 	inhand_icon_state = "electronic"
@@ -68,7 +68,11 @@
 	return TRUE
 
 /obj/item/chameleon/proc/make_copy(atom/target, mob/user)
+<<<<<<< HEAD
 	playsound(get_turf(src), 'sound/weapons/flash.ogg', 100, TRUE, -6)
+=======
+	playsound(get_turf(src), 'sound/items/weapons/flash.ogg', 100, TRUE, -6)
+>>>>>>> tg-pr-88929
 	to_chat(user, span_notice("Scanned [target]."))
 	var/obj/temp = new /obj()
 	temp.appearance = target.appearance
@@ -145,12 +149,16 @@
 /obj/effect/dummy/chameleon/attack_animal(mob/user, list/modifiers)
 	master.disrupt()
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> tg-pr-88929
 /obj/effect/dummy/chameleon/attack_alien(mob/user, list/modifiers)
 	master.disrupt()
 
 /obj/effect/dummy/chameleon/ex_act(S, T)
 	master.disrupt()
+	return TRUE
 
 /obj/effect/dummy/chameleon/bullet_act()
 	. = ..()

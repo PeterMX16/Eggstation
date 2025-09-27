@@ -3,20 +3,32 @@
 /datum/species/monkey
 	name = "\improper Monkey"
 	id = SPECIES_MONKEY
+<<<<<<< HEAD
 	bodytype = BODYTYPE_ORGANIC | BODYTYPE_MONKEY
 	external_organs = list(
 		/obj/item/organ/external/tail/monkey = "Monkey",
+=======
+	mutant_organs = list(
+		/obj/item/organ/tail/monkey = "Monkey",
+>>>>>>> tg-pr-88929
 	)
-	mutanttongue = /obj/item/organ/internal/tongue/monkey
-	mutantbrain = /obj/item/organ/internal/brain/primate
+	mutanttongue = /obj/item/organ/tongue/monkey
+	mutantbrain = /obj/item/organ/brain/primate
 	skinned_type = /obj/item/stack/sheet/animalhide/monkey
 	meat = /obj/item/food/meat/slab/monkey
 	knife_butcher_results = list(/obj/item/food/meat/slab/monkey = 5, /obj/item/stack/sheet/animalhide/monkey = 1)
 	inherent_traits = list(
+<<<<<<< HEAD
 		TRAIT_NO_UNDERWEAR,
 		TRAIT_NO_BLOOD_OVERLAY,
 		TRAIT_NO_TRANSFORMATION_STING,
 		TRAIT_NO_AUGMENTS,
+=======
+		TRAIT_NO_AUGMENTS,
+		TRAIT_NO_BLOOD_OVERLAY,
+		TRAIT_NO_DNA_COPY,
+		TRAIT_NO_UNDERWEAR,
+>>>>>>> tg-pr-88929
 		TRAIT_VENTCRAWLER_NUDE,
 		TRAIT_WEAK_SOUL,
 		//Non-Modular change: Gives Monkeys fur colors.
@@ -25,7 +37,13 @@
 	)
 	no_equip_flags = ITEM_SLOT_OCLOTHING | ITEM_SLOT_GLOVES | ITEM_SLOT_FEET | ITEM_SLOT_SUITSTORE
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_PRIDE | MIRROR_MAGIC | ERT_SPAWN | SLIME_EXTRACT
+<<<<<<< HEAD
 	inherent_factions = list(FACTION_MONKEY)
+=======
+	species_cookie = /obj/item/food/grown/banana
+	inherent_factions = list(FACTION_MONKEY)
+	sexes = FALSE
+>>>>>>> tg-pr-88929
 	species_language_holder = /datum/language_holder/monkey
 
 	bodypart_overrides = list(
@@ -37,12 +55,12 @@
 		BODY_ZONE_CHEST = /obj/item/bodypart/chest/monkey,
 	)
 	fire_overlay = "monkey"
-	dust_anim = "dust-m"
 	gib_anim = "gibbed-m"
 
 	payday_modifier = 1.5
 	ai_controlled_species = TRUE
 
+<<<<<<< HEAD
 	// NON-MODULAR CHANGES BELOW
 
 	//Default eyes have the side portrait icons on the wrong side, this fixes that.
@@ -137,10 +155,42 @@
 
 /datum/species/monkey/check_roundstart_eligible()
 	// Check ID specifically so all subtypes aren't eligible on Monkey day.
+=======
+/datum/species/monkey/on_species_gain(mob/living/carbon/human/human_who_gained_species, datum/species/old_species, pref_load, regenerate_icons)
+	. = ..()
+	passtable_on(human_who_gained_species, SPECIES_TRAIT)
+	human_who_gained_species.dna.add_mutation(/datum/mutation/human/race, MUT_NORMAL)
+	human_who_gained_species.dna.activate_mutation(/datum/mutation/human/race)
+	human_who_gained_species.AddElement(/datum/element/human_biter)
+
+/datum/species/monkey/on_species_loss(mob/living/carbon/human/C)
+	. = ..()
+	passtable_off(C, SPECIES_TRAIT)
+	C.dna.remove_mutation(/datum/mutation/human/race)
+	C.RemoveElement(/datum/element/human_biter)
+
+/datum/species/monkey/check_roundstart_eligible()
+	// STOP ADDING MONKEY SUBTYPES YOU HEATHEN
+	// ok we killed monkey subtypes but we're keeping this in cause we can't trust you fuckers
+>>>>>>> tg-pr-88929
 	if(check_holidays(MONKEYDAY) && id == SPECIES_MONKEY)
 		return TRUE
 	return ..()
 
+<<<<<<< HEAD
+=======
+/datum/species/monkey/get_scream_sound(mob/living/carbon/human/monkey)
+	return get_sfx(SFX_SCREECH)
+
+/datum/species/monkey/get_hiss_sound(mob/living/carbon/human/monkey)
+	return 'sound/mobs/humanoids/human/hiss/human_hiss.ogg'
+	// we're both great apes, or something..
+
+/datum/species/monkey/get_physical_attributes()
+	return "Monkeys are slippery, can crawl into vents, and are more dextrous than humans.. but only when stealing things. \
+		Natural monkeys cannot operate machinery or most tools with their paws, but unusually clever monkeys or those that were once something else can."
+
+>>>>>>> tg-pr-88929
 /datum/species/monkey/get_species_description()
 	return "Monkeys are a type of primate that exist between humans and animals on the evolutionary chain. \
 		Every year, on Monkey Day, Nanotrasen shows their respect for the little guys by allowing them to roam the station freely."
@@ -189,7 +239,7 @@
 
 	return to_add
 
-/obj/item/organ/internal/brain/primate //Ook Ook
+/obj/item/organ/brain/primate //Ook Ook
 	name = "Primate Brain"
 	desc = "This wad of meat is small, but has enlaged occipital lobes for spotting bananas."
 	organ_traits = list(TRAIT_CAN_STRIP, TRAIT_PRIMITIVE, TRAIT_GUN_NATURAL) // No literacy or advanced tool usage.
@@ -209,7 +259,7 @@
 	if(!.)
 		return
 
-	var/obj/item/organ/internal/brain/primate/monkey_brain = target
+	var/obj/item/organ/brain/primate/monkey_brain = target
 	if(monkey_brain.tripping)
 		monkey_brain.tripping = FALSE
 		background_icon_state = "bg_default"
@@ -220,19 +270,19 @@
 		to_chat(monkey_brain.owner, span_notice("You will now stumble while while colliding with people who are in combat mode."))
 	build_all_button_icons()
 
-
-/obj/item/organ/internal/brain/primate/on_insert(mob/living/carbon/primate)
+/obj/item/organ/brain/primate/on_mob_insert(mob/living/carbon/primate)
 	. = ..()
-	RegisterSignal(primate, COMSIG_MOVABLE_CROSS, PROC_REF(on_crossed), TRUE)
+	RegisterSignal(primate, COMSIG_LIVING_MOB_BUMPED, PROC_REF(on_mob_bump))
 
-/obj/item/organ/internal/brain/primate/on_remove(mob/living/carbon/primate)
+/obj/item/organ/brain/primate/on_mob_remove(mob/living/carbon/primate)
 	. = ..()
-	UnregisterSignal(primate, COMSIG_MOVABLE_CROSS)
+	UnregisterSignal(primate, COMSIG_LIVING_MOB_BUMPED)
 
-/obj/item/organ/internal/brain/primate/proc/on_crossed(datum/source, atom/movable/crossed)
+/obj/item/organ/brain/primate/proc/on_mob_bump(mob/source, mob/living/crossing_mob)
 	SIGNAL_HANDLER
-	if(!tripping)
+	if(!tripping || !crossing_mob.combat_mode)
 		return
+<<<<<<< HEAD
 	if(IS_DEAD_OR_INCAP(owner) || !isliving(crossed))
 		return
 	var/mob/living/in_the_way_mob = crossed
@@ -241,9 +291,14 @@
 	if(in_the_way_mob.pass_flags & PASSTABLE)
 		return
 	in_the_way_mob.knockOver(owner)
+=======
+	crossing_mob.knockOver(owner)
+>>>>>>> tg-pr-88929
 
-/obj/item/organ/internal/brain/primate/get_attacking_limb(mob/living/carbon/human/target)
-	return owner.get_bodypart(BODY_ZONE_HEAD)
+/obj/item/organ/brain/primate/get_attacking_limb(mob/living/carbon/human/target)
+	if(!HAS_TRAIT(owner, TRAIT_ADVANCEDTOOLUSER))
+		return owner.get_bodypart(BODY_ZONE_HEAD)
+	return ..()
 
 #undef MONKEY_SPEC_ATTACK_BITE_MISS_CHANCE
 

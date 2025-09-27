@@ -17,7 +17,11 @@
 	melee_damage_upper = 15
 	attack_verb_continuous = "grips"
 	attack_verb_simple = "grip"
+<<<<<<< HEAD
 	attack_sound = 'sound/hallucinations/growl1.ogg'
+=======
+	attack_sound = 'sound/effects/hallucinations/growl1.ogg'
+>>>>>>> tg-pr-88929
 	melee_attack_cooldown = 1 SECONDS
 	speak_emote = list("growls")
 

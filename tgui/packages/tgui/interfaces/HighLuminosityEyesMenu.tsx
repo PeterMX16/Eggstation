@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 import { BooleanLike } from '../../common/react';
 import { useBackend } from '../backend';
+=======
+>>>>>>> tg-pr-88929
 import {
   Button,
   ColorBox,
@@ -7,7 +10,14 @@ import {
   LabeledList,
   NumberInput,
   Section,
+<<<<<<< HEAD
 } from '../components';
+=======
+} from 'tgui-core/components';
+import { BooleanLike } from 'tgui-core/react';
+
+import { useBackend } from '../backend';
+>>>>>>> tg-pr-88929
 import { Window } from '../layouts';
 
 type EyeColorData = {
@@ -83,7 +93,11 @@ const RangeDisplay = (props) => {
         value={range}
         minValue={0}
         maxValue={5}
+<<<<<<< HEAD
         onDrag={(e, value) =>
+=======
+        onDrag={(value) =>
+>>>>>>> tg-pr-88929
           act('set_range', {
             new_range: value,
           })
@@ -98,11 +112,19 @@ const EyeColorDisplay = (props) => {
   const { eyeColor } = data;
   return (
     <>
+<<<<<<< HEAD
       <LabeledList.Item label="Match Colors">
         <Button.Checkbox
           checked={eyeColor.mode}
           onClick={() => act('toggle_eye_color')}
           tooltip="Toggle the eye color mode."
+=======
+      <LabeledList.Item label="Match Color">
+        <Button.Checkbox
+          checked={eyeColor.mode}
+          onClick={() => act('toggle_eye_color')}
+          tooltip="Toggles whether eyecolor matches the color of the light."
+>>>>>>> tg-pr-88929
         />
       </LabeledList.Item>
       {!eyeColor.mode && (
@@ -119,7 +141,11 @@ const EyeColorDisplay = (props) => {
               onClick={() =>
                 act('random_color', { to_update: ToUpdate.LeftEye })
               }
+<<<<<<< HEAD
               tooltip="Randomizes the light color."
+=======
+              tooltip="Randomizes the eye color."
+>>>>>>> tg-pr-88929
             />
             <Input
               value={eyeColor.left}
@@ -147,7 +173,11 @@ const EyeColorDisplay = (props) => {
               onClick={() =>
                 act('random_color', { to_update: ToUpdate.RightEye })
               }
+<<<<<<< HEAD
               tooltip="Randomizes the light color."
+=======
+              tooltip="Randomizes the eye color."
+>>>>>>> tg-pr-88929
             />
             <Input
               value={eyeColor.right}

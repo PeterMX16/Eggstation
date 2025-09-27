@@ -1,12 +1,18 @@
 /obj/machinery/modular_shield_generator
+<<<<<<< HEAD
 	name = "Modular Shield Generator"
 	desc = "A forcefield generator, it seems more stationary than its cousins."
+=======
+	name = "modular shield generator"
+	desc = "A forcefield generator, it seems more stationary than its cousins. It can't handle G-force and will require frequent reboots when built on mobile craft."
+>>>>>>> tg-pr-88929
 	icon = 'icons/obj/machines/modular_shield_generator.dmi'
 	icon_state = "gen_recovering_closed"
 	density = TRUE
 	circuit = /obj/item/circuitboard/machine/modular_shield_generator
 	processing_flags = START_PROCESSING_ON_INIT
 
+<<<<<<< HEAD
 /*
 Monkestation edits:
 changed innate radius to 5
@@ -18,15 +24,25 @@ the modular shield components(not generator) are climbable
 */
 
 	///Doesnt actually control it, just tells us if its running or not, you can control by calling procs activate_shields and deactivate_shields
+=======
+	///Doesn't actually control it, just tells us if its running or not, you can control by calling procs activate_shields and deactivate_shields
+>>>>>>> tg-pr-88929
 	var/active = FALSE
 
 	///If the generator is currently spawning the forcefield in
 	var/initiating = FALSE
 
+<<<<<<< HEAD
 	///Determins if we can turn it on or not, no longer recovering when back to max strength
 	var/recovering = TRUE
 
 	///Determins max health of the shield
+=======
+	///Determines if we can turn it on or not, no longer recovering when back to max strength
+	var/recovering = TRUE
+
+	///Determines max health of the shield
+>>>>>>> tg-pr-88929
 	var/max_strength = 40
 
 	///Current health of shield
@@ -38,6 +54,7 @@ the modular shield components(not generator) are climbable
 	///The regeneration that the shield can support
 	var/current_regeneration
 
+<<<<<<< HEAD
 	///Determins the max radius the shield can support
 	var/max_radius = 5
 
@@ -45,6 +62,15 @@ the modular shield components(not generator) are climbable
 	var/radius = 5
 
 	///Determins if we only generate a shield on space turfs or not
+=======
+	///Determines the max radius the shield can support
+	var/max_radius = 3
+
+	///Current radius the shield is set to, minimum 3
+	var/radius = 3
+
+	///Determines if we only generate a shield on space turfs or not
+>>>>>>> tg-pr-88929
 	var/exterior_only = FALSE
 
 	///The lazy list of shields that are ours
@@ -69,7 +95,11 @@ the modular shield components(not generator) are climbable
 	var/innate_regen = 3
 
 	///Max radius gained from our own parts
+<<<<<<< HEAD
 	var/innate_radius = 5
+=======
+	var/innate_radius = 3
+>>>>>>> tg-pr-88929
 
 	///Max strength gained from our own parts
 	var/innate_strength = 40
@@ -94,10 +124,17 @@ the modular shield components(not generator) are climbable
 	innate_strength = initial(innate_strength)
 
 	for(var/datum/stock_part/capacitor/new_capacitor in component_parts)
+<<<<<<< HEAD
 		innate_strength += new_capacitor.tier * 12.5
 
 	for(var/datum/stock_part/manipulator/new_manipulator in component_parts)
 		innate_regen += new_manipulator.tier * 1.2
+=======
+		innate_strength += new_capacitor.tier * 10
+
+	for(var/datum/stock_part/servo/new_servo in component_parts)
+		innate_regen += new_servo.tier
+>>>>>>> tg-pr-88929
 
 	for(var/datum/stock_part/micro_laser/new_laser in component_parts)
 		innate_radius += new_laser.tier * 0.25
@@ -153,9 +190,15 @@ the modular shield components(not generator) are climbable
 	if(default_deconstruction_crowbar(tool))
 		return TRUE
 
+<<<<<<< HEAD
 /obj/machinery/modular_shield_generator/attackby(obj/item/attacking_item, mob/user, list/modifiers, list/attack_modifiers)
 
 	if(is_wire_tool(attacking_item) && panel_open)
+=======
+/obj/machinery/modular_shield_generator/attackby(obj/item/W, mob/user, params)
+
+	if(is_wire_tool(W) && panel_open)
+>>>>>>> tg-pr-88929
 		wires.interact(user)
 		return TRUE
 
@@ -172,6 +215,13 @@ the modular shield components(not generator) are climbable
 		return
 	activate_shields()
 
+<<<<<<< HEAD
+=======
+/obj/machinery/modular_shield_generator/onShuttleMove(turf/newT, turf/oldT, list/movement_force, move_dir, obj/docking_port/stationary/old_dock, obj/docking_port/mobile/moving_dock)
+	. = ..()
+	if(active)
+		deactivate_shields()
+>>>>>>> tg-pr-88929
 
 ///generates the forcefield based on the given radius and calls calculate_regen to update the regen value accordingly
 /obj/machinery/modular_shield_generator/proc/activate_shields()
@@ -187,7 +237,11 @@ the modular shield components(not generator) are climbable
 		LAZYADD(list_of_turfs, get_perimeter(src, radius))
 
 		if(exterior_only)
+<<<<<<< HEAD
 			for(var/turf/target_tile in list_of_turfs)
+=======
+			for(var/turf/open/target_tile in list_of_turfs)
+>>>>>>> tg-pr-88929
 				if(isfloorturf(target_tile))
 					continue
 				if(locate(/obj/structure/emergency_shield/modular) in target_tile)
@@ -200,7 +254,11 @@ the modular shield components(not generator) are climbable
 			calculate_regeneration()
 			return
 
+<<<<<<< HEAD
 		for(var/turf/target_tile in list_of_turfs)
+=======
+		for(var/turf/open/target_tile in list_of_turfs)
+>>>>>>> tg-pr-88929
 			if(locate(/obj/structure/emergency_shield/modular) in target_tile)
 				continue
 			var/obj/structure/emergency_shield/modular/deploying_shield = new(target_tile)
@@ -214,7 +272,11 @@ the modular shield components(not generator) are climbable
 	//this code only runs on radius less than 10 and gives us a more accurate circle that is more compatible with decimal values
 	LAZYADD(inside_shield, circle_range_turfs(src, radius - 1))//in the future we might want to apply an effect to the turfs inside the shield
 	if(exterior_only)
+<<<<<<< HEAD
 		for(var/turf/target_tile in circle_range_turfs(src, radius))
+=======
+		for(var/turf/open/target_tile in circle_range_turfs(src, radius))
+>>>>>>> tg-pr-88929
 			if(isfloorturf(target_tile))
 				continue
 			if(target_tile in inside_shield)
@@ -229,7 +291,11 @@ the modular shield components(not generator) are climbable
 		calculate_regeneration()
 		return
 
+<<<<<<< HEAD
 	for(var/turf/target_tile in circle_range_turfs(src, radius))
+=======
+	for(var/turf/open/target_tile in circle_range_turfs(src, radius))
+>>>>>>> tg-pr-88929
 		if(target_tile in inside_shield)
 			continue
 		if(locate(/obj/structure/emergency_shield/modular) in target_tile)
@@ -246,7 +312,11 @@ the modular shield components(not generator) are climbable
 /obj/machinery/modular_shield_generator/proc/finish_field()
 
 	for(var/obj/structure/emergency_shield/modular/current_shield in deployed_shields)
+<<<<<<< HEAD
 		current_shield.density = TRUE
+=======
+		current_shield.set_density(TRUE)
+>>>>>>> tg-pr-88929
 		current_shield.alpha = 255
 	initiating = FALSE
 
@@ -292,7 +362,11 @@ the modular shield components(not generator) are climbable
 				return
 			var/change_radius = max(1,(text2num(params["new_radius"])))
 			if(change_radius >= 10)
+<<<<<<< HEAD
 				radius = round(change_radius)//if its over 10 we dont allow decimals
+=======
+				radius = round(change_radius)//if its over 10 we don't allow decimals
+>>>>>>> tg-pr-88929
 				return
 			radius = change_radius
 
@@ -376,7 +450,11 @@ the modular shield components(not generator) are climbable
 			recovering = FALSE
 			calculate_regeneration()
 			update_icon_state()
+<<<<<<< HEAD
 		end_processing() //we dont care about continuing to update the alpha, we want to show history of damage to show its unstable
+=======
+		end_processing() //we don't care about continuing to update the alpha, we want to show history of damage to show its unstable
+>>>>>>> tg-pr-88929
 	if (active)
 		var/random_num = rand(1,deployed_shields.len)
 		var/obj/structure/emergency_shield/modular/random_shield = deployed_shields[random_num]
@@ -388,9 +466,15 @@ the modular shield components(not generator) are climbable
 ///The general code used for machines that want to connect to the network
 /obj/machinery/modular_shield/module
 
+<<<<<<< HEAD
 	name = "Modular Shield Debugger" //Filler name and sprite for testing
 	desc = "This is filler for testing you shouldn`t see this."
 	icon = 'icons/mecha/mech_bay.dmi'
+=======
+	name = "modular shield debugger" //Filler name and sprite for testing
+	desc = "This is filler for testing you shouldn't see this."
+	icon = 'icons/obj/machines/mech_bay.dmi'
+>>>>>>> tg-pr-88929
 	icon_state = "recharge_port"
 	density = TRUE
 
@@ -406,7 +490,10 @@ the modular shield components(not generator) are climbable
 /obj/machinery/modular_shield/module/Initialize(mapload)
 	. = ..()
 
+<<<<<<< HEAD
 	AddElement(/datum/element/climbable, climb_time = 1 SECONDS)
+=======
+>>>>>>> tg-pr-88929
 	connected_turf = get_step(loc, dir)
 
 /obj/machinery/modular_shield/module/Destroy()
@@ -449,6 +536,7 @@ the modular shield components(not generator) are climbable
 /obj/machinery/modular_shield/module/wrench_act(mob/living/user, obj/item/tool)
 	. = ..()
 
+<<<<<<< HEAD
 	if(default_change_direction_wrench(user, tool))
 		if(shield_generator)
 			LAZYREMOVE(shield_generator.connected_modules, (src))
@@ -460,6 +548,23 @@ the modular shield components(not generator) are climbable
 			connected_node = null
 		connected_turf = get_step(loc, dir)
 		return TRUE
+=======
+	if(!default_change_direction_wrench(user, tool))
+		return FALSE
+
+	if(shield_generator)
+		LAZYREMOVE(shield_generator.connected_modules, (src))
+		shield_generator.calculate_boost()
+		shield_generator = null
+		update_icon_state()
+
+	if(connected_node)
+		LAZYREMOVE(connected_node.connected_through_us, (src))
+		connected_node = null
+
+	connected_turf = get_step(loc, dir)
+	return TRUE
+>>>>>>> tg-pr-88929
 
 /obj/machinery/modular_shield/module/crowbar_act(mob/living/user, obj/item/tool)
 	. = ..()
@@ -509,7 +614,11 @@ the modular shield components(not generator) are climbable
 
 /obj/machinery/modular_shield/module/node
 
+<<<<<<< HEAD
 	name = "Modular Shield Node"
+=======
+	name = "modular shield node"
+>>>>>>> tg-pr-88929
 	desc = "A waist high mess of humming pipes and wires that extend the modular shield network."
 	icon = 'icons/obj/machines/modular_shield_generator.dmi'
 	icon_state = "node_off_closed"
@@ -525,6 +634,7 @@ the modular shield components(not generator) are climbable
 		return
 	icon_state = "node_on_[panel_open ? "open" : "closed"]"
 
+<<<<<<< HEAD
 /obj/machinery/modular_shield/module/node/setDir(new_dir)
 	. = ..()
 
@@ -535,6 +645,28 @@ the modular shield components(not generator) are climbable
 	shield_generator.calculate_boost()
 	shield_generator = null
 	update_icon_state()
+=======
+
+/obj/machinery/modular_shield/module/node/wrench_act(mob/living/user, obj/item/tool)
+
+	if(!default_change_direction_wrench(user, tool))
+		return FALSE
+
+	disconnect_connected_through_us()
+
+	if(shield_generator)
+		LAZYREMOVE(shield_generator.connected_modules, (src))
+		shield_generator.calculate_boost()
+		shield_generator = null
+		update_icon_state()
+
+	if(connected_node)
+		LAZYREMOVE(connected_node.connected_through_us, (src))
+		connected_node = null
+
+	connected_turf = get_step(loc, dir)
+	return TRUE
+>>>>>>> tg-pr-88929
 
 //after trying to connect to a machine infront of us, we will try to link anything connected to us to a generator
 /obj/machinery/modular_shield/module/node/try_connect(user)
@@ -580,7 +712,11 @@ the modular shield components(not generator) are climbable
 
 /obj/machinery/modular_shield/module/charger
 
+<<<<<<< HEAD
 	name = "Modular Shield Charger"
+=======
+	name = "modular shield charger"
+>>>>>>> tg-pr-88929
 	desc = "A machine that somehow fabricates hardlight using electrons."
 	icon = 'icons/obj/machines/modular_shield_generator.dmi'
 	icon_state = "charger_off_closed"
@@ -600,15 +736,24 @@ the modular shield components(not generator) are climbable
 /obj/machinery/modular_shield/module/charger/RefreshParts()
 	. = ..()
 	charge_boost = initial(charge_boost)
+<<<<<<< HEAD
 	for(var/datum/stock_part/manipulator/new_manipulator in component_parts)
 		charge_boost += new_manipulator.tier * 1.2
+=======
+	for(var/datum/stock_part/servo/new_servo in component_parts)
+		charge_boost += new_servo.tier
+>>>>>>> tg-pr-88929
 
 	if(shield_generator)
 		shield_generator.calculate_boost()
 
 /obj/machinery/modular_shield/module/relay
 
+<<<<<<< HEAD
 	name = "Modular Shield Relay"
+=======
+	name = "modular shield relay"
+>>>>>>> tg-pr-88929
 	desc = "It helps the shield generator project farther out."
 	icon = 'icons/obj/machines/modular_shield_generator.dmi'
 	icon_state = "relay_off_closed"
@@ -636,7 +781,11 @@ the modular shield components(not generator) are climbable
 
 /obj/machinery/modular_shield/module/well
 
+<<<<<<< HEAD
 	name = "Modular Shield Well"
+=======
+	name = "modular shield well"
+>>>>>>> tg-pr-88929
 	desc = "A device used to hold more hardlight for the modular shield generator."
 	icon = 'icons/obj/machines/modular_shield_generator.dmi'
 	icon_state = "well_off_closed"
@@ -650,7 +799,11 @@ the modular shield components(not generator) are climbable
 	. = ..()
 	strength_boost = initial(strength_boost)
 	for(var/datum/stock_part/capacitor/new_capacitor in component_parts)
+<<<<<<< HEAD
 		strength_boost += new_capacitor.tier * 12.5
+=======
+		strength_boost += new_capacitor.tier * 10
+>>>>>>> tg-pr-88929
 
 	if(shield_generator)
 		shield_generator.calculate_boost()
@@ -665,6 +818,7 @@ the modular shield components(not generator) are climbable
 
 //The shield itself
 /obj/structure/emergency_shield/modular
+<<<<<<< HEAD
 	name = "Modular energy shield"
 	desc = "An energy shield with varying configurations, the damage it takes puts a strain on its generator."
 	color = "#00ffff"
@@ -672,10 +826,20 @@ the modular shield components(not generator) are climbable
 	alpha = 100
 	explosion_block = INFINITY
 	resistance_flags = INDESTRUCTIBLE //the shield itself is indestructible or atleast should be
+=======
+	name = "modular energy shield"
+	desc = "An energy shield with varying configurations."
+	color = "#00ffff"
+	density = FALSE
+	alpha = 100
+	resistance_flags = INDESTRUCTIBLE //the shield itself is indestructible or at least should be
+	no_damage_feedback = "weakening the generator sustaining it"
+>>>>>>> tg-pr-88929
 
 	///The shield generator sustaining us
 	var/obj/machinery/modular_shield_generator/shield_generator
 
+<<<<<<< HEAD
 /obj/structure/emergency_shield/modular/Initialize(mapload)
 	AddElement(/datum/element/blocks_explosives)
 	. = ..()
@@ -691,6 +855,13 @@ the modular shield components(not generator) are climbable
 	. = ..()
 	visible_message(span_danger("The impact ripples across the field making it more unstable!"), null, null, COMBAT_MESSAGE_RANGE)
 
+=======
+
+/obj/structure/emergency_shield/modular/Initialize(mapload)
+	. = ..()
+	AddElement(/datum/element/atmos_sensitive, mapload)
+
+>>>>>>> tg-pr-88929
 /obj/structure/emergency_shield/modular/should_atmos_process(datum/gas_mixture/air, exposed_temperature)
 	return exposed_temperature > (T0C + 400) //starts taking damage from high temps at the same temperature that nonreinforced glass does
 
@@ -715,11 +886,16 @@ the modular shield components(not generator) are climbable
 
 //Damage from emp
 /obj/structure/emergency_shield/modular/emp_act(severity)
+<<<<<<< HEAD
+=======
+	. = ..()
+>>>>>>> tg-pr-88929
 	if(isnull(shield_generator))
 		qdel(src)
 		return
 
 	shield_generator.shield_drain(15 / severity) //Light is 2 heavy is 1, note emp is usually a large aoe, tweak the number if not enough damage
+<<<<<<< HEAD
 
 /obj/structure/emergency_shield/modular/ex_act(severity)
 	if(isnull(shield_generator))
@@ -738,3 +914,5 @@ the modular shield components(not generator) are climbable
 
 		if(EXPLODE_DEVASTATE)
 			shield_generator.shield_drain(100)
+=======
+>>>>>>> tg-pr-88929

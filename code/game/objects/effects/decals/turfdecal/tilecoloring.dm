@@ -140,7 +140,11 @@ TILE_DECAL_SUBTYPE_HELPER(/obj/effect/turf_decal/tile/dark)
 /// Date-specific tiles
 /obj/effect/turf_decal/tile/holiday
 	name = "ERROR tile decal"
+<<<<<<< HEAD
 	color = "#FF0000"
+=======
+	color = COLOR_RED
+>>>>>>> tg-pr-88929
 
 /obj/effect/turf_decal/tile/holiday/Initialize(mapload)
 	color = request_holiday_colors(src, pattern)
@@ -241,6 +245,9 @@ TILE_DECAL_SUBTYPE_HELPER(/obj/effect/turf_decal/tile/holiday/random)
 ##path/filled/warning {\
 	icon_state = "trimline_warn_fill";\
 }\
+##path/filled/warning/corner {\
+	icon_state = "trimline_corner_warn_fill";\
+}\
 ##path/filled/mid_joiner {\
 	icon_state = "trimline_mid_fill";\
 }\
@@ -254,7 +261,7 @@ TILE_DECAL_SUBTYPE_HELPER(/obj/effect/turf_decal/tile/holiday/random)
 
 /// White trimlines
 /obj/effect/turf_decal/trimline/white
-	color = "#FFFFFF"
+	color = COLOR_WHITE
 
 TRIMLINE_SUBTYPE_HELPER(/obj/effect/turf_decal/trimline/white)
 

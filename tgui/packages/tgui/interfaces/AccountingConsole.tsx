@@ -1,16 +1,27 @@
+<<<<<<< HEAD
 import {
   BlockQuote,
   Collapsible,
   LabeledList,
+=======
+import { useState } from 'react';
+import {
+  BlockQuote,
+  Collapsible,
+>>>>>>> tg-pr-88929
   Modal,
   Section,
   Stack,
   Tabs,
+<<<<<<< HEAD
 } from '../components';
+=======
+} from 'tgui-core/components';
+import { BooleanLike } from 'tgui-core/react';
+
+>>>>>>> tg-pr-88929
 import { useBackend } from '../backend';
-import { useLocalState } from '../backend';
 import { Window } from '../layouts';
-import { BooleanLike } from 'common/react';
 
 type Data = {
   PlayerAccounts: PlayerAccount[];
@@ -39,7 +50,11 @@ enum SCREENS {
 }
 
 export const AccountingConsole = (props) => {
+<<<<<<< HEAD
   const [screenmode, setScreenmode] = useLocalState('tab_main', SCREENS.users);
+=======
+  const [screenmode, setScreenmode] = useState(SCREENS.users);
+>>>>>>> tg-pr-88929
 
   return (
     <Window width={300} height={360}>
@@ -79,18 +94,20 @@ const UsersScreen = (props) => {
   return (
     <Section fill scrollable title="Crew Account Summary">
       {PlayerAccounts.map((account) => (
-        <Collapsible fill key={account.index} title={account.name}>
-          <LabeledList>
-            <LabeledList.Item label="Occupation">
-              {account.job}
-            </LabeledList.Item>
-            <LabeledList.Item label="Balance">
-              {account.balance}
-            </LabeledList.Item>
-            <LabeledList.Item label="Pay Modifier">
-              {account.modifier * 100}%
-            </LabeledList.Item>
-          </LabeledList>
+        <Collapsible
+          key={account.index}
+          title={account.name + ' the ' + account.job}
+        >
+          <Stack vertical>
+            <BlockQuote>
+              <Stack.Item textColor={'green'}>
+                {account.balance} credit balance
+              </Stack.Item>
+              <Stack.Item>
+                Employee has {account.modifier * 100}% pay modifier
+              </Stack.Item>
+            </BlockQuote>
+          </Stack>
         </Collapsible>
       ))}
     </Section>

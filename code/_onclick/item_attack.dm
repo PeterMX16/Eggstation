@@ -1,6 +1,7 @@
 /**
  * THIS IS THE ROOT OF ALL EVIL (I mean the root of all item-on-atom interactions)
  *
+<<<<<<< HEAD
  * Implementation details
  *
  * [obj/item/proc/base_item_interaction] handles all non-combat interactions of an item with an atom.
@@ -27,6 +28,21 @@
 	if(source_atom != src) //if we are someone else then call that attack chain else we can proceed with the usual stuff
 		return source_atom.melee_attack_chain(user, target, modifiers, attack_modifiers)
 
+=======
+ * The order of procs called is:
+ * * [/atom/proc/tool_act] on the target. If it returns ITEM_INTERACT_SUCCESS or ITEM_INTERACT_BLOCKING, the chain will be stopped.
+ * * [/obj/item/proc/pre_attack] on src. If this returns TRUE, the chain will be stopped.
+ * * [/atom/proc/attackby] on the target. If it returns TRUE, the chain will be stopped.
+ * * [/obj/item/proc/afterattack]. The return value does not matter.
+ */
+/obj/item/proc/melee_attack_chain(mob/user, atom/target, params)
+	//Proxy replaces src cause it returns an atom that will attack the target on our behalf
+	var/obj/item/source_atom = get_proxy_attacker_for(target, user)
+	if(source_atom != src) //if we are someone else then call that attack chain else we can proceed with the usual stuff
+		return source_atom.melee_attack_chain(user, target, params)
+
+	var/list/modifiers = params2list(params)
+>>>>>>> tg-pr-88929
 	var/is_right_clicking = LAZYACCESS(modifiers, RIGHT_CLICK)
 
 	var/item_interact_result = target.base_item_interaction(user, src, modifiers)
@@ -79,7 +95,11 @@
 
 	if(user.client && isitem(target))
 		if(isnull(user.get_inactive_held_item()))
+<<<<<<< HEAD
 			SStutorials.suggest_tutorial(user, /datum/tutorial/switch_hands, modifiers)
+=======
+			SStutorials.suggest_tutorial(user, /datum/tutorial/switch_hands, params2list(params))
+>>>>>>> tg-pr-88929
 		else
 			SStutorials.suggest_tutorial(user, /datum/tutorial/drop, modifiers)
 
@@ -145,8 +165,13 @@
  *
  * See: [/obj/item/proc/melee_attack_chain]
  */
+<<<<<<< HEAD
 /atom/proc/attackby(obj/item/attacking_item, mob/user, list/modifiers, list/attack_modifiers)
 	if(SEND_SIGNAL(src, COMSIG_ATOM_ATTACKBY, attacking_item, user, modifiers, attack_modifiers) & COMPONENT_NO_AFTERATTACK)
+=======
+/atom/proc/attackby(obj/item/attacking_item, mob/user, params)
+	if(SEND_SIGNAL(src, COMSIG_ATOM_ATTACKBY, attacking_item, user, params) & COMPONENT_NO_AFTERATTACK)
+>>>>>>> tg-pr-88929
 		return TRUE
 	return FALSE
 
@@ -161,8 +186,13 @@
  *
  * See: [/obj/item/proc/melee_attack_chain]
  */
+<<<<<<< HEAD
 /atom/proc/attackby_secondary(obj/item/weapon, mob/user, list/modifiers, list/attack_modifiers)
 	var/signal_result = SEND_SIGNAL(src, COMSIG_ATOM_ATTACKBY_SECONDARY, weapon, user, modifiers, attack_modifiers)
+=======
+/atom/proc/attackby_secondary(obj/item/weapon, mob/user, params)
+	var/signal_result = SEND_SIGNAL(src, COMSIG_ATOM_ATTACKBY_SECONDARY, weapon, user, params)
+>>>>>>> tg-pr-88929
 
 	if(signal_result & COMPONENT_SECONDARY_CANCEL_ATTACK_CHAIN)
 		return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
@@ -172,12 +202,31 @@
 
 	return SECONDARY_ATTACK_CALL_NORMAL
 
+<<<<<<< HEAD
 /obj/attackby(obj/item/attacking_item, mob/user, list/modifiers, list/attack_modifiers)
+=======
+/obj/attackby(obj/item/attacking_item, mob/user, params)
+>>>>>>> tg-pr-88929
 	if(..())
 		return TRUE
 	if(!(obj_flags & CAN_BE_HIT))
 		return FALSE
+<<<<<<< HEAD
 	return attacking_item.attack_atom(src, user, modifiers, attack_modifiers)
+=======
+	return attacking_item.attack_atom(src, user, params)
+
+/mob/living/item_interaction(mob/living/user, obj/item/tool, list/modifiers)
+	for(var/datum/surgery/operation as anything in surgeries)
+		if(IS_IN_INVALID_SURGICAL_POSITION(src, operation))
+			continue
+		if(!(operation.surgery_flags & SURGERY_SELF_OPERABLE) && (user == src))
+			continue
+		if(operation.next_step(user, modifiers))
+			return ITEM_INTERACT_SUCCESS
+
+	return NONE
+>>>>>>> tg-pr-88929
 
 /mob/living/item_interaction(mob/living/user, obj/item/tool, list/modifiers)
 	for(var/datum/surgery/operation as anything in surgeries)
@@ -217,12 +266,21 @@
  * * modifiers - click modifiers such as alt/shift or x/y
  * * attack_modifiers - attack modifiers such as force, damage type, etc
  */
+<<<<<<< HEAD
 /obj/item/proc/attack(mob/living/target_mob, mob/living/user, list/modifiers, list/attack_modifiers)
 	var/signal_return = SEND_SIGNAL(src, COMSIG_ITEM_ATTACK, target_mob, user, modifiers, attack_modifiers) || SEND_SIGNAL(user, COMSIG_MOB_ITEM_ATTACK, target_mob, user, modifiers, attack_modifiers)
 	if(signal_return & COMPONENT_CANCEL_ATTACK_CHAIN)
 		return TRUE
 	if(signal_return & COMPONENT_SKIP_ATTACK)
 		return
+=======
+/obj/item/proc/attack(mob/living/target_mob, mob/living/user, params)
+	var/signal_return = SEND_SIGNAL(src, COMSIG_ITEM_ATTACK, target_mob, user, params) || SEND_SIGNAL(user, COMSIG_MOB_ITEM_ATTACK, target_mob, user, params)
+	if(signal_return & COMPONENT_CANCEL_ATTACK_CHAIN)
+		return TRUE
+	if(signal_return & COMPONENT_SKIP_ATTACK)
+		return FALSE
+>>>>>>> tg-pr-88929
 
 	if(item_flags & NOBLUDGEON)
 		return FALSE
@@ -232,11 +290,18 @@
 		to_chat(user, span_warning("You don't want to harm other living beings!"))
 		return FALSE
 
+<<<<<<< HEAD
 	if(!LAZYACCESS(attack_modifiers, SILENCE_HITSOUND))
 		if(!final_force && !HAS_TRAIT(src, TRAIT_CUSTOM_TAP_SOUND))
 			playsound(src, 'sound/items/weapons/tap.ogg', get_clamped_volume(), TRUE, -1)
 		else if(hitsound)
 			playsound(src, hitsound, get_clamped_volume(), TRUE, extrarange = stealthy_audio ? SILENCED_SOUND_EXTRARANGE : -1, falloff_distance = 0)
+=======
+	if(!force && !HAS_TRAIT(src, TRAIT_CUSTOM_TAP_SOUND))
+		playsound(src, 'sound/items/weapons/tap.ogg', get_clamped_volume(), TRUE, -1)
+	else if(hitsound)
+		playsound(src, hitsound, get_clamped_volume(), TRUE, extrarange = stealthy_audio ? SILENCED_SOUND_EXTRARANGE : -1, falloff_distance = 0)
+>>>>>>> tg-pr-88929
 
 	target_mob.lastattacker = user.real_name
 	target_mob.lastattackerckey = user.ckey
@@ -246,8 +311,17 @@
 
 	if(get(src, /mob/living) == user) // telekinesis.
 		user.do_attack_animation(target_mob)
+<<<<<<< HEAD
 	if(target_mob.attacked_by(src, user, modifiers, attack_modifiers) == ATTACK_FAILED)
 		return TRUE
+=======
+	if(!target_mob.attacked_by(src, user))
+		return TRUE
+
+	SEND_SIGNAL(src, COMSIG_ITEM_AFTERATTACK, target_mob, user, params)
+	SEND_SIGNAL(target_mob, COMSIG_ATOM_AFTER_ATTACKEDBY, src, user, params)
+	afterattack(target_mob, user, params)
+>>>>>>> tg-pr-88929
 
 	SEND_SIGNAL(src, COMSIG_ITEM_AFTERATTACK, target_mob, user, attack_modifiers)
 	SEND_SIGNAL(target_mob, COMSIG_ATOM_AFTER_ATTACKEDBY, src, user, attack_modifiers)
@@ -270,8 +344,13 @@
 	return SECONDARY_ATTACK_CALL_NORMAL
 
 /// The equivalent of the standard version of [/obj/item/proc/attack] but for non mob targets.
+<<<<<<< HEAD
 /obj/item/proc/attack_atom(atom/attacked_atom, mob/living/user, list/modifiers, list/attack_modifiers)
 	var/signal_return = SEND_SIGNAL(src, COMSIG_ITEM_ATTACK_ATOM, attacked_atom, user)
+=======
+/obj/item/proc/attack_atom(atom/attacked_atom, mob/living/user, params)
+	var/signal_return = SEND_SIGNAL(src, COMSIG_ITEM_ATTACK_ATOM, attacked_atom, user) | SEND_SIGNAL(user, COMSIG_LIVING_ATTACK_ATOM, attacked_atom)
+>>>>>>> tg-pr-88929
 	if(signal_return & COMPONENT_SKIP_ATTACK)
 		return TRUE
 	if(signal_return & COMPONENT_CANCEL_ATTACK_CHAIN)
@@ -281,24 +360,39 @@
 	user.changeNext_move(attack_speed)
 	if(get(src, /mob/living) == user) // telekinesis.
 		user.do_attack_animation(attacked_atom)
+<<<<<<< HEAD
 	if(attacked_atom.attacked_by(src, user, modifiers, attack_modifiers) == ATTACK_FAILED)
 		return TRUE
 	SEND_SIGNAL(src, COMSIG_ITEM_AFTERATTACK, attacked_atom, user, modifiers, attack_modifiers)
 	SEND_SIGNAL(attacked_atom, COMSIG_ATOM_AFTER_ATTACKEDBY, src, user, modifiers, attack_modifiers)
 	afterattack(attacked_atom, user, modifiers, attack_modifiers)
+=======
+	attacked_atom.attacked_by(src, user)
+	SEND_SIGNAL(src, COMSIG_ITEM_AFTERATTACK, attacked_atom, user, params)
+	SEND_SIGNAL(attacked_atom, COMSIG_ATOM_AFTER_ATTACKEDBY, src, user, params)
+	afterattack(attacked_atom, user, params)
+>>>>>>> tg-pr-88929
 	return FALSE // unhandled
 
 /// Called from [/obj/item/proc/attack_atom] and [/obj/item/proc/attack] if the attack succeeds
 /atom/proc/attacked_by(obj/item/attacking_item, mob/living/user, list/modifiers, list/attack_modifiers)
 	if(!uses_integrity)
+<<<<<<< HEAD
 		stack_trace("attacked_by() was called on an object that doesn't use integrity!")
 		return ATTACK_FAILED
+=======
+		CRASH("attacked_by() was called on an object that doesn't use integrity!")
+>>>>>>> tg-pr-88929
 
 	var/final_force = CALCULATE_FORCE(attacking_item, attack_modifiers)
 	if(final_force <= 0)
 		return 0
 
+<<<<<<< HEAD
 	var/damage = take_damage(final_force, attacking_item.damtype, MELEE, 1, get_dir(src, user))
+=======
+	var/damage = take_damage(attacking_item.force, attacking_item.damtype, MELEE, 1, get_dir(src, user))
+>>>>>>> tg-pr-88929
 	//only witnesses close by and the victim see a hit message.
 	user.visible_message(span_danger("[user] hits [src] with [attacking_item][damage ? "." : ", without leaving a mark!"]"), \
 		span_danger("You hit [src] with [attacking_item][damage ? "." : ", without leaving a mark!"]"), null, COMBAT_MESSAGE_RANGE)
@@ -309,38 +403,157 @@
 	stack_trace("areas are NOT supposed to have attacked_by() called on them!")
 	return ATTACK_FAILED
 
+<<<<<<< HEAD
 /mob/living/attacked_by(obj/item/attacking_item, mob/living/user, list/modifiers, list/attack_modifiers)
 	send_item_attack_message(attacking_item, user)
 	if(!attacking_item.force)
 		return FALSE
 	var/damage = attacking_item.force * user.outgoing_damage_mod
+=======
+/mob/living/attacked_by(obj/item/attacking_item, mob/living/user)
+
+	var/targeting = check_zone(user.zone_selected)
+	if(user != src)
+		var/zone_hit_chance = 80
+		if(body_position == LYING_DOWN)
+			zone_hit_chance += 10
+		targeting = get_random_valid_zone(targeting, zone_hit_chance)
+	var/targeting_human_readable = parse_zone_with_bodypart(targeting)
+
+	send_item_attack_message(attacking_item, user, targeting_human_readable, targeting)
+
+	var/armor_block = min(run_armor_check(
+			def_zone = targeting,
+			attack_flag = MELEE,
+			absorb_text = span_notice("Your armor has protected your [targeting_human_readable]!"),
+			soften_text = span_warning("Your armor has softened a hit to your [targeting_human_readable]!"),
+			armour_penetration = attacking_item.armour_penetration,
+			weak_against_armour = attacking_item.weak_against_armour,
+		), ARMOR_MAX_BLOCK)
+
+	var/damage = attacking_item.force
+>>>>>>> tg-pr-88929
 	if(mob_biotypes & MOB_ROBOTIC)
 		damage *= attacking_item.demolition_mod
-	apply_damage(damage, attacking_item.damtype)
-	if(attacking_item.damtype == BRUTE && prob(33))
+
+	var/wounding = attacking_item.wound_bonus
+	if((attacking_item.item_flags & SURGICAL_TOOL) && !user.combat_mode && body_position == LYING_DOWN && (LAZYLEN(surgeries) > 0))
+		wounding = CANT_WOUND
+
+	if(user != src)
+		// This doesn't factor in armor, or most damage modifiers (physiology). Your mileage may vary
+		if(check_block(attacking_item, damage, "the [attacking_item.name]", MELEE_ATTACK, attacking_item.armour_penetration, attacking_item.damtype))
+			return FALSE
+
+	SEND_SIGNAL(attacking_item, COMSIG_ITEM_ATTACK_ZONE, src, user, targeting)
+
+	if(damage <= 0)
+		return TRUE
+
+	if(ishuman(src) || client) // istype(src) is kinda bad, but it's to avoid spamming the blackbox
+		SSblackbox.record_feedback("nested tally", "item_used_for_combat", 1, list("[attacking_item.force]", "[attacking_item.type]"))
+		SSblackbox.record_feedback("tally", "zone_targeted", 1, targeting_human_readable)
+
+	var/damage_done = apply_damage(
+		damage = damage,
+		damagetype = attacking_item.damtype,
+		def_zone = targeting,
+		blocked = armor_block,
+		wound_bonus = wounding,
+		bare_wound_bonus = attacking_item.bare_wound_bonus,
+		sharpness = attacking_item.get_sharpness(),
+		attack_direction = get_dir(user, src),
+		attacking_item = attacking_item,
+	)
+
+	attack_effects(damage_done, targeting, armor_block, attacking_item, user)
+
+	return TRUE
+
+/**
+ * Called when we take damage, used to cause effects such as a blood splatter.
+ *
+ * Return TRUE if an effect was done, FALSE otherwise.
+ */
+/mob/living/proc/attack_effects(damage_done, hit_zone, armor_block, obj/item/attacking_item, mob/living/attacker)
+	if(damage_done > 0 && attacking_item.damtype == BRUTE && prob(25 + damage_done * 2))
 		attacking_item.add_mob_blood(src)
-		var/turf/location = get_turf(src)
-		add_splatter_floor(location)
-		if(get_dist(user, src) <= 1) //people with TK won't get smeared with blood
-			user.add_mob_blood(src)
-	return TRUE //successful attack
+		add_splatter_floor(get_turf(src))
+		if(get_dist(attacker, src) <= 1)
+			attacker.add_mob_blood(src)
+		return TRUE
 
-/mob/living/simple_animal/attacked_by(obj/item/I, mob/living/user)
-	if(!attack_threshold_check(I.force, I.damtype, MELEE, FALSE))
-		playsound(loc, 'sound/weapons/tap.ogg', I.get_clamped_volume(), TRUE, -1)
-	else
-		return ..()
+	return FALSE
 
-/mob/living/basic/attacked_by(obj/item/I, mob/living/user)
-	if(!attack_threshold_check(I.force, I.damtype, MELEE, FALSE))
-		playsound(loc, 'sound/weapons/tap.ogg', I.get_clamped_volume(), TRUE, -1)
-	else
-		return ..()
+/mob/living/carbon/attack_effects(damage_done, hit_zone, armor_block, obj/item/attacking_item, mob/living/attacker)
+	var/obj/item/bodypart/hit_bodypart = get_bodypart(hit_zone) || bodyparts[1]
+	if(!hit_bodypart.can_bleed())
+		return FALSE
+
+	return ..()
+
+/mob/living/carbon/human/attack_effects(damage_done, hit_zone, armor_block, obj/item/attacking_item, mob/living/attacker)
+	. = ..()
+	switch(hit_zone)
+		if(BODY_ZONE_HEAD)
+			if(.)
+				if(wear_mask)
+					wear_mask.add_mob_blood(src)
+					update_worn_mask()
+				if(head)
+					head.add_mob_blood(src)
+					update_worn_head()
+				if(glasses && prob(33))
+					glasses.add_mob_blood(src)
+					update_worn_glasses()
+
+			if(!attacking_item.get_sharpness() && !HAS_TRAIT(src, TRAIT_HEAD_INJURY_BLOCKED) && attacking_item.damtype == BRUTE)
+				if(prob(damage_done))
+					adjustOrganLoss(ORGAN_SLOT_BRAIN, 20)
+					if(stat == CONSCIOUS)
+						visible_message(
+							span_danger("[src] is knocked senseless!"),
+							span_userdanger("You're knocked senseless!"),
+						)
+						set_confusion_if_lower(20 SECONDS)
+						adjust_eye_blur(20 SECONDS)
+					if(prob(10))
+						gain_trauma(/datum/brain_trauma/mild/concussion)
+				else
+					adjustOrganLoss(ORGAN_SLOT_BRAIN, damage_done * 0.2)
+
+				// rev deconversion through blunt trauma.
+				// this can be signalized to the rev datum
+				if(mind && stat == CONSCIOUS && src != attacker && prob(damage_done + ((100 - health) * 0.5)))
+					var/datum/antagonist/rev/rev = mind.has_antag_datum(/datum/antagonist/rev)
+					rev?.remove_revolutionary(attacker)
+
+		if(BODY_ZONE_CHEST)
+			if(.)
+				if(wear_suit)
+					wear_suit.add_mob_blood(src)
+					update_worn_oversuit()
+				if(w_uniform)
+					w_uniform.add_mob_blood(src)
+					update_worn_undersuit()
+
+			if(stat == CONSCIOUS && !attacking_item.get_sharpness() && !HAS_TRAIT(src, TRAIT_BRAWLING_KNOCKDOWN_BLOCKED) && attacking_item.damtype == BRUTE)
+				if(prob(damage_done))
+					visible_message(
+						span_danger("[src] is knocked down!"),
+						span_userdanger("You're knocked down!"),
+					)
+					apply_effect(6 SECONDS, EFFECT_KNOCKDOWN, armor_block)
+
+	// Triggers force say events
+	if(damage_done > 10 || (damage_done >= 5 && prob(33)))
+		force_say()
 
 /**
  * Called on an object being hit by an item
  *
  * Arguments:
+<<<<<<< HEAD
  * * obj/item/attacking_item - The item hitting this atom
  * * mob/user - The wielder of this item
  * * list/modifiers - click params such as alt/shift etc
@@ -349,6 +562,14 @@
  * See: [/obj/item/proc/melee_attack_chain]
  */
 /obj/item/proc/afterattack(atom/target, mob/user, list/modifiers, list/attack_modifiers)
+=======
+ * * atom/target - The thing that was hit
+ * * mob/user - The mob doing the hitting
+ * * proximity_flag - is 1 if this afterattack was called on something adjacent, in your square, or on your person.
+ * * click_parameters - is the params string from byond [/atom/proc/Click] code, see that documentation.
+ */
+/obj/item/proc/afterattack(atom/target, mob/user, click_parameters)
+>>>>>>> tg-pr-88929
 	PROTECTED_PROC(TRUE)
 	return
 

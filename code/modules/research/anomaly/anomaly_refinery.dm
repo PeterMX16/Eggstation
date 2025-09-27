@@ -60,10 +60,12 @@
  * * anomaly_type - anomaly type define
  */
 /obj/machinery/research/anomaly_refinery/proc/get_required_radius(anomaly_type)
+	if(!SSresearch.is_core_available(anomaly_type))
+		return //return null
+
 	var/already_made = SSresearch.created_anomaly_types[anomaly_type]
 	var/hard_limit = SSresearch.anomaly_hard_limit_by_type[anomaly_type]
-	if(already_made >= hard_limit)
-		return //return null
+
 	// my crappy autoscale formula
 	// linear scaling.
 	var/radius_span = MAX_RADIUS_REQUIRED - MIN_RADIUS_REQUIRED
@@ -85,6 +87,7 @@
 		var/obj/item/raw_anomaly_core/raw_core = tool
 		if(!get_required_radius(raw_core.anomaly_type))
 			say("Unfortunately, due to diminishing supplies of condensed anomalous matter, [raw_core] and any cores of its type are no longer of a sufficient quality level to be compressed into a working core.")
+			return
 		inserted_core = raw_core
 		to_chat(user, span_notice("You insert [raw_core] into [src]."))
 		return
@@ -129,7 +132,7 @@
 		return
 
 	obj_flags |= EMAGGED
-	playsound(src, 'sound/machines/buzz-sigh.ogg', 50, vary = FALSE)
+	playsound(src, 'sound/machines/buzz/buzz-sigh.ogg', 50, vary = FALSE)
 	say("ERROR: Unauthorized firmware access.")
 	return TRUE
 
@@ -294,7 +297,7 @@
 		return FALSE
 	tank_to_target = (tank_to_target == inserted_bomb.tank_one) ? inserted_bomb.tank_two : inserted_bomb.tank_one
 
-/obj/machinery/research/anomaly_refinery/on_deconstruction()
+/obj/machinery/research/anomaly_refinery/on_deconstruction(disassembled)
 	eject_bomb()
 	eject_core()
 	return ..()

@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 ADMIN_VERB(dsay, R_NONE, FALSE, "DSay", "Speak to the dead.", ADMIN_CATEGORY_GAME, message as text)
+=======
+
+ADMIN_VERB(dsay, R_NONE, "DSay", "Speak to the dead.", ADMIN_CATEGORY_GAME, message as text)
+>>>>>>> tg-pr-88929
 	if(user.prefs.muted & MUTE_DEADCHAT)
 		to_chat(user, span_danger("You cannot send DSAY messages (muted)."), confidential = TRUE)
 		return
@@ -24,7 +29,6 @@ ADMIN_VERB(dsay, R_NONE, FALSE, "DSay", "Speak to the dead.", ADMIN_CATEGORY_GAM
 
 /client/proc/get_dead_say()
 	var/msg = input(src, null, "dsay \"text\"") as text|null
-
 	if (isnull(msg))
 		return
 	SSadmin_verbs.dynamic_invoke_verb(src, /datum/admin_verb/dsay, msg)

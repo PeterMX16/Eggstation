@@ -3,7 +3,7 @@
  */
 /obj/item/implant
 	name = "implant"
-	icon = 'icons/obj/implants.dmi'
+	icon = 'icons/hud/implants.dmi'
 	icon_state = "generic" //Shows up as the action button icon
 	item_flags = ABSTRACT | DROPDEL
 	resistance_flags = INDESTRUCTIBLE
@@ -19,8 +19,16 @@
 	var/allow_multiple = FALSE
 	///how many times this can do something, only relevant for implants with limited uses
 	var/uses = -1
+<<<<<<< HEAD
 	//if true, this implant broadcasts a warning when it is removed surgically
 	var/has_surgical_warning = FALSE
+=======
+	///our implant flags
+	var/implant_flags = NONE
+	///what icon state will we represent ourselves with on the hud?
+	var/hud_icon_state = null
+
+>>>>>>> tg-pr-88929
 
 /obj/item/implant/proc/activate()
 	SEND_SIGNAL(src, COMSIG_IMPLANT_ACTIVATED)
@@ -61,12 +69,17 @@
 	if(!force && !can_be_implanted_in(target))
 		return FALSE
 
-	for(var/X in target.implants)
-		var/obj/item/implant/other_implant = X
+	var/security_implants = 0 //Used to track how many implants with the "security" flag are in the user.
+	for(var/obj/item/implant/other_implant as anything in target.implants)
 		var/flags = SEND_SIGNAL(other_implant, COMSIG_IMPLANT_OTHER, args, src)
 		if(flags & COMPONENT_STOP_IMPLANTING)
 			UNSETEMPTY(target.implants)
 			return FALSE
+		if(!force && (other_implant.implant_flags & IMPLANT_TYPE_SECURITY))
+			security_implants++
+			if(security_implants >= SECURITY_IMPLANT_CAP) //We've found too many security implants in this mob, and will reject implantation by normal means
+				balloon_alert(user, "too many security implants!")
+				return FALSE
 		if(flags & COMPONENT_DELETE_NEW_IMPLANT)
 			UNSETEMPTY(target.implants)
 			qdel(src)
@@ -111,7 +124,7 @@
  * Arguments:
  * * mob/living/source - What the implant is being removed from
  * * silent - unused here
- * * special - unused here
+ * * special - Set to true if removed by admin panel, should bypass any side effects
  */
 /obj/item/implant/proc/removed(mob/living/source, silent = FALSE, special = 0)
 	moveToNullspace()
@@ -132,6 +145,7 @@
 		removed(imp_in)
 	return ..()
 
+<<<<<<< HEAD
 //Called when the implant begins to be removed surgicallly
 /obj/item/implant/proc/on_surgical_removal_attempt()
 	return
@@ -140,6 +154,8 @@
 /obj/item/implant/proc/on_surgical_removal_complete()
 	return
 
+=======
+>>>>>>> tg-pr-88929
 /**
  * Gets implant specifications for the implant pad
  */
@@ -214,4 +230,7 @@
 		do_sparks(number = 2, cardinal_only = FALSE, source = imp_in)
 		deconstruct()
 		return TRUE
+<<<<<<< HEAD
 
+=======
+>>>>>>> tg-pr-88929

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { BooleanLike } from 'common/react';
 import { useBackend } from '../backend';
 import { Icon, Section, Stack } from '../components';
@@ -5,6 +6,16 @@ import { Window } from '../layouts';
 import {
   ObjectivePrintout,
   Objective,
+=======
+import { Icon, Section, Stack } from 'tgui-core/components';
+import { BooleanLike } from 'tgui-core/react';
+
+import { useBackend } from '../backend';
+import { Window } from '../layouts';
+import {
+  Objective,
+  ObjectivePrintout,
+>>>>>>> tg-pr-88929
   ReplaceObjectivesButton,
 } from './common/Objectives';
 

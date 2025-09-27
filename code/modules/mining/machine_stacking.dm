@@ -12,12 +12,21 @@
 
 /obj/machinery/mineral/stacking_unit_console/Initialize(mapload)
 	. = ..()
-	machine = locate(/obj/machinery/mineral/stacking_machine) in view(2, src)
-	if (machine)
-		machine.console = src
+	var/area/our_area = get_area(src)
+	if(isnull(our_area))
+		return
+	var/list/turf_list = our_area.get_turfs_by_zlevel(z)
+	if(!islist(turf_list))
+		return
+	for (var/turf/area_turf as anything in turf_list)
+		var/obj/machinery/mineral/stacking_machine/found_machine = locate(/obj/machinery/mineral/stacking_machine) in area_turf
+		if(!isnull(found_machine) && isnull(found_machine.console))
+			found_machine.console = src
+			machine = found_machine
+			break
 
 /obj/machinery/mineral/stacking_unit_console/Destroy()
-	if(machine)
+	if(!isnull(machine))
 		machine.console = null
 		machine = null
 	return ..()
@@ -106,7 +115,7 @@
 	)
 
 /obj/machinery/mineral/stacking_machine/Destroy()
-	if(console)
+	if(!isnull(console))
 		console.machine = null
 		console = null
 	materials = null
@@ -119,7 +128,11 @@
 		process_sheet(AM)
 
 /obj/machinery/mineral/stacking_machine/multitool_act(mob/living/user, obj/item/multitool/multi_tool)
+<<<<<<< HEAD
 	if((user.istate & ISTATE_HARM) || multi_tool.item_flags & ABSTRACT || multi_tool.flags_1 & HOLOGRAM_1)
+=======
+	if(user.combat_mode || multi_tool.item_flags & ABSTRACT || multi_tool.flags_1 & HOLOGRAM_1)
+>>>>>>> tg-pr-88929
 		return ITEM_INTERACT_SKIP_TO_ATTACK
 
 	. = ITEM_INTERACT_BLOCKING
@@ -137,26 +150,30 @@
 	if (input_dir == output_dir)
 		rotate(input)
 
-/obj/machinery/mineral/stacking_machine/proc/process_sheet(obj/item/stack/sheet/inp)
-	if(QDELETED(inp))
+/obj/machinery/mineral/stacking_machine/proc/process_sheet(obj/item/stack/sheet/input)
+	if(QDELETED(input))
 		return
 
 	// Dump the sheets to the silo if attached
 	if(materials.silo && !materials.on_hold())
-		var/matlist = inp.custom_materials & materials.mat_container.materials
+		var/matlist = input.custom_materials & materials.mat_container.materials
 		if (length(matlist))
+<<<<<<< HEAD
 			materials.mat_container.insert_item(inp, context = src)
+=======
+			materials.insert_item(input)
+>>>>>>> tg-pr-88929
 			return
 
 	// No silo attached process to internal storage
-	var/key = inp.merge_type
+	var/key = input.merge_type
 	var/obj/item/stack/sheet/storage = stack_list[key]
 	if(!storage) //It's the first of this sheet added
-		stack_list[key] = storage = new inp.type(src, 0)
-	storage.amount += inp.amount //Stack the sheets
-	qdel(inp)
+		stack_list[key] = storage = new input.type(src, 0)
+	storage.amount += input.amount //Stack the sheets
+	qdel(input)
 
 	while(storage.amount >= stack_amt) //Get rid of excessive stackage
-		var/obj/item/stack/sheet/out = new inp.type(null, stack_amt)
+		var/obj/item/stack/sheet/out = new input.type(null, stack_amt)
 		unload_mineral(out)
 		storage.amount -= stack_amt

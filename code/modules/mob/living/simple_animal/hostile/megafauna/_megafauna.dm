@@ -6,7 +6,11 @@
 	istate = ISTATE_HARM|ISTATE_BLOCKING
 	sentience_type = SENTIENCE_BOSS
 	environment_smash = ENVIRONMENT_SMASH_RWALLS
+<<<<<<< HEAD
 	mob_biotypes = MOB_ORGANIC|MOB_EPIC|MOB_MINING
+=======
+	mob_biotypes = MOB_ORGANIC|MOB_SPECIAL
+>>>>>>> tg-pr-88929
 	obj_damage = 400
 	light_outer_range = 3
 	faction = list(FACTION_MINING, FACTION_BOSS)
@@ -14,20 +18,31 @@
 	robust_searching = TRUE
 	ranged_ignores_vision = TRUE
 	stat_attack = DEAD
+<<<<<<< HEAD
 	atmos_requirements = list("min_oxy" = 0, "max_oxy" = 0, "min_plas" = 0, "max_plas" = 0, "min_co2" = 0, "max_co2" = 0, "min_n2" = 0, "max_n2" = 0)
 	damage_coeff = list(BRUTE = 1, BURN = 0.5, TOX = 1, CLONE = 1, STAMINA = 0, OXY = 1)
 	bodytemp_cold_damage_limit = -1
 	bodytemp_heat_damage_limit = INFINITY
+=======
+	atmos_requirements = null
+	damage_coeff = list(BRUTE = 1, BURN = 0.5, TOX = 1, STAMINA = 0, OXY = 1)
+	minbodytemp = 0
+	maxbodytemp = INFINITY
+>>>>>>> tg-pr-88929
 	vision_range = 5
 	aggro_vision_range = 18
+	// Pale purple, should be red enough to see stuff on lavaland
+	lighting_cutoff_red = 25
+	lighting_cutoff_green = 15
+	lighting_cutoff_blue = 35
 	move_force = MOVE_FORCE_OVERPOWERING
 	move_resist = MOVE_FORCE_OVERPOWERING
 	pull_force = MOVE_FORCE_OVERPOWERING
 	mob_size = MOB_SIZE_HUGE
 	layer = LARGE_MOB_LAYER //Looks weird with them slipping under mineral walls and cameras and shit otherwise
-	plane = GAME_PLANE_UPPER_FOV_HIDDEN
 	mouse_opacity = MOUSE_OPACITY_OPAQUE // Easier to click on in melee, they're giant targets anyway
 	flags_1 = PREVENT_CONTENTS_EXPLOSION_1
+	can_buckle_to = FALSE
 	/// Crusher loot dropped when the megafauna is killed with a crusher
 	var/list/crusher_loot
 	/// Achievement given to surrounding players when the megafauna is killed
@@ -50,6 +65,7 @@
 	var/chosen_attack = 1
 	/// Attack actions, sets chosen_attack to the number in the action
 	var/list/attack_action_types = list()
+<<<<<<< HEAD
 	///any delay before we start attacking something near us
 	var/attack_delay = 0.25 SECONDS
 
@@ -62,15 +78,27 @@
 		telegraph_duration = attack_delay,\
 	)
 
+=======
+	/// Summoning line, said when summoned via megafauna vents.
+	var/summon_line = "I'll kick your ass!"
+
+/mob/living/simple_animal/hostile/megafauna/Initialize(mapload)
+	. = ..()
+>>>>>>> tg-pr-88929
 	AddComponent(/datum/component/seethrough_mob)
 	AddElement(/datum/element/simple_flying)
 	if(gps_name && true_spawn)
 		AddComponent(/datum/component/gps, gps_name)
 	ADD_TRAIT(src, TRAIT_SPACEWALK, INNATE_TRAIT)
+<<<<<<< HEAD
 	add_traits(list(TRAIT_NO_TELEPORT, TRAIT_MARTIAL_ARTS_IMMUNE), MEGAFAUNA_TRAIT)
 	for(var/action_type in attack_action_types)
 		var/datum/action/innate/megafauna_attack/attack_action = new action_type()
 		attack_action.Grant(src)
+=======
+	add_traits(list(TRAIT_NO_TELEPORT), MEGAFAUNA_TRAIT)
+	grant_actions_by_list(attack_action_types)
+>>>>>>> tg-pr-88929
 
 /mob/living/simple_animal/hostile/megafauna/Moved(atom/old_loc, movement_dir, forced, list/old_locs, momentum_change = TRUE)
 	//Safety check
@@ -109,6 +137,13 @@
 		return
 
 	return ..()
+<<<<<<< HEAD
+=======
+
+/mob/living/simple_animal/hostile/megafauna/singularity_act()
+	set_health(0)
+	return ..()
+>>>>>>> tg-pr-88929
 
 /mob/living/simple_animal/hostile/megafauna/dust(just_ash, drop_items, force)
 	if(!force && health > 0)
@@ -123,7 +158,11 @@
 	if(recovery_time >= world.time)
 		return
 	. = ..()
+<<<<<<< HEAD
 	if(target && !CanAttack(target))
+=======
+	if(!.)
+>>>>>>> tg-pr-88929
 		LoseTarget()
 		return
 	if(!isliving(target))
@@ -159,6 +198,11 @@
 		span_danger("[src] disembowels [L]!"),
 		span_userdanger("You feast on [L]'s organs, restoring your health!"))
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> tg-pr-88929
 /mob/living/simple_animal/hostile/megafauna/CanAttack(atom/the_target)
 	. = ..()
 	if (!.)
@@ -168,6 +212,10 @@
 	var/mob/living/living_target = the_target
 	return !living_target.has_status_effect(/datum/status_effect/gutted)
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> tg-pr-88929
 /mob/living/simple_animal/hostile/megafauna/ex_act(severity, target)
 	switch (severity)
 		if (EXPLODE_DEVASTATE)
@@ -178,6 +226,8 @@
 
 		if (EXPLODE_LIGHT)
 			adjustBruteLoss(50)
+
+	return TRUE
 
 /// Sets/adds the next time the megafauna can use a melee or ranged attack, in deciseconds. It is a list to allow using named args. Use the ignore_staggered var if youre setting the cooldown to ranged_cooldown_time.
 /mob/living/simple_animal/hostile/megafauna/proc/update_cooldowns(list/cooldown_updates, ignore_staggered = FALSE)

@@ -13,6 +13,27 @@
 	..()
 	blacklist |= subtypesof(/obj/item/shield/riot)
 
+/datum/crafting_recipe/improvisedshield
+	name = "Improvised Shield"
+	result = /obj/item/shield/improvised
+	reqs = list(
+		/obj/item/stack/sheet/iron = 10,
+		/obj/item/stack/sticky_tape = 2,
+	)
+	time = 4 SECONDS
+	category = CAT_EQUIPMENT
+
+/datum/crafting_recipe/moonflowershield
+	name = "Moonflower Shield"
+	result = /obj/item/shield/buckler/moonflower
+	reqs = list(
+		/obj/item/seeds/sunflower/moonflower = 3,
+		/obj/item/grown/log/steel = 3,
+	)
+	time = 4 SECONDS
+	category = CAT_EQUIPMENT
+
+
 /datum/crafting_recipe/radiogloves
 	name = "Radio Gloves"
 	result = /obj/item/clothing/gloves/radio
@@ -46,12 +67,14 @@
 	reqs = list(
 		/obj/item/stack/sheet/iron = 10,
 		/obj/item/stack/rods = 8,
-		/obj/item/stock_parts/manipulator = 2,
+		/obj/item/stock_parts/servo = 2,
 		/obj/item/stock_parts/capacitor = 1,
+		/obj/item/stock_parts/power_store/cell = 1,
 	)
 	parts = list(
-		/obj/item/stock_parts/manipulator = 2,
+		/obj/item/stock_parts/servo = 2,
 		/obj/item/stock_parts/capacitor = 1,
+		/obj/item/stock_parts/power_store/cell = 1,
 	)
 	tool_behaviors = list(TOOL_WELDER, TOOL_SCREWDRIVER, TOOL_WRENCH)
 	time = 20 SECONDS
@@ -71,6 +94,20 @@
 	time = 5 SECONDS
 	category = CAT_EQUIPMENT
 
+<<<<<<< HEAD
+=======
+/datum/crafting_recipe/barbeque_grill
+	name = "Barbeque grill"
+	result = /obj/machinery/grill
+	reqs = list(
+		/obj/item/stack/sheet/iron = 5,
+		/obj/item/stack/rods = 5,
+		/obj/item/assembly/igniter = 1,
+	)
+	time = 7 SECONDS
+	category = CAT_EQUIPMENT
+
+>>>>>>> tg-pr-88929
 /datum/crafting_recipe/secure_closet
 	name = "Secure Closet"
 	result = /obj/structure/closet/secure_closet
@@ -91,7 +128,7 @@
 		/obj/item/stack/sheet/iron = 4,
 		/obj/item/stack/rods = 4,
 		/obj/item/stack/cable_coil = 10,
-		/obj/item/stock_parts/manipulator = 2,
+		/obj/item/stock_parts/servo = 2,
 		/obj/item/assembly/signaler = 1,
 	)
 	tool_behaviors = list(TOOL_WELDER, TOOL_SCREWDRIVER)
@@ -122,7 +159,7 @@
 
 /datum/crafting_recipe/flashlight_eyes
 	name = "Flashlight Eyes"
-	result = /obj/item/organ/internal/eyes/robotic/flashlight
+	result = /obj/item/organ/eyes/robotic/flashlight
 	time = 10
 	reqs = list(
 		/obj/item/flashlight = 2,
@@ -160,6 +197,17 @@
 		/obj/item/stack/sheet/sinew = 1,
 	)
 	result = /obj/item/ore_sensor
+	category = CAT_EQUIPMENT
+
+/datum/crafting_recipe/material_sniffer
+	name = "Material Sniffer"
+	time = 3 SECONDS
+	reqs = list(
+		/obj/item/analyzer = 1,
+		/obj/item/stack/cable_coil = 5,
+	)
+	tool_behaviors = list(TOOL_SCREWDRIVER, TOOL_WIRECUTTER)
+	result = /obj/item/pinpointer/material_sniffer
 	category = CAT_EQUIPMENT
 
 /datum/crafting_recipe/pressureplate
@@ -230,6 +278,7 @@
 	category = CAT_EQUIPMENT
 	tool_behaviors = list(TOOL_WELDER, TOOL_WIRECUTTER)
 
+<<<<<<< HEAD
 /datum/crafting_recipe/umbrella
 	name = "Umbrella"
 	result = /obj/item/umbrella
@@ -238,5 +287,27 @@
 		/obj/item/stack/rods = 1,
 	)
 	tool_behaviors = list(TOOL_CROWBAR)
+=======
+/datum/crafting_recipe/arrow_quiver
+	name = "Archery Quiver"
+	result = /obj/item/storage/bag/quiver/lesser
+	time = 10
+	reqs = list(
+		/obj/item/stack/sheet/leather = 4,
+		/obj/item/stack/sheet/cardboard = 4
+	)
+	category = CAT_EQUIPMENT
+	tool_behaviors = list(TOOL_WELDER, TOOL_WIRECUTTER)
+
+/datum/crafting_recipe/tether_anchor
+	name = "Tether Anchor"
+	result = /obj/item/tether_anchor
+	reqs = list(
+		/obj/item/stack/sheet/iron = 5,
+		/obj/item/stack/rods = 2,
+		/obj/item/stack/cable_coil = 15
+	)
+	tool_behaviors = list(TOOL_SCREWDRIVER, TOOL_WRENCH)
+>>>>>>> tg-pr-88929
 	time = 5 SECONDS
 	category = CAT_EQUIPMENT

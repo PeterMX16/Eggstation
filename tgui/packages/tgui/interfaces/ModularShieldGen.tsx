@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
 import {
@@ -9,6 +10,20 @@ import {
   LabeledList,
 } from '../components';
 import { BooleanLike } from 'common/react';
+=======
+import {
+  Button,
+  LabeledList,
+  NumberInput,
+  ProgressBar,
+  Section,
+  Stack,
+} from 'tgui-core/components';
+import { BooleanLike } from 'tgui-core/react';
+
+import { useBackend } from '../backend';
+import { Window } from '../layouts';
+>>>>>>> tg-pr-88929
 
 type ModularShieldGenData = {
   max_strength: number;
@@ -24,7 +39,10 @@ type ModularShieldGenData = {
 };
 
 export const ModularShieldGen = (props) => {
+<<<<<<< HEAD
   const { topLevel } = props;
+=======
+>>>>>>> tg-pr-88929
   const { act, data } = useBackend<ModularShieldGenData>();
   const {
     max_strength,
@@ -49,7 +67,10 @@ export const ModularShieldGen = (props) => {
               color={recovering ? 'red' : 'white'}
             >
               <ProgressBar
+<<<<<<< HEAD
                 title="Shield Strength"
+=======
+>>>>>>> tg-pr-88929
                 value={current_strength}
                 maxValue={max_strength}
                 ranges={{
@@ -63,7 +84,10 @@ export const ModularShieldGen = (props) => {
             </Section>
             <Section title="Regeneration and Radius">
               <ProgressBar
+<<<<<<< HEAD
                 title="Regeneration rate"
+=======
+>>>>>>> tg-pr-88929
                 value={current_regeneration}
                 maxValue={max_regeneration}
                 ranges={{
@@ -76,7 +100,10 @@ export const ModularShieldGen = (props) => {
               </ProgressBar>
               <Section>
                 <ProgressBar
+<<<<<<< HEAD
                   title="Shield radius"
+=======
+>>>>>>> tg-pr-88929
                   value={current_radius}
                   maxValue={max_radius}
                   ranges={{
@@ -97,10 +124,18 @@ export const ModularShieldGen = (props) => {
                   <NumberInput
                     disabled={active}
                     fluid
+<<<<<<< HEAD
                     value={current_radius}
                     minValue={3}
                     maxValue={max_radius}
                     onChange={(e, value) =>
+=======
+                    step={1}
+                    value={current_radius}
+                    minValue={3}
+                    maxValue={max_radius}
+                    onChange={(value) =>
+>>>>>>> tg-pr-88929
                       act('set_radius', {
                         new_radius: value,
                       })
@@ -121,7 +156,11 @@ export const ModularShieldGen = (props) => {
               <LabeledList>
                 <LabeledList.Item label="Toggle Power">
                   <Button
+<<<<<<< HEAD
                     bold={1}
+=======
+                    bold
+>>>>>>> tg-pr-88929
                     disabled={recovering || initiating_field}
                     selected={active}
                     content={active ? 'On' : 'Off'}

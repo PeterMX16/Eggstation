@@ -4,8 +4,9 @@
  * @license MIT
  */
 
-import { useLocalState } from '../backend';
-import { Box, Button, ByondUi, Section } from '../components';
+import { useState } from 'react';
+import { Box, Button, ByondUi, Section } from 'tgui-core/components';
+
 import { logger } from '../logging';
 
 export const meta = {
@@ -14,8 +15,12 @@ export const meta = {
 };
 
 const Story = (props) => {
+<<<<<<< HEAD
   const [code, setCode] = useLocalState(
     'byondUiEvalCode',
+=======
+  const [code, setCode] = useState(
+>>>>>>> tg-pr-88929
     `Byond.winset('${Byond.windowId}', {\n  'is-visible': true,\n})`,
   );
   return (

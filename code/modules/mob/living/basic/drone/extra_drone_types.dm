@@ -34,7 +34,11 @@
 /mob/living/basic/drone/syndrone/Initialize(mapload)
 	. = ..()
 	var/datum/component/uplink/hidden_uplink = internal_storage.GetComponent(/datum/component/uplink)
+<<<<<<< HEAD
 	hidden_uplink.set_telecrystals(telecrystal_count)
+=======
+	hidden_uplink.uplink_handler.set_telecrystals(telecrystal_count)
+>>>>>>> tg-pr-88929
 
 /obj/effect/mob_spawn/ghost_role/drone/syndrone
 	name = "syndrone shell"
@@ -46,8 +50,16 @@
 	you_are_text = "You are a Syndicate Maintenance Drone."
 	flavour_text = "In a prior life, you maintained a Nanotrasen Research Station. Abducted from your home, you were given some upgrades... and now serve an enemy of your former masters."
 	important_text = ""
+<<<<<<< HEAD
 	spawner_job_path = /datum/job/ghost_role
 	dont_be_a_shit = FALSE //I feel this goes without question. If were using this its a bus.
+=======
+	spawner_job_path = /datum/job/syndrone
+
+/datum/job/syndrone
+	title = ROLE_SYNDICATE_DRONE
+	policy_index = ROLE_SYNDICATE_DRONE
+>>>>>>> tg-pr-88929
 
 /// A version of the syndrone that gets a nuclear uplink, a firearms implant, and 30 TC.
 /mob/living/basic/drone/syndrone/badass
@@ -124,7 +136,7 @@
 	"<span class='notice'>     - Going to the main station in search of materials.</span>\n"+\
 	"<span class='notice'>     - Interacting with non-drone players outside KS13, dead or alive.</span>\n"+\
 	"<span class='warning'>These rules are at admin discretion and will be heavily enforced.</span>\n"+\
-	"<span class='warning'><u>If you do not have the regular drone laws, follow your laws to the best of your ability.</u></span>"
+	span_warning("<u>If you do not have the regular drone laws, follow your laws to the best of your ability.</u>")
 	shy = FALSE
 
 /mob/living/basic/drone/derelict/Initialize(mapload)

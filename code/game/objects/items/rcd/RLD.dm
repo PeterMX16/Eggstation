@@ -8,7 +8,11 @@
 // operation costs
 #define LIGHT_TUBE_COST 10
 #define FLOOR_LIGHT_COST 15
+<<<<<<< HEAD
 #define GLOW_STICK_COST 20
+=======
+#define GLOW_STICK_COST 5
+>>>>>>> tg-pr-88929
 #define DECONSTRUCT_COST 10
 
 //operation delays
@@ -28,10 +32,16 @@
 	slot_flags = ITEM_SLOT_BELT
 	has_ammobar = TRUE
 	ammo_sections = 6
+<<<<<<< HEAD
 	///it does not make sense why any of these should be installed
 	banned_upgrades = RCD_UPGRADE_FRAMES | RCD_UPGRADE_SIMPLE_CIRCUITS | RCD_UPGRADE_FURNISHING | RCD_UPGRADE_ANTI_INTERRUPT | RCD_UPGRADE_NO_FREQUENT_USE_COOLDOWN
+=======
+	banned_upgrades = RCD_ALL_UPGRADES & ~RCD_UPGRADE_SILO_LINK
+>>>>>>> tg-pr-88929
 
+	/// mode of operation see above defines
 	var/mode = LIGHT_MODE
+<<<<<<< HEAD
 	var/wallcost = 10
 	var/floorcost = 15
 	var/launchcost = 20
@@ -39,9 +49,11 @@
 
 	var/condelay = 10
 	var/decondelay = 15
+=======
+>>>>>>> tg-pr-88929
 
 	///reference to thr original icons
-	var/list/original_options = list(
+	var/static/list/original_options = list(
 		"Color Pick" = icon(icon = 'icons/hud/radial.dmi', icon_state = "omni"),
 		"Glow Stick" = icon(icon = 'icons/obj/lighting.dmi', icon_state = "glowstick"),
 		"Deconstruct" = icon(icon = 'icons/obj/tools.dmi', icon_state = "wrench"),
@@ -60,7 +72,7 @@
 	. = ..()
 
 	if((upgrade & RCD_UPGRADE_SILO_LINK) && display_options["Silo Link"] == null) //silo upgrade instaled but option was not updated then update it just one
-		display_options["Silo Link"] = icon(icon = 'icons/obj/mining.dmi', icon_state = "silo")
+		display_options["Silo Link"] = icon(icon = 'icons/obj/machines/ore_silo.dmi', icon_state = "silo")
 
 	var/choice = show_radial_menu(user, src, display_options, custom_check = CALLBACK(src, PROC_REF(check_menu), user), require_near = TRUE, tooltips = TRUE)
 	if(!check_menu(user))
@@ -80,7 +92,7 @@
 			if(new_choice == null)
 				return
 
-			var/list/new_rgb = ReadRGB(new_choice)
+			var/list/new_rgb = rgb2num(new_choice)
 			for(var/option in original_options)
 				if(option == "Color Pick" || option == "Deconstruct" || option == "Silo Link")
 					continue
@@ -98,12 +110,34 @@
 /obj/item/construction/rld/ranged_interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
 	if(!range_check(interacting_with, user))
 		return NONE
+<<<<<<< HEAD
 	return interact_with_atom(interacting_with, user, modifiers)
+=======
+	return try_lighting(interacting_with, user)
+>>>>>>> tg-pr-88929
 
 /obj/item/construction/rld/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
 	. = ..()
 	if(. & ITEM_INTERACT_ANY_BLOCKER)
 		return .
+<<<<<<< HEAD
+=======
+	return try_lighting(interacting_with, user)
+
+/**
+ * Try to place/remove a light or throw a glowstick
+ * Arguments
+ *
+ * * atom/interacting_with - the target atom to light or throw glowsticks at
+ * * mob/user - the player doing this action
+ */
+/obj/item/construction/rld/proc/try_lighting(atom/interacting_with, mob/user)
+	PRIVATE_PROC(TRUE)
+
+	if(HAS_TRAIT(interacting_with, TRAIT_COMBAT_MODE_SKIP_INTERACTION))
+		return NONE
+
+>>>>>>> tg-pr-88929
 	var/turf/start = get_turf(src)
 	switch(mode)
 		if(REMOVE_MODE)
@@ -187,6 +221,7 @@
 				return ITEM_INTERACT_SUCCESS
 
 		if(GLOW_MODE)
+<<<<<<< HEAD
 	//resource sanity checks before & after delay
 			var/cost = iswallturf(interacting_with) ? LIGHT_TUBE_COST : FLOOR_LIGHT_COST
 
@@ -215,6 +250,19 @@
 			new_stick.update_brightness()
 			return ITEM_INTERACT_SUCCESS
 
+=======
+			if(!useResource(GLOW_STICK_COST, user))
+				return ITEM_INTERACT_BLOCKING
+			activate()
+			var/obj/item/flashlight/glowstick/new_stick = new /obj/item/flashlight/glowstick(start)
+			new_stick.color = color_choice
+			new_stick.set_light_color(new_stick.color)
+			new_stick.throw_at(interacting_with, 9, 3, user)
+			new_stick.turn_on()
+			new_stick.update_brightness()
+			return ITEM_INTERACT_SUCCESS
+
+>>>>>>> tg-pr-88929
 	return NONE
 
 /obj/item/construction/rld/mini

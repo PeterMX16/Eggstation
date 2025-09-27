@@ -19,9 +19,12 @@ SUBSYSTEM_DEF(map_vote)
 	/// Stores the previous map vote cache, used when a map vote is reverted.
 	var/list/previous_cache
 
+<<<<<<< HEAD
 	/// Stores the last amount of potential players to compare next time we're called
 	var/player_cache = -1
 
+=======
+>>>>>>> tg-pr-88929
 	/// Stores a formatted html string of the tally counts
 	var/tally_printout = span_red("Loading...")
 
@@ -56,7 +59,11 @@ SUBSYSTEM_DEF(map_vote)
 	last_message_at = world.time
 
 	var/list/messages = args.Copy()
+<<<<<<< HEAD
 	to_chat(world, span_purple("Map Vote<br><hr>[jointext(messages, "<br>")]"))
+=======
+	to_chat(world, span_purple(boxed_message("Map Vote\n<hr>[messages.Join("\n")]")))
+>>>>>>> tg-pr-88929
 
 /datum/controller/subsystem/map_vote/proc/finalize_map_vote(datum/vote/map_vote/map_vote)
 	if(already_voted)
@@ -77,6 +84,7 @@ SUBSYSTEM_DEF(map_vote)
 		send_map_vote_notice("Admin Override is in effect. Map will not be changed.", "Tallies are recorded and saved.")
 		return
 
+<<<<<<< HEAD
 	var/list/valid_maps = filter_cache_to_valid_maps()
 	if(!length(valid_maps))
 		send_map_vote_notice("No valid maps.")
@@ -85,6 +93,11 @@ SUBSYSTEM_DEF(map_vote)
 	var/winner
 	var/winner_amount = 0
 	for(var/map in valid_maps)
+=======
+	var/winner
+	var/winner_amount = 0
+	for(var/map in map_vote.choices)
+>>>>>>> tg-pr-88929
 		if(!winner_amount)
 			winner = map
 			winner_amount = map_vote_cache[map]
@@ -101,7 +114,11 @@ SUBSYSTEM_DEF(map_vote)
 	messages += tally_printout
 
 	// do not reset tallies if only one map is even possible
+<<<<<<< HEAD
 	if(length(valid_maps) > 1)
+=======
+	if(length(map_vote.choices) > 1)
+>>>>>>> tg-pr-88929
 		map_vote_cache[winner] = CONFIG_GET(number/map_vote_minimum_tallies)
 		write_cache()
 		update_tally_printout()
@@ -112,6 +129,18 @@ SUBSYSTEM_DEF(map_vote)
 
 /// Returns a list of all map options that are invalid for the current population.
 /datum/controller/subsystem/map_vote/proc/get_valid_map_vote_choices()
+<<<<<<< HEAD
+=======
+	var/list/valid_maps = list()
+
+	// Fill in our default choices with all of the maps in our map config, if they are votable and not blocked.
+	var/list/maps = shuffle(global.config.maplist)
+	for(var/map in maps)
+		var/datum/map_config/possible_config = config.maplist[map]
+		if(!possible_config.votable || (possible_config.map_name in SSpersistence.blocked_maps))
+			continue
+		valid_maps += possible_config.map_name
+>>>>>>> tg-pr-88929
 
 	var/filter_threshold = 0
 	if(SSticker.HasRoundStarted())
@@ -119,6 +148,7 @@ SUBSYSTEM_DEF(map_vote)
 	else
 		filter_threshold = length(GLOB.clients)
 
+<<<<<<< HEAD
 	if(filter_threshold == player_cache)
 		return null
 
@@ -135,6 +165,15 @@ SUBSYSTEM_DEF(map_vote)
 		if(possible_config.config_max_users > 0 && filter_threshold > possible_config.config_max_users)
 			continue
 		valid_maps += possible_config.map_name
+=======
+	for(var/map in valid_maps)
+		var/datum/map_config/possible_config = config.maplist[map]
+		if(possible_config.config_min_users > 0 && filter_threshold < possible_config.config_min_users)
+			valid_maps -= map
+
+		else if(possible_config.config_max_users > 0 && filter_threshold > possible_config.config_max_users)
+			valid_maps -= map
+>>>>>>> tg-pr-88929
 
 	return valid_maps
 
@@ -178,7 +217,11 @@ SUBSYSTEM_DEF(map_vote)
 	for(var/map_id in map_vote_cache)
 		var/datum/map_config/map = config.maplist[map_id]
 		data += "[map.map_name] - [map_vote_cache[map_id]]"
+<<<<<<< HEAD
 	var/tally_msg = span_tooltip("A map's tallies are reset after it wins a vote. \
 		Otherwise, they are carried over and added onto from the next vote on the next round, \
 		until it eventually wins and is reset.", "Current Tallies")
 	tally_printout = boxed_message("[tally_msg]<br><hr>[jointext(data, "<br>")]")
+=======
+	tally_printout = boxed_message("Current Tallies\n<hr>[data.Join("\n")]")
+>>>>>>> tg-pr-88929

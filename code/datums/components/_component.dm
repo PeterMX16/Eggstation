@@ -4,7 +4,7 @@
  * The component datum
  *
  * A component should be a single standalone unit
- * of functionality, that works by receiving signals from it's parent
+ * of functionality, that works by receiving signals from its parent
  * object to provide some single functionality (i.e a slippery component)
  * that makes the object it's attached to cause people to slip over.
  * Useful when you want shared behaviour independent of type inheritance
@@ -16,15 +16,6 @@
 	  * See [COMPONENT_DUPE_*][COMPONENT_DUPE_ALLOWED] definitions for available options
 	  */
 	var/dupe_mode = COMPONENT_DUPE_HIGHLANDER
-
-	/**
-	  * The type to check for duplication
-	  *
-	  * `null` means exact match on `type` (default)
-	  *
-	  * Any other type means that and all subtypes
-	  */
-	var/dupe_type
 
 	/// The datum this components belongs to
 	var/datum/parent
@@ -60,7 +51,7 @@
 		qdel(src, TRUE, TRUE)
 		return
 
-	_JoinParent(parent)
+	_JoinParent()
 
 /**
  * Called during component creation with the same arguments as in new excluding parent.
@@ -75,7 +66,6 @@
  *
  * Arguments:
  * * force - makes it not check for and remove the component from the parent
- * * silent - deletes the component without sending a [COMSIG_COMPONENT_REMOVING] signal
  */
 /datum/component/Destroy(force = FALSE)
 	if(!parent)
@@ -221,7 +211,7 @@
  *
  * Use this to do any special cleanup you might need to do before being deregged from an object
  */
-/datum/component/proc/PreTransfer()
+/datum/component/proc/PreTransfer(datum/new_parent)
 	return
 
 /**
@@ -231,7 +221,7 @@
  *
  * Do not call `qdel(src)` from this function, `return COMPONENT_INCOMPATIBLE` instead
  */
-/datum/component/proc/PostTransfer()
+/datum/component/proc/PostTransfer(datum/new_parent)
 	return COMPONENT_INCOMPATIBLE //Do not support transfer by default as you must properly support it
 
 /**
@@ -277,7 +267,11 @@
  */
 /datum/proc/GetExactComponent(datum/component/c_type)
 	RETURN_TYPE(c_type)
+<<<<<<< HEAD
 	var/initial_type_mode = c_type::dupe_mode
+=======
+	var/initial_type_mode = initial(c_type.dupe_mode)
+>>>>>>> tg-pr-88929
 	if(initial_type_mode == COMPONENT_DUPE_ALLOWED || initial_type_mode == COMPONENT_DUPE_SELECTIVE)
 		stack_trace("GetComponent was called to get a component of which multiple copies could be on an object. This can easily break and should be changed. Type: \[[c_type]\]")
 	var/list/all_components = _datum_components
@@ -320,8 +314,18 @@
 	if(QDELING(src))
 		CRASH("Attempted to add a new component of type \[[component_type]\] to a qdeleting parent of type \[[type]\]!")
 
+	var/datum/component/new_component
+
+	if(!ispath(component_type, /datum/component))
+		if(!istype(component_type, /datum/component))
+			CRASH("Attempted to instantiate \[[component_type]\] as a component added to parent of type \[[type]\]!")
+		else
+			new_component = component_type
+			component_type = new_component.type
+	else if(component_type == /datum/component)
+		CRASH("[component_type] attempted instantiation!")
+
 	var/dupe_mode = initial(component_type.dupe_mode)
-	var/dupe_type = initial(component_type.dupe_type)
 	var/uses_sources = (dupe_mode == COMPONENT_DUPE_SOURCES)
 	if(uses_sources && !source)
 		CRASH("Attempted to add a sourced component of type '[component_type]' to '[type]' without a source!")
@@ -329,21 +333,10 @@
 		CRASH("Attempted to add a normal component of type '[component_type]' to '[type]' with a source!")
 
 	var/datum/component/old_component
-	var/datum/component/new_component
-
-	if(ispath(component_type))
-		if(component_type == /datum/component)
-			CRASH("[component_type] attempted instantiation!")
-	else
-		new_component = component_type
-		component_type = new_component.type
 
 	raw_args[1] = src
-	if(dupe_mode != COMPONENT_DUPE_ALLOWED && dupe_mode != COMPONENT_DUPE_SELECTIVE)
-		if(!dupe_type)
-			old_component = GetExactComponent(component_type)
-		else
-			old_component = GetComponent(dupe_type)
+	if(dupe_mode != COMPONENT_DUPE_ALLOWED && dupe_mode != COMPONENT_DUPE_SELECTIVE && dupe_mode != COMPONENT_DUPE_SOURCES)
+		old_component = GetComponent(component_type)
 
 		if(old_component)
 			switch(dupe_mode)
@@ -392,12 +385,24 @@
 		if(!new_component && make_new_component)
 			new_component = new component_type(raw_args)
 
+<<<<<<< HEAD
+=======
+	else if(dupe_mode == COMPONENT_DUPE_SOURCES)
+		new_component = new component_type(raw_args)
+		if(new_component.on_source_add(arglist(list(source) + raw_args.Copy(2))) == COMPONENT_INCOMPATIBLE)
+			stack_trace("incompatible source added to a [new_component.type]. Args: [json_encode(raw_args)]")
+			return null
+
+>>>>>>> tg-pr-88929
 	else if(!new_component)
 		new_component = new component_type(raw_args) // Dupes are allowed, act like normal
 
 	if(!old_component && !QDELETED(new_component)) // Nothing related to duplicate components happened and the new component is healthy
+<<<<<<< HEAD
 		if(uses_sources) // add the sources to the new component
 			new_component.on_source_add(arglist(list(source) + raw_args.Copy(2)))
+=======
+>>>>>>> tg-pr-88929
 		SEND_SIGNAL(src, COMSIG_COMPONENT_ADDED, new_component)
 		return new_component
 
@@ -431,11 +436,11 @@
  * Removes the component from parent, ends up with a null parent
  * Used as a helper proc by the component transfer proc, does not clean up the component like Destroy does
  */
-/datum/component/proc/ClearFromParent()
+/datum/component/proc/ClearFromParent(datum/new_parent)
 	if(!parent)
 		return
 	var/datum/old_parent = parent
-	PreTransfer()
+	PreTransfer(new_parent)
 	_RemoveFromParent()
 	parent = null
 	SEND_SIGNAL(old_parent, COMSIG_COMPONENT_REMOVING, src)
@@ -452,16 +457,17 @@
 	if(!target || target.parent == src)
 		return
 	if(target.parent)
-		target.ClearFromParent()
-	target.parent = src
-	var/result = target.PostTransfer()
+		target.ClearFromParent(src)
+	var/result = target.PostTransfer(src)
 	switch(result)
 		if(COMPONENT_INCOMPATIBLE)
 			var/c_type = target.type
 			qdel(target)
 			CRASH("Incompatible [c_type] transfer attempt to a [type]!")
 
-	if(target == AddComponent(target))
+	AddComponent(target)
+	if(!QDELETED(target))
+		target.parent = src
 		target._JoinParent()
 
 /**
@@ -479,6 +485,7 @@
 	for(var/component_key in dc)
 		var/component_or_list = dc[component_key]
 		if(islist(component_or_list))
+<<<<<<< HEAD
 			for(var/datum/component/I in component_or_list)
 				if(I.can_transfer)
 					target.TakeComponent(I)
@@ -486,6 +493,15 @@
 			var/datum/component/C = component_or_list
 			if(C.can_transfer)
 				target.TakeComponent(C)
+=======
+			for(var/datum/component/component in component_or_list)
+				if(component.can_transfer)
+					target.TakeComponent(component)
+		else
+			var/datum/component/component = component_or_list
+			if(!QDELETED(component) && component.can_transfer)
+				target.TakeComponent(component)
+>>>>>>> tg-pr-88929
 
 /**
  * Return the object that is the host of any UI's that this component has

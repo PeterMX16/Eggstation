@@ -7,17 +7,29 @@
 	relevant_external_organ = /obj/item/organ/external/antennae
 
 /datum/preference/choiced/moth_antennae/init_possible_values()
+<<<<<<< HEAD
 	return assoc_to_keys_features(GLOB.moth_antennae_list)
+=======
+	return assoc_to_keys_features(SSaccessories.moth_antennae_list)
+>>>>>>> tg-pr-88929
 
 /datum/preference/choiced/moth_antennae/icon_for(value)
 	var/static/icon/moth_head
 
 	if (isnull(moth_head))
+<<<<<<< HEAD
 		moth_head = icon('icons/mob/species/moth/bodyparts.dmi', "moth_head")
 		moth_head.Blend(icon('icons/mob/species/human/human_face.dmi', "motheyes_l"), ICON_OVERLAY)
 		moth_head.Blend(icon('icons/mob/species/human/human_face.dmi', "motheyes_r"), ICON_OVERLAY)
 
 	var/datum/sprite_accessory/antennae = GLOB.moth_antennae_list[value]
+=======
+		moth_head = icon('icons/mob/human/species/moth/bodyparts.dmi', "moth_head")
+		moth_head.Blend(icon('icons/mob/human/human_face.dmi', "motheyes_l"), ICON_OVERLAY)
+		moth_head.Blend(icon('icons/mob/human/human_face.dmi', "motheyes_r"), ICON_OVERLAY)
+
+	var/datum/sprite_accessory/antennae = SSaccessories.moth_antennae_list[value]
+>>>>>>> tg-pr-88929
 
 	var/icon/icon_with_antennae = new(moth_head)
 	icon_with_antennae.Blend(icon(antennae.icon, "m_moth_antennae_[antennae.icon_state]_FRONT"), ICON_OVERLAY)
@@ -35,10 +47,14 @@
 	category = PREFERENCE_CATEGORY_FEATURES
 	main_feature_name = "Body markings"
 	should_generate_icons = TRUE
-	relevant_mutant_bodypart = "moth_markings"
+	relevant_body_markings = /datum/bodypart_overlay/simple/body_marking/moth
 
 /datum/preference/choiced/moth_markings/init_possible_values()
+<<<<<<< HEAD
 	return assoc_to_keys_features(GLOB.moth_markings_list)
+=======
+	return assoc_to_keys_features(SSaccessories.moth_markings_list)
+>>>>>>> tg-pr-88929
 
 /datum/preference/choiced/moth_markings/icon_for(value)
 	var/static/list/body_parts = list(
@@ -52,6 +68,7 @@
 	if (isnull(moth_body))
 		moth_body = icon('icons/blanks/32x32.dmi', "nothing")
 
+<<<<<<< HEAD
 		moth_body.Blend(icon('icons/mob/species/moth/moth_wings.dmi', "m_moth_wings_plain_BEHIND"), ICON_OVERLAY)
 
 		for (var/obj/item/bodypart/body_part as anything in body_parts)
@@ -61,6 +78,17 @@
 		moth_body.Blend(icon('icons/mob/species/human/human_face.dmi', "motheyes_r"), ICON_OVERLAY)
 
 	var/datum/sprite_accessory/markings = GLOB.moth_markings_list[value]
+=======
+		moth_body.Blend(icon('icons/mob/human/species/moth/moth_wings.dmi', "m_moth_wings_plain_BEHIND"), ICON_OVERLAY)
+
+		for (var/obj/item/bodypart/body_part as anything in body_parts)
+			moth_body.Blend(icon('icons/mob/human/species/moth/bodyparts.dmi', initial(body_part.icon_state)), ICON_OVERLAY)
+
+		moth_body.Blend(icon('icons/mob/human/human_face.dmi', "motheyes_l"), ICON_OVERLAY)
+		moth_body.Blend(icon('icons/mob/human/human_face.dmi', "motheyes_r"), ICON_OVERLAY)
+
+	var/datum/sprite_accessory/markings = SSaccessories.moth_markings_list[value]
+>>>>>>> tg-pr-88929
 	var/icon/icon_with_markings = new(moth_body)
 
 	if (value != "None")
@@ -69,8 +97,13 @@
 			body_part_icon.Crop(1, 1, 32, 32)
 			icon_with_markings.Blend(body_part_icon, ICON_OVERLAY)
 
+<<<<<<< HEAD
 	icon_with_markings.Blend(icon('icons/mob/species/moth/moth_wings.dmi', "m_moth_wings_plain_FRONT"), ICON_OVERLAY)
 	icon_with_markings.Blend(icon('icons/mob/species/moth/moth_antennae.dmi', "m_moth_antennae_plain_FRONT"), ICON_OVERLAY)
+=======
+	icon_with_markings.Blend(icon('icons/mob/human/species/moth/moth_wings.dmi', "m_moth_wings_plain_FRONT"), ICON_OVERLAY)
+	icon_with_markings.Blend(icon('icons/mob/human/species/moth/moth_antennae.dmi', "m_moth_antennae_plain_FRONT"), ICON_OVERLAY)
+>>>>>>> tg-pr-88929
 
 	// Zoom in on the top of the head and the chest
 	icon_with_markings.Scale(64, 64)
@@ -90,6 +123,7 @@
 	relevant_external_organ = /obj/item/organ/external/wings/moth
 
 /datum/preference/choiced/moth_wings/init_possible_values()
+<<<<<<< HEAD
 	return assoc_to_keys_features(GLOB.moth_wings_list)
 
 /datum/preference/choiced/moth_wings/icon_for(value)
@@ -97,6 +131,12 @@
 	if(moth_wings.icon_state == null || moth_wings.icon_state == "none")
 		var/icon/invalid_icon = icon('icons/mob/landmarks.dmi', "x")
 		return invalid_icon
+=======
+	return assoc_to_keys_features(SSaccessories.moth_wings_list)
+
+/datum/preference/choiced/moth_wings/icon_for(value)
+	var/datum/sprite_accessory/moth_wings = SSaccessories.moth_wings_list[value]
+>>>>>>> tg-pr-88929
 	var/icon/final_icon = icon(moth_wings.icon, "m_moth_wings_[moth_wings.icon_state]_BEHIND")
 	final_icon.Blend(icon(moth_wings.icon, "m_moth_wings_[moth_wings.icon_state]_FRONT"), ICON_OVERLAY)
 	return final_icon

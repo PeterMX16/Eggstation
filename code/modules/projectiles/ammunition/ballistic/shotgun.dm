@@ -22,8 +22,13 @@
 	icon_state = "blshell"
 	worn_icon_state = "shell"
 	caliber = CALIBER_SHOTGUN
+<<<<<<< HEAD
 	custom_materials = AMMO_MATS_SHOTGUN
+=======
+	custom_materials = list(/datum/material/iron=SHEET_MATERIAL_AMOUNT*2)
+>>>>>>> tg-pr-88929
 	projectile_type = /obj/projectile/bullet/shotgun_slug
+	newtonian_force = 1.25
 
 /obj/item/ammo_casing/shotgun/executioner
 	name = "executioner slug"
@@ -133,7 +138,10 @@
 	icon_state = "stunshell"
 	projectile_type = /obj/projectile/bullet/shotgun_stunslug
 	custom_materials = list(/datum/material/iron=SMALL_MATERIAL_AMOUNT*2.5)
+<<<<<<< HEAD
 	can_be_printed = FALSE
+=======
+>>>>>>> tg-pr-88929
 
 /obj/item/ammo_casing/shotgun/meteorslug
 	name = "meteor slug"
@@ -158,7 +166,44 @@
 	desc = "A high explosive breaching round for a 12 gauge shotgun."
 	icon_state = "heshell"
 	projectile_type = /obj/projectile/bullet/shotgun_frag12
+<<<<<<< HEAD
 	can_be_printed = FALSE
+=======
+
+/obj/item/ammo_casing/shotgun/buckshot
+	name = "buckshot shell"
+	desc = "A 12 gauge buckshot shell."
+	icon_state = "gshell"
+	projectile_type = /obj/projectile/bullet/pellet/shotgun_buckshot
+	pellets = 6
+	variance = 25
+
+/obj/item/ammo_casing/shotgun/buckshot/old
+	projectile_type = /obj/projectile/bullet/pellet/shotgun_buckshot/old
+	can_misfire = TRUE
+	misfire_increment = 2
+	integrity_damage = 4
+
+/obj/item/ammo_casing/shotgun/buckshot/old/fire_casing(atom/target, mob/living/user, params, distro, quiet, zone_override, spread, atom/fired_from)
+	. = ..()
+	if(!fired_from)
+		return
+
+	var/datum/effect_system/fluid_spread/smoke/smoke = new
+	smoke.set_up(0, holder = fired_from, location = fired_from)
+
+/obj/item/ammo_casing/shotgun/buckshot/spent
+	projectile_type = null
+
+/obj/item/ammo_casing/shotgun/rubbershot
+	name = "rubber shot"
+	desc = "A shotgun casing filled with densely-packed rubber balls, used to incapacitate crowds from a distance."
+	icon_state = "rshell"
+	projectile_type = /obj/projectile/bullet/pellet/shotgun_rubbershot
+	pellets = 6
+	variance = 20
+	custom_materials = list(/datum/material/iron=SHEET_MATERIAL_AMOUNT*2)
+>>>>>>> tg-pr-88929
 
 /obj/item/ammo_casing/shotgun/incapacitate
 	name = "hornet's nest shell"
@@ -168,10 +213,25 @@
 	<i>HORNET'S NEST: Fire an overwhelming amount of projectiles in a single shot.</i>"
 	icon_state = "bountyshell"
 	projectile_type = /obj/projectile/bullet/pellet/shotgun_incapacitate
+<<<<<<< HEAD
 	pellets = 20//monkestation edit 12 to 20
 	variance = 30 //monkestation edit
 	custom_materials = list(/datum/material/iron=SHEET_MATERIAL_AMOUNT*2)
 	can_be_printed = FALSE
+=======
+	pellets = 12//double the pellets, but half the stun power of each, which makes this best for just dumping right in someone's face.
+	variance = 25
+	custom_materials = list(/datum/material/iron=SHEET_MATERIAL_AMOUNT*2)
+
+/obj/item/ammo_casing/shotgun/fletchette
+	name = "\improper Donk Co Flechette Shell"
+	desc = "A shotgun casing filled with small metal darts. Has poor armor penetration and velocity, but is good at destroying most electronic devices and injuring unarmored humanoids."
+	icon_state = "fletchette"
+	projectile_type = /obj/projectile/bullet/pellet/flechette
+	custom_materials = list(/datum/material/iron=SHEET_MATERIAL_AMOUNT*2, /datum/material/glass=SMALL_MATERIAL_AMOUNT*1)
+	pellets = 6
+	variance = 20
+>>>>>>> tg-pr-88929
 
 /obj/item/ammo_casing/shotgun/ion
 	name = "ion shell"
@@ -183,14 +243,23 @@
 	variance = 35
 	can_be_printed = FALSE
 
-/obj/item/ammo_casing/shotgun/laserslug
+/obj/item/ammo_casing/shotgun/scatterlaser
 	name = "scatter laser shell"
 	desc = "An advanced shotgun shell that uses a micro laser to replicate the effects of a scatter laser weapon in a ballistic package."
 	icon_state = "lshell"
-	projectile_type = /obj/projectile/beam/weak
+	projectile_type = /obj/projectile/beam/scatter
 	pellets = 6
 	variance = 35
 	can_be_printed = FALSE
+
+/obj/item/ammo_casing/shotgun/scatterlaser/emp_act(severity)
+	. = ..()
+	if(isnull(loaded_projectile) || !prob(40/severity))
+		return
+	name = "malfunctioning laser shell"
+	desc = "An advanced shotgun shell that uses a micro laser to replicate the effects of a scatter laser weapon in a ballistic package. The capacitor powering this assembly appears to be smoking."
+	projectile_type = /obj/projectile/beam/scatter/pathetic
+	loaded_projectile = new projectile_type(src)
 
 /obj/item/ammo_casing/shotgun/techshell
 	name = "unloaded technological shell"
@@ -199,6 +268,16 @@
 	projectile_type = null
 	can_be_printed = FALSE
 
+
+/obj/item/ammo_casing/shotgun/techshell/Initialize(mapload)
+	. = ..()
+
+	var/static/list/slapcraft_recipe_list = list(/datum/crafting_recipe/meteorslug, /datum/crafting_recipe/pulseslug, /datum/crafting_recipe/dragonsbreath, /datum/crafting_recipe/ionslug)
+
+	AddElement(
+		/datum/element/slapcrafting,\
+		slapcraft_recipes = slapcraft_recipe_list,\
+	)
 
 /obj/item/ammo_casing/shotgun/dart
 	name = "shotgun dart"
@@ -214,7 +293,13 @@
 /obj/item/ammo_casing/shotgun/dart/attackby()
 	return
 
+/obj/item/ammo_casing/shotgun/dart/large
+	name = "XL shotgun dart"
+	desc = "A dart for use in shotguns. Can be injected with up to 25 units of any chemical."
+	reagent_amount = 25
+
 /obj/item/ammo_casing/shotgun/dart/bioterror
+	name = "bioterror dart"
 	desc = "An improved shotgun dart filled with deadly toxins. Can be injected with up to 30 units of any chemical."
 	reagent_amount = 30
 	can_be_printed = FALSE
@@ -227,6 +312,7 @@
 	reagents.add_reagent(/datum/reagent/toxin/coniine, 6)
 	reagents.add_reagent(/datum/reagent/toxin/sodium_thiopental, 6)
 
+<<<<<<< HEAD
 
 /obj/item/ammo_casing/shotgun/beehive
 	name = "hornet shell"
@@ -311,12 +397,15 @@
 	projectile_type = /obj/projectile/bullet/shotgun_slug/hunter
 
 
+=======
+>>>>>>> tg-pr-88929
 /obj/item/ammo_casing/shotgun/breacher
 	name = "breaching slug"
 	desc = "A 12 gauge anti-material slug. Great for breaching airlocks and windows, quickly and efficiently."
 	icon_state = "breacher"
 	projectile_type = /obj/projectile/bullet/shotgun_breaching
 	custom_materials = list(/datum/material/iron=SHEET_MATERIAL_AMOUNT*2)
+<<<<<<< HEAD
 
 
 /obj/item/ammo_casing/shotgun/buckshot/spent
@@ -378,3 +467,5 @@
 	variance = 120
 	projectile_type = /obj/projectile/plasma/kineticshotgun/rockbreaker
 
+=======
+>>>>>>> tg-pr-88929

@@ -1,14 +1,20 @@
-import { useLocalState } from 'tgui/backend';
-import { Stack, Tabs } from 'tgui/components';
+import { useState } from 'react';
 import { Window } from 'tgui/layouts';
-import { PAI_TAB } from './constants';
+import { Stack, Tabs } from 'tgui-core/components';
+
 import { AvailableDisplay } from './Available';
+import { PAI_TAB } from './constants';
 import { DirectiveDisplay } from './Directives';
 import { InstalledDisplay } from './Installed';
 import { SystemDisplay } from './System';
 
+<<<<<<< HEAD
 export const PaiInterface = (props) => {
   const [tab] = useLocalState('tab', PAI_TAB.System);
+=======
+export function PaiInterface(props) {
+  const [tab, setTab] = useState(PAI_TAB.System);
+>>>>>>> tg-pr-88929
 
   return (
     <Window title="pAI Software Interface v2.5" width={380} height={480}>
@@ -21,12 +27,42 @@ export const PaiInterface = (props) => {
             {tab === PAI_TAB.Available && <AvailableDisplay />}
           </Stack.Item>
           <Stack.Item>
-            <TabDisplay />
+            <Tabs fluid>
+              <Tabs.Tab
+                icon="list"
+                onClick={() => setTab(PAI_TAB.System)}
+                selected={tab === PAI_TAB.System}
+              >
+                System
+              </Tabs.Tab>
+              <Tabs.Tab
+                icon="list"
+                onClick={() => setTab(PAI_TAB.Directive)}
+                selected={tab === PAI_TAB.Directive}
+              >
+                Directives
+              </Tabs.Tab>
+              <Tabs.Tab
+                icon="list"
+                onClick={() => setTab(PAI_TAB.Installed)}
+                selected={tab === PAI_TAB.Installed}
+              >
+                Installed
+              </Tabs.Tab>
+              <Tabs.Tab
+                icon="list"
+                onClick={() => setTab(PAI_TAB.Available)}
+                selected={tab === PAI_TAB.Available}
+              >
+                Download
+              </Tabs.Tab>
+            </Tabs>
           </Stack.Item>
         </Stack>
       </Window.Content>
     </Window>
   );
+<<<<<<< HEAD
 };
 
 /**
@@ -69,3 +105,6 @@ const TabDisplay = (props) => {
     </Tabs>
   );
 };
+=======
+}
+>>>>>>> tg-pr-88929

@@ -30,9 +30,20 @@
 	var/move_speed_multiplier = 1
 	/// If the speed multiplier should be applied to mobs inside this box
 	var/move_delay = FALSE
+<<<<<<< HEAD
+=======
+
+/obj/structure/closet/cardboard/Initialize(mapload)
+	. = ..()
+	RegisterSignal(src, COMSIG_SPEED_POTION_APPLIED, PROC_REF(on_speed_potioned))
+
+/obj/structure/closet/cardboard/proc/on_speed_potioned(datum/source)
+	SIGNAL_HANDLER
+	move_speed_multiplier *= 2
+>>>>>>> tg-pr-88929
 
 /obj/structure/closet/cardboard/relaymove(mob/living/user, direction)
-	if(opened || move_delay || user.incapacitated() || !isturf(loc) || !has_gravity(loc))
+	if(opened || move_delay || user.incapacitated || !isturf(loc) || !has_gravity(loc))
 		return
 	move_delay = TRUE
 	var/oldloc = loc
@@ -50,6 +61,7 @@
 	if(!.)
 		return FALSE
 
+<<<<<<< HEAD
 	alerted = null
 	var/do_alert = (COOLDOWN_FINISHED(src, alert_cooldown) && (locate(/mob/living) in contents))
 	if(!do_alert)
@@ -60,6 +72,17 @@
 	// There are no mobs to alert? clear the list & prevent furthur action after opening the box
 	if(!(locate(/mob/living) in alerted))
 		alerted = null
+=======
+	LAZYINITLIST(alerted)
+	var/do_alert = (COOLDOWN_FINISHED(src, alert_cooldown) && (locate(/mob/living) in contents))
+	if(!do_alert)
+		return TRUE
+
+	alerted.Cut() // just in case we runtimed and the list didn't get cleared in after_open
+	// Cache the list before we open the box.
+	for(var/mob/living/alerted_mob in viewers(7, src))
+		alerted += alerted_mob
+>>>>>>> tg-pr-88929
 
 	return TRUE
 
@@ -73,10 +96,15 @@
 	for(var/mob/living/alerted_mob as anything in alerted)
 		if(alerted_mob.stat != CONSCIOUS || alerted_mob.is_blind())
 			continue
+<<<<<<< HEAD
 		if(!alerted_mob.incapacitated(IGNORE_RESTRAINTS))
+=======
+		if(!INCAPACITATED_IGNORING(alerted_mob, INCAPABLE_RESTRAINTS))
+>>>>>>> tg-pr-88929
 			alerted_mob.face_atom(src)
 		alerted_mob.do_alert_animation()
 
+	alerted.Cut()
 	playsound(loc, 'sound/machines/chime.ogg', 50, FALSE, -5)
 
 /// Does the MGS ! animation
@@ -85,6 +113,10 @@
 	SET_PLANE_EXPLICIT(alert, ABOVE_LIGHTING_PLANE, src)
 	var/atom/movable/flick_visual/exclamation = flick_overlay_view(alert, 1 SECONDS)
 	exclamation.alpha = 0
+<<<<<<< HEAD
+=======
+	exclamation.pixel_x = -pixel_x
+>>>>>>> tg-pr-88929
 	animate(exclamation, pixel_z = 32, alpha = 255, time = 0.5 SECONDS, easing = ELASTIC_EASING)
 	// We use this list to update plane values on parent z change, which is why we need the timer too
 	// I'm sorry :(
@@ -104,8 +136,8 @@
 	resistance_flags = NONE
 	move_speed_multiplier = 2
 	cutting_tool = /obj/item/weldingtool
-	open_sound = 'sound/machines/crate_open.ogg'
-	close_sound = 'sound/machines/crate_close.ogg'
+	open_sound = 'sound/machines/crate/crate_open.ogg'
+	close_sound = 'sound/machines/crate/crate_close.ogg'
 	open_sound_volume = 35
 	close_sound_volume = 50
 	material_drop = /obj/item/stack/sheet/plasteel

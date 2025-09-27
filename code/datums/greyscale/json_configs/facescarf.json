@@ -1,0 +1,37 @@
+{
+<<<<<<< HEAD:code/datums/greyscale/json_configs/bandana_worn.json
+	"bandana_worn": [
+		{
+			"type": "icon_state",
+			"icon_state": "bandana_cloth_worn",
+			"blend_mode": "overlay",
+			"color_ids": [1]
+		}
+	],
+	"bandana_worn_up": [
+		{
+			"type": "icon_state",
+			"icon_state": "bandana_cloth_worn_up",
+			"blend_mode": "overlay",
+			"color_ids": [1]
+		}
+	]
+=======
+    "facescarf": [
+        {
+            "type": "icon_state",
+            "icon_state": "facescarf",
+            "blend_mode": "overlay",
+            "color_ids": [ 1 ]
+        }
+    ],
+	"facescarf_up": [
+        {
+            "type": "icon_state",
+            "icon_state": "facescarf_up",
+            "blend_mode": "overlay",
+            "color_ids": [ 1 ]
+        }
+    ]
+>>>>>>> tg-pr-88929:code/datums/greyscale/json_configs/facescarf.json
+}

@@ -1,7 +1,22 @@
-/// Controls hearing ambience
-/datum/preference/toggle/sound_ambience
+/// Controls ambience volume
+/datum/preference/numeric/sound_ambience_volume
 	category = PREFERENCE_CATEGORY_GAME_PREFERENCES
-	savefile_key = "sound_ambience"
+	savefile_key = "sound_ambience_volume"
+	savefile_identifier = PREFERENCE_PLAYER
+
+	minimum = 0
+	maximum = 200
+
+/// default value is max/2 because 100 1x modifier, while 200 is 2x
+/datum/preference/numeric/sound_ambience_volume/create_default_value()
+	return maximum/2
+
+/datum/preference/numeric/sound_ambience_volume/apply_to_client(client/client, value)
+	client.update_ambience_pref(value)
+
+/datum/preference/toggle/sound_breathing
+	category = PREFERENCE_CATEGORY_GAME_PREFERENCES
+	savefile_key = "sound_breathing"
 	savefile_identifier = PREFERENCE_PLAYER
 
 /datum/preference/toggle/sound_ambience/apply_to_client(client/client, value)
@@ -31,6 +46,32 @@
 	savefile_key = "sound_instruments"
 	savefile_identifier = PREFERENCE_PLAYER
 
+<<<<<<< HEAD
+=======
+/datum/preference/choiced/sound_tts
+	category = PREFERENCE_CATEGORY_GAME_PREFERENCES
+	savefile_key = "sound_tts"
+	savefile_identifier = PREFERENCE_PLAYER
+
+/datum/preference/choiced/sound_tts/init_possible_values()
+	return list(TTS_SOUND_ENABLED, TTS_SOUND_BLIPS, TTS_SOUND_OFF)
+
+/datum/preference/choiced/sound_tts/create_default_value()
+	return TTS_SOUND_ENABLED
+
+/datum/preference/numeric/sound_tts_volume
+	category = PREFERENCE_CATEGORY_GAME_PREFERENCES
+	savefile_key = "sound_tts_volume"
+	savefile_identifier = PREFERENCE_PLAYER
+
+	minimum = 0
+	maximum = 200
+
+/// default value is max/2 because 100 1x modifier, while 200 is 2x
+/datum/preference/numeric/sound_tts_volume/create_default_value()
+	return maximum/2
+
+>>>>>>> tg-pr-88929
 /datum/preference/choiced/sound_achievement
 	category = PREFERENCE_CATEGORY_GAME_PREFERENCES
 	savefile_key = "sound_achievement"
@@ -58,15 +99,27 @@
 		client.mob.stop_sound_channel(CHANNEL_JUKEBOX)
 
 /// Controls hearing lobby music
-/datum/preference/toggle/sound_lobby
+/datum/preference/numeric/sound_lobby_volume
 	category = PREFERENCE_CATEGORY_GAME_PREFERENCES
-	savefile_key = "sound_lobby"
+	savefile_key = "sound_lobby_volume"
 	savefile_identifier = PREFERENCE_PLAYER
 
+<<<<<<< HEAD
 /datum/preference/toggle/sound_lobby/apply_to_client_updated(client/client, value)
 	if(!isnewplayer(client?.mob))
 		return
 	if (value)
+=======
+	minimum = 0
+	maximum = 200
+
+/// default value is max/2 because 100 1x modifier, while 200 is 2x
+/datum/preference/numeric/sound_lobby_volume/create_default_value()
+	return maximum/2
+
+/datum/preference/numeric/sound_lobby_volume/apply_to_client_updated(client/client, value)
+	if (value && isnewplayer(client.mob))
+>>>>>>> tg-pr-88929
 		client.playtitlemusic()
 	else
 		client.mob.update_media_source()
@@ -77,10 +130,45 @@
 	savefile_key = "sound_midi"
 	savefile_identifier = PREFERENCE_PLAYER
 
-/// Controls hearing ship ambience
-/datum/preference/toggle/sound_ship_ambience
+/// Controls ship ambience volume
+/datum/preference/numeric/sound_ship_ambience_volume
 	category = PREFERENCE_CATEGORY_GAME_PREFERENCES
-	savefile_key = "sound_ship_ambience"
+	savefile_key = "sound_ship_ambience_volume"
+	savefile_identifier = PREFERENCE_PLAYER
+
+	minimum = 0
+	maximum = 200
+
+/// default value is max/2 because 100 1x modifier, while 200 is 2x
+/datum/preference/numeric/sound_ship_ambience_volume/create_default_value()
+	return maximum/2
+
+/datum/preference/numeric/sound_ship_ambience_volume/apply_to_client_updated(client/client, value)
+	client.mob.refresh_looping_ambience()
+
+/// Controls hearing elevator music
+/datum/preference/toggle/sound_elevator
+	category = PREFERENCE_CATEGORY_GAME_PREFERENCES
+	savefile_key = "sound_elevator"
+	savefile_identifier = PREFERENCE_PLAYER
+
+/// Controls radio noise volume
+/datum/preference/numeric/sound_radio_noise
+	category = PREFERENCE_CATEGORY_GAME_PREFERENCES
+	savefile_key = "sound_radio_noise"
+	savefile_identifier = PREFERENCE_PLAYER
+
+	minimum = 0
+	maximum = 200
+
+/// default value is max/2 because 100 1x modifier, while 200 is 2x
+/datum/preference/numeric/sound_radio_noise/create_default_value()
+	return maximum/2
+
+/// Controls hearing AI VOX announcements
+/datum/preference/toggle/sound_ai_vox
+	category = PREFERENCE_CATEGORY_GAME_PREFERENCES
+	savefile_key = "sound_ai_vox"
 	savefile_identifier = PREFERENCE_PLAYER
 
 /// Whether or not to hear curator music.

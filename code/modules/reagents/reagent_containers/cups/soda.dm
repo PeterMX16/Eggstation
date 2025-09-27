@@ -9,6 +9,7 @@
 /obj/item/reagent_containers/cup/soda_cans
 	name = "soda can"
 	icon = 'icons/obj/drinks/soda.dmi'
+	icon_state = "cola"
 	icon_state_preview = "cola"
 	reagent_flags = NONE
 	spillable = FALSE
@@ -22,6 +23,7 @@
 
 /obj/item/reagent_containers/cup/soda_cans/Initialize(mapload, vol)
 	. = ..()
+<<<<<<< HEAD
 	AddComponent(/datum/component/edible, \
 		initial_reagents = list(/datum/reagent/iron = 20), \
 		foodtypes = JUNKFOOD, \
@@ -29,6 +31,9 @@
 		tastes = list("Metalic"), \
 		bite_consumption = 6, \
 		required_trait = TRAIT_TIN_EATER)
+=======
+	AddElement(/datum/element/slapcrafting, string_list(list(/datum/crafting_recipe/improv_explosive)))
+>>>>>>> tg-pr-88929
 
 /obj/item/reagent_containers/cup/soda_cans/random/Initialize(mapload)
 	..()
@@ -45,7 +50,7 @@
 		sleep(1 SECONDS)
 	H.visible_message(span_suicide("[H] takes a big sip from [src]! It looks like [H.p_theyre()] trying to commit suicide!"))
 	playsound(H,'sound/items/drink.ogg', 80, TRUE)
-	reagents.trans_to(H, src.reagents.total_volume, transfered_by = H) //a big sip
+	reagents.trans_to(H, src.reagents.total_volume, transferred_by = H) //a big sip
 	sleep(0.5 SECONDS)
 	H.say(pick(
 		"Now, Outbomb Cuban Pete, THAT was a game.",
@@ -74,24 +79,24 @@
 			user.visible_message(span_warning("[user] crushes the can of [src] on [user.p_their()] forehead!"), span_notice("You crush the can of [src] on your forehead."))
 		else
 			user.visible_message(span_warning("[user] crushes the can of [src] on [M]'s forehead!"), span_notice("You crush the can of [src] on [M]'s forehead."))
-		playsound(M,'sound/weapons/pierce.ogg', rand(10,50), TRUE)
+		playsound(M,'sound/items/weapons/pierce.ogg', rand(10,50), TRUE)
 		var/obj/item/trash/can/crushed_can = new /obj/item/trash/can(M.loc)
 		crushed_can.icon_state = icon_state
 		qdel(src)
 		return TRUE
 	return ..()
 
-/obj/item/reagent_containers/cup/soda_cans/bullet_act(obj/projectile/P)
+/obj/item/reagent_containers/cup/soda_cans/bullet_act(obj/projectile/proj)
 	. = ..()
 	if(QDELETED(src))
 		return
-	if(P.damage > 0 && P.damage_type == BRUTE)
-		var/obj/item/trash/can/crushed_can = new /obj/item/trash/can(src.loc)
-		crushed_can.icon_state = icon_state
-		var/atom/throw_target = get_edge_target_turf(crushed_can, pick(GLOB.alldirs))
-		crushed_can.throw_at(throw_target, rand(1,2), 7)
-		qdel(src)
+	if(!proj.damage || proj.damage_type != BRUTE)
 		return
+	var/obj/item/trash/can/crushed_can = new /obj/item/trash/can(loc)
+	crushed_can.icon_state = icon_state
+	var/atom/throw_target = get_edge_target_turf(crushed_can, pick(GLOB.alldirs))
+	crushed_can.throw_at(throw_target, rand(1,2), 7)
+	qdel(src)
 
 /obj/item/reagent_containers/cup/soda_cans/proc/open_soda(mob/user)
 	if(prob(fizziness))
@@ -123,7 +128,7 @@
 			if(iter_mob != target)
 				iter_mob.add_mood_event("observed_soda_spill", /datum/mood_event/observed_soda_spill, target, src)
 
-	playsound(src, 'sound/effects/can_pop.ogg', 80, TRUE)
+	playsound(src, 'sound/items/can/can_pop.ogg', 80, TRUE)
 	if(!hide_message)
 		visible_message(span_danger("[src] spills over, fizzing its contents all over [target]!"))
 	spillable = TRUE
@@ -143,7 +148,7 @@
 
 	burst_soda(hit_atom, hide_message = TRUE)
 	visible_message(span_danger("[src]'s impact with [hit_atom] causes it to rupture, spilling everywhere!"))
-	var/obj/item/trash/can/crushed_can = new /obj/item/trash/can(src.loc)
+	var/obj/item/trash/can/crushed_can = new /obj/item/trash/can(loc)
 	crushed_can.icon_state = icon_state
 	moveToNullspace()
 	QDEL_IN(src, 1 SECONDS) // give it a second so it can still be logged for the throw impact
@@ -156,7 +161,7 @@
 
 /obj/item/reagent_containers/cup/soda_cans/attack_self_secondary(mob/user)
 	if(!is_drainable())
-		playsound(src, 'sound/effects/can_shake.ogg', 50, TRUE)
+		playsound(src, 'sound/items/can/can_shake.ogg', 50, TRUE)
 		user.visible_message(span_danger("[user] shakes [src]!"), span_danger("You shake up [src]!"), vision_distance=2)
 		fizziness += SODA_FIZZINESS_SHAKE
 		return

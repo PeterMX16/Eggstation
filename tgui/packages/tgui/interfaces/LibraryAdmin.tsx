@@ -1,7 +1,11 @@
 import { map, sortBy } from 'common/collections';
+<<<<<<< HEAD
 import { flow } from 'common/fp';
 import { capitalize } from 'common/string';
 import { useBackend, useLocalState } from '../backend';
+=======
+import { useState } from 'react';
+>>>>>>> tg-pr-88929
 import {
   Box,
   Button,
@@ -12,7 +16,14 @@ import {
   Stack,
   Table,
   TextArea,
+<<<<<<< HEAD
 } from '../components';
+=======
+} from 'tgui-core/components';
+import { capitalize } from 'tgui-core/string';
+
+import { useBackend, useLocalState } from '../backend';
+>>>>>>> tg-pr-88929
 import { Window } from '../layouts';
 import { PageSelect } from './LibraryConsole';
 
@@ -79,10 +90,21 @@ type Book = {
   category: string;
   title: string;
   id: number;
+<<<<<<< HEAD
   deleted: boolean;
 };
 
 type DisplayBook = Book & {
+=======
+};
+
+type AdminBook = Book & {
+  author_ckey: string;
+  deleted: boolean;
+};
+
+type DisplayAdminBook = AdminBook & {
+>>>>>>> tg-pr-88929
   key: number;
 };
 
@@ -118,6 +140,7 @@ const SearchAndDisplay = (props) => {
     view_raw,
     show_deleted,
   } = data;
+<<<<<<< HEAD
   const books = flow([
     map<Book, DisplayBook>((book, i) => ({
       ...book,
@@ -126,6 +149,20 @@ const SearchAndDisplay = (props) => {
     })),
     sortBy<DisplayBook>((book) => book.key),
   ])(pages);
+=======
+  const books = sortBy(
+    map(
+      pages,
+      (book, i) =>
+        ({
+          ...book,
+          // Generate a unique id
+          key: i,
+        }) as DisplayAdminBook,
+    ),
+    (book) => book.key,
+  );
+>>>>>>> tg-pr-88929
   return (
     <Section>
       <Stack justify="space-between">
@@ -134,7 +171,11 @@ const SearchAndDisplay = (props) => {
             <Stack.Item>
               <Input
                 value={book_id}
+<<<<<<< HEAD
                 placeholder={book_id === null ? 'ID' : book_id}
+=======
+                placeholder={book_id === null ? 'ID' : String(book_id)}
+>>>>>>> tg-pr-88929
                 width="70px"
                 onChange={(e, value) =>
                   act('set_search_id', {
@@ -336,7 +377,11 @@ const ModifyPage = (props) => {
   const { can_db_request, view_raw, history } = data;
   const [modifyMethod, setModifyMethod] = useLocalState('ModifyMethod', '');
   const [modifyTarget, setModifyTarget] = useLocalState('ModifyTarget', 0);
+<<<<<<< HEAD
   const [reason, setReason] = useLocalState('Reason', 'null');
+=======
+  const [reason, setReason] = useState('null');
+>>>>>>> tg-pr-88929
 
   const entries = history[modifyTarget.toString()]
     ? history[modifyTarget.toString()].sort((a, b) => b.id - a.id)
@@ -344,7 +389,11 @@ const ModifyPage = (props) => {
 
   return (
     <Window.Content scrollable>
+<<<<<<< HEAD
       <NoticeBox warning>
+=======
+      <NoticeBox>
+>>>>>>> tg-pr-88929
         Heads Up! We do not allow you to fully delete books in game
         <br />
         What you&apos;re doing here is a &quot;don&apos;t show this to
@@ -456,7 +505,11 @@ const ModifyPage = (props) => {
             <Table.Cell
               className="LibraryAdmin_RecordCell"
               style={{
+<<<<<<< HEAD
                 'white-space': 'pre-wrap',
+=======
+                whiteSpace: 'pre-wrap',
+>>>>>>> tg-pr-88929
               }}
             >
               {entry.reason}

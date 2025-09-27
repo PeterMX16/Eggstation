@@ -27,13 +27,21 @@
 
 	family_heirlooms = list(/obj/item/pen/blue)
 	rpg_title = "Defeated Miniboss"
+<<<<<<< HEAD
 	job_flags = JOB_ANNOUNCE_ARRIVAL | JOB_CREW_MANIFEST | JOB_EQUIP_RANK | JOB_CREW_MEMBER | JOB_NEW_PLAYER_JOINABLE | JOB_ASSIGN_QUIRKS | JOB_CAN_BE_INTERN | JOB_CANNOT_OPEN_SLOTS
+=======
+	job_flags = STATION_JOB_FLAGS | JOB_CANNOT_OPEN_SLOTS & ~JOB_REOPEN_ON_ROUNDSTART_LOSS
+>>>>>>> tg-pr-88929
 
 /datum/job/prisoner/New()
 	. = ..()
 	RegisterSignal(SSdcs, COMSIG_GLOB_CREWMEMBER_JOINED, PROC_REF(handle_prisoner_joining))
 
+<<<<<<< HEAD
 /datum/job/prisoner/proc/handle_prisoner_joining(datum/source, mob/living/carbon/human/crewmember, rank)
+=======
+/datum/job/prisoner/proc/handle_prisoner_joining(datum/source, mob/living/crewmember, rank)
+>>>>>>> tg-pr-88929
 	SIGNAL_HANDLER
 	if(rank != title)
 		return //not a prisoner
@@ -47,11 +55,18 @@
 
 	/* monkestation removal: doesn't work bc manifest gets injected AFTER [COMSIG_GLOB_CREWMEMBER_JOINED]
 	var/datum/prisoner_crime/crime = GLOB.prisoner_crimes[crime_name]
+<<<<<<< HEAD
 	var/datum/record/crew/target_record = crewmember.mind?.crewfile || find_record(crewmember.real_name)
 	var/datum/crime/past_crime = new(crime.name, crime.desc, "Central Command", "Indefinite.")
 	target_record?.crimes += past_crime
 	target_record.recreate_manifest_photos(add_height_chart = TRUE)
 	monkestation end */
+=======
+	var/datum/crime/past_crime = new(crime.name, crime.desc, "Central Command", "Indefinite.")
+	var/datum/record/crew/target_record = find_record(crewmember.real_name)
+	target_record.crimes += past_crime
+	target_record.recreate_manifest_photos(add_height_chart = TRUE)
+>>>>>>> tg-pr-88929
 	to_chat(crewmember, span_warning("You are imprisoned for \"[crime_name]\"."))
 	crewmember.add_mob_memory(/datum/memory/key/permabrig_crimes, crimes = crime_name)
 
@@ -71,18 +86,20 @@
 	if(prob(1) || check_holidays(APRIL_FOOLS)) // D BOYYYYSSSSS
 		head = /obj/item/clothing/head/beanie/black/dboy
 
-/datum/outfit/job/prisoner/post_equip(mob/living/carbon/human/new_prisoner, visualsOnly)
+/datum/outfit/job/prisoner/post_equip(mob/living/carbon/human/new_prisoner, visuals_only)
 	. = ..()
 
 	var/crime_name = new_prisoner.client?.prefs?.read_preference(/datum/preference/choiced/prisoner_crime)
-	if(!crime_name)
-		return
 	var/datum/prisoner_crime/crime = GLOB.prisoner_crimes[crime_name]
+<<<<<<< HEAD
 	if(!crime?.tattoos)
+=======
+	if (isnull(crime))
+>>>>>>> tg-pr-88929
 		return
 	var/list/limbs_to_tat = new_prisoner.bodyparts.Copy()
 	for(var/i in 1 to crime.tattoos)
-		if(!length(SSpersistence.prison_tattoos_to_use) || visualsOnly)
+		if(!length(SSpersistence.prison_tattoos_to_use) || visuals_only)
 			return
 		var/obj/item/bodypart/tatted_limb = pick_n_take(limbs_to_tat)
 		var/list/tattoo = pick_n_take(SSpersistence.prison_tattoos_to_use)

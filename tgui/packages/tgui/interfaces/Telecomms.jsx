@@ -1,4 +1,17 @@
+import {
+  Box,
+  Button,
+  Input,
+  LabeledControls,
+  LabeledList,
+  NoticeBox,
+  NumberInput,
+  Section,
+  Table,
+} from 'tgui-core/components';
+
 import { useBackend } from '../backend';
+<<<<<<< HEAD
 import {
   Button,
   Input,
@@ -10,6 +23,8 @@ import {
   LabeledControls,
   Box,
 } from '../components';
+=======
+>>>>>>> tg-pr-88929
 import { RADIO_CHANNELS } from '../constants';
 import { Window } from '../layouts';
 
@@ -122,7 +137,7 @@ export const Telecomms = (props) => {
                       minValue={minfreq / 10}
                       maxValue={maxfreq / 10}
                       value={changefrequency / 10}
-                      onChange={(e, value) => act('change_freq', { value })}
+                      onChange={(value) => act('change_freq', { value })}
                     />
                     <Button
                       icon={'times'}
@@ -240,7 +255,7 @@ export const Telecomms = (props) => {
                         minValue={minfreq / 10}
                         maxValue={maxfreq / 10}
                         value={frequency / 10}
-                        onChange={(e, value) => act('tempfreq', { value })}
+                        onChange={(value) => act('tempfreq', { value })}
                       />
                     </Table.Cell>
                     <Button

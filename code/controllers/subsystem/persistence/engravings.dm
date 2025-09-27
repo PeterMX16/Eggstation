@@ -27,7 +27,11 @@
 
 	var/successfully_loaded_engravings = 0
 
+<<<<<<< HEAD
 	for(var/iteration in 1 to min(rand(MIN_PERSISTENT_ENGRAVINGS, MAX_PERSISTENT_ENGRAVINGS), length(saved_engravings)))
+=======
+	for(var/iteration in 1 to min(rand(MIN_PERSISTENT_ENGRAVINGS, MAX_PERSISTENT_ENGRAVINGS), saved_engravings.len))
+>>>>>>> tg-pr-88929
 		var/engraving = pick_n_take(saved_engravings)
 		if(!islist(engraving))
 			stack_trace("something's wrong with the engraving data! one of the saved engravings wasn't a list!")

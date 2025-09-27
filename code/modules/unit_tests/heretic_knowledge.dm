@@ -1,3 +1,4 @@
+
 /*
  * This test checks all heretic knowledge nodes and validates they are setup correctly.
  * We check that all knowledge is reachable by players (through the research tree)
@@ -6,13 +7,13 @@
 /datum/unit_test/heretic_knowledge
 
 /datum/unit_test/heretic_knowledge/Run()
-
+	if(!GLOB.heretic_research_tree)
+		GLOB.heretic_research_tree = generate_heretic_research_tree()
 	// First, we get a list of all knowledge types
-	// EXCLUDING types which have route unset / set to null.
-	// (Types without a route set are assumed to be abstract or purposefully unreachable)
+	// EXCLUDING all abstract types
 	var/list/all_possible_knowledge = typesof(/datum/heretic_knowledge)
 	for(var/datum/heretic_knowledge/knowledge_type as anything in all_possible_knowledge)
-		if(isnull(initial(knowledge_type.route)))
+		if(initial(knowledge_type.abstract_parent_type) == knowledge_type)
 			all_possible_knowledge -= knowledge_type
 
 	// Now, let's build a list of all researchable knowledge
@@ -22,12 +23,18 @@
 	var/list/list_to_check = GLOB.heretic_start_knowledge.Copy()
 	var/i = 0
 	while(i < length(list_to_check))
+<<<<<<< HEAD
 		var/datum/heretic_knowledge/path_to_create = list_to_check[++i]
 		if(!ispath(path_to_create))
 			TEST_FAIL("Heretic Knowledge: Got a non-heretic knowledge datum (Got: [path_to_create]) in the list knowledges!")
 		var/datum/heretic_knowledge/instantiated_knowledge = new path_to_create()
+=======
+		var/datum/heretic_knowledge/knowledge = list_to_check[++i]
+		if(!ispath(knowledge))
+			TEST_FAIL("Heretic Knowledge: Got a non-heretic knowledge datum (Got: [knowledge]) in the list knowledges!")
+>>>>>>> tg-pr-88929
 		// Next knowledge is a list of typepaths.
-		for(var/datum/heretic_knowledge/next_knowledge as anything in instantiated_knowledge.next_knowledge)
+		for(var/datum/heretic_knowledge/next_knowledge as anything in GLOB.heretic_research_tree[knowledge][HKT_NEXT])
 			if(!ispath(next_knowledge))
 				TEST_FAIL("Heretic Knowledge: [next_knowledge.type] has a [isnull(next_knowledge) ? "null":"invalid path"] in its next_knowledge list!")
 				continue
@@ -35,7 +42,6 @@
 				continue
 			list_to_check += next_knowledge
 
-		qdel(instantiated_knowledge)
 
 	// We now have a list that SHOULD contain all knowledges with a path set (list_to_check).
 	// Let's compare it to our original list (all_possible_knowledge). If they're not identical,
@@ -45,6 +51,7 @@
 		var/list/unreachables = all_possible_knowledge - list_to_check
 		for(var/datum/heretic_knowledge/lost_knowledge as anything in unreachables)
 			TEST_FAIL("Heretic Knowledge: [lost_knowledge] is unreachable by players! Add it to another knowledge's 'next_knowledge' list. If it is purposeful, set its route to 'null'.")
+<<<<<<< HEAD
 
 
 /*
@@ -90,3 +97,5 @@
 				"Heretic Knowledge: [main_path] had [paths[main_path]] knowledges, \
 				which was not equal to [other_main_path]'s [paths[other_main_path]] knowledges. \
 				All main paths should have the same number of knowledges!")
+=======
+>>>>>>> tg-pr-88929

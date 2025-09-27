@@ -72,7 +72,11 @@
 
 	examine_list += span_notice(examine_string)
 
+<<<<<<< HEAD
 /datum/element/cuffsnapping/proc/try_cuffsnap_target(obj/item/cutter, mob/living/carbon/target, mob/living/cutter_user, list/modifiers)
+=======
+/datum/element/cuffsnapping/proc/try_cuffsnap_target(obj/item/cutter, mob/living/carbon/target, mob/living/cutter_user, params)
+>>>>>>> tg-pr-88929
 	SIGNAL_HANDLER
 
 	if(!istype(target)) //we aren't the kind of mob that can even have cuffs, so we skip.

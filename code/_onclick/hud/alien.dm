@@ -40,21 +40,43 @@
 	using = new /atom/movable/screen/swap_hand(null, src)
 	using.icon = ui_style
 	using.icon_state = "swap_1"
+<<<<<<< HEAD
 	using.screen_loc = ui_swaphand_position(owner,1)
+=======
+	using.screen_loc = ui_swaphand_position(owner, 1)
+>>>>>>> tg-pr-88929
 	static_inventory += using
 
 	using = new /atom/movable/screen/swap_hand(null, src)
 	using.icon = ui_style
 	using.icon_state = "swap_2"
+<<<<<<< HEAD
 	using.screen_loc = ui_swaphand_position(owner,2)
 	static_inventory += using
 
+=======
+	using.screen_loc = ui_swaphand_position(owner, 2)
+	static_inventory += using
+
+	action_intent = new /atom/movable/screen/combattoggle/flashy(null, src)
+	action_intent.icon = ui_style
+	action_intent.screen_loc = ui_combat_toggle
+	static_inventory += action_intent
+
+>>>>>>> tg-pr-88929
 	if(isalienhunter(mymob))
 		var/mob/living/carbon/alien/adult/hunter/H = mymob
 		H.leap_icon = new /atom/movable/screen/alien/leap()
 		H.leap_icon.screen_loc = ui_alien_storage_r
 		static_inventory += H.leap_icon
 
+<<<<<<< HEAD
+=======
+	floor_change = new /atom/movable/screen/floor_changer(null, src)
+	floor_change.icon = ui_style
+	static_inventory += floor_change
+
+>>>>>>> tg-pr-88929
 	using = new/atom/movable/screen/language_menu(null, src)
 	using.screen_loc = ui_alien_language_menu
 	static_inventory += using
@@ -68,10 +90,18 @@
 	using.screen_loc = ui_drop_throw
 	static_inventory += using
 
+<<<<<<< HEAD
 	using = new /atom/movable/screen/resist(null, src)
 	using.icon = ui_style
 	using.screen_loc = ui_above_movement
 	hotkeybuttons += using
+=======
+	resist_icon = new /atom/movable/screen/resist(null, src)
+	resist_icon.icon = ui_style
+	resist_icon.screen_loc = ui_above_movement
+	resist_icon.update_appearance()
+	hotkeybuttons += resist_icon
+>>>>>>> tg-pr-88929
 
 	throw_icon = new /atom/movable/screen/throw_catch(null, src)
 	throw_icon.icon = ui_style
@@ -83,6 +113,12 @@
 	pull_icon.update_appearance()
 	pull_icon.screen_loc = ui_above_movement
 	static_inventory += pull_icon
+
+	rest_icon = new /atom/movable/screen/rest(null, src)
+	rest_icon.icon = ui_style
+	rest_icon.screen_loc = ui_above_intent
+	rest_icon.update_appearance()
+	static_inventory += rest_icon
 
 //begin indicators
 

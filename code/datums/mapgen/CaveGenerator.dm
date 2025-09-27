@@ -126,8 +126,14 @@
 		if(gen_turf.turf_flags & NO_RUINS)
 			new_turf.turf_flags |= NO_RUINS
 
+<<<<<<< HEAD
 	SStitle.add_init_text("[type]gen", "> [name]: Generation", "<font color='green'>DONE</font>", (REALTIMEOFDAY - start_time) / (1 SECONDS))
 	log_world("[name] terrain generation finished in [(REALTIMEOFDAY - start_time)/10]s!")
+=======
+	var/message = "[name] terrain generation finished in [(REALTIMEOFDAY - start_time)/10]s!"
+	to_chat(world, span_boldannounce("[message]"), MESSAGE_TYPE_DEBUG)
+	log_world(message)
+>>>>>>> tg-pr-88929
 
 
 /**
@@ -165,8 +171,13 @@
 		var/datum/biome/selected_biome
 
 		// Here comes the meat of the biome code.
+<<<<<<< HEAD
 		var/drift_x = clamp(((gen_turf.x + rand(-BIOME_RANDOM_SQUARE_DRIFT, BIOME_RANDOM_SQUARE_DRIFT)) / perlin_zoom), 1, world.maxx)
 		var/drift_y = clamp(((gen_turf.y + rand(-BIOME_RANDOM_SQUARE_DRIFT, BIOME_RANDOM_SQUARE_DRIFT)) / perlin_zoom), 2, world.maxy)
+=======
+		var/drift_x = clamp((gen_turf.x + rand(-BIOME_RANDOM_SQUARE_DRIFT, BIOME_RANDOM_SQUARE_DRIFT)), 1, world.maxx) // / perlin_zoom
+		var/drift_y = clamp((gen_turf.y + rand(-BIOME_RANDOM_SQUARE_DRIFT, BIOME_RANDOM_SQUARE_DRIFT)), 2, world.maxy) // / perlin_zoom
+>>>>>>> tg-pr-88929
 
 		// Where we go in the generated string (generated outside of the loop for s p e e d)
 		var/coordinate = world.maxx * (drift_y - 1) + drift_x
@@ -203,7 +214,11 @@
 		generated_turfs_per_biome[biome] = generated_turfs
 
 	var/message = "[name] terrain generation finished in [(REALTIMEOFDAY - start_time)/10]s!"
+<<<<<<< HEAD
 	to_chat(world, span_boldannounce("[message]"))
+=======
+	to_chat(world, span_boldannounce("[message]"), MESSAGE_TYPE_DEBUG)
+>>>>>>> tg-pr-88929
 	log_world(message)
 
 
@@ -217,9 +232,13 @@
 	var/mobs_allowed = (generate_in.area_flags & MOB_SPAWN_ALLOWED) && length(mob_spawn_list)
 	var/megas_allowed = (generate_in.area_flags & MEGAFAUNA_SPAWN_ALLOWED) && length(megafauna_spawn_list)
 
+<<<<<<< HEAD
 	SStitle.add_init_text("[type]fill", "> [name]: Population", "<font color='yellow'>LOADING</font>")
 	var/start_time = REALTIMEOFDAY
 	SSore_generation.ore_vent_minerals = (SSore_generation.ore_vent_minerals_default).Copy()
+=======
+	var/start_time = REALTIMEOFDAY
+>>>>>>> tg-pr-88929
 
 	for(var/turf/target_turf as anything in turfs)
 		if(!(target_turf.type in open_turf_types)) //only put stuff on open turfs we generated, so closed walls and rivers and stuff are skipped
@@ -297,6 +316,7 @@
 				spawned_something = TRUE
 		CHECK_TICK
 
+<<<<<<< HEAD
 	SStitle.add_init_text("[type]fill", "> [name]: Population", "<font color='green'>DONE</font>", (REALTIMEOFDAY - start_time) / (1 SECONDS))
 	log_world("[name] terrain population finished in [(REALTIMEOFDAY - start_time)/10]s!")
 
@@ -335,6 +355,47 @@
 	log_world(message)
 
 
+=======
+	var/message = "[name] terrain population finished in [(REALTIMEOFDAY - start_time)/10]s!"
+	to_chat(world, span_boldannounce("[message]"), MESSAGE_TYPE_DEBUG)
+	log_world(message)
+
+
+/**
+ * This handles the population of terrain with biomes. Should only be called by
+ * `populate_terrain()`, if you find yourself calling this, you're probably not
+ * doing it right.
+ *
+ * This proc won't do anything if the area we're trying to generate in does not
+ * have `FLORA_ALLOWED` or `MOB_SPAWN_ALLOWED` in its `area_flags`.
+ */
+/datum/map_generator/cave_generator/proc/populate_terrain_with_biomes(list/turfs, area/generate_in)
+	// Area var pullouts to make accessing in the loop faster
+	var/flora_allowed = (generate_in.area_flags & FLORA_ALLOWED)
+	var/features_allowed = (generate_in.area_flags & FLORA_ALLOWED)
+	var/fauna_allowed = (generate_in.area_flags & MOB_SPAWN_ALLOWED)
+
+	var/start_time = REALTIMEOFDAY
+
+	// No sense in doing anything here if nothing is allowed anyway.
+	if(!flora_allowed && !features_allowed && !fauna_allowed)
+		var/message = "[name] terrain population finished in [(REALTIMEOFDAY - start_time)/10]s!"
+		to_chat(world, span_boldannounce("[message]"), MESSAGE_TYPE_DEBUG)
+		log_world(message)
+		return
+
+	for(var/biome in generated_turfs_per_biome)
+		var/datum/biome/generating_biome = SSmapping.biomes[biome]
+		generating_biome.populate_turfs(generated_turfs_per_biome[biome], flora_allowed, features_allowed, fauna_allowed)
+
+		CHECK_TICK
+
+	var/message = "[name] terrain population finished in [(REALTIMEOFDAY - start_time)/10]s!"
+	to_chat(world, span_boldannounce("[message]"), MESSAGE_TYPE_DEBUG)
+	log_world(message)
+
+
+>>>>>>> tg-pr-88929
 /datum/map_generator/cave_generator/jungle
 	possible_biomes = list(
 		BIOME_LOW_HEAT = list(

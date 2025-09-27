@@ -1,10 +1,17 @@
 #define ICON_STATE_CHECKED 1 /// this dmi is checked. We don't check this one anymore.
 #define ICON_STATE_NULL 2 /// this dmi has null-named icon_state, allowing it to show a sprite on vv editor.
 
+<<<<<<< HEAD
 ADMIN_VERB_AND_CONTEXT_MENU(debug_variables, R_NONE, FALSE, "View Variables", "View the variables of a datum.", ADMIN_CATEGORY_DEBUG, datum/thing in world)
 	user.debug_variables(thing)
 
 // This is kept as a seperate proc because admins are able to show VV to non-admins
+=======
+ADMIN_VERB_AND_CONTEXT_MENU(debug_variables, R_NONE, "View Variables", "View the variables of a datum.", ADMIN_CATEGORY_DEBUG, datum/thing in world)
+	user.debug_variables(thing)
+// This is kept as a separate proc because admins are able to show VV to non-admins
+
+>>>>>>> tg-pr-88929
 /client/proc/debug_variables(datum/thing in world)
 	set category = "Debug"
 	set name = "View Variables"
@@ -23,7 +30,11 @@ ADMIN_VERB_AND_CONTEXT_MENU(debug_variables, R_NONE, FALSE, "View Variables", "V
 
 	if(isappearance(thing))
 		thing = get_vv_appearance(thing) // this is /mutable_appearance/our_bs_subtype
+<<<<<<< HEAD
 	var/islist = islist(thing) || (!isdatum(thing) && hascall(thing, "Cut")) // Some special lists dont count as lists, but can be detected by if they have list procs
+=======
+	var/islist = islist(thing) || (!isdatum(thing) && hascall(thing, "Cut")) // Some special lists don't count as lists, but can be detected by if they have list procs
+>>>>>>> tg-pr-88929
 	if(!islist && !isdatum(thing))
 		return
 
@@ -310,8 +321,11 @@ datumrefresh=[refid];[HrefToken()]'>Refresh</a>
 	if(ui_scale && window_scaling)
 		size_string = "size=[475 * window_scaling]x[650 * window_scaling]"
 
+<<<<<<< HEAD
 	src << browse(html, "window=variables[refid];[size_string]")
 
+=======
+>>>>>>> tg-pr-88929
 /client/proc/vv_update_display(datum/thing, span, content)
 	src << output("[span]:[content]", "variables[REF(thing)].browser:replace_span")
 

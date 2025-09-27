@@ -14,7 +14,7 @@
 	/// With what color will we paint with
 	var/paint_color = COLOR_WHITE
 	/// How many uses are left
-	var/paintleft = 10
+	var/paintleft = 200
 
 /obj/item/paint/Initialize(mapload)
 	. = ..()
@@ -60,7 +60,13 @@
 	name = "adaptive paint"
 	icon_state = "paint_neutral"
 
+/obj/item/paint/anycolor/cyborg
+	paintleft = INFINITY
+
 /obj/item/paint/anycolor/attack_self(mob/user)
+	if(paintleft <= 0)
+		balloon_alert(user, "no paint left!")
+		return	// Don't do any of the following because there's no paint left to be able to change the color of
 	var/list/possible_colors = list(
 		"black" = image(icon = src.icon, icon_state = "paint_black"),
 		"blue" = image(icon = src.icon, icon_state = "paint_blue"),
@@ -102,7 +108,7 @@
 		return FALSE
 	if(!user.is_holding(src))
 		return FALSE
-	if(user.incapacitated())
+	if(user.incapacitated)
 		return FALSE
 	return TRUE
 
@@ -112,7 +118,14 @@
 	if(paintleft <= 0)
 		return NONE
 	paintleft--
+<<<<<<< HEAD
 	interacting_with.add_atom_colour(paint_color, WASHABLE_COLOUR_PRIORITY)
+=======
+	var/color_type = SATURATION_MULTIPLY
+	if (LAZYACCESS(modifiers, RIGHT_CLICK))
+		color_type = SATURATION_OVERRIDE
+	interacting_with.add_atom_colour(color_transition_filter(paint_color, color_type), WASHABLE_COLOUR_PRIORITY)
+>>>>>>> tg-pr-88929
 	if(paintleft <= 0)
 		icon_state = "paint_empty"
 	return ITEM_INTERACT_SUCCESS

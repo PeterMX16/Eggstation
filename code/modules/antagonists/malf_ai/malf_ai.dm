@@ -10,7 +10,10 @@
 	ui_name = "AntagInfoMalf"
 	can_assign_self_objectives = TRUE
 	default_custom_objective = "Make sure your precious crew are incapable of ever, ever leaving you."
+<<<<<<< HEAD
 	stinger_sound = 'sound/ambience/antag/malf.ogg'
+=======
+>>>>>>> tg-pr-88929
 	///the name of the antag flavor this traitor has.
 	var/employer
 	///assoc list of strings set up after employer is given
@@ -21,6 +24,8 @@
 	var/should_give_codewords = TRUE
 	///since the module purchasing is built into the antag info, we need to keep track of its compact mode here
 	var/module_picker_compactmode = FALSE
+	///malf on_gain sound effect. Set here so Infected AI can override
+	var/malf_sound = 'sound/music/antag/malf.ogg'
 
 /datum/antagonist/malf_ai/New(give_objectives = TRUE)
 	. = ..()
@@ -40,7 +45,17 @@
 	malfunction_flavor = strings(MALFUNCTION_FLAVOR_FILE, employer)
 
 	add_law_zero()
+<<<<<<< HEAD
 	owner.current.grant_language(/datum/language/codespeak, source = LANGUAGE_MALF)
+=======
+	RegisterSignal(owner.current, COMSIG_SILICON_AI_CORE_STATUS, PROC_REF(core_status))
+	if(malf_sound)
+		owner.current.playsound_local(get_turf(owner.current), malf_sound, 100, FALSE, pressure_affected = FALSE, use_reverb = FALSE)
+	owner.current.grant_language(/datum/language/codespeak, source = LANGUAGE_MALF)
+
+	var/datum/atom_hud/data/hackyhud = GLOB.huds[DATA_HUD_MALF_APC]
+	hackyhud.show_to(owner.current)
+>>>>>>> tg-pr-88929
 
 	return ..()
 
@@ -52,7 +67,7 @@
 		QDEL_NULL(malf_ai.malf_picker)
 
 	owner.special_role = null
-
+	UnregisterSignal(owner, COMSIG_SILICON_AI_CORE_STATUS)
 	return ..()
 
 /// Generates a complete set of malf AI objectives up to the traitor objective limit.
@@ -156,6 +171,8 @@
 
 	to_chat(malf_ai, "Your radio has been upgraded! Use :t to speak on an encrypted channel with Syndicate Agents!")
 
+	if(malf_ai.malf_picker)
+		return
 	malf_ai.add_malf_picker()
 
 
@@ -190,8 +207,12 @@
 				"items" = (category == malf_ai.malf_picker.selected_cat ? list() : null))
 			for(var/module in malf_ai.malf_picker.possible_modules[category])
 				var/datum/ai_module/malf/mod = malf_ai.malf_picker.possible_modules[category][module]
+<<<<<<< HEAD
 				// monkestation start: add icons
 				var/list/item_data = list(
+=======
+				cat["items"] += list(list(
+>>>>>>> tg-pr-88929
 					"name" = mod.name,
 					"cost" = mod.cost,
 					"desc" = mod.description,
@@ -250,13 +271,13 @@
 
 	result += objectives_text
 
-	var/special_role_text = lowertext(name)
+	var/special_role_text = LOWER_TEXT(name)
 
 	if(malf_ai_won)
 		result += span_greentext("The [special_role_text] was successful!")
 	else
 		result += span_redtext("The [special_role_text] has failed!")
-		SEND_SOUND(owner.current, 'sound/ambience/ambifailure.ogg')
+		SEND_SOUND(owner.current, 'sound/ambience/misc/ambifailure.ogg')
 
 	// monkestation edit start PR #5133
 	if(istype(owner?.current, /mob/living/silicon/ai))
@@ -282,10 +303,20 @@
 
 	return malf_ai_icon
 
+/datum/antagonist/malf_ai/proc/core_status(datum/source)
+	SIGNAL_HANDLER
+
+	var/mob/living/silicon/ai/malf_owner = owner.current
+	if(malf_owner.linked_core)
+		return COMPONENT_CORE_ALL_GOOD
+	return COMPONENT_CORE_DISCONNECTED
+
 //Subtype of Malf AI datum, used for one of the traitor final objectives
 /datum/antagonist/malf_ai/infected
 	name = "Infected AI"
 	employer = "Infected AI"
+	can_assign_self_objectives = FALSE
+	malf_sound = null
 	///The player, to who is this AI slaved
 	var/datum/mind/boss
 

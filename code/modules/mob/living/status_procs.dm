@@ -1,5 +1,8 @@
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> tg-pr-88929
 /**
  * Checks if we have stun immunity. Godmode always passes this check.
  *
@@ -380,7 +383,11 @@
 	Knockdown(amount)
 	Stun(amount)
 	Immobilize(amount)
+<<<<<<< HEAD
 	Daze(amount)
+=======
+	Unconscious(amount)
+>>>>>>> tg-pr-88929
 
 
 /mob/living/proc/SetAllImmobility(amount)
@@ -388,7 +395,11 @@
 	SetKnockdown(amount)
 	SetStun(amount)
 	SetImmobilized(amount)
+<<<<<<< HEAD
 	SetDaze(amount)
+=======
+	SetUnconscious(amount)
+>>>>>>> tg-pr-88929
 
 
 /mob/living/proc/AdjustAllImmobility(amount)
@@ -396,7 +407,12 @@
 	AdjustKnockdown(amount)
 	AdjustStun(amount)
 	AdjustImmobilized(amount)
+<<<<<<< HEAD
 	AdjustDaze(amount)
+=======
+	AdjustUnconscious(amount)
+
+>>>>>>> tg-pr-88929
 
 /* UNCONSCIOUS */
 /mob/living/proc/IsUnconscious() //If we're unconscious
@@ -497,6 +513,7 @@
 		S = apply_status_effect(/datum/status_effect/incapacitating/sleeping, amount)
 	return S
 
+<<<<<<< HEAD
 ///Allows us to set a permanent sleep on a player (use with caution and remember to unset it with SetSleeping() after the effect is over)
 /mob/living/proc/PermaSleeping()
 	if(SEND_SIGNAL(src, COMSIG_LIVING_STATUS_SLEEP, -1) & COMPONENT_NO_STUN)
@@ -510,15 +527,17 @@
 		S = apply_status_effect(/datum/status_effect/incapacitating/sleeping, -1)
 	return S
 
+=======
+>>>>>>> tg-pr-88929
 ///////////////////////// CLEAR STATUS /////////////////////////
 
 /mob/living/proc/adjust_status_effects_on_shake_up()
-	AdjustStun(-60)
-	AdjustKnockdown(-60)
-	AdjustUnconscious(-60)
-	AdjustSleeping(-100)
-	AdjustParalyzed(-60)
-	AdjustImmobilized(-60)
+	AdjustStun(-6 SECONDS)
+	AdjustKnockdown(-6 SECONDS)
+	AdjustUnconscious(-6 SECONDS)
+	AdjustSleeping(-10 SECONDS)
+	AdjustParalyzed(-6 SECONDS)
+	AdjustImmobilized(-6 SECONDS)
 
 ///////////////////////////////// FROZEN /////////////////////////////////////
 
@@ -531,7 +550,6 @@
  *
  * Arguments
  * * quirktype - Quirk typepath to add to the mob
- * * override_client - optional, allows a client to be passed to the quirks on add procs.
  * If not passed, defaults to this mob's client.
  *
  * Returns TRUE on success, FALSE on failure (already has the quirk, etc)
@@ -579,34 +597,50 @@
 	if(!HAS_TRAIT(src, TRAIT_HUSK))
 		return FALSE
 	REMOVE_TRAIT(src, TRAIT_HUSK, source)
-	if(!HAS_TRAIT(src, TRAIT_HUSK))
-		REMOVE_TRAIT(src, TRAIT_DISFIGURED, "husk")
-		update_body()
-		return TRUE
+	if(HAS_TRAIT(src, TRAIT_HUSK))
+		return FALSE
+	REMOVE_TRAIT(src, TRAIT_DISFIGURED, "husk")
+	update_body()
+	UnregisterSignal(src, SIGNAL_ADDTRAIT(TRAIT_UNHUSKABLE))
+	return TRUE
 
 /mob/living/proc/become_husk(source)
-	if(!HAS_TRAIT(src, TRAIT_HUSK))
-		ADD_TRAIT(src, TRAIT_HUSK, source)
-		ADD_TRAIT(src, TRAIT_DISFIGURED, "husk")
-		update_body()
-	else
-		ADD_TRAIT(src, TRAIT_HUSK, source)
+	if(HAS_TRAIT(src, TRAIT_UNHUSKABLE))
+		return
+	var/was_husk = HAS_TRAIT(src, TRAIT_HUSK)
+	ADD_TRAIT(src, TRAIT_HUSK, source)
+	if (was_husk)
+		return
+	ADD_TRAIT(src, TRAIT_DISFIGURED, "husk")
+	update_body()
+	RegisterSignal(src, SIGNAL_ADDTRAIT(TRAIT_UNHUSKABLE), PROC_REF(became_unhuskable))
+
+/// Called when we become unhuskable while already husked
+/mob/living/proc/became_unhuskable()
+	SIGNAL_HANDLER
+	cure_husk()
 
 /mob/living/proc/cure_fakedeath(source)
 	remove_traits(list(TRAIT_FAKEDEATH, TRAIT_DEATHCOMA), source)
 	update_stat()
 	if(stat != DEAD)
-		tod = null
+		station_timestamp_timeofdeath = null
 
 /// Induces fake death on a living mob.
 /mob/living/proc/fakedeath(source, silent = FALSE)
 	if(stat != DEAD)
 		if(!silent)
 			emote("deathgasp")
+<<<<<<< HEAD
 		tod = station_time_timestamp()
 
 	add_traits(list(TRAIT_FAKEDEATH, TRAIT_DEATHCOMA), source)
 	update_stat()
+=======
+		station_timestamp_timeofdeath = station_time_timestamp()
+
+	add_traits(list(TRAIT_FAKEDEATH, TRAIT_DEATHCOMA), source)
+>>>>>>> tg-pr-88929
 
 ///Unignores all slowdowns that lack the IGNORE_NOSLOW flag.
 /mob/living/proc/unignore_slowdown(source)
@@ -752,7 +786,7 @@
 		return 0
 	// Infinite duration status effects technically are not "timed status effects"
 	// by name or nature, but support is included just in case.
-	if(existing.duration == -1)
+	if(existing.duration == STATUS_EFFECT_PERMANENT)
 		return INFINITY
 
 	return existing.duration - world.time
@@ -811,4 +845,8 @@
 
 /// Helper to check if we seem to be alive or not
 /mob/living/proc/appears_alive()
+<<<<<<< HEAD
 	return health >= 0 && !HAS_TRAIT(src, TRAIT_FAKEDEATH)
+=======
+	return stat != DEAD && !HAS_TRAIT(src, TRAIT_FAKEDEATH)
+>>>>>>> tg-pr-88929

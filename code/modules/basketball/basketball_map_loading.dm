@@ -31,7 +31,7 @@
 	requires_power = FALSE
 	static_lighting = FALSE
 	base_lighting_alpha = 255
-	has_gravity = STANDARD_GRAVITY
+	default_gravity = STANDARD_GRAVITY
 	flags_1 = NONE
 	area_flags = UNIQUE_AREA | NOTELEPORT | NO_DEATH_MESSAGE | BLOCK_SUICIDE
 
@@ -84,3 +84,17 @@
 	mappath = "_maps/map_files/basketball/soviet_bears.dmm"
 	team_name = "Soviet Bears"
 	home_team_uniform = /datum/outfit/basketball/soviet_bears
+
+/datum/map_template/basketball/ash_gladiators
+	name = "Ash Gladiators Stadium"
+	description = "The homecourt of the Ash Gladiators."
+	mappath = "_maps/map_files/basketball/ash_gladiators.dmm"
+	team_name = "Ash Gladiators"
+	home_team_uniform = /datum/outfit/basketball/ash_gladiators
+
+/datum/map_template/basketball/beach_bums
+	name = "Beach Bums Stadium"
+	description = "The homecourt of the Beach Bums."
+	mappath = "_maps/map_files/basketball/beach_bums.dmm"
+	team_name = "Beach Bums"
+	home_team_uniform = /datum/outfit/basketball/beach_bums

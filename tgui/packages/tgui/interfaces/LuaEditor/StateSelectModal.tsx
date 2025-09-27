@@ -1,7 +1,16 @@
+<<<<<<< HEAD
 import { useBackend, useLocalState } from '../../backend';
 import { Button, Input, Modal, Section, Stack } from '../../components';
 import { LuaEditorData, LuaEditorModal } from './types';
 
+=======
+import { useState } from 'react';
+import { Button, Input, Modal, Section, Stack } from 'tgui-core/components';
+
+import { useBackend } from '../../backend';
+import { LuaEditorData, LuaEditorModal } from './types';
+
+>>>>>>> tg-pr-88929
 type StateSelectModalProps = {
   setModal: (modal: LuaEditorModal) => void;
 };
@@ -9,7 +18,11 @@ type StateSelectModalProps = {
 export const StateSelectModal = (props: StateSelectModalProps) => {
   const { act, data } = useBackend<LuaEditorData>();
   const { setModal } = props;
+<<<<<<< HEAD
   const [input, setInput] = useLocalState<string>('input', '');
+=======
+  const [input, setInput] = useState<string>();
+>>>>>>> tg-pr-88929
   const { states } = data;
   return (
     <Modal position="absolute" width="30%" height="50%" top="25%" left="35%">

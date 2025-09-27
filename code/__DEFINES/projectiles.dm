@@ -11,31 +11,33 @@
 
 // Caliber defines: (current count stands at 27)
 /// The caliber used by the [L6 SAW][/obj/item/gun/ballistic/automatic/l6_saw].
-#define CALIBER_712X82MM "mm71282"
+#define CALIBER_A7MM "a7mm"
 /// The caliber used by the [security auto-rifle][/obj/item/gun/ballistic/automatic/wt550].
 #define CALIBER_46X30MM "4.6x30mm"
-/// The caliber used by the Nanotrasen Saber SMG, PP-95 SMG and Type U3 Uzi. Also used as the default caliber for pistols but only the stechkin APS machine pistol doesn't override it.
+/// The caliber used by the Nanotrasen Saber SMG and Type U3 Uzi. Also used as the default caliber for pistols but only the stechkin APS machine pistol doesn't override it.
 #define CALIBER_9MM "9mm"
+/// The caliber used by smart SMG ammunition
+#define CALIBER_160SMART ".160 Smart"
 /// The caliber used as the default for ballistic guns. Only not overridden for the [surplus rifle][/obj/item/gun/ballistic/automatic/surplus].
 #define CALIBER_10MM "10mm"
 /// The caliber used by most revolver variants.
 #define CALIBER_357 ".357"
 /// The caliber used by the detective's revolver.
 #define CALIBER_38 ".38"
-/// The caliber used by the chaplain's revolver.
-#define CALIBER_77 ".77"
 /// The caliber used by the C-20r SMG, the tommygun, and the M1911 pistol.
 #define CALIBER_45 ".45"
-/// The caliber used by sniper rifles and the desert eagle.
-#define CALIBER_50 ".50"
+/// The caliber used by sniper rifles.
+#define CALIBER_50BMG ".50BMG"
+/// The caliber used by the desert eagle.
+#define CALIBER_50AE ".50AE"
 /// The caliber used by the gyrojet pistol.
 #define CALIBER_75 ".75"
 /// The caliber used by [one revolver variant][/obj/item/gun/ballistic/revolver/nagant].
 #define CALIBER_N762 "n762"
 /// The caliber used by the the M-90gl Carbine, and NT-ARG 'Boarder'.
-#define CALIBER_A556 "a556"
+#define CALIBER_A223 "a223"
 /// The caliber used by bolt action rifles.
-#define CALIBER_A762 "a762"
+#define CALIBER_STRILKA310 ".310_strilka"
 /// The caliber used by shotguns.
 #define CALIBER_SHOTGUN "shotgun"
 /// The caliber used by grenade launchers.
@@ -54,14 +56,18 @@
 #define CALIBER_HARPOON "harpoon"
 /// The caliber used by the rebar crossbow.
 #define CALIBER_REBAR "sharpened rod"
+<<<<<<< HEAD
 /// The caliber used by the rebar crossbow when forced to hold 2 rods.
 #define CALIBER_REBAR_FORCED "sharpened rod"
 /// The caliber used by the syndicate rebar crossbow.
 #define CALIBER_REBAR_SYNDIE "sharpened rod"
+=======
+>>>>>>> tg-pr-88929
 /// The caliber used by the meat hook.
 #define CALIBER_HOOK "hook"
 /// The caliber used by the changeling tentacle mutation.
 #define CALIBER_TENTACLE "tentacle"
+<<<<<<< HEAD
 #define CALIBER_A223 "a223"
 /// The caliber used by bolt action rifles.
 #define CALIBER_STRILKA310 ".310_strilka"
@@ -89,6 +95,12 @@
 #define CALIBER_MINER_950 ".950 JDJ Kinetic"
 // The caliber used by the mining doublebarrel
 #define MINER_SHOTGUN "kinetic shotgun"
+=======
+/// The caliber used by pipeguns and pipe pistols
+#define CALIBER_JUNK "junk"
+/// The caliber used by the (gatfruit) peashooter
+#define CALIBER_PEA "pea"
+>>>>>>> tg-pr-88929
 
 /// For gunpoints, how many tiles around the target the shooter can roam without losing their shot
 #define GUNPOINT_SHOOTER_STRAY_RANGE 2
@@ -104,12 +116,36 @@
 #define RETURN_PRECISE_POSITION(A) new /datum/position(A)
 #define RETURN_PRECISE_POINT(A) new /datum/point(A)
 
+<<<<<<< HEAD
 #define RETURN_POINT_VECTOR(ATOM, ANGLE, SPEED) (new /datum/point/vector(ATOM, null, null, null, null, ANGLE, SPEED))
 #define RETURN_POINT_VECTOR_INCREMENT(ATOM, ANGLE, SPEED, AMT) (new /datum/point/vector(ATOM, null, null, null, null, ANGLE, SPEED, AMT))
 
+=======
+>>>>>>> tg-pr-88929
 ///The self charging rate of energy guns that magically recharge themselves, in watts.
 #define STANDARD_ENERGY_GUN_SELF_CHARGE_RATE (0.05 * STANDARD_CELL_CHARGE)
 
 /// Macro to turn a number of laser shots into an energy cost, based on the above define
 /// e.g. LASER_SHOTS(12, STANDARD_CELL_CHARGE) means 12 shots
 #define LASER_SHOTS(X, MAX_CHARGE) (((100 * MAX_CHARGE) - ((100 * MAX_CHARGE) % X)) / (100 * X)) // I wish I could just use round, but it can't be used in datum members
+<<<<<<< HEAD
+=======
+
+/// How far do the projectile hits the prone mob
+#define MAX_RANGE_HIT_PRONE_TARGETS 10
+
+/// Queued for impact deletion (simple qdel)
+#define PROJECTILE_IMPACT_DELETE "impact_delete"
+/// Queued for range deletion (on_range call)
+#define PROJECTILE_RANGE_DELETE "range_delete"
+
+/// Projectile either hasn't impacted anything, or pierced through the target
+#define PROJECTILE_IMPACT_PASSED "impact_passed"
+/// Projectile has been "deleted" before bullet_act call has occured
+#define PROJECTILE_IMPACT_INTERRUPTED "impact_interrupted"
+/// Projectile has successfully impacted something and is scheduled for deletion
+#define PROJECTILE_IMPACT_SUCCESSFUL "impact_successful"
+
+/// For how long projectile tracers linger
+#define PROJECTILE_TRACER_DURATION 0.3 SECONDS
+>>>>>>> tg-pr-88929

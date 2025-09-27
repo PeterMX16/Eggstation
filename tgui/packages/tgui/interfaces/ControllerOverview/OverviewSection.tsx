@@ -1,8 +1,17 @@
+<<<<<<< HEAD
 import { useBackend } from '../../backend';
 import { Button, LabeledList, Section, Stack } from '../../components';
 import { ControllerData } from './types';
 
 export const OverviewSection = (props) => {
+=======
+import { Button, LabeledList, Section, Stack } from 'tgui-core/components';
+
+import { useBackend } from '../../backend';
+import { ControllerData } from './types';
+
+export function OverviewSection(props) {
+>>>>>>> tg-pr-88929
   const { act, data } = useBackend<ControllerData>();
   const {
     fast_update,
@@ -16,7 +25,11 @@ export const OverviewSection = (props) => {
   let overallOverrun = 0;
   for (let i = 0; i < subsystems.length; i++) {
     avgUsage += subsystems[i].usage_per_tick;
+<<<<<<< HEAD
     overallOverrun += subsystems[i].overtime;
+=======
+    overallOverrun += subsystems[i].tick_overrun;
+>>>>>>> tg-pr-88929
   }
 
   return (
@@ -72,4 +85,8 @@ export const OverviewSection = (props) => {
       </Stack>
     </Section>
   );
+<<<<<<< HEAD
 };
+=======
+}
+>>>>>>> tg-pr-88929

@@ -58,24 +58,17 @@
 	kill.update_explanation_text()
 	objectives += kill
 
-	var/mob/living/carbon/human/clone_human = owner.current
-	var/mob/living/carbon/human/original_human = original_mind.current
-
-	//equip them in the original's clothes
-	if(!isplasmaman(original_human))
-		clone_human.equipOutfit(original_human.mind.assigned_role.outfit)
-	else
-		clone_human.equipOutfit(original_human.mind.assigned_role.plasmaman_outfit)
-		clone_human.internal = clone_human.get_item_for_held_index(2)
+	owner.set_assigned_role(SSjob.get_job_type(/datum/job/paradox_clone))
 
 	//clone doesnt show up on message lists
-	var/obj/item/modular_computer/pda/messenger = locate() in clone_human
+	var/obj/item/modular_computer/pda/messenger = locate() in owner.current
 	if(messenger)
 		var/datum/computer_file/program/messenger/message_app = locate() in messenger.stored_files
 		if(message_app)
 			message_app.invisible = TRUE
 
 	//dont want anyone noticing there's two now
+	var/mob/living/carbon/human/clone_human = owner.current
 	var/obj/item/clothing/under/sensor_clothes = clone_human.w_uniform
 	if(sensor_clothes)
 		sensor_clothes.sensor_mode = SENSOR_OFF
@@ -86,7 +79,7 @@
 	original_mind.quick_copy_all_memories(owner)
 
 /datum/antagonist/paradox_clone/roundend_report_header()
-	return "<span class='header'>A paradox clone appeared on the station!</span><br>"
+	return span_header("A paradox clone appeared on the station!<br>")
 
 /datum/outfit/paradox_clone
 	name = "Paradox Clone (Preview only)"
@@ -109,6 +102,7 @@
 		CRASH("WARNING! [ADMIN_LOOKUPFLW(owner)] paradox clone objectives forged without an original!")
 	explanation_text = "Murder and replace [target.name], the [!target_role_type ? target.assigned_role.title : target.special_role]. Remember, your mission is to blend in, do not kill anyone else unless you have to!"
 
+<<<<<<< HEAD
 
 /datum/antagonist/paradox_clone/antag_token(datum/mind/hosts_mind, mob/spender)
 	if(isliving(spender) && hosts_mind)
@@ -157,3 +151,10 @@
 	if(possible_targets.len)
 		return pick(possible_targets)
 	return FALSE
+=======
+///Static bluespace stream used in its ghost poll icon.
+/obj/effect/bluespace_stream
+	name = "bluespace stream"
+	icon = 'icons/effects/effects.dmi'
+	icon_state = "bluestream"
+>>>>>>> tg-pr-88929

@@ -8,7 +8,11 @@
 	button_icon = 'icons/mob/actions/actions_ecult.dmi'
 	button_icon_state = "voidball"
 	ranged_mousepointer = 'icons/effects/mouse_pointers/throw_target.dmi'
+<<<<<<< HEAD
 	sound = 'sound/magic/voidblink.ogg'
+=======
+	sound = 'sound/effects/magic/voidblink.ogg'
+>>>>>>> tg-pr-88929
 
 	cooldown_time = 1 MINUTES
 	cast_range = 3
@@ -35,8 +39,11 @@
 		)
 		return
 	cast_on.apply_status_effect(/datum/status_effect/void_prison, "void_stasis")
+<<<<<<< HEAD
 	owner.log_message("used [name] on [key_name(cast_on)]", LOG_ATTACK)
 	cast_on.log_message("was hit by [key_name(owner)] with [name]", LOG_VICTIM, log_globally = FALSE)
+=======
+>>>>>>> tg-pr-88929
 
 /datum/status_effect/void_prison
 	id = "void_prison"
@@ -58,7 +65,11 @@
 		owner.apply_status_effect(/datum/status_effect/void_chill, 3)
 	if(stasis_overlay)
 		//Free our prisoner
+<<<<<<< HEAD
 		owner.remove_traits(list(TRAIT_NO_TRANSFORM, TRAIT_SOFTSPOKEN, TRAIT_GODMODE), TRAIT_STATUS_EFFECT(id))
+=======
+		owner.remove_traits(list(TRAIT_GODMODE, TRAIT_NO_TRANSFORM, TRAIT_SOFTSPOKEN), REF(src))
+>>>>>>> tg-pr-88929
 		owner.forceMove(get_turf(stasis_overlay))
 		stasis_overlay.forceMove(owner)
 		owner.vis_contents += stasis_overlay
@@ -73,14 +84,22 @@
 /datum/status_effect/void_prison/proc/enter_prison(mob/living/prisoner)
 	stasis_overlay.forceMove(prisoner.loc)
 	prisoner.forceMove(stasis_overlay)
+<<<<<<< HEAD
 	prisoner.add_traits(list(TRAIT_NO_TRANSFORM, TRAIT_SOFTSPOKEN, TRAIT_GODMODE), TRAIT_STATUS_EFFECT(id))
+=======
+	prisoner.add_traits(list(TRAIT_GODMODE, TRAIT_NO_TRANSFORM, TRAIT_SOFTSPOKEN), REF(src))
+>>>>>>> tg-pr-88929
 
 ///Makes sure to clear the ref in case the voidball ever suddenly disappears
 /datum/status_effect/void_prison/proc/clear_overlay()
 	SIGNAL_HANDLER
 	stasis_overlay = null
 
+<<<<<<< HEAD
 //Voidball effect
+=======
+//----Voidball effect
+>>>>>>> tg-pr-88929
 /obj/effect/abstract/voidball
 	icon = 'icons/mob/actions/actions_ecult.dmi'
 	icon_state = "voidball_effect"
@@ -95,7 +114,11 @@
 /obj/effect/abstract/voidball/proc/animate_closing()
 	flick("voidball_closing", src)
 
+<<<<<<< HEAD
 //Screen alert
+=======
+//---- Screen alert
+>>>>>>> tg-pr-88929
 /atom/movable/screen/alert/status_effect/void_prison
 	name = "Void Prison"
 	desc = "A Yawning void encases your mortal coil." //Go straight to jail, do not pass GO, do not collect 200$

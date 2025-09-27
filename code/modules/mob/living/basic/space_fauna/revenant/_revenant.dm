@@ -32,10 +32,17 @@
 	response_harm_continuous = "punches through"
 	response_harm_simple = "punch through"
 	unsuitable_atmos_damage = 0
+<<<<<<< HEAD
 	damage_coeff = list(BRUTE = 1, BURN = 1, TOX = 0, CLONE = 0, STAMINA = 0, OXY = 0) //I don't know how you'd apply those, but revenants no-sell them anyway.
 	habitable_atmos = list("min_oxy" = 0, "max_oxy" = 0, "min_plas" = 0, "max_plas" = 0, "min_co2" = 0, "max_co2" = 0, "min_n2" = 0, "max_n2" = 0)
 	bodytemp_cold_damage_limit = -1
 	bodytemp_heat_damage_limit = INFINITY
+=======
+	damage_coeff = list(BRUTE = 1, BURN = 1, TOX = 0, STAMINA = 0, OXY = 0) //I don't know how you'd apply those, but revenants no-sell them anyway.
+	habitable_atmos = null
+	minimum_survivable_temperature = 0
+	maximum_survivable_temperature = INFINITY
+>>>>>>> tg-pr-88929
 
 	status_flags = NONE
 	density = FALSE
@@ -97,14 +104,22 @@
 	AddElement(/datum/element/simple_flying)
 	add_traits(list(TRAIT_SPACEWALK, TRAIT_SIXTHSENSE, TRAIT_FREE_HYPERSPACE_MOVEMENT), INNATE_TRAIT)
 
+<<<<<<< HEAD
 	for(var/ability in abilities)
 		var/datum/action/spell = new ability(src)
 		spell.Grant(src)
+=======
+	grant_actions_by_list(abilities)
+>>>>>>> tg-pr-88929
 
 	RegisterSignal(src, COMSIG_LIVING_BANED, PROC_REF(on_baned))
 	RegisterSignal(src, COMSIG_MOVABLE_PRE_MOVE, PROC_REF(on_move))
 	RegisterSignal(src, COMSIG_LIVING_LIFE, PROC_REF(on_life))
+<<<<<<< HEAD
 	set_random_revenant_name()
+=======
+	name = generate_random_mob_name()
+>>>>>>> tg-pr-88929
 
 	GLOB.revenant_relay_mobs |= src
 
@@ -127,7 +142,11 @@
 		return TRUE
 
 	generated_objectives_and_spells = TRUE
+<<<<<<< HEAD
 	mind.set_assigned_role(SSjob.GetJobType(/datum/job/revenant))
+=======
+	mind.set_assigned_role(SSjob.get_job_type(/datum/job/revenant))
+>>>>>>> tg-pr-88929
 	mind.special_role = ROLE_REVENANT
 	SEND_SOUND(src, sound('sound/effects/ghost.ogg'))
 	mind.add_antag_datum(/datum/antagonist/revenant)
@@ -152,6 +171,13 @@
 	update_appearance(UPDATE_ICON)
 	update_health_hud()
 
+<<<<<<< HEAD
+=======
+/mob/living/basic/revenant/AltClickOn(atom/target)
+	if(CAN_I_SEE(target))
+		client.loot_panel.open(get_turf(target))
+
+>>>>>>> tg-pr-88929
 /mob/living/basic/revenant/get_status_tab_items()
 	. = ..()
 	. += "Current Essence: [essence >= max_essence ? essence : "[essence] / [max_essence]"] E"
@@ -170,7 +196,23 @@
 		essencecolor = "#1D2953" //oh jeez you're dying
 	hud_used.healths.maptext = MAPTEXT("<div align='center' valign='middle' style='position:relative; top:0px; left:6px'><font color='[essencecolor]'>[essence]E</font></div>")
 
+<<<<<<< HEAD
 /mob/living/basic/revenant/say(message, bubble_type, list/spans = list(), sanitize = TRUE, datum/language/language = null, ignore_spam = FALSE, forced = null, filterproof = null, message_range = 7, datum/saymode/saymode = null)
+=======
+/mob/living/basic/revenant/say(
+	message,
+	bubble_type,
+	list/spans = list(),
+	sanitize = TRUE,
+	datum/language/language,
+	ignore_spam = FALSE,
+	forced,
+	filterproof = FALSE,
+	message_range = 7,
+	datum/saymode/saymode,
+	list/message_mods = list(),
+)
+>>>>>>> tg-pr-88929
 	if(!message)
 		return
 
@@ -194,7 +236,11 @@
 		ShiftClickOn(A)
 		return
 	if(LAZYACCESS(modifiers, ALT_CLICK))
+<<<<<<< HEAD
 		A.AltClick(src)
+=======
+		base_click_alt(A)
+>>>>>>> tg-pr-88929
 		return
 	if(LAZYACCESS(modifiers, RIGHT_CLICK))
 		ranged_secondary_attack(A, modifiers)
@@ -219,9 +265,15 @@
 	if(HAS_TRAIT(src, TRAIT_REVENANT_INHIBITED) || HAS_TRAIT(src, TRAIT_REVENANT_REVEALED) || HAS_TRAIT(src, TRAIT_NO_TRANSFORM) || !Adjacent(target) || !incorporeal_move_check(target))
 		return
 
+<<<<<<< HEAD
 	var/alist/icon_dimensions = get_icon_dimensions(target.icon)
 	var/orbitsize = (icon_dimensions["width"] + icon_dimensions["height"]) * 0.5
 	orbitsize -= (orbitsize / world.icon_size) * (world.icon_size * 0.25)
+=======
+	var/list/icon_dimensions = get_icon_dimensions(target.icon)
+	var/orbitsize = (icon_dimensions["width"] + icon_dimensions["height"]) * 0.5
+	orbitsize -= (orbitsize / ICON_SIZE_ALL) * (ICON_SIZE_ALL * 0.25)
+>>>>>>> tg-pr-88929
 	orbit(target, orbitsize)
 
 /mob/living/basic/revenant/adjust_health(amount, updating_health = TRUE, forced = FALSE)
@@ -268,10 +320,17 @@
 /mob/living/basic/revenant/dust(just_ash, drop_items, force)
 	death()
 
+<<<<<<< HEAD
 /mob/living/basic/revenant/gib(no_brain, no_organs, no_bodyparts, safe_gib = TRUE)
 	death()
 
 /mob/living/basic/revenant/can_perform_action(atom/movable/target, action_bitflags)
+=======
+/mob/living/basic/revenant/gib()
+	death()
+
+/mob/living/basic/revenant/can_perform_action(atom/target, action_bitflags)
+>>>>>>> tg-pr-88929
 	return FALSE
 
 /mob/living/basic/revenant/ex_act(severity, target)
@@ -302,7 +361,11 @@
 		span_revendanger("NO! No... it's too late, you can feel your essence [pick("breaking apart", "drifting away")]..."),
 	)
 
+<<<<<<< HEAD
 	invisibility = 0
+=======
+	SetInvisibility(INVISIBILITY_NONE, id=type)
+>>>>>>> tg-pr-88929
 	icon_state = "revenant_draining"
 	playsound(src, 'sound/effects/screech.ogg', 100, TRUE)
 
@@ -347,13 +410,21 @@
 	returnable_list += span_bold("Be sure to read <a href=\"https://tgstation13.org/wiki/Revenant\">the wiki page</a> to learn more.")
 	return returnable_list
 
+<<<<<<< HEAD
 /mob/living/basic/revenant/proc/set_random_revenant_name()
+=======
+/mob/living/basic/revenant/generate_random_mob_name()
+>>>>>>> tg-pr-88929
 	var/list/built_name_strings = list()
 	built_name_strings += pick(strings(REVENANT_NAME_FILE, "spirit_type"))
 	built_name_strings += " of "
 	built_name_strings += pick(strings(REVENANT_NAME_FILE, "adverb"))
 	built_name_strings += pick(strings(REVENANT_NAME_FILE, "theme"))
+<<<<<<< HEAD
 	name = built_name_strings.Join("")
+=======
+	return built_name_strings.Join("")
+>>>>>>> tg-pr-88929
 
 /mob/living/basic/revenant/proc/on_baned(obj/item/weapon, mob/living/user)
 	SIGNAL_HANDLER
@@ -369,7 +440,11 @@
 	if(isnull(step_turf))
 		return TRUE // what? whatever let it happen
 
+<<<<<<< HEAD
 	if((SSticker.current_state < GAME_STATE_FINISHED) && (step_turf.turf_flags & NOJAUNT)) // monkestation edit: allow jaunts to work after roundend
+=======
+	if(step_turf.turf_flags & NOJAUNT)
+>>>>>>> tg-pr-88929
 		to_chat(src, span_warning("Some strange aura is blocking the way."))
 		return FALSE
 
@@ -428,7 +503,11 @@
 	draining = FALSE
 	dormant = FALSE
 	incorporeal_move = INCORPOREAL_MOVE_JAUNT
+<<<<<<< HEAD
 	invisibility = INVISIBILITY_REVENANT
+=======
+	RemoveInvisibility(type)
+>>>>>>> tg-pr-88929
 	alpha = 255
 
 /mob/living/basic/revenant/proc/change_essence_amount(essence_to_change_by, silent = FALSE, source = null)

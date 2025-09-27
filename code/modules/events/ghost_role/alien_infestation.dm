@@ -74,7 +74,7 @@
 	var/list/weighted_candidates = return_antag_rep_weight(candidates)
 
 	var/list/vents = list()
-	for(var/obj/machinery/atmospherics/components/unary/vent_pump/temp_vent in GLOB.machines)
+	for(var/obj/machinery/atmospherics/components/unary/vent_pump/temp_vent as anything in SSmachines.get_machines_by_type_and_subtypes(/obj/machinery/atmospherics/components/unary/vent_pump))
 		if(QDELETED(temp_vent))
 			continue
 		if(is_station_level(temp_vent.loc.z) && !temp_vent.welded)
@@ -90,6 +90,7 @@
 		message_admins("An event attempted to spawn an alien but no suitable vents were found. Shutting down.")
 		return MAP_ERROR
 
+<<<<<<< HEAD
 	var/selected_count = 0
 	while(length(weighted_candidates) && selected_count < antag_count)
 		var/client/candidate_ckey = pick_n_take_weighted(weighted_candidates)
@@ -101,6 +102,14 @@
 		if(!candidate.mind)
 			candidate.mind = new /datum/mind(candidate.key)
 
+=======
+	var/list/candidates = SSpolling.poll_ghost_candidates(check_jobban = ROLE_ALIEN, role = ROLE_ALIEN, alert_pic = /mob/living/carbon/alien/larva, role_name_text = role_name)
+
+	if(!length(candidates))
+		return NOT_ENOUGH_PLAYERS
+
+	while(spawncount > 0 && vents.len && candidates.len)
+>>>>>>> tg-pr-88929
 		var/obj/vent = pick_n_take(vents)
 		var/mob/living/carbon/alien/larva/new_xeno = new(vent.loc)
 		new_xeno.PossessByPlayer(candidate_ckey)

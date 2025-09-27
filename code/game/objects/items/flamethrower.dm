@@ -6,7 +6,7 @@
 	inhand_icon_state = "flamethrower_0"
 	lefthand_file = 'icons/mob/inhands/weapons/flamethrower_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/weapons/flamethrower_righthand.dmi'
-	flags_1 = CONDUCT_1
+	obj_flags = CONDUCTS_ELECTRICITY
 	force = 3
 	throwforce = 10
 	throw_speed = 1
@@ -16,7 +16,14 @@
 	resistance_flags = FIRE_PROOF
 	trigger_guard = TRIGGER_GUARD_NORMAL
 	light_system = OVERLAY_LIGHT
+<<<<<<< HEAD
+=======
+	light_color = LIGHT_COLOR_FLARE
+	light_range = 2
+	light_power = 2
+>>>>>>> tg-pr-88929
 	light_on = FALSE
+	interaction_flags_click = NEED_DEXTERITY|NEED_HANDS|ALLOW_RESTING
 	var/status = FALSE
 	var/lit = FALSE //on or off
 	var/operating = FALSE//cooldown
@@ -29,12 +36,18 @@
 	var/create_full = FALSE
 	var/create_with_tank = FALSE
 	var/igniter_type = /obj/item/assembly/igniter
-	var/acti_sound = 'sound/items/welderactivate.ogg'
-	var/deac_sound = 'sound/items/welderdeactivate.ogg'
+	var/acti_sound = 'sound/items/tools/welderactivate.ogg'
+	var/deac_sound = 'sound/items/tools/welderdeactivate.ogg'
 
 /obj/item/flamethrower/Initialize(mapload)
 	. = ..()
-	AddElement(/datum/element/update_icon_updates_onmob, ITEM_SLOT_HANDS)
+	AddElement(/datum/element/update_icon_updates_onmob)
+	var/static/list/slapcraft_recipe_list = list(/datum/crafting_recipe/flamethrower)
+
+	AddElement(
+		/datum/element/slapcrafting,\
+		slapcraft_recipes = slapcraft_recipe_list,\
+	)
 
 /obj/item/flamethrower/Destroy()
 	if(weldtool)
@@ -49,8 +62,7 @@
 
 /obj/item/flamethrower/process()
 	if(!lit || !igniter)
-		STOP_PROCESSING(SSobj, src)
-		return null
+		return PROCESS_KILL
 	var/turf/location = loc
 	if(ismob(location))
 		var/mob/M = location
@@ -76,6 +88,11 @@
 		. += "+beaker"
 
 /obj/item/flamethrower/ranged_interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
+<<<<<<< HEAD
+=======
+	if (!ptank)
+		return NONE
+>>>>>>> tg-pr-88929
 	if(HAS_TRAIT(user, TRAIT_PACIFISM))
 		to_chat(user, span_warning("You can't bring yourself to fire \the [src]! You don't want to risk harming anyone..."))
 		log_combat(user, interacting_with, "attempted to flamethrower", src, "with gas mixture: {[print_gas_mixture(ptank.return_analyzable_air())]}, flamethrower: \"[name]\" ([src]), igniter: \"[igniter.name]\", tank: \"[ptank.name]\" and tank distribution pressure: \"[siunit(1000 * ptank.distribute_pressure, unit = "Pa", maxdecimals = 9)]\"" + (lit ? " while lit" : "" + " but failed due to pacifism."))
@@ -165,6 +182,7 @@
 /obj/item/flamethrower/attack_self(mob/user)
 	toggle_igniter(user)
 
+<<<<<<< HEAD
 /obj/item/flamethrower/AltClick(mob/user)
 	if(beaker && isliving(user) && user.can_perform_action(src, NEED_DEXTERITY|NEED_HANDS))
 		user.put_in_hands(beaker)
@@ -176,6 +194,17 @@
 		ptank = null
 		to_chat(user, span_notice("You remove the plasma tank from [src]!"))
 		update_appearance()
+=======
+/obj/item/flamethrower/click_alt(mob/user)
+	if(isnull(ptank))
+		return NONE
+
+	user.put_in_hands(ptank)
+	ptank = null
+	to_chat(user, span_notice("You remove the plasma tank from [src]!"))
+	update_appearance()
+	return CLICK_ACTION_SUCCESS
+>>>>>>> tg-pr-88929
 
 /obj/item/flamethrower/examine(mob/user)
 	. = ..()
@@ -246,10 +275,6 @@
 		sleep(0.1 SECONDS)
 		previousturf = T
 	operating = FALSE
-	for(var/mob/M in viewers(1, loc))
-		if((M.client && M.machine == src))
-			attack_self(M)
-
 
 /obj/item/flamethrower/proc/default_ignite(turf/target, release_amount = 0.05)
 	//TODO: DEFERRED Consider checking to make sure tank pressure is high enough before doing this...
@@ -260,7 +285,7 @@
 	if(air_transfer.gases[/datum/gas/plasma])
 		air_transfer.gases[/datum/gas/plasma][MOLES] *= 5 //Suffering
 	target.assume_air(air_transfer)
-	//Burn it based on transfered gas
+	//Burn it based on transferred gas
 	target.hotspot_expose((tank_mix.temperature*2) + 380,500)
 	//location.hotspot_expose(1000,500,1)
 
@@ -313,9 +338,8 @@
 /obj/item/flamethrower/full/tank
 	create_with_tank = TRUE
 
-/obj/item/flamethrower/hit_reaction(mob/living/carbon/human/owner, atom/movable/hitby, attack_text = "the attack", final_block_chance = 0, damage = 0, attack_type = MELEE_ATTACK)
-	var/obj/projectile/P = hitby
-	if(damage && attack_type == PROJECTILE_ATTACK && P.damage_type != STAMINA && prob(15))
+/obj/item/flamethrower/hit_reaction(mob/living/carbon/human/owner, atom/movable/hitby, attack_text = "the attack", final_block_chance = 0, damage = 0, attack_type = MELEE_ATTACK, damage_type = BRUTE)
+	if(damage && attack_type == PROJECTILE_ATTACK && damage_type != STAMINA && prob(15))
 		owner.visible_message(span_danger("\The [attack_text] hits the fuel tank on [owner]'s [name], rupturing it! What a shot!"))
 		var/turf/target_turf = get_turf(owner)
 		owner.log_message("held a flamethrower tank detonated by a projectile ([hitby])", LOG_GAME)

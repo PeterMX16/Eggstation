@@ -1,7 +1,13 @@
 /datum/action/changeling/darkness_adaptation
 	name = "Darkness Adaptation"
+<<<<<<< HEAD
 	desc = "Our skin pigmentation and eyes rapidly change to suit the darkness. Requires 10 available chemicals and slightly slows down chemical regeneration." // monkestation edit
 	helptext = "Makes us translucent. Works best in dark enviroments and garments. Makes our eyes more sensitive to flashes." // monkestation edit
+=======
+	desc = "Our skin pigmentation and eyes rapidly changes to suit the darkness. Needs 10 chemicals in-storage to toggle. Slows down our chemical regeneration by 15%"
+	helptext = "Allows us to darken and change the translucency of our pigmentation, and adapt our eyes to see in dark conditions, \
+	The translucent effect works best in dark enviroments and garments. Can be toggled on and off."
+>>>>>>> tg-pr-88929
 	button_icon_state = "darkness_adaptation"
 	dna_cost = 2
 	chemical_cost = 10
@@ -36,7 +42,11 @@
 	animate(cling, color = COLOR_DARK, time = 3 SECONDS) // Darkens their overall appearance
 	var/datum/antagonist/changeling/changeling_data = cling.mind?.has_antag_datum(/datum/antagonist/changeling)
 	changeling_data?.chem_recharge_slowdown -= recharge_slowdown //Slows down chem regeneration
+<<<<<<< HEAD
 	var/obj/item/organ/internal/eyes/eyes = cling.get_organ_by_type(/obj/item/organ/internal/eyes)
+=======
+	var/obj/item/organ/eyes/eyes = cling.get_organ_by_type(/obj/item/organ/eyes)
+>>>>>>> tg-pr-88929
 	if(!istype(eyes))
 		return
 	eyes.lighting_cutoff = LIGHTING_CUTOFF_MEDIUM // Adds barely usable, kinda shit night vision
@@ -52,7 +62,11 @@
 	animate(cling, color = null, time = 3 SECONDS)
 	var/datum/antagonist/changeling/changeling_data = cling.mind?.has_antag_datum(/datum/antagonist/changeling)
 	changeling_data?.chem_recharge_slowdown += recharge_slowdown
+<<<<<<< HEAD
 	var/obj/item/organ/internal/eyes/eyes = cling.get_organ_by_type(/obj/item/organ/internal/eyes)
+=======
+	var/obj/item/organ/eyes/eyes = cling.get_organ_by_type(/obj/item/organ/eyes)
+>>>>>>> tg-pr-88929
 	if(!istype(eyes))
 		return
 	eyes.lighting_cutoff = LIGHTING_CUTOFF_VISIBLE
@@ -63,7 +77,11 @@
 /datum/action/changeling/darkness_adaptation/proc/eye_implanted(mob/living/source, obj/item/organ/gained, special)
 	SIGNAL_HANDLER
 
+<<<<<<< HEAD
 	var/obj/item/organ/internal/eyes/eyes = gained
+=======
+	var/obj/item/organ/eyes/eyes = gained
+>>>>>>> tg-pr-88929
 	if(!istype(eyes))
 		return
 	if(is_active)
@@ -75,7 +93,11 @@
 /datum/action/changeling/darkness_adaptation/proc/eye_removed(mob/living/source, obj/item/organ/removed, special)
 	SIGNAL_HANDLER
 
+<<<<<<< HEAD
 	var/obj/item/organ/internal/eyes/eyes = removed
+=======
+	var/obj/item/organ/eyes/eyes = removed
+>>>>>>> tg-pr-88929
 	if(!istype(eyes))
 		return
 	eyes.flash_protect = initial(eyes.flash_protect)

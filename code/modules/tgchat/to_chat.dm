@@ -38,6 +38,7 @@
 	if(html) message["html"] = html
 	if(avoid_highlighting) message["avoidHighlighting"] = avoid_highlighting
 
+<<<<<<< HEAD
 #ifndef DISABLE_DEMOS
 	//Monkestation Edit: REPLAYS
 	if(!confidential)
@@ -48,6 +49,8 @@
 	//Monkestation Edit: REPLAYS
 #endif
 
+=======
+>>>>>>> tg-pr-88929
 	// send it immediately
 	SSchat.send_immediate(target, message)
 

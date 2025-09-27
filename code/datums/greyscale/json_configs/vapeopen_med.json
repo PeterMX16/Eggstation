@@ -1,0 +1,30 @@
+{
+<<<<<<< HEAD:code/datums/greyscale/json_configs/vape_open_med.json
+	"vape_open_med": [
+=======
+    "vapeopen_med": [
+        {
+            "type": "icon_state",
+            "icon_state": "vapeOutlet",
+            "blend_mode": "overlay",
+            "color_ids": [ 1 ]
+        },
+>>>>>>> tg-pr-88929:code/datums/greyscale/json_configs/vapeopen_med.json
+		{
+			"type": "icon_state",
+			"icon_state": "vapeOutlet",
+			"blend_mode": "overlay",
+			"color_ids": [1]
+		},
+		{
+			"type": "icon_state",
+			"icon_state": "vapeInput",
+			"blend_mode": "overlay"
+		},
+		{
+			"type": "icon_state",
+			"icon_state": "vapeopen_med",
+			"blend_mode": "overlay"
+		}
+	]
+}

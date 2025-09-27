@@ -1,5 +1,7 @@
+#define MOTH_WING_FORCE 1 NEWTONS
+
 ///Moth wings! They can flutter in low-grav and burn off in heat
-/obj/item/organ/external/wings/moth
+/obj/item/organ/wings/moth
 	name = "moth wings"
 	desc = "Spread your wings and FLOOOOAAAAAT!"
 
@@ -14,20 +16,39 @@
 	///Store our old datum here for if our burned wings are healed
 	var/original_sprite_datum
 
-/obj/item/organ/external/wings/moth/on_insert(mob/living/carbon/receiver)
+	var/drift_force = MOTH_WING_FORCE
+	var/stabilizer_force = MOTH_WING_FORCE
+
+/obj/item/organ/wings/moth/Initialize(mapload)
+	. = ..()
+	AddComponent( \
+		/datum/component/jetpack, \
+		TRUE, \
+		drift_force, \
+		stabilizer_force, \
+		COMSIG_ORGAN_IMPLANTED, \
+		COMSIG_ORGAN_REMOVED, \
+		null, \
+		CALLBACK(src, PROC_REF(allow_flight)), \
+		null, \
+	)
+
+/obj/item/organ/wings/moth/on_mob_insert(mob/living/carbon/receiver)
 	. = ..()
 	RegisterSignal(receiver, COMSIG_HUMAN_BURNING, PROC_REF(try_burn_wings))
 	RegisterSignal(receiver, COMSIG_LIVING_POST_FULLY_HEAL, PROC_REF(heal_wings))
-	RegisterSignal(receiver, COMSIG_MOVABLE_PRE_MOVE, PROC_REF(update_float_move))
 
-/obj/item/organ/external/wings/moth/on_remove(mob/living/carbon/organ_owner)
+/obj/item/organ/wings/moth/on_mob_remove(mob/living/carbon/organ_owner)
 	. = ..()
-	UnregisterSignal(organ_owner, list(COMSIG_HUMAN_BURNING, COMSIG_LIVING_POST_FULLY_HEAL, COMSIG_MOVABLE_PRE_MOVE))
-	REMOVE_TRAIT(organ_owner, TRAIT_FREE_FLOAT_MOVEMENT, REF(src))
+	UnregisterSignal(organ_owner, list(COMSIG_HUMAN_BURNING, COMSIG_LIVING_POST_FULLY_HEAL))
 
-/obj/item/organ/external/wings/moth/can_soften_fall()
+/obj/item/organ/wings/moth/make_flap_sound(mob/living/carbon/wing_owner)
+	playsound(wing_owner, 'sound/mobs/humanoids/moth/moth_flutter.ogg', 50, TRUE)
+
+/obj/item/organ/wings/moth/can_soften_fall()
 	return !burnt
 
+<<<<<<< HEAD
 ///Check if we can flutter around
 /obj/item/organ/external/wings/moth/proc/update_float_move()
 	SIGNAL_HANDLER
@@ -39,6 +60,23 @@
 			return
 
 	REMOVE_TRAIT(owner, TRAIT_FREE_FLOAT_MOVEMENT, REF(src))
+=======
+/obj/item/organ/wings/moth/proc/allow_flight()
+	if(!owner || !owner.client)
+		return FALSE
+	if(owner.has_gravity())
+		return FALSE
+	if(ishuman(owner))
+		var/mob/living/carbon/human/human_owner = owner
+		if(human_owner.wear_suit?.flags_inv & HIDEMUTWINGS)
+			return FALSE //Can't fly with hidden wings
+	if(burnt)
+		return FALSE
+	var/datum/gas_mixture/current = owner.loc.return_air()
+	if(current && (current.return_pressure() >= ONE_ATMOSPHERE*0.85))
+		return TRUE
+	return FALSE
+>>>>>>> tg-pr-88929
 
 ///Checks if our wings are usable
 /obj/item/organ/external/wings/moth/proc/can_fly()
@@ -51,7 +89,7 @@
 	return TRUE
 
 ///check if our wings can burn off ;_;
-/obj/item/organ/external/wings/moth/proc/try_burn_wings(mob/living/carbon/human/human)
+/obj/item/organ/wings/moth/proc/try_burn_wings(mob/living/carbon/human/human)
 	SIGNAL_HANDLER
 
 	if(!burnt && human.get_skin_temperature() >= CELCIUS_TO_KELVIN(175 CELCIUS) && human.fire_stacks > 0) //do not go into the extremely hot light. you will not survive
@@ -62,13 +100,13 @@
 		human.update_body_parts()
 
 ///burn the wings off
-/obj/item/organ/external/wings/moth/proc/burn_wings()
+/obj/item/organ/wings/moth/proc/burn_wings()
 	var/datum/bodypart_overlay/mutant/wings/moth/wings = bodypart_overlay
 	wings.burnt = TRUE
 	burnt = TRUE
 
 ///heal our wings back up!!
-/obj/item/organ/external/wings/moth/proc/heal_wings(datum/source, heal_flags)
+/obj/item/organ/wings/moth/proc/heal_wings(datum/source, heal_flags)
 	SIGNAL_HANDLER
 
 	if(!burnt)
@@ -94,7 +132,7 @@
 	burn_datum = fetch_sprite_datum(burn_datum)
 
 /datum/bodypart_overlay/mutant/wings/moth/get_global_feature_list()
-	return GLOB.moth_wings_list
+	return SSaccessories.moth_wings_list
 
 /datum/bodypart_overlay/mutant/wings/moth/can_draw_on_bodypart(mob/living/carbon/human/human)
 	if(!(human.wear_suit?.flags_inv & HIDEMUTWINGS))
@@ -103,3 +141,5 @@
 
 /datum/bodypart_overlay/mutant/wings/moth/get_base_icon_state()
 	return burnt ? burn_datum.icon_state : sprite_datum.icon_state
+
+#undef MOTH_WING_FORCE

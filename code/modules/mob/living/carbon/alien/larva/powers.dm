@@ -15,16 +15,26 @@
 			span_notice("[owner] slowly peeks up from the ground..."),
 			span_noticealien("You stop hiding."),
 		)
+<<<<<<< HEAD
 		hidden = FALSE
 		REMOVE_TRAIT(owner, TRAIT_IGNORE_ELEVATION, ACTION_TRAIT)
+=======
+		ADD_TRAIT(owner, TRAIT_IGNORE_ELEVATION, ACTION_TRAIT)
+
+>>>>>>> tg-pr-88929
 	else
 		owner.plane -= 2
 		owner.visible_message(
 			span_name("[owner] scurries to the ground!"),
 			span_noticealien("You are now hiding."),
 		)
+<<<<<<< HEAD
 		ADD_TRAIT(owner, TRAIT_IGNORE_ELEVATION, ACTION_TRAIT)
 		hidden = TRUE
+=======
+		REMOVE_TRAIT(owner, TRAIT_IGNORE_ELEVATION, ACTION_TRAIT)
+
+>>>>>>> tg-pr-88929
 	return TRUE
 
 /datum/action/cooldown/alien/larva_evolve

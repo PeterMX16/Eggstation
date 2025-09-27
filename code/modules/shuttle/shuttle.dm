@@ -1,13 +1,8 @@
-//use this define to highlight docking port bounding boxes (ONLY FOR DEBUG USE)
-#ifdef TESTING
-#define DOCKING_PORT_HIGHLIGHT
-#endif
-
 //NORTH default dir
 /obj/docking_port
 	invisibility = INVISIBILITY_ABSTRACT
-	icon = 'icons/obj/device.dmi'
-	icon_state = "pinonfar"
+	icon = 'icons/effects/docking_ports.dmi'
+	icon_state = "static"
 
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF
 	anchored = TRUE
@@ -73,7 +68,7 @@
 /obj/docking_port/take_damage(damage_amount, damage_type = BRUTE, damage_flag = "", sound_effect = TRUE, attack_dir, armour_penetration = 0)
 	return
 
-/obj/docking_port/singularity_pull()
+/obj/docking_port/singularity_pull(atom/singularity, current_size)
 	return
 
 /obj/docking_port/singularity_act()
@@ -146,10 +141,11 @@
 			var/turf/T = locate(_x + compX*cos - compY*sin, _y + compY*cos + compX*sin, _z)
 			.[T] = NONE
 
-#ifdef DOCKING_PORT_HIGHLIGHT
+#ifdef TESTING
+
 //Debug proc used to highlight bounding area
 /obj/docking_port/proc/highlight(_color = "#f00")
-	invisibility = 0
+	SetInvisibility(INVISIBILITY_NONE)
 	SET_PLANE_IMPLICIT(src, GHOST_PLANE)
 	var/list/L = return_coords()
 	var/turf/T0 = locate(L[1],L[2],z)
@@ -163,6 +159,7 @@
 		T.color = "#0f0"
 		T = locate(L[3], L[4], z)
 		T.color = "#00f"
+
 #endif
 
 //return first-found touching dockingport
@@ -190,6 +187,7 @@
 	if(!ISINRANGE(T.y, min(y0, y1), max(y0, y1)))
 		return FALSE
 	return TRUE
+<<<<<<< HEAD
 
 /obj/docking_port/stationary
 	name = "dock"
@@ -1196,3 +1194,5 @@
 #ifdef TESTING
 #undef DOCKING_PORT_HIGHLIGHT
 #endif
+=======
+>>>>>>> tg-pr-88929

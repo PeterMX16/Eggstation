@@ -9,6 +9,13 @@
 	name = "\improper Cafeteria"
 	icon_state = "cafeteria"
 
+<<<<<<< HEAD
+=======
+/area/station/service/minibar
+	name = "\improper Mini Bar"
+	icon_state = "minibar"
+
+>>>>>>> tg-pr-88929
 /area/station/service/kitchen
 	name = "\improper Kitchen"
 	icon_state = "kitchen"
@@ -57,9 +64,20 @@
 	icon_state = "theatre"
 	sound_environment = SOUND_AREA_WOODFLOOR
 
+<<<<<<< HEAD
 /area/station/service/greenroom
 	name = "\improper Greenroom"
 	icon_state = "theatre"
+=======
+/area/station/service/theater_dressing
+	name = "\improper Theater Dressing Room"
+	icon_state = "theatre_dressing"
+	sound_environment = SOUND_AREA_SMALL_SOFTFLOOR
+
+/area/station/service/greenroom
+	name = "\improper Greenroom"
+	icon_state = "theatre_green"
+>>>>>>> tg-pr-88929
 	sound_environment = SOUND_AREA_SMALL_SOFTFLOOR
 
 /area/station/service/library
@@ -178,6 +196,13 @@
 	name = "\improper Barber"
 	icon_state = "barber"
 
+<<<<<<< HEAD
+=======
+/area/station/service/boutique
+	name = "\improper Boutique"
+	icon_state = "boutique"
+
+>>>>>>> tg-pr-88929
 /*
 * Abandoned Rooms
 */

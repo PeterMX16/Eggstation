@@ -19,8 +19,7 @@
 	icon_dead = "base_dead"
 	icon_gib = "carp_gib"
 	gold_core_spawnable = HOSTILE_SPAWN
-	mob_biotypes = MOB_ORGANIC | MOB_BEAST
-	movement_type = FLYING
+	mob_biotypes = MOB_ORGANIC | MOB_BEAST | MOB_AQUATIC
 	health = 25
 	maxHealth = 25
 	pressure_resistance = 200
@@ -28,7 +27,7 @@
 	obj_damage = 50
 	melee_damage_lower = 20
 	melee_damage_upper = 20
-	attack_sound = 'sound/weapons/bite.ogg'
+	attack_sound = 'sound/items/weapons/bite.ogg'
 	attack_vis_effect = ATTACK_EFFECT_BITE
 	attack_verb_continuous = "bites"
 	attack_verb_simple = "bite"
@@ -41,10 +40,18 @@
 	butcher_results = list(/obj/item/food/fishmeat/carp = 2, /obj/item/stack/sheet/animalhide/carp = 1)
 	greyscale_config = /datum/greyscale_config/carp
 	ai_controller = /datum/ai_controller/basic_controller/carp
+<<<<<<< HEAD
 	habitable_atmos = list("min_oxy" = 0, "max_oxy" = 0, "min_plas" = 0, "max_plas" = 0, "min_co2" = 0, "max_co2" = 0, "min_n2" = 0, "max_n2" = 0)
 	bodytemp_cold_damage_limit = -1
 	bodytemp_heat_damage_limit = 1500
+=======
+	habitable_atmos = null
+	minimum_survivable_temperature = 0
+	maximum_survivable_temperature = 1500
+>>>>>>> tg-pr-88929
 
+	/// If true we will run away from attackers even at full health
+	var/cowardly = FALSE
 	/// Cytology cells you can swab from this creature
 	var/cell_line = CELL_LINE_TABLE_CARP
 	/// What colour is our 'healing' outline?
@@ -58,7 +65,11 @@
 		/datum/pet_command/idle,
 		/datum/pet_command/free,
 		/datum/pet_command/follow,
+<<<<<<< HEAD
 		/datum/pet_command/point_targeting/attack
+=======
+		/datum/pet_command/attack
+>>>>>>> tg-pr-88929
 	)
 	/// Carp want to eat raw meat
 	var/static/list/desired_food = list(/obj/item/food/meat/slab, /obj/item/food/meat/rawcutlet)
@@ -79,25 +90,16 @@
 		/obj/machinery/vending,
 		/obj/structure/window,
 	))
-	/// Weighted list of colours a carp can be
-	/// Weighted list of usual carp colors
-	var/static/list/carp_colors = list(
-		COLOR_CARP_PURPLE = 7,
-		COLOR_CARP_PINK = 7,
-		COLOR_CARP_GREEN = 7,
-		COLOR_CARP_GRAPE = 7,
-		COLOR_CARP_SWAMP = 7,
-		COLOR_CARP_TURQUOISE = 7,
-		COLOR_CARP_BROWN = 7,
-		COLOR_CARP_TEAL = 7,
-		COLOR_CARP_LIGHT_BLUE = 7,
-		COLOR_CARP_RUSTY = 7,
-		COLOR_CARP_RED = 7,
-		COLOR_CARP_YELLOW = 7,
-		COLOR_CARP_BLUE = 7,
-		COLOR_CARP_PALE_GREEN = 7,
-		COLOR_CARP_SILVER = 1, // The rare silver carp
-	)
+
+/datum/emote/carp
+	mob_type_allowed_typecache = /mob/living/basic/carp
+	mob_type_blacklist_typecache = list()
+
+/datum/emote/carp/bloop
+	key = "bloop"
+	key_third_person = "bloops"
+	message = "bloops!"
+	emote_type = EMOTE_VISIBLE | EMOTE_AUDIBLE
 
 /mob/living/basic/carp/Initialize(mapload, mob/tamer)
 	ADD_TRAIT(src, TRAIT_FREE_HYPERSPACE_MOVEMENT, INNATE_TRAIT) //Need to set before init cause if we init in hyperspace we get dragged before the trait can be added
@@ -108,42 +110,60 @@
 	if (cell_line)
 		AddElement(/datum/element/swabable, cell_line, CELL_VIRUS_TABLE_GENERIC_MOB, 1, 5)
 	AddElement(/datum/element/simple_flying)
-	AddElement(/datum/element/ai_flee_while_injured)
+	if (!cowardly)
+		AddElement(/datum/element/ai_flee_while_injured)
 	setup_eating()
 
 	AddComponent(/datum/component/aggro_emote, emote_list = string_list(list("gnashes")))
 	AddComponent(/datum/component/regenerator, outline_colour = regenerate_colour)
+	AddComponent(/datum/component/profound_fisher)
 	if (tamer)
 		tamed(tamer, feedback = FALSE)
 		befriend(tamer)
 	else
+<<<<<<< HEAD
 		AddComponent(/datum/component/tameable, food_types = list(/obj/item/food/meat), tame_chance = 10, bonus_tame_chance = 5)
+=======
+		var/static/list/food_types = list(/obj/item/food/meat)
+		AddComponent(/datum/component/tameable, food_types = food_types, tame_chance = 10, bonus_tame_chance = 5)
+>>>>>>> tg-pr-88929
 
 	teleport = new(src)
 	teleport.Grant(src)
 	ai_controller.set_blackboard_key(BB_CARP_RIFT, teleport)
 	ai_controller.set_blackboard_key(BB_OBSTACLE_TARGETING_WHITELIST, allowed_obstacle_targets)
+<<<<<<< HEAD
 
 
 /mob/living/basic/carp/Destroy()
 	QDEL_NULL(teleport)
 	return ..()
+=======
+>>>>>>> tg-pr-88929
 
 /// Tell the elements and the blackboard what food we want to eat
 /mob/living/basic/carp/proc/setup_eating()
 	AddElement(/datum/element/basic_eating, food_types = desired_food)
 	AddElement(/datum/element/basic_eating, heal_amt = 0, damage_amount = 10, damage_type = BRUTE, food_types = desired_trash) // We are killing our planet
+<<<<<<< HEAD
 	ai_controller.set_blackboard_key(BB_BASIC_FOODS, desired_food + desired_trash)
+=======
+	var/list/foods_list = desired_food + desired_trash
+	ai_controller.set_blackboard_key(BB_BASIC_FOODS, typecacheof(foods_list))
+>>>>>>> tg-pr-88929
 
 /// Set a random colour on the carp, override to do something else
 /mob/living/basic/carp/proc/apply_colour()
 	if (!greyscale_config)
 		return
-	set_greyscale(colors = list(pick_weight(carp_colors)))
+	set_greyscale(colors = list(pick_weight(GLOB.carp_colors)))
 
 /// Called when another mob has forged a bond of friendship with this one, passed the taming mob as 'tamer'
 /mob/living/basic/carp/tamed(mob/living/tamer, atom/food, feedback = TRUE)
+<<<<<<< HEAD
 	buckle_lying = 0
+=======
+>>>>>>> tg-pr-88929
 	AddElement(/datum/element/ridable, ridable_data)
 	AddComponent(/datum/component/obeys_commands, tamed_commands)
 	ai_controller?.change_ai_movement_type(/datum/ai_movement/jps)
@@ -158,6 +178,11 @@
 
 /// Gives the carp a list of weakrefs of destinations to try and travel between when it has nothing better to do
 /mob/living/basic/carp/proc/migrate_to(list/datum/weakref/migration_points)
+<<<<<<< HEAD
+=======
+	ai_controller.can_idle = FALSE
+	ai_controller.set_ai_status(AI_STATUS_ON) // We need htem to actually walk to the station
+>>>>>>> tg-pr-88929
 	var/list/actual_points = list()
 	for(var/datum/weakref/point_ref as anything in migration_points)
 		var/turf/point_resolved = point_ref.resolve()
@@ -205,7 +230,7 @@
 /mob/living/basic/carp/pet/Initialize(mapload)
 	. = ..()
 	AddElement(/datum/element/ai_retaliate)
-	AddElement(/datum/element/pet_bonus, "bloops happily!")
+	AddElement(/datum/element/pet_bonus, "bloop")
 
 /**
  * Lia - Sometimes the pet of the Head of Security.
@@ -272,14 +297,36 @@
 
 /mob/living/basic/carp/advanced
 	health = 40
+<<<<<<< HEAD
+=======
+	maxHealth = 40
+>>>>>>> tg-pr-88929
 	obj_damage = 15
 
 #undef RARE_CAYENNE_CHANCE
 
+<<<<<<< HEAD
 ///Wild carp that just vibe ya know
 /mob/living/basic/carp/passive
 	name = "passive carp"
 	desc = "A timid, sucker-bearing creature that resembles a fish. "
+=======
+///Carp-parasite from carpellosis disease
+/mob/living/basic/carp/ella
+	name = "Ella"
+	real_name = "Ella"
+	desc = "It came out of someone."
+	gold_core_spawnable = NO_SPAWN
+
+/mob/living/basic/carp/ella/Initialize(mapload)
+	. = ..()
+	death() // It comes into the world dead when the disease is cured
+
+///Wild carp that just vibe ya know
+/mob/living/basic/carp/passive
+	name = "false carp"
+	desc = "A close relative of the space carp which is entirely toothless and feeds by stealing its cousin's leftovers."
+>>>>>>> tg-pr-88929
 
 	icon_state = "base_friend"
 	icon_living = "base_friend"
@@ -289,6 +336,7 @@
 	attack_verb_continuous = "suckers"
 	attack_verb_simple = "suck"
 
+<<<<<<< HEAD
 	melee_damage_lower = 4
 	melee_damage_upper = 4
 	ai_controller = /datum/ai_controller/basic_controller/carp/passive
@@ -297,3 +345,21 @@
 	. = ..()
 	AddElement(/datum/element/ai_retaliate)
 	AddElement(/datum/element/pet_bonus, "bloops happily!")
+=======
+	melee_damage_lower = 0
+	melee_damage_upper = 0
+	cowardly = TRUE
+	ai_controller = /datum/ai_controller/basic_controller/carp/passive
+	gold_core_spawnable = FRIENDLY_SPAWN
+
+/mob/living/basic/carp/passive/Initialize(mapload)
+	. = ..()
+	AddComponent(/datum/component/ai_retaliate_advanced, CALLBACK(src, PROC_REF(on_attacked)))
+	AddElement(/datum/element/pet_bonus, "bloop")
+	ADD_TRAIT(src, TRAIT_PACIFISM, INNATE_TRAIT)
+
+/// If someone slaps one of the school, scatter
+/mob/living/basic/carp/passive/proc/on_attacked(mob/living/attacker)
+	for(var/mob/living/basic/carp/passive/schoolmate in oview(src, 9))
+		schoolmate.ai_controller?.insert_blackboard_key_lazylist(BB_BASIC_MOB_RETALIATE_LIST, attacker)
+>>>>>>> tg-pr-88929

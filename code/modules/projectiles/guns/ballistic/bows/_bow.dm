@@ -3,6 +3,7 @@
 	icon = 'icons/obj/weapons/bows/bows.dmi'
 	lefthand_file = 'icons/mob/inhands/weapons/bows_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/weapons/bows_righthand.dmi'
+<<<<<<< HEAD
 	icon_state = "bow"
 	inhand_icon_state = "bow"
 	base_icon_state = "bow"
@@ -10,6 +11,18 @@
 	fire_sound = null
 	accepted_magazine_type = /obj/item/ammo_box/magazine/internal/bow
 	force = 15
+=======
+	name = "bow"
+	desc = "Seems out-of-place in this day and age, but at least it's reliable."
+	icon_state = "bow"
+	inhand_icon_state = "bow"
+	base_icon_state = "bow"
+	load_sound = 'sound/items/weapons/gun/general/ballistic_click.ogg'
+	fire_sound = 'sound/items/weapons/gun/bow/bow_fire.ogg'
+	accepted_magazine_type = /obj/item/ammo_box/magazine/internal/bow
+	force = 15
+	pinless = TRUE
+>>>>>>> tg-pr-88929
 	attack_verb_continuous = list("whipped", "cracked")
 	attack_verb_simple = list("whip", "crack")
 	weapon_weight = WEAPON_HEAVY
@@ -17,6 +30,7 @@
 	internal_magazine = TRUE
 	cartridge_wording = "arrow"
 	bolt_type = BOLT_TYPE_NO_BOLT
+<<<<<<< HEAD
 	/// whether the bow is drawn back
 	var/drawn = FALSE
 	///if you have a recharging bow keeps you from dropping your rechargable arrow which bricks the bow
@@ -43,19 +57,67 @@
 	if(magazine.ammo_count())
 		chambered = magazine.get_round(TRUE)
 		chambered.forceMove(src)
+=======
+	click_on_low_ammo = FALSE
+	must_hold_to_load = TRUE
+	/// whether the bow is drawn back
+	var/drawn = FALSE
+
+/obj/item/gun/ballistic/bow/update_icon_state()
+	. = ..()
+	icon_state = "[base_icon_state][drawn ? "_drawn" : ""]"
+
+/obj/item/gun/ballistic/bow/update_overlays()
+	. = ..()
+	if(chambered)
+		. += "[chambered.base_icon_state][drawn ? "_drawn" : ""]"
+
+/obj/item/gun/ballistic/bow/click_alt(mob/user)
+	if(isnull(chambered))
+		return CLICK_ACTION_BLOCKING
+
+	user.put_in_hands(chambered)
+	chambered = magazine.get_round()
+	update_appearance()
+	return CLICK_ACTION_SUCCESS
+
+/obj/item/gun/ballistic/bow/proc/drop_arrow()
+	chambered.forceMove(drop_location())
+	chambered = magazine.get_round()
+	update_appearance()
+
+/obj/item/gun/ballistic/bow/chamber_round(spin_cylinder, replace_new_round)
+	if(chambered || !magazine)
+		return
+	chambered = magazine.get_round()
+	RegisterSignal(chambered, COMSIG_MOVABLE_MOVED, PROC_REF(clear_chambered))
+	update_appearance()
+
+/obj/item/gun/ballistic/bow/clear_chambered(datum/source)
+	. = ..()
+	drawn = FALSE
+>>>>>>> tg-pr-88929
 
 /obj/item/gun/ballistic/bow/attack_self(mob/user)
 	if(!chambered)
 		balloon_alert(user, "no arrow nocked!")
+<<<<<<< HEAD
 	else
 		balloon_alert(user, "[drawn ? "string released" : "string drawn"]")
 		drawn = !drawn
+=======
+		return
+	balloon_alert(user, "[drawn ? "string released" : "string drawn"]")
+	drawn = !drawn
+	playsound(src, 'sound/items/weapons/gun/bow/bow_draw.ogg', 25, TRUE)
+>>>>>>> tg-pr-88929
 	update_appearance()
 
 /obj/item/gun/ballistic/bow/try_fire_gun(atom/target, mob/living/user, params)
 	if(!chambered)
 		return FALSE
 	if(!drawn)
+<<<<<<< HEAD
 		drop_arrow()
 		return FALSE
 	drawn = FALSE
@@ -69,12 +131,44 @@
 		drop_arrow(user)
 		drawn = FALSE
 		update_appearance()
+=======
+		to_chat(user, span_warning("Without drawing the bow, the arrow uselessly falls to the ground."))
+		drop_arrow()
+		return FALSE
+	return ..() //fires, removing the arrow
+
+/obj/item/gun/ballistic/bow/postfire_empty_checks(last_shot_succeeded)
+	if(!chambered && !get_ammo())
+		drawn = FALSE
+		update_appearance()
+
+/obj/item/gun/ballistic/bow/equipped(mob/user, slot, initial)
+	. = ..()
+	if(slot != ITEM_SLOT_HANDS && chambered)
+		balloon_alert(user, "the arrow falls out!")
+		if(drawn)
+			playsound(src, 'sound/items/weapons/gun/bow/bow_fire.ogg', 25, TRUE)
+		drop_arrow()
+
+
+/obj/item/gun/ballistic/bow/dropped(mob/user, silent)
+	. = ..()
+	addtimer(CALLBACK(src, PROC_REF(drop_arrow_if_not_held)), 0.1 SECONDS)
+
+/obj/item/gun/ballistic/bow/proc/drop_arrow_if_not_held()
+	if(ismob(loc) || !chambered)
+		return
+	if(drawn)
+		playsound(src, 'sound/items/weapons/gun/bow/bow_fire.ogg', 25, TRUE)
+	drop_arrow()
+>>>>>>> tg-pr-88929
 
 /obj/item/gun/ballistic/bow/shoot_with_empty_chamber(mob/living/user)
 	return //no clicking sounds please
 
 /obj/item/ammo_box/magazine/internal/bow
 	name = "bowstring"
+<<<<<<< HEAD
 	ammo_type = /obj/item/ammo_casing/caseless/arrow
 	max_ammo = 1
 	start_empty = TRUE
@@ -82,3 +176,9 @@
 
 /obj/item/gun/ballistic/bow/can_trigger_gun(mob/living/user, akimbo_usage)
 	return TRUE
+=======
+	ammo_type = /obj/item/ammo_casing/arrow
+	max_ammo = 1
+	start_empty = TRUE
+	caliber = CALIBER_ARROW
+>>>>>>> tg-pr-88929

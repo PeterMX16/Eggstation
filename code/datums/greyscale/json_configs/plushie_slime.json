@@ -14,8 +14,19 @@
 		},
 		{
 			"type": "icon_state",
+<<<<<<< HEAD
 			"icon_state": "plushie_slime_pupil",
 			"blend_mode": "overlay"
+=======
+<<<<<<<< HEAD:code/datums/greyscale/json_configs/jeanshorts_worn.json
+			"icon_state": "jeanshorts",
+			"blend_mode": "overlay",
+			"color_ids": [3]
+========
+			"icon_state": "plushie_slime_pupil",
+			"blend_mode": "overlay"
+>>>>>>>> tg-pr-88929:code/datums/greyscale/json_configs/plushie_slime.json
+>>>>>>> tg-pr-88929
 		}
 	]
 }

@@ -20,8 +20,6 @@
 	var/ducting_layer = DUCT_LAYER_DEFAULT
 	///In-case we don't want the main machine to get the reagents, but perhaps whoever is buckled to it
 	var/recipient_reagents_holder
-	///How do we apply the new reagents to the receiver? Generally doesn't matter, but some stuff, like people, does care if its injected or whatevs
-	var/methods
 	///What color is our demand connect?
 	var/demand_color = COLOR_RED
 	///What color is our supply connect?
@@ -73,9 +71,9 @@
 
 /datum/component/plumbing/process()
 	if(!demand_connects || !reagents)
-		STOP_PROCESSING(SSplumbing, src)
-		return
-	if(reagents.total_volume < reagents.maximum_volume)
+		return PROCESS_KILL
+
+	if(!reagents.holder_full())
 		for(var/D in GLOB.cardinals)
 			if(D & demand_connects)
 				send_request(D)
@@ -93,14 +91,18 @@
 
 ///called from in process(). only calls process_request(), but can be overwritten for children with special behaviour
 /datum/component/plumbing/proc/send_request(dir)
-	process_request(amount = MACHINE_REAGENT_TRANSFER, reagent = null, dir = dir)
+	process_request(dir = dir)
 
 ///check who can give us what we want, and how many each of them will give us
+<<<<<<< HEAD
 /datum/component/plumbing/proc/process_request(amount = MACHINE_REAGENT_TRANSFER, reagent, dir)
+=======
+/datum/component/plumbing/proc/process_request(amount = MACHINE_REAGENT_TRANSFER, reagent, dir, round_robin = TRUE)
+>>>>>>> tg-pr-88929
 	//find the duct to take from
 	var/datum/ductnet/net
 	if(!ducts.Find(num2text(dir)))
-		return
+		return FALSE
 	net = ducts[num2text(dir)]
 
 	//find all valid suppliers in the duct
@@ -110,18 +112,29 @@
 			valid_suppliers += supplier
 	var/suppliersLeft = valid_suppliers.len
 	if(!suppliersLeft)
+<<<<<<< HEAD
 		return
+=======
+		return FALSE
+>>>>>>> tg-pr-88929
 
 	//take an equal amount from each supplier
 	var/currentRequest
 	var/target_volume = reagents.total_volume + amount
 	for(var/datum/component/plumbing/give as anything in valid_suppliers)
 		currentRequest = (target_volume - reagents.total_volume) / suppliersLeft
+<<<<<<< HEAD
 		give.transfer_to(src, currentRequest, reagent, net)
+=======
+		give.transfer_to(src, currentRequest, reagent, net, round_robin)
+>>>>>>> tg-pr-88929
 		suppliersLeft--
+	return TRUE
 
 ///returns TRUE when they can give the specified amount and reagent. called by process request
 /datum/component/plumbing/proc/can_give(amount, reagent, datum/ductnet/net)
+	SHOULD_BE_PURE(TRUE)
+
 	if(amount <= 0)
 		return
 	if(reagent) //only asked for one type of reagent
@@ -134,13 +147,11 @@
 	return FALSE
 
 ///this is where the reagent is actually transferred and is thus the finish point of our process()
-/datum/component/plumbing/proc/transfer_to(datum/component/plumbing/target, amount, reagent, datum/ductnet/net)
+/datum/component/plumbing/proc/transfer_to(datum/component/plumbing/target, amount, reagent, datum/ductnet/net, round_robin = TRUE)
 	if(!reagents || !target || !target.reagents)
 		return FALSE
-	if(reagent)
-		reagents.trans_id_to(target.recipient_reagents_holder, reagent, amount)
-	else
-		reagents.trans_to(target.recipient_reagents_holder, amount, round_robin = TRUE, methods = methods)//we deal with alot of precise calculations so we round_robin=TRUE. Otherwise we get floating point errors, 1 != 1 and 2.5 + 2.5 = 6
+
+	reagents.trans_to(target.recipient_reagents_holder, amount, target_id = reagent, methods = round_robin ? LINEAR : NONE)
 
 ///We create our luxurious piping overlays/underlays, to indicate where we do what. only called once if use_overlays = TRUE in Initialize()
 /datum/component/plumbing/proc/create_overlays(atom/movable/parent_movable, list/overlays)
@@ -182,9 +193,9 @@
 
 		var/image/overlay
 		if(turn_connects)
-			overlay = image('icons/obj/plumbing/connects.dmi', "[direction_text]-[ducting_layer]", layer = duct_layer)
+			overlay = image('icons/obj/pipes_n_cables/hydrochem/connects.dmi', "[direction_text]-[ducting_layer]", layer = duct_layer)
 		else
-			overlay = image('icons/obj/plumbing/connects.dmi', "[direction_text]-[ducting_layer]-s", layer = duct_layer)
+			overlay = image('icons/obj/pipes_n_cables/hydrochem/connects.dmi', "[direction_text]-[ducting_layer]-s", layer = duct_layer)
 			overlay.dir = direction
 
 		overlay.color = color
@@ -195,7 +206,7 @@
 
 		// This is a little wiggley extension to make wallmounts like sinks and showers visually link to the pipe
 		if(extend_pipe_to_edge && !extension_handled)
-			var/image/edge_overlay = image('icons/obj/plumbing/connects.dmi', "edge-extension", layer = duct_layer)
+			var/image/edge_overlay = image('icons/obj/pipes_n_cables/hydrochem/connects.dmi', "edge-extension", layer = duct_layer)
 			edge_overlay.dir = parent_movable.dir
 			edge_overlay.color = color
 			edge_overlay.pixel_x = -parent_movable.pixel_x - parent_movable.pixel_w
@@ -213,8 +224,11 @@
 
 	STOP_PROCESSING(SSplumbing, src)
 
-	for(var/duct_dir in ducts)
-		var/datum/ductnet/duct = ducts[duct_dir]
+	//remove_plumber() can remove all ducts at once if they all belong to the same pipenet
+	//for e.g. in case of circular connections
+	//so we check if we have ducts to remove after each iteration
+	while(ducts.len)
+		var/datum/ductnet/duct = ducts[ducts[1]] //for maps index 1 will return the 1st key
 		duct.remove_plumber(src)
 
 	active = FALSE
@@ -225,7 +239,7 @@
 		for(var/obj/machinery/duct/duct in get_step(parent, direction))
 			if(!(duct.duct_layer & ducting_layer))
 				continue
-			duct.remove_connects(turn(direction, 180))
+			duct.remove_connects(REVERSE_DIR(direction))
 			duct.neighbours.Remove(parent)
 			duct.update_appearance()
 
@@ -301,7 +315,7 @@
 		demand_connects = new_demand_connects
 		supply_connects = new_supply_connects
 
-///Give the direction of a pipe, and it'll return wich direction it originally was when it's object pointed SOUTH
+///Give the direction of a pipe, and it'll return wich direction it originally was when its object pointed SOUTH
 /datum/component/plumbing/proc/get_original_direction(dir)
 	var/atom/movable/parent_movable = parent
 	return turn(dir, dir2angle(parent_movable.dir) - 180)
@@ -310,7 +324,7 @@
 /datum/component/plumbing/proc/direct_connect(datum/component/plumbing/plumbing, dir)
 	if(!plumbing.active)
 		return
-	var/opposite_dir = turn(dir, 180)
+	var/opposite_dir = REVERSE_DIR(dir)
 	if(plumbing.demand_connects & opposite_dir && supply_connects & dir || plumbing.supply_connects & opposite_dir && demand_connects & dir) //make sure we arent connecting two supplies or demands
 		var/datum/ductnet/net = new()
 		net.add_plumber(src, dir)
@@ -334,7 +348,11 @@
 		tile_covered = should_hide
 		parent_obj.update_appearance()
 
+<<<<<<< HEAD
 /datum/component/plumbing/proc/change_ducting_layer(obj/user, obj/changer, new_layer = DUCT_LAYER_DEFAULT)
+=======
+/datum/component/plumbing/proc/change_ducting_layer(obj/source, obj/changer, new_layer = DUCT_LAYER_DEFAULT)
+>>>>>>> tg-pr-88929
 	SIGNAL_HANDLER
 	ducting_layer = new_layer
 
@@ -342,7 +360,7 @@
 	parent_movable.update_appearance()
 
 	if(changer)
-		playsound(changer, 'sound/items/ratchet.ogg', 10, TRUE) //sound
+		playsound(changer, 'sound/items/tools/ratchet.ogg', 10, TRUE) //sound
 
 	//quickly disconnect and reconnect the network.
 	if(active)
@@ -374,6 +392,7 @@
 		return
 
 	// Defer to later frame because pixel_* is actually updated after all callbacks
+<<<<<<< HEAD
 	addtimer(CALLBACK(parent_obj, TYPE_PROC_REF(/atom/, update_appearance)), 1)
 
 ///has one pipe input that only takes, example is manual output pipe
@@ -413,3 +432,6 @@
 	return (buffer.mode == READY) ? ..() : FALSE
 
 #undef READY
+=======
+	addtimer(CALLBACK(parent_obj, TYPE_PROC_REF(/atom/, update_appearance)), 0.1 SECONDS)
+>>>>>>> tg-pr-88929

@@ -18,7 +18,11 @@
 
 /obj/item/clothing/shoes/clown_shoes/banana_shoes/Initialize(mapload)
 	. = ..()
+<<<<<<< HEAD
 	AddElement(/datum/element/update_icon_updates_onmob, ITEM_SLOT_FEET)
+=======
+	AddElement(/datum/element/update_icon_updates_onmob)
+>>>>>>> tg-pr-88929
 	bananium = AddComponent(
 		/datum/component/material_container, \
 		list(/datum/material/bananium), \
@@ -54,7 +58,7 @@
 		return
 
 	if(bananium.use_amount_mat(material_per_banana, /datum/material/bananium))
-		new banana_type(get_step(src, turn(wearer.dir, 180))) //honk
+		new banana_type(get_step(src, REVERSE_DIR(wearer.dir))) //honk
 		return
 
 	toggle_clowning_action()

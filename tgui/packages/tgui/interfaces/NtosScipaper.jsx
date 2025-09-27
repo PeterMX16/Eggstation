@@ -1,4 +1,20 @@
+import {
+  BlockQuote,
+  Box,
+  Button,
+  Collapsible,
+  Dropdown,
+  Input,
+  LabeledList,
+  NoticeBox,
+  Section,
+  Stack,
+  Table,
+  Tabs,
+} from 'tgui-core/components';
+
 import { useBackend } from '../backend';
+<<<<<<< HEAD
 import {
   BlockQuote,
   Button,
@@ -16,11 +32,13 @@ import {
   Icon,
 } from '../components';
 import { TableCell, TableRow } from '../components/Table';
+=======
+>>>>>>> tg-pr-88929
 import { NtosWindow } from '../layouts';
 
 export const NtosScipaper = (props) => {
   return (
-    <NtosWindow width={650} height={500}>
+    <NtosWindow width={600} height={600}>
       <NtosWindow.Content scrollable>
         <NtosScipaperContent />
       </NtosWindow.Content>
@@ -50,7 +68,122 @@ const PaperPublishing = (props) => {
   return (
     <>
       <Section title="Submission Form">
-        <LabeledList grow>
+        {fileList.length === 0 && (
+          <NoticeBox>
+            Use data disk to download files from compressor or doppler array.
+          </NoticeBox>
+        )}
+        <LabeledList>
+          <LabeledList.Item
+            label="File (required)"
+            buttons={
+              <Button
+                tooltip="The selected file containing experimental data for our paper. Must be present in the local file system or a data disk to be accesible."
+                icon="info-circle"
+              />
+            }
+          >
+            <Box position="relative" top="8px">
+              <Dropdown
+                width="100%"
+                options={Object.keys(fileList)}
+                selected={selectedFile}
+                onSelected={(ordfile_name) =>
+                  act('select_file', {
+                    selected_uid: fileList[ordfile_name],
+                  })
+                }
+              />
+            </Box>
+          </LabeledList.Item>
+          <LabeledList.Item
+            label="Experiment (required)"
+            buttons={
+              <Button
+                tooltip="The topic we want to publish our paper on. Different topics unlock different technologies and possible partners."
+                icon="info-circle"
+              />
+            }
+          >
+            <Box position="relative" top="8px">
+              <Dropdown
+                width="100%"
+                options={Object.keys(expList)}
+                selected={selectedExperiment}
+                onSelected={(experiment_name) =>
+                  act('select_experiment', {
+                    selected_expath: expList[experiment_name],
+                  })
+                }
+              />
+            </Box>
+          </LabeledList.Item>
+          <LabeledList.Item
+            label="Tier (required)"
+            buttons={
+              <Button
+                tooltip="The tier we want to publish on. Higher tiers can confer better rewards but means our data will be judged more harshly."
+                icon="info-circle"
+              />
+            }
+          >
+            <Box position="relative" top="8px">
+              <Dropdown
+                width="100%"
+                options={allowedTiers.map((number) => String(number))}
+                selected={String(tier)}
+                onSelected={(new_tier) =>
+                  act('select_tier', {
+                    selected_tier: Number(new_tier),
+                  })
+                }
+              />
+            </Box>
+          </LabeledList.Item>
+          <LabeledList.Item
+            label="Partner (required)"
+            buttons={
+              <Button
+                tooltip="Which organization to partner with. We can obtain research boosts in techs related to the partner's interests."
+                icon="info-circle"
+              />
+            }
+          >
+            <Box position="relative" top="8px">
+              <Dropdown
+                width="100%"
+                options={Object.keys(allowedPartners)}
+                selected={selectedPartner}
+                onSelected={(new_partner) =>
+                  act('select_partner', {
+                    selected_partner: allowedPartners[new_partner],
+                  })
+                }
+              />
+            </Box>
+          </LabeledList.Item>
+          <LabeledList.Item
+            label="Principal Author"
+            buttons={
+              <Button
+                tooltip="Multiple"
+                selected={etAlia}
+                icon="users"
+                onClick={() => act('et_alia')}
+              />
+            }
+          >
+            <Input
+              mt={2}
+              fluid
+              value={author}
+              onChange={(e, value) =>
+                act('rewrite', {
+                  author: value,
+                })
+              }
+            />
+          </LabeledList.Item>
           <LabeledList.Item label="Title">
             <Input
               fluid
@@ -61,20 +194,6 @@ const PaperPublishing = (props) => {
                 })
               }
             />
-          </LabeledList.Item>
-          <LabeledList.Item label="Principal Author">
-            <Input
-              fluid
-              value={author}
-              onChange={(e, value) =>
-                act('rewrite', {
-                  author: value,
-                })
-              }
-            />
-            <Button selected={etAlia} onClick={() => act('et_alia')}>
-              {'Multiple Authors'}
-            </Button>
           </LabeledList.Item>
           <LabeledList.Item label="Abstract">
             <Input
@@ -87,6 +206,7 @@ const PaperPublishing = (props) => {
               }
             />
           </LabeledList.Item>
+<<<<<<< HEAD
           <LabeledList.Item label="Selected File">
             <Stack>
               <Stack.Item>
@@ -183,39 +303,57 @@ const PaperPublishing = (props) => {
               </Stack.Item>
             </Stack>
           </LabeledList.Item>
+=======
+>>>>>>> tg-pr-88929
         </LabeledList>
       </Section>
       <Section title="Expected Results" key="rewards">
         <Stack fill>
           <Stack.Item grow>
+<<<<<<< HEAD
             <Tooltip
               position="top"
               content="How much will our relation improve with the particular partner. Cooperation will be used to unlock boosts."
             >
               <Icon size={1.15} name="info-circle" />
             </Tooltip>
+=======
+            <Button
+              tooltip="How much will our relation improve with the particular partner. Cooperation will be used to unlock boosts."
+              icon="info-circle"
+            />
+>>>>>>> tg-pr-88929
             {' Cooperation: '}
             <BlockQuote>{gains[coopIndex - 1]}</BlockQuote>
           </Stack.Item>
           <Stack.Item grow>
+<<<<<<< HEAD
             <Tooltip
               position="top"
               content="How much grant will we be endowed with upon the publication of this paper."
             >
               <Icon size={1.15} name="info-circle" />
             </Tooltip>
+=======
+            <Button
+              tooltip="How much grant will we be endowed with upon the publication of this paper."
+              icon="info-circle"
+            />
+>>>>>>> tg-pr-88929
             {' Funding: '}
             <BlockQuote>{gains[fundingIndex - 1]}</BlockQuote>
           </Stack.Item>
         </Stack>
         <br />
         <Button
+          lineHeight={3}
           icon="upload"
           textAlign="center"
           fluid
           onClick={() => act('publish')}
-          content="Publish Paper"
-        />
+        >
+          Publish Paper
+        </Button>
       </Section>
     </>
   );
@@ -322,13 +460,13 @@ const PartnersBrowser = (props) => {
           <LabeledList.Item label="Technology Sharing">
             <Table>
               {partner.boostedNodes.map((node) => (
-                <TableRow key={node.id}>
-                  <TableCell>
+                <Table.Row key={node.id}>
+                  <Table.Cell>
                     {visibleNodes.includes(node.id)
                       ? node.name
                       : 'Unknown Technology'}
-                  </TableCell>
-                  <TableCell>
+                  </Table.Cell>
+                  <Table.Cell>
                     <Button
                       fluid
                       tooltipPosition="left"
@@ -345,8 +483,8 @@ const PartnersBrowser = (props) => {
                         })
                       }
                     />
-                  </TableCell>
-                </TableRow>
+                  </Table.Cell>
+                </Table.Row>
               ))}
             </Table>
           </LabeledList.Item>
@@ -366,7 +504,7 @@ export const NtosScipaperContent = (props) => {
           Please sync this application to a valid techweb to upload progress!
         </Section>
       )}
-      <Tabs key="navigation">
+      <Tabs key="navigation" fluid align="center">
         <Tabs.Tab
           selected={currentTab === 1}
           onClick={() =>
@@ -385,7 +523,11 @@ export const NtosScipaperContent = (props) => {
             })
           }
         >
+<<<<<<< HEAD
           {'View Previous Publications'}
+=======
+          {'Publications'}
+>>>>>>> tg-pr-88929
         </Tabs.Tab>
         <Tabs.Tab
           selected={currentTab === 3}
@@ -395,7 +537,11 @@ export const NtosScipaperContent = (props) => {
             })
           }
         >
+<<<<<<< HEAD
           {'View Available Experiments'}
+=======
+          {'Experiments'}
+>>>>>>> tg-pr-88929
         </Tabs.Tab>
         <Tabs.Tab
           selected={currentTab === 4}
@@ -405,7 +551,11 @@ export const NtosScipaperContent = (props) => {
             })
           }
         >
+<<<<<<< HEAD
           {'View Scientific Partners'}
+=======
+          {'Scientific Partners'}
+>>>>>>> tg-pr-88929
         </Tabs.Tab>
       </Tabs>
       {currentTab === 1 && <PaperPublishing />}

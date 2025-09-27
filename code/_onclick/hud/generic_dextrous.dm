@@ -6,11 +6,14 @@
 	..()
 	var/atom/movable/screen/using
 
+<<<<<<< HEAD
 	using = new /atom/movable/screen/drop(null, src)
 	using.icon = ui_style
 	using.screen_loc = ui_drone_drop
 	static_inventory += using
 
+=======
+>>>>>>> tg-pr-88929
 	pull_icon = new /atom/movable/screen/pull(null, src)
 	pull_icon.icon = ui_style
 	pull_icon.update_appearance()
@@ -19,18 +22,41 @@
 
 	build_hand_slots()
 
+<<<<<<< HEAD
 	using = new /atom/movable/screen/swap_hand(null, src)
 	using.icon = ui_style
 	using.icon_state = "swap_1_m"
 	using.screen_loc = ui_swaphand_position(owner,1)
+=======
+	using = new /atom/movable/screen/drop(null, src)
+	using.icon = ui_style
+	using.screen_loc = ui_swaphand_position(owner, 1)
+>>>>>>> tg-pr-88929
 	static_inventory += using
 
 	using = new /atom/movable/screen/swap_hand(null, src)
 	using.icon = ui_style
+<<<<<<< HEAD
 	using.icon_state = "swap_2"
 	using.screen_loc = ui_swaphand_position(owner,2)
 	static_inventory += using
 
+=======
+	using.icon_state = "act_swap"
+	using.screen_loc = ui_swaphand_position(owner, 2)
+	static_inventory += using
+
+	action_intent = new /atom/movable/screen/combattoggle/flashy(null, src)
+	action_intent.icon = ui_style
+	action_intent.screen_loc = ui_movi
+	static_inventory += action_intent
+
+	floor_change = new /atom/movable/screen/floor_changer(null, src)
+	floor_change.icon = 'icons/hud/screen_midnight.dmi'
+	static_inventory += floor_change
+
+
+>>>>>>> tg-pr-88929
 	zone_select = new /atom/movable/screen/zone_sel(null, src)
 	zone_select.icon = ui_style
 	zone_select.update_appearance()

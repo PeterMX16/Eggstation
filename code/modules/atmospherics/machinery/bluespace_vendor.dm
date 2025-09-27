@@ -1,7 +1,7 @@
 /obj/item/wallframe/bluespace_vendor_mount
 	name = "bluespace vendor wall mount"
 	desc = "Used for placing bluespace vendors."
-	icon = 'icons/obj/atmospherics/components/bluespace_gas_selling.dmi'
+	icon = 'icons/obj/machines/atmospherics/bluespace_gas_selling.dmi'
 	icon_state = "bluespace_vendor_open"
 	result_path = /obj/machinery/bluespace_vendor/built
 	pixel_shift = 30
@@ -13,7 +13,7 @@
 #define BS_MODE_OPEN 4
 
 /obj/machinery/bluespace_vendor
-	icon = 'icons/obj/atmospherics/components/bluespace_gas_selling.dmi'
+	icon = 'icons/obj/machines/atmospherics/bluespace_gas_selling.dmi'
 	icon_state = "bluespace_vendor_off"
 	base_icon_state = "bluespace_vendor"
 	name = "Bluespace Gas Vendor"
@@ -74,8 +74,9 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/bluespace_vendor, 30)
 	. = ..()
 	purchased_gas_mix = new(100)
 	AddComponent(/datum/component/payment, tank_cost, SSeconomy.get_dep_account(ACCOUNT_ENG), PAYMENT_ANGRY)
+	find_and_hang_on_wall( FALSE)
 
-/obj/machinery/bluespace_vendor/LateInitialize()
+/obj/machinery/bluespace_vendor/post_machine_initialize()
 	. = ..()
 	if(!map_spawned)
 		return

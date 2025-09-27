@@ -1,7 +1,13 @@
 /obj/item/wallframe
+<<<<<<< HEAD
 	icon = 'icons/obj/wallframe.dmi'
 	custom_materials = list(/datum/material/iron= SHEET_MATERIAL_AMOUNT * 2)
 	flags_1 = CONDUCT_1
+=======
+	icon = 'icons/obj/machines/wallmounts.dmi'
+	custom_materials = list(/datum/material/iron= SHEET_MATERIAL_AMOUNT * 2)
+	obj_flags = CONDUCTS_ELECTRICITY
+>>>>>>> tg-pr-88929
 	inhand_icon_state = "syringe_kit"
 	lefthand_file = 'icons/mob/inhands/equipment/medical_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/medical_righthand.dmi'
@@ -40,20 +46,19 @@
 			span_hear("You hear clicking."))
 		var/floor_to_wall = get_dir(user, on_wall)
 
-		var/obj/O = new result_path(get_turf(user), floor_to_wall, TRUE)
-		O.setDir(floor_to_wall)
-
+		var/obj/hanging_object = new result_path(get_turf(user), floor_to_wall, TRUE)
+		hanging_object.setDir(floor_to_wall)
 		if(pixel_shift)
 			switch(floor_to_wall)
 				if(NORTH)
-					O.pixel_y = pixel_shift
+					hanging_object.pixel_y = pixel_shift
 				if(SOUTH)
-					O.pixel_y = -pixel_shift
+					hanging_object.pixel_y = -pixel_shift
 				if(EAST)
-					O.pixel_x = pixel_shift
+					hanging_object.pixel_x = pixel_shift
 				if(WEST)
-					O.pixel_x = -pixel_shift
-		after_attach(O)
+					hanging_object.pixel_x = -pixel_shift
+		after_attach(hanging_object)
 
 	qdel(src)
 
@@ -62,9 +67,15 @@
 
 /obj/item/wallframe/screwdriver_act(mob/living/user, obj/item/tool)
 	// For camera-building borgs
+<<<<<<< HEAD
 	var/turf/T = get_step(get_turf(user), user.dir)
 	if(iswallturf(T))
 		T.attackby(src, user)
+=======
+	var/turf/wall_turf = get_step(get_turf(user), user.dir)
+	if(iswallturf(wall_turf))
+		wall_turf.item_interaction(user, src)
+>>>>>>> tg-pr-88929
 	return ITEM_INTERACT_SUCCESS
 
 /obj/item/wallframe/wrench_act(mob/living/user, obj/item/tool)
@@ -84,12 +95,12 @@
 
 /obj/item/electronics
 	desc = "Looks like a circuit. Probably is."
-	icon = 'icons/obj/module.dmi'
+	icon = 'icons/obj/devices/circuitry_n_data.dmi'
 	icon_state = "door_electronics"
 	inhand_icon_state = "electronic"
 	lefthand_file = 'icons/mob/inhands/items/devices_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/items/devices_righthand.dmi'
-	flags_1 = CONDUCT_1
+	obj_flags = CONDUCTS_ELECTRICITY
 	w_class = WEIGHT_CLASS_SMALL
 	custom_materials = list(/datum/material/iron= SMALL_MATERIAL_AMOUNT * 0.5, /datum/material/glass= SMALL_MATERIAL_AMOUNT * 0.5)
 	grind_results = list(/datum/reagent/iron = 10, /datum/reagent/silicon = 10)

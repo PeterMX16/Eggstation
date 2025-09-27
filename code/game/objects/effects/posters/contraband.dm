@@ -4,6 +4,13 @@
 	poster_type = /obj/structure/sign/poster/contraband/random
 	icon_state = "rolled_poster"
 
+<<<<<<< HEAD
+=======
+/obj/item/poster/random_contraband/Initialize(mapload, obj/structure/sign/poster/new_poster_structure)
+	. = ..()
+	ADD_TRAIT(src, TRAIT_CONTRABAND, INNATE_TRAIT)
+
+>>>>>>> tg-pr-88929
 /obj/structure/sign/poster/contraband
 	poster_item_name = "contraband poster"
 	poster_item_desc = "This poster comes with its own automatic adhesive mechanism, for easy pinning to any vertical surface. Its vulgar themes have marked it as contraband aboard Nanotrasen space facilities."
@@ -251,7 +258,11 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/sign/poster/contraband/the_griffin, 3
 
 /obj/structure/sign/poster/contraband/lizard
 	name = "Lizard"
+<<<<<<< HEAD
 	desc = "This poster depicts a popular pants-wearing lizard rap artist."
+=======
+	desc = "This lewd poster depicts a lizard preparing to mate."
+>>>>>>> tg-pr-88929
 	icon_state = "lizard"
 
 MAPPING_DIRECTIONAL_HELPERS(/obj/structure/sign/poster/contraband/lizard, 32)
@@ -509,7 +520,11 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/sign/poster/contraband/triumphal_arch
 	. = ..()
 	. += span_notice("<i>You browse some of the poster's information...</i>")
 	. += "\t[span_info("Va Lümla Commissary Menu (Spring 335)")]"
+<<<<<<< HEAD
 	. += "\t[span_info("Windgrass Cigarettes, Half-Pack (6): 1 Ticket")]"
+=======
+	. += "\t[span_info("Sparkweed Cigarettes, Half-Pack (6): 1 Ticket")]"
+>>>>>>> tg-pr-88929
 	. += "\t[span_info("Töchtaüse Schnapps, Bottle (4 Measures): 2 Tickets")]"
 	. += "\t[span_info("Activin Gum, Pack (4): 1 Ticket")]"
 	. += "\t[span_info("A18 Sustenance Bar, Breakfast, Bar (4): 1 Ticket")]"
@@ -618,3 +633,45 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/sign/poster/contraband/microwave, 32)
 	. += "\t[span_info("Rated M for mature. A Pangalactic Studios Picture.")]"
 
 MAPPING_DIRECTIONAL_HELPERS(/obj/structure/sign/poster/contraband/blood_geometer, 32)
+<<<<<<< HEAD
+=======
+
+/obj/structure/sign/poster/contraband/singletank_bomb
+	name = "Single Tank Bomb Guide"
+	desc = "This informational poster teaches the viewer how to make a single tank bomb of high quality."
+	icon_state = "singletank_bomb"
+
+MAPPING_DIRECTIONAL_HELPERS(/obj/structure/sign/poster/contraband/singletank_bomb, 32)
+
+///a special poster meant to fool people into thinking this is a bombable wall at a glance.
+/obj/structure/sign/poster/contraband/fake_bombable
+	name = "fake bombable poster"
+	desc = "We do a little trolling."
+	icon_state = "fake_bombable"
+	never_random = TRUE
+
+/obj/structure/sign/poster/contraband/fake_bombable/Initialize(mapload)
+	. = ..()
+	var/turf/our_wall = get_turf_pixel(src)
+	name = our_wall.name
+
+/obj/structure/sign/poster/contraband/fake_bombable/examine(mob/user)
+	var/turf/our_wall = get_turf_pixel(src)
+	. = our_wall.examine(user)
+	. += span_notice("It seems to be slightly cracked...")
+
+/obj/structure/sign/poster/contraband/fake_bombable/ex_act(severity, target)
+	addtimer(CALLBACK(src, PROC_REF(fall_off_wall)), 2.5 SECONDS)
+	return FALSE
+
+/obj/structure/sign/poster/contraband/fake_bombable/proc/fall_off_wall()
+	if(QDELETED(src) || !isturf(loc))
+		return
+	var/turf/our_wall = get_turf_pixel(src)
+	our_wall.balloon_alert_to_viewers("it was a ruse!")
+	roll_and_drop(loc)
+	playsound(loc, 'sound/items/handling/paper_drop.ogg', 50, TRUE)
+
+
+MAPPING_DIRECTIONAL_HELPERS(/obj/structure/sign/poster/contraband/fake_bombable, 32)
+>>>>>>> tg-pr-88929

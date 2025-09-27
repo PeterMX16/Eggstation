@@ -205,8 +205,8 @@
 "nF" = (
 /obj/item/radio/intercom/directional/south,
 /obj/effect/decal/cleanable/blood/old,
-/obj/item/ammo_casing/a357/match,
-/obj/item/ammo_casing/a357/match{
+/obj/item/ammo_casing/c357/match,
+/obj/item/ammo_casing/c357/match{
 	pixel_y = -4;
 	pixel_x = -7
 	},
@@ -229,7 +229,16 @@
 "pl" = (
 /obj/structure/table,
 /turf/open/floor/mineral/plastitanium/red/airless,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/old_infiltrator)
+=======
+/area/ruin/space/unpowered)
+"pv" = (
+/obj/effect/turf_decal/bot_red,
+/obj/machinery/suit_storage_unit/nuke_med,
+/turf/open/floor/iron/dark/airless,
+/area/ruin/space/unpowered)
+>>>>>>> tg-pr-88929
 "qL" = (
 /obj/machinery/door/window/brigdoor/left/directional/west{
 	req_access = list("syndicate");
@@ -261,12 +270,16 @@
 "tE" = (
 /obj/effect/turf_decal/syndicateemblem/middle/middle,
 /turf/open/floor/mineral/plastitanium/red/airless,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/old_infiltrator)
 "ur" = (
 /obj/structure/lattice,
 /obj/machinery/status_display/ai/directional/north,
 /turf/template_noop,
 /area/ruin/space/has_grav/old_infiltrator)
+=======
+/area/ruin/space/unpowered)
+>>>>>>> tg-pr-88929
 "us" = (
 /obj/effect/spawner/random/engineering/tool,
 /obj/machinery/light/directional/west,
@@ -297,7 +310,7 @@
 /area/ruin/space/has_grav/old_infiltrator)
 "uS" = (
 /obj/machinery/newscaster/directional/south,
-/obj/item/ammo_casing/a357/match,
+/obj/item/ammo_casing/c357/match,
 /turf/open/floor/mineral/plastitanium/red,
 /area/ruin/space/has_grav/old_infiltrator)
 "vi" = (
@@ -422,7 +435,7 @@
 /turf/open/floor/mineral/plastitanium/red/airless,
 /area/ruin/space/has_grav/old_infiltrator)
 "Cv" = (
-/obj/item/ammo_casing/a357/match,
+/obj/item/ammo_casing/c357/match,
 /turf/open/floor/mineral/plastitanium/red,
 /area/ruin/space/has_grav/old_infiltrator)
 "CC" = (
@@ -738,6 +751,7 @@
 /area/ruin/space/has_grav/old_infiltrator)
 "Yj" = (
 /turf/open/floor/mineral/plastitanium/red,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/old_infiltrator)
 "YL" = (
 /obj/structure/rack,
@@ -745,6 +759,9 @@
 /obj/item/clothing/head/helmet/space/syndicate/black/red,
 /turf/open/floor/mineral/plastitanium/red/airless,
 /area/ruin/space/has_grav/old_infiltrator)
+=======
+/area/ruin/space/unpowered)
+>>>>>>> tg-pr-88929
 "YN" = (
 /obj/structure/table,
 /obj/item/reagent_containers/pill/morphine{
@@ -957,7 +974,7 @@ DM
 Da
 LP
 Nv
-Da
+pv
 Pq
 uE
 vK
@@ -1253,9 +1270,15 @@ la
 la
 Pq
 zg
+<<<<<<< HEAD
 EM
 YL
 Pq
+=======
+yL
+KM
+KM
+>>>>>>> tg-pr-88929
 sL
 KM
 ro
@@ -1281,8 +1304,8 @@ la
 Pq
 Pq
 Pq
-Pq
-Pq
+KM
+la
 KM
 DM
 ro
@@ -1309,9 +1332,15 @@ la
 la
 la
 la
+<<<<<<< HEAD
 Pq
 ur
 en
+=======
+la
+KM
+Jd
+>>>>>>> tg-pr-88929
 KM
 KJ
 SS
@@ -1336,7 +1365,7 @@ la
 la
 la
 la
-Pq
+la
 KM
 KM
 KM

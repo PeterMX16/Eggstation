@@ -2,7 +2,11 @@
 //they are the easiest to cure, which means that if you want
 //to keep them, you can't cure your other traumas
 /datum/brain_trauma/special
+<<<<<<< HEAD
 	trauma_flags = NONE
+=======
+	abstract_type = /datum/brain_trauma/special
+>>>>>>> tg-pr-88929
 
 /datum/brain_trauma/special/godwoken
 	name = "Godwoken Syndrome"
@@ -45,8 +49,8 @@
 		else
 			message = pick_list_replacements(BRAIN_DAMAGE_FILE, "god_neutral")
 
-	playsound(get_turf(owner), 'sound/magic/clockwork/invoke_general.ogg', 200, TRUE, 5)
-	voice_of_god(message, owner, list("colossus","yell"), 2.5, include_owner, name)
+	playsound(get_turf(owner), 'sound/effects/magic/clockwork/invoke_general.ogg', 200, TRUE, 5)
+	voice_of_god(message, owner, list("colossus","yell"), 2.5, include_owner, name, TRUE)
 
 /datum/brain_trauma/special/bluespace_prophet
 	name = "Bluespace Prophecy"
@@ -100,7 +104,6 @@
 	image_icon = 'icons/effects/effects.dmi'
 	image_state = "bluestream"
 	image_layer = ABOVE_MOB_LAYER
-	image_plane = GAME_PLANE_UPPER
 	var/obj/effect/client_image_holder/bluespace_stream/linked_to
 
 /obj/effect/client_image_holder/bluespace_stream/Initialize(mapload, list/mobs_which_see_us)
@@ -219,9 +222,9 @@
 		linked = FALSE
 		return
 	to_chat(owner, span_warning("Your connection to [linked_target] suddenly feels extremely strong... you can feel it pulling you!"))
-	owner.playsound_local(owner, 'sound/magic/lightning_chargeup.ogg', 75, FALSE)
+	owner.playsound_local(owner, 'sound/effects/magic/lightning_chargeup.ogg', 75, FALSE)
 	returning = TRUE
-	addtimer(CALLBACK(src, PROC_REF(snapback)), 100)
+	addtimer(CALLBACK(src, PROC_REF(snapback)), 10 SECONDS)
 
 /datum/brain_trauma/special/quantum_alignment/proc/snapback()
 	returning = FALSE
@@ -232,7 +235,7 @@
 		return
 	to_chat(owner, span_warning("You're pulled through spacetime!"))
 	do_teleport(owner, get_turf(linked_target), null, channel = TELEPORT_CHANNEL_QUANTUM)
-	owner.playsound_local(owner, 'sound/magic/repulse.ogg', 100, FALSE)
+	owner.playsound_local(owner, 'sound/effects/magic/repulse.ogg', 100, FALSE)
 	linked_target = null
 	linked = FALSE
 
@@ -246,14 +249,15 @@
 
 /datum/brain_trauma/special/psychotic_brawling/on_gain()
 	..()
-	psychotic_brawling = new(null)
+	psychotic_brawling = new()
+	psychotic_brawling.allow_temp_override = FALSE
 	if(!psychotic_brawling.teach(owner, TRUE))
 		to_chat(owner, span_notice("But your martial knowledge keeps you grounded."))
 		qdel(src)
 
 /datum/brain_trauma/special/psychotic_brawling/on_lose()
 	..()
-	psychotic_brawling.remove(owner)
+	psychotic_brawling.fully_remove(owner)
 	QDEL_NULL(psychotic_brawling)
 
 /datum/brain_trauma/special/psychotic_brawling/bath_salts
@@ -297,7 +301,7 @@ monkestation end */
 /datum/brain_trauma/special/death_whispers/proc/whispering()
 	ADD_TRAIT(owner, TRAIT_SIXTHSENSE, TRAUMA_TRAIT)
 	active = TRUE
-	addtimer(CALLBACK(src, PROC_REF(cease_whispering)), rand(50, 300))
+	addtimer(CALLBACK(src, PROC_REF(cease_whispering)), rand(5 SECONDS, 30 SECONDS))
 
 /datum/brain_trauma/special/death_whispers/proc/cease_whispering()
 	REMOVE_TRAIT(owner, TRAIT_SIXTHSENSE, TRAUMA_TRAIT)
@@ -390,17 +394,17 @@ monkestation end */
 
 	if(owner.stat != CONSCIOUS)
 		if(prob(20))
-			owner.playsound_local(beepsky, 'sound/voice/beepsky/iamthelaw.ogg', 50)
+			owner.playsound_local(beepsky, 'sound/mobs/non-humanoids/beepsky/iamthelaw.ogg', 50)
 		return
 
 	if(get_dist(owner, beepsky) <= 1)
-		owner.playsound_local(owner, 'sound/weapons/egloves.ogg', 50)
+		owner.playsound_local(owner, 'sound/items/weapons/egloves.ogg', 50)
 		owner.visible_message(span_warning("[owner]'s body jerks as if it was shocked."), span_userdanger("You feel the fist of the LAW."))
 		owner.stamina.adjust(-rand(40, 70))
 		QDEL_NULL(beepsky)
 
 	if(prob(20) && get_dist(owner, beepsky) <= 8)
-		owner.playsound_local(beepsky, 'sound/voice/beepsky/criminal.ogg', 40)
+		owner.playsound_local(beepsky, 'sound/mobs/non-humanoids/beepsky/criminal.ogg', 40)
 
 /obj/effect/client_image_holder/securitron
 	name = "Securitron"
@@ -429,6 +433,55 @@ monkestation end */
 		if(victim.client?.prefs.read_preference(/datum/preference/toggle/enable_runechat))
 			victim.create_chat_message(src, raw_message = beepskys_cry, spans = list("robotic"))
 
+<<<<<<< HEAD
+=======
+// Used by Veteran Security Advisor job.
+/datum/brain_trauma/special/ptsd
+	name = "Combat PTSD"
+	desc = "The patient is experiencing PTSD stemming from past combat exposure, resulting in a lack of emotions. Additionally, they are experiencing mild hallucinations."
+	scan_desc = "PTSD"
+	gain_text = span_warning("You're thrust back into the chaos of past! Explosions! Gunfire! Emotions, gone AWOL!")
+	lose_text = span_notice("You feel flashbacks of past fade, as your emotions return and mind clear.")
+	resilience = TRAUMA_RESILIENCE_ABSOLUTE
+	can_gain = TRUE
+	random_gain = FALSE
+	/// Our cooldown declare for causing hallucinations
+	COOLDOWN_DECLARE(ptsd_hallucinations)
+	var/list/ptsd_hallucinations_list = list(
+		/datum/hallucination/fake_sound/normal/boom,
+		/datum/hallucination/fake_sound/normal/distant_boom,
+		/datum/hallucination/stray_bullet,
+		/datum/hallucination/battle/gun/disabler,
+		/datum/hallucination/battle/gun/laser,
+		/datum/hallucination/battle/bomb,
+		/datum/hallucination/battle/e_sword,
+		/datum/hallucination/battle/harm_baton,
+		/datum/hallucination/battle/stun_prod,
+	)
+
+/datum/brain_trauma/special/ptsd/on_life(seconds_per_tick, times_fired)
+	if(owner.stat != CONSCIOUS)
+		return
+
+	if(!COOLDOWN_FINISHED(src, ptsd_hallucinations))
+		return
+
+	owner.cause_hallucination(pick(ptsd_hallucinations_list), "Caused by The Combat PTSD brain trauma")
+	COOLDOWN_START(src, ptsd_hallucinations, rand(10 SECONDS, 10 MINUTES))
+
+/datum/brain_trauma/special/ptsd/on_gain()
+	owner.add_mood_event("combat_ptsd", /datum/mood_event/desentized)
+	owner.mob_mood?.mood_modifier -= 1 //Basically nothing can change your mood
+	owner.mob_mood?.sanity_level = SANITY_DISTURBED //Makes sanity on a unstable level unless cured
+	..()
+
+/datum/brain_trauma/special/ptsd/on_lose()
+	owner.clear_mood_event("combat_ptsd")
+	owner.mob_mood?.mood_modifier += 1
+	owner.mob_mood?.sanity_level = SANITY_GREAT
+	return ..()
+
+>>>>>>> tg-pr-88929
 /datum/brain_trauma/special/primal_instincts
 	name = "Feral Instincts"
 	desc = "Patient's mind is stuck in a primal state, causing them to act on instinct rather than reason."
@@ -482,6 +535,7 @@ monkestation end */
 	owner.remove_language(/datum/language/monkey, UNDERSTOOD_LANGUAGE, TRAUMA_TRAIT)
 	to_chat(owner, span_green("The urge subsides."))
 
+<<<<<<< HEAD
 	//MONKESTATION ADDITION START - Adds a log when primal instincts is turned off.
 	owner.log_message(
 		"is no longer controlled by monkey instincts",
@@ -490,6 +544,8 @@ monkestation end */
 	)
 	//MONKESTATION ADDITION END
 
+=======
+>>>>>>> tg-pr-88929
 /datum/brain_trauma/special/axedoration
 	name = "Axe Delusions"
 	desc = "Patient feels an immense sense of duty towards protecting an axe and has hallucinations regarding it."
@@ -497,7 +553,11 @@ monkestation end */
 	gain_text = span_notice("You feel like protecting the fire axe is one of your greatest duties.")
 	lose_text = span_warning("You feel like you lost your sense of duty.")
 	resilience = TRAUMA_RESILIENCE_ABSOLUTE
+<<<<<<< HEAD
 	trauma_flags = parent_type::trauma_flags | TRAUMA_NOT_RANDOM
+=======
+	random_gain = FALSE
+>>>>>>> tg-pr-88929
 	var/static/list/talk_lines = list(
 		"I'm proud of you.",
 		"I believe in you!",
@@ -532,7 +592,11 @@ monkestation end */
 			owner.set_jitter_if_lower(5 SECONDS)
 			owner.set_stutter_if_lower(5 SECONDS)
 			if(SPT_PROB(20, seconds_per_tick))
+<<<<<<< HEAD
 				owner.vomit()
+=======
+				owner.vomit(VOMIT_CATEGORY_DEFAULT)
+>>>>>>> tg-pr-88929
 		return
 
 	var/atom/axe_location = get_axe_location()
@@ -551,24 +615,40 @@ monkestation end */
 		to_chat(owner, span_warning("You start having a bad feeling..."))
 		owner.add_mood_event("fireaxe", /datum/mood_event/axe_missing)
 		return
+<<<<<<< HEAD
 
 	if(!isarea(axe_location))
 		owner.add_mood_event("fireaxe", /datum/mood_event/axe_gone)
 		return
 
+=======
+		
+	if(!isarea(axe_location))
+		owner.add_mood_event("fireaxe", /datum/mood_event/axe_gone)
+		return
+		
+>>>>>>> tg-pr-88929
 	if(istype(axe_location, /area/station/command))
 		to_chat(owner, span_notice("You feel a sense of relief..."))
 		if(istype(GLOB.bridge_axe.loc, /obj/structure/fireaxecabinet))
 			return
 		owner.add_mood_event("fireaxe", /datum/mood_event/axe_neutral)
 		return
+<<<<<<< HEAD
 
+=======
+		
+>>>>>>> tg-pr-88929
 	to_chat(owner, span_warning("You start having a bad feeling..."))
 	owner.add_mood_event("fireaxe", /datum/mood_event/axe_missing)
 
 /datum/brain_trauma/special/axedoration/on_gain()
 	RegisterSignal(owner, COMSIG_MOB_EQUIPPED_ITEM, PROC_REF(on_equip))
 	RegisterSignal(owner, COMSIG_MOB_UNEQUIPPED_ITEM, PROC_REF(on_unequip))
+<<<<<<< HEAD
+=======
+	RegisterSignal(owner, COMSIG_MOB_EXAMINING, PROC_REF(on_examine))
+>>>>>>> tg-pr-88929
 	if(!GLOB.bridge_axe)
 		axe_gone()
 		return ..()
@@ -585,7 +665,11 @@ monkestation end */
 
 /datum/brain_trauma/special/axedoration/on_lose()
 	owner.clear_mood_event("fireaxe")
+<<<<<<< HEAD
 	UnregisterSignal(owner, list(COMSIG_MOB_EQUIPPED_ITEM, COMSIG_MOB_UNEQUIPPED_ITEM, COMSIG_ATOM_EXAMINE))
+=======
+	UnregisterSignal(owner, list(COMSIG_MOB_EQUIPPED_ITEM, COMSIG_MOB_UNEQUIPPED_ITEM, COMSIG_MOB_EXAMINING))
+>>>>>>> tg-pr-88929
 	if(GLOB.bridge_axe)
 		UnregisterSignal(GLOB.bridge_axe, COMSIG_ITEM_AFTERATTACK)
 	return ..()
@@ -617,7 +701,11 @@ monkestation end */
 	if(!held_index)
 		return
 	to_chat(owner, span_warning("Be gone with you."))
+<<<<<<< HEAD
 	owner.swap_hand(held_index)
+=======
+	owner.swap_hand(held_index, silent = TRUE)
+>>>>>>> tg-pr-88929
 	var/turf/target_turf = get_ranged_target_turf(owner, owner.dir, faker.throw_range)
 	owner.throw_item(target_turf)
 
@@ -639,6 +727,18 @@ monkestation end */
 	to_chat(owner, span_warning("Should I really leave it here?"))
 	owner.add_mood_event("fireaxe", /datum/mood_event/axe_neutral)
 
+<<<<<<< HEAD
+=======
+/datum/brain_trauma/special/axedoration/proc/on_examine(mob/source, atom/target, list/examine_strings)
+	SIGNAL_HANDLER
+	if(!istype(target, /obj/item/fireaxe))
+		return
+	if(target == GLOB.bridge_axe)
+		examine_strings += span_notice("It's the axe I've sworn to protect.")
+	else
+		examine_strings += span_warning("It's a simulacra, a fake axe made to fool the masses.")
+
+>>>>>>> tg-pr-88929
 /datum/brain_trauma/special/axedoration/proc/on_axe_attack(obj/item/axe, atom/target, mob/user, click_parameters)
 	SIGNAL_HANDLER
 	if(user != owner)

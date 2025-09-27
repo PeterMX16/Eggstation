@@ -3,17 +3,19 @@
 	name = "multi deck pipe adapter"
 	desc = "An adapter which allows pipes to connect to other pipenets on different decks."
 	icon_state = "adapter-3"
-	icon = 'icons/obj/atmospherics/pipes/multiz.dmi'
+	icon = 'icons/obj/pipes_n_cables/multiz.dmi'
 
 	dir = SOUTH
 	initialize_directions = SOUTH
 
 	layer = HIGH_OBJ_LAYER
-	device_type = UNARY
+	device_type = TRINARY
 	paintable = FALSE
 
 	construction_type = /obj/item/pipe/directional
 	pipe_state = "multiz"
+
+	has_gas_visuals = FALSE
 
 	///Our central icon
 	var/mutable_appearance/center = null
@@ -52,8 +54,13 @@
 	for(var/obj/machinery/atmospherics/pipe/multiz/above in GET_TURF_ABOVE(local_turf))
 		if(!is_connectable(above, piping_layer))
 			continue
+<<<<<<< HEAD
 		nodes += above
 		above.nodes += src //Two way travel :)
+=======
+		nodes[2] = above
+		above.nodes[3] = src //Two way travel :)
+>>>>>>> tg-pr-88929
 	for(var/obj/machinery/atmospherics/pipe/multiz/below in GET_TURF_BELOW(local_turf))
 		if(!is_connectable(below, piping_layer))
 			continue

@@ -10,6 +10,7 @@
 	a_or_from = "from"
 	sound_effect = 'sound/effects/wounds/sizzle1.ogg'
 
+<<<<<<< HEAD
 /datum/wound/burn/wound_injury(datum/wound/old_wound, attack_direction)
 	if(!old_wound && limb.current_gauze && (wound_flags & ACCEPTS_GAUZE))
 		qdel(limb.remove_gauze())
@@ -19,6 +20,8 @@
 
 	return ..()
 
+=======
+>>>>>>> tg-pr-88929
 /datum/wound/burn/flesh
 	name = "Burn (Flesh) Wound"
 	a_or_from = "from"
@@ -47,7 +50,11 @@
 
 /datum/wound/burn/flesh/handle_process(seconds_per_tick, times_fired)
 
+<<<<<<< HEAD
 	if (QDELETED(victim) || HAS_TRAIT(victim, TRAIT_STASIS))
+=======
+	if (!victim || HAS_TRAIT(victim, TRAIT_STASIS))
+>>>>>>> tg-pr-88929
 		return
 
 	. = ..()
@@ -60,6 +67,12 @@
 	for(var/datum/reagent/reagent as anything in victim.reagents.reagent_list)
 		if(reagent.chemical_flags & REAGENT_AFFECTS_WOUNDS)
 			reagent.on_burn_wound_processing(src)
+<<<<<<< HEAD
+=======
+
+	if(HAS_TRAIT(victim, TRAIT_VIRUS_RESISTANCE))
+		sanitization += 0.9
+>>>>>>> tg-pr-88929
 
 	if(limb.current_gauze)
 		limb.seep_gauze(WOUND_BURN_SANITIZATION_RATE * seconds_per_tick)
@@ -140,8 +153,7 @@
 					if(0)
 						to_chat(victim, span_deadsay("<b>The last of the nerve endings in your [limb.plaintext_zone] wither away, as the infection completely paralyzes your joint connector.</b>"))
 						threshold_penalty = 120 // piss easy to destroy
-						var/datum/brain_trauma/severe/paralysis/sepsis = new (limb.body_zone)
-						victim.gain_trauma(sepsis)
+						set_disabling(TRUE)
 
 /datum/wound/burn/flesh/set_disabling(new_value)
 	. = ..()
@@ -152,9 +164,9 @@
 
 /datum/wound/burn/flesh/get_wound_description(mob/user)
 	if(strikes_to_lose_limb <= 0)
-		return span_deadsay("<B>[victim.p_their(TRUE)] [limb.plaintext_zone] has locked up completely and is non-functional.</B>")
+		return span_deadsay("<B>[victim.p_Their()] [limb.plaintext_zone] has locked up completely and is non-functional.</B>")
 
-	var/list/condition = list("[victim.p_their(TRUE)] [limb.plaintext_zone] [examine_desc]")
+	var/list/condition = list("[victim.p_Their()] [limb.plaintext_zone] [examine_desc]")
 	if(limb.current_gauze)
 		var/bandage_condition
 		switch(limb.current_gauze.absorption_capacity)
@@ -167,7 +179,7 @@
 			if(4 to INFINITY)
 				bandage_condition = "clean"
 
-		condition += " underneath a dressing of [bandage_condition] [limb.current_gauze.name]"
+		condition += " underneath a dressing of [bandage_condition] [limb.current_gauze.name]."
 	else
 		switch(infestation)
 			if(WOUND_INFECTION_MODERATE to WOUND_INFECTION_SEVERE)
@@ -177,7 +189,7 @@
 			if(WOUND_INFECTION_CRITICAL to WOUND_INFECTION_SEPTIC)
 				condition += ", [span_deadsay("with streaks of rotten infection!")]"
 			if(WOUND_INFECTION_SEPTIC to INFINITY)
-				return span_deadsay("<B>[victim.p_their(TRUE)] [limb.plaintext_zone] is a mess of charred skin and infected rot!</B>")
+				return span_deadsay("<B>[victim.p_Their()] [limb.plaintext_zone] is a mess of charred skin and infected rot!</B>")
 			else
 				condition += "!"
 
@@ -202,7 +214,11 @@
 /datum/wound/burn/flesh/get_scanner_description(mob/user)
 	if(strikes_to_lose_limb <= 0) // Unclear if it can go below 0, best to not take the chance
 		var/oopsie = "Type: [name]<br>Severity: [severity_text()]"
+<<<<<<< HEAD
 		oopsie += "<div class='ml-3'>Infection Level: [span_deadsay("The body part has suffered complete sepsis and must be removed. Amputate or augment limb immediately.")]</div>"
+=======
+		oopsie += "<div class='ml-3'>Infection Level: [span_deadsay("The body part has suffered complete sepsis and must be removed. Amputate or augment limb immediately, or place the patient in a cryotube.")]</div>"
+>>>>>>> tg-pr-88929
 		return oopsie
 
 	. = ..()
@@ -231,6 +247,7 @@
 	new burn common procs
 */
 
+<<<<<<< HEAD
 /// if someone is using ointment or mesh on our burns
 /datum/wound/burn/flesh/proc/ointmentmesh(obj/item/stack/medical/I, mob/user)
 	user.visible_message(span_notice("[user] begins applying [I] to [victim]'s [limb.plaintext_zone]..."), span_notice("You begin applying [I] to [user == victim ? "your" : "[victim]'s"] [limb.plaintext_zone]..."))
@@ -250,6 +267,15 @@
 		return TRUE
 	else
 		return try_treating(I, user)
+=======
+/// Checks if the wound is in a state that ointment or flesh will help
+/datum/wound/burn/flesh/proc/can_be_ointmented_or_meshed()
+	if(infestation > 0 || sanitization < infestation)
+		return TRUE
+	if(flesh_damage > 0 || flesh_healing <= flesh_damage)
+		return TRUE
+	return FALSE
+>>>>>>> tg-pr-88929
 
 /// Paramedic UV penlights
 /datum/wound/burn/flesh/proc/uv(obj/item/flashlight/pen/paramedic/I, mob/user)
@@ -266,6 +292,7 @@
 	return TRUE
 
 /datum/wound/burn/flesh/treat(obj/item/I, mob/user)
+<<<<<<< HEAD
 	if(istype(I, /obj/item/stack/medical/ointment))
 		return ointmentmesh(I, user)
 	else if(istype(I, /obj/item/stack/medical/mesh))
@@ -275,6 +302,9 @@
 			return
 		return ointmentmesh(mesh_check, user)
 	else if(istype(I, /obj/item/flashlight/pen/paramedic))
+=======
+	if(istype(I, /obj/item/flashlight/pen/paramedic))
+>>>>>>> tg-pr-88929
 		return uv(I, user)
 
 // people complained about burns not healing on stasis beds, so in addition to checking if it's cured, they also get the special ability to very slowly heal on stasis beds if they have the healing effects stored
@@ -322,7 +352,11 @@
 	flesh_damage = 5
 	scar_keyword = "burnmoderate"
 
+<<<<<<< HEAD
 	simple_desc = "Patient's skin is burned, weakening the limb and multiplying percieved damage!"
+=======
+	simple_desc = "Patient's skin is burned, weakening the limb and multiplying perceived damage!"
+>>>>>>> tg-pr-88929
 	simple_treat_text = "Ointment will speed up recovery, as will regenerative mesh. Risk of infection is negligible."
 	homemade_treat_text = "Healthy tea will speed up recovery. Salt, or preferably a salt-water mixture, will sanitize the wound, but the former will cause skin irritation, increasing the risk of infection."
 

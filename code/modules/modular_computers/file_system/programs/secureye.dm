@@ -18,7 +18,14 @@
 	///Boolean on whether or not the app will make noise when flipping around the channels.
 	var/spying = FALSE
 
+<<<<<<< HEAD
 	var/list/network = list("ss13")
+=======
+	///Boolean on whether or not the app will make noise when flipping around the channels.
+	var/spying = FALSE
+
+	var/list/network = list(CAMERANET_NETWORK_SS13)
+>>>>>>> tg-pr-88929
 	///List of weakrefs of all users watching the program.
 	var/list/concurrent_users = list()
 
@@ -28,7 +35,13 @@
 	var/turf/last_camera_turf
 
 	// Stuff needed to render the map
+<<<<<<< HEAD
 	var/atom/movable/screen/map_view/camera/cam_screen
+=======
+	var/atom/movable/screen/map_view/cam_screen
+	/// All the plane masters that need to be applied.
+	var/atom/movable/screen/background/cam_background
+>>>>>>> tg-pr-88929
 
 	///Internal tracker used to find a specific person and keep them on cameras.
 	var/datum/trackable/internal_tracker
@@ -42,6 +55,25 @@
 	can_run_on_flags = PROGRAM_ALL
 	program_flags = PROGRAM_ON_SYNDINET_STORE | PROGRAM_UNIQUE_COPY
 
+<<<<<<< HEAD
+=======
+	network = list(
+		CAMERANET_NETWORK_SS13,
+		CAMERANET_NETWORK_MINE,
+		CAMERANET_NETWORK_RD,
+		CAMERANET_NETWORK_LABOR,
+		CAMERANET_NETWORK_ORDNANCE,
+		CAMERANET_NETWORK_MINISAT,
+	)
+	spying = TRUE
+
+/datum/computer_file/program/secureye/human_ai
+	filename = "Overseer"
+	filedesc = "OverSeer"
+	run_access = list(ACCESS_MINISAT)
+	can_run_on_flags = PROGRAM_PDA
+	program_flags = PROGRAM_UNIQUE_COPY
+>>>>>>> tg-pr-88929
 	network = list("ss13", "mine", "rd", "labor", "ordnance", "minisat")
 	spying = TRUE
 
@@ -53,13 +85,17 @@
 	// Convert networks to lowercase
 	for(var/i in network)
 		network -= i
-		network += lowertext(i)
+		network += LOWER_TEXT(i)
 	// Initialize map objects
 	cam_screen = new
 	cam_screen.generate_view(map_name)
 
 /datum/computer_file/program/secureye/Destroy()
 	QDEL_NULL(cam_screen)
+<<<<<<< HEAD
+=======
+	QDEL_NULL(cam_background)
+>>>>>>> tg-pr-88929
 	QDEL_NULL(internal_tracker)
 	last_camera_turf = null
 	return ..()
@@ -80,9 +116,14 @@
 	if(is_living)
 		concurrent_users += user_ref
 	// Register map objects
+<<<<<<< HEAD
 	cam_screen.display_to(user, ui.window)
+=======
+	cam_screen.display_to(user)
+	user.client.register_map_obj(cam_background)
+>>>>>>> tg-pr-88929
 
-/datum/computer_file/program/secureye/ui_status(mob/user)
+/datum/computer_file/program/secureye/ui_status(mob/user, datum/ui_state/state)
 	. = ..()
 	if(. == UI_DISABLED)
 		return UI_CLOSE
@@ -96,7 +137,11 @@
 		data["activeCamera"] = list(
 			name = active_camera.c_tag,
 			ref = REF(active_camera),
+<<<<<<< HEAD
 			status = active_camera.status,
+=======
+			status = active_camera.camera_enabled,
+>>>>>>> tg-pr-88929
 		)
 	return data
 
@@ -105,7 +150,19 @@
 	data["network"] = network
 	data["mapRef"] = cam_screen.assigned_map
 	data["can_spy"] = !!spying
+<<<<<<< HEAD
 	data["cameras"] = GLOB.cameranet.get_available_cameras_data(network)
+=======
+	var/list/cameras = get_camera_list(network)
+	data["cameras"] = list()
+	for(var/i in cameras)
+		var/obj/machinery/camera/C = cameras[i]
+		data["cameras"] += list(list(
+			name = C.c_tag,
+			ref = REF(C),
+		))
+
+>>>>>>> tg-pr-88929
 	return data
 
 /datum/computer_file/program/secureye/ui_act(action, params, datum/tgui/ui, datum/ui_state/state)
@@ -168,6 +225,7 @@
 		camera_ref = null
 		last_camera_turf = null
 		if(!spying)
+<<<<<<< HEAD
 			playsound(computer, 'sound/machines/terminal_off.ogg', 25, FALSE)
 
 // this is stupid imo
@@ -187,6 +245,9 @@
 		current_turf = get_step_towards(current_turf, target_turf)
 
 	return current_turf
+=======
+			playsound(computer, 'sound/machines/terminal/terminal_off.ogg', 25, FALSE)
+>>>>>>> tg-pr-88929
 
 /datum/computer_file/program/secureye/proc/update_active_camera_screen()
 	var/obj/machinery/camera/active_camera = camera_ref?.resolve()
@@ -197,12 +258,17 @@
 
 	var/list/visible_turfs = list()
 
+<<<<<<< HEAD
 	// Get the camera's turf to correctly gather what's visible from it's turf, in case it's located in a moving object (borgs / mechs)
 	var/turf/new_cam_turf = get_turf(active_camera)
 	var/tx = clamp(new_cam_turf.x + active_camera.view_offset_x, 1, world.maxx)
 	var/ty = clamp(new_cam_turf.y + active_camera.view_offset_y, 1, world.maxy)
 	new_cam_turf = locate(tx, ty, new_cam_turf.z)
 	new_cam_turf = endpoint(active_camera, new_cam_turf)
+=======
+	// Get the camera's turf to correctly gather what's visible from its turf, in case it's located in a moving object (borgs / mechs)
+	var/new_cam_turf = get_turf(active_camera)
+>>>>>>> tg-pr-88929
 
 	// If we're not forcing an update for some reason and the cameras are in the same location,
 	// we don't need to update anything.
@@ -224,6 +290,17 @@
 	var/size_x = bbox[3] - bbox[1] + 1
 	var/size_y = bbox[4] - bbox[2] + 1
 
+<<<<<<< HEAD
 	cam_screen.show_camera(visible_turfs, size_x, size_y)
+=======
+	cam_screen.vis_contents = visible_turfs
+	cam_background.icon_state = "clear"
+	cam_background.fill_rect(1, 1, size_x, size_y)
+
+/datum/computer_file/program/secureye/proc/show_camera_static()
+	cam_screen.vis_contents.Cut()
+	cam_background.icon_state = "scanline2"
+	cam_background.fill_rect(1, 1, DEFAULT_MAP_SIZE, DEFAULT_MAP_SIZE)
+>>>>>>> tg-pr-88929
 
 #undef DEFAULT_MAP_SIZE

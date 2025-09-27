@@ -15,10 +15,14 @@
 ///Paygrade for Heads of Staff.
 #define PAYCHECK_COMMAND 100
 
+<<<<<<< HEAD
 //How many credits a player is charged if they print something from a departmental lathe they shouldn't have access to.
 #define LATHE_TAX 0
 //How much POWER a borg's cell is taxed if they print something from a departmental lathe.
 #define SILICON_LATHE_TAX 2000
+=======
+
+>>>>>>> tg-pr-88929
 
 #define STATION_TARGET_BUFFER 25
 
@@ -29,6 +33,9 @@
 
 //What should vending machines charge when you buy something in-department.
 #define DEPARTMENT_DISCOUNT 0.2
+
+//the amount of credits collected by the vending machines that can be redeemed when restocking it.
+#define VENDING_CREDITS_COLLECTION_AMOUNT 0.2
 
 #define ACCOUNT_CIV "CIV"
 #define ACCOUNT_CIV_NAME "Civil Budget"
@@ -45,7 +52,13 @@
 #define ACCOUNT_SEC "SEC"
 #define ACCOUNT_SEC_NAME "Defense Budget"
 
+#define IS_DEPARTMENTAL_CARD(card) (card in SSeconomy.dep_cards)
+#define IS_DEPARTMENTAL_ACCOUNT(account) (account in SSeconomy.departmental_accounts)
+
 #define NO_FREEBIES "commies go home"
+
+/// The special account ID for admins using debug cards.
+#define ADMIN_ACCOUNT_ID "ADMIN!"
 
 //Defines that set what kind of civilian bounties should be applied mid-round.
 #define CIV_JOB_BASIC 1
@@ -61,14 +74,28 @@
 #define CIV_JOB_MED 11
 #define CIV_JOB_GROW 12
 #define CIV_JOB_ATMOS 13
+<<<<<<< HEAD
 #define CIV_JOB_RANDOM 14
 #define CIV_JOB_SCI_HEAD 15
 #define CIV_JOB_XENO 16
 
 //By how much should the station's inflation value be multiplied by when dividing the civilian bounty's reward?
 #define BOUNTY_MULTIPLIER 10
+=======
+#define CIV_JOB_BITRUN 14
+#define CIV_JOB_RANDOM 15
+>>>>>>> tg-pr-88929
 
 //These defines are to be used to with the payment component, determines which lines will be used during a transaction. If in doubt, go with clinical.
 #define PAYMENT_CLINICAL "clinical"
 #define PAYMENT_FRIENDLY "friendly"
 #define PAYMENT_ANGRY "angry"
+#define PAYMENT_VENDING "vending"
+
+#define MARKET_TREND_UPWARD 1
+#define MARKET_TREND_DOWNWARD -1
+#define MARKET_TREND_STABLE 0
+
+#define MARKET_EVENT_PROBABILITY 8 //Probability of a market event firing, in percent. Fires once per material, every stock market tick.
+
+#define MARKET_PROFIT_MODIFIER 0.8 //We don't make every sale a 1-1 of the actual buy price value, like with real life taxes and to encourage more smart trades

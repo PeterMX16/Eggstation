@@ -2,7 +2,7 @@
 /datum/action/cooldown/spell/touch/scream_for_me
 	name = "Scream For Me"
 	desc = "This wicked spell inflicts many severe wounds on your target, causing them to \
-		likely bleed to death unless they recieve immediate medical attention."
+		likely bleed to death unless they receive immediate medical attention."
 	button_icon_state = "scream_for_me"
 	sound = null //trust me, you'll hear their wounds
 
@@ -22,8 +22,12 @@
 	)
 	caster.cause_pain(BODY_ZONE_EVERYTHING, 50, BRUTE)
 	var/obj/item/bodypart/to_wound = caster.get_holding_bodypart_of_item(hand)
+<<<<<<< HEAD
 	var/type_wound = pick(list(/datum/wound/slash/flesh/critical, /datum/wound/slash/flesh/severe))
 	to_wound.force_wound_upwards(type_wound)
+=======
+	caster.cause_wound_of_type_and_severity(WOUND_SLASH, to_wound, WOUND_SEVERITY_MODERATE, WOUND_SEVERITY_CRITICAL)
+>>>>>>> tg-pr-88929
 
 /datum/action/cooldown/spell/touch/scream_for_me/cast_on_hand_hit(obj/item/melee/touch_attack/hand, mob/living/victim, mob/living/carbon/caster)
 	if(!ishuman(victim))
@@ -32,8 +36,12 @@
 	human_victim.emote("scream")
 	human_victim.cause_pain(BODY_ZONE_EVERYTHING, 50, BRUTE)
 	for(var/obj/item/bodypart/to_wound as anything in human_victim.bodyparts)
+<<<<<<< HEAD
 		var/type_wound = pick(list(/datum/wound/slash/flesh/critical, /datum/wound/slash/flesh/severe))
 		to_wound.force_wound_upwards(type_wound)
+=======
+		human_victim.cause_wound_of_type_and_severity(WOUND_SLASH, to_wound, WOUND_SEVERITY_MODERATE, WOUND_SEVERITY_CRITICAL)
+>>>>>>> tg-pr-88929
 	return TRUE
 
 /obj/item/melee/touch_attack/scream_for_me

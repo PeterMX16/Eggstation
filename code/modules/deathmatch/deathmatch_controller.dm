@@ -8,7 +8,10 @@
 	/// All modifiers
 	var/list/datum/deathmatch_modifier/modifiers
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> tg-pr-88929
 /datum/deathmatch_controller/New()
 	. = ..()
 	if (GLOB.deathmatch_game)

@@ -1,17 +1,29 @@
+<<<<<<< HEAD
 /datum/mutation/adrenaline_rush
+=======
+/datum/mutation/human/adrenaline_rush
+>>>>>>> tg-pr-88929
 	name = "Adrenaline Rush"
 	desc = "Allows the host to trigger their body's adrenaline response at will."
 	quality = POSITIVE
 	text_gain_indication = span_notice("You feel pumped up!")
+<<<<<<< HEAD
 //	instability = POSITIVE_INSTABILITY_MODERATE // MONKESTATION EDIT OLD
 	instability = 25 // MONKESTATION EDIT NEW -- AWAITING TG#83439
+=======
+	instability = POSITIVE_INSTABILITY_MODERATE
+>>>>>>> tg-pr-88929
 	power_path = /datum/action/cooldown/adrenaline
 
 	energy_coeff = 1
 	synchronizer_coeff = 1
 	power_coeff = 1
 
+<<<<<<< HEAD
 /datum/mutation/adrenaline_rush/setup()
+=======
+/datum/mutation/human/adrenaline_rush/modify()
+>>>>>>> tg-pr-88929
 	. = ..()
 	var/datum/action/cooldown/adrenaline/to_modify = .
 	if(!istype(to_modify)) // null or invalid
@@ -33,6 +45,10 @@
 	/// How many units of each negative reagent injected after comedown.
 	var/comedown_amount = 7
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> tg-pr-88929
 /datum/action/cooldown/adrenaline/Activate(mob/living/carbon/cast_on)
 	. = ..()
 	to_chat(cast_on, span_userdanger("You feel pumped up! It's time to GO!"))

@@ -4,13 +4,21 @@
 	dir = 4
 	},
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "aw" = (
 /obj/structure/disposalpipe/sorting/mail/flip{
 	dir = 1
 	},
 /turf/open/floor/plating,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "ax" = (
 /obj/effect/turf_decal/tile/yellow/fourcorners,
 /obj/structure/frame/computer{
@@ -21,6 +29,7 @@
 	icon_state = "medium"
 	},
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
 "aK" = (
 /turf/open/space/basic,
@@ -29,34 +38,74 @@
 /obj/effect/turf_decal/tile/yellow/half/contrasted,
 /turf/open/floor/iron,
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+"aK" = (
+/turf/open/space/basic,
+/area/space/virtual_domain)
+"aL" = (
+/obj/effect/turf_decal/tile/yellow/half/contrasted,
+/turf/open/floor/iron,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "bq" = (
 /obj/machinery/light/small/red/dim{
 	dir = 1
 	},
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
 "bs" = (
 /turf/open/floor/carpet/orange,
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+"bs" = (
+/turf/open/floor/carpet/orange,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "bw" = (
 /obj/structure/disposalpipe/broken{
 	dir = 1
 	},
+<<<<<<< HEAD
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/plating,
 /area/virtual_domain/powered)
+=======
+/obj/effect/decal/cleanable/dirt/dust,
+/obj/structure/closet/crate/preopen,
+/turf/open/floor/plating,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "bx" = (
 /obj/structure/frame/computer,
 /obj/item/shard,
 /turf/open/floor/carpet/royalblue{
 	icon_state = "carpet_royalblue-12"
 	},
+<<<<<<< HEAD
 /area/virtual_domain/powered)
 "bA" = (
 /obj/structure/chair/plastic,
 /turf/open/floor/plating,
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+"bA" = (
+/obj/structure/chair/plastic,
+/turf/open/floor/plating,
+/area/virtual_domain)
+"bG" = (
+/obj/structure/lattice/catwalk{
+	name = "industrial lift"
+	},
+/obj/structure/closet/crate/preopen,
+/obj/structure/railing,
+/turf/open/chasm,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "bS" = (
 /obj/effect/turf_decal/tile/yellow/anticorner/contrasted{
 	dir = 1
@@ -71,7 +120,11 @@
 	pixel_y = -2
 	},
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "cw" = (
 /obj/effect/turf_decal/trimline/yellow/warning{
 	dir = 9
@@ -80,7 +133,11 @@
 	dir = 1
 	},
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "cB" = (
 /obj/effect/turf_decal/trimline/yellow/line{
 	dir = 10
@@ -90,18 +147,30 @@
 	},
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "cF" = (
 /obj/effect/turf_decal/trimline/yellow/line{
 	dir = 9
 	},
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "dx" = (
 /obj/effect/turf_decal/trimline/yellow/line,
 /obj/item/shard,
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "dz" = (
 /obj/machinery/light/broken,
 /obj/effect/decal/cleanable/dirt,
@@ -110,13 +179,18 @@
 	dir = 8
 	},
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "dA" = (
 /obj/machinery/light/dim{
 	dir = 4
 	},
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/plating,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
 "dP" = (
 /obj/effect/turf_decal/tile/yellow/half/contrasted,
@@ -126,6 +200,17 @@
 "eg" = (
 /turf/closed/wall,
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+"dP" = (
+/obj/effect/turf_decal/tile/yellow/half/contrasted,
+/obj/effect/decal/cleanable/dirt/dust,
+/turf/open/floor/iron,
+/area/virtual_domain)
+"eg" = (
+/turf/closed/wall,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "ei" = (
 /obj/machinery/conveyor/auto{
 	dir = 6;
@@ -136,7 +221,11 @@
 	dir = 5
 	},
 /turf/open/floor/plating,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "ev" = (
 /obj/effect/baseturf_helper/virtual_domain,
 /turf/template_noop,
@@ -146,31 +235,51 @@
 	dir = 2
 	},
 /turf/open/floor/plating,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "eN" = (
 /obj/effect/turf_decal/trimline/yellow/arrow_cw{
 	dir = 1
 	},
+<<<<<<< HEAD
 /obj/effect/decal/cleanable/dirt,
+=======
+/obj/effect/decal/cleanable/dirt/dust,
+>>>>>>> tg-pr-88929
 /obj/machinery/light/broken{
 	dir = 1
 	},
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
 "eY" = (
 /turf/closed/wall/r_wall,
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+"eY" = (
+/turf/closed/wall/r_wall,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "fe" = (
 /obj/effect/turf_decal/tile/yellow/anticorner/contrasted{
 	dir = 8
 	},
 /obj/structure/table/reinforced,
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "fg" = (
 /turf/open/floor/iron/stairs/left{
 	dir = 8
 	},
+<<<<<<< HEAD
 /area/virtual_domain/powered)
 "fw" = (
 /obj/structure/door_assembly/door_assembly_eng,
@@ -184,6 +293,29 @@
 /obj/structure/chair/stool/bar/directional/west,
 /turf/open/floor/iron/cafeteria,
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+"fj" = (
+/obj/structure/closet/crate/preopen,
+/turf/open/floor/plating,
+/area/virtual_domain)
+"fl" = (
+/obj/effect/turf_decal/trimline/yellow/line{
+	dir = 1
+	},
+/obj/effect/decal/cleanable/dirt/dust,
+/turf/open/floor/iron,
+/area/virtual_domain)
+"fw" = (
+/obj/structure/door_assembly/door_assembly_eng,
+/obj/effect/decal/cleanable/dirt/dust,
+/turf/open/floor/iron,
+/area/virtual_domain)
+"fK" = (
+/obj/structure/chair/stool/bar/directional/west,
+/turf/open/floor/iron/cafeteria,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "fR" = (
 /obj/effect/turf_decal/trimline/yellow/line{
 	dir = 8
@@ -193,48 +325,77 @@
 	},
 /obj/structure/sign/poster/official/random/directional/west,
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "fZ" = (
 /obj/effect/turf_decal/tile/yellow/fourcorners,
 /obj/structure/chair/office{
 	dir = 8
 	},
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
 "gc" = (
 /obj/structure/disposalpipe/broken,
 /turf/open/floor/plating,
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+"gc" = (
+/obj/structure/disposalpipe/broken,
+/turf/open/floor/plating,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "gj" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
 /turf/open/floor/plating,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "gs" = (
 /obj/machinery/door/airlock/external/glass/ruin,
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 1
 	},
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright/protected_space)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "gN" = (
 /obj/structure/disposalpipe/sorting{
 	dir = 8
 	},
 /turf/open/floor/catwalk_floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "gV" = (
 /obj/effect/turf_decal/trimline/yellow/warning{
 	dir = 8
 	},
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "hg" = (
 /obj/effect/turf_decal/caution{
 	dir = 1
 	},
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
 "hi" = (
 /turf/open/floor/iron,
@@ -242,24 +403,49 @@
 "hk" = (
 /obj/effect/turf_decal/tile/yellow/anticorner/contrasted,
 /obj/effect/decal/cleanable/dirt,
+=======
+/area/virtual_domain)
+"hi" = (
+/turf/open/floor/iron,
+/area/virtual_domain)
+"hk" = (
+/obj/effect/turf_decal/tile/yellow/anticorner/contrasted,
+/obj/effect/decal/cleanable/dirt/dust,
+>>>>>>> tg-pr-88929
 /obj/machinery/light/broken{
 	dir = 4
 	},
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "ho" = (
 /obj/effect/turf_decal/siding/white{
 	dir = 4
 	},
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "iw" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
 /obj/effect/mapping_helpers/broken_floor,
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+"iz" = (
+/obj/structure/broken_flooring/corner,
+/turf/open/floor/plating,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "iI" = (
 /obj/effect/turf_decal/trimline/yellow/corner{
 	dir = 8
@@ -267,7 +453,11 @@
 /obj/effect/turf_decal/trimline/yellow/corner,
 /obj/effect/decal/cleanable/blood/drip,
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "jv" = (
 /obj/effect/turf_decal/trimline/yellow/line{
 	dir = 8
@@ -276,46 +466,85 @@
 	dir = 8
 	},
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
 "jw" = (
 /obj/effect/turf_decal/delivery,
 /turf/open/floor/iron,
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+"jw" = (
+/obj/effect/turf_decal/delivery,
+/turf/open/floor/iron,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "jH" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
 /turf/open/floor/catwalk_floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "jQ" = (
 /obj/structure/disposalpipe/segment,
 /obj/machinery/light/small/red/dim{
 	dir = 1
 	},
 /turf/open/floor/plating,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "jS" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/turf_decal/stripes/corner{
 	dir = 4
 	},
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
 "jW" = (
 /obj/effect/decal/cleanable/generic,
 /turf/open/floor/plating,
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+"jW" = (
+/obj/effect/decal/cleanable/generic,
+/turf/open/floor/plating,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "kh" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "ki" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/landmark/bitrunning/cache_spawn,
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+"kn" = (
+/obj/machinery/light/small/red/dim{
+	dir = 1
+	},
+/obj/effect/decal/cleanable/dirt/dust,
+/turf/open/floor/iron,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "kJ" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -325,14 +554,22 @@
 	id = "factorylockdown"
 	},
 /turf/open/floor/plating,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
 "kU" = (
 /turf/open/floor/plating,
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+"kU" = (
+/turf/open/floor/plating,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "lp" = (
 /obj/machinery/door/airlock/maintenance,
 /obj/effect/mapping_helpers/airlock/locked,
 /turf/open/floor/plating,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
 "lt" = (
 /obj/structure/disposalpipe/sorting{
@@ -341,18 +578,30 @@
 /mob/living/basic/hivebot/range,
 /turf/open/floor/plating,
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+"lt" = (
+/obj/effect/landmark/bitrunning/mob_segment,
+/turf/open/floor/plating,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "lx" = (
 /obj/machinery/door/poddoor/shutters/indestructible{
 	dir = 4;
 	id = "factorylockdown"
 	},
 /turf/open/floor/plating,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "lB" = (
 /obj/effect/turf_decal/trimline/yellow/line{
 	dir = 5
 	},
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
 "lC" = (
 /obj/machinery/door/airlock/glass,
@@ -362,11 +611,27 @@
 /obj/effect/mapping_helpers/burnt_floor,
 /turf/open/floor/plating,
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+"lC" = (
+/obj/machinery/door/airlock/glass,
+/turf/open/floor/iron,
+/area/virtual_domain)
+"lI" = (
+/obj/effect/mapping_helpers/burnt_floor,
+/turf/open/floor/plating,
+/area/virtual_domain)
+"lN" = (
+/obj/effect/decal/cleanable/dirt/dust,
+/turf/open/floor/iron,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "lW" = (
 /obj/structure/disposalpipe/sorting{
 	dir = 8
 	},
 /turf/open/floor/plating,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
 "mu" = (
 /obj/structure/disposalpipe/segment,
@@ -376,6 +641,23 @@
 /obj/machinery/door/airlock/maintenance,
 /turf/open/floor/iron,
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+"mh" = (
+/obj/structure/broken_flooring/pile{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/virtual_domain)
+"mu" = (
+/obj/structure/disposalpipe/segment,
+/turf/open/floor/plating,
+/area/virtual_domain)
+"mE" = (
+/obj/machinery/door/airlock/maintenance,
+/turf/open/floor/iron,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "mY" = (
 /obj/effect/turf_decal/trimline/yellow/line{
 	dir = 1
@@ -384,6 +666,7 @@
 	dir = 1
 	},
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
 "nD" = (
 /obj/structure/disposalpipe/trunk/multiz,
@@ -394,49 +677,135 @@
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/plating,
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+"nc" = (
+/obj/effect/turf_decal/trimline/yellow/line{
+	dir = 1
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/structure/sign/poster/official/safety_internals/directional/south,
+/turf/open/floor/iron,
+/area/virtual_domain)
+"nz" = (
+/obj/structure/broken_flooring/side/directional/north,
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/virtual_domain)
+"nD" = (
+/obj/structure/disposalpipe/trunk/multiz,
+/turf/open/floor/plating,
+/area/virtual_domain)
+"nL" = (
+/obj/effect/turf_decal/tile/dark/half,
+/obj/effect/decal/cleanable/dirt/dust,
+/turf/open/floor/plating,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "nS" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/structure/disposalpipe/segment{
 	dir = 5
 	},
 /turf/open/floor/plating,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
 "op" = (
 /obj/effect/decal/cleanable/dirt,
+=======
+/area/virtual_domain)
+"op" = (
+/obj/effect/decal/cleanable/dirt/dust,
+>>>>>>> tg-pr-88929
 /obj/machinery/light/dim{
 	dir = 1
 	},
 /obj/structure/sign/warning/doors/directional/north,
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "oN" = (
 /obj/machinery/conveyor/auto,
 /obj/structure/window/reinforced/spawner/directional/west,
 /obj/structure/window/reinforced/spawner/directional/east,
 /turf/open/floor/plating,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+"oX" = (
+/obj/structure/broken_flooring/corner/directional/north,
+/turf/open/floor/plating,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "pa" = (
 /obj/machinery/light/small/red/dim{
 	dir = 1
 	},
 /turf/open/floor/carpet/orange,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
 "pi" = (
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/plating,
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+"pb" = (
+/obj/structure/broken_flooring/corner{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/virtual_domain)
+"pf" = (
+/obj/effect/spawner/structure/window/reinforced,
+/obj/effect/mapping_helpers/damaged_window,
+/turf/open/floor/plating,
+/area/virtual_domain)
+"pi" = (
+/obj/effect/decal/cleanable/dirt,
+/turf/open/floor/plating,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "po" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/spawner/random/structure/closet_empty/crate/with_loot,
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+"pv" = (
+/obj/structure/broken_flooring/side{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "pI" = (
 /obj/effect/turf_decal/tile/yellow/fourcorners,
 /obj/machinery/light/small/red/dim{
 	dir = 4
 	},
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+"pJ" = (
+/obj/structure/broken_flooring/pile{
+	dir = 1
+	},
+/turf/open/floor/plating,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "qc" = (
 /obj/effect/turf_decal/tile/yellow/anticorner/contrasted{
 	dir = 8
@@ -444,18 +813,31 @@
 /obj/structure/table/reinforced,
 /obj/effect/spawner/random/bureaucracy/briefcase,
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "qk" = (
 /obj/structure/disposalpipe/segment{
 	dir = 10
 	},
 /turf/open/floor/plating,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
 "qK" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/structure/sign/warning/secure_area/directional/north,
 /turf/open/floor/plating,
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+"qK" = (
+/obj/effect/decal/cleanable/dirt/dust,
+/obj/structure/sign/warning/secure_area/directional/north,
+/turf/open/floor/plating,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "qN" = (
 /obj/effect/turf_decal/siding/white{
 	dir = 4
@@ -463,7 +845,11 @@
 /obj/effect/mob_spawn/corpse/human/factory,
 /obj/effect/decal/cleanable/blood/old,
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "qT" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -472,13 +858,21 @@
 	dir = 1
 	},
 /turf/open/floor/plating,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "qV" = (
 /obj/effect/turf_decal/trimline/yellow/line{
 	dir = 4
 	},
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "qW" = (
 /obj/machinery/light/dim{
 	dir = 1
@@ -487,48 +881,80 @@
 	dir = 1
 	},
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "rc" = (
 /obj/structure/disposalpipe/segment,
 /obj/structure/sign/poster/contraband/random/directional/north,
 /obj/effect/landmark/bitrunning/cache_spawn,
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "rz" = (
 /obj/effect/turf_decal/trimline/yellow/line{
 	dir = 1
 	},
 /obj/machinery/light/small/red/dim,
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
 "rB" = (
 /turf/open/floor/iron,
 /area/lavaland/surface/outdoors/virtual_domain/fullbright/protected_space)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "rG" = (
 /obj/machinery/light/dim,
 /obj/effect/turf_decal/trimline/yellow/line,
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "rJ" = (
 /obj/structure/railing,
 /obj/effect/decal/cleanable/oil,
 /turf/open/floor/plating,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "rM" = (
 /obj/structure/disposalpipe/broken{
 	dir = 1
 	},
+<<<<<<< HEAD
 /mob/living/basic/hivebot/strong,
 /turf/open/floor/plating,
 /area/virtual_domain/powered)
 "rO" = (
 /turf/closed/mineral,
 /area/space)
+=======
+/turf/open/floor/plating,
+/area/virtual_domain)
+"rO" = (
+/turf/closed/mineral,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "sn" = (
 /turf/open/floor/carpet/royalblue{
 	icon_state = "carpet_royalblue-38"
 	},
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "sB" = (
 /obj/machinery/light/broken{
 	dir = 8
@@ -538,7 +964,11 @@
 	dir = 8
 	},
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "sW" = (
 /obj/effect/decal/cleanable/oil/streak,
 /obj/effect/turf_decal/trimline/yellow/corner{
@@ -550,12 +980,17 @@
 /obj/effect/decal/cleanable/blood/drip,
 /obj/effect/decal/cleanable/blood/drip,
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "tl" = (
 /obj/machinery/door/poddoor/shutters/indestructible{
 	id = "factorylockdown"
 	},
 /turf/open/floor/plating,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
 "tr" = (
 /obj/effect/spawner/structure/window/reinforced,
@@ -566,22 +1001,45 @@
 /mob/living/basic/hivebot/range,
 /turf/open/floor/iron,
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+"tr" = (
+/obj/effect/spawner/structure/window/reinforced,
+/turf/open/floor/plating,
+/area/virtual_domain)
+"tE" = (
+/obj/structure/disposalpipe/segment{
+	dir = 10
+	},
+/obj/effect/landmark/bitrunning/mob_segment,
+/turf/open/floor/plating,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "ud" = (
 /obj/effect/decal/cleanable/blood/drip,
 /turf/open/floor/carpet/royalblue{
 	icon_state = "carpet_royalblue-110"
 	},
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "uk" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/effect/decal/cleanable/blood/splatter/over_window,
 /turf/open/floor/plating,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "um" = (
 /obj/machinery/light/dim{
 	dir = 1
 	},
 /turf/open/floor/iron/cafeteria,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
 "uz" = (
 /obj/effect/spawner/random/trash/mess,
@@ -596,11 +1054,44 @@
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/plating,
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+"uv" = (
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/structure/broken_flooring/pile{
+	dir = 1
+	},
+/turf/open/floor/plating,
+/area/virtual_domain)
+"uz" = (
+/obj/effect/spawner/random/trash/mess,
+/turf/open/floor/plating,
+/area/virtual_domain)
+"uC" = (
+/obj/structure/falsewall,
+/turf/open/floor/plating,
+/area/virtual_domain)
+"uF" = (
+/obj/structure/disposalpipe/segment,
+/obj/effect/decal/cleanable/dirt/dust,
+/turf/open/floor/plating,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "uP" = (
 /turf/open/floor/carpet/royalblue{
 	icon_state = "carpet_royalblue-55"
 	},
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+"uU" = (
+/obj/structure/broken_flooring/side,
+/turf/open/floor/plating,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "vb" = (
 /obj/effect/turf_decal/trimline/yellow/line,
 /obj/effect/turf_decal/trimline/yellow/line{
@@ -608,7 +1099,11 @@
 	},
 /obj/machinery/light/broken,
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "ve" = (
 /obj/machinery/mass_driver/trash{
 	dir = 1
@@ -617,13 +1112,18 @@
 	dir = 4
 	},
 /turf/open/floor/plating,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "vA" = (
 /obj/effect/spawner/random/structure/closet_empty/crate/with_loot,
 /obj/effect/turf_decal/stripes{
 	dir = 9
 	},
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
 "vL" = (
 /obj/effect/decal/cleanable/glass,
@@ -637,30 +1137,63 @@
 /obj/effect/mapping_helpers/broken_floor,
 /turf/open/floor/iron,
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+"vL" = (
+/obj/effect/decal/cleanable/glass,
+/turf/open/floor/iron,
+/area/virtual_domain)
+"vQ" = (
+/obj/structure/disposalpipe/segment,
+/turf/open/floor/iron,
+/area/virtual_domain)
+"vU" = (
+/obj/effect/mapping_helpers/broken_floor,
+/turf/open/floor/iron,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "wg" = (
 /obj/machinery/light/small/red/dim{
 	dir = 4
 	},
 /obj/effect/decal/cleanable/dirt,
+<<<<<<< HEAD
 /turf/open/floor/plating,
 /area/virtual_domain/powered)
+=======
+/obj/structure/closet/crate/preopen,
+/turf/open/floor/plating,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "wh" = (
 /obj/structure/table/wood,
 /turf/open/floor/carpet/royalblue{
 	icon_state = "carpet_royalblue-207"
 	},
+<<<<<<< HEAD
 /area/virtual_domain/powered)
 "wl" = (
 /obj/item/shard,
 /turf/open/space/basic,
 /area/space)
+=======
+/area/virtual_domain)
+"wl" = (
+/obj/item/shard,
+/turf/open/space/basic,
+/area/space/virtual_domain)
+>>>>>>> tg-pr-88929
 "wm" = (
 /obj/effect/turf_decal/tile/yellow/half/contrasted{
 	dir = 1
 	},
 /obj/structure/sign/clock/directional/north,
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "wq" = (
 /obj/structure/table/wood,
 /obj/machinery/button/door{
@@ -670,7 +1203,11 @@
 /turf/open/floor/carpet/royalblue{
 	icon_state = "carpet_royalblue-63"
 	},
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "ws" = (
 /obj/effect/turf_decal/trimline/yellow/corner{
 	dir = 1
@@ -679,50 +1216,90 @@
 	dir = 4
 	},
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "ww" = (
 /obj/effect/turf_decal/stripes{
 	dir = 8
 	},
 /obj/effect/decal/cleanable/dirt,
+<<<<<<< HEAD
 /mob/living/basic/hivebot,
 /turf/open/floor/iron,
 /area/virtual_domain/powered)
+=======
+/turf/open/floor/iron,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "wU" = (
 /obj/structure/disposalpipe/segment{
 	dir = 9
 	},
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "wW" = (
 /obj/effect/turf_decal/tile/yellow/fourcorners,
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "xa" = (
 /obj/machinery/door/poddoor/shutters/indestructible{
 	dir = 8;
 	id = "factorylockdown"
 	},
 /turf/open/floor/plating,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+"xj" = (
+/obj/structure/railing/corner/end{
+	dir = 4
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/open/floor/plating,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "xk" = (
 /obj/machinery/light/dim{
 	dir = 4
 	},
 /obj/effect/landmark/bitrunning/cache_spawn,
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "xl" = (
 /obj/structure/disposalpipe/segment{
 	dir = 5
 	},
 /turf/open/floor/plating,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
 "xA" = (
 /obj/effect/decal/cleanable/generic,
 /turf/open/floor/iron,
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+"xA" = (
+/obj/effect/decal/cleanable/generic,
+/turf/open/floor/iron,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "xE" = (
 /obj/effect/turf_decal/trimline/yellow/line,
 /obj/effect/turf_decal/trimline/yellow/line{
@@ -730,11 +1307,19 @@
 	},
 /obj/machinery/light/broken,
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
 "xF" = (
 /obj/effect/baseturf_helper/virtual_domain,
 /turf/closed/indestructible/binary,
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+"xF" = (
+/obj/effect/baseturf_helper/virtual_domain,
+/turf/closed/indestructible/binary,
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "xM" = (
 /obj/effect/turf_decal/trimline/yellow/line{
 	dir = 4
@@ -744,28 +1329,48 @@
 	name = "cat bed"
 	},
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
 "xT" = (
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron,
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+"xT" = (
+/obj/effect/decal/cleanable/dirt,
+/turf/open/floor/iron,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "yB" = (
 /obj/machinery/door/airlock/maintenance,
 /obj/effect/mapping_helpers/airlock/welded,
 /turf/open/floor/plating,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "yM" = (
 /turf/closed/indestructible/fakedoor{
 	name = "Stairwell Access"
 	},
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "yQ" = (
 /turf/template_noop,
 /area/template_noop)
 "yX" = (
 /obj/structure/fans/tiny,
 /turf/open/floor/plating,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "zp" = (
 /obj/structure/chair/sofa/corp/right{
 	dir = 1
@@ -773,13 +1378,21 @@
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/light/broken,
 /turf/open/floor/carpet/orange,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "zB" = (
 /obj/structure/closet/crate/bin,
 /obj/item/trash/tray,
 /obj/effect/spawner/random/trash/garbage,
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "zE" = (
 /obj/structure/disposalpipe/broken{
 	dir = 1
@@ -788,11 +1401,16 @@
 	dir = 4
 	},
 /turf/open/floor/plating,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "zO" = (
 /obj/effect/turf_decal/siding/white{
 	dir = 4
 	},
+<<<<<<< HEAD
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/light/broken,
 /turf/open/floor/iron,
@@ -801,17 +1419,33 @@
 /obj/item/stack/rods/two,
 /turf/open/space/basic,
 /area/space)
+=======
+/obj/effect/decal/cleanable/dirt/dust,
+/obj/machinery/light/broken,
+/turf/open/floor/iron,
+/area/virtual_domain)
+"Av" = (
+/obj/item/stack/rods/two,
+/turf/open/space/basic,
+/area/space/virtual_domain)
+>>>>>>> tg-pr-88929
 "Aw" = (
 /obj/structure/lattice/catwalk{
 	name = "industrial lift"
 	},
+<<<<<<< HEAD
 /mob/living/basic/hivebot/rapid,
 /turf/open/chasm,
 /area/virtual_domain/powered)
+=======
+/turf/open/chasm,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "AJ" = (
 /obj/effect/decal/cleanable/generic,
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/plating,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
 "AP" = (
 /obj/structure/railing,
@@ -824,12 +1458,33 @@
 /obj/structure/closet/secure_closet/tac{
 	req_access = null;
 	req_one_access = null
+=======
+/area/virtual_domain)
+"AP" = (
+/obj/structure/railing,
+/turf/open/floor/plating,
+/area/virtual_domain)
+"AU" = (
+/turf/open/misc/asteroid/airless,
+/area/virtual_domain)
+"Bd" = (
+/obj/structure/closet/secure_closet/tac{
+	req_access = null
+>>>>>>> tg-pr-88929
 	},
 /obj/item/ammo_casing/shotgun/buckshot,
 /obj/item/ammo_casing/shotgun/buckshot,
 /obj/item/ammo_casing/shotgun/buckshot,
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+"Bh" = (
+/obj/structure/broken_flooring/corner/directional/east,
+/turf/open/floor/plating,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Bx" = (
 /obj/structure/table/reinforced,
 /obj/machinery/microwave{
@@ -837,7 +1492,15 @@
 	desc = "No longer cooks and boils stuff."
 	},
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+"BA" = (
+/obj/structure/broken_flooring/corner/directional/south,
+/turf/open/floor/plating,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "BI" = (
 /obj/machinery/door/airlock/command/glass{
 	name = "Quartermaster's Office"
@@ -850,28 +1513,48 @@
 	dir = 4
 	},
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
 "BN" = (
 /obj/structure/flora/rock/pile/style_random,
 /turf/open/misc/asteroid/airless,
 /area/space)
+=======
+/area/virtual_domain)
+"BN" = (
+/obj/structure/flora/rock/pile/style_random,
+/turf/open/misc/asteroid/airless,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "BW" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/turf_decal/trimline/yellow/warning{
 	dir = 1
 	},
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
 "BX" = (
 /obj/effect/decal/cleanable/robot_debris/old,
 /turf/open/floor/iron,
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+"BX" = (
+/obj/effect/decal/cleanable/robot_debris/old,
+/turf/open/floor/iron,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Ci" = (
 /obj/effect/turf_decal/trimline/yellow/line{
 	dir = 8
 	},
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Ct" = (
 /obj/machinery/conveyor/auto{
 	dir = 6
@@ -882,7 +1565,11 @@
 /obj/structure/sign/warning/vacuum/directional/north,
 /obj/structure/window/reinforced/spawner/directional/east,
 /turf/open/floor/plating,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Cv" = (
 /obj/structure/chair/office{
 	dir = 8
@@ -890,23 +1577,42 @@
 /turf/open/floor/carpet/royalblue{
 	icon_state = "carpet_royalblue-157"
 	},
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+"CA" = (
+/obj/structure/disposalpipe/segment,
+/obj/structure/broken_flooring/side{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "CQ" = (
 /obj/effect/spawner/random/trash/botanical_waste,
 /obj/item/trash/chips,
 /obj/structure/closet/secure_closet/freezer/empty/open,
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
 "CR" = (
 /obj/structure/flora/rock/pile/style_random,
 /turf/open/misc/asteroid/airless,
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "CX" = (
 /obj/effect/turf_decal/trimline/yellow/line{
 	dir = 1
 	},
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Dr" = (
 /obj/structure/disposalpipe/segment{
 	dir = 6
@@ -915,15 +1621,28 @@
 	dir = 8
 	},
 /turf/open/floor/plating,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
 "DA" = (
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/catwalk_floor/iron,
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+"DA" = (
+/obj/structure/disposalpipe/segment,
+/turf/open/floor/catwalk_floor/iron,
+/area/virtual_domain)
+"DE" = (
+/obj/effect/decal/cleanable/dirt/dust,
+/turf/open/floor/plating,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "DP" = (
 /obj/structure/table/reinforced,
 /obj/effect/spawner/random/food_or_drink/snack,
 /turf/open/floor/iron/cafeteria,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
 "Ex" = (
 /obj/effect/decal/cleanable/dirt,
@@ -935,13 +1654,30 @@
 /obj/structure/flora/rock/style_random,
 /turf/open/misc/asteroid/airless,
 /area/space)
+=======
+/area/virtual_domain)
+"Ex" = (
+/obj/effect/decal/cleanable/dirt/dust,
+/turf/open/floor/carpet/royalblue{
+	icon_state = "carpet_royalblue-137"
+	},
+/area/virtual_domain)
+"Ez" = (
+/obj/structure/flora/rock/style_random,
+/turf/open/misc/asteroid/airless,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "EI" = (
 /obj/effect/turf_decal/stripes{
 	dir = 8
 	},
 /obj/effect/decal/cleanable/oil,
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "EJ" = (
 /obj/machinery/recycler/deathtrap{
 	dir = 8
@@ -951,6 +1687,7 @@
 	},
 /obj/effect/turf_decal/stripes/line,
 /turf/open/floor/plating,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
 "Fa" = (
 /obj/effect/decal/cleanable/dirt,
@@ -958,16 +1695,38 @@
 /obj/effect/turf_decal/delivery,
 /turf/open/floor/iron,
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+"Fa" = (
+/obj/effect/decal/cleanable/dirt/dust,
+/obj/effect/spawner/random/structure/closet_empty/crate/with_loot,
+/obj/effect/turf_decal/delivery,
+/turf/open/floor/iron,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Ff" = (
 /obj/structure/disposalpipe/trunk/multiz{
 	dir = 4
 	},
 /turf/open/floor/plating,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
 "Fo" = (
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron/cafeteria,
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+"Fo" = (
+/obj/effect/decal/cleanable/dirt/dust,
+/turf/open/floor/iron/cafeteria,
+/area/virtual_domain)
+"Fr" = (
+/obj/effect/decal/cleanable/dirt/dust,
+/obj/structure/closet/crate/preopen,
+/turf/open/floor/iron,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Fw" = (
 /obj/structure/flora/bush/fullgrass/style_random,
 /obj/structure/flora/rock/pile/style_random,
@@ -975,6 +1734,7 @@
 /obj/structure/window/reinforced/spawner/directional/north,
 /obj/structure/window/reinforced/spawner/directional/west,
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
 "FK" = (
 /obj/effect/mapping_helpers/burnt_floor,
@@ -983,34 +1743,63 @@
 "FO" = (
 /turf/open/misc/asteroid/airless,
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+"FK" = (
+/obj/effect/mapping_helpers/burnt_floor,
+/turf/open/floor/iron,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "FP" = (
 /turf/open/floor/carpet/royalblue{
 	icon_state = "carpet_royalblue-110"
 	},
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Gb" = (
 /obj/effect/turf_decal/stripes{
 	dir = 4
 	},
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Ge" = (
 /turf/open/floor/carpet/royalblue{
 	icon_state = "carpet_royalblue-21"
 	},
+<<<<<<< HEAD
 /area/virtual_domain/powered)
 "Gh" = (
 /obj/machinery/door/airlock/maintenance,
 /turf/open/floor/plating,
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+"Gh" = (
+/obj/machinery/door/airlock/maintenance,
+/turf/open/floor/plating,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Gi" = (
 /obj/effect/turf_decal/trimline/yellow/line{
 	dir = 9
 	},
 /obj/effect/turf_decal/trimline/yellow/corner,
+<<<<<<< HEAD
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron,
 /area/virtual_domain/powered)
+=======
+/obj/effect/decal/cleanable/dirt/dust,
+/turf/open/floor/iron,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Gs" = (
 /obj/effect/turf_decal/trimline/yellow/line{
 	dir = 1
@@ -1019,7 +1808,11 @@
 	dir = 1
 	},
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Gy" = (
 /obj/machinery/conveyor/auto{
 	dir = 9;
@@ -1029,11 +1822,19 @@
 /obj/effect/turf_decal/stripes/line,
 /obj/structure/window/reinforced/spawner/directional/west,
 /turf/open/floor/plating,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
 "GI" = (
 /obj/effect/turf_decal/trimline/yellow/arrow_ccw,
 /turf/open/floor/iron,
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+"GI" = (
+/obj/effect/turf_decal/trimline/yellow/arrow_ccw,
+/turf/open/floor/iron,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "GV" = (
 /obj/machinery/light/small/red/dim{
 	dir = 8
@@ -1043,43 +1844,75 @@
 	},
 /obj/effect/mapping_helpers/broken_floor,
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
 "Hn" = (
 /turf/open/floor/iron/cafeteria,
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+"Hn" = (
+/turf/open/floor/iron/cafeteria,
+/area/virtual_domain)
+"HI" = (
+/obj/structure/broken_flooring/pile/directional/north,
+/turf/open/floor/plating,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Ib" = (
 /obj/structure/chair/sofa/corp/left{
 	dir = 1
 	},
 /turf/open/floor/carpet/orange,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Ip" = (
 /obj/machinery/door/airlock/engineering/glass,
 /obj/effect/mapping_helpers/airlock/access/any/away/supply,
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
 "Is" = (
 /obj/machinery/door/airlock/engineering/glass,
 /turf/open/floor/iron,
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+"Is" = (
+/obj/machinery/door/airlock/engineering/glass,
+/turf/open/floor/iron,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "IF" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/plating,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "IK" = (
 /obj/effect/turf_decal/trimline/yellow/line,
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "IZ" = (
 /obj/structure/lattice/catwalk{
 	name = "industrial lift"
 	},
 /obj/structure/closet/crate,
 /turf/open/chasm,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
 "Jl" = (
 /obj/effect/decal/cleanable/blood/old,
@@ -1089,11 +1922,24 @@
 /obj/machinery/light/dim,
 /turf/open/floor/plating,
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+"Jl" = (
+/obj/effect/decal/cleanable/blood/old,
+/turf/open/floor/iron,
+/area/virtual_domain)
+"Jm" = (
+/obj/structure/broken_flooring/pile/directional/north,
+/obj/machinery/light/dim,
+/turf/open/floor/plating,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Jn" = (
 /obj/effect/turf_decal/stripes{
 	dir = 4
 	},
 /obj/structure/disposalpipe/segment,
+<<<<<<< HEAD
 /obj/structure/sign/warning/doors/directional/east,
 /turf/open/floor/iron,
 /area/virtual_domain/powered)
@@ -1101,13 +1947,32 @@
 /obj/structure/sign/poster/contraband/random/directional/west,
 /turf/open/floor/plating,
 /area/virtual_domain/powered)
+=======
+/obj/structure/railing/corner/end/flip{
+	dir = 8
+	},
+/obj/structure/sign/warning/doors/directional/east,
+/turf/open/floor/iron,
+/area/virtual_domain)
+"Jq" = (
+/obj/structure/broken_flooring/pile{
+	dir = 1
+	},
+/obj/structure/sign/poster/contraband/random/directional/west,
+/turf/open/floor/plating,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "JE" = (
 /obj/machinery/light/small/red/dim{
 	dir = 1
 	},
 /obj/structure/sign/warning/chem_diamond/directional/west,
 /turf/open/floor/plating,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "JR" = (
 /turf/template_noop,
 /area/virtual_domain/safehouse)
@@ -1117,16 +1982,25 @@
 	},
 /obj/effect/spawner/random/trash/grime,
 /turf/open/chasm,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
 "Kb" = (
 /obj/effect/mob_spawn/corpse/human/factory/guard,
 /turf/open/floor/plating,
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+"Kb" = (
+/obj/effect/mob_spawn/corpse/human/factory/guard,
+/turf/open/floor/plating,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Kt" = (
 /obj/structure/disposalpipe/segment{
 	dir = 6
 	},
 /turf/open/floor/plating,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
 "KX" = (
 /obj/structure/lattice/catwalk{
@@ -1134,17 +2008,38 @@
 	},
 /turf/open/chasm,
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+"KO" = (
+/obj/structure/broken_flooring/side/directional/north,
+/obj/machinery/light/small/red/dim,
+/turf/open/floor/plating,
+/area/virtual_domain)
+"KX" = (
+/obj/structure/disposalpipe/broken,
+/obj/effect/landmark/bitrunning/mob_segment,
+/turf/open/floor/plating,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Ln" = (
 /obj/structure/disposalpipe/broken{
 	dir = 4
 	},
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Lp" = (
 /obj/effect/turf_decal/trimline/yellow/line,
 /obj/machinery/light/broken,
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "LN" = (
 /obj/effect/turf_decal/trimline/yellow/line{
 	dir = 4
@@ -1156,7 +2051,11 @@
 	dir = 4
 	},
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "LU" = (
 /obj/effect/turf_decal/trimline/yellow/line{
 	dir = 6
@@ -1164,12 +2063,22 @@
 /obj/effect/turf_decal/trimline/yellow/corner{
 	dir = 1
 	},
+<<<<<<< HEAD
 /turf/open/floor/iron,
 /area/virtual_domain/powered)
 "Mc" = (
 /obj/effect/turf_decal/trimline/yellow/warning,
 /turf/open/floor/iron,
 /area/virtual_domain/powered)
+=======
+/obj/effect/landmark/bitrunning/cache_spawn,
+/turf/open/floor/iron,
+/area/virtual_domain)
+"Mc" = (
+/obj/effect/turf_decal/trimline/yellow/warning,
+/turf/open/floor/iron,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Mh" = (
 /obj/machinery/conveyor/auto{
 	dir = 8
@@ -1178,6 +2087,7 @@
 	dir = 1
 	},
 /turf/open/floor/plating,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
 "Mi" = (
 /obj/effect/mob_spawn/corpse/human/factory,
@@ -1186,6 +2096,13 @@
 "Mj" = (
 /turf/closed/mineral,
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+"Mi" = (
+/obj/effect/mob_spawn/corpse/human/factory,
+/turf/open/floor/plating,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Mu" = (
 /obj/effect/turf_decal/trimline/yellow/corner{
 	dir = 4
@@ -1194,14 +2111,22 @@
 	dir = 1
 	},
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Mx" = (
 /obj/effect/turf_decal/tile/yellow/anticorner/contrasted{
 	dir = 1
 	},
 /obj/structure/filingcabinet,
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "My" = (
 /obj/machinery/conveyor/auto{
 	dir = 1
@@ -1210,12 +2135,20 @@
 	dir = 8
 	},
 /turf/open/floor/plating,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "MI" = (
 /turf/open/floor/carpet/royalblue{
 	icon_state = "carpet_royalblue-74"
 	},
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "MN" = (
 /obj/effect/turf_decal/tile/dark,
 /obj/effect/decal/cleanable/dirt,
@@ -1223,48 +2156,81 @@
 	dir = 5
 	},
 /turf/open/floor/plating,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Nc" = (
 /obj/structure/chair/plastic{
 	dir = 8
 	},
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
 "Nu" = (
 /obj/effect/turf_decal/trimline/yellow/line,
 /turf/open/floor/iron,
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+"Nu" = (
+/obj/effect/turf_decal/trimline/yellow/line,
+/turf/open/floor/iron,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "NW" = (
 /obj/effect/decal/cleanable/dirt,
 /mob/living/basic/hivebot/strong,
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Ok" = (
 /obj/effect/turf_decal/trimline/yellow/line{
 	dir = 1
 	},
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
 "On" = (
+=======
+/area/virtual_domain)
+"On" = (
+/obj/structure/broken_flooring/side{
+	dir = 4
+	},
+>>>>>>> tg-pr-88929
 /obj/machinery/light/broken{
 	dir = 4
 	},
 /turf/open/floor/plating,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "OJ" = (
 /obj/structure/disposalpipe/segment,
 /obj/effect/turf_decal/stripes{
 	dir = 4
 	},
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "OL" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
 "OQ" = (
 /obj/effect/decal/cleanable/dirt,
@@ -1274,11 +2240,24 @@
 /obj/machinery/light/broken,
 /turf/open/floor/plating,
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+"OQ" = (
+/obj/effect/decal/cleanable/dirt/dust,
+/obj/structure/sign/poster/ripped/directional/west,
+/turf/open/floor/carpet/orange,
+/area/virtual_domain)
+"OR" = (
+/obj/machinery/light/broken,
+/turf/open/floor/plating,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Po" = (
 /obj/machinery/light/small/red/dim{
 	dir = 4
 	},
 /obj/structure/disposalpipe/segment,
+<<<<<<< HEAD
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/plating,
 /area/virtual_domain/powered)
@@ -1286,6 +2265,12 @@
 /obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
 /area/lavaland/surface/outdoors/virtual_domain/fullbright/protected_space)
+=======
+/obj/structure/broken_flooring/corner,
+/obj/effect/decal/cleanable/dirt/dust,
+/turf/open/floor/plating,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Pr" = (
 /obj/effect/turf_decal/trimline/yellow/line{
 	dir = 5
@@ -1295,7 +2280,18 @@
 	},
 /obj/structure/sign/poster/official/random/directional/east,
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+"PH" = (
+/obj/structure/railing/corner/end/flip{
+	dir = 8
+	},
+/obj/structure/disposalpipe/segment,
+/turf/open/floor/plating,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Qd" = (
 /obj/effect/turf_decal/trimline/yellow/line{
 	dir = 8
@@ -1307,29 +2303,49 @@
 	dir = 8
 	},
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Qh" = (
 /obj/structure/disposalpipe/segment,
 /obj/machinery/light/broken{
 	dir = 8
 	},
 /turf/open/floor/plating,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Qj" = (
 /obj/machinery/light/dim{
 	dir = 8
 	},
 /turf/open/floor/plating,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
 "Qo" = (
 /obj/effect/landmark/bitrunning/safehouse_spawn,
+=======
+/area/virtual_domain)
+"Qo" = (
+/obj/modular_map_root/safehouse{
+	key = "shuttle_space"
+	},
+>>>>>>> tg-pr-88929
 /turf/template_noop,
 /area/virtual_domain/safehouse)
 "Qr" = (
 /turf/closed/indestructible/fakedoor/maintenance{
 	name = "maintenance access"
 	},
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Qv" = (
 /obj/effect/turf_decal/trimline/yellow/line{
 	dir = 4
@@ -1341,7 +2357,11 @@
 	dir = 4
 	},
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Qy" = (
 /obj/structure/disposalpipe/trunk{
 	dir = 8
@@ -1350,39 +2370,67 @@
 	dir = 1
 	},
 /turf/open/floor/plating,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "QI" = (
 /obj/structure/sign/calendar/directional/north,
 /obj/effect/spawner/random/trash/garbage,
 /turf/open/floor/iron/cafeteria,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
 "QK" = (
 /obj/structure/table,
 /turf/open/floor/iron,
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+"QK" = (
+/obj/structure/table,
+/turf/open/floor/iron,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "QN" = (
 /obj/structure/disposalpipe/segment{
 	dir = 9
 	},
 /turf/open/floor/plating,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "QP" = (
 /obj/structure/sign/poster/contraband/random/directional/east,
 /obj/effect/decal/cleanable/blood/old,
 /turf/open/floor/plating,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "QW" = (
 /obj/machinery/conveyor/auto{
 	dir = 5
 	},
 /obj/effect/decal/cleanable/cobweb,
 /turf/open/floor/plating,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Ru" = (
 /obj/machinery/door/airlock/external/glass/ruin,
 /obj/effect/mapping_helpers/airlock/cyclelink_helper,
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright/protected_space)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Ry" = (
 /obj/effect/turf_decal/tile/yellow/anticorner/contrasted{
 	dir = 4
@@ -1392,6 +2440,7 @@
 	},
 /obj/machinery/disposal/bin,
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
 "RJ" = (
 /turf/closed/indestructible/binary,
@@ -1400,6 +2449,20 @@
 /obj/effect/decal/cleanable/blood/drip,
 /turf/open/floor/iron,
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+"RI" = (
+/obj/effect/smooths_with_walls,
+/turf/closed/indestructible/binary,
+/area/virtual_domain/fullbright)
+"RJ" = (
+/turf/closed/indestructible/binary,
+/area/virtual_domain/fullbright)
+"RK" = (
+/obj/effect/decal/cleanable/blood/drip,
+/turf/open/floor/iron,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "RZ" = (
 /obj/effect/turf_decal/tile/yellow/half/contrasted{
 	dir = 1
@@ -1408,7 +2471,11 @@
 	dir = 6
 	},
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Sg" = (
 /obj/effect/turf_decal/trimline/yellow/line{
 	dir = 1
@@ -1417,7 +2484,11 @@
 	dir = 4
 	},
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Sl" = (
 /obj/effect/turf_decal/trimline/yellow/corner{
 	dir = 4
@@ -1426,50 +2497,78 @@
 	dir = 8
 	},
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
 "SC" = (
 /mob/living/basic/hivebot/strong,
 /turf/open/floor/plating,
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "SR" = (
 /obj/effect/turf_decal/trimline/yellow/line,
 /obj/effect/decal/cleanable/glass,
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "SS" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
 /turf/closed/mineral,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "SU" = (
 /obj/effect/spawner/structure/window,
 /obj/item/stack/rods/two,
 /turf/open/floor/plating,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "SZ" = (
 /obj/structure/table/reinforced,
 /obj/effect/spawner/random/food_or_drink/booze,
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Te" = (
 /obj/effect/decal/cleanable/blood/tracks{
 	dir = 5
 	},
 /obj/effect/mob_spawn/corpse/human/factory/qm,
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
 "Tn" = (
 /mob/living/basic/hivebot,
 /turf/open/floor/plating,
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Tp" = (
 /obj/machinery/door/poddoor/shutters/indestructible{
 	dir = 4;
 	id = "factorylockdown"
 	},
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Tt" = (
 /obj/machinery/conveyor/auto{
 	dir = 9
@@ -1478,20 +2577,43 @@
 	dir = 4
 	},
 /turf/open/floor/plating,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+"TH" = (
+/obj/structure/broken_flooring/corner/directional/south,
+/obj/item/ammo_casing/shotgun/buckshot/spent,
+/turf/open/floor/plating,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Ue" = (
 /obj/structure/table/reinforced,
 /obj/machinery/light/small/red/dim{
 	dir = 8
 	},
+<<<<<<< HEAD
 /turf/open/floor/iron,
 /area/virtual_domain/powered)
+=======
+/obj/structure/sign/poster/official/cleanliness/directional/west,
+/turf/open/floor/iron,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Uw" = (
 /obj/machinery/light/dim{
 	dir = 4
 	},
 /turf/open/floor/plating,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+"UO" = (
+/obj/structure/broken_flooring/side/directional/north,
+/turf/open/floor/plating,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "UV" = (
 /obj/effect/turf_decal/trimline/yellow/line{
 	dir = 1
@@ -1500,18 +2622,30 @@
 	dir = 6
 	},
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "UX" = (
 /obj/effect/turf_decal/trimline/yellow/line,
 /obj/machinery/light/small/red/dim,
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "UY" = (
 /obj/effect/decal/cleanable/blood/tracks{
 	dir = 4
 	},
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Vb" = (
 /obj/effect/turf_decal/trimline/yellow/corner{
 	dir = 4
@@ -1521,7 +2655,11 @@
 	},
 /obj/machinery/light/broken,
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Vg" = (
 /obj/effect/turf_decal/trimline/yellow/line{
 	dir = 1
@@ -1531,17 +2669,33 @@
 	},
 /obj/machinery/light/small/red/dim,
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
 "Vh" = (
 /obj/structure/table/reinforced,
 /turf/open/floor/iron/cafeteria,
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+"Vh" = (
+/obj/structure/table/reinforced,
+/turf/open/floor/iron/cafeteria,
+/area/virtual_domain)
+"Vy" = (
+/obj/structure/broken_flooring/singular{
+	dir = 4
+	},
+/obj/effect/mob_spawn/corpse/human/factory/guard,
+/turf/open/floor/plating,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "VA" = (
 /obj/machinery/light/small/red/dim{
 	dir = 1
 	},
 /obj/structure/table,
 /turf/open/floor/plating,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
 "VG" = (
 /turf/closed/wall/r_wall,
@@ -1550,31 +2704,60 @@
 /obj/structure/sign/warning/secure_area/directional/south,
 /turf/open/floor/plating,
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+"VJ" = (
+/obj/structure/broken_flooring/corner{
+	dir = 1
+	},
+/turf/open/floor/plating,
+/area/virtual_domain)
+"VL" = (
+/obj/structure/sign/warning/secure_area/directional/south,
+/turf/open/floor/plating,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "VO" = (
 /obj/machinery/light/broken{
 	dir = 1
 	},
 /turf/open/floor/plating,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Wd" = (
 /obj/structure/lattice/catwalk{
 	name = "industrial lift"
 	},
 /obj/structure/railing,
 /turf/open/chasm,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Wp" = (
 /obj/effect/turf_decal/trimline/yellow/warning{
 	dir = 1
 	},
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "WT" = (
 /obj/effect/turf_decal/stripes{
 	dir = 8
 	},
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "WV" = (
 /obj/machinery/conveyor/auto{
 	dir = 10;
@@ -1585,27 +2768,48 @@
 	dir = 6
 	},
 /turf/open/floor/plating,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Xb" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
 /turf/closed/wall,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+"Xc" = (
+/obj/effect/turf_decal/trimline/yellow/line,
+/obj/effect/decal/cleanable/dirt/dust,
+/turf/open/floor/iron,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Xm" = (
 /obj/item/gun/ballistic/shotgun/lethal,
 /obj/machinery/light/broken{
 	dir = 1
 	},
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Xo" = (
 /obj/machinery/conveyor/auto{
 	dir = 4
 	},
 /obj/effect/turf_decal/stripes/line,
 /turf/open/floor/plating,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Xw" = (
 /obj/effect/turf_decal/trimline/yellow/line{
 	dir = 1
@@ -1614,7 +2818,11 @@
 	dir = 10
 	},
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "XL" = (
 /obj/effect/turf_decal/trimline/yellow/warning{
 	dir = 5
@@ -1624,19 +2832,38 @@
 	},
 /obj/structure/sign/warning/vacuum/external/directional/south,
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "XN" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
 /turf/open/floor/plating,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "XO" = (
 /obj/effect/turf_decal/delivery,
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+"XP" = (
+/obj/structure/disposalpipe/segment,
+/obj/structure/railing/corner/end{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "XQ" = (
 /obj/effect/turf_decal/tile/yellow/anticorner/contrasted{
 	dir = 4
@@ -1645,13 +2872,18 @@
 	dir = 4
 	},
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "XR" = (
 /obj/effect/turf_decal/trimline/yellow/warning{
 	dir = 1
 	},
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
 "Yc" = (
 /obj/item/gun/ballistic/revolver,
@@ -1659,6 +2891,19 @@
 /area/virtual_domain/powered)
 "Ym" = (
 /mob/living/simple_animal/pet/cat/space,
+=======
+/area/virtual_domain)
+"Yc" = (
+/obj/item/gun/ballistic/revolver,
+/turf/open/floor/plating,
+/area/virtual_domain)
+"Yl" = (
+/obj/structure/broken_flooring/corner/directional/west,
+/turf/open/floor/plating,
+/area/virtual_domain)
+"Ym" = (
+/mob/living/basic/pet/cat/space,
+>>>>>>> tg-pr-88929
 /obj/structure/bed/dogbed{
 	name = "cat bed"
 	},
@@ -1666,21 +2911,33 @@
 	pixel_x = 3;
 	pixel_y = 4
 	},
+<<<<<<< HEAD
 /turf/open/floor/plating,
 /area/virtual_domain/powered)
+=======
+/obj/machinery/light/small/dim/directional/south,
+/obj/structure/sign/poster/official/moth_hardhat/directional/west,
+/turf/open/floor/plating,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Yt" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
 /turf/open/floor/plating,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Yz" = (
 /obj/structure/disposalpipe/segment,
 /obj/machinery/door/poddoor/shutters/indestructible{
 	id = "factorylockdown"
 	},
 /turf/open/floor/plating,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
 "YF" = (
 /obj/machinery/light/small/red/dim,
@@ -1690,38 +2947,73 @@
 /obj/effect/turf_decal/tile/yellow/anticorner/contrasted,
 /turf/open/floor/iron,
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+"YF" = (
+/obj/machinery/light/small/red/dim,
+/turf/open/floor/plating,
+/area/virtual_domain)
+"YL" = (
+/obj/effect/turf_decal/tile/yellow/anticorner/contrasted,
+/turf/open/floor/iron,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "YP" = (
 /obj/effect/turf_decal/trimline/yellow/corner{
 	dir = 1
 	},
 /obj/machinery/light/dim,
 /turf/open/floor/iron,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
 "Zb" = (
 /obj/effect/decal/cleanable/oil,
 /turf/open/floor/plating,
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+"Zb" = (
+/obj/effect/decal/cleanable/oil,
+/turf/open/floor/plating,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Zg" = (
 /turf/open/floor/carpet/royalblue{
 	icon_state = "carpet_royalblue-157"
 	},
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Zy" = (
 /obj/structure/table,
 /obj/item/flashlight/lantern,
 /turf/open/floor/plating,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "ZI" = (
 /turf/open/floor/carpet/royalblue{
 	icon_state = "carpet_royalblue-203"
 	},
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "ZP" = (
 /obj/structure/railing,
 /turf/open/floor/iron/stairs/right{
 	dir = 8
 	},
+<<<<<<< HEAD
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 
 (1,1,1) = {"
 yQ
@@ -1756,7 +3048,11 @@ RJ
 RJ
 RJ
 RJ
+<<<<<<< HEAD
 RJ
+=======
+RI
+>>>>>>> tg-pr-88929
 RJ
 RJ
 RJ
@@ -1801,8 +3097,13 @@ yQ
 yQ
 yQ
 RJ
+<<<<<<< HEAD
 Mj
 Mj
+=======
+rO
+rO
+>>>>>>> tg-pr-88929
 eg
 eg
 SS
@@ -1810,8 +3111,13 @@ eg
 eg
 eg
 Xb
+<<<<<<< HEAD
 Mj
 Mj
+=======
+rO
+rO
+>>>>>>> tg-pr-88929
 RJ
 yQ
 yQ
@@ -1851,7 +3157,11 @@ yQ
 yQ
 yQ
 RJ
+<<<<<<< HEAD
 Mj
+=======
+rO
+>>>>>>> tg-pr-88929
 Bx
 SZ
 Ue
@@ -1861,7 +3171,11 @@ eg
 OQ
 bs
 Ib
+<<<<<<< HEAD
 Mj
+=======
+rO
+>>>>>>> tg-pr-88929
 RJ
 RJ
 RJ
@@ -1914,7 +3228,11 @@ zp
 eY
 RJ
 RJ
+<<<<<<< HEAD
 Mj
+=======
+rO
+>>>>>>> tg-pr-88929
 RJ
 RJ
 rO
@@ -1942,7 +3260,11 @@ yQ
 yQ
 yQ
 yQ
+<<<<<<< HEAD
 RJ
+=======
+RI
+>>>>>>> tg-pr-88929
 eg
 eg
 eg
@@ -1962,9 +3284,15 @@ fg
 ZP
 Fw
 eY
+<<<<<<< HEAD
 Mj
 Mj
 Mj
+=======
+rO
+rO
+rO
+>>>>>>> tg-pr-88929
 AU
 AU
 AU
@@ -2012,7 +3340,11 @@ hi
 FK
 eY
 eY
+<<<<<<< HEAD
 Mj
+=======
+rO
+>>>>>>> tg-pr-88929
 Ez
 AU
 aK
@@ -2045,10 +3377,17 @@ yQ
 RJ
 eg
 jQ
+<<<<<<< HEAD
 lt
 kU
 vU
 xT
+=======
+lW
+kU
+vU
+lN
+>>>>>>> tg-pr-88929
 eg
 RJ
 eg
@@ -2061,8 +3400,13 @@ tr
 hi
 Ln
 eY
+<<<<<<< HEAD
 Mj
 Mj
+=======
+rO
+rO
+>>>>>>> tg-pr-88929
 AU
 AU
 BN
@@ -2094,18 +3438,30 @@ yQ
 yQ
 RJ
 eg
+<<<<<<< HEAD
 kU
 gj
 kU
 Tn
+=======
+uU
+gj
+lt
+pb
+>>>>>>> tg-pr-88929
 OR
 eg
 RJ
 eg
 eg
 uk
+<<<<<<< HEAD
 tr
 tr
+=======
+pf
+pf
+>>>>>>> tg-pr-88929
 eg
 eg
 qV
@@ -2159,7 +3515,11 @@ nS
 kU
 Qj
 FK
+<<<<<<< HEAD
 Sg
+=======
+nc
+>>>>>>> tg-pr-88929
 eY
 aK
 aK
@@ -2188,7 +3548,11 @@ yQ
 yQ
 yQ
 RJ
+<<<<<<< HEAD
 RJ
+=======
+RI
+>>>>>>> tg-pr-88929
 RJ
 RJ
 RJ
@@ -2254,7 +3618,11 @@ eg
 eg
 VO
 kU
+<<<<<<< HEAD
 xT
+=======
+Fr
+>>>>>>> tg-pr-88929
 jw
 qk
 XR
@@ -2278,8 +3646,13 @@ yQ
 yQ
 yQ
 yQ
+<<<<<<< HEAD
 RJ
 RJ
+=======
+yQ
+yQ
+>>>>>>> tg-pr-88929
 RJ
 eg
 eg
@@ -2291,10 +3664,17 @@ yM
 eg
 GV
 WT
+<<<<<<< HEAD
 pi
 qk
 Qh
 mu
+=======
+xj
+qk
+Qh
+XP
+>>>>>>> tg-pr-88929
 lW
 ww
 EI
@@ -2303,9 +3683,15 @@ Qh
 mu
 Yz
 xl
+<<<<<<< HEAD
 kU
 kU
 kU
+=======
+HI
+kU
+Bh
+>>>>>>> tg-pr-88929
 Kb
 kU
 hi
@@ -2328,7 +3714,11 @@ yQ
 yQ
 yQ
 yQ
+<<<<<<< HEAD
 RJ
+=======
+yQ
+>>>>>>> tg-pr-88929
 RJ
 RJ
 eg
@@ -2338,6 +3728,7 @@ eg
 kU
 sB
 WT
+<<<<<<< HEAD
 kU
 kU
 kU
@@ -2347,6 +3738,17 @@ KX
 Wd
 gj
 pi
+=======
+mh
+kU
+pv
+AP
+IZ
+Aw
+Wd
+uv
+DE
+>>>>>>> tg-pr-88929
 Mi
 gj
 xT
@@ -2361,9 +3763,15 @@ kU
 vU
 lB
 XL
+<<<<<<< HEAD
 fE
 Pp
 VG
+=======
+eg
+tr
+eY
+>>>>>>> tg-pr-88929
 JR
 JR
 JR
@@ -2378,7 +3786,11 @@ yQ
 yQ
 yQ
 yQ
+<<<<<<< HEAD
 RJ
+=======
+yQ
+>>>>>>> tg-pr-88929
 RJ
 kU
 kU
@@ -2392,6 +3804,7 @@ mu
 uF
 xl
 AP
+<<<<<<< HEAD
 KX
 JT
 Wd
@@ -2400,6 +3813,16 @@ DA
 DA
 zE
 gc
+=======
+Aw
+JT
+bG
+tE
+DA
+DA
+zE
+KX
+>>>>>>> tg-pr-88929
 mu
 Yz
 lW
@@ -2412,7 +3835,11 @@ hi
 hg
 Wp
 Ru
+<<<<<<< HEAD
 rB
+=======
+hi
+>>>>>>> tg-pr-88929
 gs
 JR
 JR
@@ -2438,6 +3865,7 @@ eg
 qT
 Gb
 Uw
+<<<<<<< HEAD
 kU
 jS
 gj
@@ -2451,12 +3879,28 @@ XO
 gj
 pi
 SC
+=======
+iz
+jS
+gj
+rJ
+Aw
+Aw
+Wd
+Ff
+lN
+XO
+gj
+DE
+kU
+>>>>>>> tg-pr-88929
 tl
 qk
 mu
 mu
 xl
 kU
+<<<<<<< HEAD
 kU
 hi
 cF
@@ -2464,6 +3908,15 @@ cw
 VG
 Pp
 VG
+=======
+oX
+hi
+cF
+cw
+eY
+tr
+eY
+>>>>>>> tg-pr-88929
 JR
 JR
 JR
@@ -2476,10 +3929,17 @@ RJ
 (16,1,1) = {"
 yQ
 RJ
+<<<<<<< HEAD
 Mj
 Mj
 Mj
 Mj
+=======
+rO
+rO
+rO
+rO
+>>>>>>> tg-pr-88929
 RJ
 eg
 eg
@@ -2491,13 +3951,21 @@ eg
 eg
 kU
 qk
+<<<<<<< HEAD
 mu
+=======
+PH
+>>>>>>> tg-pr-88929
 dA
 Po
 Jn
 aw
 OJ
+<<<<<<< HEAD
 mu
+=======
+CA
+>>>>>>> tg-pr-88929
 QN
 kU
 Uw
@@ -2506,7 +3974,11 @@ kU
 Mc
 kU
 kh
+<<<<<<< HEAD
 kU
+=======
+fj
+>>>>>>> tg-pr-88929
 kU
 FK
 CX
@@ -2526,12 +3998,21 @@ RJ
 (17,1,1) = {"
 yQ
 RJ
+<<<<<<< HEAD
 Mj
 BN
 AU
 Mj
 Mj
 Mj
+=======
+rO
+BN
+AU
+rO
+rO
+rO
+>>>>>>> tg-pr-88929
 eg
 QW
 My
@@ -2554,7 +4035,11 @@ eg
 eg
 op
 kU
+<<<<<<< HEAD
 kU
+=======
+BA
+>>>>>>> tg-pr-88929
 iw
 kU
 kU
@@ -2607,7 +4092,11 @@ Zb
 kU
 Yt
 kU
+<<<<<<< HEAD
 kU
+=======
+UO
+>>>>>>> tg-pr-88929
 hi
 CX
 eY
@@ -2636,8 +4125,13 @@ yX
 ve
 Tt
 Xo
+<<<<<<< HEAD
 pi
 kU
+=======
+DE
+oX
+>>>>>>> tg-pr-88929
 eg
 Sl
 gV
@@ -2646,11 +4140,19 @@ eg
 uC
 eg
 qK
+<<<<<<< HEAD
 kU
 kU
 kU
 Qj
 kU
+=======
+mh
+kU
+kU
+Qj
+VJ
+>>>>>>> tg-pr-88929
 eg
 kU
 kU
@@ -2690,6 +4192,7 @@ kU
 kU
 mE
 Mu
+<<<<<<< HEAD
 kU
 kU
 eg
@@ -2697,13 +4200,26 @@ bq
 kU
 kU
 kU
+=======
+Yl
+pJ
+eg
+kn
+pb
+kU
+lt
+>>>>>>> tg-pr-88929
 kU
 Fa
 kU
 YF
 eg
 eg
+<<<<<<< HEAD
 tr
+=======
+pf
+>>>>>>> tg-pr-88929
 tr
 XN
 eg
@@ -2731,7 +4247,11 @@ aK
 aK
 aK
 Av
+<<<<<<< HEAD
 CR
+=======
+BN
+>>>>>>> tg-pr-88929
 tr
 kU
 ei
@@ -2748,7 +4268,11 @@ mu
 rM
 gc
 vQ
+<<<<<<< HEAD
 tE
+=======
+vQ
+>>>>>>> tg-pr-88929
 mu
 mu
 eg
@@ -2757,7 +4281,11 @@ qc
 ax
 bS
 fe
+<<<<<<< HEAD
 tr
+=======
+pf
+>>>>>>> tg-pr-88929
 hi
 hi
 af
@@ -2781,12 +4309,21 @@ aK
 aK
 aK
 aK
+<<<<<<< HEAD
 FO
 eg
 eg
 wg
 kU
 xT
+=======
+AU
+eg
+eg
+wg
+uU
+lN
+>>>>>>> tg-pr-88929
 uz
 eg
 mY
@@ -2800,7 +4337,11 @@ kU
 On
 pi
 kU
+<<<<<<< HEAD
 Mj
+=======
+rO
+>>>>>>> tg-pr-88929
 eg
 wm
 xA
@@ -2809,7 +4350,11 @@ OL
 aL
 Ip
 hi
+<<<<<<< HEAD
 xT
+=======
+lN
+>>>>>>> tg-pr-88929
 QK
 eY
 aK
@@ -2831,6 +4376,7 @@ aK
 aK
 aK
 AU
+<<<<<<< HEAD
 FO
 Mj
 eg
@@ -2840,6 +4386,17 @@ Mj
 eY
 eY
 kU
+=======
+AU
+rO
+eg
+eg
+rO
+rO
+eY
+eY
+UO
+>>>>>>> tg-pr-88929
 jH
 Nu
 eg
@@ -2847,10 +4404,17 @@ eg
 eg
 eg
 eg
+<<<<<<< HEAD
 Mj
 Mj
 Mj
 Mj
+=======
+rO
+rO
+rO
+rO
+>>>>>>> tg-pr-88929
 eg
 RZ
 vQ
@@ -2881,12 +4445,21 @@ aK
 aK
 AU
 Ez
+<<<<<<< HEAD
 Mj
 Mj
 RJ
 Mj
 Mj
 Kb
+=======
+rO
+rO
+RJ
+rO
+rO
+Vy
+>>>>>>> tg-pr-88929
 hi
 eY
 CX
@@ -2898,7 +4471,11 @@ Qd
 jv
 fR
 cB
+<<<<<<< HEAD
 Mj
+=======
+rO
+>>>>>>> tg-pr-88929
 RJ
 RJ
 eg
@@ -2910,10 +4487,17 @@ YL
 eg
 bq
 hi
+<<<<<<< HEAD
 Mj
 eY
 Mj
 Mj
+=======
+rO
+eY
+rO
+rO
+>>>>>>> tg-pr-88929
 AU
 AU
 aK
@@ -2930,19 +4514,32 @@ aK
 AU
 BN
 AU
+<<<<<<< HEAD
 Mj
 Mj
+=======
+rO
+rO
+>>>>>>> tg-pr-88929
 RJ
 RJ
 eY
 Xm
+<<<<<<< HEAD
 kU
+=======
+TH
+>>>>>>> tg-pr-88929
 fw
 eY
 qW
 hi
 dx
+<<<<<<< HEAD
 tr
+=======
+pf
+>>>>>>> tg-pr-88929
 UV
 sn
 uP
@@ -2952,13 +4549,19 @@ eg
 RJ
 RJ
 eg
+<<<<<<< HEAD
 Mj
 Mj
+=======
+rO
+rO
+>>>>>>> tg-pr-88929
 eg
 eg
 eg
 eg
 eg
+<<<<<<< HEAD
 Mj
 Mj
 RJ
@@ -2971,6 +4574,20 @@ RJ
 Mj
 Mj
 Mj
+=======
+rO
+rO
+RI
+RJ
+rO
+rO
+rO
+RJ
+RJ
+rO
+rO
+rO
+>>>>>>> tg-pr-88929
 RJ
 "}
 (26,1,1) = {"
@@ -2980,7 +4597,11 @@ RJ
 RJ
 RJ
 rO
+<<<<<<< HEAD
 Mj
+=======
+rO
+>>>>>>> tg-pr-88929
 RJ
 RJ
 RJ
@@ -3005,7 +4626,11 @@ RJ
 RJ
 RJ
 RJ
+<<<<<<< HEAD
 RJ
+=======
+RI
+>>>>>>> tg-pr-88929
 RJ
 RJ
 RJ
@@ -3050,7 +4675,11 @@ Cv
 Nu
 eg
 RJ
+<<<<<<< HEAD
 RJ
+=======
+yQ
+>>>>>>> tg-pr-88929
 yQ
 yQ
 yQ
@@ -3087,9 +4716,15 @@ RJ
 eY
 NW
 UY
+<<<<<<< HEAD
 YF
 eY
 Ok
+=======
+KO
+eY
+fl
+>>>>>>> tg-pr-88929
 jH
 Nu
 uk
@@ -3142,7 +4777,11 @@ eY
 CX
 jH
 Nu
+<<<<<<< HEAD
 tr
+=======
+pf
+>>>>>>> tg-pr-88929
 Xw
 MI
 ZI
@@ -3191,14 +4830,22 @@ eY
 eY
 CX
 jH
+<<<<<<< HEAD
 IK
+=======
+Xc
+>>>>>>> tg-pr-88929
 eg
 Pr
 LN
 xM
 Qv
 LU
+<<<<<<< HEAD
 Mj
+=======
+rO
+>>>>>>> tg-pr-88929
 RJ
 yQ
 yQ
@@ -3246,9 +4893,15 @@ eg
 eg
 eg
 eg
+<<<<<<< HEAD
 Mj
 Mj
 Mj
+=======
+rO
+rO
+rO
+>>>>>>> tg-pr-88929
 RJ
 yQ
 yQ
@@ -3290,7 +4943,11 @@ yQ
 RJ
 eg
 Ok
+<<<<<<< HEAD
 gj
+=======
+nz
+>>>>>>> tg-pr-88929
 IK
 eg
 RJ
@@ -3338,7 +4995,11 @@ yQ
 yQ
 yQ
 RJ
+<<<<<<< HEAD
 Mj
+=======
+rO
+>>>>>>> tg-pr-88929
 CX
 hi
 Nu
@@ -3388,7 +5049,11 @@ yQ
 yQ
 yQ
 RJ
+<<<<<<< HEAD
 Mj
+=======
+rO
+>>>>>>> tg-pr-88929
 CX
 RJ
 Lp
@@ -3439,7 +5104,11 @@ yQ
 yQ
 RJ
 RJ
+<<<<<<< HEAD
 Ok
+=======
+fl
+>>>>>>> tg-pr-88929
 RJ
 RJ
 RJ
@@ -3487,7 +5156,11 @@ yQ
 yQ
 yQ
 yQ
+<<<<<<< HEAD
 RJ
+=======
+yQ
+>>>>>>> tg-pr-88929
 RJ
 RJ
 RJ

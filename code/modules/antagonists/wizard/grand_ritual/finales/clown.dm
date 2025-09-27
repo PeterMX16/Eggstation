@@ -36,7 +36,10 @@
 			newer_spell.Grant(victim)
 			continue
 		dress_as_magic_clown(victim)
+<<<<<<< HEAD
 		ADD_TRAIT(victim, TRAIT_CLUMSY, MAGIC_TRAIT) //monkestation edit: HONK HONK!
+=======
+>>>>>>> tg-pr-88929
 		if (prob(15))
 			create_vendetta(victim.mind, invoker.mind)
 

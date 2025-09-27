@@ -1,10 +1,12 @@
+///This type is responsible for any map generation behavior that is done in areas, override this to allow for
+///area-specific map generation. This generation is ran by areas in initialize.
 /datum/map_generator
 
-	//Map information
-	var/list/map = list()
+	///Map information, such as the start and end turfs of the map generation.
+	var/list/turf/map = list()
 
-	//mapGeneratorModule information
-	var/list/modules = list()
+	///The map generator modules that we will generate and sync to.
+	var/list/datum/map_generator_module/modules = list()
 
 	var/buildmode_name = "Undocumented"
 
@@ -14,6 +16,17 @@
 		buildmode_name = copytext_char("[type]", 20) // / d a t u m / m a p g e n e r a t o r / = 20 characters.
 	initialiseModules()
 
+<<<<<<< HEAD
+=======
+/datum/map_generator/Destroy(force)
+	. = ..()
+	QDEL_LIST(modules)
+
+///This proc will be ran by areas on Initialize, and provides the areas turfs as argument to allow for generation.
+/datum/map_generator/proc/generate_terrain(list/turfs, area/generate_in)
+	return
+
+>>>>>>> tg-pr-88929
 /// Populate terrain with flora, fauna, features and basically everything that isn't a turf.
 /datum/map_generator/proc/populate_terrain(list/turfs, area/generate_in)
 	return
@@ -26,7 +39,7 @@
 
 	if(replace)
 		undefineRegion()
-	map |= block(Start,End)
+	map |= block(Start, End)
 	return map
 
 
@@ -60,7 +73,7 @@
 			theRadius = max(radius/max((2*abs(sphereMagic-i)),1),1)
 
 
-		map |= circle_range(locate(centerX,centerY,i),theRadius)
+		map |= circle_range(locate(centerX, centerY, i),theRadius)
 
 
 	return map
@@ -91,7 +104,7 @@
 	syncModules()
 	if(!modules || !modules.len)
 		return
-	for(var/datum/map_generator_module/mod in modules)
+	for(var/datum/map_generator_module/mod as anything in modules)
 		INVOKE_ASYNC(mod, TYPE_PROC_REF(/datum/map_generator_module, generate))
 
 
@@ -102,7 +115,7 @@
 	syncModules()
 	if(!modules || !modules.len)
 		return
-	for(var/datum/map_generator_module/mod in modules)
+	for(var/datum/map_generator_module/mod as anything in modules)
 		INVOKE_ASYNC(mod, TYPE_PROC_REF(/datum/map_generator_module, place), T)
 
 
@@ -117,7 +130,7 @@
 
 //Sync mapGeneratorModule(s) to mapGenerator
 /datum/map_generator/proc/syncModules()
-	for(var/datum/map_generator_module/mod in modules)
+	for(var/datum/map_generator_module/mod as anything in modules)
 		mod.sync(src)
 
 
@@ -126,15 +139,25 @@
 // HERE BE DEBUG DRAGONS //
 ///////////////////////////
 
+<<<<<<< HEAD
 ADMIN_VERB(debug_nature_map_generator, R_DEBUG, FALSE, "Test Nature Map Generator", "Test the nature map generator", ADMIN_CATEGORY_DEBUG)
 	var/datum/map_generator/nature/N = new()
 	var/startInput = input(user, "Start turf of Map, (X;Y;Z)", "Map Gen Settings", "1;1;1") as text | null
+=======
+ADMIN_VERB(debug_nature_map_generator, R_DEBUG, "Test Nature Map Generator", "Test the nature map generator", ADMIN_CATEGORY_DEBUG)
+	var/datum/map_generator/nature/N = new()
+	var/startInput = input(user, "Start turf of Map, (X;Y;Z)", "Map Gen Settings", "1;1;1") as text|null
+>>>>>>> tg-pr-88929
 
 	if (isnull(startInput))
 		return
 
+<<<<<<< HEAD
 	var/endInput = input(user, "End turf of Map (X;Y;Z)", "Map Gen Settings", "[world.maxx];[world.maxy];[user.mob ? user.mob.z : 1]") as text | null
 
+=======
+	var/endInput = input(user, "End turf of Map (X;Y;Z)", "Map Gen Settings", "[world.maxx];[world.maxy];[user.mob.z]") as text|null
+>>>>>>> tg-pr-88929
 	if (isnull(endInput))
 		return
 
@@ -159,9 +182,18 @@ ADMIN_VERB(debug_nature_map_generator, R_DEBUG, FALSE, "Test Nature Map Generato
 		to_chat(user, "End Coords: [endCoords[1]] - [endCoords[2]] - [endCoords[3]]")
 		return
 
-	var/list/clusters = list("None"=CLUSTER_CHECK_NONE,"All"=CLUSTER_CHECK_ALL,"Sames"=CLUSTER_CHECK_SAMES,"Differents"=CLUSTER_CHECK_DIFFERENTS, \
-	"Same turfs"=CLUSTER_CHECK_SAME_TURFS, "Same atoms"=CLUSTER_CHECK_SAME_ATOMS, "Different turfs"=CLUSTER_CHECK_DIFFERENT_TURFS, \
-	"Different atoms"=CLUSTER_CHECK_DIFFERENT_ATOMS, "All turfs"=CLUSTER_CHECK_ALL_TURFS,"All atoms"=CLUSTER_CHECK_ALL_ATOMS)
+	var/static/list/clusters = list(
+		"None" = CLUSTER_CHECK_NONE,
+		"All" = CLUSTER_CHECK_ALL,
+		"Sames" = CLUSTER_CHECK_SAMES,
+		"Differents" = CLUSTER_CHECK_DIFFERENTS,
+		"Same turfs" = CLUSTER_CHECK_SAME_TURFS,
+		"Same atoms" = CLUSTER_CHECK_SAME_ATOMS,
+		"Different turfs" = CLUSTER_CHECK_DIFFERENT_TURFS,
+		"Different atoms" = CLUSTER_CHECK_DIFFERENT_ATOMS,
+		"All turfs" = CLUSTER_CHECK_ALL_TURFS,
+		"All atoms" = CLUSTER_CHECK_ALL_ATOMS,
+	)
 
 	var/moduleClusters = input(user, "Cluster Flags (Cancel to leave unchanged from defaults)","Map Gen Settings") as null | anything in clusters
 	//null for default
@@ -176,7 +208,7 @@ ADMIN_VERB(debug_nature_map_generator, R_DEBUG, FALSE, "Test Nature Map Generato
 		theCluster = CLUSTER_CHECK_NONE
 
 	if(theCluster)
-		for(var/datum/map_generator_module/M in N.modules)
+		for(var/datum/map_generator_module/M as anything in N.modules)
 			M.clusterCheckFlags = theCluster
 
 

@@ -10,13 +10,15 @@ GLOBAL_LIST_INIT(achievements_unlocked, list())
 
 GLOBAL_LIST_INIT(round_end_images, world.file2list("data/image_urls.txt")) // MONKEYSTATION EDIT ADDITION PR #11 - update roundend.dm
 
+GLOBAL_LIST_INIT(achievements_unlocked, list())
+
 /datum/controller/subsystem/ticker/proc/gather_roundend_feedback()
 	gather_antag_data()
 	record_nuke_disk_location()
 	var/json_file = file("[GLOB.log_directory]/round_end_data.json")
 	// All but npcs sublists and ghost category contain only mobs with minds
 	var/list/file_data = list("escapees" = list("humans" = list(), "silicons" = list(), "others" = list(), "npcs" = list()), "abandoned" = list("humans" = list(), "silicons" = list(), "others" = list(), "npcs" = list()), "ghosts" = list(), "additional data" = list())
-	var/num_survivors = 0 //Count of non-brain non-camera mobs with mind that are alive
+	var/num_survivors = 0 //Count of non-brain non-eye mobs with mind that are alive
 	var/num_escapees = 0 //Above and on centcom z
 	var/num_human_escapees = 0 //Above but humans only
 	var/num_shuttle_escapees = 0 //Above and on escape shuttle
@@ -39,9 +41,13 @@ GLOBAL_LIST_INIT(round_end_images, world.file2list("data/image_urls.txt")) // MO
 		if(M.mind)
 			count_only = FALSE
 			mob_data["ckey"] = M.mind.key
+<<<<<<< HEAD
 			if(M.onCentCom())
 				list_of_mobs_on_shuttle += M
 			if(M.stat != DEAD && !isbrain(M) && !iscameramob(M))
+=======
+			if(M.stat != DEAD && !isbrain(M) && !iseyemob(M))
+>>>>>>> tg-pr-88929
 				num_survivors++
 				if(EMERGENCY_ESCAPED_OR_ENDGAMED && (M.onCentCom() || M.onSyndieBase()))
 					num_escapees++
@@ -217,7 +223,10 @@ GLOBAL_LIST_INIT(round_end_images, world.file2list("data/image_urls.txt")) // MO
 				if(!objective_datum.check_completion())
 					greentexted = FALSE
 					break
+<<<<<<< HEAD
 
+=======
+>>>>>>> tg-pr-88929
 			if(greentexted)
 				var/score = round(human_mob.hardcore_survival_score * 2)
 				player_client.give_award(/datum/award/score/hardcore_random, human_mob, score)
@@ -238,10 +247,13 @@ GLOBAL_LIST_INIT(round_end_images, world.file2list("data/image_urls.txt")) // MO
 	LAZYCLEARLIST(round_end_events)
 
 	var/speed_round = (STATION_TIME_PASSED() <= 10 MINUTES)
+<<<<<<< HEAD
 
 	var/list/rewards = calculate_rewards()
 
 	popcount = gather_roundend_feedback()
+=======
+>>>>>>> tg-pr-88929
 
 	for(var/client/C in GLOB.clients)
 		C?.playtitlemusic(40)
@@ -263,9 +275,13 @@ GLOBAL_LIST_INIT(round_end_images, world.file2list("data/image_urls.txt")) // MO
 	CHECK_TICK
 
 	//Set news report and mode result
+<<<<<<< HEAD
 	mode.set_round_result()
 	SSgamemode.round_end_report()
 	SSgamemode.store_roundend_data() // store data on roundend for next round
+=======
+	SSdynamic.set_round_result()
+>>>>>>> tg-pr-88929
 
 	to_chat(world, span_infoplain(span_big(span_bold("<BR><BR><BR>The round has ended."))))
 	log_game("The round has ended.")
@@ -440,6 +456,7 @@ GLOBAL_LIST_INIT(round_end_images, world.file2list("data/image_urls.txt")) // MO
 			//ignore this comment, it fixes the broken sytax parsing caused by the " above
 			else
 				parts += "[FOURSPACES]<i>Nobody died this shift!</i>"
+<<<<<<< HEAD
 	if(istype(SSticker.mode, /datum/game_mode/dynamic))
 		var/datum/game_mode/dynamic/mode = SSticker.mode
 		parts += "[FOURSPACES]Threat level: [mode.threat_level]"
@@ -451,6 +468,19 @@ GLOBAL_LIST_INIT(round_end_images, world.file2list("data/image_urls.txt")) // MO
 		parts += "[FOURSPACES]Executed rules:"
 		for(var/datum/dynamic_ruleset/rule in mode.executed_rules)
 			parts += "[FOURSPACES][FOURSPACES][rule.ruletype] - <b>[rule.name]</b>: -[rule.cost + rule.scaled_times * rule.scaling_cost] threat"
+=======
+
+	parts += "[FOURSPACES]Threat level: [SSdynamic.threat_level]"
+	parts += "[FOURSPACES]Threat left: [SSdynamic.mid_round_budget]"
+	if(SSdynamic.roundend_threat_log.len)
+		parts += "[FOURSPACES]Threat edits:"
+		for(var/entry as anything in SSdynamic.roundend_threat_log)
+			parts += "[FOURSPACES][FOURSPACES][entry]<BR>"
+	parts += "[FOURSPACES]Executed rules:"
+	for(var/datum/dynamic_ruleset/rule in SSdynamic.executed_rules)
+		parts += "[FOURSPACES][FOURSPACES][rule.ruletype] - <b>[rule.name]</b>: -[rule.cost + rule.scaled_times * rule.scaling_cost] threat"
+
+>>>>>>> tg-pr-88929
 	return parts.Join("<br>")
 
 /client/proc/roundend_report_file()
@@ -581,11 +611,14 @@ GLOBAL_LIST_INIT(round_end_images, world.file2list("data/image_urls.txt")) // MO
 		return ""
 
 /datum/controller/subsystem/ticker/proc/goal_report()
+	var/list/goals = SSstation.get_station_goals()
+	if(!length(goals))
+		return null
+
 	var/list/parts = list()
-	if(GLOB.station_goals.len)
-		for(var/datum/station_goal/goal as anything in GLOB.station_goals)
-			parts += goal.get_result()
-		return "<div class='panel stationborder'><ul>[parts.Join()]</ul></div>"
+	for(var/datum/station_goal/goal as anything in SSstation.get_station_goals())
+		parts += goal.get_result()
+	return "<div class='panel stationborder'><ul>[parts.Join()]</ul></div>"
 
 ///Generate a report for how much money is on station, as well as the richest crewmember on the station.
 /datum/controller/subsystem/ticker/proc/market_report()
@@ -658,7 +691,7 @@ GLOBAL_LIST_INIT(round_end_images, world.file2list("data/image_urls.txt")) // MO
 /datum/controller/subsystem/ticker/proc/medal_report()
 	if(GLOB.commendations.len)
 		var/list/parts = list()
-		parts += "<span class='header'>Medal Commendations:</span>"
+		parts += span_header("Medal Commendations:")
 		for (var/com in GLOB.commendations)
 			parts += com
 		return "<div class='panel stationborder'>[parts.Join("<br>")]</div>"
@@ -752,7 +785,11 @@ GLOBAL_LIST_INIT(round_end_images, world.file2list("data/image_urls.txt")) // MO
 	var/datum/action/report/R = new
 	C.persistent_client.player_actions += R
 	R.Grant(C.mob)
+<<<<<<< HEAD
 	to_chat(C,"<span class='infoplain'><a href='byond://?src=[REF(R)];report=1'>Show roundend report again</a></span>")
+=======
+	to_chat(C,span_infoplain("<a href='byond://?src=[REF(R)];report=1'>Show roundend report again</a>"))
+>>>>>>> tg-pr-88929
 
 /datum/action/report
 	name = "Show roundend report"
@@ -819,37 +856,19 @@ GLOBAL_LIST_INIT(round_end_images, world.file2list("data/image_urls.txt")) // MO
 		count++
 	return objective_parts.Join("<br>")
 
-/datum/controller/subsystem/ticker/proc/save_admin_data()
-	if(IsAdminAdvancedProcCall())
-		to_chat(usr, "<span class='admin prefix'>Admin rank DB Sync blocked: Advanced ProcCall detected.</span>")
-		return
-	if(CONFIG_GET(flag/admin_legacy_system)) //we're already using legacy system so there's nothing to save
-		return
-	else if(load_admins(TRUE)) //returns true if there was a database failure and the backup was loaded from
-		return
-	sync_ranks_with_db()
-	var/list/sql_admins = list()
-	for(var/i in GLOB.protected_admins)
-		var/datum/admins/A = GLOB.protected_admins[i]
-		sql_admins += list(list("ckey" = A.target, "rank" = A.rank_names()))
-	SSdbcore.MassInsert(format_table_name("admin"), sql_admins, duplicate_key = TRUE)
-	var/datum/db_query/query_admin_rank_update = SSdbcore.NewQuery("UPDATE [format_table_name("player")] p INNER JOIN [format_table_name("admin")] a ON p.ckey = a.ckey SET p.lastadminrank = a.rank")
-	query_admin_rank_update.Execute()
-	qdel(query_admin_rank_update)
 
-	//json format backup file generation stored per server
-	var/json_file = file("data/admins_backup.json")
-	var/list/file_data = list(
-		"ranks" = list(),
-		"admins" = list(),
-		"connections" = list(),
-	)
-	for(var/datum/admin_rank/R in GLOB.admin_ranks)
-		file_data["ranks"]["[R.name]"] = list()
-		file_data["ranks"]["[R.name]"]["include rights"] = R.include_rights
-		file_data["ranks"]["[R.name]"]["exclude rights"] = R.exclude_rights
-		file_data["ranks"]["[R.name]"]["can edit rights"] = R.can_edit_rights
+/datum/controller/subsystem/ticker/proc/cheevo_report()
+	var/list/parts = list()
+	if(length(GLOB.achievements_unlocked))
+		parts += "<span class='header'>Achievement Get!</span><BR>"
+		parts += "<span class='infoplain'>Total Achievements Earned: <B>[length(GLOB.achievements_unlocked)]!</B></span><BR>"
+		parts += "<ul class='playerlist'>"
+		for(var/datum/achievement_report/cheevo_report in GLOB.achievements_unlocked)
+			parts += "<BR>[cheevo_report.winner_key] was <b>[cheevo_report.winner]</b>, who earned the [span_greentext("'[cheevo_report.cheevo]'")] achievement at [cheevo_report.award_location]!<BR>"
+		parts += "</ul>"
+		return "<div class='panel greenborder'><ul>[parts.Join()]</ul></div>"
 
+<<<<<<< HEAD
 	for(var/admin_ckey in GLOB.admin_datums + GLOB.deadmins)
 		var/datum/admins/admin = GLOB.admin_datums[admin_ckey]
 
@@ -964,6 +983,8 @@ GLOBAL_LIST_INIT(round_end_images, world.file2list("data/image_urls.txt")) // MO
 		parts += "</ul>"
 		return "<div class='panel greenborder'><ul>[parts.Join()]</ul></div>"
 
+=======
+>>>>>>> tg-pr-88929
 ///A datum containing the info necessary for an achievement readout, reported and added to the global list in /datum/award/achievement/on_unlock(mob/user)
 /datum/achievement_report
 	///The winner of this achievement.
@@ -974,5 +995,8 @@ GLOBAL_LIST_INIT(round_end_images, world.file2list("data/image_urls.txt")) // MO
 	var/winner_key
 	///The name of the area we earned this cheevo in
 	var/award_location
+<<<<<<< HEAD
 
 #undef DISCORD_SUPPRESS_NOTIFICATIONS
+=======
+>>>>>>> tg-pr-88929

@@ -23,10 +23,18 @@
 	return data
 
 /datum/computer_file/program/themeify/ui_act(action, params, datum/tgui/ui, datum/ui_state/state)
+<<<<<<< HEAD
+=======
+	. = ..()
+>>>>>>> tg-pr-88929
 	switch(action)
 		if("PRG_change_theme")
 			var/selected_theme = params["selected_theme"]
-			if(!GLOB.default_pda_themes.Find(selected_theme) && !imported_themes.Find(selected_theme) && !(computer.obj_flags & EMAGGED))
+			if( \
+				!GLOB.default_pda_themes.Find(selected_theme) && \
+				!imported_themes.Find(selected_theme) && \
+				!(computer.obj_flags & EMAGGED) \
+			)
 				return FALSE
 			computer.device_theme = GLOB.pda_name_to_theme[selected_theme]
 			return TRUE

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { BooleanLike } from 'common/react';
 import { formatSiUnit } from '../format';
 import { useBackend, useLocalState } from '../backend';
@@ -18,28 +19,75 @@ import {
   Dropdown,
   NoticeBox,
 } from '../components';
+=======
+import { useState } from 'react';
+import {
+  AnimatedNumber,
+  Box,
+  Button,
+  Collapsible,
+  ColorBox,
+  Dimmer,
+  Dropdown,
+  Icon,
+  LabeledList,
+  NoticeBox,
+  NumberInput,
+  ProgressBar,
+  Section,
+  Stack,
+  Table,
+} from 'tgui-core/components';
+import { formatSiUnit } from 'tgui-core/format';
+import { BooleanLike } from 'tgui-core/react';
+
+import { useBackend } from '../backend';
+>>>>>>> tg-pr-88929
 import { Window } from '../layouts';
 
 type MODsuitData = {
   // Static
   ui_theme: string;
+<<<<<<< HEAD
   control: string;
   complexity_max: number;
   helmet: string;
   chestplate: string;
   gauntlets: string;
   boots: string;
+=======
+  complexity_max: number;
+>>>>>>> tg-pr-88929
   // Dynamic
   suit_status: SuitStatus;
   user_status: UserStatus;
   module_custom_status: ModuleCustomStatus;
   module_info: Module[];
+<<<<<<< HEAD
+=======
+  control: string;
+  parts: PartData[];
+};
+
+type PartData = {
+  slot: string;
+  name: string;
+  deployed: BooleanLike;
+  ref: string;
+>>>>>>> tg-pr-88929
 };
 
 type SuitStatus = {
   core_name: string;
+<<<<<<< HEAD
   cell_charge_current: number;
   cell_charge_max: number;
+=======
+  charge_current: number;
+  charge_max: number;
+  chargebar_color: string;
+  chargebar_string: string;
+>>>>>>> tg-pr-88929
   active: BooleanLike;
   open: BooleanLike;
   seconds_electrified: number;
@@ -49,8 +97,13 @@ type SuitStatus = {
   complexity: number;
   selected_module: string;
   ai_name: string;
+<<<<<<< HEAD
   has_pai: boolean;
   is_ai: boolean;
+=======
+  has_pai: BooleanLike;
+  is_ai: BooleanLike;
+>>>>>>> tg-pr-88929
   link_id: string;
   link_freq: string;
   link_call: string;
@@ -118,11 +171,18 @@ export const MODsuit = (props) => {
   const { interface_break } = data.suit_status;
   return (
     <Window
+<<<<<<< HEAD
       width={800}
       height={640}
       theme={ui_theme}
       title="MOD Interface Panel"
       resizable
+=======
+      width={600}
+      height={600}
+      theme={ui_theme}
+      title="MOD Interface Panel"
+>>>>>>> tg-pr-88929
     >
       <Window.Content scrollable={!interface_break}>
         <MODsuitContent />
@@ -170,9 +230,16 @@ const ConfigureNumberEntry = (props) => {
       value={value}
       minValue={-50}
       maxValue={50}
+<<<<<<< HEAD
       stepPixelSize={5}
       width="39px"
       onChange={(e, value) =>
+=======
+      step={1}
+      stepPixelSize={5}
+      width="39px"
+      onChange={(value) =>
+>>>>>>> tg-pr-88929
         act('configure', {
           key: name,
           value: value,
@@ -224,7 +291,11 @@ const ConfigureListEntry = (props) => {
   const { act } = useBackend();
   return (
     <Dropdown
+<<<<<<< HEAD
       displayText={value}
+=======
+      selected={value}
+>>>>>>> tg-pr-88929
       options={values}
       onSelected={(value) =>
         act('configure', {
@@ -237,6 +308,39 @@ const ConfigureListEntry = (props) => {
   );
 };
 
+<<<<<<< HEAD
+=======
+const ConfigurePinEntry = (props) => {
+  const { name, value, module_ref } = props;
+  const { act } = useBackend();
+  return (
+    <Button
+      onClick={() =>
+        act('configure', { key: name, value: !value, ref: module_ref })
+      }
+      icon="thumbtack"
+      selected={value}
+      tooltip="Pin"
+      tooltipPosition="left"
+    />
+  );
+};
+
+// fuck u smartkar configs werent meant to be used as actions 🖕🖕🖕
+// and really u couldnt be bothered to make this and instead used
+// the pin entry? 🖕🖕🖕🖕🖕🖕🖕🖕🖕🖕🖕🖕🖕🖕🖕🖕🖕🖕🖕🖕
+const ConfigureButtonEntry = (props) => {
+  const { name, value, module_ref } = props;
+  const { act } = useBackend();
+  return (
+    <Button
+      onClick={() => act('configure', { key: name, ref: module_ref })}
+      icon={value}
+    />
+  );
+};
+
+>>>>>>> tg-pr-88929
 const ConfigureDataEntry = (props) => {
   const { name, display_name, type, value, values, module_ref } = props;
   const configureEntryTypes = {
@@ -244,6 +348,11 @@ const ConfigureDataEntry = (props) => {
     bool: <ConfigureBoolEntry {...props} />,
     color: <ConfigureColorEntry {...props} />,
     list: <ConfigureListEntry {...props} />,
+<<<<<<< HEAD
+=======
+    button: <ConfigureButtonEntry {...props} />,
+    pin: <ConfigurePinEntry {...props} />,
+>>>>>>> tg-pr-88929
   };
   return (
     <LabeledList.Item label={display_name}>
@@ -326,9 +435,16 @@ const radiationLevels = (param) => {
 const SuitStatusSection = (props) => {
   const { act, data } = useBackend<MODsuitData>();
   const {
+<<<<<<< HEAD
     core_name,
     cell_charge_current,
     cell_charge_max,
+=======
+    charge_current,
+    charge_max,
+    chargebar_color,
+    chargebar_string,
+>>>>>>> tg-pr-88929
     active,
     open,
     seconds_electrified,
@@ -347,9 +463,12 @@ const SuitStatusSection = (props) => {
     : active
       ? 'Active'
       : 'Inactive';
+<<<<<<< HEAD
   const charge_percent = Math.round(
     (100 * cell_charge_current) / cell_charge_max,
   );
+=======
+>>>>>>> tg-pr-88929
 
   return (
     <Section
@@ -367,6 +486,7 @@ const SuitStatusSection = (props) => {
       <LabeledList>
         <LabeledList.Item label="Charge">
           <ProgressBar
+<<<<<<< HEAD
             value={cell_charge_current / cell_charge_max}
             ranges={{
               good: [0.6, Infinity],
@@ -392,6 +512,15 @@ const SuitStatusSection = (props) => {
                       0,
                       'J',
                     )} (${charge_percent}%)`}
+=======
+            value={charge_current / charge_max}
+            color={chargebar_color}
+            style={{
+              textShadow: '1px 1px 0 black',
+            }}
+          >
+            {chargebar_string}
+>>>>>>> tg-pr-88929
           </ProgressBar>
         </LabeledList.Item>
         <LabeledList.Item label="ID Lock">
@@ -458,6 +587,7 @@ const SuitStatusSection = (props) => {
 
 const HardwareSection = (props) => {
   const { act, data } = useBackend<MODsuitData>();
+<<<<<<< HEAD
   const { control, helmet, chestplate, gauntlets, boots } = data;
   const { ai_name, core_name } = data.suit_status;
   return (
@@ -478,11 +608,56 @@ const HardwareSection = (props) => {
           {gauntlets || 'None'}
         </LabeledList.Item>
         <LabeledList.Item label="Boots">{boots || 'None'}</LabeledList.Item>
+=======
+  const { control } = data;
+  const { ai_name, core_name } = data.suit_status;
+  return (
+    <Section title="Hardware" style={{ textTransform: 'capitalize' }}>
+      <LabeledList>
+        <LabeledList.Item label="Control Unit">{control}</LabeledList.Item>
+        <LabeledList.Item label="Core">
+          {core_name || 'No Core Detected'}
+        </LabeledList.Item>
+        <ModParts />
+        <LabeledList.Item label="AI Assistant">
+          {ai_name || 'No AI Detected'}
+        </LabeledList.Item>
+>>>>>>> tg-pr-88929
       </LabeledList>
     </Section>
   );
 };
 
+<<<<<<< HEAD
+=======
+const ModParts = (props) => {
+  const { act, data } = useBackend<MODsuitData>();
+  const { parts } = data;
+  return (
+    <>
+      {parts.map((part) => {
+        return (
+          <LabeledList.Item
+            key={part.slot}
+            label={part.slot + ' Slot'}
+            buttons={
+              <Button
+                selected={part.deployed}
+                icon={part.deployed ? 'arrow-down' : 'arrow-up'}
+                content={part.deployed ? 'Retract' : 'Deploy'}
+                onClick={() => act('deploy', { ref: part.ref })}
+              />
+            }
+          >
+            {part.name}
+          </LabeledList.Item>
+        );
+      })}
+    </>
+  );
+};
+
+>>>>>>> tg-pr-88929
 const UserStatusSection = (props) => {
   const { act, data } = useBackend<MODsuitData>();
   const { active } = data.suit_status;
@@ -609,8 +784,13 @@ const UserStatusSection = (props) => {
           <LabeledList.Item label="Fingerprints">
             <Box
               style={{
+<<<<<<< HEAD
                 'word-break': 'break-all',
                 'word-wrap': 'break-word',
+=======
+                wordBreak: 'break-all',
+                wordWrap: 'break-word',
+>>>>>>> tg-pr-88929
               }}
             >
               {active ? dna_unique_identity : '???'}
@@ -621,8 +801,13 @@ const UserStatusSection = (props) => {
           <LabeledList.Item label="Enzymes">
             <Box
               style={{
+<<<<<<< HEAD
                 'word-break': 'break-all',
                 'word-wrap': 'break-word',
+=======
+                wordBreak: 'break-all',
+                wordWrap: 'break-word',
+>>>>>>> tg-pr-88929
               }}
             >
               {active ? dna_unique_enzymes : '???'}
@@ -657,10 +842,15 @@ const ModuleSection = (props) => {
   const { act, data } = useBackend<MODsuitData>();
   const { complexity_max, module_info } = data;
   const { complexity } = data.suit_status;
+<<<<<<< HEAD
   const [configureState, setConfigureState] = useLocalState(
     'module_configuration',
     '',
   );
+=======
+  const [configureState, setConfigureState] = useState('');
+
+>>>>>>> tg-pr-88929
   return (
     <Section
       title="Modules"
@@ -672,13 +862,21 @@ const ModuleSection = (props) => {
       ) : (
         <Table>
           <Table.Row header>
+<<<<<<< HEAD
             <Table.Cell colspan={3}>Actions</Table.Cell>
+=======
+            <Table.Cell colSpan={3}>Actions</Table.Cell>
+>>>>>>> tg-pr-88929
             <Table.Cell>Name</Table.Cell>
             <Table.Cell width={1} textAlign="center">
               <Button
                 color="transparent"
                 icon="plug"
+<<<<<<< HEAD
                 tooltip="Idle Power Cost"
+=======
+                tooltip="Idle Power Cost (Watts)"
+>>>>>>> tg-pr-88929
                 tooltipPosition="top"
               />
             </Table.Cell>
@@ -686,7 +884,11 @@ const ModuleSection = (props) => {
               <Button
                 color="transparent"
                 icon="lightbulb"
+<<<<<<< HEAD
                 tooltip="Active Power Cost"
+=======
+                tooltip="Active Power Cost (Watts)"
+>>>>>>> tg-pr-88929
                 tooltipPosition="top"
               />
             </Table.Cell>
@@ -694,7 +896,11 @@ const ModuleSection = (props) => {
               <Button
                 color="transparent"
                 icon="bolt"
+<<<<<<< HEAD
                 tooltip="Use Energy Cost"
+=======
+                tooltip="Use Energy Cost (Joules)"
+>>>>>>> tg-pr-88929
                 tooltipPosition="top"
               />
             </Table.Cell>
@@ -766,6 +972,7 @@ const ModuleSection = (props) => {
                   )}
                 </Table.Cell>
                 <Table.Cell textAlign="center">
+<<<<<<< HEAD
                   <div
                     style={{
                       display: 'inline-block',
@@ -804,6 +1011,18 @@ const ModuleSection = (props) => {
                   >
                     {module.module_complexity}
                   </div>
+=======
+                  {formatSiUnit(module.idle_power, 0)}
+                </Table.Cell>
+                <Table.Cell textAlign="center">
+                  {formatSiUnit(module.active_power, 0)}
+                </Table.Cell>
+                <Table.Cell textAlign="center">
+                  {formatSiUnit(module.use_energy, 0)}
+                </Table.Cell>
+                <Table.Cell textAlign="center">
+                  {module.module_complexity}
+>>>>>>> tg-pr-88929
                 </Table.Cell>
               </Table.Row>
             );

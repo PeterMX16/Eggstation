@@ -11,10 +11,15 @@
 	canSmoothWith = SMOOTH_GROUP_TURF_CHASM
 	density = TRUE //This will prevent hostile mobs from pathing into chasms, while the canpass override will still let it function like an open turf
 	bullet_bounce_sound = null //abandon all hope ye who enter
+	rust_resistance = RUST_RESISTANCE_ABSOLUTE
 
 /turf/open/chasm/Initialize(mapload)
 	. = ..()
+<<<<<<< HEAD
 	apply_components()
+=======
+	apply_components(mapload)
+>>>>>>> tg-pr-88929
 
 /// Lets people walk into chasms.
 /turf/open/chasm/CanAllowThrough(atom/movable/mover, border_dir)
@@ -36,44 +41,51 @@
 	return
 
 /turf/open/chasm/rcd_vals(mob/user, obj/item/construction/rcd/the_rcd)
-	switch(the_rcd.mode)
-		if(RCD_FLOORWALL)
-			return list("mode" = RCD_FLOORWALL, "delay" = 0, "cost" = 3)
+	if(the_rcd.mode == RCD_TURF && the_rcd.rcd_design_path == /turf/open/floor/plating/rcd)
+		return list("delay" = 0, "cost" = 3)
 	return FALSE
 
-/turf/open/chasm/rcd_act(mob/user, obj/item/construction/rcd/the_rcd, passed_mode)
-	switch(passed_mode)
-		if(RCD_FLOORWALL)
-			to_chat(user, span_notice("You build a floor."))
-			PlaceOnTop(/turf/open/floor/plating, flags = CHANGETURF_INHERIT_AIR)
-			return TRUE
+/turf/open/chasm/rcd_act(mob/user, obj/item/construction/rcd/the_rcd, list/rcd_data)
+	if(rcd_data["[RCD_DESIGN_MODE]"] == RCD_TURF && rcd_data["[RCD_DESIGN_PATH]"] == /turf/open/floor/plating/rcd)
+		place_on_top(/turf/open/floor/plating, flags = CHANGETURF_INHERIT_AIR)
+		return TRUE
 	return FALSE
 
-/turf/open/chasm/rust_heretic_act()
-	return FALSE
+
 
 /turf/open/chasm/get_smooth_underlay_icon(mutable_appearance/underlay_appearance, turf/asking_turf, adjacency_dir)
-	underlay_appearance.icon = 'icons/turf/floors.dmi'
-	underlay_appearance.icon_state = "basalt"
+	underlay_appearance.icon = /turf/open/misc/asteroid/basalt::icon
+	underlay_appearance.icon_state = /turf/open/misc/asteroid/basalt::icon_state
 	return TRUE
 
 /turf/open/chasm/attackby(obj/item/C, mob/user, params, area/area_restriction)
-	..()
-	if(istype(C, /obj/item/stack/rods))
-		var/obj/item/stack/rods/R = C
-		var/obj/structure/lattice/L = locate(/obj/structure/lattice, src)
-		if(L)
-			return
-		if(!R.use(1))
-			to_chat(user, span_warning("You need one rod to build a lattice."))
-			return
-		to_chat(user, span_notice("You construct a lattice."))
-		playsound(src, 'sound/weapons/genhit.ogg', 50, TRUE)
-		// Create a lattice, without reverting to our baseturf
-		new /obj/structure/lattice(src)
-		return
-	else if(istype(C, /obj/item/stack/tile/iron))
+	. = ..()
+	if(ismetaltile(C))
 		build_with_floor_tiles(C, user)
+		return
+
+	if(!istype(C, /obj/item/stack/rods))
+		return
+
+	var/obj/item/stack/rods/R = C
+	var/obj/structure/lattice/L = locate(/obj/structure/lattice, src)
+	if(L)
+		return
+	if(!R.use(1))
+		to_chat(user, span_warning("You need one rod to build a lattice."))
+		return
+	to_chat(user, span_notice("You construct a lattice."))
+	playsound(src, 'sound/items/weapons/genhit.ogg', 50, TRUE)
+	// Create a lattice, without reverting to our baseturf
+	new /obj/structure/lattice(src)
+
+
+/// Handles adding the chasm component to the turf (So stuff falls into it!)
+/turf/open/chasm/proc/apply_components(mapload)
+	AddComponent(/datum/component/chasm, GET_TURF_BELOW(src), mapload)
+
+/turf/open/chasm/can_cross_safely(atom/movable/crossing)
+	return HAS_TRAIT(src, TRAIT_CHASM_STOPPED) || HAS_TRAIT(crossing, TRAIT_MOVE_FLYING)
 
 /// Handles adding the chasm component to the turf (So stuff falls into it!)
 /turf/open/chasm/proc/apply_components()
@@ -103,6 +115,11 @@
 	light_power = 0.65
 	light_color = LIGHT_COLOR_PURPLE
 
+/turf/open/chasm/icemoon/get_smooth_underlay_icon(mutable_appearance/underlay_appearance, turf/asking_turf, adjacency_dir)
+	underlay_appearance.icon = /turf/open/misc/asteroid/snow/icemoon::icon
+	underlay_appearance.icon_state = /turf/open/misc/asteroid/snow/icemoon::icon_state
+	return TRUE
+
 // Chasms for the jungle, with planetary atmos and a different icon
 /turf/open/chasm/jungle
 	icon = 'icons/turf/floors/junglechasm.dmi'
@@ -112,14 +129,17 @@
 	baseturfs = /turf/open/chasm/jungle
 
 /turf/open/chasm/jungle/get_smooth_underlay_icon(mutable_appearance/underlay_appearance, turf/asking_turf, adjacency_dir)
-	underlay_appearance.icon = 'icons/turf/floors.dmi'
-	underlay_appearance.icon_state = "dirt"
+	underlay_appearance.icon = /turf/open/misc/dirt::icon
+	underlay_appearance.icon_state = /turf/open/misc/dirt::icon_state
 	return TRUE
 
 // Chasm that doesn't do any z-level nonsense and just kills/stores whoever steps into it.
 /turf/open/chasm/true
 	desc = "There's nothing at the bottom. Absolutely nothing."
+<<<<<<< HEAD
 	baseturfs = /turf/open/chasm/true
+=======
+>>>>>>> tg-pr-88929
 
 /turf/open/chasm/true/apply_components(mapload)
 	AddComponent(/datum/component/chasm, null, mapload) //Don't pass anything for below_turf.
@@ -136,6 +156,10 @@
 /turf/open/chasm/true/no_smooth/attackby(obj/item/item, mob/user, params, area/area_restriction)
 	if(istype(item, /obj/item/stack/rods))
 		return
+<<<<<<< HEAD
 	else if (istype(item, /obj/item/stack/tile/iron) || istype(item, /obj/item/stack/tile/material) && item.has_material_type(/datum/material/iron))
+=======
+	else if(ismetaltile(item))
+>>>>>>> tg-pr-88929
 		return
 	return ..()

@@ -5,11 +5,17 @@
 	desc = "A little cleaning robot, he looks so excited!"
 	icon = 'icons/mob/silicon/aibots.dmi'
 	icon_state = "cleanbot0"
+<<<<<<< HEAD
 	pass_flags = PASSMOB | PASSFLAPS
 	density = FALSE
 	anchored = FALSE
 	health = 25
 	maxHealth = 25
+=======
+	health = 25
+	maxHealth = 25
+	light_color = "#99ccff"
+>>>>>>> tg-pr-88929
 
 	req_one_access = list(ACCESS_ROBOTICS, ACCESS_JANITOR)
 	radio_key = /obj/item/encryptionkey/headset_service
@@ -17,7 +23,10 @@
 	bot_type = CLEAN_BOT
 	hackables = "cleaning software"
 	additional_access = /datum/id_trim/job/janitor
+<<<<<<< HEAD
 	greyscale_config = /datum/greyscale_config/buckets_cleanbot
+=======
+>>>>>>> tg-pr-88929
 	possessed_message = "You are a cleanbot! Clean the station to the best of your ability!"
 	ai_controller = /datum/ai_controller/basic_controller/bot/cleanbot
 	path_image_color = "#993299"
@@ -26,8 +35,11 @@
 	///Flags indicating what kind of cleanables we should scan for to set as our target to clean.
 	///Options: CLEANBOT_CLEAN_BLOOD | CLEANBOT_CLEAN_TRASH | CLEANBOT_CLEAN_PESTS | CLEANBOT_CLEAN_DRAWINGS
 	var/janitor_mode_flags = CLEANBOT_CLEAN_BLOOD
+<<<<<<< HEAD
 	///should other bots salute us?
 	var/comissioned = FALSE
+=======
+>>>>>>> tg-pr-88929
 	///the base icon state, used in updating icons.
 	var/base_icon = "cleanbot"
 	/// if we have all the top titles, grant achievements to living mobs that gaze upon our cleanbot god
@@ -98,8 +110,14 @@
 	))
 	///blood we can clean
 	var/static/list/cleanable_blood = typecacheof(list(
+<<<<<<< HEAD
 		/obj/effect/decal/cleanable/blood,
 		/obj/effect/decal/cleanable/xenoblood, // monkestation addition
+=======
+		/obj/effect/decal/cleanable/xenoblood,
+		/obj/effect/decal/cleanable/blood,
+		/obj/effect/decal/cleanable/trail_holder,
+>>>>>>> tg-pr-88929
 	))
 	///pests we hunt
 	var/static/list/huntable_pests = typecacheof(list(
@@ -111,11 +129,14 @@
 		/obj/item/trash,
 		/obj/item/food/deadmouse,
 		/obj/effect/decal/remains,
+<<<<<<< HEAD
 		//monkestation addition: start
 		/obj/item/cigbutt,
 		/obj/item/storage/box/foodpack,
 		/obj/item/ammo_casing,
 		//monkestation addition: end
+=======
+>>>>>>> tg-pr-88929
 	))
 	///drawings we hunt
 	var/static/list/cleanable_drawings = typecacheof(list(/obj/effect/decal/cleanable/crayon))
@@ -136,7 +157,11 @@
 	var/static/list/pet_commands = list(
 		/datum/pet_command/idle,
 		/datum/pet_command/free,
+<<<<<<< HEAD
 		/datum/pet_command/point_targeting/clean,
+=======
+		/datum/pet_command/clean,
+>>>>>>> tg-pr-88929
 	)
 
 /mob/living/basic/bot/cleanbot/Initialize(mapload)
@@ -145,7 +170,11 @@
 	generate_ai_keys()
 	AddComponent(/datum/component/obeys_commands, pet_commands)
 	AddComponent(/datum/component/cleaner, \
+<<<<<<< HEAD
 		base_cleaning_duration = 1 SECONDS, \
+=======
+		base_cleaning_duration = 2 SECONDS, \
+>>>>>>> tg-pr-88929
 		pre_clean_callback = CALLBACK(src, PROC_REF(update_bot_mode), BOT_CLEANING), \
 		on_cleaned_callback = CALLBACK(src, PROC_REF(update_bot_mode), BOT_IDLE), \
 	)
@@ -171,7 +200,10 @@
 	. = ..()
 	if(istype(arrived, /obj/item/reagent_containers/cup/bucket) && isnull(build_bucket))
 		build_bucket = arrived
+<<<<<<< HEAD
 		set_greyscale(build_bucket.greyscale_colors)
+=======
+>>>>>>> tg-pr-88929
 		return
 
 	if(istype(arrived, /obj/item/mop) && isnull(our_mop))
@@ -209,15 +241,22 @@
 	if(var_name == NAMEOF(src, base_icon))
 		update_appearance(UPDATE_ICON)
 
+<<<<<<< HEAD
 /mob/living/basic/bot/cleanbot/emag_act(mob/user, obj/item/card/emag/emag_card)
 	. = ..()
 	if(!(bot_access_flags & BOT_COVER_EMAGGED))
 		return
+=======
+/mob/living/basic/bot/cleanbot/emag_effects(mob/user)
+>>>>>>> tg-pr-88929
 	if(weapon)
 		weapon.force = initial(weapon.force)
 	balloon_alert(user, "safeties disabled")
 	audible_message(span_danger("[src] buzzes oddly!"))
+<<<<<<< HEAD
 	return TRUE
+=======
+>>>>>>> tg-pr-88929
 
 /mob/living/basic/bot/cleanbot/explode()
 	var/atom/drop_loc = drop_location()
@@ -238,7 +277,11 @@
 // Variables sent to TGUI
 /mob/living/basic/bot/cleanbot/ui_data(mob/user)
 	var/list/data = ..()
+<<<<<<< HEAD
 	if(!(bot_access_flags & BOT_CONTROL_PANEL_OPEN) && !issilicon(user) && !isAdminGhostAI(user))
+=======
+	if((bot_access_flags & BOT_COVER_LOCKED) && !HAS_SILICON_ACCESS(user))
+>>>>>>> tg-pr-88929
 		return data
 	data["custom_controls"]["clean_blood"] = janitor_mode_flags & CLEANBOT_CLEAN_BLOOD
 	data["custom_controls"]["clean_trash"] = janitor_mode_flags & CLEANBOT_CLEAN_TRASH
@@ -276,7 +319,11 @@
 
 /mob/living/basic/bot/cleanbot/proc/on_attack_by(datum/source, obj/item/used_item, mob/living/user)
 	SIGNAL_HANDLER
+<<<<<<< HEAD
 	if(!istype(used_item, /obj/item/knife) || (user.istate & ISTATE_HARM))
+=======
+	if(!istype(used_item, /obj/item/knife) || user.combat_mode)
+>>>>>>> tg-pr-88929
 		return
 	INVOKE_ASYNC(src, PROC_REF(attach_knife), user, used_item)
 	return COMPONENT_NO_AFTERATTACK
@@ -305,8 +352,13 @@
 		return
 
 	stolen_valor += new_job_title
+<<<<<<< HEAD
 	if(!comissioned && (new_job_title in officers_titles))
 		comissioned = TRUE
+=======
+	if(!HAS_TRAIT(src, TRAIT_COMMISSIONED) && (new_job_title in officers_titles))
+		ADD_TRAIT(src, TRAIT_COMMISSIONED, INNATE_TRAIT)
+>>>>>>> tg-pr-88929
 
 	var/name_to_add = job_titles[new_job_title]
 	name = (new_job_title in suffix_job_titles) ? "[name] " + name_to_add : name_to_add + " [name]"
@@ -343,6 +395,7 @@
 
 	visible_message(span_danger("[src] sprays hydrofluoric acid at [target]!"))
 	playsound(src, 'sound/effects/spray2.ogg', 50, TRUE, -6)
+<<<<<<< HEAD
 	//START: Monkestation edit (this lets it burn trash a tiny bit faster)
 	if(is_type_in_typecache(target, huntable_trash))
 		target.acid_act(75, 20)
@@ -351,6 +404,10 @@
 	else
 		target.acid_act(75, 10)
 		return COMPONENT_CANCEL_ATTACK_CHAIN
+=======
+	target.acid_act(75, 10)
+	return COMPONENT_CANCEL_ATTACK_CHAIN
+>>>>>>> tg-pr-88929
 
 /mob/living/basic/bot/cleanbot/proc/generate_ai_keys()
 	ai_controller.set_blackboard_key(BB_CLEANABLE_DECALS, cleanable_decals)
@@ -361,12 +418,17 @@
 	ai_controller.set_blackboard_key(BB_CLEANBOT_EMAGGED_PHRASES, emagged_phrases)
 
 /mob/living/basic/bot/cleanbot/autopatrol
+<<<<<<< HEAD
 	bot_mode_flags = BOT_MODE_ON | BOT_MODE_AUTOPATROL | BOT_MODE_REMOTE_ENABLED | BOT_MODE_GHOST_CONTROLLABLE | BOT_MODE_ROUNDSTART_POSSESSION
+=======
+	bot_mode_flags = BOT_MODE_ON | BOT_MODE_AUTOPATROL | BOT_MODE_REMOTE_ENABLED | BOT_MODE_CAN_BE_SAPIENT | BOT_MODE_ROUNDSTART_POSSESSION
+>>>>>>> tg-pr-88929
 
 /mob/living/basic/bot/cleanbot/medbay
 	name = "Scrubs, MD"
 	req_one_access = list(ACCESS_ROBOTICS, ACCESS_JANITOR, ACCESS_MEDICAL)
 	bot_mode_flags = ~(BOT_MODE_ON | BOT_MODE_REMOTE_ENABLED)
+<<<<<<< HEAD
 
 /mob/living/basic/bot/cleanbot/firing_range //An invicible cleanbot to clean the firing range of blood.
 	name = "M-O"
@@ -378,3 +440,5 @@
 	. = ..()
 	//Area based godmode to clean the firing range, just incase it somehow escapes onto station. Somehow....
 	AddComponentFrom(ROUNDSTART_TRAIT, /datum/component/area_based_godmode, area_type = /area/centcom, allow_area_subtypes = TRUE)
+=======
+>>>>>>> tg-pr-88929

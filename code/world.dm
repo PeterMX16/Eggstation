@@ -6,7 +6,11 @@
  *
  * Two possibilities exist: either we are alone in the Universe or we are not. Both are equally terrifying. ~ Arthur C. Clarke
  *
+<<<<<<< HEAD
  * The byond world object stores some basic byond level config, and has a few hub specific procs for managing hub visiblity
+=======
+ * The byond world object stores some basic byond level config, and has a few hub specific procs for managing hub visibility
+>>>>>>> tg-pr-88929
  */
 /world
 	mob = /mob/dead/new_player
@@ -18,6 +22,10 @@
 	name = "MonkeStation 2.0" // monkestation edit: rebranding
 	fps = 20
 	cache_lifespan = 0
+<<<<<<< HEAD
+=======
+	map_format = SIDE_MAP
+>>>>>>> tg-pr-88929
 #ifdef FIND_REF_NO_CHECK_TICK
 	loop_checks = FALSE
 #endif

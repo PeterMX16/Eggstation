@@ -5,9 +5,14 @@
 	value = -6
 	medical_record_text = "During physical examination, patient was found to have all low-budget prosthetic limbs."
 	hardcore_value = 6
+<<<<<<< HEAD
 	quirk_flags = QUIRK_HUMAN_ONLY | QUIRK_CHANGES_APPEARANCE | QUIRK_DONT_CLONE // monkestation edit: QUIRK_DONT_CLONE
 	mail_goodies = list(/obj/item/weldingtool/mini, /obj/item/stack/cable_coil/five)
 	species_blacklist = list(SPECIES_OOZELING)
+=======
+	quirk_flags = QUIRK_HUMAN_ONLY|QUIRK_CHANGES_APPEARANCE
+	mail_goodies = list(/obj/item/weldingtool/mini, /obj/item/stack/cable_coil/five)
+>>>>>>> tg-pr-88929
 
 /datum/quirk/quadruple_amputee/add_unique(client/client_source)
 	var/mob/living/carbon/human/human_holder = quirk_holder
@@ -17,6 +22,7 @@
 	human_holder.del_and_replace_bodypart(new /obj/item/bodypart/leg/right/robot/surplus, special = TRUE)
 
 /datum/quirk/quadruple_amputee/post_add()
+<<<<<<< HEAD
 	to_chat(quirk_holder, span_boldannounce("All your limbs have been replaced with surplus prosthetics. They are fragile and will easily come apart under duress. \
 	Additionally, you need to use a welding tool and cables to repair them, instead of bruise packs and ointment."))
 
@@ -29,3 +35,7 @@
 	human_holder.reset_to_original_bodypart(BODY_ZONE_R_ARM)
 	human_holder.reset_to_original_bodypart(BODY_ZONE_L_LEG)
 	human_holder.reset_to_original_bodypart(BODY_ZONE_R_LEG)
+=======
+	to_chat(quirk_holder, span_bolddanger("All your limbs have been replaced with surplus prosthetics. They are fragile and will easily come apart under duress. \
+	Additionally, you need to use a welding tool and cables to repair them, instead of bruise packs and ointment."))
+>>>>>>> tg-pr-88929

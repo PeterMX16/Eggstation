@@ -20,7 +20,11 @@
 /datum/component/ranged_attacks/Initialize(
 	casing_type,
 	projectile_type,
+<<<<<<< HEAD
 	projectile_sound = 'sound/weapons/gun/pistol/shot.ogg',
+=======
+	projectile_sound = 'sound/items/weapons/gun/pistol/shot.ogg',
+>>>>>>> tg-pr-88929
 	burst_shots,
 	burst_intervals = 0.2 SECONDS,
 	cooldown_time = 3 SECONDS,

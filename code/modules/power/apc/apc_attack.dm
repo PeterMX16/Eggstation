@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /obj/machinery/power/apc/attackby(obj/item/attacking_object, mob/living/user, params)
 	if(HAS_TRAIT(attacking_object, TRAIT_APC_SHOCKING))
 		var/metal = 0
@@ -179,6 +180,13 @@
 		return
 
 	return ..()
+=======
+// Ethereals:
+/// How long it takes an ethereal to drain or charge APCs. Also used as a spam limiter.
+#define ETHEREAL_APC_DRAIN_TIME (3 SECONDS)
+/// How much power ethereals gain/drain from APCs.
+#define ETHEREAL_APC_POWER_GAIN (10 * STANDARD_CELL_CHARGE)
+>>>>>>> tg-pr-88929
 
 /obj/machinery/power/apc/attack_hand_secondary(mob/user, list/modifiers)
 	. = ..()
@@ -189,11 +197,11 @@
 	if(!ishuman(user))
 		return
 	var/mob/living/carbon/human/apc_interactor = user
-	var/obj/item/organ/internal/stomach/ethereal/maybe_ethereal_stomach = apc_interactor.get_organ_slot(ORGAN_SLOT_STOMACH)
+	var/obj/item/organ/stomach/ethereal/maybe_ethereal_stomach = apc_interactor.get_organ_slot(ORGAN_SLOT_STOMACH)
 	if(!istype(maybe_ethereal_stomach))
 		togglelock(user)
 	else
-		if(maybe_ethereal_stomach.crystal_charge >= ETHEREAL_CHARGE_NORMAL)
+		if(maybe_ethereal_stomach.cell.charge() >= ETHEREAL_CHARGE_NORMAL)
 			togglelock(user)
 		ethereal_interact(user, modifiers)
 	return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
@@ -203,50 +211,74 @@
 	if(!ishuman(user))
 		return
 	var/mob/living/carbon/human/ethereal = user
-	var/obj/item/organ/internal/stomach/maybe_stomach = ethereal.get_organ_slot(ORGAN_SLOT_STOMACH)
+	var/obj/item/organ/stomach/maybe_stomach = ethereal.get_organ_slot(ORGAN_SLOT_STOMACH)
 	// how long we wanna wait before we show the balloon alert. don't want it to be very long in case the ethereal wants to opt-out of doing that action, just long enough to where it doesn't collide with previously queued balloon alerts.
 	var/alert_timer_duration = 0.75 SECONDS
 
-	if(!istype(maybe_stomach, /obj/item/organ/internal/stomach/ethereal))
+	if(!istype(maybe_stomach, /obj/item/organ/stomach/ethereal))
 		return
+<<<<<<< HEAD
 	var/charge_limit = ETHEREAL_CHARGE_DANGEROUS - APC_POWER_GAIN
 	var/obj/item/organ/internal/stomach/ethereal/stomach = maybe_stomach
 	if(!((stomach?.drain_time < world.time) && (user.istate & ISTATE_SECONDARY)))
+=======
+	var/charge_limit = ETHEREAL_CHARGE_DANGEROUS - ETHEREAL_APC_POWER_GAIN
+	var/obj/item/organ/stomach/ethereal/stomach = maybe_stomach
+	var/obj/item/stock_parts/power_store/stomach_cell = stomach.cell
+	if(!((stomach?.drain_time < world.time) && LAZYACCESS(modifiers, RIGHT_CLICK)))
+>>>>>>> tg-pr-88929
 		return
 	if((ethereal.istate & ISTATE_HARM))
 		if(cell.charge <= (cell.maxcharge / 2)) // ethereals can't drain APCs under half charge, this is so that they are forced to look to alternative power sources if the station is running low
 			addtimer(CALLBACK(src, TYPE_PROC_REF(/atom, balloon_alert), ethereal, "safeties prevent draining!"), alert_timer_duration)
 			return
+<<<<<<< HEAD
 		if(ethereal.blood_volume > charge_limit) //Monkestation Edit
+=======
+		if(stomach_cell.charge() > charge_limit)
+>>>>>>> tg-pr-88929
 			addtimer(CALLBACK(src, TYPE_PROC_REF(/atom, balloon_alert), ethereal, "charge is full!"), alert_timer_duration)
 			return
-		stomach.drain_time = world.time + APC_DRAIN_TIME
+		stomach.drain_time = world.time + ETHEREAL_APC_DRAIN_TIME
 		addtimer(CALLBACK(src, TYPE_PROC_REF(/atom, balloon_alert), ethereal, "draining power"), alert_timer_duration)
+<<<<<<< HEAD
 		if(do_after(user, APC_DRAIN_TIME, target = src))
 			if(cell.charge <= (cell.maxcharge / 2) || (ethereal.blood_volume > charge_limit)) //Monkestation Edit
+=======
+		while(do_after(user, ETHEREAL_APC_DRAIN_TIME, target = src))
+			if(cell.charge <= (cell.maxcharge / 2) || (stomach_cell.charge() > charge_limit))
+>>>>>>> tg-pr-88929
 				return
 			balloon_alert(ethereal, "received charge")
-			stomach.adjust_charge(APC_POWER_GAIN)
-			cell.use(APC_POWER_GAIN)
+			stomach.adjust_charge(ETHEREAL_APC_POWER_GAIN)
+			cell.use(ETHEREAL_APC_POWER_GAIN)
 		return
 
-	if(cell.charge >= cell.maxcharge - APC_POWER_GAIN)
+	if(cell.charge >= cell.maxcharge - ETHEREAL_APC_POWER_GAIN)
 		addtimer(CALLBACK(src, TYPE_PROC_REF(/atom, balloon_alert), ethereal, "APC can't receive more power!"), alert_timer_duration)
 		return
+<<<<<<< HEAD
 	if(ethereal.blood_volume < APC_POWER_GAIN) //Monkestation Edit
+=======
+	if(stomach_cell.charge() < ETHEREAL_APC_POWER_GAIN)
+>>>>>>> tg-pr-88929
 		addtimer(CALLBACK(src, TYPE_PROC_REF(/atom, balloon_alert), ethereal, "charge is too low!"), alert_timer_duration)
 		return
-	stomach.drain_time = world.time + APC_DRAIN_TIME
+	stomach.drain_time = world.time + ETHEREAL_APC_DRAIN_TIME
 	addtimer(CALLBACK(src, TYPE_PROC_REF(/atom, balloon_alert), ethereal, "transfering power"), alert_timer_duration)
-	if(!do_after(user, APC_DRAIN_TIME, target = src))
+	if(!do_after(user, ETHEREAL_APC_DRAIN_TIME, target = src))
 		return
+<<<<<<< HEAD
 	if((cell.charge >= (cell.maxcharge - APC_POWER_GAIN)) || (ethereal.blood_volume < APC_POWER_GAIN)) //Monkestation Edit
+=======
+	if((cell.charge >= (cell.maxcharge - ETHEREAL_APC_POWER_GAIN)) || (stomach_cell.charge() < ETHEREAL_APC_POWER_GAIN))
+>>>>>>> tg-pr-88929
 		balloon_alert(ethereal, "can't transfer power!")
 		return
 	if(istype(stomach))
-		balloon_alert(ethereal, "transfered power")
-		stomach.adjust_charge(-APC_POWER_GAIN)
-		cell.give(APC_POWER_GAIN)
+		while(do_after(user, ETHEREAL_APC_DRAIN_TIME, target = src))
+			balloon_alert(ethereal, "transferred power")
+			cell.give(-stomach.adjust_charge(-ETHEREAL_APC_POWER_GAIN))
 	else
 		balloon_alert(ethereal, "can't transfer power!")
 
@@ -261,16 +293,12 @@
 			user.visible_message(span_notice("[user] removes \the [cell] from [src]!"))
 			balloon_alert(user, "cell removed")
 			user.put_in_hands(cell)
-			cell.update_appearance()
-			cell = null
-			charging = APC_NOT_CHARGING
-			update_appearance()
 		return
 	if((machine_stat & MAINT) && !opened) //no board; no interface
 		return
 
 /obj/machinery/power/apc/blob_act(obj/structure/blob/B)
-	set_broken()
+	atom_break()
 
 /obj/machinery/power/apc/take_damage(damage_amount, damage_type = BRUTE, damage_flag = "", sound_effect = TRUE, attack_dir, armor_penetration = 0)
 	// APC being at 0 integrity doesnt delete it outright. Combined with take_damage this might cause runtimes.
@@ -285,32 +313,20 @@
 		return damage_amount
 	. = ..()
 
-/obj/machinery/power/apc/atom_break(damage_flag)
-	. = ..()
-	if(.)
-		set_broken()
-
 /obj/machinery/power/apc/proc/can_use(mob/user, loud = 0) //used by attack_hand() and Topic()
 	if(isAdminGhostAI(user))
 		return TRUE
 	if(!HAS_SILICON_ACCESS(user))
 		return TRUE
-	var/mob/living/silicon/ai/AI = user
-	var/mob/living/silicon/robot/robot = user
-	if(aidisabled || malfhack && istype(malfai) && ((istype(AI) && (malfai != AI && malfai != AI.parent)) || (istype(robot) && (robot in malfai.connected_robots))))
-		if(!loud)
-			balloon_alert(user, "it's disabled!")
-		return FALSE
-	return TRUE
-
-/obj/machinery/power/apc/proc/set_broken()
-	if(malfai && operating)
-		malfai.malf_picker.processing_time = clamp(malfai.malf_picker.processing_time - 10,0,1000)
-	operating = FALSE
-	atom_break()
-	if(occupier)
-		malfvacate(TRUE)
-	update()
+	. = TRUE
+	if(isAI(user) || iscyborg(user))
+		if(aidisabled)
+			. = FALSE
+		else if(istype(malfai) && !(malfai == user || (user in malfai.connected_robots)))
+			. = FALSE
+	if (!. && !loud)
+		balloon_alert(user, "it's disabled!")
+	return .
 
 /obj/machinery/power/apc/proc/shock(mob/user, prb)
 	if(!prob(prb))
@@ -322,3 +338,6 @@
 		return TRUE
 	else
 		return FALSE
+
+#undef ETHEREAL_APC_DRAIN_TIME
+#undef ETHEREAL_APC_POWER_GAIN

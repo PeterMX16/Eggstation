@@ -24,6 +24,7 @@ GLOBAL_LIST_INIT_TYPED(chasm_detritus_types, /datum/chasm_detritus, init_chasm_d
 	/// Stuff which you can always fish up even if nothing fell into a hole. Associative by type.
 	var/static/list/default_contents = list(
 		NORMAL_CONTENTS = list(
+<<<<<<< HEAD
 			/obj/item/stack/sheet/bone = 3,
 			/obj/item/stack/ore/slag = 2,
 			/mob/living/basic/mining/lobstrosity/lava = 1,
@@ -45,6 +46,32 @@ GLOBAL_LIST_INIT_TYPED(chasm_detritus_types, /datum/chasm_detritus, init_chasm_d
 		var/default_spawn = pick(default_contents[default_contents_key])
 		return new default_spawn(get_turf(fisherman))
 	return find_chasm_contents(fishing_spot, get_turf(fisherman))
+=======
+			/obj/item/stack/sheet/bone = 6,
+			/obj/item/stack/ore/slag = 4,
+			/obj/effect/mob_spawn/corpse/human/skeleton = 2,
+			/mob/living/basic/mining/lobstrosity/lava = 1,
+			/mob/living/basic/mining/lobstrosity/juvenile/lava = 1,
+		),
+		BODIES_ONLY = list(
+			/obj/effect/mob_spawn/corpse/human/skeleton = 6,
+			/mob/living/basic/mining/lobstrosity/lava = 1,
+			/mob/living/basic/mining/lobstrosity/juvenile/lava = 1,
+		),
+		NO_CORPSES = list(
+			/obj/item/stack/sheet/bone = 28,
+			/obj/item/stack/ore/slag = 20,
+			/mob/living/basic/mining/lobstrosity/lava = 1,
+			/mob/living/basic/mining/lobstrosity/juvenile/lava = 1,
+		),
+	)
+
+/datum/chasm_detritus/proc/dispense_detritus(atom/spawn_location, atom/fishing_spot)
+	if(prob(default_contents_chance))
+		var/default_spawn = pick(default_contents[default_contents_key])
+		return new default_spawn(spawn_location)
+	return find_chasm_contents(get_turf(fishing_spot), spawn_location)
+>>>>>>> tg-pr-88929
 
 /// Returns the chosen detritus from the given list of things to choose from
 /datum/chasm_detritus/proc/determine_detritus(list/chasm_stuff)
@@ -58,12 +85,22 @@ GLOBAL_LIST_INIT_TYPED(chasm_detritus_types, /datum/chasm_detritus, init_chasm_d
 		var/default_spawn = pick(default_contents[default_contents_key])
 		return new default_spawn(fisher_turf)
 
+<<<<<<< HEAD
 	return determine_detritus(chasm_contents)
+=======
+	var/atom/movable/detritus = determine_detritus(chasm_contents)
+	detritus.forceMove(fisher_turf)
+	return detritus
+>>>>>>> tg-pr-88929
 
 /datum/chasm_detritus/proc/get_chasm_contents(turf/fishing_spot)
 	. = list()
 	for(var/obj/effect/abstract/chasm_storage/storage in range(5, fishing_spot))
+<<<<<<< HEAD
 		for (var/thing in storage.contents)
+=======
+		for (var/thing as anything in storage.contents)
+>>>>>>> tg-pr-88929
 			. += thing
 
 /// Variant of the chasm detritus that allows for an easier time at fishing out
@@ -78,8 +115,13 @@ GLOBAL_LIST_INIT_TYPED(chasm_detritus_types, /datum/chasm_detritus, init_chasm_d
 /datum/chasm_detritus/restricted/get_chasm_contents(turf/fishing_spot)
 	. = list()
 	for(var/obj/effect/abstract/chasm_storage/storage in range(5, fishing_spot))
+<<<<<<< HEAD
 		for (var/thing in storage.contents)
 			if(!(islist(chasm_storage_restricted_type) ? is_type_in_list(thing, chasm_storage_restricted_type) : istype(thing, chasm_storage_restricted_type)))
+=======
+		for (var/thing as anything in storage.contents)
+			if(!istype(thing, chasm_storage_restricted_type))
+>>>>>>> tg-pr-88929
 				continue
 			. += thing
 
@@ -101,9 +143,15 @@ GLOBAL_LIST_INIT_TYPED(chasm_detritus_types, /datum/chasm_detritus, init_chasm_d
 /// The first sentient body found in the list of contents is returned, otherwise
 /// if none are sentient choose randomly.
 /datum/chasm_detritus/restricted/bodies/determine_detritus(list/chasm_stuff)
+<<<<<<< HEAD
 	for(var/thing in chasm_stuff)
 		if(astype(thing, /mob)?.mind || astype(thing, /obj/item/organ/internal/brain/slime)?.mind)
 			return thing
+=======
+	for(var/mob/fallen_mob as anything in chasm_stuff)
+		if(fallen_mob.mind)
+			return fallen_mob
+>>>>>>> tg-pr-88929
 	return ..()
 
 #undef NORMAL_CONTENTS

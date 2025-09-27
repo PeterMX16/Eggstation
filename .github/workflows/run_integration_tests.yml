@@ -20,6 +20,7 @@ on:
 
 jobs:
   run_integration_tests:
+<<<<<<< HEAD
     # If `inputs.major` is specified, this will output `Run Tests (major.minor; map; max)`.
     # For example, `Run Tests (515.1627; runtimestation; 515)`.
     #
@@ -40,6 +41,25 @@ jobs:
         with:
           name: build-artifact-${{ inputs.major || env.BYOND_MAJOR }}-${{ inputs.minor || env.BYOND_MINOR}}
           path: ./
+=======
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    services:
+      mysql:
+        image: mysql:latest
+        env:
+          MYSQL_ROOT_PASSWORD: root
+        ports:
+          - 3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+    steps:
+      - uses: actions/checkout@v4
+      - name: Restore BYOND cache
+        uses: actions/cache@v4
+        with:
+          path: ~/BYOND
+          key: ${{ runner.os }}-byond-${{ hashFiles('dependencies.sh') }}
+>>>>>>> tg-pr-88929
       - name: Setup database
         env:
           MYSQL_CONFIG_FILE: tools/ci/mysql_config.cnf
@@ -56,6 +76,20 @@ jobs:
       - name: Install dreamluau
         run: |
           bash tools/ci/install_dreamluau.sh
+<<<<<<< HEAD
+=======
+      - name: Configure version
+        run: |
+          echo "BYOND_MAJOR=${{ inputs.major }}" >> $GITHUB_ENV
+          echo "BYOND_MINOR=${{ inputs.minor }}" >> $GITHUB_ENV
+        if: ${{ inputs.major }}
+      - name: Compile Tests
+        id: compile_tests
+        run: |
+          bash tools/ci/install_byond.sh
+          source $HOME/BYOND/byond/bin/byondsetup
+          tools/build/build --ci dm -DCIBUILDING -DANSICOLORS -Werror -ITG0001 -I"loop_checks"
+>>>>>>> tg-pr-88929
       - name: Run Tests
         id: run_tests
         run: |

@@ -92,7 +92,11 @@ GLOBAL_PROTECT(AdminProcCallHandler)
 	usr = lastusr
 	handler.remove_caller(user)
 
+<<<<<<< HEAD
 ADMIN_VERB(advanced_proc_call, R_DEBUG, FALSE, "Advanced ProcCall", "Call a proc on any datum in the server.", ADMIN_CATEGORY_DEBUG)
+=======
+ADMIN_VERB(advanced_proc_call, R_DEBUG, "Advanced ProcCall", "Call a proc on any datum in the server.", ADMIN_CATEGORY_DEBUG)
+>>>>>>> tg-pr-88929
 	user.callproc_blocking()
 
 /client/proc/callproc_blocking(list/get_retval)
@@ -157,7 +161,7 @@ ADMIN_VERB(advanced_proc_call, R_DEBUG, FALSE, "Advanced ProcCall", "Call a proc
 		log_admin("[key_name(src)] called [procname]() with [lst.len ? "the arguments [list2params(lst)]":"no arguments"].")
 		message_admins("[key_name(src)] called [procname]() with [lst.len ? "the arguments [list2params(lst)]":"no arguments"].") //Proccall announce removed.
 		returnval = WrapAdminProcCall(GLOBAL_PROC, procname, lst) // Pass the lst as an argument list to the proc
-	SSblackbox.record_feedback("tally", "admin_verb", 1, "Advanced ProcCall") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
+	BLACKBOX_LOG_ADMIN_VERB("Advanced ProcCall")
 	if(get_retval)
 		get_retval += returnval
 	. = get_callproc_returnval(returnval, procname)
@@ -238,8 +242,13 @@ GLOBAL_PROTECT(LastAdminCalledProc)
 	return (GLOB.AdminProcCaller && GLOB.AdminProcCaller == usr?.client?.ckey) || (GLOB.AdminProcCallHandler && usr == GLOB.AdminProcCallHandler)
 #endif
 
+<<<<<<< HEAD
 ADMIN_VERB_ONLY_CONTEXT_MENU(call_proc_datum, R_DEBUG, FALSE, "Atom ProcCall", datum/thing as null | area | mob | obj | turf)
 	var/procname = input(user, "Proc name, eg: fake_blood","Proc:", null) as text | null
+=======
+ADMIN_VERB_ONLY_CONTEXT_MENU(call_proc_datum, R_DEBUG, "Atom ProcCall", datum/thing as null|area|mob|obj|turf)
+	var/procname = input(user, "Proc name, eg: fake_blood","Proc:", null) as text|null
+>>>>>>> tg-pr-88929
 	if(!procname)
 		return
 	if(!hascall(thing, procname))
@@ -252,14 +261,23 @@ ADMIN_VERB_ONLY_CONTEXT_MENU(call_proc_datum, R_DEBUG, FALSE, "Atom ProcCall", d
 	if(!thing || !is_valid_src(thing))
 		to_chat(user, span_warning("Error: callproc_datum(): owner of proc no longer exists."), confidential = TRUE)
 		return
+<<<<<<< HEAD
 	log_admin("[key_name(user)] called [thing]'s [procname]() with [length(lst) ? "the arguments [list2params(lst)]":"no arguments"].")
 	var/msg = "[key_name(user)] called [thing]'s [procname]() with [length(lst) ? "the arguments [list2params(lst)]":"no arguments"]."
+=======
+	log_admin("[key_name(user)] called [thing]'s [procname]() with [lst.len ? "the arguments [list2params(lst)]":"no arguments"].")
+	var/msg = "[key_name(user)] called [thing]'s [procname]() with [lst.len ? "the arguments [list2params(lst)]":"no arguments"]."
+>>>>>>> tg-pr-88929
 	message_admins(msg)
 	admin_ticket_log(thing, msg)
 	BLACKBOX_LOG_ADMIN_VERB("Atom ProcCall")
 
 	var/returnval = WrapAdminProcCall(thing, procname, lst) // Pass the lst as an argument list to the proc
+<<<<<<< HEAD
 	. = user.get_callproc_returnval(returnval, procname)
+=======
+	. = user.get_callproc_returnval(returnval,procname)
+>>>>>>> tg-pr-88929
 	if(.)
 		to_chat(user, ., confidential = TRUE)
 
@@ -278,7 +296,7 @@ ADMIN_VERB_ONLY_CONTEXT_MENU(call_proc_datum, R_DEBUG, FALSE, "Atom ProcCall", d
 		if(named_arg)
 			named_args[named_arg] = value["value"]
 		else
-			. += value["value"]
+			. += LIST_VALUE_WRAP_LISTS(value["value"])
 	if(LAZYLEN(named_args))
 		. += named_args
 

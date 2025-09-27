@@ -5,14 +5,20 @@
 	quality = POSITIVE
 	locked = TRUE
 	difficulty = 16
-	text_gain_indication = "<span class='notice'>Your muscles hurt!</span>"
+	text_gain_indication = span_notice("Your muscles hurt!")
 	species_allowed = list(SPECIES_HUMAN) //no skeleton/lizard hulk
 	health_req = 25
-	instability = 40
+	instability = POSITIVE_INSTABILITY_MAJOR
+	conflicts = list(/datum/mutation/human/hulk/ork)
 	var/scream_delay = 50
 	var/last_scream = 0
+	var/bodypart_color = COLOR_DARK_LIME
 	/// List of traits to add/remove when someone gets this mutation.
+<<<<<<< HEAD
 	var/list/mutation_traits = list(
+=======
+	mutation_traits = list(
+>>>>>>> tg-pr-88929
 		TRAIT_CHUNKYFINGERS,
 		TRAIT_HULK,
 		TRAIT_PUSHIMMUNE,
@@ -20,29 +26,42 @@
 	)
 	energy_coeff = 1 // MONKESTATION ADDITION
 
+<<<<<<< HEAD
 /datum/mutation/hulk/New(datum/mutation/copymut)
 	. = ..()
+=======
+/datum/mutation/human/hulk/New(class, timer, datum/mutation/human/copymut)
+	. = ..()
+	add_speechmod()
+
+/datum/mutation/human/hulk/proc/add_speechmod()
+>>>>>>> tg-pr-88929
 	AddComponent(/datum/component/speechmod, replacements = list("." = "!"), end_string = "!!", uppercase = TRUE)
 
 /datum/mutation/hulk/on_acquiring(mob/living/carbon/human/owner)
 	. = ..()
 	if(!.)
 		return
-	owner.add_traits(mutation_traits, GENETIC_MUTATION)
 	for(var/obj/item/bodypart/part as anything in owner.bodyparts)
-		part.variable_color = "#00aa00"
+		part.add_color_override(bodypart_color, LIMB_COLOR_HULK)
 	owner.update_body_parts()
 	owner.add_mood_event("hulk", /datum/mood_event/hulk)
+<<<<<<< HEAD
 	owner.physiology?.cold_mod *= HULK_COLD_DAMAGE_MOD
 	owner.bodytemp_cold_damage_limit += BODYTEMP_HULK_COLD_DAMAGE_LIMIT_MODIFIER
 	RegisterSignal(owner, COMSIG_HUMAN_EARLY_UNARMED_ATTACK, PROC_REF(on_attack_hand))
 	RegisterSignal(owner, COMSIG_MOB_CLICKON, PROC_REF(check_swing))
 	RegisterSignal(owner, COMSIG_MOB_STATCHANGE, PROC_REF(statchange))
+=======
+	RegisterSignal(owner, COMSIG_LIVING_EARLY_UNARMED_ATTACK, PROC_REF(on_attack_hand))
+	RegisterSignal(owner, COMSIG_MOB_CLICKON, PROC_REF(check_swing))
+>>>>>>> tg-pr-88929
 	owner.add_movespeed_mod_immunities("hulk", /datum/movespeed_modifier/damage_slowdown)
 
 /datum/mutation/hulk/proc/on_attack_hand(mob/living/carbon/human/source, atom/target, proximity, modifiers)
 	SIGNAL_HANDLER
 
+<<<<<<< HEAD
 	if(!proximity)
 		return
 	if(!(source.istate & ISTATE_HARM) || (source.istate & ISTATE_SECONDARY))
@@ -55,8 +74,22 @@
 		source.do_attack_animation(target, ATTACK_EFFECT_SMASH)
 //		source.changeNext_move(CLICK_CD_MELEE) // MONKESTATION EDIT OLD
 		source.changeNext_move(CLICK_CD_MELEE * (GET_MUTATION_ENERGY(src) * 1.5)) // MONKESTATION EDIT NEW -- I'm sorry
+=======
+	if(!source.combat_mode || !proximity || LAZYACCESS(modifiers, RIGHT_CLICK))
+		return NONE
+	if(!source.can_unarmed_attack())
+		return COMPONENT_SKIP_ATTACK
+	if(!target.attack_hulk(owner))
+		return NONE
+>>>>>>> tg-pr-88929
 
-		return COMPONENT_CANCEL_ATTACK_CHAIN
+	if(world.time > (last_scream + scream_delay))
+		last_scream = world.time
+		INVOKE_ASYNC(src, PROC_REF(scream_attack), source)
+	log_combat(source, target, "punched", "hulk powers")
+	source.do_attack_animation(target, ATTACK_EFFECT_SMASH)
+	source.changeNext_move(CLICK_CD_MELEE)
+	return COMPONENT_CANCEL_ATTACK_CHAIN
 
 /datum/mutation/hulk/proc/scream_attack(mob/living/carbon/human/source)
 	source.say("WAAAAAAAAAAAAAAGH!", forced="hulk")
@@ -70,7 +103,11 @@
  *Arguments:
  *arg1 is the arm to evaluate damage of and possibly break.
  */
+<<<<<<< HEAD
 /datum/mutation/hulk/proc/break_an_arm(obj/item/bodypart/arm)
+=======
+/datum/mutation/human/hulk/proc/break_an_arm(obj/item/bodypart/arm)
+>>>>>>> tg-pr-88929
 	var/severity
 	switch(arm.brute_dam)
 		if(45 to 50)
@@ -79,6 +116,14 @@
 			severity = WOUND_SEVERITY_SEVERE
 		if(35 to 41)
 			severity = WOUND_SEVERITY_MODERATE
+<<<<<<< HEAD
+=======
+
+	if (isnull(severity))
+		return
+
+	owner.cause_wound_of_type_and_severity(WOUND_BLUNT, arm, severity, wound_source = "hulk smashing")
+>>>>>>> tg-pr-88929
 
 	if (isnull(severity))
 		return
@@ -97,16 +142,20 @@
 	. = ..() // MONKESTATION EDIT NEW
 	if(.) // MONKESTATION EDIT NEW
 		return
-	owner.remove_traits(mutation_traits, GENETIC_MUTATION)
 	for(var/obj/item/bodypart/part as anything in owner.bodyparts)
-		part.variable_color = null
+		part.remove_color_override(LIMB_COLOR_HULK)
 	owner.update_body_parts()
 	owner.clear_mood_event("hulk")
+<<<<<<< HEAD
 	owner.physiology?.cold_mod /= HULK_COLD_DAMAGE_MOD
 	owner.bodytemp_cold_damage_limit -= BODYTEMP_HULK_COLD_DAMAGE_LIMIT_MODIFIER
 	UnregisterSignal(owner, COMSIG_HUMAN_EARLY_UNARMED_ATTACK)
 	UnregisterSignal(owner, COMSIG_MOB_CLICKON)
 	UnregisterSignal(owner, COMSIG_MOB_STATCHANGE)
+=======
+	UnregisterSignal(owner, COMSIG_LIVING_EARLY_UNARMED_ATTACK)
+	UnregisterSignal(owner, COMSIG_MOB_CLICKON)
+>>>>>>> tg-pr-88929
 	owner.remove_movespeed_mod_immunities("hulk", /datum/movespeed_modifier/damage_slowdown)
 
 /// How many steps it takes to throw the mob
@@ -121,7 +170,7 @@
 		return
 	if(!user.throw_mode || user.get_active_held_item() || user.zone_selected != BODY_ZONE_PRECISE_GROIN)
 		return
-	if(user.grab_state < GRAB_NECK || !iscarbon(user.pulling) || user.buckled || user.incapacitated())
+	if(user.grab_state < GRAB_NECK || !iscarbon(user.pulling) || user.buckled || user.incapacitated)
 		return
 
 	var/mob/living/carbon/possible_throwable = user.pulling
@@ -173,8 +222,13 @@
  * credit to: cogwerks, pistoleer, spyguy, angriestibm, marquesas, and stuntwaffle.
  * For each step of the swinging, with the delay getting shorter along the way. Checks to see we still have them in our grasp at each step.
  */
+<<<<<<< HEAD
 /datum/mutation/hulk/proc/swing_loop(mob/living/carbon/human/the_hulk, mob/living/carbon/yeeted_person, step, original_dir)
 	if(!yeeted_person || !the_hulk || the_hulk.incapacitated())
+=======
+/datum/mutation/human/hulk/proc/swing_loop(mob/living/carbon/human/the_hulk, mob/living/carbon/yeeted_person, step, original_dir)
+	if(!yeeted_person || !the_hulk || the_hulk.incapacitated)
+>>>>>>> tg-pr-88929
 		return
 	if(get_dist(the_hulk, yeeted_person) > 1 || !isturf(the_hulk.loc) || !isturf(yeeted_person.loc))
 		to_chat(the_hulk, span_warning("You lose your grasp on [yeeted_person]!"))
@@ -215,7 +269,7 @@
 			continue
 
 		yeeted_person.adjustBruteLoss(step*0.5)
-		playsound(collateral_mob,'sound/weapons/punch1.ogg',50,TRUE)
+		playsound(collateral_mob,'sound/items/weapons/punch1.ogg',50,TRUE)
 		log_combat(the_hulk, collateral_mob, "has smacked with tail swing victim")
 		log_combat(the_hulk, yeeted_person, "has smacked this person into someone while tail swinging") // i have no idea how to better word this
 
@@ -244,8 +298,13 @@
 		addtimer(CALLBACK(src, PROC_REF(swing_loop), the_hulk, yeeted_person, step, original_dir), delay)
 
 /// Time to toss the victim at high speed
+<<<<<<< HEAD
 /datum/mutation/hulk/proc/finish_swing(mob/living/carbon/human/the_hulk, mob/living/carbon/yeeted_person, original_dir)
 	if(!yeeted_person || !the_hulk || the_hulk.incapacitated())
+=======
+/datum/mutation/human/hulk/proc/finish_swing(mob/living/carbon/human/the_hulk, mob/living/carbon/yeeted_person, original_dir)
+	if(!yeeted_person || !the_hulk || the_hulk.incapacitated)
+>>>>>>> tg-pr-88929
 		return
 	if(get_dist(the_hulk, yeeted_person) > 1 || !isturf(the_hulk.loc) || !isturf(yeeted_person.loc))
 		to_chat(the_hulk, span_warning("You lose your grasp on [yeeted_person]!"))
@@ -265,8 +324,13 @@
 	yeeted_person.throw_at(T, 10, 6, the_hulk, TRUE, TRUE)
 	log_combat(the_hulk, yeeted_person, "has thrown by tail")
 
+<<<<<<< HEAD
 /datum/mutation/hulk/wizardly
 	name = "Hulk (Magic)"
+=======
+/datum/mutation/human/hulk/wizardly
+	name = "Hulk (Magical)"
+>>>>>>> tg-pr-88929
 	species_allowed = null //yes skeleton/lizard hulk - note that species that dont have skintone changing (like skellies) get custom handling
 	health_req = 0
 	instability = 0
@@ -278,4 +342,35 @@
 		TRAIT_STUNIMMUNE,
 	) // no chunk
 
+<<<<<<< HEAD
+=======
+/datum/mutation/human/hulk/superhuman
+	name = "Hulk (Super)"
+	health_req = 0
+	instability = 0
+	/// List of traits to add/remove when someone gets this mutation.
+	mutation_traits = list(
+		TRAIT_CHUNKYFINGERS,
+		TRAIT_HULK,
+		TRAIT_NOSOFTCRIT,
+		TRAIT_NOHARDCRIT,
+		TRAIT_PUSHIMMUNE,
+		TRAIT_STUNIMMUNE,
+		TRAIT_ANALGESIA,
+	) // fight till your last breath
+
+/datum/mutation/human/hulk/superhuman/on_life(seconds_per_tick, times_fired)
+	return
+
+/datum/mutation/human/hulk/ork
+	name = "Ork"
+	desc = "A mutation caused by a mixup of hulk genes which severely impacts speech centers in owners' brains."
+	text_gain_indication = span_notice("You feel significantly dumber!")
+	bodypart_color = COLOR_ASSISTANT_OLIVE
+	conflicts = list(/datum/mutation/human/hulk)
+
+/datum/mutation/human/hulk/ork/add_speechmod()
+	AddComponent(/datum/component/speechmod, replacements = strings("ork_replacement.json", "ork"), end_string = "!!", uppercase = TRUE)
+
+>>>>>>> tg-pr-88929
 #undef HULK_TAILTHROW_STEPS

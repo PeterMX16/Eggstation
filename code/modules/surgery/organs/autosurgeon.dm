@@ -2,7 +2,7 @@
 	name = "autosurgeon"
 	desc = "A device that automatically inserts an implant, skillchip or organ into the user without the hassle of extensive surgery. \
 		It has a slot to insert implants or organs and a screwdriver slot for removing accidentally added items."
-	icon = 'icons/obj/device.dmi'
+	icon = 'icons/obj/devices/tool.dmi'
 	icon_state = "autosurgeon"
 	inhand_icon_state = "nothing"
 	w_class = WEIGHT_CLASS_SMALL
@@ -69,25 +69,31 @@
 		to_chat(user, span_alert("[src] currently has no implant stored."))
 		return
 
-	if(!uses)
+	if(uses <= 0)
 		to_chat(user, span_alert("[src] has already been used. The tools are dull and won't reactivate."))
 		return
 
 	if(implant_time)
-		user.visible_message( "[user] prepares to use [src] on [target].", "You begin to prepare to use [src] on [target].")
-		if(!do_after(user, (8 SECONDS * surgery_speed), target))
+		user.visible_message(
+			span_notice("[user] prepares to use [src] on [target]."),
+			span_notice("You begin to prepare to use [src] on [target]."),
+		)
+		if(!do_after(user, (implant_time * surgery_speed), target))
 			return
 
 	if(target != user)
 		log_combat(user, target, "autosurgeon implanted [stored_organ] into", "[src]", "in [AREACOORD(target)]")
 		user.visible_message(span_notice("[user] presses a button on [src] as it plunges into [target]'s body."), span_notice("You press a button on [src] as it plunges into [target]'s body."))
 	else
-		user.visible_message(span_notice("[user] pressses a button on [src] as it plunges into [user.p_their()] body."), "You press a button on [src] as it plunges into your body.")
+		user.visible_message(
+			span_notice("[user] pressses a button on [src] as it plunges into [user.p_their()] body."),
+			span_notice("You press a button on [src] as it plunges into your body."),
+		)
 
 	stored_organ.Insert(target)//insert stored organ into the user
 	stored_organ = null
 	name = initial(name) //get rid of the organ in the name
-	playsound(target.loc, 'sound/weapons/circsawhit.ogg', 50, vary = TRUE)
+	playsound(target.loc, 'sound/items/weapons/circsawhit.ogg', 50, vary = TRUE)
 	update_appearance()
 
 	uses--
@@ -132,7 +138,7 @@
 	name = "autosurgeon"
 	desc = "A single use autosurgeon that contains a medical heads-up display augment. A screwdriver can be used to remove it, but implants can't be placed back in."
 	uses = 1
-	starting_organ = /obj/item/organ/internal/cyberimp/eyes/hud/medical
+	starting_organ = /obj/item/organ/cyberimp/eyes/hud/medical
 
 /obj/item/autosurgeon/perfect_serverlink
 	name = "autosurgeon"
@@ -154,9 +160,14 @@
 	surgery_speed = 0.75
 	loaded_overlay = "autosurgeon_syndicate_loaded_overlay"
 
+/obj/item/autosurgeon/syndicate/Initialize(mapload)
+	. = ..()
+	ADD_TRAIT(src, TRAIT_CONTRABAND, INNATE_TRAIT)
+
 /obj/item/autosurgeon/syndicate/laser_arm
 	desc = "A single use autosurgeon that contains a combat arms-up laser augment. A screwdriver can be used to remove it, but implants can't be placed back in."
 	uses = 1
+<<<<<<< HEAD
 	starting_organ = /obj/item/organ/internal/cyberimp/arm/item_set/gun/laser
 
 /obj/item/autosurgeon/syndicate/thermal_eyes
@@ -172,15 +183,54 @@
 
 /obj/item/autosurgeon/syndicate/reviver
 	starting_organ = /obj/item/organ/internal/cyberimp/chest/reviver/syndicate //monkestation edit end: Syndicate cybernetics
+=======
+	starting_organ = /obj/item/organ/cyberimp/arm/gun/laser
+
+/obj/item/autosurgeon/syndicate/thermal_eyes
+	starting_organ = /obj/item/organ/eyes/robotic/thermals
+
+/obj/item/autosurgeon/syndicate/thermal_eyes/single_use
+	uses = 1
+
+/obj/item/autosurgeon/syndicate/xray_eyes
+	starting_organ = /obj/item/organ/eyes/robotic/xray
+
+/obj/item/autosurgeon/syndicate/xray_eyes/single_use
+	uses = 1
+
+/obj/item/autosurgeon/syndicate/anti_stun
+	starting_organ = /obj/item/organ/cyberimp/brain/anti_stun
+
+/obj/item/autosurgeon/syndicate/anti_stun/single_use
+	uses = 1
+
+/obj/item/autosurgeon/syndicate/reviver
+	starting_organ = /obj/item/organ/cyberimp/chest/reviver
+
+/obj/item/autosurgeon/syndicate/reviver/single_use
+	uses = 1
+>>>>>>> tg-pr-88929
 
 /obj/item/autosurgeon/syndicate/commsagent
 	desc = "A device that automatically - painfully - inserts an implant. It seems someone's specially \
 	modified this one to only insert... tongues. Horrifying."
-	starting_organ = /obj/item/organ/internal/tongue
+	starting_organ = /obj/item/organ/tongue
 
 /obj/item/autosurgeon/syndicate/commsagent/Initialize(mapload)
 	. = ..()
-	organ_whitelist += /obj/item/organ/internal/tongue
+	organ_whitelist += /obj/item/organ/tongue
 
 /obj/item/autosurgeon/syndicate/emaggedsurgerytoolset
+<<<<<<< HEAD
 	starting_organ = /obj/item/organ/internal/cyberimp/arm/item_set/surgery/emagged
+=======
+	starting_organ = /obj/item/organ/cyberimp/arm/surgery/emagged
+
+/obj/item/autosurgeon/syndicate/emaggedsurgerytoolset/single_use
+	uses = 1
+
+/obj/item/autosurgeon/syndicate/contraband_sechud
+	desc = "Contains a contraband SecHUD implant, undetectable by health scanners."
+	uses = 1
+	starting_organ = /obj/item/organ/cyberimp/eyes/hud/security/syndicate
+>>>>>>> tg-pr-88929

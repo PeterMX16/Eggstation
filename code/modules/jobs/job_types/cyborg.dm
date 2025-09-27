@@ -3,8 +3,13 @@
 	description = "Assist the crew, follow your laws, obey your AI."
 	auto_deadmin_role_flags = DEADMIN_POSITION_SILICON
 	faction = FACTION_STATION
+<<<<<<< HEAD
 	total_positions = 3 //Monkestation edit - makes cyborgs joinable in join menu
 	spawn_positions = 3 //Monkestation edit - makes cyborgs joinable in join menu
+=======
+	total_positions = 0
+	spawn_positions = 3
+>>>>>>> tg-pr-88929
 	supervisors = "your laws and the AI" //Nodrak
 	spawn_type = /mob/living/silicon/robot
 	minimal_player_age = 21

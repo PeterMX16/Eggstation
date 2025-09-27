@@ -32,7 +32,6 @@ SUBSYSTEM_DEF(vote)
 
 	return SS_INIT_SUCCESS
 
-
 // Called by master_controller
 /datum/controller/subsystem/vote/fire()
 	if(!current_vote)
@@ -97,6 +96,10 @@ SUBSYSTEM_DEF(vote)
 	var/list/vote_choice_data = list()
 	for(var/choice in current_vote.choices)
 		var/choice_votes = current_vote.choices[choice]
+<<<<<<< HEAD
+=======
+		total_votes += choice_votes
+>>>>>>> tg-pr-88929
 		vote_choice_data["[choice]"] = choice_votes
 
 	// stringify the winners to prevent potential unimplemented serialization errors.
@@ -119,7 +122,11 @@ SUBSYSTEM_DEF(vote)
 	)
 	log_vote("vote finalized", vote_log_data)
 	if(to_display)
+<<<<<<< HEAD
 		to_chat(world, span_infoplain(vote_font("\n[to_display]")))
+=======
+		to_chat(world, span_infoplain(vote_font("[to_display]")))
+>>>>>>> tg-pr-88929
 
 	// Finally, doing any effects on vote completion
 	current_vote.finalize_vote(final_winner)
@@ -258,7 +265,11 @@ SUBSYSTEM_DEF(vote)
 	log_vote(to_display)
 	to_chat(world, custom_boxed_message("purple_box center", span_infoplain(vote_font("[span_bold(to_display)]<br>\
 		Type <b>vote</b> or click <a href='byond://winset?command=vote'>here</a> to place your votes.\n\
+<<<<<<< HEAD
 		You have [DisplayTimeText(duration)] to vote."))), type = MESSAGE_TYPE_OOC)
+=======
+		You have [DisplayTimeText(duration)] to vote."))))
+>>>>>>> tg-pr-88929
 
 	// And now that it's going, give everyone a voter action
 	for(var/client/new_voter as anything in GLOB.clients)
@@ -305,6 +316,45 @@ SUBSYSTEM_DEF(vote)
 
 	return TRUE
 
+/**
+ * Checks if we can start a vote.
+ *
+ * * vote_initiator - The mob that initiated the vote.
+ * * forced - Whether we're forcing the vote to go through regardless of existing votes or other circumstances.
+ *
+ * Returns TRUE if we can start a vote, FALSE if we can't.
+ */
+/datum/controller/subsystem/vote/proc/can_vote_start(mob/vote_initiator, forced)
+	// Even if it's forced we can't vote before we're set up
+	if(!MC_RUNNING(init_stage))
+		if(vote_initiator)
+			to_chat(vote_initiator, span_warning("You cannot start a vote now, the server is not done initializing."))
+		return FALSE
+
+	if(forced)
+		return TRUE
+
+	var/next_allowed_time = last_vote_time + CONFIG_GET(number/vote_delay)
+	if(next_allowed_time > world.time)
+		if(vote_initiator)
+			to_chat(vote_initiator, span_warning("A vote was initiated recently. You must wait [DisplayTimeText(next_allowed_time - world.time)] before a new vote can be started!"))
+		return FALSE
+
+	if(current_vote)
+		if(vote_initiator)
+			to_chat(vote_initiator, span_warning("There is already a vote in progress! Please wait for it to finish."))
+		return FALSE
+
+	return TRUE
+
+/datum/controller/subsystem/vote/proc/toggle_dead_voting(mob/toggle_initiator)
+	var/switch_deadvote_config = !CONFIG_GET(flag/no_dead_vote)
+	CONFIG_SET(flag/no_dead_vote, switch_deadvote_config)
+	var/text_verb = !switch_deadvote_config ? "enabled" : "disabled"
+	log_admin("[key_name(toggle_initiator)] [text_verb] Dead Vote.")
+	message_admins("[key_name_admin(toggle_initiator)] [text_verb] Dead Vote.")
+	SSblackbox.record_feedback("nested tally", "admin_toggle", 1, list("Toggle Dead Vote", text_verb))
+
 /datum/controller/subsystem/vote/ui_state()
 	return GLOB.always_state
 
@@ -324,6 +374,7 @@ SUBSYSTEM_DEF(vote)
 
 	data["user"] = list(
 		"ckey" = user.client?.ckey,
+		"isGhost" = CONFIG_GET(flag/no_dead_vote) && user.stat == DEAD && !user.client?.holder,
 		"isLowerAdmin" = is_lower_admin,
 		"isUpperAdmin" = is_upper_admin,
 		// What the current user has selected in any ongoing votes.
@@ -413,6 +464,18 @@ SUBSYSTEM_DEF(vote)
 			end_vote()
 			return TRUE
 
+<<<<<<< HEAD
+=======
+		if("toggleDeadVote")
+			if(!check_rights_for(voter.client, R_ADMIN))
+				message_admins("[key_name(voter)] tried to toggle vote abillity for ghosts while having improper rights, \
+					this is potentially a malicious exploit and worth noting.")
+				return
+
+			toggle_dead_voting(voter)
+			return TRUE
+
+>>>>>>> tg-pr-88929
 		if("toggleVote")
 			var/datum/vote/selected = possible_votes[params["voteName"]]
 			if(!istype(selected))

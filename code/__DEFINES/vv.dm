@@ -1,6 +1,6 @@
 #define VV_NUM "Number"
 #define VV_TEXT "Text"
-#define VV_MESSAGE "Mutiline Text"
+#define VV_MESSAGE "Multiline Text"
 #define VV_COLOR "Color"
 #define VV_COLOR_MATRIX "Color Matrix"
 #define VV_ICON "Icon"
@@ -107,6 +107,8 @@
 #define VV_HK_ADJUST_ANIMATIONS "adjust_animations" //Monkestation EDIT CYBERNETIC
 
 // /atom/movable
+#define VV_HK_OBSERVE_FOLLOW "observe_follow"
+#define VV_HK_GET_MOVABLE "get_movable"
 #define VV_HK_DEADCHAT_PLAYS "deadchat_plays"
 
 // /obj
@@ -116,14 +118,20 @@
 // /obj/item
 #define VV_HK_ADD_FANTASY_AFFIX "add_fantasy_affix"
 
+// /obj/narsie
+#define VV_HK_BEGIN_NARSIE_ROUNDEND "begin_narsie_roundend"
+
 // /mob
 #define VV_HK_GIB "gib"
+#define VV_HK_GIVE_MOB_ACTION "give_mob_action"
+#define VV_HK_REMOVE_MOB_ACTION "remove_mob_action"
 #define VV_HK_GIVE_SPELL "give_spell"
 #define VV_HK_REMOVE_SPELL "remove_spell"
 #define VV_HK_GIVE_DISEASE "give_disease"
 #define VV_HK_GODMODE "godmode"
 #define VV_HK_DROP_ALL "dropall"
 #define VV_HK_REGEN_ICONS "regen_icons"
+#define VV_HK_REGEN_ICONS_FULL "regen_icons_full"
 #define VV_HK_PLAYER_PANEL "player_panel"
 #define VV_HK_BUILDMODE "buildmode"
 #define VV_HK_DIRECT_CONTROL "direct_control"
@@ -133,6 +141,7 @@
 
 // /mob/living
 #define VV_HK_GIVE_SPEECH_IMPEDIMENT "impede_speech"
+#define VV_HK_ADMIN_RENAME "admin_rename"
 #define VV_HK_ADD_MOOD "addmood"
 #define VV_HK_REMOVE_MOOD "removemood"
 #define VV_HK_GIVE_HALLUCINATION "give_hallucination"
@@ -140,7 +149,6 @@
 #define VV_HK_GIVE_GUARDIAN_SPIRIT "give_guardian_spirit"
 
 // /mob/living/carbon
-#define VV_HK_MAKE_AI "aiify"
 #define VV_HK_MODIFY_BODYPART "mod_bodypart"
 #define VV_HK_MODIFY_ORGANS "organs_modify"
 #define VV_HK_MARTIAL_ART "give_martial_art"
@@ -152,6 +160,12 @@
 #define VV_HK_MOD_MUTATIONS "quirkmut"
 #define VV_HK_MOD_QUIRKS "quirkmod"
 #define VV_HK_SET_SPECIES "setspecies"
+<<<<<<< HEAD
+=======
+#define VV_HK_PURRBATION "purrbation"
+#define VV_HK_APPLY_DNA_INFUSION "apply_dna_infusion"
+#define VV_HK_TURN_INTO_MMI "turn_into_mmi"
+>>>>>>> tg-pr-88929
 
 // misc
 #define VV_HK_SPACEVINE_PURGE "spacevine_purge"
@@ -164,9 +178,12 @@
 
 #define VV_HK_WEAKREF_RESOLVE "weakref_resolve"
 
+<<<<<<< HEAD
 #define VV_HK_POSSESS_ITEM "possess_item"
 #define VV_HK_VIEW_DISEASE_DATA "disease_data"
 
+=======
+>>>>>>> tg-pr-88929
 // Flags for debug_variable() that do little things to what we end up rendering
 
 /// ALWAYS render a reduced list, useful for fuckoff big datums that need to be condensed for the sake of client load

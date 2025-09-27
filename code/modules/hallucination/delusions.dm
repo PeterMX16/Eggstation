@@ -94,7 +94,7 @@
 
 	if(play_wabbajack)
 		to_chat(hallucinator, span_hear("...wabbajack...wabbajack..."))
-		hallucinator.playsound_local(get_turf(hallucinator), 'sound/magic/staff_change.ogg', 50, TRUE)
+		hallucinator.playsound_local(get_turf(hallucinator), 'sound/effects/magic/staff_change.ogg', 50, TRUE)
 
 	if(duration > 0)
 		QDEL_IN(src, duration)
@@ -150,7 +150,7 @@
 	delusion_name = "???"
 
 /datum/hallucination/delusion/preset/monkey
-	delusion_icon_file = 'icons/mob/species/human/human.dmi'
+	delusion_icon_file = 'icons/mob/human/human.dmi'
 	delusion_icon_state = "monkey"
 	delusion_name = "monkey"
 
@@ -169,12 +169,12 @@
 	delusion_name = "carp"
 
 /datum/hallucination/delusion/preset/skeleton
-	delusion_icon_file = 'icons/mob/species/human/human.dmi'
+	delusion_icon_file = 'icons/mob/human/human.dmi'
 	delusion_icon_state = "skeleton"
 	delusion_name = "skeleton"
 
 /datum/hallucination/delusion/preset/zombie
-	delusion_icon_file = 'icons/mob/species/human/human.dmi'
+	delusion_icon_file = 'icons/mob/human/human.dmi'
 	delusion_icon_state = "zombie"
 	delusion_name = "zombie"
 
@@ -191,7 +191,7 @@
 
 /datum/hallucination/delusion/preset/cyborg/make_delusion_image(mob/over_who)
 	. = ..()
-	hallucinator.playsound_local(get_turf(over_who), 'sound/voice/liveagain.ogg', 75, TRUE)
+	hallucinator.playsound_local(get_turf(over_who), 'sound/mobs/non-humanoids/cyborg/liveagain.ogg', 75, TRUE)
 
 /datum/hallucination/delusion/preset/ghost
 	delusion_icon_file = 'icons/mob/simple/mob.dmi'
@@ -230,6 +230,34 @@
 
 	return ..()
 
+<<<<<<< HEAD
+=======
+/datum/hallucination/delusion/preset/seccies
+	dynamic_delusion = TRUE
+	random_hallucination_weight = 0
+	delusion_name = "Security"
+	affects_others = TRUE
+	affects_us = FALSE
+
+/datum/hallucination/delusion/preset/seccies/make_delusion_image(mob/over_who)
+	delusion_appearance = get_dynamic_human_appearance(
+		outfit_path = /datum/outfit/job/security,
+		bloody_slots = prob(5) ? ALL : NONE,
+		r_hand = prob(15) ? /obj/item/melee/baton/security/loaded : null,
+		l_hand = prob(15) ? /obj/item/melee/baton/security/loaded : null,
+	)
+	return ..()
+
+/// Hallucination used by the nightmare vision goggles to turn everyone except you into mares
+/datum/hallucination/delusion/preset/mare
+	delusion_icon_file = 'icons/obj/clothing/masks.dmi'
+	delusion_icon_state = "horsehead"
+	delusion_name = "mare"
+	affects_us = FALSE
+	affects_others = TRUE
+	random_hallucination_weight = 0
+
+>>>>>>> tg-pr-88929
 /// Hallucination used by the path of moon heretic to turn everyone into a lunar mass
 /datum/hallucination/delusion/preset/moon
 	delusion_icon_file = 'icons/mob/nonhuman-player/eldritch_mobs.dmi'

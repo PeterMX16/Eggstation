@@ -6,7 +6,7 @@
 /obj/machinery/power/solar
 	name = "solar panel"
 	desc = "A solar panel. Generates electricity when in contact with sunlight."
-	icon = 'icons/obj/solar.dmi'
+	icon = 'icons/obj/machines/solar.dmi'
 	icon_state = "sp_base"
 	density = TRUE
 	use_power = NO_POWER_USE
@@ -111,21 +111,22 @@
 			if(machine_stat & BROKEN)
 				playsound(loc, 'sound/effects/hit_on_shattered_glass.ogg', 60, TRUE)
 			else
-				playsound(loc, 'sound/effects/glasshit.ogg', 90, TRUE)
+				playsound(loc, 'sound/effects/glass/glasshit.ogg', 90, TRUE)
 		if(BURN)
-			playsound(loc, 'sound/items/welder.ogg', 100, TRUE)
+			playsound(loc, 'sound/items/tools/welder.ogg', 100, TRUE)
 
 
 /obj/machinery/power/solar/atom_break(damage_flag)
 	. = ..()
 	if(.)
-		playsound(loc, 'sound/effects/glassbr3.ogg', 100, TRUE)
+		playsound(loc, 'sound/effects/glass/glassbr3.ogg', 100, TRUE)
 		unset_control()
 		// Make sure user can see it's broken
 		var/new_angle = rand(160, 200)
 		visually_turn(new_angle)
 		azimuth_current = new_angle
 
+<<<<<<< HEAD
 /obj/machinery/power/solar/deconstruct(disassembled = TRUE)
 	if(!(flags_1 & NODECONSTRUCT_1))
 		if(disassembled)
@@ -144,6 +145,18 @@
 			new material_type.shard_type(get_turf(src))
 			new material_type.shard_type(get_turf(src))
 	qdel(src)
+=======
+/obj/machinery/power/solar/on_deconstruction(disassembled)
+	if(disassembled)
+		var/obj/item/solar_assembly/S = locate() in src
+		if(S)
+			S.forceMove(loc)
+			S.give_glass(machine_stat & BROKEN)
+	else
+		playsound(src, SFX_SHATTER, 70, TRUE)
+		new /obj/item/shard(src.loc)
+		new /obj/item/shard(src.loc)
+>>>>>>> tg-pr-88929
 
 /obj/machinery/power/solar/update_overlays()
 	. = ..()
@@ -181,7 +194,7 @@
 
 	// actually flip to other direction?
 	if(abs(angle - azimuth_current) > 180)
-		mid_azimuth = (mid_azimuth + 180) % 360
+		mid_azimuth = REVERSE_ANGLE(mid_azimuth)
 
 	// Split into 2 parts so it doesn't distort on large changes
 	animate(part,
@@ -260,7 +273,11 @@
 	if(sunfrac <= 0)
 		return
 
+<<<<<<< HEAD
 	var/sgen = SOLAR_GEN_RATE * sunfrac * power_tier
+=======
+	var/sgen = SOLAR_GEN_RATE * sunfrac
+>>>>>>> tg-pr-88929
 	add_avail(power_to_energy(sgen))
 	if(control)
 		control.gen += sgen
@@ -280,7 +297,7 @@
 /obj/item/solar_assembly
 	name = "solar panel assembly"
 	desc = "A solar panel assembly kit, allows constructions of a solar panel, or with a tracking circuit board, a solar tracker."
-	icon = 'icons/obj/solar.dmi'
+	icon = 'icons/obj/machines/solar.dmi'
 	icon_state = "sp_base"
 	inhand_icon_state = "electropack"
 	lefthand_file = 'icons/mob/inhands/items/devices_lefthand.dmi'
@@ -409,7 +426,7 @@
 /obj/machinery/power/solar_control
 	name = "solar panel control"
 	desc = "A controller for solar panel arrays."
-	icon = 'icons/obj/computer.dmi'
+	icon = 'icons/obj/machines/computer.dmi'
 	icon_state = "computer"
 	density = TRUE
 	use_power = IDLE_POWER_USE
@@ -429,8 +446,11 @@
 	var/obj/machinery/power/tracker/connected_tracker = null
 	var/list/connected_panels = list()
 
+<<<<<<< HEAD
 	var/total_capacity //The total amount of power we could generate with all our connected solars
 
+=======
+>>>>>>> tg-pr-88929
 	///History of power supply
 	var/list/history = list()
 	///Size of history, should be equal or bigger than the solar cycle
@@ -493,7 +513,11 @@
 
 		var/list/capacity = history["capacity"]
 		if(powernet)
+<<<<<<< HEAD
 			capacity += total_capacity
+=======
+			capacity += round(max(connected_panels.len, 1) * SOLAR_GEN_RATE)
+>>>>>>> tg-pr-88929
 		if(capacity.len > record_size)
 			capacity.Cut(1, 2)
 
@@ -518,7 +542,11 @@
 /obj/machinery/power/solar_control/ui_data()
 	var/data = list()
 	data["supply"] = round(lastgen)
+<<<<<<< HEAD
 	data["capacity"] = total_capacity
+=======
+	data["capacity"] = connected_panels.len * SOLAR_GEN_RATE
+>>>>>>> tg-pr-88929
 	data["azimuth_current"] = azimuth_target
 	data["azimuth_rate"] = azimuth_rate
 	data["max_rotation_rate"] = SSsun.base_rotation * 2
@@ -601,14 +629,14 @@
 			if(machine_stat & BROKEN)
 				playsound(src.loc, 'sound/effects/hit_on_shattered_glass.ogg', 70, TRUE)
 			else
-				playsound(src.loc, 'sound/effects/glasshit.ogg', 75, TRUE)
+				playsound(src.loc, 'sound/effects/glass/glasshit.ogg', 75, TRUE)
 		if(BURN)
-			playsound(src.loc, 'sound/items/welder.ogg', 100, TRUE)
+			playsound(src.loc, 'sound/items/tools/welder.ogg', 100, TRUE)
 
 /obj/machinery/power/solar_control/atom_break(damage_flag)
 	. = ..()
 	if(.)
-		playsound(loc, 'sound/effects/glassbr3.ogg', 100, TRUE)
+		playsound(loc, 'sound/effects/glass/glassbr3.ogg', 100, TRUE)
 
 /obj/machinery/power/solar_control/process()
 	lastgen = gen

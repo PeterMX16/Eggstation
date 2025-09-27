@@ -38,6 +38,7 @@
 
 	var/list/old_field_turfs = field_turfs
 	var/list/old_edge_turfs = edge_turfs
+<<<<<<< HEAD
 	//MONKESTATION EDIT START
 	var/list/field_turfs_overlap = full_recalc ? list() : new_turfs[FIELD_TURFS_KEY]
 	var/list/edge_turfs_overlap = full_recalc ? list() : new_turfs[EDGE_TURFS_KEY]
@@ -48,6 +49,19 @@
 		cleanup_field_turf(old_turf)
 		field_turfs -= old_turf
 	for(var/turf/old_turf as anything in old_edge_turfs - edge_turfs_overlap)
+=======
+	field_turfs = new_turfs[FIELD_TURFS_KEY]
+	edge_turfs = new_turfs[EDGE_TURFS_KEY]
+	if(full_recalc)
+		field_turfs = list()
+		edge_turfs = list()
+
+	for(var/turf/old_turf as anything in old_field_turfs - field_turfs)
+		if(QDELETED(src))
+			return
+		cleanup_field_turf(old_turf)
+	for(var/turf/old_turf as anything in old_edge_turfs - edge_turfs)
+>>>>>>> tg-pr-88929
 		if(QDELETED(src))
 			return
 		cleanup_edge_turf(old_turf)
@@ -56,6 +70,7 @@
 	if(full_recalc)
 		old_field_turfs = list()
 		old_edge_turfs = list()
+<<<<<<< HEAD
 
 	for(var/turf/new_turf as anything in new_turfs[FIELD_TURFS_KEY] - old_field_turfs)
 		if(QDELETED(src))
@@ -66,6 +81,19 @@
 		if(QDELETED(src))
 			return
 		edge_turfs += new_turf
+=======
+		field_turfs = new_turfs[FIELD_TURFS_KEY]
+		edge_turfs = new_turfs[EDGE_TURFS_KEY]
+
+	for(var/turf/new_turf as anything in field_turfs - old_field_turfs)
+		if(QDELETED(src))
+			return
+		setup_field_turf(new_turf)
+
+	for(var/turf/new_turf as anything in edge_turfs - old_edge_turfs)
+		if(QDELETED(src))
+			return
+>>>>>>> tg-pr-88929
 		setup_edge_turf(new_turf)
 	//MONKESTATION EDIT END
 
@@ -127,7 +155,11 @@
 	var/turf/center = get_turf(host)
 	if(current_range > 0)
 		local_field_turfs += RANGE_TURFS(current_range - 1, center)
+<<<<<<< HEAD
 	if(current_range >= 0) //monkestation edit: Range of 0 is 1 tile, and we count it as an edge turf.
+=======
+	if(current_range > 1)
+>>>>>>> tg-pr-88929
 		local_edge_turfs = RANGE_TURFS(current_range, center) - local_field_turfs
 	return list(FIELD_TURFS_KEY = local_field_turfs, EDGE_TURFS_KEY = local_edge_turfs)
 

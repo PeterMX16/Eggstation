@@ -44,4 +44,3 @@
 	test_tray.melee_attack_chain(human, human)
 
 	TEST_ASSERT_EQUAL(test_tray.contents.len, 0, "The serving tray did not drop all items on hitting a human")
-

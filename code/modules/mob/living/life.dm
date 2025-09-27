@@ -8,6 +8,7 @@
  */
 /mob/living/proc/Life(seconds_per_tick = SSMOBS_DT, times_fired)
 	set waitfor = FALSE
+	SHOULD_NOT_SLEEP(TRUE)
 
 	var/signal_result = SEND_SIGNAL(src, COMSIG_LIVING_LIFE, seconds_per_tick, times_fired)
 
@@ -18,9 +19,9 @@
 		var/turf/T = get_turf(src)
 		if(!T)
 			move_to_error_room()
-			var/msg = "[ADMIN_LOOKUPFLW(src)] was found to have no .loc with an attached client, if the cause is unknown it would be wise to ask how this was accomplished."
-			message_admins(msg)
-			send2tgs_adminless_only("Mob", msg, R_ADMIN)
+			var/msg = " was found to have no .loc with an attached client, if the cause is unknown it would be wise to ask how this was accomplished."
+			message_admins(ADMIN_LOOKUPFLW(src) + msg)
+			send2tgs_adminless_only("Mob", key_name_and_tag(src) + msg, R_ADMIN)
 			src.log_message("was found to have no .loc with an attached client.", LOG_GAME)
 
 		// This is a temporary error tracker to make sure we've caught everything
@@ -42,8 +43,6 @@
 		if(stat != DEAD)
 			//Mutations and radiation
 			handle_mutations(seconds_per_tick, times_fired)
-
-		if(stat != DEAD)
 			//Breathing, if applicable
 			handle_breathing(seconds_per_tick, times_fired)
 
@@ -51,10 +50,6 @@
 
 		if (QDELETED(src)) // diseases can qdel the mob via transformations
 			return
-
-		if(stat != DEAD)
-			//Random events (vomiting etc)
-			handle_random_events(seconds_per_tick, times_fired)
 
 		//Handle temperature/pressure differences between body and environment
 		var/datum/gas_mixture/environment = loc.return_air()
@@ -68,6 +63,7 @@
 
 		handle_gravity(seconds_per_tick, times_fired)
 
+<<<<<<< HEAD
 	if(stat != DEAD)
 		body_temperature_alerts()
 
@@ -75,6 +71,9 @@
 
 	if(machine)
 		machine.check_eye(src)
+=======
+	handle_wounds(seconds_per_tick, times_fired)
+>>>>>>> tg-pr-88929
 
 	if(living_flags & QUEUE_NUTRITION_UPDATE)
 		mob_mood?.update_nutrition_moodlets()
@@ -97,6 +96,7 @@
 /mob/living/proc/handle_wounds(seconds_per_tick, times_fired)
 	return
 
+<<<<<<< HEAD
 /mob/living/proc/handle_random_events(seconds_per_tick, times_fired)
 	return
 
@@ -111,6 +111,9 @@
  * * seconds_per_tick: The amount of time that has elapsed since this last fired.
  * * times_fired: The number of times SSmobs has fired
  */
+=======
+// Base mob environment handler for body temperature
+>>>>>>> tg-pr-88929
 /mob/living/proc/handle_environment(datum/gas_mixture/environment, seconds_per_tick, times_fired)
 	var/loc_temp = get_temperature(environment)
 	var/temp_delta = loc_temp - bodytemperature
@@ -157,8 +160,15 @@
 /mob/living/proc/get_fullness(only_consumable)
 	var/fullness = nutrition
 	// we add the nutrition value of what we're currently digesting
+<<<<<<< HEAD
 	for(var/datum/reagent/consumable/bits in reagents.reagent_list)
 		fullness += bits.nutriment_factor * bits.volume / bits.metabolization_rate
+=======
+	for(var/bile in reagents.reagent_list)
+		var/datum/reagent/consumable/bits = bile
+		if(bits)
+			fullness += bits.get_nutriment_factor(src) * bits.volume / bits.metabolization_rate
+>>>>>>> tg-pr-88929
 	return fullness
 
 /**

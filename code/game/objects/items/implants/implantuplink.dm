@@ -1,7 +1,7 @@
 /obj/item/implant/uplink
 	name = "uplink implant"
 	desc = "Sneeki breeki."
-	icon = 'icons/obj/radio.dmi'
+	icon = 'icons/obj/devices/voice.dmi'
 	icon_state = "radio"
 	lefthand_file = 'icons/mob/inhands/items/devices_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/items/devices_righthand.dmi'
@@ -36,8 +36,15 @@
  */
 /obj/item/implant/uplink/proc/on_component_removing(datum/source, datum/component/component)
 	SIGNAL_HANDLER
+<<<<<<< HEAD
 	if(QDELING(src))
 		return
+=======
+
+	if (QDELING(src))
+		return
+
+>>>>>>> tg-pr-88929
 	if(istype(component, /datum/component/uplink))
 		qdel(src)
 

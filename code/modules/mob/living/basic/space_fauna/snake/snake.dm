@@ -13,12 +13,20 @@
 	melee_damage_upper = 6
 	obj_damage = 0
 	environment_smash = ENVIRONMENT_SMASH_NONE
+<<<<<<< HEAD
 	//how many units of venom are injected
+=======
+	//how many units of venom are injected in target per attack
+>>>>>>> tg-pr-88929
 	var/venom_dose = 4
 
 	attack_verb_continuous = "bites"
 	attack_verb_simple = "bite"
+<<<<<<< HEAD
 	attack_sound = 'sound/weapons/bite.ogg'
+=======
+	attack_sound = 'sound/items/weapons/bite.ogg'
+>>>>>>> tg-pr-88929
 	attack_vis_effect = ATTACK_EFFECT_BITE
 
 	response_help_continuous = "pets"
@@ -52,7 +60,11 @@
 	AddElement(/datum/element/swabable, CELL_LINE_TABLE_SNAKE, CELL_VIRUS_TABLE_GENERIC_MOB, 1, 5)
 
 	AddElement(/datum/element/basic_eating, heal_amt = 2, food_types = edibles)
+<<<<<<< HEAD
 	ai_controller.set_blackboard_key(BB_BASIC_FOODS, edibles)
+=======
+	ai_controller.set_blackboard_key(BB_BASIC_FOODS, typecacheof(edibles))
+>>>>>>> tg-pr-88929
 
 	AddComponent(\
 		/datum/component/tameable,\
@@ -73,7 +85,11 @@
 /// Snakes are primarily concerned with getting those tasty, tasty mice, but aren't afraid to strike back at those who attack them
 /datum/ai_controller/basic_controller/snake
 	blackboard = list(
+<<<<<<< HEAD
 		BB_TARGETING_STRATEGY = /datum/targeting_strategy/basic/not_friends/allow_items,
+=======
+		BB_TARGETING_STRATEGY = /datum/targeting_strategy/basic/not_friends,
+>>>>>>> tg-pr-88929
 	)
 
 	ai_traits = STOP_MOVING_WHEN_PULLED
@@ -82,7 +98,12 @@
 
 	planning_subtrees = list(
 		/datum/ai_planning_subtree/target_retaliate,
+<<<<<<< HEAD
 		/datum/ai_planning_subtree/find_food,
 		/datum/ai_planning_subtree/basic_melee_attack_subtree,
+=======
+		/datum/ai_planning_subtree/basic_melee_attack_subtree,
+		/datum/ai_planning_subtree/find_food,
+>>>>>>> tg-pr-88929
 		/datum/ai_planning_subtree/random_speech/snake,
 	)

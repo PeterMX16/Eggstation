@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Channel, ChannelIterator } from './ChannelIterator';
 import { ChatHistory } from './ChatHistory';
 import { Component, createRef, InfernoKeyboardEvent, RefObject } from 'inferno';
@@ -7,6 +8,18 @@ import { dragStartHandler } from 'tgui/drag';
 import { windowOpen, windowClose, windowSet } from './helpers';
 import { BooleanLike } from 'common/react';
 import { isEscape, KEY } from 'common/keys';
+=======
+import { Component, createRef, RefObject } from 'react';
+import { dragStartHandler } from 'tgui/drag';
+import { isEscape, KEY } from 'tgui-core/keys';
+import { BooleanLike } from 'tgui-core/react';
+
+import { Channel, ChannelIterator } from './ChannelIterator';
+import { ChatHistory } from './ChatHistory';
+import { LINE_LENGTHS, RADIO_PREFIXES, WINDOW_SIZES } from './constants';
+import { windowClose, windowOpen, windowSet } from './helpers';
+import { byondMessages } from './timers';
+>>>>>>> tg-pr-88929
 
 type ByondOpen = {
   channel: Channel;
@@ -15,7 +28,10 @@ type ByondOpen = {
 type ByondProps = {
   maxLength: number;
   lightMode: BooleanLike;
+<<<<<<< HEAD
   scale: BooleanLike;
+=======
+>>>>>>> tg-pr-88929
 };
 
 type State = {
@@ -25,6 +41,7 @@ type State = {
 
 const CHANNEL_REGEX = /^[:.]\w\s/;
 
+<<<<<<< HEAD
 const ROWS: Record<keyof typeof WINDOW_SIZES, number> = {
   small: 1,
   medium: 2,
@@ -32,6 +49,8 @@ const ROWS: Record<keyof typeof WINDOW_SIZES, number> = {
   width: 1, // not used
 } as const;
 
+=======
+>>>>>>> tg-pr-88929
 export class TguiSay extends Component<{}, State> {
   private channelIterator: ChannelIterator;
   private chatHistory: ChatHistory;
@@ -40,9 +59,12 @@ export class TguiSay extends Component<{}, State> {
   private lightMode: boolean;
   private maxLength: number;
   private messages: typeof byondMessages;
+<<<<<<< HEAD
   private scale: boolean;
   private position: [number, number];
   private isDragging: boolean;
+=======
+>>>>>>> tg-pr-88929
   state: State;
 
   constructor(props: never) {
@@ -55,9 +77,12 @@ export class TguiSay extends Component<{}, State> {
     this.lightMode = false;
     this.maxLength = 1024;
     this.messages = byondMessages;
+<<<<<<< HEAD
     this.scale = true;
     this.position = [window.screenX, window.screenY];
     this.isDragging = false;
+=======
+>>>>>>> tg-pr-88929
     this.state = {
       buttonContent: '',
       size: WINDOW_SIZES.small,
@@ -65,8 +90,11 @@ export class TguiSay extends Component<{}, State> {
 
     this.handleArrowKeys = this.handleArrowKeys.bind(this);
     this.handleBackspaceDelete = this.handleBackspaceDelete.bind(this);
+<<<<<<< HEAD
     this.handleButtonClick = this.handleButtonClick.bind(this);
     this.handleButtonRelease = this.handleButtonRelease.bind(this);
+=======
+>>>>>>> tg-pr-88929
     this.handleClose = this.handleClose.bind(this);
     this.handleEnter = this.handleEnter.bind(this);
     this.handleForceSay = this.handleForceSay.bind(this);
@@ -86,10 +114,17 @@ export class TguiSay extends Component<{}, State> {
     Byond.subscribeTo('open', this.handleOpen);
   }
 
+<<<<<<< HEAD
   handleArrowKeys(direction: KEY.Up | KEY.Down | KEY.ArrowUp | KEY.ArrowDown) {
     const currentValue = this.innerRef.current?.value;
 
     if (direction === KEY.Up || direction === KEY.ArrowUp) {
+=======
+  handleArrowKeys(direction: KEY.Up | KEY.Down) {
+    const currentValue = this.innerRef.current?.value;
+
+    if (direction === KEY.Up) {
+>>>>>>> tg-pr-88929
       if (this.chatHistory.isAtLatest() && currentValue) {
         // Save current message to temp history if at the most recent message
         this.chatHistory.saveTemp(currentValue);
@@ -138,6 +173,7 @@ export class TguiSay extends Component<{}, State> {
     this.setSize(typed?.length);
   }
 
+<<<<<<< HEAD
   handleButtonClick(event: MouseEvent): void {
     this.isDragging = true;
 
@@ -162,6 +198,8 @@ export class TguiSay extends Component<{}, State> {
     this.handleIncrementChannel();
   }
 
+=======
+>>>>>>> tg-pr-88929
   handleClose() {
     const current = this.innerRef.current;
 
@@ -173,7 +211,11 @@ export class TguiSay extends Component<{}, State> {
     this.chatHistory.reset();
     this.channelIterator.reset();
     this.currentPrefix = null;
+<<<<<<< HEAD
     windowClose(this.scale);
+=======
+    windowClose();
+>>>>>>> tg-pr-88929
   }
 
   handleEnter() {
@@ -201,7 +243,11 @@ export class TguiSay extends Component<{}, State> {
       ? prefix + currentValue
       : currentValue;
 
+<<<<<<< HEAD
     this.messages.forceSayMsg(grunt);
+=======
+    this.messages.forceSayMsg(grunt, this.channelIterator.current());
+>>>>>>> tg-pr-88929
     this.reset();
   }
 
@@ -262,12 +308,19 @@ export class TguiSay extends Component<{}, State> {
     this.setValue(typed.slice(3));
   }
 
+<<<<<<< HEAD
   handleKeyDown(event: InfernoKeyboardEvent<HTMLTextAreaElement>) {
     switch (event.key) {
       case KEY.Up:
       case KEY.Down:
       case KEY.ArrowUp:
       case KEY.ArrowDown:
+=======
+  handleKeyDown(event) {
+    switch (event.key) {
+      case KEY.Up:
+      case KEY.Down:
+>>>>>>> tg-pr-88929
         event.preventDefault();
         this.handleArrowKeys(event.key);
         break;
@@ -295,6 +348,13 @@ export class TguiSay extends Component<{}, State> {
   }
 
   handleOpen = (data: ByondOpen) => {
+<<<<<<< HEAD
+=======
+    setTimeout(() => {
+      this.innerRef.current?.focus();
+    }, 0);
+
+>>>>>>> tg-pr-88929
     const { channel } = data;
     // Catches the case where the modal is already open
     if (this.channelIterator.isSay()) {
@@ -302,6 +362,7 @@ export class TguiSay extends Component<{}, State> {
     }
     this.setState({ buttonContent: this.channelIterator.current() });
 
+<<<<<<< HEAD
     windowOpen(this.channelIterator.current(), this.scale);
 
     const input = this.innerRef.current;
@@ -318,6 +379,19 @@ export class TguiSay extends Component<{}, State> {
   };
 
   reset() {
+=======
+    windowOpen(this.channelIterator.current());
+  };
+
+  handleProps = (data: ByondProps) => {
+    const { maxLength, lightMode } = data;
+    this.maxLength = maxLength;
+    this.lightMode = !!lightMode;
+  };
+
+  reset() {
+    this.currentPrefix = null;
+>>>>>>> tg-pr-88929
     this.setValue('');
     this.setSize();
     this.setState({
@@ -338,7 +412,11 @@ export class TguiSay extends Component<{}, State> {
 
     if (this.state.size !== newSize) {
       this.setState({ size: newSize });
+<<<<<<< HEAD
       windowSet(newSize, this.scale);
+=======
+      windowSet(newSize);
+>>>>>>> tg-pr-88929
     }
   }
 
@@ -356,6 +434,7 @@ export class TguiSay extends Component<{}, State> {
       this.channelIterator.current();
 
     return (
+<<<<<<< HEAD
       <div
         className={`window window-${theme} window-${this.state.size}`}
         $HasKeyedChildren
@@ -374,19 +453,35 @@ export class TguiSay extends Component<{}, State> {
               className={`button button-${theme}`}
               onMouseDown={this.handleButtonClick}
               onMouseUp={this.handleButtonRelease}
+=======
+      <div className={`window window-${theme} window-${this.state.size}`}>
+        <Dragzone position="top" theme={theme} />
+        <div className="center">
+          <Dragzone position="left" theme={theme} />
+          <div className="input">
+            <button
+              className={`button button-${theme}`}
+              onClick={this.handleIncrementChannel}
+>>>>>>> tg-pr-88929
               type="button"
             >
               {this.state.buttonContent}
             </button>
             <textarea
+<<<<<<< HEAD
               autoCorrect="off"
+=======
+>>>>>>> tg-pr-88929
               className={`textarea textarea-${theme}`}
               maxLength={this.maxLength}
               onInput={this.handleInput}
               onKeyDown={this.handleKeyDown}
               ref={this.innerRef}
+<<<<<<< HEAD
               spellCheck={false}
               rows={ROWS[this.state.size] || 1}
+=======
+>>>>>>> tg-pr-88929
             />
           </div>
           <Dragzone position="right" theme={theme} />
@@ -405,7 +500,11 @@ const Dragzone = ({ theme, position }: { theme: string; position: string }) => {
   return (
     <div
       className={`dragzone-${location} dragzone-${position} dragzone-${theme}`}
+<<<<<<< HEAD
       onmousedown={dragStartHandler}
+=======
+      onMouseDown={dragStartHandler}
+>>>>>>> tg-pr-88929
     />
   );
 };

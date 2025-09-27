@@ -279,6 +279,7 @@
 						"Black" = "black_mech_suit",
 						)
 
+
 /obj/item/clothing/under/costume/russian_officer
 	name = "\improper Russian officer's uniform"
 	desc = "The latest in fashionable russian outfits."
@@ -287,15 +288,14 @@
 	inhand_icon_state = null
 	worn_icon = 'icons/mob/clothing/under/security.dmi'
 	alt_covers_chest = TRUE
-	armor_type = /datum/armor/costume_russian_officer
+	armor_type = /datum/armor/clothing_under/costume_russian_officer
 	strip_delay = 50
 	sensor_mode = SENSOR_COORDS
 	random_sensor = FALSE
 	can_adjust = FALSE
 
-/datum/armor/costume_russian_officer
+/datum/armor/clothing_under/costume_russian_officer
 	melee = 10
-	bio = 10
 	fire = 30
 	acid = 30
 
@@ -306,25 +306,44 @@
 	icon = 'icons/obj/clothing/under/shorts_pants_shirts.dmi'
 	worn_icon = 'icons/mob/clothing/under/shorts_pants_shirts.dmi'
 	species_exception = list(/datum/species/golem)
-	can_adjust = FALSE
+	can_adjust = TRUE
+	alt_covers_chest = TRUE
 
 /obj/item/clothing/under/costume/buttondown/slacks
 	name = "buttondown shirt with slacks"
 	desc = "A fancy buttondown shirt with slacks."
 	icon_state = "buttondown_slacks"
 	greyscale_config = /datum/greyscale_config/buttondown_slacks
-	greyscale_config_worn = /datum/greyscale_config/buttondown_slacks_worn
+	greyscale_config_worn = /datum/greyscale_config/buttondown_slacks/worn
 	greyscale_colors = "#EEEEEE#EE8E2E#222227#D8D39C"
 	flags_1 = IS_PLAYER_COLORABLE_1
+
+/obj/item/clothing/under/costume/buttondown/slacks/service //preset one to be a formal white shirt and black pants
+	greyscale_colors = "#EEEEEE#CBDBFC#17171B#222227"
 
 /obj/item/clothing/under/costume/buttondown/shorts
 	name = "buttondown shirt with shorts"
 	desc = "A fancy buttondown shirt with shorts."
 	icon_state = "buttondown_shorts"
 	greyscale_config = /datum/greyscale_config/buttondown_shorts
-	greyscale_config_worn = /datum/greyscale_config/buttondown_shorts_worn
+	greyscale_config_worn = /datum/greyscale_config/buttondown_shorts/worn
 	greyscale_colors = "#EEEEEE#EE8E2E#222227#D8D39C"
 	flags_1 = IS_PLAYER_COLORABLE_1
+
+/obj/item/clothing/under/costume/buttondown/skirt
+	name = "buttondown shirt with skirt"
+	desc = "A fancy buttondown shirt with skirt."
+	icon_state = "buttondown_skirt"
+	greyscale_config = /datum/greyscale_config/buttondown_skirt
+	greyscale_config_worn = /datum/greyscale_config/buttondown_skirt/worn
+	greyscale_colors = "#EEEEEE#EE8E2E#222227#D8D39C"
+	body_parts_covered = CHEST|GROIN|ARMS
+	flags_1 = IS_PLAYER_COLORABLE_1
+	female_sprite_flags = FEMALE_UNIFORM_TOP_ONLY
+	supports_variations_flags = CLOTHING_DIGITIGRADE_VARIATION_NO_NEW_ICON
+
+/obj/item/clothing/under/costume/buttondown/skirt/service //preset one to be a formal white shirt and black skirt
+	greyscale_colors = "#EEEEEE#CBDBFC#17171B#222227"
 
 /obj/item/clothing/under/costume/jackbros
 	name = "jack bros outfit"
@@ -344,7 +363,7 @@
 	icon_state = "football_suit"
 	can_adjust = FALSE
 	greyscale_config = /datum/greyscale_config/football_suit
-	greyscale_config_worn = /datum/greyscale_config/football_suit_worn
+	greyscale_config_worn = /datum/greyscale_config/football_suit/worn
 	greyscale_colors = "#D74722"
 	flags_1 = IS_PLAYER_COLORABLE_1
 
@@ -381,7 +400,11 @@
 	inhand_icon_state = null
 	can_adjust = FALSE
 
+<<<<<<< HEAD
 // For the nuke-ops cowboy fit.
+=======
+// For the nuke-ops cowboy fit. Sadly no Lone Ranger fit & I don't wanna bloat costume files further.
+>>>>>>> tg-pr-88929
 /obj/item/clothing/under/costume/dutch/syndicate
 	desc = "You can feel a <b>god damn plan</b> coming on, and the armor lining in this suit'll do wonders in makin' it work."
 	armor_type = /datum/armor/clothing_under/syndicate
@@ -399,13 +422,18 @@
 	can_adjust = FALSE
 
 /obj/item/clothing/under/costume/gi
-	name = "Martial Artist Gi"
+	name = "martial gi"
 	desc = "Assistant, nukie, whatever. You can beat anyone; it's called hard work!"
 	icon_state = "martial_arts_gi"
+	greyscale_config = /datum/greyscale_config/gi
+	greyscale_config_worn = /datum/greyscale_config/gi/worn
+	greyscale_colors = "#f1eeee#000000"
+	flags_1 = IS_PLAYER_COLORABLE_1
 	inhand_icon_state = null
 	female_sprite_flags = NO_FEMALE_UNIFORM
 	can_adjust = FALSE
 
+<<<<<<< HEAD
 /obj/item/clothing/under/costume/susie
 	name = "Rude Jacket"
 	desc = "A replica of the black and purple jacket a legendary lizard wore while saving the world."
@@ -433,3 +461,58 @@
 	desc = "A costume fit for an ace of spades, club, diamonds and hearts. It's a suit of suits."
 	icon_state = "jimbo"
 	can_adjust = FALSE
+=======
+/obj/item/clothing/under/costume/gi/Initialize(mapload)
+	. = ..()
+	AddElement(/datum/element/gags_recolorable)
+	update_icon(UPDATE_OVERLAYS)
+
+/obj/item/clothing/under/costume/gi/goku
+	name = "sacred gi"
+	desc = "Created by a man who touched the hearts and lives of many."
+	icon_state = "martial_arts_gi_goku"
+	greyscale_colors = "#f89925#3e6dd7"
+
+/obj/item/clothing/under/costume/traditional
+	name = "traditional suit"
+	desc = "A full, vibrantly coloured suit. Likely with traditional purposes. Maybe the colours represent a familly, clan, or rank, who knows."
+	icon_state = "tradition"
+	inhand_icon_state = null
+	female_sprite_flags = NO_FEMALE_UNIFORM
+	can_adjust = FALSE
+
+/obj/item/clothing/under/costume/loincloth
+	name = "leather loincloth"
+	desc = "Just a piece of leather to cover private areas. Itchy to the touch. Whoever made this must have been desperate, or savage."
+	icon_state = "loincloth"
+	inhand_icon_state = null
+	body_parts_covered = GROIN
+	female_sprite_flags = NO_FEMALE_UNIFORM
+	can_adjust = TRUE
+	alt_covers_chest = TRUE
+
+/obj/item/clothing/under/costume/henchmen
+	name = "henchmen jumpsuit"
+	desc = "A very gaudy jumpsuit for a proper Henchman. Guild regulations, you understand."
+	icon = 'icons/obj/clothing/under/syndicate.dmi'
+	worn_icon = 'icons/mob/clothing/under/syndicate.dmi'
+	icon_state = "henchmen"
+	inhand_icon_state = null
+	body_parts_covered = CHEST|GROIN|LEGS|FEET|ARMS|HANDS|HEAD
+	flags_inv = HIDEGLOVES|HIDESHOES|HIDEEARS|HIDEEYES|HIDEHAIR
+
+/obj/item/clothing/under/costume/gamberson
+	name = "re-enactor's Gamberson"
+	desc = "A colorful set of clothes made to look like a medieval gamberson."
+	icon_state = "gamberson"
+	inhand_icon_state = null
+	female_sprite_flags = NO_FEMALE_UNIFORM
+	can_adjust = FALSE
+
+/obj/item/clothing/under/costume/gamberson/military
+	name = "swordsman's Gamberson"
+	desc = "A padded medieval gamberson. Has enough woolen layers to dull a strike from any small weapon."
+	armor_type = /datum/armor/clothing_under/rank_security
+	has_sensor = NO_SENSORS
+
+>>>>>>> tg-pr-88929

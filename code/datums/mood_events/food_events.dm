@@ -23,14 +23,22 @@
 	mood_change = 2
 	timeout = 10 MINUTES
 
+<<<<<<< HEAD
 /* monkestation removal - food complexity is unported
 /datum/mood_event/food
 	timeout = 5 MINUTES
 	var/quality = FOOD_QUALITY_NORMAL
+=======
+/datum/mood_event/food
+	timeout = 5 MINUTES
+	var/quality = FOOD_QUALITY_NORMAL
+
+>>>>>>> tg-pr-88929
 /datum/mood_event/food/New(mob/M, ...)
 	. = ..()
 	mood_change = 2 + 2 * quality
 	description = "That food was [GLOB.food_quality_description[quality]]."
+<<<<<<< HEAD
 /datum/mood_event/food/nice
 	quality = FOOD_QUALITY_NICE
 /datum/mood_event/food/good
@@ -44,3 +52,28 @@
 /datum/mood_event/food/top
 	quality = FOOD_QUALITY_TOP
 */
+=======
+
+/datum/mood_event/food/nice
+	quality = FOOD_QUALITY_NICE
+
+/datum/mood_event/food/good
+	quality = FOOD_QUALITY_GOOD
+
+/datum/mood_event/food/verygood
+	quality = FOOD_QUALITY_VERYGOOD
+
+/datum/mood_event/food/fantastic
+	quality = FOOD_QUALITY_FANTASTIC
+
+/datum/mood_event/food/amazing
+	quality = FOOD_QUALITY_AMAZING
+
+/datum/mood_event/food/top
+	quality = FOOD_QUALITY_TOP
+
+/datum/mood_event/pacifist_eating_fish_item
+	description = "I shouldn't be eating living creatures..."
+	mood_change = -1 //The disgusting food moodlet already has a pretty big negative value, this is just for context.
+	timeout = 4 MINUTES
+>>>>>>> tg-pr-88929

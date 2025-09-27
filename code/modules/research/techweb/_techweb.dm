@@ -77,6 +77,10 @@
 	  * research_queue_nodes[node_id] = user_enqueued
 	*/
 	var/list/research_queue_nodes = list()
+<<<<<<< HEAD
+=======
+
+>>>>>>> tg-pr-88929
 
 /datum/techweb/New()
 	SSresearch.techwebs += src
@@ -148,7 +152,7 @@
 /datum/techweb/proc/copy_research_to(datum/techweb/receiver) //Adds any missing research to theirs.
 	for(var/i in receiver.hidden_nodes)
 		CHECK_TICK
-		if(available_nodes[i] || researched_nodes[i] || visible_nodes[i])
+		if(get_available_nodes()[i] || get_researched_nodes()[i] || get_visible_nodes()[i])
 			receiver.hidden_nodes -= i //We can see it so let them see it too.
 	for(var/i in researched_nodes - receiver.researched_nodes)
 		CHECK_TICK
@@ -218,7 +222,8 @@
 	else
 		researched_designs[design.id] = TRUE
 
-	hidden_nodes -= design.id
+	for(var/list/datum/techweb_node/unlocked_nodes as anything in design.unlocked_by)
+		hidden_nodes -= unlocked_nodes
 
 	return TRUE
 
@@ -317,11 +322,15 @@
 	var/points_rewarded
 	if(completed_experiment.points_reward)
 		add_point_list(completed_experiment.points_reward)
+<<<<<<< HEAD
 		points_rewarded = ",[refund > 0 ? " and" : ""] rewarding "
 		var/list/english_list_keys = list()
 		for(var/points_type in completed_experiment.points_reward)
 			english_list_keys += "[completed_experiment.points_reward[points_type]] [points_type]"
 		points_rewarded += "[english_list(english_list_keys)] points"
+=======
+		points_rewarded = ",[refund > 0 ? " and" : ""] rewarding [completed_experiment.get_points_reward_text()]"
+>>>>>>> tg-pr-88929
 		result_text += points_rewarded
 	result_text += "!"
 
@@ -332,6 +341,7 @@
 	return techweb_point_display_generic(research_points)
 
 /datum/techweb/proc/enqueue_node(id, mob/user)
+<<<<<<< HEAD
 	var/is_rd = FALSE
 	if(isliving(user))
 		var/mob/living/living_user = user
@@ -342,6 +352,18 @@
 	if(id in research_queue_nodes)
 		if(is_rd)
 			research_queue_nodes.Remove(id)
+=======
+	var/queue_first = FALSE
+	if(istype(user, /mob/living/carbon/human))
+		var/mob/living/carbon/human/human_user = user
+		var/list/access = human_user.wear_id?.GetAccess()
+		if(ACCESS_RD in access)
+			queue_first = TRUE
+
+	if(id in research_queue_nodes)
+		if(queue_first)
+			research_queue_nodes.Remove(id) // Remove to be able to place first
+>>>>>>> tg-pr-88929
 		else
 			return FALSE
 
@@ -349,7 +371,11 @@
 		if(research_queue_nodes[node_id] == user)
 			research_queue_nodes.Remove(node_id)
 
+<<<<<<< HEAD
 	if (is_rd)
+=======
+	if (queue_first)
+>>>>>>> tg-pr-88929
 		research_queue_nodes.Insert(1, id)
 	research_queue_nodes[id] = user
 
@@ -400,6 +426,10 @@
 			add_experiments(unlocked_node.discount_experiments)
 		update_node_status(unlocked_node)
 
+	// Gain more new experiments
+	if (node.experiments_to_unlock.len)
+		add_experiments(node.experiments_to_unlock)
+
 	// Unlock what the research actually unlocks
 	for(var/id in node.design_ids)
 		add_design_by_id(id)
@@ -416,6 +446,10 @@
 	// Dequeue
 	if(node.id in research_queue_nodes)
 		research_queue_nodes.Remove(node.id)
+<<<<<<< HEAD
+=======
+
+>>>>>>> tg-pr-88929
 	return TRUE
 
 /datum/techweb/proc/unresearch_node_id(id)
@@ -443,6 +477,11 @@
 	if(!istype(node))
 		return FALSE
 	hidden_nodes -= node.id
+<<<<<<< HEAD
+=======
+	///Make it available if the prereq ids are already researched
+	update_node_status(node)
+>>>>>>> tg-pr-88929
 	return TRUE
 
 /datum/techweb/proc/update_tiers(datum/techweb_node/base)

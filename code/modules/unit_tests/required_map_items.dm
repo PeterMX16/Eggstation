@@ -8,14 +8,18 @@
 /datum/unit_test/required_map_items
 	/// A list of all typepaths that we expect to be in the required items list
 	var/list/expected_types = list()
+<<<<<<< HEAD
 	/// Subtypes to ignore.
 	var/list/ignored_types = list()
+=======
+>>>>>>> tg-pr-88929
 
 /// Used to fill the expected types list with all the types we look for on the map.
 /// This list will just be full of typepaths that we expect.
 /// More detailed information about each item (mainly, how much of each should exist) is set on a per item basis
 /datum/unit_test/required_map_items/proc/setup_expected_types()
 	expected_types += subtypesof(/obj/item/stamp/head)
+<<<<<<< HEAD
 	expected_types += subtypesof(/obj/machinery/computer/department_orders)
 	expected_types += /obj/machinery/computer/communications
 	expected_types += /mob/living/carbon/human/species/monkey/punpun
@@ -34,6 +38,16 @@
 	expected_types += /obj/effect/landmark/start/gary
 	ignored_types  += /obj/machinery/cryopod/prison
 	// monkestation end
+=======
+	expected_types += subtypesof(/obj/machinery/modular_computer/preset/cargochat)
+
+	expected_types += /mob/living/basic/parrot/poly
+	expected_types += /mob/living/basic/pet/dog/corgi/ian
+	expected_types += /mob/living/carbon/human/species/monkey/punpun
+	expected_types += /obj/machinery/computer/communications
+	expected_types += /obj/machinery/drone_dispenser
+	expected_types += /obj/item/piggy_bank/vault
+>>>>>>> tg-pr-88929
 
 /datum/unit_test/required_map_items/Run()
 	setup_expected_types()
@@ -54,7 +68,10 @@
 		if(items_found > item.maximum_amount)
 			TEST_FAIL("Item [got_type] should have at most [item.maximum_amount] mapped in but had [items_found] on mapload!")
 			continue
+<<<<<<< HEAD
 	required_map_items -= ignored_types
+=======
+>>>>>>> tg-pr-88929
 
 	// This primarily serves as a reminder to include the typepath in the expected types list above.
 	// However we can easily delete this line in the future if it runs into false positives.

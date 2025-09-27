@@ -55,8 +55,13 @@
 #define TEST_DEFAULT 1
 /// After most test steps, used for tests that run long so shorter issues can be noticed faster
 #define TEST_LONGER 10
-/// This must be the last test to run due to the inherent nature of the test iterating every single tangible atom in the game and qdeleting all of them (while taking long sleeps to make sure the garbage collector fires properly) taking a large amount of time.
-#define TEST_CREATE_AND_DESTROY INFINITY
+/// This must be the one of last tests to run due to the inherent nature of the test iterating every single tangible atom in the game and qdeleting all of them (while taking long sleeps to make sure the garbage collector fires properly) taking a large amount of time.
+#define TEST_CREATE_AND_DESTROY 9001
+/**
+ * For tests that rely on create and destroy having iterated through every (tangible) atom so they don't have to do something similar.
+ * Keep in mind tho that create and destroy will absolutely break the test platform, anything that relies on its shape cannot come after it.
+ */
+#define TEST_AFTER_CREATE_AND_DESTROY INFINITY
 
 /// Change color to red on ANSI terminal output, if enabled with -DANSICOLORS.
 #ifdef ANSICOLORS
@@ -76,9 +81,14 @@
 #else
 #define TEST_OUTPUT_YELLOW(text) (text)
 #endif
+<<<<<<< HEAD
 
+=======
+>>>>>>> tg-pr-88929
 /// A trait source when adding traits through unit tests
 #define TRAIT_SOURCE_UNIT_TESTS "unit_tests"
+/// Helper to allocate a new object with the implied type (the type of the variable it's assigned to) in the corner of the test room
+#define EASY_ALLOCATE(arguments...) allocate(__IMPLIED_TYPE__, run_loc_floor_bottom_left, ##arguments)
 
 // BEGIN_INCLUDE
 #include "abductor_baton_spell.dm"
@@ -90,76 +100,134 @@
 #include "area_contents.dm"
 #include "armor_verification.dm"
 #include "autowiki.dm"
+#include "bake_a_cake.dm"
 #include "barsigns.dm"
 #include "baseturfs.dm"
+#include "bee.dm"
 #include "bespoke_id.dm"
 #include "binary_insert.dm"
 #include "bitrunning.dm"
 #include "blindness.dm"
 #include "bloody_footprints.dm"
 #include "breath.dm"
+#include "burning.dm"
 #include "cable_powernets.dm"
+#include "can_see.dm"
 #include "card_mismatch.dm"
 #include "cardboard_cutouts.dm"
+#include "cargo_dep_order_locations.dm"
+#include "cargo_selling.dm"
 #include "chain_pull_through_space.dm"
+#include "changeling.dm"
 #include "chat_filter.dm"
 #include "circuit_component_category.dm"
+#include "client_colours.dm"
 #include "closets.dm"
+#include "clothing_drops_items.dm"
+#include "clothing_under_armor_subtype_check.dm"
 #include "combat.dm"
+#include "combat_blocking.dm"
+#include "combat_cuffs.dm"
+#include "combat_eyestab.dm"
+#include "combat_flash.dm"
+#include "combat_help.dm"
+#include "combat_pistol_whip.dm"
+#include "combat_stamina.dm"
+#include "combat_welder.dm"
 #include "component_tests.dm"
 #include "connect_loc.dm"
 #include "container_sanity.dm"
 #include "crayons.dm"
 #include "create_and_destroy.dm"
+#include "damp_rag.dm"
+#include "dcs_check_list_arguments.dm"
 #include "dcs_get_id_from_elements.dm"
 #include "designs.dm"
+#include "dismemberment.dm"
+#include "dna_infusion.dm"
 #include "door_access.dm"
 #include "dragon_expiration.dm"
 #include "drink_icons.dm"
+#include "dropper.dm"
 #include "dummy_spawn.dm"
 #include "dynamic_ruleset_sanity.dm"
 #include "egg_glands.dm"
+#include "embedding.dm"
 #include "emoting.dm"
+<<<<<<< HEAD
 #include "fish_unit_tests.dm"
 #include "floor_lights.dm"
+=======
+#include "emp_flashlight.dm"
+#include "ensure_subtree_operational_datum.dm"
+#include "explosion_action.dm"
+#include "fish_unit_tests.dm"
+>>>>>>> tg-pr-88929
 #include "focus_only_tests.dm"
 #include "food_edibility_check.dm"
 #include "full_heal.dm"
 #include "gas_transfer.dm"
 #include "get_turf_pixel.dm"
 #include "geyser.dm"
+#include "gloves_and_shoes_armor.dm"
 #include "greyscale_config.dm"
 #include "hallucination_icons.dm"
 #include "heretic_knowledge.dm"
 #include "heretic_rituals.dm"
 #include "high_five.dm"
+<<<<<<< HEAD
+=======
+#include "holder_loving.dm"
+>>>>>>> tg-pr-88929
 #include "holidays.dm"
+#include "holofan_placement.dm"
+#include "hulk.dm"
 #include "human_through_recycler.dm"
 #include "hunger_curse.dm"
 #include "hydroponics_extractor_storage.dm"
 #include "hydroponics_validate_genes.dm"
 #include "inhands.dm"
+#include "interaction_door.dm"
+#include "interaction_silicon.dm"
+#include "interaction_structures.dm"
 #include "json_savefile_importing.dm"
 #include "keybinding_init.dm"
+#include "kinetic_crusher.dm"
 #include "knockoff_component.dm"
+<<<<<<< HEAD
 #include "language_key_conflicts.dm"
+=======
+>>>>>>> tg-pr-88929
 #include "language_transfer.dm"
 #include "leash.dm"
 #include "lesserform.dm"
 #include "limbsanity.dm"
+<<<<<<< HEAD
 #include "linked_xenobio_pens.dm"
+=======
+#include "ling_decap.dm"
+#include "liver.dm"
+>>>>>>> tg-pr-88929
 #include "load_map_security.dm"
 #include "lootpanel.dm"
 #include "lungs.dm"
 #include "machine_disassembly.dm"
+#include "mafia.dm"
+#include "map_landmarks.dm"
 #include "mapload_space_verification.dm"
 #include "mapping.dm"
+#include "mapping_nearstation_test.dm"
+#include "market.dm"
 #include "mecha_damage.dm"
 #include "medical_wounds.dm"
 #include "merge_type.dm"
 #include "mindbound_actions.dm"
 #include "missing_icons.dm"
 #include "mob_chains.dm"
+<<<<<<< HEAD
+=======
+#include "mob_damage.dm"
+>>>>>>> tg-pr-88929
 #include "mob_faction.dm"
 #include "mob_spawn.dm"
 #include "modify_fantasy_variable.dm"
@@ -172,13 +240,23 @@
 #include "novaflower_burn.dm"
 #include "nuke_cinematic.dm"
 #include "objectives.dm"
+#include "omnitools.dm"
 #include "operating_table.dm"
 #include "orderable_items.dm"
+<<<<<<< HEAD
 #include "organ_set_bonus.dm"
+=======
+#include "organ_bodypart_shuffle.dm"
+#include "organs.dm"
+#include "orphaned_genturf.dm"
+#include "outfit_sanity.dm"
+#include "oxyloss_suffocation.dm"
+>>>>>>> tg-pr-88929
 #include "paintings.dm"
 #include "pills.dm"
 #include "plane_double_transform.dm"
 #include "plane_dupe_detector.dm"
+#include "plane_sanity.dm"
 #include "plantgrowth_tests.dm"
 #include "preference_species.dm"
 #include "preferences.dm"
@@ -186,6 +264,7 @@
 #include "quirks.dm"
 #include "range_return.dm"
 #include "rcd.dm"
+#include "reagent_container_defaults.dm"
 #include "reagent_id_typos.dm"
 #include "reagent_mob_expose.dm"
 #include "reagent_mod_procs.dm"
@@ -197,7 +276,9 @@
 #include "say.dm"
 #include "screenshot_antag_icons.dm"
 #include "screenshot_basic.dm"
+#include "screenshot_digi.dm"
 #include "screenshot_dynamic_human_icons.dm"
+#include "screenshot_high_luminosity_eyes.dm"
 #include "screenshot_humanoids.dm"
 #include "screenshot_husk.dm"
 #include "screenshot_saturnx.dm"
@@ -221,6 +302,11 @@
 #include "spell_names.dm"
 #include "spell_shapeshift.dm"
 #include "spell_timestop.dm"
+<<<<<<< HEAD
+=======
+#include "spies.dm"
+#include "spraycan.dm"
+>>>>>>> tg-pr-88929
 #include "spritesheets.dm"
 #include "stack_singular_name.dm"
 #include "station_trait_tests.dm"
@@ -233,19 +319,28 @@
 #include "subsystem_init.dm"
 #include "suit_storage_icons.dm"
 #include "surgeries.dm"
+#include "syringe_gun.dm"
+#include "tail_wag.dm"
 #include "teleporters.dm"
 #include "text.dm"
 #include "tgui_create_message.dm"
 #include "timer_sanity.dm"
 #include "trait_addition_and_removal.dm"
 #include "traitor.dm"
+<<<<<<< HEAD
 #include "trick_weapon_icons.dm"
+=======
+#include "traitor_mail_content_check.dm"
+#include "trauma_granting.dm"
+>>>>>>> tg-pr-88929
 #include "turf_icons.dm"
 #include "tutorial_sanity.dm"
 #include "unit_test.dm"
 #include "vendor_boards.dm"
 #include "verify_config_tags.dm"
 #include "verify_emoji_names.dm"
+#include "washing.dm"
+#include "weird_food.dm"
 #include "wizard_loadout.dm"
 #include "worn_icons.dm"
 // END_INCLUDE

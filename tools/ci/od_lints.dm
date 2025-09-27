@@ -23,8 +23,11 @@
 #pragma DanglingVarType error
 #pragma MissingInterpolatedExpression error
 #pragma AmbiguousResourcePath error
+<<<<<<< HEAD
 #pragma ProcArgumentGlobal error
 #pragma UnsupportedAccess disabled
+=======
+>>>>>>> tg-pr-88929
 
 //3000-3999
 #pragma EmptyBlock error

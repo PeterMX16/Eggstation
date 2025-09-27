@@ -1,6 +1,6 @@
 // Chili
 /obj/item/seeds/chili
-	name = "pack of chili seeds"
+	name = "chili seed pack"
 	desc = "These seeds grow into chili plants. HOT! HOT! HOT!"
 	icon_state = "seed-chili"
 	species = "chili"
@@ -11,7 +11,12 @@
 	production = 20
 	yield = 40
 	potency = 20
+<<<<<<< HEAD
 	growing_icon = 'icons/obj/hydroponics/growing_vegetables.dmi'
+=======
+	instability = 30
+	growing_icon = 'icons/obj/service/hydroponics/growing_vegetables.dmi'
+>>>>>>> tg-pr-88929
 	icon_grow = "chili-grow" // Uses one growth icons set for all the subtypes
 	icon_dead = "chili-dead" // Same for the dead icon
 	genes = list(/datum/plant_gene/trait/repeated_harvest)
@@ -30,7 +35,7 @@
 
 // Ice Chili
 /obj/item/seeds/chili/ice
-	name = "pack of chilly pepper seeds"
+	name = "chilly pepper seed pack"
 	desc = "These seeds grow into chilly pepper plants."
 	icon_state = "seed-icepepper"
 	species = "chiliice"
@@ -39,7 +44,7 @@
 	lifespan = 25
 	maturation = 12
 	production = 4
-	rarity = 20
+	rarity = PLANT_MODERATELY_RARE
 	genes = list(/datum/plant_gene/trait/chem_cooling)
 	possible_mutations = list()
 	infusion_mutations = list()
@@ -58,7 +63,7 @@
 
 // Ghost Chili
 /obj/item/seeds/chili/ghost
-	name = "pack of ghost chili seeds"
+	name = "ghost chili seed pack"
 	desc = "These seeds grow into a chili said to be the hottest in the galaxy."
 	icon_state = "seed-chilighost"
 	species = "chilighost"
@@ -67,8 +72,13 @@
 	endurance = 10
 	maturation = 10
 	production = 10
+<<<<<<< HEAD
 	yield = 30
 	rarity = 20
+=======
+	yield = 3
+	rarity = PLANT_MODERATELY_RARE
+>>>>>>> tg-pr-88929
 	genes = list(/datum/plant_gene/trait/chem_heating, /datum/plant_gene/trait/backfire/chili_heat)
 	possible_mutations = list()
 	infusion_mutations = list()
@@ -87,7 +97,7 @@
 
 // Bell Pepper
 /obj/item/seeds/chili/bell_pepper
-	name = "pack of bell pepper seeds"
+	name = "bell pepper seed pack"
 	desc = "These seeds grow into bell pepper plants. MILD! MILD! MILD!"
 	icon_state = "seed-bell-pepper"
 	species = "bellpepper"
@@ -96,8 +106,13 @@
 	endurance = 10
 	maturation = 10
 	production = 10
+<<<<<<< HEAD
 	yield = 30
 	rarity = 20
+=======
+	yield = 3
+	rarity = PLANT_MODERATELY_RARE
+>>>>>>> tg-pr-88929
 	genes = list(/datum/plant_gene/trait/repeated_harvest)
 	possible_mutations = list()
 	reagents_add = list(/datum/reagent/consumable/nutriment/vitamin = 0.08, /datum/reagent/consumable/nutriment = 0.04)

@@ -49,6 +49,7 @@
 			"label": "Build All (low memory mode)"
 		},
 		{
+<<<<<<< HEAD
 			"type": "process",
 			"command": "tools/build/build",
 			"args": ["-DTESTING","-DREAGENTS_TESTING","-DTIMER_DEBUG","-DREFERENCE_DOING_IT_LIVE"],
@@ -121,6 +122,8 @@
 			"label": "Build All (map testing)"
 		},
 		{
+=======
+>>>>>>> tg-pr-88929
 			"type": "dreammaker",
 			"dme": "tgstation.dme",
 			"problemMatcher": [

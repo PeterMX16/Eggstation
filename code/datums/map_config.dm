@@ -25,8 +25,13 @@
 	var/map_file = "MetaStation.dmm"
 
 	var/traits = null
+<<<<<<< HEAD
 	var/space_ruin_levels = 5
 	var/space_empty_levels = 1
+=======
+	var/space_ruin_levels = DEFAULT_SPACE_RUIN_LEVELS
+	var/space_empty_levels = DEFAULT_SPACE_EMPTY_LEVELS
+>>>>>>> tg-pr-88929
 	/// Boolean that tells us if this is a planetary station. (like IceBoxStation)
 	var/planetary = FALSE
 
@@ -47,6 +52,14 @@
 	var/job_changes = list()
 	/// List of additional areas that count as a part of the library
 	var/library_areas = list()
+	/// Boolean - if TRUE, the "Up" and "Down" traits are automatically distributed to the map's z-levels. If FALSE; they're set via JSON.
+	var/height_autosetup = TRUE
+
+	/// List of unit tests that are skipped when running this map
+	var/list/skipped_tests
+
+	/// Boolean that tells SSmapping to load all away missions in the codebase.
+	var/load_all_away_missions = FALSE
 
 	/// List of unit tests that are skipped when running this map
 	var/list/skipped_tests
@@ -201,6 +214,9 @@
 	if ("blacklist_file" in json)
 		blacklist_file = json["blacklist_file"]
 
+	if ("load_all_away_missions" in json)
+		load_all_away_missions = json["load_all_away_missions"]
+
 	allow_custom_shuttles = json["allow_custom_shuttles"] != FALSE
 
 	if ("job_changes" in json)
@@ -220,6 +236,12 @@
 				continue
 			library_areas += path
 
+<<<<<<< HEAD
+=======
+	if ("height_autosetup" in json)
+		height_autosetup = json["height_autosetup"]
+
+>>>>>>> tg-pr-88929
 #ifdef UNIT_TESTS
 	// Check for unit tests to skip, no reason to check these if we're not running tests
 	for(var/path_as_text in json["ignored_unit_tests"])

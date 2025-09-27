@@ -4,6 +4,7 @@
 	"map_path": "map_files/debug",
 	"map_file": "multiz.dmm",
 	"ignored_unit_tests": [
+<<<<<<< HEAD
 		"/datum/unit_test/required_map_items",
 		"/datum/unit_test/vendor_boards"
 	],
@@ -15,11 +16,26 @@
 		{
 			"Up": true,
 			"Down": true,
+=======
+		"/datum/unit_test/cargo_dep_order_locations",
+		"/datum/unit_test/job_roundstart_spawnpoints",
+		"/datum/unit_test/required_map_items",
+		"/datum/unit_test/spy_bounty"
+	],
+	"traits": [
+		{
+			"Linkage": "Cross"
+		},
+		{
+>>>>>>> tg-pr-88929
 			"Baseturf": "/turf/open/openspace",
 			"Linkage": "Cross"
 		},
 		{
+<<<<<<< HEAD
 			"Down": true,
+=======
+>>>>>>> tg-pr-88929
 			"Baseturf": "/turf/open/openspace",
 			"Linkage": "Cross"
 		}

@@ -1,22 +1,27 @@
-import { StoreProvider, configureStore } from 'tgui/store';
-
+import { backendUpdate, setGlobalStore } from 'tgui/backend';
 import { DisposalUnit } from 'tgui/interfaces/DisposalUnit';
-import { backendUpdate } from 'tgui/backend';
 import { createRenderer } from 'tgui/renderer';
+import { configureStore } from 'tgui/store';
 
 const store = configureStore({ sideEffects: false });
 
 const renderUi = createRenderer((dataJson: string) => {
+  setGlobalStore(store);
+
   store.dispatch(
     backendUpdate({
       data: Byond.parseJson(dataJson),
     }),
+<<<<<<< HEAD
   );
   return (
     <StoreProvider store={store}>
       <DisposalUnit />
     </StoreProvider>
+=======
+>>>>>>> tg-pr-88929
   );
+  return <DisposalUnit />;
 });
 
 export const data = JSON.stringify({

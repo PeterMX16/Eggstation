@@ -104,7 +104,11 @@
 	},
 /obj/machinery/airalarm/directional/north,
 /obj/effect/mapping_helpers/airalarm/all_access,
+<<<<<<< HEAD
 /obj/item/storage/backpack/duffelbag/med/surgery{
+=======
+/obj/effect/spawner/surgery_tray/full{
+>>>>>>> tg-pr-88929
 	pixel_y = 4
 	},
 /obj/item/clothing/suit/apron/surgical,
@@ -593,7 +597,11 @@
 "bs" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/decal/cleanable/dirt,
+<<<<<<< HEAD
 /obj/machinery/atmospherics/components/unary/cryo_cell,
+=======
+/obj/machinery/cryo_cell,
+>>>>>>> tg-pr-88929
 /obj/effect/turf_decal/stripes/line{
 	dir = 9
 	},
@@ -622,7 +630,11 @@
 "bu" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/decal/cleanable/dirt,
+<<<<<<< HEAD
 /obj/machinery/atmospherics/components/unary/cryo_cell,
+=======
+/obj/machinery/cryo_cell,
+>>>>>>> tg-pr-88929
 /obj/effect/turf_decal/stripes/line{
 	dir = 5
 	},
@@ -1095,9 +1107,13 @@
 /turf/open/floor/plating,
 /area/shuttle/abandoned/engine)
 "cu" = (
+<<<<<<< HEAD
 /obj/machinery/power/smes/engineering{
 	charge = 1e+006
 	},
+=======
+/obj/machinery/power/smes/ship,
+>>>>>>> tg-pr-88929
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/decal/cleanable/dirt,
@@ -1274,9 +1290,13 @@
 /area/shuttle/abandoned/medbay)
 "cL" = (
 /obj/effect/decal/cleanable/dirt,
+<<<<<<< HEAD
 /obj/machinery/vending/medical{
 	req_access = null
 	},
+=======
+/obj/machinery/vending/medical,
+>>>>>>> tg-pr-88929
 /obj/machinery/airalarm/directional/north,
 /obj/effect/mapping_helpers/airalarm/all_access,
 /turf/open/floor/iron/white,

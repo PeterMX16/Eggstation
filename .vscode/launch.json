@@ -25,6 +25,7 @@
 		{
 			"type": "byond",
 			"request": "launch",
+<<<<<<< HEAD
 			"name": "Launch DreamSeeker (testing)",
 			"preLaunchTask": "Build All (testing)",
 			"dmb": "${workspaceFolder}/${command:CurrentDMB}"
@@ -46,6 +47,8 @@
 		{
 			"type": "byond",
 			"request": "launch",
+=======
+>>>>>>> tg-pr-88929
 			"name": "Launch DreamDaemon",
 			"preLaunchTask": "Build All",
 			"dmb": "${workspaceFolder}/${command:CurrentDMB}",
@@ -60,6 +63,7 @@
 			"dreamDaemon": true
 		},
 		{
+<<<<<<< HEAD
 			"type": "byond",
 			"request": "launch",
 			"name": "Launch DreamDaemon (testing)",
@@ -84,6 +88,8 @@
 			"dreamDaemon": true
 		},
 		{
+=======
+>>>>>>> tg-pr-88929
 			"name": "Debug External Libraries",
 			"type": "cppvsdbg",
 			"request": "launch",

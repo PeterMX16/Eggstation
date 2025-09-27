@@ -1,5 +1,5 @@
 /obj/item/seeds/tower
-	name = "pack of tower-cap mycelium"
+	name = "tower-cap mycelium pack"
 	desc = "This mycelium grows into tower-cap mushrooms."
 	icon_state = "mycelium-tower"
 	species = "towercap"
@@ -12,7 +12,7 @@
 	yield = 50
 	potency = 50
 	growthstages = 3
-	growing_icon = 'icons/obj/hydroponics/growing_mushrooms.dmi'
+	growing_icon = 'icons/obj/service/hydroponics/growing_mushrooms.dmi'
 	icon_dead = "towercap-dead"
 	genes = list(/datum/plant_gene/trait/plant_type/fungal_metabolism)
 	possible_mutations = list(/datum/hydroponics/plant_mutation/steel_towercap)
@@ -20,7 +20,7 @@
 	graft_gene = /datum/plant_gene/trait/plant_type/fungal_metabolism
 
 /obj/item/seeds/tower/steel
-	name = "pack of steel-cap mycelium"
+	name = "steel-cap mycelium pack"
 	desc = "This mycelium grows into steel logs."
 	icon_state = "mycelium-steelcap"
 	species = "steelcap"
@@ -28,7 +28,7 @@
 	product = /obj/item/grown/log/steel
 	possible_mutations = list()
 	reagents_add = list(/datum/reagent/cellulose = 0.05, /datum/reagent/iron = 0.05)
-	rarity = 20
+	rarity = PLANT_MODERATELY_RARE
 
 /obj/item/grown/log
 	seed = /obj/item/seeds/tower
@@ -78,14 +78,22 @@
 
 	return NONE
 
+<<<<<<< HEAD
 /obj/item/grown/log/attackby(obj/item/attacking_item, mob/user, list/modifiers, list/attack_modifiers)
+=======
+/obj/item/grown/log/attackby(obj/item/attacking_item, mob/user, params)
+>>>>>>> tg-pr-88929
 	if(attacking_item.get_sharpness())
 		var/plank_count = 1
 		if(seed)
 			plank_count += round(seed.potency / 25)
 
 		user.balloon_alert(user, "made [plank_count] [plank_name]")
+<<<<<<< HEAD
 		new plank_type(user.drop_location(), plank_count)
+=======
+		new plank_type(user.loc, plank_count)
+>>>>>>> tg-pr-88929
 		qdel(src)
 		return
 
@@ -93,7 +101,11 @@
 		var/obj/item/food/grown/leaf = attacking_item
 		if(HAS_TRAIT(leaf, TRAIT_DRIED))
 			user.balloon_alert(user, "torch crafted")
+<<<<<<< HEAD
 			var/obj/item/flashlight/flare/torch/new_torch = new /obj/item/flashlight/flare/torch(user.drop_location())
+=======
+			var/obj/item/flashlight/flare/torch/new_torch = new /obj/item/flashlight/flare/torch(user.loc)
+>>>>>>> tg-pr-88929
 			user.dropItemToGround(attacking_item)
 			user.put_in_active_hand(new_torch)
 			qdel(leaf)
@@ -126,7 +138,7 @@
 /obj/structure/punji_sticks
 	name = "punji sticks"
 	desc = "Don't step on this."
-	icon = 'icons/obj/hydroponics/equipment.dmi'
+	icon = 'icons/obj/service/hydroponics/equipment.dmi'
 	icon_state = "punji"
 	resistance_flags = FLAMMABLE
 	max_integrity = 30
@@ -142,7 +154,7 @@
 	build_stab_overlay()
 
 /obj/structure/punji_sticks/proc/build_stab_overlay()
-	stab_overlay = mutable_appearance(icon, "[icon_state]_stab", layer = ABOVE_MOB_LAYER, offset_spokesman = src, plane = GAME_PLANE_FOV_HIDDEN)
+	stab_overlay = mutable_appearance(icon, "[icon_state]_stab", layer = ABOVE_MOB_LAYER)
 
 /obj/structure/punji_sticks/on_changed_z_level(turf/old_turf, turf/new_turf, same_z_layer, notify_contents)
 	. = ..()

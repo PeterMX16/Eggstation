@@ -23,7 +23,11 @@
 	maximum_pressure = LAVALAND_EQUIPMENT_EFFECT_PRESSURE - 1
 
 	minimum_temp = BODYTEMP_COLD_DAMAGE_LIMIT + 1
+<<<<<<< HEAD
 	maximum_temp = BODYTEMP_HEAT_DAMAGE_LIMIT - 5
+=======
+	maximum_temp = LAVALAND_MAX_TEMPERATURE
+>>>>>>> tg-pr-88929
 
 /datum/atmosphere/icemoon
 	id = ICEMOON_DEFAULT_ATMOS

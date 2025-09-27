@@ -8,3 +8,9 @@ beautifulsoup4==4.9.3
 
 # ezdb
 mysql-connector-python==8.0.33
+<<<<<<< HEAD
+=======
+
+# icon cutter
+numpy==1.26.0
+>>>>>>> tg-pr-88929

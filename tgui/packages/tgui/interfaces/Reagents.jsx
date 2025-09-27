@@ -1,4 +1,16 @@
+import { useState } from 'react';
+import {
+  Button,
+  Icon,
+  LabeledList,
+  NumberInput,
+  Section,
+  Stack,
+  Table,
+} from 'tgui-core/components';
+
 import { useBackend, useLocalState } from '../backend';
+<<<<<<< HEAD
 import {
   Button,
   Icon,
@@ -8,6 +20,8 @@ import {
   Stack,
   Table,
 } from '../components';
+=======
+>>>>>>> tg-pr-88929
 import { Window } from '../layouts';
 import { ReagentLookup } from './common/ReagentLookup';
 import { RecipeLookup } from './common/RecipeLookup';
@@ -30,7 +44,6 @@ export const Reagents = (props) => {
     { flag: bitflags.BURN, icon: 'burn' },
     { flag: bitflags.TOXIN, icon: 'biohazard' },
     { flag: bitflags.OXY, icon: 'wind' },
-    { flag: bitflags.CLONE, icon: 'male' },
     { flag: bitflags.HEALING, icon: 'medkit' },
     { flag: bitflags.DAMAGING, icon: 'skull-crossbones' },
     { flag: bitflags.EXPLOSIVE, icon: 'bomb' },
@@ -191,6 +204,7 @@ const TagBox = (props) => {
           Suffocation
         </Button>
         <Button
+<<<<<<< HEAD
           color={selectedBitflags & bitflags.CLONE ? 'green' : 'red'}
           icon="male"
           onClick={() => {
@@ -201,6 +215,8 @@ const TagBox = (props) => {
           Clone
         </Button>
         <Button
+=======
+>>>>>>> tg-pr-88929
           color={selectedBitflags & bitflags.ORGAN ? 'green' : 'red'}
           icon="brain"
           onClick={() => {
@@ -390,11 +406,16 @@ const RecipeLibrary = (props) => {
     linkedBeaker,
   } = data;
 
+<<<<<<< HEAD
   const [reagentFilter, setReagentFilter] = useLocalState(
     'reagentFilter',
     true,
   );
   const [bookmarkMode, setBookmarkMode] = useLocalState('bookmarkMode', false);
+=======
+  const [reagentFilter, setReagentFilter] = useState(true);
+  const [bookmarkMode, setBookmarkMode] = useState(false);
+>>>>>>> tg-pr-88929
 
   const matchReagents = (reaction) => {
     if (!reagentFilter || currentReagents === null) {
@@ -470,7 +491,7 @@ const RecipeLibrary = (props) => {
             value={page}
             minValue={1}
             maxValue={pageIndexMax}
-            onDrag={(e, value) => setPage(value)}
+            onDrag={(value) => setPage(value)}
           />
           <Button
             icon="plus"

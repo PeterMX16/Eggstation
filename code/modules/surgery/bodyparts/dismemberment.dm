@@ -4,6 +4,7 @@
 		return FALSE
 	return TRUE
 
+<<<<<<< HEAD
 ///Remove target limb from it's owner, with side effects.
 /obj/item/bodypart/proc/dismember(dam_type = BRUTE, silent = TRUE, wounding_type, sound = TRUE)
 	if(!owner || (bodypart_flags & BODYPART_UNREMOVABLE))
@@ -12,6 +13,14 @@
 	if(HAS_TRAIT(limb_owner, TRAIT_GODMODE))
 		return FALSE
 	if(HAS_TRAIT(limb_owner, TRAIT_NODISMEMBER))
+=======
+///Remove target limb from its owner, with side effects.
+/obj/item/bodypart/proc/dismember(dam_type = BRUTE, silent=TRUE, wounding_type)
+	if(!owner || (bodypart_flags & BODYPART_UNREMOVABLE))
+		return FALSE
+	var/mob/living/carbon/limb_owner = owner
+	if(HAS_TRAIT(limb_owner, TRAIT_GODMODE) || HAS_TRAIT(limb_owner, TRAIT_NODISMEMBER))
+>>>>>>> tg-pr-88929
 		return FALSE
 
 	var/obj/item/bodypart/affecting = limb_owner.get_bodypart(BODY_ZONE_CHEST)
@@ -19,14 +28,20 @@
 	if(!silent)
 		limb_owner.visible_message(span_danger("<B>[limb_owner]'s [name] is violently dismembered!</B>"))
 	INVOKE_ASYNC(limb_owner, TYPE_PROC_REF(/mob, emote), "scream")
+<<<<<<< HEAD
 	if(sound)
 		playsound(get_turf(limb_owner), 'sound/effects/dismember.ogg', 80, TRUE)
 	limb_owner.add_mood_event("dismembered", /datum/mood_event/dismembered)
+=======
+	playsound(get_turf(limb_owner), 'sound/effects/dismember.ogg', 80, TRUE)
+	limb_owner.add_mood_event("dismembered_[body_zone]", /datum/mood_event/dismembered, src)
+>>>>>>> tg-pr-88929
 	limb_owner.add_mob_memory(/datum/memory/was_dismembered, lost_limb = src)
 
 	if (wounding_type)
 		LAZYSET(limb_owner.body_zone_dismembered_by, body_zone, wounding_type)
 
+<<<<<<< HEAD
 	if((limb_id == SPECIES_OOZELING))
 		to_chat(limb_owner, span_warning("Your [src] splatters with an unnerving squelch!"))
 		if(sound)
@@ -40,6 +55,9 @@
 // MONKESTATION ADDITION END
 
 	drop_limb()
+=======
+	drop_limb(dismembered = TRUE)
+>>>>>>> tg-pr-88929
 
 	limb_owner.update_equipment_speed_mods() // Update in case speed affecting item unequipped by dismemberment
 	var/turf/owner_location = limb_owner.loc
@@ -64,26 +82,59 @@
 		target_turf = new_turf
 		if(new_turf.density)
 			break
+<<<<<<< HEAD
 	fly_away(limb_owner.drop_location())
 
 	return TRUE
 
 /obj/item/bodypart/chest/dismember(dam_type = BRUTE, silent = TRUE, wounding_type, sound = TRUE)
 	if(!owner || (bodypart_flags & BODYPART_UNREMOVABLE))
+=======
+	throw_at(target_turf, throw_range, throw_speed)
+
+	return TRUE
+
+/obj/item/bodypart/chest/dismember(dam_type = BRUTE, silent=TRUE, wounding_type)
+	if(!owner)
+>>>>>>> tg-pr-88929
 		return FALSE
 	if(HAS_TRAIT(owner, TRAIT_GODMODE))
 		return FALSE
 	if(HAS_TRAIT(owner, TRAIT_NODISMEMBER))
 		return FALSE
+<<<<<<< HEAD
 	return drop_organs(violent_removal = TRUE)
 
 
 ///limb removal. The "special" argument is used for swapping a limb with a new one without the effects of losing a limb kicking in.
 /obj/item/bodypart/proc/drop_limb(special, dismembered, violent = FALSE)
+=======
+	. = list()
+	if(wounding_type != WOUND_BURN && isturf(chest_owner.loc) && can_bleed())
+		chest_owner.add_splatter_floor(chest_owner.loc)
+	playsound(get_turf(chest_owner), 'sound/misc/splort.ogg', 80, TRUE)
+	for(var/obj/item/organ/organ in contents)
+		var/org_zone = check_zone(organ.zone)
+		if(org_zone != BODY_ZONE_CHEST)
+			continue
+		organ.Remove(chest_owner)
+		if(chest_owner.loc)
+			organ.forceMove(chest_owner.loc)
+		. += organ
+
+	if(cavity_item)
+		cavity_item.forceMove(chest_owner.loc)
+		. += cavity_item
+		cavity_item = null
+
+///limb removal. The "special" argument is used for swapping a limb with a new one without the effects of losing a limb kicking in.
+/obj/item/bodypart/proc/drop_limb(special, dismembered, move_to_floor = TRUE)
+>>>>>>> tg-pr-88929
 	if(!owner)
 		return
 	var/atom/drop_loc = owner.drop_location()
 
+<<<<<<< HEAD
 	SEND_SIGNAL(owner, COMSIG_CARBON_REMOVE_LIMB, src, dismembered, special)
 	SEND_SIGNAL(src, COMSIG_BODYPART_REMOVED, owner, dismembered)
 	update_limb(dropping_limb = TRUE)
@@ -95,15 +146,22 @@
 
 	for(var/datum/wound/wound as anything in wounds)
 		wound.remove_wound(TRUE)
+=======
+	SEND_SIGNAL(owner, COMSIG_CARBON_REMOVE_LIMB, src, special, dismembered)
+	SEND_SIGNAL(src, COMSIG_BODYPART_REMOVED, owner, special, dismembered)
+	update_limb(dropping_limb = TRUE)
+	bodypart_flags &= ~BODYPART_IMPLANTED //limb is out and about, it can't really be considered an implant
+	owner.remove_bodypart(src, special)
+>>>>>>> tg-pr-88929
 
 	for(var/datum/scar/scar as anything in scars)
 		scar.victim = null
 		LAZYREMOVE(owner.all_scars, scar)
 
-	for(var/obj/item/organ/external/ext_organ as anything in external_organs)
-		ext_organ.transfer_to_limb(src, null) //Null is the second arg because the bodypart is being removed from it's owner.
+	var/mob/living/carbon/phantom_owner = update_owner(null) // so we can still refer to the guy who lost their limb after said limb forgets 'em
 
-	var/mob/living/carbon/phantom_owner = set_owner(null) // so we can still refer to the guy who lost their limb after said limb forgets 'em
+	for(var/datum/wound/wound as anything in wounds)
+		wound.remove_wound(TRUE)
 
 	for(var/datum/surgery/surgery as anything in phantom_owner.surgeries) //if we had an ongoing surgery on that limb, we stop it.
 		if(surgery.operated_bodypart == src)
@@ -111,40 +169,43 @@
 			qdel(surgery)
 			break
 
-	for(var/obj/item/embedded in embedded_objects)
-		embedded.forceMove(src) // It'll self remove via signal reaction, just need to move it
 	if(!phantom_owner.has_embedded_objects())
 		phantom_owner.clear_alert(ALERT_EMBEDDED_OBJECT)
 		phantom_owner.clear_mood_event("embedded")
 
 	if(!special)
 		if(phantom_owner.dna)
+<<<<<<< HEAD
 			for(var/datum/mutation/mutation as anything in phantom_owner.dna.mutations) //some mutations require having specific limbs to be kept.
 				if(mutation.limb_req && mutation.limb_req == body_zone)
+=======
+			for(var/datum/mutation/human/mutation as anything in phantom_owner.dna.mutations) //some mutations require having specific limbs to be kept.
+				if(mutation.limb_req && (mutation.limb_req == body_zone))
+>>>>>>> tg-pr-88929
 					to_chat(phantom_owner, span_warning("You feel your [mutation] deactivating from the loss of your [body_zone]!"))
 					phantom_owner.dna.remove_mutation(mutation, mutation.sources)
 
+<<<<<<< HEAD
 		for(var/obj/item/organ/organ as anything in phantom_owner.organs) //internal organs inside the dismembered limb are dropped.
 			var/org_zone = check_zone(organ.zone)
 			if(org_zone != body_zone)
 				continue
 			organ.transfer_to_limb(src, phantom_owner)
 
+=======
+>>>>>>> tg-pr-88929
 	update_icon_dropped()
-	synchronize_bodytypes(phantom_owner)
 	phantom_owner.update_health_hud() //update the healthdoll
 	phantom_owner.update_body()
-	phantom_owner.update_body_parts()
-
-	if(!drop_loc) // drop_loc = null happens when a "dummy human" used for rendering icons on prefs screen gets its limbs replaced.
-		qdel(src)
-		return
+	if(!special)
+		phantom_owner.hud_used?.update_locked_slots()
 
 	if(bodypart_flags & BODYPART_PSEUDOPART)
 		drop_organs(phantom_owner) //Psuedoparts shouldn't have organs, but just in case
 		qdel(src)
 		return
 
+<<<<<<< HEAD
 	if((limb_id == SPECIES_OOZELING) && !special)
 		if(deprecise_zone(src.body_zone) in list(BODY_ZONE_HEAD, BODY_ZONE_R_ARM, BODY_ZONE_L_ARM, BODY_ZONE_L_LEG, BODY_ZONE_R_LEG ))
 			var/list/limborgans = src.contents
@@ -166,6 +227,15 @@
 
 	forceMove(drop_loc)
 	SEND_SIGNAL(phantom_owner, COMSIG_CARBON_POST_REMOVE_LIMB, src, dismembered)
+=======
+	if(move_to_floor)
+		if(!drop_loc) // drop_loc = null happens when a "dummy human" used for rendering icons on prefs screen gets its limbs replaced.
+			qdel(src)
+			return
+		forceMove(drop_loc)
+
+	SEND_SIGNAL(phantom_owner, COMSIG_CARBON_POST_REMOVE_LIMB, src, special, dismembered)
+>>>>>>> tg-pr-88929
 
 /**
  * get_mangled_state() is relevant for flesh and bone bodyparts, and returns whether this bodypart has mangled skin, mangled bone, or both (or neither i guess)
@@ -214,6 +284,7 @@
 		var/datum/wound/loss/dismembering = new
 		return dismembering.apply_dismember(src, wounding_type)
 
+<<<<<<< HEAD
 ///Transfers the organ to the limb, and to the limb's owner, if it has one. This is done on drop_limb().
 /obj/item/organ/proc/transfer_to_limb(obj/item/bodypart/bodypart, mob/living/carbon/bodypart_owner)
 	Remove(bodypart_owner)
@@ -250,23 +321,32 @@
 	..()
 
 /obj/item/bodypart/chest/drop_limb(special, dismembered, violent)
+=======
+/obj/item/bodypart/chest/drop_limb(special, dismembered, move_to_floor = TRUE)
+>>>>>>> tg-pr-88929
 	if(special)
 		return ..()
 	//if this is not a special drop, this is a mistake
 	return FALSE
 
+<<<<<<< HEAD
 /obj/item/bodypart/arm/drop_limb(special, dismembered, violent)
+=======
+/obj/item/bodypart/arm/drop_limb(special, dismembered, move_to_floor = TRUE)
+>>>>>>> tg-pr-88929
 	var/mob/living/carbon/arm_owner = owner
-	. = ..()
-
 	if(special || !arm_owner)
-		return
-
+		return ..()
 	if(arm_owner.hand_bodyparts[held_index] == src)
 		// We only want to do this if the limb being removed is the active hand part.
 		// This catches situations where limbs are "hot-swapped" such as augmentations and roundstart prosthetics.
+<<<<<<< HEAD
 		arm_owner.dropItemToGround(arm_owner.get_item_for_held_index(held_index), 1, violent = violent)
 		arm_owner.hand_bodyparts[held_index] = null
+=======
+		arm_owner.dropItemToGround(arm_owner.get_item_for_held_index(held_index), 1)
+	. = ..()
+>>>>>>> tg-pr-88929
 	if(arm_owner.handcuffed)
 		arm_owner.handcuffed.forceMove(drop_location())
 		arm_owner.handcuffed.dropped(arm_owner)
@@ -275,6 +355,7 @@
 	if(arm_owner.hud_used)
 		var/atom/movable/screen/inventory/hand/associated_hand = arm_owner.hud_used.hand_slots["[held_index]"]
 		associated_hand?.update_appearance()
+<<<<<<< HEAD
 	if(arm_owner.gloves)
 		arm_owner.dropItemToGround(arm_owner.gloves, TRUE, violent = violent)
 	arm_owner.update_worn_gloves() //to remove the bloody hands overlay
@@ -300,15 +381,33 @@
 	return ..()
 
 /obj/item/bodypart/head/drop_limb(special, dismembered, violent)
+=======
+	if(arm_owner.num_hands == 0)
+		arm_owner.dropItemToGround(arm_owner.gloves, force = TRUE)
+	arm_owner.update_worn_gloves() //to remove the bloody hands overlay
+
+/obj/item/bodypart/leg/drop_limb(special, dismembered, move_to_floor = TRUE)
+	var/mob/living/carbon/leg_owner = owner
+	. = ..()
+	if(special || !leg_owner)
+		return
+	if(leg_owner.legcuffed)
+		leg_owner.legcuffed.forceMove(drop_location())
+		leg_owner.legcuffed.dropped(leg_owner)
+		leg_owner.legcuffed = null
+		leg_owner.update_worn_legcuffs()
+	if(leg_owner.shoes)
+		leg_owner.dropItemToGround(leg_owner.shoes, force = TRUE)
+
+/obj/item/bodypart/head/drop_limb(special, dismembered, move_to_floor = TRUE)
+>>>>>>> tg-pr-88929
 	if(!special)
 		//Drop all worn head items
 		for(var/obj/item/head_item as anything in list(owner.glasses, owner.ears, owner.wear_mask, owner.head))
 			owner.dropItemToGround(head_item, force = TRUE, violent = violent)
 
-	qdel(owner.GetComponent(/datum/component/creamed)) //clean creampie overlay flushed emoji
-
 	//Handle dental implants
-	for(var/datum/action/item_action/hands_free/activate_pill/pill_action in owner.actions)
+	for(var/datum/action/item_action/activate_pill/pill_action in owner.actions)
 		pill_action.Remove(owner)
 		var/obj/pill = pill_action.target
 		if(pill)
@@ -344,7 +443,7 @@
 		return FALSE
 
 	var/obj/item/bodypart/chest/mob_chest = new_limb_owner.get_bodypart(BODY_ZONE_CHEST)
-	if(mob_chest && !(mob_chest.acceptable_bodytype & bodytype) && !special)
+	if(mob_chest && !(mob_chest.acceptable_bodytype & bodytype) && !(mob_chest.acceptable_bodyshape & bodyshape) && !special)
 		return FALSE
 	return TRUE
 
@@ -355,18 +454,14 @@
 
 	SEND_SIGNAL(new_limb_owner, COMSIG_CARBON_ATTACH_LIMB, src, special)
 	SEND_SIGNAL(src, COMSIG_BODYPART_ATTACHED, new_limb_owner, special)
+<<<<<<< HEAD
 	moveToNullspace()
 	set_owner(new_limb_owner)
+=======
+>>>>>>> tg-pr-88929
 	new_limb_owner.add_bodypart(src)
-	if(held_index)
-		if(held_index > new_limb_owner.hand_bodyparts.len)
-			new_limb_owner.hand_bodyparts.len = held_index
-		new_limb_owner.hand_bodyparts[held_index] = src
-		if(new_limb_owner.hud_used)
-			var/atom/movable/screen/inventory/hand/hand = new_limb_owner.hud_used.hand_slots["[held_index]"]
-			if(hand)
-				hand.update_appearance()
-		new_limb_owner.update_worn_gloves()
+
+	LAZYREMOVE(new_limb_owner.body_zone_dismembered_by, body_zone)
 
 		if(speed_modifier)
 			new_limb_owner.update_bodypart_speed_modifier()
@@ -381,20 +476,26 @@
 				qdel(attach_surgery)
 				break
 
-	for(var/obj/item/organ/limb_organ in contents)
-		limb_organ.Insert(new_limb_owner, TRUE)
+		for(var/obj/item/organ/organ as anything in new_limb_owner.organs)
+			if(deprecise_zone(organ.zone) != body_zone)
+				continue
+			organ.bodypart_insert(src)
 
 	for(var/datum/wound/wound as anything in wounds)
 		// we have to remove the wound from the limb wound list first, so that we can reapply it fresh with the new person
 		// otherwise the wound thinks it's trying to replace an existing wound of the same type (itself) and fails/deletes itself
 		LAZYREMOVE(wounds, wound)
-		wound.apply_wound(src, TRUE)
+		wound.apply_wound(src, TRUE, wound_source = wound.wound_source)
 
 	for(var/datum/scar/scar as anything in scars)
 		if(scar in new_limb_owner.all_scars) // prevent double scars from happening for whatever reason
 			continue
 		scar.victim = new_limb_owner
 		LAZYADD(new_limb_owner.all_scars, scar)
+
+	if(new_limb_owner.mob_mood?.has_mood_of_category("dismembered_[body_zone]"))
+		new_limb_owner.clear_mood_event("dismembered_[body_zone]")
+		new_limb_owner.add_mood_event("phantom_pain_[body_zone]", /datum/mood_event/reattachment, src)
 
 	update_bodypart_damage_state()
 	if(can_be_disabled)
@@ -403,10 +504,11 @@
 	// Bodyparts need to be sorted for leg masking to be done properly. It also will allow for some predictable
 	// behavior within said bodyparts list. We sort it here, as it's the only place we make changes to bodyparts.
 	new_limb_owner.bodyparts = sort_list(new_limb_owner.bodyparts, GLOBAL_PROC_REF(cmp_bodypart_by_body_part_asc))
-	synchronize_bodytypes(new_limb_owner)
 	new_limb_owner.updatehealth()
 	new_limb_owner.update_body()
 	new_limb_owner.update_damage_overlays()
+	if(!special)
+		new_limb_owner.hud_used?.update_locked_slots()
 	SEND_SIGNAL(new_limb_owner, COMSIG_CARBON_POST_ATTACH_LIMB, src, special)
 	return TRUE
 
@@ -419,6 +521,7 @@
 	if(!.)
 		return
 
+<<<<<<< HEAD
 	if(brain)
 		brain = null
 	if(tongue)
@@ -428,13 +531,15 @@
 	if(eyes)
 		eyes = null
 
+=======
+>>>>>>> tg-pr-88929
 	if(old_real_name)
 		new_head_owner.real_name = old_real_name
 	real_name = new_head_owner.real_name
 
 	//Handle dental implants
 	for(var/obj/item/reagent_containers/pill/pill in src)
-		for(var/datum/action/item_action/hands_free/activate_pill/pill_action in pill.actions)
+		for(var/datum/action/item_action/activate_pill/pill_action in pill.actions)
 			pill.forceMove(new_head_owner)
 			pill_action.Grant(new_head_owner)
 			break
@@ -446,8 +551,13 @@
 		sexy_chad.hair_color = hair_color
 		sexy_chad.facial_hairstyle = facial_hairstyle
 		sexy_chad.facial_hair_color = facial_hair_color
+<<<<<<< HEAD
 		sexy_chad.grad_style = gradient_styles?.Copy()
 		sexy_chad.grad_color = gradient_colors?.Copy()
+=======
+		sexy_chad.grad_style = gradient_styles.Copy()
+		sexy_chad.grad_color = gradient_colors.Copy()
+>>>>>>> tg-pr-88929
 		sexy_chad.lip_style = lip_style
 		sexy_chad.lip_color = lip_color
 
@@ -455,21 +565,21 @@
 	new_head_owner.update_body()
 	new_head_owner.update_damage_overlays()
 
-///Makes sure that the owner's bodytype flags match the flags of all of it's parts.
-/obj/item/bodypart/proc/synchronize_bodytypes(mob/living/carbon/carbon_owner)
-	if(!carbon_owner?.dna?.species) //carbon_owner and dna can somehow be null during garbage collection, at which point we don't care anyway.
-		return
-	var/all_limb_flags
-	for(var/obj/item/bodypart/limb as anything in carbon_owner.bodyparts)
-		for(var/obj/item/organ/external/ext_organ as anything in limb.external_organs)
-			all_limb_flags = all_limb_flags | ext_organ.external_bodytypes
-		all_limb_flags = all_limb_flags | limb.bodytype
+/obj/item/bodypart/arm/try_attach_limb(mob/living/carbon/new_arm_owner, special = FALSE)
+	. = ..()
 
-	carbon_owner.dna.species.bodytype = all_limb_flags
+	if(!.)
+		return
+
+	new_arm_owner.update_worn_gloves() // To apply bloody hands overlay
 
 /mob/living/carbon/proc/regenerate_limbs(list/excluded_zones = list())
 	SEND_SIGNAL(src, COMSIG_CARBON_REGENERATE_LIMBS, excluded_zones)
+<<<<<<< HEAD
 	var/list/zone_list = list(BODY_ZONE_HEAD, BODY_ZONE_CHEST, BODY_ZONE_R_ARM, BODY_ZONE_L_ARM, BODY_ZONE_R_LEG, BODY_ZONE_L_LEG)
+=======
+	var/list/zone_list = GLOB.all_body_zones.Copy()
+>>>>>>> tg-pr-88929
 
 	var/list/dismembered_by_copy = body_zone_dismembered_by?.Copy()
 
@@ -500,16 +610,20 @@
 				qdel(phantom_loss)
 
 		//Copied from /datum/species/proc/on_species_gain()
+<<<<<<< HEAD
 		for(var/obj/item/organ/external/organ_path as anything in dna.species.external_organs)
 			// monkestation edit start
 			if (!should_external_organ_apply_to(organ_path, src))
 				continue
 			// monkestation edit end
+=======
+		for(var/obj/item/organ/organ_path as anything in dna.species.mutant_organs)
+>>>>>>> tg-pr-88929
 			//Load a persons preferences from DNA
 			var/zone = initial(organ_path.zone)
 			if(zone != limb_zone)
 				continue
-			var/obj/item/organ/external/new_organ = SSwardrobe.provide_type(organ_path)
+			var/obj/item/organ/new_organ = SSwardrobe.provide_type(organ_path)
 			new_organ.Insert(src)
 
 		update_body_parts()

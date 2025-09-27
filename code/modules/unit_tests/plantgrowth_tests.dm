@@ -3,7 +3,11 @@
 // Maybe some day it would be used as unit test.
 // -------- IT IS NOW!
 /datum/unit_test/plantgrowth/Run()
+<<<<<<< HEAD
 	var/list/paths = subtypesof(/obj/item/seeds) - /obj/item/seeds - typesof(/obj/item/seeds/sample) - /obj/item/seeds/lavaland - /obj/item/seeds/spliced
+=======
+	var/list/paths = subtypesof(/obj/item/seeds) - /obj/item/seeds - /obj/item/seeds/lavaland
+>>>>>>> tg-pr-88929
 
 	for(var/seedpath in paths)
 		var/obj/item/seeds/seed = new seedpath

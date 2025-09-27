@@ -7,6 +7,7 @@
 #define COMSIG_COMPONENT_ADDED "component_added"
 /// before a component is removed from a datum because of ClearFromParent: (/datum/component)
 #define COMSIG_COMPONENT_REMOVING "component_removing"
+
 /// before a datum's Destroy() is called: (force), returning a nonzero value will cancel the qdel operation
 /// you should only be using this if you want to block deletion
 /// that's the only functional difference between it and COMSIG_QDELETING, outside setting QDELETING to detect
@@ -46,3 +47,12 @@
 
 ///from /datum/bank_account/pay_debt(), after a portion or all the debt has been paid.
 #define COMSIG_BANK_ACCOUNT_DEBT_PAID "bank_account_debt_paid"
+<<<<<<< HEAD
+=======
+
+///from /datum/component/on_hit_effect/send_signal(): (user, target, hit_zone)
+#define COMSIG_ON_HIT_EFFECT "comsig_on_hit_effect"
+
+///from /datum/component/bubble_icon_override/get_bubble_icon(): (list/holder)
+#define COMSIG_GET_BUBBLE_ICON "get_bubble_icon"
+>>>>>>> tg-pr-88929

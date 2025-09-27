@@ -46,6 +46,7 @@
 		program_open_overlay = "alert-red"
 		ui_header = "alarm_red.gif"
 	update_computer_icon() // Always update the icon after we check our conditional because we might've changed it
+<<<<<<< HEAD
 
 /datum/computer_file/program/alarm_monitor/on_start(mob/user)
 	. = ..(user)
@@ -54,3 +55,5 @@
 /datum/computer_file/program/alarm_monitor/kill_program()
 	GLOB.alarmdisplay -= src
 	return ..()
+=======
+>>>>>>> tg-pr-88929

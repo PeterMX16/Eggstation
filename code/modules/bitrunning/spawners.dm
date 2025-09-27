@@ -4,11 +4,19 @@
 	flavour_text = "You probably shouldn't be seeing this, contact a coder!"
 	you_are_text = "You are NOT supposed to be here. How did you let this happen?"
 	important_text = "Bitrunning is a crime, and your primary threat."
+<<<<<<< HEAD
+=======
+	temp_body = TRUE
+>>>>>>> tg-pr-88929
 
 
 /obj/effect/mob_spawn/ghost_role/human/virtual_domain/special(mob/living/spawned_mob, mob/mob_possessor)
 	var/datum/mind/ghost_mind = mob_possessor.mind
+<<<<<<< HEAD
 	if(ghost_mind) // Preserves any previous bodies before making the switch
+=======
+	if(ghost_mind?.current) // Preserves any previous bodies before making the switch
+>>>>>>> tg-pr-88929
 		spawned_mob.AddComponent(/datum/component/temporary_body, ghost_mind, ghost_mind.current, TRUE)
 
 	..()

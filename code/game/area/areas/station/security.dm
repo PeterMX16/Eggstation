@@ -39,6 +39,13 @@
 	name = "\improper Brig Overlook"
 	icon_state = "upperbrig"
 
+<<<<<<< HEAD
+=======
+/area/station/security/brig/lower
+	name = "\improper Lower Brig"
+	icon_state = "lower_brig"
+
+>>>>>>> tg-pr-88929
 /area/station/security/brig/entrance
 	name = "\improper Brig Entrance"
 	icon_state = "brigentry"
@@ -79,8 +86,13 @@
 	name = "\improper Detective's Office"
 	icon_state = "detective"
 	ambientsounds = list(
+<<<<<<< HEAD
 		'sound/ambience/ambidet1.ogg',
 		'sound/ambience/ambidet2.ogg',
+=======
+		'sound/ambience/security/ambidet1.ogg',
+		'sound/ambience/security/ambidet2.ogg',
+>>>>>>> tg-pr-88929
 		)
 
 /area/station/security/detectives_office/private_investigators_office
@@ -106,6 +118,13 @@
 /area/station/security/execution/education
 	name = "\improper Prisoner Education Chamber"
 
+<<<<<<< HEAD
+=======
+/area/station/security/mechbay
+	name = "Security Mechbay"
+	icon_state = "sec_mechbay"
+
+>>>>>>> tg-pr-88929
 /*
 * Security Checkpoints
 */
@@ -173,9 +192,12 @@
 	name = "Security Post - Third Floor"
 	icon_state = "checkpoint_3"
 
+<<<<<<< HEAD
 /*
 * Prison Areas
 */
+=======
+>>>>>>> tg-pr-88929
 
 /area/station/security/prison
 	name = "\improper Prison Wing"

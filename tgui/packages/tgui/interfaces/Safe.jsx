@@ -1,7 +1,8 @@
-import { Fragment } from 'inferno';
+import { Fragment } from 'react';
+import { Box, Button, Icon, Image, Section } from 'tgui-core/components';
+
 import { resolveAsset } from '../assets';
 import { useBackend } from '../backend';
-import { Box, Button, Icon, Section } from '../components';
 import { Window } from '../layouts';
 
 export const Safe = (properties) => {
@@ -25,8 +26,7 @@ export const Safe = (properties) => {
           {open ? (
             <Contents />
           ) : (
-            <Box
-              as="img"
+            <Image
               className="Safe__dial"
               src={resolveAsset('safe_dial.png')}
               style={{
@@ -95,8 +95,12 @@ const Contents = (properties) => {
               })
             }
           >
+<<<<<<< HEAD
             <Box
               as="img"
+=======
+            <Image
+>>>>>>> tg-pr-88929
               src={item.sprite + '.png'}
               verticalAlign="middle"
               ml="-6px"

@@ -1,9 +1,20 @@
+<<<<<<< HEAD
 import { useBackend, useLocalState } from '../backend';
 import { Window } from '../layouts';
 import { Button, Section, Flex, Icon, Box } from '../components';
 import { BooleanLike } from '../../common/react';
 import { SearchBar } from './Fabrication/SearchBar';
 import { capitalizeFirst } from '../../common/string';
+=======
+import { useState } from 'react';
+import { Box, Button, Flex, Icon, Section } from 'tgui-core/components';
+import { BooleanLike } from 'tgui-core/react';
+import { capitalizeFirst } from 'tgui-core/string';
+
+import { useBackend } from '../backend';
+import { Window } from '../layouts';
+import { SearchBar } from './common/SearchBar';
+>>>>>>> tg-pr-88929
 
 type Emote = {
   key: string;
@@ -23,6 +34,7 @@ export const EmotePanelContent = (props) => {
   const { act, data } = useBackend<EmotePanelData>();
   const { emotes } = data;
 
+<<<<<<< HEAD
   const [filterVisible, toggleVisualFilter] = useLocalState<boolean>(
     'filterVisible',
     false,
@@ -64,6 +76,25 @@ export const EmotePanelContent = (props) => {
     'showIcons',
     false,
   );
+=======
+  const [filterVisible, toggleVisualFilter] = useState(false);
+
+  const [filterAudible, toggleAudibleFilter] = useState(false);
+
+  const [filterSound, toggleSoundFilter] = useState(false);
+
+  const [filterHands, toggleHandsFilter] = useState(false);
+
+  const [filterUseParams, toggleUseParamsFilter] = useState(false);
+
+  const [useParams, toggleUseParams] = useState(false);
+
+  const [searchText, setSearchText] = useState<string>('');
+
+  const [showNames, toggleShowNames] = useState(true);
+
+  const [showIcons, toggleShowIcons] = useState(false);
+>>>>>>> tg-pr-88929
 
   return (
     <Section>
@@ -120,9 +151,15 @@ export const EmotePanelContent = (props) => {
         }
       >
         <SearchBar
+<<<<<<< HEAD
           searchText={searchText}
           onSearchTextChanged={setSearchText}
           hint={'Search all emotes...'}
+=======
+          query={searchText}
+          onSearch={setSearchText}
+          placeholder="Search all emotes..."
+>>>>>>> tg-pr-88929
         />
       </Section>
       <Section
@@ -182,9 +219,13 @@ export const EmotePanelContent = (props) => {
                   width={showIcons ? 16 : 8}
                   key={emote.name}
                   tooltip={
+<<<<<<< HEAD
                     showIcons ? (
                       ''
                     ) : (
+=======
+                    showIcons ? undefined : (
+>>>>>>> tg-pr-88929
                       <EmoteIcons
                         visible={emote.visible}
                         audible={emote.audible}

@@ -38,6 +38,17 @@
 	} \
 	sleep(time);
 
+<<<<<<< HEAD
+=======
+/// Sleep if we haven't been deleted
+/// Otherwise, return
+#define SLEEP_NOT_DEL(time) \
+	if(QDELETED(src)) { \
+		return; \
+	} \
+	sleep(time);
+
+>>>>>>> tg-pr-88929
 /// Takes a datum as input, returns its ref string
 #define text_ref(datum) ref(datum)
 
@@ -49,6 +60,9 @@
 /// A null statement to guard against EmptyBlock lint without necessitating the use of pass()
 /// Used to avoid proc-call overhead. But use sparingly. Probably pointless in most places.
 #define EMPTY_BLOCK_GUARD ;
+<<<<<<< HEAD
 
 /// Abstraction over using mob.client to just check if there's a connected player.
 #define HAS_CONNECTED_PLAYER(mob) (mob.client)
+=======
+>>>>>>> tg-pr-88929

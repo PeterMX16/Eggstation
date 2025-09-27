@@ -1,5 +1,6 @@
-import { useBackend } from '../../../../backend';
-import { Button, Stack } from '../../../../components';
+import { useBackend } from 'tgui/backend';
+import { Button, Stack } from 'tgui-core/components';
+
 import { PreferencesMenuData, RandomSetting } from '../../data';
 import { RandomizationButton } from '../../RandomizationButton';
 import { useRandomToggleState } from '../../useRandomToggleState';
@@ -55,7 +56,11 @@ export const random_hardcore: FeatureToggle = {
 };
 
 export const random_name: Feature<RandomSetting> = {
+<<<<<<< HEAD
   name: 'Random Name',
+=======
+  name: 'Random name',
+>>>>>>> tg-pr-88929
   component: (props) => {
     return (
       <RandomizationButton

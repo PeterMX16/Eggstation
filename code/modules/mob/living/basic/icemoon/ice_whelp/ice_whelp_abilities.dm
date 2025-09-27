@@ -5,7 +5,10 @@
 	button_icon = 'icons/effects/magic.dmi'
 	button_icon_state = "fireball"
 	cooldown_time = 3 SECONDS
+<<<<<<< HEAD
 	melee_cooldown_time = 0 SECONDS
+=======
+>>>>>>> tg-pr-88929
 	fire_range = 4
 	fire_damage = 10
 
@@ -24,9 +27,14 @@
 	name = "Fire all directions"
 	desc = "Unleash lines of cold fire in all directions"
 	button_icon = 'icons/effects/fire.dmi'
+<<<<<<< HEAD
 	button_icon_state = "1"
 	cooldown_time = 4 SECONDS
 	melee_cooldown_time = 0 SECONDS
+=======
+	button_icon_state = "light"
+	cooldown_time = 4 SECONDS
+>>>>>>> tg-pr-88929
 	click_to_activate = FALSE
 	fire_range = 6
 

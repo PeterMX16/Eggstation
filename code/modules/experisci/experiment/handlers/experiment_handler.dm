@@ -68,10 +68,7 @@
 	// Note this won't work at the moment for non-machines that have been included
 	// on the map as the servers aren't initialized when the non-machines are initializing
 	if (!(config_flags & EXPERIMENT_CONFIG_NO_AUTOCONNECT))
-		var/list/found_servers = get_available_servers()
-		var/obj/machinery/rnd/server/selected_server = length(found_servers) ? found_servers[1] : null
-		if (selected_server)
-			link_techweb(selected_server.stored_research)
+		CONNECT_TO_RND_SERVER_ROUNDSTART(linked_web, parent)
 
 	GLOB.experiment_handlers += src
 
@@ -96,7 +93,11 @@
 	SIGNAL_HANDLER
 	if ((isnull(selected_experiment) && !(config_flags & EXPERIMENT_CONFIG_ALWAYS_ACTIVE)) || (config_flags & EXPERIMENT_CONFIG_SILENT_FAIL))
 		return
+<<<<<<< HEAD
 	playsound(user, 'sound/machines/buzz-sigh.ogg', 25)
+=======
+	playsound(user, 'sound/machines/buzz/buzz-sigh.ogg', 25)
+>>>>>>> tg-pr-88929
 	to_chat(user, span_notice("[target] is not related to your currently selected experiment."))
 
 /**
@@ -133,9 +134,12 @@
 		playsound(user, 'sound/machines/ping.ogg', 25)
 		to_chat(user, span_notice("You scan [target]."))
 	else if(!(config_flags & EXPERIMENT_CONFIG_SILENT_FAIL))
+<<<<<<< HEAD
 		playsound(user, 'sound/machines/buzz-sigh.ogg', 25)
+=======
+		playsound(user, 'sound/machines/buzz/buzz-sigh.ogg', 25)
+>>>>>>> tg-pr-88929
 		to_chat(user, span_notice("[target] is not related to your currently selected experiment."))
-
 
 /**
  * Hooks on destructive scans to try and run an experiment (When using a handheld handler)
@@ -145,30 +149,36 @@
 	var/atom/movable/our_scanner = parent
 	if (selected_experiment == null)
 		if(!(config_flags & EXPERIMENT_CONFIG_SILENT_FAIL))
+<<<<<<< HEAD
 			playsound(our_scanner, 'sound/machines/buzz-sigh.ogg', 25)
+=======
+			playsound(our_scanner, 'sound/machines/buzz/buzz-sigh.ogg', 25)
+>>>>>>> tg-pr-88929
 			to_chat(our_scanner, span_notice("No experiment selected!"))
 		return
 	var/successful_scan
 	for(var/scan_target in scanned_atoms)
 		if(action_experiment(source, scan_target))
 			successful_scan = TRUE
-			break
 	if(successful_scan)
 		playsound(our_scanner, 'sound/machines/ping.ogg', 25)
 		to_chat(our_scanner, span_notice("The scan succeeds."))
 	else if(!(config_flags & EXPERIMENT_CONFIG_SILENT_FAIL))
+<<<<<<< HEAD
 		playsound(src, 'sound/machines/buzz-sigh.ogg', 25)
+=======
+		playsound(src, 'sound/machines/buzz/buzz-sigh.ogg', 25)
+>>>>>>> tg-pr-88929
 		our_scanner.say("The scan did not result in anything.")
 
-/// Hooks on a successful dissection experiment
-/datum/component/experiment_handler/proc/try_run_dissection_experiment(obj/source, mob/living/target)
+/// Hooks on a successful autopsy experiment
+/datum/component/experiment_handler/proc/try_run_autopsy_experiment(obj/source, mob/living/target)
 	SIGNAL_HANDLER
 
 	if (action_experiment(source, target))
 		playsound(source, 'sound/machines/ping.ogg', 25)
-	else
-		playsound(source, 'sound/machines/buzz-sigh.ogg', 25)
-		source.say("The dissection did not result in anything, either prior dissections have not been complete, or this one has already been researched.")
+		source.say("New unique autopsy successfully catalogued.")
+
 
 /**
  * Announces a message to all experiment handlers
@@ -237,6 +247,7 @@
 /datum/component/experiment_handler/proc/configure_experiment(datum/source, mob/user)
 	SIGNAL_HANDLER
 	INVOKE_ASYNC(src, PROC_REF(ui_interact), user)
+	return CLICK_ACTION_SUCCESS
 
 /**
  * Attempts to show the user the experiment configuration panel
@@ -314,6 +325,7 @@
 
 	// Finally, check against the allowed experiment types
 	return is_type_in_list(experiment, allowed_experiments)
+<<<<<<< HEAD
 
 /**
  * Goes through all techwebs and goes through their servers to find ones on a valid z-level
@@ -340,6 +352,8 @@
 			continue
 		valid_servers += server
 	return valid_servers
+=======
+>>>>>>> tg-pr-88929
 
 /datum/component/experiment_handler/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
@@ -359,7 +373,7 @@
 			if(techwebs == linked_web) //disconnect if OUR techweb lost their servers.
 				unlink_techweb()
 			continue
-		if(!length(find_valid_servers(techwebs)))
+		if(!length(SSresearch.find_valid_servers(get_turf(parent), techwebs)))
 			continue
 		var/list/data = list(
 			web_id = techwebs.id,

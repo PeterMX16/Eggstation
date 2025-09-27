@@ -1,7 +1,7 @@
 /obj/machinery/quantumpad
 	name = "quantum pad"
 	desc = "A bluespace quantum-linked telepad used for teleporting objects to other quantum pads."
-	icon = 'icons/obj/telescience.dmi'
+	icon = 'icons/obj/machines/telepad.dmi'
 	icon_state = "qpad-idle"
 	active_power_usage = BASE_MACHINE_ACTIVE_CONSUMPTION * 10
 	obj_flags = CAN_BE_HIT | UNIQUE_RENAME
@@ -46,13 +46,14 @@
 		E += capacitor.tier
 	power_efficiency = E
 	E = 0
-	for(var/datum/stock_part/manipulator/manipulator in component_parts)
-		E += manipulator.tier
+	for(var/datum/stock_part/servo/servo in component_parts)
+		E += servo.tier
 	teleport_speed = initial(teleport_speed)
 	teleport_speed -= (E*10)
 	teleport_cooldown = initial(teleport_cooldown)
 	teleport_cooldown -= (E * 100)
 
+<<<<<<< HEAD
 /obj/machinery/quantumpad/multitool_act(mob/living/user, obj/item/multitool/multi)
 	. = NONE
 	if(panel_open)
@@ -78,6 +79,32 @@
 
 	else if(istype(attacking_item, /obj/item/quantum_keycard))
 		var/obj/item/quantum_keycard/K = attacking_item
+=======
+/obj/machinery/quantumpad/multitool_act(mob/living/user, obj/item/multitool/multi_tool)
+	if(panel_open)
+		multi_tool.set_buffer(src)
+		balloon_alert(user, "saved to multitool buffer")
+		to_chat(user, span_notice("You save the data in [multi_tool] buffer. It can now be saved to pads with closed panels."))
+		return ITEM_INTERACT_SUCCESS
+
+	if(istype(multi_tool.buffer, /obj/machinery/quantumpad))
+		if(multi_tool.buffer == src)
+			balloon_alert(user, "cannot link to self!")
+			return ITEM_INTERACT_BLOCKING
+		linked_pad = multi_tool.buffer
+		balloon_alert(user, "data uploaded from buffer")
+		return ITEM_INTERACT_SUCCESS
+
+	balloon_alert(user, "no quantum pad data found!")
+	return NONE
+
+/obj/machinery/quantumpad/attackby(obj/item/weapon, mob/user, params)
+	if(default_deconstruction_screwdriver(user, "qpad-idle-open", "qpad-idle", weapon))
+		return
+
+	if(istype(weapon, /obj/item/quantum_keycard))
+		var/obj/item/quantum_keycard/K = weapon
+>>>>>>> tg-pr-88929
 		if(K.qpad)
 			to_chat(user, span_notice("You insert [K] into [src]'s card slot, activating it."))
 			interact(user, K.qpad)
@@ -87,7 +114,11 @@
 				to_chat(user, span_notice("You complete the link between [K] and [src]."))
 				K.set_pad(src)
 
+<<<<<<< HEAD
 	if(default_deconstruction_crowbar(attacking_item))
+=======
+	if(default_deconstruction_crowbar(weapon))
+>>>>>>> tg-pr-88929
 		return
 
 	return ..()
@@ -133,7 +164,7 @@
 /obj/machinery/quantumpad/proc/doteleport(mob/user = null, obj/machinery/quantumpad/target_pad = linked_pad)
 	if(!target_pad)
 		return
-	playsound(get_turf(src), 'sound/weapons/flash.ogg', 25, TRUE)
+	playsound(get_turf(src), 'sound/items/weapons/flash.ogg', 25, TRUE)
 	teleporting = TRUE
 
 	addtimer(CALLBACK(src, PROC_REF(teleport_contents), user, target_pad), teleport_speed)
@@ -157,9 +188,9 @@
 	target_pad.sparks()
 
 	flick("qpad-beam", src)
-	playsound(get_turf(src), 'sound/weapons/emitter2.ogg', 25, TRUE)
+	playsound(get_turf(src), 'sound/items/weapons/emitter2.ogg', 25, TRUE)
 	flick("qpad-beam", target_pad)
-	playsound(get_turf(target_pad), 'sound/weapons/emitter2.ogg', 25, TRUE)
+	playsound(get_turf(target_pad), 'sound/items/weapons/emitter2.ogg', 25, TRUE)
 	for(var/atom/movable/ROI in get_turf(src))
 		if(QDELETED(ROI))
 			continue //sleeps in CHECK_TICK

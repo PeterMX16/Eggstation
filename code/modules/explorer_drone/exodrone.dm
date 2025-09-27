@@ -361,7 +361,11 @@ GLOBAL_LIST_EMPTY(exodrone_launchers)
 	if(fuel_canister)
 		. += span_notice("You can remove the [fuel_canister] with a <b>prying tool</b>.")
 
+<<<<<<< HEAD
 /obj/machinery/exodrone_launcher/attackby(obj/item/weapon, mob/living/user, list/modifiers, list/attack_modifiers)
+=======
+/obj/machinery/exodrone_launcher/attackby(obj/item/weapon, mob/living/user, params)
+>>>>>>> tg-pr-88929
 	if(istype(weapon, /obj/item/fuel_pellet))
 		if(fuel_canister)
 			to_chat(user, span_warning("There's already fuel loaded inside [src]!"))
@@ -462,9 +466,12 @@ GLOBAL_LIST_EMPTY(exodrone_launchers)
 	var/uses = 5
 
 /obj/item/fuel_pellet/use(used)
+<<<<<<< HEAD
 	. = ..()
 	if(!.)
 		return
+=======
+>>>>>>> tg-pr-88929
 	uses--
 	if(uses <= 0)
 		qdel(src)

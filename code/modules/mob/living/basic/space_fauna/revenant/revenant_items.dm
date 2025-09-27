@@ -71,7 +71,11 @@
 	var/user_name = old_ckey
 	if(isnull(revenant.client))
 		var/mob/potential_user = get_new_user()
+<<<<<<< HEAD
 		revenant.PossessByPlayer(potential_user.key)
+=======
+		revenant.key = potential_user.key
+>>>>>>> tg-pr-88929
 		user_name = potential_user.ckey
 		qdel(potential_user)
 

@@ -38,4 +38,9 @@
 	damage = 5
 
 /obj/projectile/temp/watcher/ice_wing/apply_status(mob/living/target)
+<<<<<<< HEAD
+=======
+	if(!HAS_TRAIT(target, TRAIT_RESISTCOLD))
+		return
+>>>>>>> tg-pr-88929
 	target.apply_status_effect(/datum/status_effect/freon/watcher)

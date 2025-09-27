@@ -69,7 +69,7 @@
 	if(atom_integrity == max_integrity)
 		to_chat(user, span_warning("This plaque is already in perfect condition."))
 		return TRUE
-	if(!I.tool_start_check(user, amount=0))
+	if(!I.tool_start_check(user, amount=1))
 		return TRUE
 	user.visible_message(span_notice("[user] starts repairing [src]..."), \
 		span_notice("You start repairing [src]."))
@@ -88,7 +88,7 @@
 		var/namechoice = tgui_input_text(user, "Title this plaque. (e.g. 'Best HoP Award', 'Great Ashwalker War Memorial')", "Plaque Customization", max_length = MAX_NAME_LEN)
 		if(!namechoice)
 			return
-		var/descriptionchoice = tgui_input_text(user, "Engrave this plaque's text", "Plaque Customization")
+		var/descriptionchoice = tgui_input_text(user, "Engrave this plaque's text", "Plaque Customization", max_length = MAX_PLAQUE_LEN)
 		if(!descriptionchoice)
 			return
 		if(!Adjacent(user)) //Make sure user is adjacent still
@@ -141,7 +141,7 @@
 	if(atom_integrity == max_integrity)
 		to_chat(user, span_warning("This plaque is already in perfect condition."))
 		return TRUE
-	if(!I.tool_start_check(user, amount=0))
+	if(!I.tool_start_check(user, amount=1))
 		return TRUE
 	user.visible_message(span_notice("[user] starts repairing [src]..."), \
 		span_notice("You start repairing [src]."))
@@ -161,7 +161,7 @@
 		var/namechoice = tgui_input_text(user, "Title this plaque. (e.g. 'Best HoP Award', 'Great Ashwalker War Memorial')", "Plaque Customization", max_length = MAX_NAME_LEN)
 		if(!namechoice)
 			return
-		var/descriptionchoice = tgui_input_text(user, "Engrave this plaque's text", "Plaque Customization")
+		var/descriptionchoice = tgui_input_text(user, "Engrave this plaque's text", "Plaque Customization", max_length = MAX_PLAQUE_LEN)
 		if(!descriptionchoice)
 			return
 		if(!Adjacent(user)) //Make sure user is adjacent still

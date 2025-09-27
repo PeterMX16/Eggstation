@@ -19,9 +19,15 @@ map heliostation
 	votable
 endmap
 
-map metastation
+# Production-level maps.
+
+map birdshot
 	#default
+<<<<<<< HEAD
 	minplayers 5
+=======
+	maxplayers 66
+>>>>>>> tg-pr-88929
 	votable
 endmap
 
@@ -30,13 +36,19 @@ map deltastation
 	votable
 endmap
 
+<<<<<<< HEAD
 map kilostation
 	minplayers 5
+=======
+map icebox
+	minplayers 25
+>>>>>>> tg-pr-88929
 	votable
 endmap
 
-map icebox
+map metastation
 	minplayers 25
+	#voteweight 0.5
 	votable
 endmap
 
@@ -51,12 +63,29 @@ map tramstation
 	votable
 endmap
 
+<<<<<<< HEAD
 map runtimestation
+=======
+map nebulastation
+	minplayers 35
+	votable
+endmap
+
+map wawastation
+	votable
+	minplayers 40
+endmap
+
+# Debug-only maps.
+
+map gateway_test
+>>>>>>> tg-pr-88929
 endmap
 
 map multiz_debug
 endmap
 
+<<<<<<< HEAD
 map boxstation
 	minplayers 25
 	votable
@@ -86,4 +115,7 @@ endmap
 map leadpoisoningstation
 	votable
 	minplayers 40
+=======
+map runtimestation
+>>>>>>> tg-pr-88929
 endmap

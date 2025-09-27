@@ -1,7 +1,11 @@
 /datum/quirk/deviant_tastes
 	name = "Deviant Tastes"
 	desc = "You dislike food that most people enjoy, and find delicious what they don't."
+<<<<<<< HEAD
 	icon = FA_ICON_FACE_GRIN_TONGUE_SQUINT
+=======
+	icon = FA_ICON_GRIN_TONGUE_SQUINT
+>>>>>>> tg-pr-88929
 	value = 0
 	gain_text = span_notice("You start craving something that tastes strange.")
 	lose_text = span_notice("You feel like eating normal food again.")
@@ -9,7 +13,11 @@
 	mail_goodies = list(/obj/item/food/urinalcake, /obj/item/food/badrecipe) // Mhhhmmm yummy
 
 /datum/quirk/deviant_tastes/add(client/client_source)
+<<<<<<< HEAD
 	var/obj/item/organ/internal/tongue/tongue = quirk_holder.get_organ_slot(ORGAN_SLOT_TONGUE)
+=======
+	var/obj/item/organ/tongue/tongue = quirk_holder.get_organ_slot(ORGAN_SLOT_TONGUE)
+>>>>>>> tg-pr-88929
 	if(!tongue)
 		return
 	var/liked_foodtypes = tongue.liked_foodtypes
@@ -17,7 +25,11 @@
 	tongue.disliked_foodtypes = liked_foodtypes
 
 /datum/quirk/deviant_tastes/remove()
+<<<<<<< HEAD
 	var/obj/item/organ/internal/tongue/tongue = quirk_holder.get_organ_slot(ORGAN_SLOT_TONGUE)
+=======
+	var/obj/item/organ/tongue/tongue = quirk_holder.get_organ_slot(ORGAN_SLOT_TONGUE)
+>>>>>>> tg-pr-88929
 	if(!tongue)
 		return
 	tongue.liked_foodtypes = initial(tongue.liked_foodtypes)

@@ -44,6 +44,7 @@ fi
 # which we assume was used to install it
 if ! [ -x "$has_ytdlp" ]; then
 	echo "Installing yt-dlp with pip3..."
+<<<<<<< HEAD
 	if ! [ -x "$has_sudo" ]; then
 		apt-get update
 		apt-get install -y python3 python3-pip
@@ -53,6 +54,10 @@ if ! [ -x "$has_ytdlp" ]; then
 	fi
 	pip3 install yt-dlp --break-system-packages
 elif [ -x "$has_pip3" ]; then
+=======
+	pip3 install yt-dlp --break-system-packages
+else
+>>>>>>> tg-pr-88929
 	echo "Ensuring yt-dlp is up-to-date with pip3..."
 	pip3 install yt-dlp -U --break-system-packages
 fi

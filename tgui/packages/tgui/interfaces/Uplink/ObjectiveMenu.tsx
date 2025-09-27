@@ -1,6 +1,10 @@
+<<<<<<< HEAD
 import { BooleanLike, classes } from 'common/react';
 import { Component } from 'inferno';
 
+=======
+import { Component, MouseEvent } from 'react';
+>>>>>>> tg-pr-88929
 import {
   Box,
   Button,
@@ -11,7 +15,13 @@ import {
   Section,
   Stack,
   Tooltip,
+<<<<<<< HEAD
 } from '../../components';
+=======
+} from 'tgui-core/components';
+import { BooleanLike, classes } from 'tgui-core/react';
+
+>>>>>>> tg-pr-88929
 import {
   calculateProgression,
   getDangerLevel,
@@ -67,8 +77,8 @@ export class ObjectiveMenu extends Component<
   ObjectiveMenuProps,
   ObjectiveMenuState
 > {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       draggingObjective: null,
       objectiveX: 0,
@@ -92,8 +102,8 @@ export class ObjectiveMenu extends Component<
         objectiveX: event.clientX,
         objectiveY: event.clientY,
       });
-      window.addEventListener('mouseup', this.handleMouseUp);
-      window.addEventListener('mousemove', this.handleMouseMove);
+      window.addEventListener('mouseup', this.handleMouseUp as any);
+      window.addEventListener('mousemove', this.handleMouseMove as any);
       event.stopPropagation();
       event.preventDefault();
 
@@ -101,26 +111,26 @@ export class ObjectiveMenu extends Component<
     }
   }
 
-  handleMouseUp(event: MouseEvent) {
+  handleMouseUp(event: MouseEvent<HTMLDivElement>) {
     if (dragClickTimer > Date.now()) {
       return;
     }
 
-    window.removeEventListener('mouseup', this.handleMouseUp);
-    window.removeEventListener('mousemove', this.handleMouseMove);
+    window.removeEventListener('mouseup', this.handleMouseUp as any);
+    window.removeEventListener('mousemove', this.handleMouseMove as any);
     this.setState({
       draggingObjective: null,
     });
   }
 
-  handleMouseMove(event: MouseEvent) {
+  handleMouseMove(event: MouseEvent<HTMLDivElement>) {
     this.setState({
       objectiveX: event.pageX,
       objectiveY: event.pageY - 32,
     });
   }
 
-  handleObjectiveAdded(event: MouseEvent) {
+  handleObjectiveAdded(event: MouseEvent<HTMLDivElement>) {
     const { draggingObjective } = this.state as ObjectiveMenuState;
     if (!draggingObjective) {
       return;
@@ -274,7 +284,11 @@ export class ObjectiveMenu extends Component<
             left={`${objectiveX - 180}px`}
             top={`${objectiveY}px`}
             style={{
+<<<<<<< HEAD
               'pointer-events': 'none',
+=======
+              pointerEvents: 'none',
+>>>>>>> tg-pr-88929
             }}
           >
             {ObjectiveFunction(draggingObjective, false)}
@@ -464,9 +478,15 @@ export const ObjectiveElement = (props: ObjectiveElementProps) => {
                   <Box
                     style={{
                       border: '2px solid rgba(0, 0, 0, 0.5)',
+<<<<<<< HEAD
                       'border-left': 'none',
                       'border-right': 'none',
                       'border-bottom': objectiveFinished ? 'none' : undefined,
+=======
+                      borderLeft: 'none',
+                      borderRight: 'none',
+                      borderBottom: objectiveFinished ? 'none' : undefined,
+>>>>>>> tg-pr-88929
                     }}
                     className={dangerLevel.gradient}
                     py={0.5}
@@ -528,10 +548,17 @@ export const ObjectiveElement = (props: ObjectiveElementProps) => {
                     inline
                     className={dangerLevel.gradient}
                     style={{
+<<<<<<< HEAD
                       'border-radius': '0',
                       border: '2px solid rgba(0, 0, 0, 0.5)',
                       'border-left': 'none',
                       'border-right': 'none',
+=======
+                      borderRadius: '0',
+                      border: '2px solid rgba(0, 0, 0, 0.5)',
+                      borderLeft: 'none',
+                      borderRight: 'none',
+>>>>>>> tg-pr-88929
                     }}
                     position="relative"
                     width="100%"

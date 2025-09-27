@@ -30,20 +30,23 @@
 		area.power_light = (lighting > APC_CHANNEL_AUTO_OFF)
 		area.power_equip = (equipment > APC_CHANNEL_AUTO_OFF)
 		area.power_environ = (environ > APC_CHANNEL_AUTO_OFF)
-		playsound(src.loc, 'sound/machines/terminal_on.ogg', 50, FALSE)
+		playsound(src.loc, 'sound/machines/terminal/terminal_on.ogg', 50, FALSE)
 	else
 		area.power_light = FALSE
 		area.power_equip = FALSE
 		area.power_environ = FALSE
-		playsound(src.loc, 'sound/machines/terminal_off.ogg', 50, FALSE)
+		playsound(src.loc, 'sound/machines/terminal/terminal_off.ogg', 50, FALSE)
 	area.power_change()
 
 /obj/machinery/power/apc/proc/toggle_breaker(mob/user)
 	if(!is_operational || failure_timer)
 		return
 	operating = !operating
-	add_hiddenprint(user)
-	user.log_message("turned [operating ? "on" : "off"] the [src]", LOG_GAME)
+	if (user)
+		var/enabled_or_disabled = operating ? "enabled" : "disabled"
+		balloon_alert(user, "power [enabled_or_disabled]")
+		user.log_message("turned [enabled_or_disabled] the [src]", LOG_GAME)
+		add_hiddenprint(user)
 	update()
 	update_appearance()
 
@@ -142,8 +145,18 @@
 	if(nightshift_lights == on)
 		return //no change
 	nightshift_lights = on
+<<<<<<< HEAD
 	for(var/obj/machinery/light/night_light in area.lights)
 		if(night_light.nightshift_allowed)
 			night_light.nightshift_enabled = nightshift_lights
 			night_light.update(FALSE)
 		CHECK_TICK
+=======
+	for (var/list/zlevel_turfs as anything in area.get_zlevel_turf_lists())
+		for(var/turf/area_turf as anything in zlevel_turfs)
+			for(var/obj/machinery/light/night_light in area_turf)
+				if(night_light.nightshift_allowed)
+					night_light.nightshift_enabled = nightshift_lights
+					night_light.update(FALSE)
+				CHECK_TICK
+>>>>>>> tg-pr-88929

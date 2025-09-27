@@ -3,14 +3,17 @@
 	desc = "Access your built-in tools."
 	icon = 'icons/hud/screen_drone.dmi'
 	icon_state = "tool_storage"
+	storage_type = /datum/storage/drone
 	item_flags = ABSTRACT
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF
 	w_class = WEIGHT_CLASS_BULKY
 
 /obj/item/storage/drone_tools/Initialize(mapload)
 	. = ..()
+
 	ADD_TRAIT(src, TRAIT_NODROP, ABSTRACT_ITEM_TRAIT)
 
+<<<<<<< HEAD
 	var/static/list/drone_builtins = list(
 		/obj/item/crowbar/drone,
 		/obj/item/screwdriver/drone,
@@ -28,6 +31,8 @@
 	atom_storage.set_holdable(cant_hold_list = list(/obj/item/storage/backpack/satchel/flat))
 
 
+=======
+>>>>>>> tg-pr-88929
 /obj/item/storage/drone_tools/PopulateContents()
 	var/list/builtintools = list()
 	builtintools += new /obj/item/crowbar/drone(src)
@@ -36,20 +41,21 @@
 	builtintools += new /obj/item/weldingtool/drone(src)
 	builtintools += new /obj/item/wirecutters/drone(src)
 	builtintools += new /obj/item/multitool/drone(src)
-	builtintools += new /obj/item/pipe_dispenser(src)
-	builtintools += new /obj/item/t_scanner(src)
-	builtintools += new /obj/item/analyzer(src)
+	builtintools += new /obj/item/pipe_dispenser/drone(src)
+	builtintools += new /obj/item/t_scanner/drone(src)
+	builtintools += new /obj/item/analyzer/drone(src)
+	builtintools += new /obj/item/soap/drone(src)
 
 	for(var/obj/item/tool as anything in builtintools)
-		tool.AddComponent(/datum/component/holderloving, src, TRUE)
-
+		tool.AddComponent(/datum/component/holderloving, src)
 
 /obj/item/crowbar/drone
 	name = "built-in crowbar"
 	desc = "A crowbar built into your chassis."
 	icon = 'icons/obj/items_cyborg.dmi'
-	icon_state = "crowbar_cyborg"
+	icon_state = "toolkit_engiborg_crowbar"
 	inhand_icon_state = "crowbar"
+	icon_angle = 0
 	item_flags = NO_MAT_REDEMPTION
 	toolspeed = 0.5 //Monke, drone tools are as fast as borg tools.
 
@@ -57,7 +63,7 @@
 	name = "built-in screwdriver"
 	desc = "A screwdriver built into your chassis."
 	icon = 'icons/obj/items_cyborg.dmi'
-	icon_state = "screwdriver_cyborg"
+	icon_state = "toolkit_engiborg_screwdriver"
 	inhand_icon_state = "screwdriver"
 	item_flags = NO_MAT_REDEMPTION
 	random_color = FALSE
@@ -77,8 +83,9 @@
 	name = "built-in wrench"
 	desc = "A wrench built into your chassis."
 	icon = 'icons/obj/items_cyborg.dmi'
-	icon_state = "wrench_cyborg"
+	icon_state = "toolkit_engiborg_wrench"
 	inhand_icon_state = "wrench"
+	icon_angle = 0
 	item_flags = NO_MAT_REDEMPTION
 	toolspeed = 0.5 //Monke, drone tools are as fast as borg tools.
 
@@ -95,7 +102,7 @@
 	name = "built-in wirecutters"
 	desc = "Wirecutters built into your chassis."
 	icon = 'icons/obj/items_cyborg.dmi'
-	icon_state = "wirecutters_cyborg"
+	icon_state = "toolkit_engiborg_cutters"
 	inhand_icon_state = "cutters"
 	item_flags = NO_MAT_REDEMPTION
 	random_color = FALSE
@@ -105,6 +112,22 @@
 	name = "built-in multitool"
 	desc = "A multitool built into your chassis."
 	icon = 'icons/obj/items_cyborg.dmi'
-	icon_state = "multitool_cyborg"
+	icon_state = "toolkit_engiborg_multitool"
+	icon_angle = 0
 	item_flags = NO_MAT_REDEMPTION
 	toolspeed = 0.5
+
+/obj/item/analyzer/drone
+	name = "digital gas analyzer"
+	desc = "A gas analyzer built into your chassis."
+	item_flags = NO_MAT_REDEMPTION
+
+/obj/item/t_scanner/drone
+	name = "digital T-ray scanner"
+	desc = "A T-ray scanner built into your chassis."
+	item_flags = NO_MAT_REDEMPTION
+
+/obj/item/pipe_dispenser/drone
+	name = "built-in rapid pipe dispenser"
+	desc = "A rapid pipe dispenser built into your chassis."
+	item_flags = NO_MAT_REDEMPTION

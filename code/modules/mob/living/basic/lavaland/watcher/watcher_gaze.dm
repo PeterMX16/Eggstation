@@ -11,7 +11,10 @@
 	cooldown_time = 20 SECONDS
 	click_to_activate = FALSE
 	shared_cooldown = NONE
+<<<<<<< HEAD
 	melee_cooldown_time = 0 SECONDS
+=======
+>>>>>>> tg-pr-88929
 	/// At what range do we check for vision?
 	var/effect_radius = 7
 	/// How long does it take to play our various animation stages
@@ -27,6 +30,10 @@
 	show_indicator_overlay("eye_open")
 	stage_timer = addtimer(CALLBACK(src, PROC_REF(show_indicator_overlay), "eye_pulse"), animation_time, TIMER_STOPPABLE)
 	StartCooldown(360 SECONDS, 360 SECONDS)
+<<<<<<< HEAD
+=======
+	owner.visible_message(span_warning("[owner]'s eye glows ominously!"))
+>>>>>>> tg-pr-88929
 	if (do_after(owner, delay = wait_delay, target = owner))
 		trigger_effect()
 	else
@@ -64,12 +71,21 @@
 		)
 		flick_overlay_global(flashed_overlay, show_to = GLOB.clients, duration = animation_time)
 	stage_timer = addtimer(CALLBACK(src, PROC_REF(hide_eye)), animation_time, TIMER_STOPPABLE)
+<<<<<<< HEAD
+=======
+	var/mob/living/living_owner = owner
+	living_owner.Stun(1.5 SECONDS, ignore_canstun = TRUE)
+>>>>>>> tg-pr-88929
 
 /// Do something bad to someone who was looking at us
 /datum/action/cooldown/mob_cooldown/watcher_gaze/proc/apply_effect(mob/living/viewer)
 	if (!viewer.flash_act(intensity = 4, affect_silicon = TRUE, visual = TRUE, length = 3 SECONDS))
 		return FALSE
 	viewer.set_confusion_if_lower(12 SECONDS)
+<<<<<<< HEAD
+=======
+	to_chat(viewer, span_warning("You are blinded by [owner]'s piercing gaze!"))
+>>>>>>> tg-pr-88929
 	return TRUE
 
 /// Animate our effect out
@@ -97,6 +113,10 @@
 	desc = "After a delay, burn and stun everyone looking at you."
 
 /datum/action/cooldown/mob_cooldown/watcher_gaze/fire/apply_effect(mob/living/viewer)
+<<<<<<< HEAD
+=======
+	to_chat(viewer, span_warning("[owner]'s searing glare forces you to the ground!"))
+>>>>>>> tg-pr-88929
 	viewer.Paralyze(3 SECONDS)
 	viewer.adjust_fire_stacks(10)
 	viewer.ignite_mob()
@@ -110,6 +130,12 @@
 	var/max_throw = 3
 
 /datum/action/cooldown/mob_cooldown/watcher_gaze/ice/apply_effect(mob/living/viewer)
+<<<<<<< HEAD
+=======
+	if(!HAS_TRAIT(viewer, TRAIT_RESISTCOLD))
+		return
+	to_chat(viewer, span_warning("You are repulsed by the force of [owner]'s cold stare!"))
+>>>>>>> tg-pr-88929
 	viewer.apply_status_effect(/datum/status_effect/freon/watcher/extended)
 	viewer.safe_throw_at(
 		target = get_edge_target_turf(owner, get_dir(owner, get_step_away(viewer, owner))),

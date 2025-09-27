@@ -1,5 +1,15 @@
-import { BooleanLike } from 'common/react';
+import {
+  Box,
+  Button,
+  LabeledList,
+  NoticeBox,
+  Section,
+  Stack,
+} from 'tgui-core/components';
+import { BooleanLike } from 'tgui-core/react';
+
 import { useBackend } from '../backend';
+<<<<<<< HEAD
 import {
   Box,
   Button,
@@ -8,6 +18,8 @@ import {
   Section,
   Stack,
 } from '../components';
+=======
+>>>>>>> tg-pr-88929
 import { Window } from '../layouts';
 
 type Data = {

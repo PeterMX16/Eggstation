@@ -12,6 +12,7 @@
 	var/overwrites_main = FALSE
 
 /datum/ai_behavior/step_towards_turf/setup(datum/ai_controller/controller, turf_key)
+<<<<<<< HEAD
 	if(!overwrites_main)
 		var/turf/target_turf = controller.blackboard[turf_key]
 		if (QDELETED(target_turf) || target_turf.is_blocked_turf(exclude_mobs = TRUE))
@@ -22,6 +23,14 @@
 
 		if (target_turf.z != controller.pawn.z)
 			return FALSE
+=======
+	var/turf/target_turf = controller.blackboard[turf_key]
+	if (QDELETED(target_turf) || target_turf.is_blocked_turf(exclude_mobs = TRUE))
+		target_turf = find_destination_turf(args)
+		if (!target_turf)
+			return FALSE
+		controller.set_blackboard_key(turf_key, target_turf)
+>>>>>>> tg-pr-88929
 
 		var/turf/destination = plot_movement(controller, target_turf)
 		if (!destination)
@@ -49,8 +58,7 @@
 
 // We actually only wanted the movement so if we've arrived we're done
 /datum/ai_behavior/step_towards_turf/perform(seconds_per_tick, datum/ai_controller/controller, area_key, turf_key)
-	. = ..()
-	finish_action(controller, succeeded = TRUE)
+	return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_SUCCEEDED
 
 /**
  * # Step towards turf in area

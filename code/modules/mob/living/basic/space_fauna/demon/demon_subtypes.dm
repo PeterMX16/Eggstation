@@ -8,7 +8,11 @@
 	icon_state = "slaughter_demon"
 	icon_living = "slaughter_demon"
 
+<<<<<<< HEAD
 	bodytemp_cold_damage_limit = TCMB
+=======
+	minimum_survivable_temperature = TCMB
+>>>>>>> tg-pr-88929
 
 	// slaughter demons are specifically intended to have low melee damage, but as they hit and build up their killstreak
 	// their wound bonuses grow and grow higher. this is how they're able to efficiently kill and slaughter their victims.
@@ -22,7 +26,11 @@
 
 	antag_type = /datum/antagonist/slaughter
 
+<<<<<<< HEAD
 	/// Datum that stores the action for us to crawl around.
+=======
+	/// Which blood crawl do we give to the demon
+>>>>>>> tg-pr-88929
 	var/crawl_type = /datum/action/cooldown/spell/jaunt/bloodcrawl/slaughter_demon
 	/// How long it takes for the alt-click slam attack to come off cooldown
 	var/slam_cooldown_time = 45 SECONDS
@@ -37,8 +45,12 @@
 
 /mob/living/basic/demon/slaughter/Initialize(mapload)
 	. = ..()
+<<<<<<< HEAD
 	var/datum/action/cooldown/spell/jaunt/bloodcrawl/slaughter_demon/crawl = new crawl_type(src)
 	crawl.Grant(src)
+=======
+	GRANT_ACTION(crawl_type)
+>>>>>>> tg-pr-88929
 	RegisterSignal(src, COMSIG_LIVING_UNARMED_ATTACK, PROC_REF(on_attack))
 	RegisterSignals(src, list(COMSIG_MOB_ENTER_JAUNT, COMSIG_MOB_AFTER_EXIT_JAUNT), PROC_REF(on_crawl))
 
@@ -46,7 +58,11 @@
 	var/static/list/droppable_loot = list(
 		/obj/effect/decal/cleanable/blood,
 		/obj/effect/decal/cleanable/blood/innards,
+<<<<<<< HEAD
 		/obj/item/organ/internal/heart/demon,
+=======
+		/obj/item/organ/heart/demon,
+>>>>>>> tg-pr-88929
 	)
 
 	return droppable_loot
@@ -99,16 +115,30 @@
 /mob/living/basic/demon/slaughter/proc/on_attack(mob/living/source, atom/attack_target, proximity_flag, list/modifiers)
 	SIGNAL_HANDLER
 
+<<<<<<< HEAD
+=======
+	if(!proximity_flag)
+		return NONE
+
+>>>>>>> tg-pr-88929
 	if(LAZYACCESS(modifiers, RIGHT_CLICK))
 		bodyslam(attack_target)
 		return COMPONENT_CANCEL_ATTACK_CHAIN
 
 	if(!iscarbon(attack_target))
+<<<<<<< HEAD
 		return
 
 	var/mob/living/carbon/target = attack_target
 	if(target.stat == DEAD || isnull(target.mind) || (current_hitstreak > wound_bonus_hitstreak_max))
 		return
+=======
+		return NONE
+
+	var/mob/living/carbon/target = attack_target
+	if(target.stat == DEAD || isnull(target.mind) || (current_hitstreak > wound_bonus_hitstreak_max))
+		return NONE
+>>>>>>> tg-pr-88929
 
 	current_hitstreak++
 	wound_bonus += wound_bonus_per_hit
@@ -147,7 +177,11 @@
 /// We do our own special thing on death, which is to spawn a kitten.
 /mob/living/basic/demon/slaughter/laughter/proc/on_death()
 	SIGNAL_HANDLER
+<<<<<<< HEAD
 	var/mob/living/simple_animal/pet/cat/kitten/kitty = new(drop_location())
+=======
+	var/mob/living/basic/pet/cat/kitten/kitty = new(drop_location())
+>>>>>>> tg-pr-88929
 	kitty.name = "Laughter"
 
 /mob/living/basic/demon/slaughter/laughter/ex_act(severity)

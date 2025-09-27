@@ -166,7 +166,10 @@
 	. = ..()
 	if(!.)
 		return
-
+	if(genes_to_check)
+		genes_to_check = string_list(genes_to_check)
+	if(traits_to_check)
+		traits_to_check = string_list(traits_to_check)
 	our_plant.AddElement(/datum/element/plant_backfire, cancel_action_on_backfire, traits_to_check, genes_to_check)
 	RegisterSignal(our_plant, COMSIG_PLANT_ON_BACKFIRE, PROC_REF(on_backfire))
 
@@ -197,8 +200,7 @@
 
 	to_chat(user, span_danger("[our_plant]'s thorns prick your hand. Ouch."))
 	our_plant.investigate_log("rose-pricked [key_name(user)] at [AREACOORD(user)]", INVESTIGATE_BOTANY)
-	var/obj/item/bodypart/affecting = user.get_active_hand()
-	affecting?.receive_damage(2)
+	user.apply_damage(2, BRUTE, user.get_active_hand())
 
 /// Novaflower's hand burn on backfire
 /datum/plant_gene/trait/backfire/novaflower_heat
@@ -209,8 +211,7 @@
 /datum/plant_gene/trait/backfire/novaflower_heat/backfire_effect(obj/item/our_plant, mob/living/carbon/user)
 	to_chat(user, span_danger("[our_plant] singes your bare hand!"))
 	our_plant.investigate_log("self-burned [key_name(user)] for [our_plant.force] at [AREACOORD(user)]", INVESTIGATE_BOTANY)
-	var/obj/item/bodypart/affecting = user.get_active_hand()
-	return affecting?.receive_damage(0, our_plant.force, wound_bonus = CANT_WOUND)
+	user.apply_damage(our_plant.force, our_plant.damtype, user.get_active_hand(), wound_bonus = CANT_WOUND)
 
 /// Normal Nettle hannd burn on backfire
 /datum/plant_gene/trait/backfire/nettle_burn
@@ -220,8 +221,7 @@
 /datum/plant_gene/trait/backfire/nettle_burn/backfire_effect(obj/item/our_plant, mob/living/carbon/user)
 	to_chat(user, span_danger("[our_plant] burns your bare hand!"))
 	our_plant.investigate_log("self-burned [key_name(user)] for [our_plant.force] at [AREACOORD(user)]", INVESTIGATE_BOTANY)
-	var/obj/item/bodypart/affecting = user.get_active_hand()
-	return affecting?.receive_damage(0, our_plant.force, wound_bonus = CANT_WOUND)
+	user.apply_damage(our_plant.force, our_plant.damtype, user.get_active_hand(), wound_bonus = CANT_WOUND)
 
 /// Deathnettle hand burn + stun on backfire
 /datum/plant_gene/trait/backfire/nettle_burn/death
@@ -428,6 +428,7 @@
 		spawned_simplemob.move_to_delay -= round(our_seed.production * mob_speed_multiplier)
 
 	if(isbasicmob(spawned_mob))
+<<<<<<< HEAD
 		var/damage_mid_point = 100
 		var/damage_max_value = 14
 		var/mob_damage = qp_sigmoid(damage_mid_point, damage_max_value, our_seed.potency)
@@ -436,6 +437,13 @@
 		spawned_basicmob.melee_damage_upper += mob_damage
 		// basic mob speeds aren't exactly equivalent to simple animal's "move to delay" but this seems balanced enough.
 		var/calculated_speed = initial(spawned_basicmob.speed) - round((min(our_seed.production, 25) * mob_speed_multiplier), 0.01)
+=======
+		var/mob/living/basic/spawned_basicmob = spawned_mob
+		spawned_basicmob.melee_damage_lower += round(our_seed.potency * mob_melee_multiplier)
+		spawned_basicmob.melee_damage_upper += round(our_seed.potency * mob_melee_multiplier)
+		// basic mob speeds aren't exactly equivalent to simple animal's "move to delay" but this seems balanced enough.
+		var/calculated_speed = initial(spawned_basicmob.speed) - round((our_seed.production * mob_speed_multiplier), 0.01)
+>>>>>>> tg-pr-88929
 		spawned_basicmob.set_varspeed(calculated_speed)
 
 	our_plant.forceMove(our_plant.drop_location())
@@ -594,7 +602,7 @@
 	else
 		our_plant.color = COLOR_RED
 
-	playsound(our_plant.drop_location(), 'sound/weapons/armbomb.ogg', 75, TRUE, -3)
+	playsound(our_plant.drop_location(), 'sound/items/weapons/armbomb.ogg', 75, TRUE, -3)
 	addtimer(CALLBACK(src, PROC_REF(detonate), our_plant), rand(1 SECONDS, 6 SECONDS))
 
 /datum/plant_gene/trait/bomb_plant/potency_based/detonate(obj/item/our_plant)

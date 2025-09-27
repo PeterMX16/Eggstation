@@ -46,7 +46,6 @@
  * Files are kinda susy, and may not actually work. buyer beware
  * Lists support assoc values as expected
  * These constants can be further embedded into lists
- * One var edited list will be shared among all the things it is applied to
  *
  * There can be no padding in front of, or behind a path
  *
@@ -342,7 +341,10 @@
 			sucessful = _dmm_load(x_offset, y_offset, z_offset, crop_map, no_changeturf, x_lower, x_upper, y_lower, y_upper, z_lower, z_upper, place_on_top, new_z)
 
 	// And we are done lads, call it off
+<<<<<<< HEAD
 	loading = FALSE
+=======
+>>>>>>> tg-pr-88929
 	SSatoms.map_loader_stop(REF(src))
 	loading = FALSE
 
@@ -841,7 +843,11 @@ GLOBAL_LIST_EMPTY(map_model_default)
 			if(member_string[length(member_string)] == "}")
 				variables_start = findtext(member_string, "{")
 
+<<<<<<< HEAD
 			var/path_text = trimtext(copytext(member_string, 1, variables_start))
+=======
+			var/path_text = trim(copytext(member_string, 1, variables_start))
+>>>>>>> tg-pr-88929
 			var/atom_def = text2path(path_text) //path definition, e.g /obj/foo/bar
 
 			if(!ispath(atom_def, /atom)) // Skip the item if the path does not exist.  Fix your crap, mappers!
@@ -950,7 +956,7 @@ GLOBAL_LIST_EMPTY(map_model_default)
 
 		// Note: we make the assertion that the last path WILL be a turf. if it isn't, this will fail.
 		if(placeOnTop)
-			instance = crds.PlaceOnTop(null, members[index], CHANGETURF_DEFER_CHANGE | (no_changeturf ? CHANGETURF_SKIP : NONE))
+			instance = crds.load_on_top(members[index], CHANGETURF_DEFER_CHANGE | (no_changeturf ? CHANGETURF_SKIP : NONE))
 		else if(no_changeturf)
 			instance = create_atom(members[index], crds)//first preloader pass
 		else
@@ -1013,7 +1019,11 @@ GLOBAL_LIST_EMPTY(map_model_default)
 
 		// check if this is a simple variable (as in list(var1, var2)) or an associative one (as in list(var1="foo",var2=7))
 		var/equal_position = findtext(text,"=",old_position, position)
+<<<<<<< HEAD
 		var/trim_left = trimtext(copytext(text,old_position,(equal_position ? equal_position : position)))
+=======
+		var/trim_left = trim(copytext(text,old_position,(equal_position ? equal_position : position)))
+>>>>>>> tg-pr-88929
 		var/left_constant = parse_constant(trim_left)
 		if(position)
 			old_position = position + length(text[position])
@@ -1023,7 +1033,11 @@ GLOBAL_LIST_EMPTY(map_model_default)
 		if(equal_position && !isnum(left_constant))
 			// Associative var, so do the association.
 			// Note that numbers cannot be keys - the RHS is dropped if so.
+<<<<<<< HEAD
 			var/trim_right = trimtext(copytext(text, equal_position + length(text[equal_position]), position))
+=======
+			var/trim_right = trim(copytext(text, equal_position + length(text[equal_position]), position))
+>>>>>>> tg-pr-88929
 			var/right_constant = parse_constant(trim_right)
 			.[left_constant] = right_constant
 		else  // simple var
@@ -1067,6 +1081,10 @@ GLOBAL_LIST_EMPTY(map_model_default)
 	return text
 
 /datum/parsed_map/Destroy()
+<<<<<<< HEAD
+=======
+	..()
+>>>>>>> tg-pr-88929
 	SSatoms.map_loader_stop(REF(src)) // Just in case, I don't want to double up here
 	if(turf_blacklist)
 		turf_blacklist.Cut()

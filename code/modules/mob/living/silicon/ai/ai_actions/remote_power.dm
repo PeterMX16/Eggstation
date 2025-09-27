@@ -6,10 +6,17 @@
 	unlock_text = span_notice("Remote APC power systems online.")
 
 /datum/action/innate/ai/ranged/power_apc
+<<<<<<< HEAD
 	name = "Remotely Power APC"
 	desc = "Use to remotely power an APC."
 	button_icon = 'monkestation/code/modules/aesthetics/icons/apc.dmi'
 	button_icon_state = "apcewires"
+=======
+	name = "remotely power APC"
+	desc = "Use to remotely power an APC."
+	button_icon = 'icons/obj/machines/wallmounts.dmi'
+	button_icon_state = "apc0"
+>>>>>>> tg-pr-88929
 	ranged_mousepointer = 'icons/effects/mouse_pointers/supplypod_target.dmi'
 	enable_text = span_notice("You prepare to power any APC you see.")
 	disable_text = span_notice("You stop focusing on powering APCs.")
@@ -20,7 +27,11 @@
 		return FALSE
 	var/mob/living/silicon/ai/ai_clicker = clicker
 
+<<<<<<< HEAD
 	if(clicker.incapacitated())
+=======
+	if(clicker.incapacitated)
+>>>>>>> tg-pr-88929
 		unset_ranged_ability(clicker)
 		return FALSE
 
@@ -33,7 +44,11 @@
 		return FALSE
 
 	var/obj/machinery/power/apc/apc = clicked_on
+<<<<<<< HEAD
 	var/obj/item/stock_parts/power_store/cell/cell = apc.get_cell()
+=======
+	var/obj/item/stock_parts/power_store/cell = apc.get_cell()
+>>>>>>> tg-pr-88929
 	cell.give(STANDARD_BATTERY_CHARGE)
 	ai_clicker.battery -= 50
 

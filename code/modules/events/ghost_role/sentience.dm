@@ -1,8 +1,13 @@
 GLOBAL_LIST_INIT(high_priority_sentience, typecacheof(list(
 	/mob/living/basic/bat,
 	/mob/living/basic/butterfly,
+<<<<<<< HEAD
 	/mob/living/basic/lizard,
+=======
+>>>>>>> tg-pr-88929
 	/mob/living/basic/carp/pet/cayenne,
+	/mob/living/basic/chicken,
+	/mob/living/basic/crab,
 	/mob/living/basic/cow,
 	/mob/living/basic/goat,
 	/mob/living/basic/lizard,
@@ -17,7 +22,12 @@ GLOBAL_LIST_INIT(high_priority_sentience, typecacheof(list(
 	/mob/living/basic/spider/giant/sgt_araneus,
 	/mob/living/simple_animal/bot/secbot/beepsky,
 	/mob/living/simple_animal/hostile/retaliate/goose/vomit,
+<<<<<<< HEAD
 	/mob/living/simple_animal/pet,
+=======
+	/mob/living/basic/bear/snow/misha,
+	/mob/living/basic/mining/lobstrosity/juvenile,
+>>>>>>> tg-pr-88929
 )))
 
 /datum/round_event_control/sentience
@@ -49,6 +59,7 @@ GLOBAL_LIST_INIT(high_priority_sentience, typecacheof(list(
 	priority_announce(sentience_report,"[command_name()] Medium-Priority Update")
 
 /datum/round_event/ghost_role/sentience/spawn_role()
+<<<<<<< HEAD
 	var/list/mob/dead/observer/candidates
 	candidates = SSpolling.poll_ghost_candidates(
 		"Would you like to be a random animal?",
@@ -56,6 +67,11 @@ GLOBAL_LIST_INIT(high_priority_sentience, typecacheof(list(
 		alert_pic = /obj/item/slimepotion/slime/sentience,
 		role_name_text = role_name
 	)
+=======
+	var/list/mob/dead/observer/candidates = SSpolling.poll_ghost_candidates(check_jobban = ROLE_SENTIENCE, role = ROLE_SENTIENCE, alert_pic = /obj/item/slimepotion/slime/sentience, role_name_text = role_name)
+	if(!length(candidates))
+		return NOT_ENOUGH_PLAYERS
+>>>>>>> tg-pr-88929
 
 	// find our chosen mob to breathe life into
 	// Mobs have to be simple animals, mindless, on station, and NOT holograms.
@@ -106,9 +122,9 @@ GLOBAL_LIST_INIT(high_priority_sentience, typecacheof(list(
 		spawned_mobs += selected
 
 		to_chat(selected, span_userdanger("Hello world!"))
-		to_chat(selected, "<span class='warning'>Due to freak radiation and/or chemicals \
+		to_chat(selected, span_warning("Due to freak radiation and/or chemicals \
 			and/or lucky chance, you have gained human level intelligence \
-			and the ability to speak and understand human language!</span>")
+			and the ability to speak and understand human language!"))
 
 	return SUCCESSFUL_SPAWN
 

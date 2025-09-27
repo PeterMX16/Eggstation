@@ -14,11 +14,15 @@
 	var/content = ""
 
 /datum/browser/New(nuser, nwindow_id, ntitle = 0, nwidth = 0, nheight = 0, atom/nref = null)
+<<<<<<< HEAD
 	if(IS_CLIENT_OR_MOCK(nuser))
 		var/client/client_user = nuser
 		user = client_user.mob
 	else
 		user = nuser
+=======
+	user = nuser
+>>>>>>> tg-pr-88929
 	RegisterSignal(user, COMSIG_QDELETING, PROC_REF(user_deleted))
 	window_id = nwindow_id
 	if (ntitle)
@@ -111,7 +115,7 @@
 /datum/browser/proc/open(use_onclose = TRUE)
 	if(isnull(window_id)) //null check because this can potentially nuke goonchat
 		WARNING("Browser [title] tried to open with a null ID")
-		to_chat(user, span_userdanger("The [title] browser you tried to open failed a sanity check! Please report this on github!"))
+		to_chat(user, span_userdanger("The [title] browser you tried to open failed a sanity check! Please report this on GitHub!"))
 		return
 	var/window_size = ""
 	if(width && height)
@@ -154,6 +158,7 @@
 
 	var/output = {"<center><b>[Message]</b></center><br />
 		<div style="text-align:center">
+<<<<<<< HEAD
 		<a style="font-size:large;float:[( Button2 ? "left" : "right" )]" href="byond://?src=[REF(src)];button=1">[Button1]</a>"}
 
 	if (Button2)
@@ -161,6 +166,15 @@
 
 	if (Button3)
 		output += {"<a style="font-size:large;float:right" href="byond://?src=[REF(src)];button=3">[Button3]</a>"}
+=======
+		<a style="font-size:large;float:[( Button2 ? "left" : "right" )]" href='byond://?src=[REF(src)];button=1'>[Button1]</a>"}
+
+	if (Button2)
+		output += {"<a style="font-size:large;[( Button3 ? "" : "float:right" )]" href='byond://?src=[REF(src)];button=2'>[Button2]</a>"}
+
+	if (Button3)
+		output += {"<a style="font-size:large;float:right" href='byond://?src=[REF(src)];button=3'>[Button3]</a>"}
+>>>>>>> tg-pr-88929
 
 	output += {"</div>"}
 
@@ -491,7 +505,3 @@
 			src.Topic(href, params2list(href), hsrc) // this will direct to the atom's
 			return // Topic() proc via client.Topic()
 
-	// no atomref specified (or not found)
-	// so just reset the user mob's machine var
-	if(src?.mob)
-		src.mob.unset_machine()

@@ -7,6 +7,7 @@
 	category = /datum/uplink_category/dangerous
 
 /datum/uplink_item/dangerous/foampistol
+<<<<<<< HEAD
 	name = "Toy Pistol with Riot Darts"
 	desc = "An innocent-looking toy pistol designed to fire foam darts. Comes loaded with riot-grade \
 			darts effective at incapacitating a target."
@@ -14,15 +15,26 @@
 	cost = 2
 	surplus = 50 //monkestation edit: from 10 to 50
 	purchasable_from = ~UPLINK_NUKE_OPS
+=======
+	name = "Donksoft Riot Pistol Case"
+	desc = "A case containing an innocent-looking toy pistol designed to fire foam darts at higher than normal velocity. \
+		Comes loaded with riot-grade darts effective at incapacitating a target, two spare magazines and a box of loose \
+		riot darts. Perfect for nonlethal takedowns at range, as well as deniability. While not included in the kit, the \
+		pistol is compatible with suppressors, which can be purchased separately."
+	item = /obj/item/storage/toolbox/guncase/traitor/donksoft
+	cost = 6
+	surplus = 10
+	purchasable_from = ~UPLINK_SERIOUS_OPS
+>>>>>>> tg-pr-88929
 
 /datum/uplink_item/dangerous/pistol
-	name = "Makarov Pistol"
-	desc = "A small, easily concealable handgun that uses 9mm auto rounds in 8-round magazines and is compatible \
-			with suppressors."
-	progression_minimum = 10 MINUTES
-	item = /obj/item/gun/ballistic/automatic/pistol
+	name = "Makarov Pistol Case"
+	desc = "A weapon case containing an unknown variant of the Makarov pistol, along with two spare magazines and a box of loose 9mm ammunition. \
+		Chambered in 9mm. Perfect for frequent skirmishes with security, as well as ensuring you have enough firepower to outlast the competition. \
+		While not included in the kit, the pistol is compatible with suppressors, which can be purchased seperately."
+	item = /obj/item/storage/toolbox/guncase/traitor
 	cost = 7
-	purchasable_from = ~(UPLINK_NUKE_OPS | UPLINK_CLOWN_OPS)
+	purchasable_from = ~UPLINK_ALL_SYNDIE_OPS
 
 /datum/uplink_item/dangerous/whispering_jester_45
 	name = "Whispering-Jester .45 ACP Handgun"
@@ -35,10 +47,9 @@
 	name = "Box of Throwing Weapons"
 	desc = "A box of shurikens and reinforced bolas from ancient Earth martial arts. They are highly effective \
 			throwing weapons. The bolas can knock a target down and the shurikens will embed into limbs."
-	progression_minimum = 10 MINUTES
 	item = /obj/item/storage/box/syndie_kit/throwing_weapons
 	cost = 3
-	illegal_tech = FALSE
+	uplink_item_flags = SYNDIE_TRIPS_CONTRABAND
 
 /datum/uplink_item/dangerous/sword
 	name = "Energy Sword"
@@ -46,7 +57,7 @@
 			pocketed when inactive. Activating it produces a loud, distinctive noise."
 	progression_minimum = 20 MINUTES
 	item = /obj/item/melee/energy/sword/saber
-	cost = 8
+	cost = 6
 	purchasable_from = ~UPLINK_CLOWN_OPS
 
 /datum/uplink_item/dangerous/powerfist
@@ -58,7 +69,7 @@
 	progression_minimum = 20 MINUTES
 	item = /obj/item/melee/powerfist
 	cost = 6
-	purchasable_from = ~(UPLINK_NUKE_OPS | UPLINK_CLOWN_OPS)
+	purchasable_from = ~UPLINK_ALL_SYNDIE_OPS
 
 /datum/uplink_item/dangerous/rapid
 	name = "Gloves of the North Star"
@@ -70,11 +81,20 @@
 /datum/uplink_item/dangerous/doublesword
 	name = "Double-Bladed Energy Sword"
 	desc = "The double-bladed energy sword does slightly more damage than a standard energy sword and will deflect \
+<<<<<<< HEAD
 			all energy projectiles, but requires two hands to wield. It also struggles to protect you from tackles."
 	progression_minimum = 30 MINUTES
 	item = /obj/item/dualsaber
 	cost = 16
 	purchasable_from = ~UPLINK_CLOWN_OPS
+=======
+			energy projectiles it blocks, but requires two hands to wield. It also struggles to protect you from tackles."
+	progression_minimum = 30 MINUTES
+	item = /obj/item/dualsaber
+
+	cost = 13
+	purchasable_from = ~UPLINK_ALL_SYNDIE_OPS //nukies get their own version
+>>>>>>> tg-pr-88929
 
 /datum/uplink_item/dangerous/doublesword/get_discount_value(discount_type)
 	switch(discount_type)
@@ -92,18 +112,23 @@
 	progression_minimum = 30 MINUTES
 	item = /obj/item/guardian_creator/tech
 	cost = 18
+<<<<<<< HEAD
 	surplus = 40 //monkestation edit: from 0 to 40
 	purchasable_from = ~(UPLINK_NUKE_OPS | UPLINK_CLOWN_OPS)
+=======
+	surplus = 0
+	purchasable_from = ~UPLINK_ALL_SYNDIE_OPS
+>>>>>>> tg-pr-88929
 	restricted = TRUE
 	refundable = TRUE
 
 /datum/uplink_item/dangerous/revolver
 	name = "Syndicate Revolver"
-	desc = "Waffle Co.'s modernized Syndicate revolver. Fires 7 brutal rounds of .357 Magnum."
-	item = /obj/item/gun/ballistic/revolver/syndicate
-	progression_minimum = 30 MINUTES
+	desc = "A brutally simple Syndicate revolver that fires .357 Magnum rounds and has 7 chambers."
+	item = /obj/item/gun/ballistic/revolver
 	cost = 13
 	surplus = 50
+<<<<<<< HEAD
 	purchasable_from = ~UPLINK_CLOWN_OPS
 
 /datum/uplink_item/dangerous/razorwire
@@ -123,6 +148,9 @@
 	progression_minimum = 15 MINUTES
 	cost = 12
 	surplus = 20
+=======
+	purchasable_from = ~UPLINK_ALL_SYNDIE_OPS //only traitors get the original revolver
+>>>>>>> tg-pr-88929
 
 /datum/uplink_item/dangerous/cat
 	name = "Feral cat grenade"
@@ -130,6 +158,7 @@
 	cost = 5
 	item = /obj/item/grenade/spawnergrenade/cat
 	surplus = 30
+<<<<<<< HEAD
 
 /datum/uplink_item/dangerous/rebarxbowsyndie
 	name = "Syndicate Rebar Crossbow"
@@ -235,3 +264,5 @@
 	desc = "A modernised version of the infamous fire axe, courtesy of the Gorlex Marauders. Capable of breaching almost anything, and cleaving through almost any armour, it is to be handled with care."
 	item = /obj/item/fireaxe/energy
 	cost = 12
+=======
+>>>>>>> tg-pr-88929

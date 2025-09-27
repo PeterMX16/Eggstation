@@ -8,6 +8,7 @@
 	if((bodytemperature < T20C) || istype(goat_area, /area/station/service/kitchen/coldroom))
 		. += span_notice("[p_They()] [p_do()]n't seem to be too bothered about the cold.") // special for pete
 
+<<<<<<< HEAD
 /mob/living/basic/goat/pete/add_udder()
 	return //no thank you
 
@@ -25,3 +26,5 @@
 		"min_n2" = 0,
 		"max_n2" = 0,
 	)
+=======
+>>>>>>> tg-pr-88929

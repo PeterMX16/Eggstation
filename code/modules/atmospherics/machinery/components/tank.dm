@@ -1,7 +1,7 @@
 #define TANK_PLATING_SHEETS 12
 
 /obj/machinery/atmospherics/components/tank
-	icon = 'icons/obj/atmospherics/stationary_canisters.dmi'
+	icon = 'icons/obj/pipes_n_cables/stationary_canisters.dmi'
 	icon_state = "smooth"
 
 	name = "pressure tank"
@@ -72,7 +72,7 @@
 	if(!knob_overlays)
 		knob_overlays = list()
 		for(var/dir in GLOB.cardinals)
-			knob_overlays["[dir]"] = image('icons/obj/atmospherics/stationary_canisters.dmi', icon_state = "knob", dir = dir, layer = FLOAT_LAYER)
+			knob_overlays["[dir]"] = image('icons/obj/pipes_n_cables/stationary_canisters.dmi', icon_state = "knob", dir = dir, layer = FLOAT_LAYER)
 
 	if(!crack_states)
 		crack_states = list()
@@ -84,7 +84,7 @@
 
 	AddComponent(/datum/component/gas_leaker, leak_rate = 0.05)
 	AddElement(/datum/element/volatile_gas_storage)
-	AddElement(/datum/element/crackable, 'icons/obj/atmospherics/stationary_canisters.dmi', crack_states)
+	AddElement(/datum/element/crackable, 'icons/obj/pipes_n_cables/stationary_canisters.dmi', crack_states)
 
 	RegisterSignal(src, COMSIG_MERGER_ADDING, PROC_REF(merger_adding))
 	RegisterSignal(src, COMSIG_MERGER_REMOVING, PROC_REF(merger_removing))
@@ -93,7 +93,6 @@
 	air_contents = new
 	air_contents.temperature = T20C
 	air_contents.volume = volume
-	refresh_pressure_limit()
 
 	if(gas_type)
 		fill_to_pressure(gas_type)
@@ -110,7 +109,7 @@
 
 // We late initialize here so all stationary tanks have time to set up their
 // initial gas mixes and signal registrations.
-/obj/machinery/atmospherics/components/tank/LateInitialize()
+/obj/machinery/atmospherics/components/tank/post_machine_initialize()
 	. = ..()
 	GetMergeGroup(merger_id, merger_typecache)
 
@@ -127,7 +126,7 @@
 		. += span_notice("The pipe port can be moved or closed with a [wrench_hint].")
 	. += span_notice("A holographic sticker on it says that its maximum safe pressure is: [siunit_pressure(max_pressure, 0)].")
 
-/obj/machinery/atmospherics/components/tank/set_custom_materials(list/materials, multiplier)
+/obj/machinery/atmospherics/components/tank/finalize_material_effects(list/materials)
 	. = ..()
 	refresh_pressure_limit()
 
@@ -337,11 +336,19 @@
 
 	var/static/alpha_filter
 	if(!alpha_filter) // Gotta do this separate since the icon may not be correct at world init
+<<<<<<< HEAD
 		alpha_filter = filter(type="alpha", icon = icon('icons/obj/atmospherics/stationary_canisters.dmi', "window-bg"))
 
 	var/list/new_underlays = list()
 	for(var/icon in visuals)
 		var/image/new_underlay = image(icon, icon_state = visuals[icon], layer = FLOAT_LAYER)
+=======
+		alpha_filter = filter(type="alpha", icon = icon('icons/obj/pipes_n_cables/stationary_canisters.dmi', "window-bg"))
+
+	var/list/new_underlays = list()
+	for(var/obj/effect/overlay/gas/gas as anything in air_contents.return_visuals(get_turf(src)))
+		var/image/new_underlay = image(gas.icon, icon_state = gas.icon_state, layer = FLOAT_LAYER)
+>>>>>>> tg-pr-88929
 		new_underlay.filters = alpha_filter
 		new_underlays += new_underlay
 
@@ -374,7 +381,7 @@
 	. = TRUE
 	if(atom_integrity >= max_integrity)
 		return
-	if(!tool.tool_start_check(user, amount = 0))
+	if(!tool.tool_start_check(user, amount = 0, heat_required = HIGH_TEMPERATURE_REQUIRED))
 		return
 	to_chat(user, span_notice("You begin to repair the cracks in the gas tank..."))
 	var/repair_amount = max_integrity / 10
@@ -408,7 +415,7 @@
 	deconstruct(disassembled=TRUE)
 	to_chat(user, span_notice("You finish cutting open the sealed gas tank, revealing the innards."))
 
-/obj/machinery/atmospherics/components/tank/deconstruct(disassembled)
+/obj/machinery/atmospherics/components/tank/on_deconstruction(disassembled)
 	var/turf/location = drop_location()
 	. = ..()
 	location.assume_air(air_contents)
@@ -432,6 +439,18 @@
 
 /obj/machinery/atmospherics/components/tank/air
 	name = "pressure tank (Air)"
+
+/obj/machinery/atmospherics/components/tank/air/layer1
+	piping_layer = 1
+
+/obj/machinery/atmospherics/components/tank/air/layer2
+	piping_layer = 2
+
+/obj/machinery/atmospherics/components/tank/air/layer4
+	piping_layer = 4
+
+/obj/machinery/atmospherics/components/tank/air/layer5
+	piping_layer = 5
 
 /obj/machinery/atmospherics/components/tank/air/Initialize(mapload)
 	. = ..()
@@ -502,7 +521,7 @@
 // Tank Frame Structure
 
 /obj/structure/tank_frame
-	icon = 'icons/obj/atmospherics/stationary_canisters.dmi'
+	icon = 'icons/obj/pipes_n_cables/stationary_canisters.dmi'
 	icon_state = "frame"
 	anchored = FALSE
 	density = TRUE
@@ -529,11 +548,14 @@
 			var/welder_hint = EXAMINE_HINT("welder")
 			. += span_notice("The plating has been firmly attached and would need a [crowbar_hint] to detach, but still needs to be sealed by a [welder_hint].")
 
-/obj/structure/tank_frame/deconstruct(disassembled)
+/obj/structure/tank_frame/atom_deconstruct(disassembled)
 	if(disassembled)
 		for(var/datum/material/mat as anything in custom_materials)
 			new mat.sheet_type(drop_location(), custom_materials[mat] / SHEET_MATERIAL_AMOUNT)
+<<<<<<< HEAD
 	return ..()
+=======
+>>>>>>> tg-pr-88929
 
 /obj/structure/tank_frame/update_icon(updates)
 	. = ..()
@@ -621,7 +643,7 @@
 	if(!anchored)
 		to_chat(user, span_notice("You need to <b>wrench</b> [src] to the floor before finishing."))
 		return
-	if(!tool.tool_start_check(user, amount = 0))
+	if(!tool.tool_start_check(user, amount = 0, heat_required = HIGH_TEMPERATURE_REQUIRED))
 		return
 	to_chat(user, span_notice("You begin sealing the outer plating with the welder..."))
 	if(!tool.use_tool(src, user, 2 SECONDS, volume = 60))

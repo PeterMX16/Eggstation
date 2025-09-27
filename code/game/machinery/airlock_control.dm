@@ -6,10 +6,18 @@
 	var/airlock_state
 	var/frequency
 
-/obj/machinery/door/airlock/Initialize(mapload)
+
+/obj/machinery/door/airlock/mouse_drop_receive(mob/living/dropping, mob/user, params)
 	. = ..()
+<<<<<<< HEAD
 	RegisterSignal(SSdcs, COMSIG_GLOB_GREY_TIDE, PROC_REF(grey_tide))
 	RegisterSignal(SSdcs, COMSIG_GLOBAL_GREY_TIDE_TRAITOR, PROC_REF(grey_tide)) //monkestation edit
+=======
+	// We add the component only once here & not in Initialize() because there are tons of airlocks & we don't want to add to their init times
+	// This is on airlock rather than on door because windoors are door and leaning looks whack on windoors
+	LoadComponent(/datum/component/leanable, dropping)
+
+>>>>>>> tg-pr-88929
 
 /// Forces the airlock to unbolt and open
 /obj/machinery/door/airlock/proc/secure_open()
@@ -36,6 +44,7 @@
 	locked = FALSE
 	return ..()
 
+<<<<<<< HEAD
 /obj/machinery/door/airlock/proc/grey_tide(datum/source, list/grey_tide_areas, traitor_bug = FALSE) //monkestation edit: adds traitor_bug
 	SIGNAL_HANDLER
 
@@ -52,8 +61,10 @@
 //monkestation edit end
 			INVOKE_ASYNC(src, PROC_REF(prison_open)) //Sleep gets called further down in open(), so we have to invoke async
 
+=======
+>>>>>>> tg-pr-88929
 /obj/machinery/airlock_sensor
-	icon = 'icons/obj/airlock_machines.dmi'
+	icon = 'icons/obj/machines/wallmounts.dmi'
 	icon_state = "airlock_sensor_off"
 	base_icon_state = "airlock_sensor"
 	name = "airlock sensor"

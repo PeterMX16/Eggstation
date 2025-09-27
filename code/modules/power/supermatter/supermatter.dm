@@ -17,7 +17,7 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
 /obj/machinery/power/supermatter_crystal
 	name = "supermatter crystal"
 	desc = "A strangely translucent and iridescent crystal."
-	icon = 'icons/obj/engine/supermatter.dmi'
+	icon = 'icons/obj/machines/engine/supermatter.dmi'
 	density = TRUE
 	anchored = TRUE
 	layer = MOB_LAYER
@@ -105,7 +105,7 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
 	var/external_power_immediate = 0
 
 	/// External damage that are added to the sm on next [/obj/machinery/power/supermatter_crystal/process_atmos] call.
-	/// SM will not take damage if it's health is lower than emergency point.
+	/// SM will not take damage if its health is lower than emergency point.
 	var/external_damage_immediate = 0
 
 	///The cutoff for a bolt jumping, grows with heat, lowers with higher mol count,
@@ -180,6 +180,18 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
 	/// Lazy list of the crazy engineers who managed to turn a cascading engine around.
 	var/list/datum/weakref/saviors = null
 
+<<<<<<< HEAD
+=======
+	/// If a sliver of the supermatter has been removed. Almost certainly by a traitor. Lowers the delamination countdown time.
+	var/supermatter_sliver_removed = FALSE
+
+	/// If the SM is decorated with holiday lights
+	var/holiday_lights = FALSE
+
+	/// Cooldown for sending emergency alerts to the common radio channel
+	COOLDOWN_DECLARE(common_radio_cooldown)
+
+>>>>>>> tg-pr-88929
 /obj/machinery/power/supermatter_crystal/Initialize(mapload)
 	. = ..()
 	current_gas_behavior = init_sm_gas()
@@ -212,6 +224,9 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
 	AddComponent(/datum/component/supermatter_crystal, CALLBACK(src, PROC_REF(wrench_act_callback)), CALLBACK(src, PROC_REF(consume_callback)))
 	soundloop = new(src, TRUE)
 
+	if(!isnull(check_holidays(FESTIVE_SEASON)))
+		holiday_lights()
+
 	if (!moveable)
 		move_resist = MOVE_FORCE_OVERPOWERING // Avoid being moved by statues or other memes
 
@@ -242,9 +257,19 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
 
 /obj/machinery/power/supermatter_crystal/examine(mob/user)
 	. = ..()
-	var/immune = HAS_TRAIT(user, TRAIT_MADNESS_IMMUNE) || (user.mind && HAS_TRAIT(user.mind, TRAIT_MADNESS_IMMUNE))
-	if(isliving(user) && !immune && (get_dist(user, src) < SM_HALLUCINATION_RANGE(internal_energy)))
-		. += span_danger("You get headaches just from looking at it.")
+	var/immune = HAS_MIND_TRAIT(user, TRAIT_MADNESS_IMMUNE)
+	if(isliving(user))
+		if (!immune && (get_dist(user, src) < SM_HALLUCINATION_RANGE(internal_energy)))
+			. += span_danger("You get headaches just from looking at it.")
+		var/mob/living/living_user = user
+		if (HAS_TRAIT(user, TRAIT_REMOTE_TASTING))
+			to_chat(user, span_warning("The taste is overwhelming and indescribable!"))
+			living_user.electrocute_act(shock_damage = 15, source = src, flags = SHOCK_KNOCKDOWN | SHOCK_NOGLOVES)
+			. += span_notice("It could use a little more Sodium Chloride...")
+
+	if(holiday_lights)
+		. += span_notice("Radiating both festive cheer and actual radiation, it has a dazzling spectacle lights wrapped lovingly around the base transforming it from a potential doomsday device into a cosmic yuletide centerpiece.")
+
 	. += delamination_strategy.examine(src)
 	return .
 
@@ -281,7 +306,11 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
 	var/accumulated_energy = accumulate_energy(ZAP_ENERGY_ACCUMULATION_NORMAL, energy = internal_energy * zap_transmission_rate * delta_time)
 	if(accumulated_energy && (last_power_zap + (4 - internal_energy * 0.001) SECONDS) < world.time)
 		var/discharged_energy = discharge_energy(ZAP_ENERGY_ACCUMULATION_NORMAL)
+<<<<<<< HEAD
 		playsound(src, 'sound/weapons/emitter2.ogg', 70, TRUE)
+=======
+		playsound(src, 'sound/items/weapons/emitter2.ogg', 70, TRUE)
+>>>>>>> tg-pr-88929
 		hue_angle_shift = clamp(903 * log(10, (internal_energy + 8000)) - 3590, -50, 240)
 		var/zap_color = color_matrix_rotate_hue(hue_angle_shift)
 		supermatter_zap(
@@ -303,7 +332,7 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
 	damage_factors = calculate_damage()
 	if(damage == 0) // Clear any in game forced delams if on full health.
 		set_delam(SM_DELAM_PRIO_IN_GAME, SM_DELAM_STRATEGY_PURGE)
-	else
+	else if(!final_countdown)
 		set_delam(SM_DELAM_PRIO_NONE, SM_DELAM_STRATEGY_PURGE) // This one cant clear any forced delams.
 	delamination_strategy.delam_progress(src)
 	if(damage > explosion_point && !final_countdown)
@@ -377,15 +406,20 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
 			"name" = factor,
 			"amount" = amount * -1
 		))
+	var/list/internal_energy_si_derived_data = siunit_isolated(internal_energy * 1e6, "eV", 3)
 	data["internal_energy"] = internal_energy
+	data["internal_energy_coefficient"] = internal_energy_si_derived_data[SI_COEFFICIENT]
+	data["internal_energy_unit"] = internal_energy_si_derived_data[SI_UNIT]
 	data["internal_energy_factors"] = list()
 	for (var/factor in internal_energy_factors)
+		var/list/internal_energy_factor_si_derived_data = siunit_isolated(internal_energy_factors[factor] * 1e6, "eV", 3)
 		var/amount = round(internal_energy_factors[factor], 0.01)
 		if(!amount)
 			continue
 		data["internal_energy_factors"] += list(list(
 			"name" = factor,
-			"amount" = amount
+			"amount" = internal_energy_factor_si_derived_data[SI_COEFFICIENT],
+			"unit" = internal_energy_factor_si_derived_data[SI_UNIT],
 		))
 	data["temp_limit"] = temp_limit
 	data["temp_limit_factors"] = list()
@@ -395,7 +429,7 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
 			continue
 		data["temp_limit_factors"] += list(list(
 			"name" = factor,
-			"amount" = amount
+			"amount" = amount,
 		))
 	data["waste_multiplier"] = waste_multiplier
 	data["waste_multiplier_factors"] = list()
@@ -405,18 +439,47 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
 			continue
 		data["waste_multiplier_factors"] += list(list(
 			"name" = factor,
-			"amount" = amount
+			"amount" = amount,
 		))
+<<<<<<< HEAD
 	data["zap_multiplier"] = zap_transmission_rate
 	data["zap_multiplier_factors"] = list()
+=======
+
+	data["zap_transmission_factors"] = list()
+>>>>>>> tg-pr-88929
 	for (var/factor in zap_factors)
-		var/amount = round(zap_factors[factor], 0.01)
-		if(!amount)
+		var/list/zap_factor_si_derived_data = siunit_isolated(zap_factors[factor] * internal_energy, "W", 2)
+		if(!zap_factor_si_derived_data[SI_COEFFICIENT])
 			continue
-		data["zap_multiplier_factors"] += list(list(
+		data["zap_transmission_factors"] += list(list(
 			"name" = factor,
-			"amount" = amount
+			"amount" = zap_factor_si_derived_data[SI_COEFFICIENT],
+			"unit" = zap_factor_si_derived_data[SI_UNIT],
 		))
+
+	///Add high energy bonus to the zap transmission data so we can accurately measure our power generation from zaps.
+	var/high_energy_bonus = 0
+	var/zap_transmission = zap_transmission_rate * internal_energy
+	var/zap_power_multiplier = 1
+	if(internal_energy > POWER_PENALTY_THRESHOLD) //Supermatter zaps multiply power internally under some conditions for some reason, so we'll snowflake this for now.
+		///Power multiplier bonus applied to all zaps. Zap power generation doubles when it reaches 7GeV and 9GeV.
+		zap_power_multiplier *= 2 ** clamp(round((internal_energy - POWER_PENALTY_THRESHOLD) / 2000), 0, 2)
+		///The supermatter releases additional zaps after 5GeV, with more at 7GeV and 9GeV.
+		var/additional_zap_bonus = clamp(internal_energy * 3200, 6.4e6, 3.2e7) * clamp(round(INVERSE_LERP(1000, 3000, internal_energy)), 1, 4)
+		high_energy_bonus = (zap_transmission + additional_zap_bonus) * zap_power_multiplier - zap_transmission
+		var/list/zap_factor_si_derived_data = siunit_isolated(high_energy_bonus, "W", 2)
+		data["zap_transmission_factors"] += list(list(
+			"name" = "High Energy Bonus",
+			"amount" = zap_factor_si_derived_data[SI_COEFFICIENT],
+			"unit" = zap_factor_si_derived_data[SI_UNIT],
+		))
+
+	var/list/zap_transmission_si_derived_data = siunit_isolated(zap_transmission + high_energy_bonus, "W", 2)
+	data["zap_transmission"] = zap_transmission + high_energy_bonus
+	data["zap_transmission_coefficient"] = zap_transmission_si_derived_data[SI_COEFFICIENT]
+	data["zap_transmission_unit"] = zap_transmission_si_derived_data[SI_UNIT]
+
 	data["absorbed_ratio"] = absorption_ratio
 	var/list/formatted_gas_percentage = list()
 	for (var/datum/gas/gas_path as anything in subtypesof(/datum/gas))
@@ -462,6 +525,13 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
 		. += mutable_appearance(icon = icon, icon_state = "[base_icon_state]-psy", layer = FLOAT_LAYER - 1, alpha = psy_coeff * 255)
 	if(delamination_strategy)
 		. += delamination_strategy.overlays(src)
+	if(holiday_lights)
+		if(istype(src, /obj/machinery/power/supermatter_crystal/shard))
+			. += mutable_appearance(icon, "holiday_lights_shard")
+			. += emissive_appearance(icon, "holiday_lights_shard_e", src, alpha = src.alpha)
+		else
+			. += mutable_appearance(icon, "holiday_lights")
+			. += emissive_appearance(icon, "holiday_lights_e", src, alpha = src.alpha)
 	return .
 
 /obj/machinery/power/supermatter_crystal/update_icon(updates)
@@ -515,20 +585,34 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
 		notify_flags = NOTIFY_CATEGORY_DEFAULT,
 	)
 
-	var/datum/sm_delam/last_delamination_strategy = delamination_strategy
+	notify_ghosts(
+		"[src] has begun the delamination process!",
+		source = src,
+		header = "Meltdown Incoming",
+	)
+
 	var/list/count_down_messages = delamination_strategy.count_down_messages()
 
 	radio.talk_into(
 		src,
 		count_down_messages[1],
-		emergency_channel
+		emergency_channel,
+		list(SPAN_COMMAND)
 	)
 
-	for(var/i in SUPERMATTER_COUNTDOWN_TIME to 0 step -10)
-		if(last_delamination_strategy != delamination_strategy)
-			count_down_messages = delamination_strategy.count_down_messages()
-			last_delamination_strategy = delamination_strategy
+	var/delamination_countdown_time = SUPERMATTER_COUNTDOWN_TIME
+	// If a sliver was removed from the supermatter, the countdown time is significantly decreased
+	if (supermatter_sliver_removed == TRUE)
+		delamination_countdown_time = SUPERMATTER_SLIVER_REMOVED_COUNTDOWN_TIME
+		radio.talk_into(
+			src,
+			"WARNING: Projected time until full crystal delamination significantly lower than expected. \
+			Please inspect crystal for structural abnormalities or sabotage!",
+			emergency_channel,
+			list(SPAN_COMMAND)
+			)
 
+	for(var/i in delamination_countdown_time to 0 step -10)
 		var/message
 		var/healed = FALSE
 
@@ -543,7 +627,7 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
 		else
 			message = "[i*0.1]..."
 
-		radio.talk_into(src, message, emergency_channel)
+		radio.talk_into(src, message, emergency_channel, list(SPAN_COMMAND))
 
 		if(healed)
 			final_countdown = FALSE
@@ -572,7 +656,7 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
  *
  * Updates:
  * [/obj/machinery/power/supermatter_crystal/var/list/gas_percentage]
- * [/obj/machinery/power/supermatter_crystal/var/gas_power_transmission]
+ * [/obj/machinery/power/supermatter_crystal/var/gas_power_transmission_rate]
  * [/obj/machinery/power/supermatter_crystal/var/gas_heat_modifier]
  * [/obj/machinery/power/supermatter_crystal/var/gas_heat_resistance]
  * [/obj/machinery/power/supermatter_crystal/var/gas_heat_power_generation]
@@ -632,7 +716,7 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
 	external_power_trickle -= min(additive_power[SM_POWER_EXTERNAL_TRICKLE], external_power_trickle)
 	additive_power[SM_POWER_EXTERNAL_IMMEDIATE] = external_power_immediate
 	external_power_immediate = 0
-	additive_power[SM_POWER_HEAT] = gas_heat_power_generation * absorbed_gasmix.temperature / 6
+	additive_power[SM_POWER_HEAT] = gas_heat_power_generation * absorbed_gasmix.temperature * GAS_HEAT_POWER_SCALING_COEFFICIENT
 	additive_power[SM_POWER_HEAT] && log_activation(who = "environmental factors")
 
 	// I'm sorry for this, but we need to calculate power lost immediately after power gain.
@@ -655,6 +739,9 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
 	if(internal_energy && !activation_logged)
 		stack_trace("Supermatter powered for the first time without being logged. Internal energy factors: [json_encode(internal_energy_factors)]")
 		activation_logged = TRUE // so we dont spam the log.
+	else if(!internal_energy)
+		last_power_zap = world.time
+		last_energy_accumulation_perspective_machines = SSmachines.times_fired
 	return additive_power
 
 /** Log when the supermatter is activated for the first time.
@@ -953,13 +1040,13 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
 	//Going boom should be rareish
 	if(prob(80))
 		zap_flags &= ~ZAP_MACHINE_EXPLOSIVE
-	if(target_type == COIL)
-		var/multi = 2
-		switch(power_level)//Between 7k and 9k it's 4, above that it's 8
+	if(target_type == COIL || target_type == ROD)
+		var/multi = 1
+		switch(power_level)//Between 7k and 9k it's 2, above that it's 4
 			if(SEVERE_POWER_PENALTY_THRESHOLD to CRITICAL_POWER_PENALTY_THRESHOLD)
-				multi = 4
+				multi = 2
 			if(CRITICAL_POWER_PENALTY_THRESHOLD to INFINITY)
-				multi = 8
+				multi = 4
 		if(zap_flags & ZAP_SUPERMATTER_FLAGS)
 			var/remaining_power = target.zap_act(zap_str * multi, zap_flags)
 			zap_str = remaining_power / multi //Coils should take a lot out of the power of the zap
@@ -996,6 +1083,37 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
 		if(zap_count > 1)
 			child_targets_hit = targets_hit.Copy() //Pass by ref begone
 		supermatter_zap(target, new_range, zap_str, zap_flags, child_targets_hit, zap_cutoff, power_level, zap_icon, color)
+
+// For /datum/sm_delam to check if it should be sending an alert on common radio channel
+/obj/machinery/power/supermatter_crystal/proc/should_alert_common()
+	if(!COOLDOWN_FINISHED(src, common_radio_cooldown))
+		return FALSE
+
+	COOLDOWN_START(src, common_radio_cooldown, SUPERMATTER_COMMON_RADIO_DELAY)
+	return TRUE
+
+/obj/machinery/power/supermatter_crystal/proc/holiday_lights()
+	holiday_lights = TRUE
+	RegisterSignal(src, COMSIG_ATOM_ITEM_INTERACTION, PROC_REF(holiday_item_interaction))
+	update_appearance()
+
+/// Consume the santa hat and add it as an overlay
+/obj/machinery/power/supermatter_crystal/proc/holiday_item_interaction(source, mob/living/user, obj/item/item, list/modifiers)
+	SIGNAL_HANDLER
+	if(istype(item, /obj/item/clothing/head/costume/santa))
+		QDEL_NULL(item)
+		RegisterSignal(src, COMSIG_ATOM_EXAMINE, PROC_REF(holiday_hat_examine))
+		if(istype(src, /obj/machinery/power/supermatter_crystal/shard))
+			add_overlay(mutable_appearance(icon, "santa_hat_shard"))
+		else
+			add_overlay(mutable_appearance(icon, "santa_hat"))
+		return COMPONENT_CANCEL_ATTACK_CHAIN
+	return NONE
+
+/// Adds the hat flavor text when examined
+/obj/machinery/power/supermatter_crystal/proc/holiday_hat_examine(atom/source, mob/user, list/examine_list)
+	SIGNAL_HANDLER
+	examine_list += span_info("There's a santa hat placed atop it. How it got there without being dusted is a mystery.")
 
 #undef BIKE
 #undef COIL

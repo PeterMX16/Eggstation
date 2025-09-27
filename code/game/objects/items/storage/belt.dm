@@ -46,28 +46,10 @@
 	. = ..()
 	atom_storage.max_specific_storage = WEIGHT_CLASS_NORMAL
 	atom_storage.max_total_storage = 21
-	atom_storage.set_holdable(list(
-		/obj/item/airlock_painter,
-		/obj/item/analyzer,
-		/obj/item/assembly/signaler,
+	atom_storage.set_holdable(GLOB.tool_items + list(
 		/obj/item/clothing/gloves,
-		/obj/item/construction/rcd,
-		/obj/item/construction/rld,
-		/obj/item/construction/rtd,
-		/obj/item/crowbar,
-		/obj/item/extinguisher/mini,
-		/obj/item/flashlight,
-		/obj/item/forcefield_projector,
-		/obj/item/geiger_counter,
-		/obj/item/holosign_creator/atmos,
-		/obj/item/holosign_creator/engineering,
-		/obj/item/inducer,
-		/obj/item/lightreplacer,
-		/obj/item/multitool,
-		/obj/item/pipe_dispenser,
-		/obj/item/pipe_painter,
-		/obj/item/plunger,
 		/obj/item/radio,
+<<<<<<< HEAD
 		/obj/item/screwdriver,
 		/obj/item/stack/cable_coil,
 		/obj/item/t_scanner,
@@ -78,10 +60,14 @@
 		/obj/item/melee/sickly_blade/knock, //monkestation edit(maybe)
 		/obj/item/clockwork/replica_fabricator, //monkestation edit
 		/obj/item/clockwork/clockwork_slab, //monkestation edit
+=======
+		/obj/item/melee/sickly_blade/lock,
+		/obj/item/reagent_containers/cup/soda_cans,
+>>>>>>> tg-pr-88929
 	))
 
 /obj/item/storage/belt/utility/chief
-	name = "\improper Chief Engineer's toolbelt" //"the Chief Engineer's toolbelt", because "Chief Engineer's toolbelt" is not a proper noun
+	name = "chief engineer's toolbelt"
 	desc = "Holds tools, looks snazzy."
 	icon_state = "utility_ce"
 	inhand_icon_state = "utility_ce"
@@ -191,6 +177,26 @@
 	to_preload += /obj/item/extinguisher/mini
 	return to_preload
 
+/obj/item/storage/belt/utility/full/inducer/PopulateContents()
+	SSwardrobe.provide_type(/obj/item/screwdriver, src)
+	SSwardrobe.provide_type(/obj/item/wrench, src)
+	SSwardrobe.provide_type(/obj/item/weldingtool, src)
+	SSwardrobe.provide_type(/obj/item/crowbar/red, src)
+	SSwardrobe.provide_type(/obj/item/wirecutters, src)
+	SSwardrobe.provide_type(/obj/item/multitool, src)
+	SSwardrobe.provide_type(/obj/item/inducer, src)
+
+/obj/item/storage/belt/utility/full/inducer/get_types_to_preload()
+	var/list/to_preload = list() //Yes this is a pain. Yes this is the point
+	to_preload += /obj/item/screwdriver
+	to_preload += /obj/item/wrench
+	to_preload += /obj/item/weldingtool
+	to_preload += /obj/item/crowbar
+	to_preload += /obj/item/wirecutters
+	to_preload += /obj/item/multitool
+	to_preload += /obj/item/inducer
+	return to_preload
+
 /obj/item/storage/belt/utility/syndicate
 	preload = FALSE
 
@@ -209,6 +215,8 @@
 	icon_state = "medical"
 	inhand_icon_state = "medical"
 	worn_icon_state = "medical"
+	drop_sound = 'sound/items/handling/toolbelt_drop.ogg'
+	pickup_sound = 'sound/items/handling/toolbelt_pickup.ogg'
 
 /obj/item/storage/belt/medical/Initialize(mapload)
 	. = ..()
@@ -226,6 +234,7 @@
 		/obj/item/clothing/mask/breath,
 		/obj/item/clothing/mask/muzzle,
 		/obj/item/clothing/mask/surgical,
+		/obj/item/clothing/head/utility/surgerycap,
 		/obj/item/construction/plumbing,
 		/obj/item/dnainjector,
 		/obj/item/extinguisher/mini,
@@ -268,7 +277,11 @@
 		/obj/item/surgicaldrill,
 		/obj/item/tank/internals/emergency_oxygen,
 		/obj/item/wrench/medical,
+<<<<<<< HEAD
 		/obj/item/device/antibody_scanner //monkestation addition
+=======
+		/obj/item/knife/ritual,
+>>>>>>> tg-pr-88929
 	))
 
 /obj/item/storage/belt/medical/paramedic
@@ -358,6 +371,9 @@
 		/obj/item/restraints/legcuffs/bola,
 		/obj/item/stock_parts/power_store/cell/microfusion, //monkestation edit
 	))
+	atom_storage.open_sound = 'sound/items/handling/holster_open.ogg'
+	atom_storage.open_sound_vary = TRUE
+	atom_storage.rustle_sound = FALSE
 
 /obj/item/storage/belt/security/full/PopulateContents()
 	new /obj/item/reagent_containers/spray/pepper(src)
@@ -406,7 +422,7 @@
 		/obj/item/lighter,
 		/obj/item/mining_scanner,
 		/obj/item/multitool,
-		/obj/item/organ/internal/monster_core,
+		/obj/item/organ/monster_core,
 		/obj/item/pickaxe,
 		/obj/item/radio,
 		/obj/item/reagent_containers/cup/glass,
@@ -433,6 +449,7 @@
 		/obj/item/wirecutters,
 		/obj/item/wrench,
 		/obj/item/wormhole_jaunter,
+<<<<<<< HEAD
 		/obj/item/trench_tool, //monkestation edit
 		/obj/item/cargo_teleporter, //monkestation edit
 		/obj/item/storage/box/kinetic, //monkestation edit
@@ -459,6 +476,9 @@
 		/obj/item/ammo_casing/minerjdj,
 		/obj/item/ammo_box/advanced/s12gauge/hunter, //monkestation edit
 		/obj/item/ammo_casing/shotgun/hunter, //monkestation edit
+=======
+		/obj/item/skeleton_key,
+>>>>>>> tg-pr-88929
 	))
 
 
@@ -476,7 +496,7 @@
 	for(var/i in 1 to 2)
 		new /obj/item/reagent_containers/hypospray/medipen/survival(src)
 	for(var/i in 1 to 2)
-		var/obj/item/organ/internal/monster_core/core = new /obj/item/organ/internal/monster_core/regenerative_core/legion(src)
+		var/obj/item/organ/monster_core/core = new /obj/item/organ/monster_core/regenerative_core/legion(src)
 		core.preserve()
 
 /obj/item/storage/belt/mining/primitive
@@ -496,13 +516,13 @@
 	icon_state = "soulstonebelt"
 	inhand_icon_state = "soulstonebelt"
 	worn_icon_state = "soulstonebelt"
+	drop_sound = 'sound/items/handling/toolbelt_drop.ogg'
+	pickup_sound = 'sound/items/handling/toolbelt_pickup.ogg'
 
 /obj/item/storage/belt/soulstone/Initialize(mapload)
 	. = ..()
 	atom_storage.max_slots = 6
-	atom_storage.set_holdable(list(
-		/obj/item/soulstone,
-	))
+	atom_storage.set_holdable(/obj/item/soulstone)
 
 /obj/item/storage/belt/soulstone/full/PopulateContents()
 	for(var/i in 1 to 6)
@@ -523,9 +543,8 @@
 /obj/item/storage/belt/champion/Initialize(mapload)
 	. = ..()
 	atom_storage.max_slots = 1
-	atom_storage.set_holdable(list(
-		/obj/item/clothing/mask/luchador,
-	))
+	atom_storage.set_holdable(/obj/item/clothing/mask/luchador)
+	AddComponent(/datum/component/adjust_fishing_difficulty, -2)
 
 /obj/item/storage/belt/military
 	name = "chest rig"
@@ -544,7 +563,7 @@
 
 /obj/item/storage/belt/military/snack/Initialize(mapload)
 	. = ..()
-	var/sponsor = pick("Donk Co.", "Waffle Co.", "Roffle Co.", "Gorlax Marauders", "Tiger Cooperative")
+	var/sponsor = pick("Donk Co.", "Waffle Corp.", "Roffle Co.", "Gorlex Marauders", "Tiger Cooperative")
 	desc = "A set of snack-tical webbing worn by athletes of the [sponsor] VR sports division."
 	atom_storage.max_slots = 6
 	atom_storage.max_specific_storage = WEIGHT_CLASS_SMALL
@@ -589,7 +608,7 @@
 /obj/item/storage/belt/military/abductor
 	name = "agent belt"
 	desc = "A belt used by abductor agents."
-	icon = 'icons/obj/abductor.dmi'
+	icon = 'icons/obj/antags/abductor.dmi'
 	icon_state = "belt"
 	inhand_icon_state = "security"
 	worn_icon_state = "security"
@@ -614,7 +633,7 @@
 /obj/item/storage/belt/military/assault
 	name = "assault belt"
 	desc = "A tactical assault belt."
-	icon_state = "assaultbelt"
+	icon_state = "assault"
 	inhand_icon_state = "security"
 	worn_icon_state = "assault"
 
@@ -634,6 +653,8 @@
 	icon_state = "grenadebeltnew"
 	inhand_icon_state = "security"
 	worn_icon_state = "grenadebeltnew"
+	drop_sound = 'sound/items/handling/toolbelt_drop.ogg'
+	pickup_sound = 'sound/items/handling/toolbelt_pickup.ogg'
 
 /obj/item/storage/belt/grenade/Initialize(mapload)
 	. = ..()
@@ -656,11 +677,10 @@
 
 /obj/item/storage/belt/grenade/full/PopulateContents()
 	generate_items_inside(list(
-		/obj/item/grenade/chem_grenade/facid = 1,
 		/obj/item/grenade/chem_grenade/incendiary = 2,
 		/obj/item/grenade/empgrenade = 2,
 		/obj/item/grenade/frag = 10,
-		/obj/item/grenade/flashbang = 1,
+		/obj/item/grenade/flashbang = 2,
 		/obj/item/grenade/gluon = 4,
 		/obj/item/grenade/smokebomb = 4,
 		/obj/item/grenade/syndieminibomb = 2,
@@ -679,9 +699,13 @@
 /obj/item/storage/belt/wands/Initialize(mapload)
 	. = ..()
 	atom_storage.max_slots = 7
+<<<<<<< HEAD
 	atom_storage.set_holdable(list(
 		/obj/item/gun/magic/wand,
 	))
+=======
+	atom_storage.set_holdable(/obj/item/gun/magic/wand)
+>>>>>>> tg-pr-88929
 
 /obj/item/storage/belt/wands/full/PopulateContents()
 	new /obj/item/gun/magic/wand/death(src)
@@ -702,12 +726,15 @@
 	icon_state = "janibelt"
 	inhand_icon_state = "janibelt"
 	worn_icon_state = "janibelt"
+	drop_sound = 'sound/items/handling/toolbelt_drop.ogg'
+	pickup_sound = 'sound/items/handling/toolbelt_pickup.ogg'
 
 /obj/item/storage/belt/janitor/Initialize(mapload)
 	. = ..()
 	atom_storage.max_slots = 6
 	atom_storage.max_specific_storage = WEIGHT_CLASS_NORMAL // Set to this so the  light replacer can fit.
 	atom_storage.set_holdable(list(
+		/obj/item/access_key,
 		/obj/item/assembly/mousetrap,
 		/obj/item/clothing/gloves,
 		/obj/item/flashlight,
@@ -734,24 +761,29 @@
 
 /obj/item/storage/belt/bandolier
 	name = "bandolier"
-	desc = "A bandolier for holding rifle and shotgun ammunition."
+	desc = "A bandolier for holding rifle shotgun, and bigger revolver caliber ammunition."
 	icon_state = "bandolier"
 	inhand_icon_state = "bandolier"
 	worn_icon_state = "bandolier"
 
 /obj/item/storage/belt/bandolier/Initialize(mapload)
 	. = ..()
-	atom_storage.max_slots = 18
-	atom_storage.max_total_storage = 18
+	atom_storage.max_slots = 24
+	atom_storage.max_total_storage = 24
+	atom_storage.numerical_stacking = TRUE
+	atom_storage.allow_quick_gather = TRUE
+	atom_storage.allow_quick_empty = TRUE
 	atom_storage.numerical_stacking = TRUE
 	atom_storage.set_holdable(list(
-		/obj/item/ammo_casing/a762,
+		/obj/item/ammo_casing/strilka310,
 		/obj/item/ammo_casing/shotgun,
+		/obj/item/ammo_casing/c357,
+		/obj/item/ammo_casing/junk,
 	))
 
 /obj/item/storage/belt/fannypack
 	name = "fannypack"
-	desc = "A dorky fannypack for keeping small items in."
+	desc = "A dorky fannypack for keeping small items in. Concealed enough, or ugly enough to avert their eyes, that others won't see what you put in or take out easily."
 	icon_state = "fannypack_leather"
 	inhand_icon_state = null
 	worn_icon_state = "fannypack_leather"
@@ -762,6 +794,7 @@
 	. = ..()
 	atom_storage.max_slots = 3
 	atom_storage.max_specific_storage = WEIGHT_CLASS_SMALL
+	atom_storage.silent = TRUE
 
 /obj/item/storage/belt/fannypack/black
 	name = "black fannypack"
@@ -828,28 +861,24 @@
 	inhand_icon_state = "sheath"
 	worn_icon_state = "sheath"
 	w_class = WEIGHT_CLASS_BULKY
+	interaction_flags_click = parent_type::interaction_flags_click | NEED_DEXTERITY | NEED_HANDS
 
 /obj/item/storage/belt/sabre/Initialize(mapload)
 	. = ..()
-	AddElement(/datum/element/update_icon_updates_onmob, ITEM_SLOT_BELT)
+	AddElement(/datum/element/update_icon_updates_onmob)
 
 	atom_storage.max_slots = 1
-	atom_storage.rustle_sound = FALSE
+	atom_storage.do_rustle = FALSE
 	atom_storage.max_specific_storage = WEIGHT_CLASS_BULKY
-	atom_storage.set_holdable(
-		list(
-			/obj/item/melee/sabre,
-		)
-	)
+	atom_storage.set_holdable(/obj/item/melee/sabre)
+	atom_storage.click_alt_open = FALSE
 
 /obj/item/storage/belt/sabre/examine(mob/user)
 	. = ..()
 	if(length(contents))
 		. += span_notice("Alt-click it to quickly draw the blade.")
 
-/obj/item/storage/belt/sabre/AltClick(mob/user)
-	if(!user.can_perform_action(src, NEED_DEXTERITY|NEED_HANDS))
-		return
+/obj/item/storage/belt/sabre/click_alt(mob/user)
 	if(length(contents))
 		var/obj/item/I = contents[1]
 		user.visible_message(span_notice("[user] takes [I] out of [src]."), span_notice("You take [I] out of [src]."))
@@ -857,6 +886,7 @@
 		update_appearance()
 	else
 		balloon_alert(user, "it's empty!")
+	return CLICK_ACTION_SUCCESS
 
 /obj/item/storage/belt/sabre/update_icon_state()
 	icon_state = initial(inhand_icon_state)
@@ -871,6 +901,50 @@
 /obj/item/storage/belt/sabre/PopulateContents()
 	new /obj/item/melee/sabre(src)
 	update_appearance()
+
+/obj/item/storage/belt/grass_sabre
+	name = "sabre sheath"
+	desc = "An simple grass sheath designed to hold a sabre of... some sort. Actual metal one might be too sharp, though..."
+	icon_state = "grass_sheath"
+	inhand_icon_state = "grass_sheath"
+	worn_icon_state = "grass_sheath"
+	w_class = WEIGHT_CLASS_BULKY
+	interaction_flags_click = parent_type::interaction_flags_click | NEED_DEXTERITY | NEED_HANDS
+
+/obj/item/storage/belt/grass_sabre/Initialize(mapload)
+	. = ..()
+	AddElement(/datum/element/update_icon_updates_onmob)
+
+	atom_storage.max_slots = 1
+	atom_storage.do_rustle = FALSE
+	atom_storage.max_specific_storage = WEIGHT_CLASS_BULKY
+	atom_storage.set_holdable(/obj/item/melee/parsnip_sabre)
+	atom_storage.click_alt_open = FALSE
+
+/obj/item/storage/belt/grass_sabre/examine(mob/user)
+	. = ..()
+	if(length(contents))
+		. += span_notice("Alt-click it to quickly draw the blade.")
+
+/obj/item/storage/belt/grass_sabre/click_alt(mob/user)
+	if(length(contents))
+		var/obj/item/I = contents[1]
+		user.visible_message(span_notice("[user] takes [I] out of [src]."), span_notice("You take [I] out of [src]."))
+		user.put_in_hands(I)
+		update_appearance()
+	else
+		balloon_alert(user, "it's empty!")
+	return CLICK_ACTION_SUCCESS
+
+/obj/item/storage/belt/grass_sabre/update_icon_state()
+	icon_state = initial(inhand_icon_state)
+	inhand_icon_state = initial(inhand_icon_state)
+	worn_icon_state = initial(worn_icon_state)
+	if(contents.len)
+		icon_state += "-sabre"
+		inhand_icon_state += "-sabre"
+		worn_icon_state += "-sabre"
+	return ..()
 
 /obj/item/storage/belt/plant
 	name = "botanical belt"

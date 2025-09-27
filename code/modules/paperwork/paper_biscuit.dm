@@ -8,6 +8,7 @@
 	drop_sound = 'sound/items/handling/disk_drop.ogg'
 	pickup_sound = 'sound/items/handling/disk_pickup.ogg'
 	contents_hidden = TRUE
+	paper_overlay_state = "paperbiscuit_paper"
 	/// Is biscuit cracked open or not?
 	var/cracked = FALSE
 	/// The paper slip inside, if there is one
@@ -15,25 +16,33 @@
 
 /obj/item/folder/biscuit/Initialize(mapload)
 	. = ..()
-	if(!isnull(contained_slip))
+	if(ispath(contained_slip, /obj/item/paper/paperslip))
 		contained_slip = new contained_slip(src)
 
 /obj/item/folder/biscuit/Destroy()
-	if(contained_slip)
+	if(isdatum(contained_slip))
 		QDEL_NULL(contained_slip)
 	return ..()
+
+/obj/item/folder/biscuit/Exited(atom/movable/gone, direction)
+	. = ..()
+	if(contained_slip == gone)
+		contained_slip = null
+
+/obj/item/folder/biscuit/Entered(atom/movable/arrived, atom/old_loc, list/atom/old_locs)
+	. = ..()
+	if(isnull(contained_slip) && istype(arrived, /obj/item/paper/paperslip))
+		contained_slip = arrived
 
 /obj/item/folder/biscuit/suicide_act(mob/living/user)
 	user.visible_message(span_suicide("[user] tries to eat [src]! [user.p_theyre()] trying to commit suicide!"))
 	playsound(get_turf(user), 'sound/effects/wounds/crackandbleed.ogg', 40, TRUE) //Don't eat plastic cards kids, they get really sharp if you chew on them.
 	return BRUTELOSS
 
-/obj/item/folder/biscuit/update_overlays()
-	. = ..()
-	if(contents.len) //This is to prevent the unsealed biscuit from having the folder_paper overlay when it gets sealed
-		. -= "folder_paper"
-		if(cracked) //Shows overlay only when it has contents and is cracked open
-			. += "paperbiscuit_paper"
+/obj/item/folder/biscuit/get_paper_overlay()
+	if(!cracked)
+		return null
+	return ..()
 
 ///Checks if the biscuit has been already cracked.
 /obj/item/folder/biscuit/proc/crack_check(mob/user)
@@ -128,7 +137,7 @@
 	cracked = FALSE
 	has_been_sealed = TRUE
 	contents_hidden = TRUE
-	playsound(get_turf(user), 'sound/items/duct_tape_snap.ogg', 60)
+	playsound(get_turf(user), 'sound/items/duct_tape/duct_tape_snap.ogg', 60)
 	icon_state = "[sealed_icon]"
 	update_appearance()
 

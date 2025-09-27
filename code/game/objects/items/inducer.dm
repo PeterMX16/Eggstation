@@ -115,7 +115,11 @@
 /obj/item/inducer/item_interaction(mob/living/user, obj/item/tool, list/modifiers)
 	. = NONE
 
+<<<<<<< HEAD
 	if((user.istate & ISTATE_HARM) || !istype(tool) || tool.flags_1 & HOLOGRAM_1 || tool.item_flags & ABSTRACT)
+=======
+	if(user.combat_mode || !istype(tool) || tool.flags_1 & HOLOGRAM_1 || tool.item_flags & ABSTRACT)
+>>>>>>> tg-pr-88929
 		return ITEM_INTERACT_SKIP_TO_ATTACK
 
 	if(istype(tool, /obj/item/stock_parts/power_store))
@@ -151,7 +155,11 @@
 	if(HAS_TRAIT(interacting_with, TRAIT_COMBAT_MODE_SKIP_INTERACTION))
 		return
 
+<<<<<<< HEAD
 	if((user.istate & ISTATE_HARM) || !istype(interacting_with) || interacting_with.flags_1 & HOLOGRAM_1)
+=======
+	if(user.combat_mode || !istype(interacting_with) || interacting_with.flags_1 & HOLOGRAM_1)
+>>>>>>> tg-pr-88929
 		return ITEM_INTERACT_SKIP_TO_ATTACK
 
 	//basic checks
@@ -247,6 +255,7 @@
 	powerdevice = /obj/item/stock_parts/power_store/battery/super
 
 /obj/item/inducer/cyborg
+<<<<<<< HEAD
 	name = "modular inducer"
 	icon = 'icons/obj/tools.dmi'
 	icon_state = "inducer-engi"
@@ -262,11 +271,31 @@
 	else
 		. += span_warning("It's missing a power cell.")
 	. += span_notice("Its battery compartment can be [EXAMINE_HINT("screwed")] [opened ? "shut" : "open"].")
+=======
+	name = "internal inducer"
+	icon = 'icons/obj/tools.dmi'
+	icon_state = "inducer-engi"
+	powerdevice = null
+>>>>>>> tg-pr-88929
 
 /obj/item/inducer/cyborg/add_context(atom/source, list/context, obj/item/held_item, mob/user)
 	return NONE
 
+<<<<<<< HEAD
 /obj/item/inducer/cyborg/interact_with_atom(atom/movable/interacting_with, mob/living/user, list/modifiers)
 	if(iscyborg(user) && iscyborg(interacting_with))
 		balloon_alert(user, "can't charge this!")
 		return ITEM_INTERACT_FAILURE
+=======
+/obj/item/inducer/cyborg/examine_hints(mob/living/user)
+	return list()
+
+/obj/item/inducer/cyborg/get_cell(atom/movable/interface, mob/living/silicon/robot/silicon_friend)
+	return istype(silicon_friend) ? silicon_friend.cell : null
+
+/obj/item/inducer/cyborg/screwdriver_act(mob/living/user, obj/item/tool)
+	return ITEM_INTERACT_FAILURE
+
+/obj/item/inducer/cyborg/item_interaction(mob/living/user, obj/item/tool, list/modifiers)
+	return ITEM_INTERACT_FAILURE
+>>>>>>> tg-pr-88929

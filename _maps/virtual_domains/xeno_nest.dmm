@@ -2,11 +2,20 @@
 "a" = (
 /turf/template_noop,
 /area/template_noop)
+<<<<<<< HEAD
+=======
+"b" = (
+/obj/structure/alien/weeds,
+/obj/structure/alien/resin/wall,
+/turf/open/misc/asteroid/basalt/lava_land_surface/no_ruins,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "c" = (
 /obj/structure/alien/weeds,
 /obj/structure/alien/resin/wall,
 /obj/structure/alien/resin/wall,
 /turf/open/misc/asteroid/basalt/lava_land_surface,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "d" = (
 /obj/structure/alien/resin/wall,
@@ -16,11 +25,19 @@
 /obj/structure/alien/weeds,
 /turf/open/misc/asteroid/basalt/lava_land_surface,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+"e" = (
+/obj/structure/alien/weeds,
+/turf/open/misc/asteroid/basalt/lava_land_surface,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "f" = (
 /obj/structure/alien/weeds,
 /obj/structure/alien/egg/burst,
 /obj/effect/decal/cleanable/blood,
 /turf/open/misc/asteroid/basalt/lava_land_surface,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "g" = (
 /obj/structure/alien/weeds,
@@ -31,6 +48,14 @@
 /obj/structure/alien/weeds,
 /turf/open/misc/asteroid/basalt/lava_land_surface,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+"h" = (
+/obj/structure/alien/weeds,
+/obj/effect/landmark/bitrunning/mob_segment,
+/turf/open/misc/asteroid/basalt/lava_land_surface,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "i" = (
 /obj/structure/alien/weeds,
 /obj/structure/bed/nest,
@@ -39,7 +64,11 @@
 /obj/item/clothing/under/syndicate,
 /obj/item/clothing/glasses/night,
 /turf/open/misc/asteroid/basalt/lava_land_surface,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "j" = (
 /obj/machinery/suit_storage_unit/spaceruin,
 /turf/template_noop,
@@ -48,18 +77,30 @@
 /obj/structure/alien/weeds/node,
 /obj/structure/alien/resin/wall,
 /turf/open/misc/asteroid/basalt/lava_land_surface,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "l" = (
 /obj/structure/alien/weeds,
 /obj/structure/alien/resin/wall,
 /turf/closed/indestructible/binary,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "m" = (
 /obj/structure/alien/weeds,
 /obj/structure/bed/nest,
 /obj/structure/alien/resin/wall,
 /turf/open/misc/asteroid/basalt/lava_land_surface,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "n" = (
 /turf/template_noop,
 /area/virtual_domain/safehouse)
@@ -67,6 +108,7 @@
 /obj/structure/alien/weeds,
 /obj/effect/decal/cleanable/blood/gibs,
 /turf/open/misc/asteroid/basalt/lava_land_surface,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "p" = (
 /obj/structure/alien/weeds,
@@ -77,27 +119,61 @@
 /obj/structure/alien/resin/wall,
 /turf/open/space/basic,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+"p" = (
+/obj/structure/alien/weeds,
+/mob/living/basic/alien/drone{
+	can_plant_weeds = 0
+	},
+/turf/open/misc/asteroid/basalt/lava_land_surface,
+/area/virtual_domain)
+"q" = (
+/obj/structure/alien/resin/wall,
+/turf/open/misc/asteroid/basalt/lava_land_surface/no_ruins,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "r" = (
 /obj/effect/baseturf_helper/virtual_domain,
 /turf/template_noop,
 /area/virtual_domain/safehouse)
 "s" = (
 /obj/structure/alien/weeds/node,
+<<<<<<< HEAD
 /mob/living/basic/alien/drone,
 /turf/open/misc/asteroid/basalt/lava_land_surface,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/mob/living/basic/alien/drone{
+	can_plant_weeds = 0
+	},
+/turf/open/misc/asteroid/basalt/lava_land_surface,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "t" = (
 /obj/structure/alien/weeds,
 /obj/structure/alien/weeds,
 /turf/open/misc/asteroid/basalt/lava_land_surface,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "u" = (
 /obj/structure/alien/weeds/node,
 /obj/effect/decal/cleanable/blood,
 /turf/open/misc/asteroid/basalt/lava_land_surface,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "v" = (
 /obj/effect/landmark/bitrunning/safehouse_spawn,
+=======
+/area/virtual_domain)
+"v" = (
+/obj/modular_map_root/safehouse{
+	key = "shuttle"
+	},
+>>>>>>> tg-pr-88929
 /turf/template_noop,
 /area/virtual_domain/safehouse)
 "x" = (
@@ -105,28 +181,53 @@
 /obj/structure/bed/nest,
 /obj/effect/landmark/bitrunning/cache_spawn,
 /turf/open/misc/asteroid/basalt/lava_land_surface,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+"y" = (
+/obj/structure/alien/weeds/node,
+/obj/effect/landmark/bitrunning/mob_segment,
+/turf/open/misc/asteroid/basalt/lava_land_surface,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "z" = (
 /obj/structure/alien/weeds,
 /obj/structure/alien/resin/wall,
 /turf/open/misc/asteroid/basalt/lava_land_surface,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "A" = (
 /turf/open/misc/asteroid/basalt/lava_land_surface/no_ruins,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+"A" = (
+/turf/open/misc/asteroid/basalt/lava_land_surface/no_ruins,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "B" = (
 /obj/structure/alien/weeds,
 /obj/effect/decal/cleanable/blood,
 /turf/open/misc/asteroid/basalt/lava_land_surface,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "C" = (
 /obj/structure/alien/weeds,
 /turf/open/misc/asteroid/basalt/lava_land_surface/no_ruins,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+"C" = (
+/obj/structure/alien/weeds,
+/turf/open/misc/asteroid/basalt/lava_land_surface/no_ruins,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "D" = (
 /obj/structure/alien/weeds,
 /obj/structure/alien/weeds,
 /turf/open/misc/asteroid/basalt/lava_land_surface/no_ruins,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "E" = (
 /turf/closed/indestructible/binary,
@@ -134,6 +235,15 @@
 "F" = (
 /obj/structure/table/greyscale,
 /obj/item/gun/energy/beam_rifle,
+=======
+/area/virtual_domain)
+"E" = (
+/turf/closed/indestructible/binary,
+/area/virtual_domain/fullbright)
+"F" = (
+/obj/structure/table/greyscale,
+/obj/item/gun/energy/xray,
+>>>>>>> tg-pr-88929
 /obj/item/gun/energy/laser{
 	pixel_x = 4;
 	pixel_y = -6
@@ -148,7 +258,11 @@
 /obj/structure/alien/resin/wall,
 /obj/structure/alien/weeds,
 /turf/open/misc/asteroid/basalt/lava_land_surface,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "H" = (
 /obj/structure/table/greyscale,
 /obj/machinery/recharger{
@@ -165,21 +279,37 @@
 /obj/structure/alien/weeds,
 /obj/structure/bed/nest,
 /turf/open/misc/asteroid/basalt/lava_land_surface,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "J" = (
 /obj/structure/alien/weeds,
 /mob/living/basic/alien/queen/large{
 	desc = "A gigantic alien who is in charge of the hive and all of its loyal servants.";
 	name = "alien queen";
+<<<<<<< HEAD
 	pixel_x = -16
 	},
 /turf/open/misc/asteroid/basalt/lava_land_surface,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+	pixel_x = -16;
+	can_plant_weeds = 0
+	},
+/turf/open/misc/asteroid/basalt/lava_land_surface,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "K" = (
 /obj/structure/alien/weeds,
 /obj/effect/landmark/bitrunning/cache_spawn,
 /turf/open/misc/asteroid/basalt/lava_land_surface,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "L" = (
 /obj/item/storage/medkit/regular,
 /obj/item/storage/medkit/regular,
@@ -188,12 +318,19 @@
 "M" = (
 /obj/structure/alien/weeds,
 /obj/structure/alien/resin/wall{
+<<<<<<< HEAD
 	move_force = 1000;
 	move_resist = 3000;
 	pull_force = 1000
 	},
 /turf/open/misc/asteroid/basalt/lava_land_surface,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+	move_resist = 3000
+	},
+/turf/open/misc/asteroid/basalt/lava_land_surface,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "N" = (
 /obj/structure/alien/weeds,
 /obj/structure/bed/nest,
@@ -203,47 +340,81 @@
 /obj/item/melee/baton/security/loaded,
 /obj/item/clothing/head/helmet,
 /turf/open/misc/asteroid/basalt/lava_land_surface,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "O" = (
 /obj/effect/baseturf_helper/virtual_domain,
 /turf/closed/indestructible/binary,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+"O" = (
+/obj/effect/baseturf_helper/virtual_domain,
+/turf/closed/indestructible/binary,
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "P" = (
 /obj/structure/alien/weeds/node,
 /mob/living/basic/alien,
 /turf/open/misc/asteroid/basalt/lava_land_surface,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "Q" = (
 /obj/structure/alien/resin/wall,
 /obj/structure/alien/resin/wall,
 /turf/closed/indestructible/binary,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+"Q" = (
+/obj/structure/alien/resin/wall,
+/obj/structure/alien/resin/wall,
+/turf/open/misc/asteroid/basalt/lava_land_surface/no_ruins,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "S" = (
 /obj/structure/alien/weeds,
 /mob/living/basic/alien,
 /turf/open/misc/asteroid/basalt/lava_land_surface,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "T" = (
 /obj/structure/alien/weeds,
 /obj/structure/alien/egg/burst,
 /obj/effect/decal/cleanable/blood/gibs,
 /turf/open/misc/asteroid/basalt/lava_land_surface,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "U" = (
 /obj/structure/alien/weeds,
 /obj/structure/bed/nest,
 /obj/effect/decal/cleanable/blood/gibs,
 /obj/item/gun/ballistic/automatic/pistol,
 /turf/open/misc/asteroid/basalt/lava_land_surface,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "V" = (
 /obj/structure/alien/weeds/node,
 /turf/open/misc/asteroid/basalt/lava_land_surface,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+"V" = (
+/obj/structure/alien/weeds/node,
+/turf/open/misc/asteroid/basalt/lava_land_surface,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "W" = (
 /obj/structure/alien/weeds,
 /obj/structure/alien/egg/burst,
 /turf/open/misc/asteroid/basalt/lava_land_surface,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "X" = (
 /obj/structure/alien/weeds/node,
@@ -255,6 +426,9 @@
 /obj/effect/landmark/bitrunning/mob_segment,
 /turf/open/misc/asteroid/basalt/lava_land_surface,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Z" = (
 /obj/structure/alien/weeds,
 /obj/structure/bed/nest,
@@ -264,12 +438,20 @@
 /obj/item/clothing/mask/gas,
 /obj/item/clothing/head/helmet/space/syndicate/orange,
 /turf/open/misc/asteroid/basalt/lava_land_surface,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 
 (1,1,1) = {"
 a
 a
 a
+<<<<<<< HEAD
+=======
+a
+>>>>>>> tg-pr-88929
 E
 E
 E
@@ -280,8 +462,12 @@ E
 E
 E
 E
+<<<<<<< HEAD
 E
 E
+=======
+a
+>>>>>>> tg-pr-88929
 a
 a
 a
@@ -311,7 +497,11 @@ a
 a
 a
 a
+<<<<<<< HEAD
 E
+=======
+a
+>>>>>>> tg-pr-88929
 E
 z
 z
@@ -478,7 +668,11 @@ a
 E
 z
 e
+<<<<<<< HEAD
 Y
+=======
+h
+>>>>>>> tg-pr-88929
 m
 K
 J
@@ -525,7 +719,11 @@ e
 e
 B
 o
+<<<<<<< HEAD
 e
+=======
+K
+>>>>>>> tg-pr-88929
 z
 E
 a
@@ -658,16 +856,26 @@ a
 a
 a
 a
+<<<<<<< HEAD
+=======
+a
+a
+a
+>>>>>>> tg-pr-88929
 E
 E
 E
 E
 E
 E
+<<<<<<< HEAD
 E
 E
 E
 E
+=======
+a
+>>>>>>> tg-pr-88929
 a
 a
 a
@@ -684,12 +892,21 @@ E
 z
 z
 e
+<<<<<<< HEAD
 h
 e
 e
 Y
 e
 e
+=======
+e
+e
+e
+e
+h
+e
+>>>>>>> tg-pr-88929
 z
 E
 a
@@ -699,8 +916,13 @@ a
 a
 a
 a
+<<<<<<< HEAD
 E
 E
+=======
+a
+a
+>>>>>>> tg-pr-88929
 E
 E
 z
@@ -740,7 +962,11 @@ a
 a
 a
 a
+<<<<<<< HEAD
 E
+=======
+a
+>>>>>>> tg-pr-88929
 E
 E
 z
@@ -762,7 +988,11 @@ a
 a
 a
 a
+<<<<<<< HEAD
 E
+=======
+a
+>>>>>>> tg-pr-88929
 E
 z
 z
@@ -781,14 +1011,22 @@ a
 a
 a
 a
+<<<<<<< HEAD
 E
+=======
+a
+>>>>>>> tg-pr-88929
 E
 z
 z
 W
 o
 B
+<<<<<<< HEAD
 e
+=======
+K
+>>>>>>> tg-pr-88929
 z
 E
 a
@@ -803,7 +1041,11 @@ a
 a
 a
 a
+<<<<<<< HEAD
 E
+=======
+a
+>>>>>>> tg-pr-88929
 E
 E
 z
@@ -819,15 +1061,24 @@ a
 a
 a
 a
+<<<<<<< HEAD
 E
 E
+=======
+a
+a
+>>>>>>> tg-pr-88929
 E
 E
 E
 z
 I
 e
+<<<<<<< HEAD
 X
+=======
+y
+>>>>>>> tg-pr-88929
 e
 W
 z
@@ -855,12 +1106,21 @@ z
 z
 E
 E
+<<<<<<< HEAD
 E
 E
 E
 E
 E
 E
+=======
+a
+a
+a
+a
+a
+a
+>>>>>>> tg-pr-88929
 E
 E
 z
@@ -954,7 +1214,11 @@ z
 E
 E
 E
+<<<<<<< HEAD
 E
+=======
+a
+>>>>>>> tg-pr-88929
 a
 a
 a
@@ -1031,12 +1295,21 @@ e
 z
 E
 E
+<<<<<<< HEAD
 E
 E
 E
 E
 Q
 d
+=======
+a
+a
+a
+E
+Q
+q
+>>>>>>> tg-pr-88929
 q
 q
 q
@@ -1071,7 +1344,11 @@ t
 z
 z
 E
+<<<<<<< HEAD
 E
+=======
+a
+>>>>>>> tg-pr-88929
 a
 a
 a
@@ -1112,7 +1389,11 @@ e
 z
 E
 E
+<<<<<<< HEAD
 E
+=======
+a
+>>>>>>> tg-pr-88929
 a
 a
 a
@@ -1131,7 +1412,11 @@ E
 E
 G
 t
+<<<<<<< HEAD
 Y
+=======
+h
+>>>>>>> tg-pr-88929
 e
 z
 z
@@ -1152,8 +1437,13 @@ e
 e
 z
 E
+<<<<<<< HEAD
 E
 E
+=======
+a
+a
+>>>>>>> tg-pr-88929
 a
 a
 a
@@ -1193,7 +1483,11 @@ e
 z
 z
 E
+<<<<<<< HEAD
 E
+=======
+a
+>>>>>>> tg-pr-88929
 a
 a
 a
@@ -1235,12 +1529,21 @@ z
 E
 E
 E
+<<<<<<< HEAD
 E
 E
 E
 E
 E
 d
+=======
+a
+a
+a
+a
+E
+q
+>>>>>>> tg-pr-88929
 C
 C
 A
@@ -1281,7 +1584,11 @@ E
 E
 E
 E
+<<<<<<< HEAD
 z
+=======
+b
+>>>>>>> tg-pr-88929
 C
 C
 C
@@ -1384,7 +1691,11 @@ z
 z
 T
 e
+<<<<<<< HEAD
 Y
+=======
+h
+>>>>>>> tg-pr-88929
 V
 W
 z
@@ -1404,7 +1715,11 @@ z
 V
 e
 e
+<<<<<<< HEAD
 g
+=======
+e
+>>>>>>> tg-pr-88929
 n
 n
 n
@@ -1445,7 +1760,11 @@ z
 V
 t
 e
+<<<<<<< HEAD
 g
+=======
+e
+>>>>>>> tg-pr-88929
 n
 n
 F
@@ -1486,7 +1805,11 @@ z
 z
 k
 e
+<<<<<<< HEAD
 g
+=======
+e
+>>>>>>> tg-pr-88929
 n
 n
 n
@@ -1649,7 +1972,11 @@ a
 E
 z
 E
+<<<<<<< HEAD
 d
+=======
+q
+>>>>>>> tg-pr-88929
 q
 C
 C
@@ -1690,7 +2017,11 @@ a
 E
 E
 E
+<<<<<<< HEAD
 d
+=======
+q
+>>>>>>> tg-pr-88929
 q
 A
 A
@@ -1731,7 +2062,11 @@ a
 a
 a
 E
+<<<<<<< HEAD
 d
+=======
+q
+>>>>>>> tg-pr-88929
 q
 A
 C
@@ -1747,8 +2082,13 @@ a
 a
 a
 a
+<<<<<<< HEAD
 E
 E
+=======
+a
+a
+>>>>>>> tg-pr-88929
 E
 E
 z
@@ -1772,7 +2112,11 @@ a
 a
 a
 E
+<<<<<<< HEAD
 d
+=======
+q
+>>>>>>> tg-pr-88929
 q
 A
 A
@@ -1788,7 +2132,11 @@ a
 a
 a
 a
+<<<<<<< HEAD
 E
+=======
+a
+>>>>>>> tg-pr-88929
 E
 E
 z
@@ -1813,7 +2161,11 @@ a
 a
 a
 E
+<<<<<<< HEAD
 d
+=======
+q
+>>>>>>> tg-pr-88929
 q
 A
 A
@@ -1829,7 +2181,11 @@ a
 a
 a
 a
+<<<<<<< HEAD
 E
+=======
+a
+>>>>>>> tg-pr-88929
 E
 z
 z
@@ -1875,7 +2231,11 @@ E
 z
 I
 e
+<<<<<<< HEAD
 Y
+=======
+h
+>>>>>>> tg-pr-88929
 e
 e
 e
@@ -1927,7 +2287,11 @@ E
 E
 E
 E
+<<<<<<< HEAD
 E
+=======
+a
+>>>>>>> tg-pr-88929
 a
 a
 a
@@ -2003,8 +2367,13 @@ z
 z
 E
 E
+<<<<<<< HEAD
 E
 E
+=======
+a
+a
+>>>>>>> tg-pr-88929
 a
 a
 a

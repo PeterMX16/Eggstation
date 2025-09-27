@@ -4,7 +4,11 @@
 		summons monkeys and gorillas that will promptly flip out and attack everything in sight. Fun! \
 		Their lesser, easily manipulable minds will be convinced you are one of their allies, but only for a minute. Unless you also are a monkey."
 	button_icon_state = "simian"
+<<<<<<< HEAD
 	sound = 'sound/ambience/antag/monkey.ogg'
+=======
+	sound = 'sound/music/antag/monkey.ogg'
+>>>>>>> tg-pr-88929
 
 	school = SCHOOL_CONJURATION
 	cooldown_time = 1.5 MINUTES
@@ -13,6 +17,12 @@
 	invocation = "OOGA OOGA OOGA!!!!"
 	invocation_type = INVOCATION_SHOUT
 
+<<<<<<< HEAD
+=======
+	///Our gorilla transformation spell, additionally granted to the user at max level.
+	var/datum/action/cooldown/spell/shapeshift/gorilla/gorilla_transformation
+
+>>>>>>> tg-pr-88929
 	summon_radius = 2
 	summon_type = list(
 		/mob/living/basic/gorilla/lesser,
@@ -21,13 +31,27 @@
 	)
 	summon_amount = 4
 
+<<<<<<< HEAD
+=======
+/datum/action/cooldown/spell/conjure/simian/Destroy()
+	. = ..()
+	QDEL_NULL(gorilla_transformation)
+
+>>>>>>> tg-pr-88929
 /datum/action/cooldown/spell/conjure/simian/level_spell(bypass_cap)
 	. = ..()
 	summon_amount++ // MORE, MOOOOORE
 	if(spell_level == spell_max_level) // We reward the faithful.
+<<<<<<< HEAD
 		summon_type = list(/mob/living/carbon/human/species/monkey/angry, /mob/living/basic/gorilla)
 		spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC // Max level lets you cast it naked, for monkey larp.
 		to_chat(owner, span_notice("Your simian power has reached maximum capacity! You can now cast this spell naked, and you will create adult Gorillas with each cast."))
+=======
+		gorilla_transformation = new(owner)
+		gorilla_transformation.Grant(owner)
+		spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC // Max level lets you cast it naked, for monkey larp.
+		to_chat(owner, span_notice("Your simian power has reached maximum capacity! You can now cast this spell naked, and have additionally been granted a gorilla transformation spell!"))
+>>>>>>> tg-pr-88929
 
 /datum/action/cooldown/spell/conjure/simian/cast(atom/cast_on)
 	. = ..()
@@ -90,7 +114,11 @@
 		weapon.attack_self(summoned_monkey)
 
 	// Fashionable ape wear, organised by tier
+<<<<<<< HEAD
 	var/list/static/monky_hats = list(
+=======
+	var/static/list/monky_hats = list(
+>>>>>>> tg-pr-88929
 		null, // nothin here
 		/obj/item/clothing/head/costume/garland,
 		/obj/item/clothing/head/helmet/durathread,

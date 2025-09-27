@@ -24,12 +24,20 @@
 
 /datum/component/focused_attacker/RegisterWithParent()
 	if (isliving(parent))
+<<<<<<< HEAD
 		RegisterSignals(parent, list(COMSIG_LIVING_UNARMED_ATTACK, COMSIG_HUMAN_MELEE_UNARMED_ATTACK), PROC_REF(pre_mob_attack))
+=======
+		RegisterSignal(parent, COMSIG_LIVING_UNARMED_ATTACK, PROC_REF(pre_mob_attack))
+>>>>>>> tg-pr-88929
 	else
 		RegisterSignal(parent, COMSIG_ITEM_PRE_ATTACK, PROC_REF(pre_item_attack))
 
 /datum/component/focused_attacker/UnregisterFromParent()
+<<<<<<< HEAD
 	UnregisterSignal(parent, list(COMSIG_LIVING_UNARMED_ATTACK, COMSIG_HUMAN_MELEE_UNARMED_ATTACK, COMSIG_ITEM_PRE_ATTACK))
+=======
+	UnregisterSignal(parent, list(COMSIG_LIVING_UNARMED_ATTACK, COMSIG_ITEM_PRE_ATTACK))
+>>>>>>> tg-pr-88929
 
 /// Before a mob attacks, try increasing its attack power
 /datum/component/focused_attacker/proc/pre_mob_attack(mob/living/attacker, atom/target)

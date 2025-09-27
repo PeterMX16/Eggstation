@@ -16,7 +16,7 @@
 /obj/item/antag_spawner/contract
 	name = "contract"
 	desc = "A magic contract previously signed by an apprentice. In exchange for instruction in the magical arts, they are bound to answer your call for aid."
-	icon = 'icons/obj/wizard.dmi'
+	icon = 'icons/obj/scrolls.dmi'
 	icon_state ="scroll2"
 	var/polling = FALSE
 
@@ -83,7 +83,7 @@
 		app.wiz_team = master_wizard.wiz_team
 		master_wizard.wiz_team.add_member(app_mind)
 	app_mind.add_antag_datum(app)
-	app_mind.set_assigned_role(SSjob.GetJobType(/datum/job/wizard_apprentice))
+	app_mind.set_assigned_role(SSjob.get_job_type(/datum/job/wizard_apprentice))
 	app_mind.special_role = ROLE_WIZARD_APPRENTICE
 	SEND_SOUND(M, sound('sound/effects/magic.ogg'))
 
@@ -96,21 +96,27 @@
 /obj/item/antag_spawner/nuke_ops
 	name = "syndicate operative beacon"
 	desc = "A single-use beacon designed to quickly launch reinforcement operatives into the field."
-	icon = 'icons/obj/device.dmi'
-	icon_state = "locator"
-	var/borg_to_spawn
+	icon = 'icons/obj/devices/voice.dmi'
+	icon_state = "nukietalkie"
 	/// The name of the special role given to the recruit
 	var/special_role_name = ROLE_NUCLEAR_OPERATIVE
 	/// The applied outfit
 	var/datum/outfit/syndicate/outfit = /datum/outfit/syndicate/reinforcement
+<<<<<<< HEAD
 	/// The outfit given to plasmaman operatives
 	var/datum/outfit/syndicate/plasma_outfit = /datum/outfit/syndicate/reinforcement/plasmaman
 	/// The antag datum applied
 	var/datum/antagonist/nukeop/antag_datum = /datum/antagonist/nukeop
+=======
+	/// The antag datum applied
+	var/antag_datum = /datum/antagonist/nukeop/reinforcement
+>>>>>>> tg-pr-88929
 	/// Style used by the droppod
-	var/pod_style = STYLE_SYNDICATE
+	var/pod_style = /datum/pod_style/syndicate
 	/// Do we use a random subtype of the outfit?
 	var/use_subtypes = TRUE
+	/// Where do we land our pod?
+	var/turf/spawn_location
 
 /obj/item/antag_spawner/nuke_ops/proc/check_usability(mob/user)
 	if(used)
@@ -133,7 +139,11 @@
 		return
 
 	to_chat(user, span_notice("You activate [src] and wait for confirmation."))
+<<<<<<< HEAD
 	var/mob/chosen_one = SSpolling.poll_ghost_candidates("Do you want to play as a reinforcement [special_role_name]?", check_jobban = ROLE_OPERATIVE, role = ROLE_OPERATIVE_MIDROUND, poll_time = 15 SECONDS, ignore_category = POLL_IGNORE_SYNDICATE, alert_pic = src, role_name_text = special_role_name, amount_to_pick = 1)
+=======
+	var/mob/chosen_one = SSpolling.poll_ghost_candidates("Do you want to play as a reinforcement [special_role_name]?", check_jobban = ROLE_OPERATIVE, role = ROLE_OPERATIVE, poll_time = 15 SECONDS, ignore_category = POLL_IGNORE_SYNDICATE, alert_pic = src, role_name_text = special_role_name, amount_to_pick = 1)
+>>>>>>> tg-pr-88929
 	if(chosen_one)
 		if(QDELETED(src) || !check_usability(user))
 			return
@@ -146,25 +156,54 @@
 
 /obj/item/antag_spawner/nuke_ops/spawn_antag(client/our_client, turf/T, kind, datum/mind/user)
 	var/mob/living/carbon/human/nukie = new()
+<<<<<<< HEAD
 	var/obj/structure/closet/supplypod/pod = setup_pod()
 	our_client.prefs.safe_transfer_prefs_to(nukie, is_antag = TRUE)
 	nukie.PossessByPlayer(our_client.key)
+=======
+	our_client.prefs.safe_transfer_prefs_to(nukie, is_antag = TRUE)
+	nukie.ckey = our_client.key
+>>>>>>> tg-pr-88929
 	var/datum/mind/op_mind = nukie.mind
 	if(length(GLOB.newplayer_start)) // needed as hud code doesn't render huds if the atom (in this case the nukie) is in nullspace, so just move the nukie somewhere safe
 		nukie.forceMove(pick(GLOB.newplayer_start))
 	else
 		nukie.forceMove(locate(1,1,1))
 
+<<<<<<< HEAD
 	antag_datum = new()
 	antag_datum.send_to_spawnpoint = FALSE
 
 	antag_datum.nukeop_outfit = use_subtypes ? pick(subtypesof(outfit)) : outfit
+=======
+	var/new_datum = new antag_datum()
+>>>>>>> tg-pr-88929
 
 	var/datum/antagonist/nukeop/creator_op = user.has_antag_datum(/datum/antagonist/nukeop, TRUE)
-	op_mind.add_antag_datum(antag_datum, creator_op ? creator_op.get_team() : null)
+	op_mind.add_antag_datum(new_datum, creator_op ? creator_op.get_team() : null)
 	op_mind.special_role = special_role_name
+
+	if(outfit)
+		var/datum/antagonist/nukeop/nukie_datum = op_mind.has_antag_datum(antag_datum)
+		nukie_datum.nukeop_outfit = use_subtypes ? pick(subtypesof(outfit)) : outfit
+
+	var/obj/structure/closet/supplypod/pod = setup_pod()
 	nukie.forceMove(pod)
-	new /obj/effect/pod_landingzone(get_turf(src), pod)
+	new /obj/effect/pod_landingzone(spawn_location ? spawn_location : get_turf(src), pod)
+
+/obj/item/antag_spawner/nuke_ops/overwatch
+	name = "overwatch support beacon"
+	desc = "Assigns an Overwatch Intelligence Agent to your operation. Stationed at their own remote outpost, they can view station cameras, alarms, and even move the Infiltrator shuttle! \
+		Also, all members of your operation will receive body cameras that they can view your progress from."
+	special_role_name = ROLE_OPERATIVE_OVERWATCH
+	outfit = /datum/outfit/syndicate/support
+	use_subtypes = FALSE
+	antag_datum = /datum/antagonist/nukeop/support
+
+/obj/item/antag_spawner/nuke_ops/overwatch/Initialize(mapload)
+	. = ..()
+	if(length(GLOB.nukeop_overwatch_start)) //Otherwise, it will default to the datum's spawn point anyways
+		spawn_location = pick(GLOB.nukeop_overwatch_start)
 
 //////CLOWN OP
 /obj/item/antag_spawner/nuke_ops/clown
@@ -172,28 +211,28 @@
 	desc = "A single-use beacon designed to quickly launch reinforcement clown operatives into the field."
 	special_role_name = ROLE_CLOWN_OPERATIVE
 	outfit = /datum/outfit/syndicate/clownop/no_crystals
-	antag_datum = /datum/antagonist/nukeop/clownop
-	pod_style = STYLE_HONK
+	antag_datum = /datum/antagonist/nukeop/reinforcement/clownop
+	pod_style = /datum/pod_style/clown
 	use_subtypes = FALSE
 
 //////SYNDICATE BORG
 /obj/item/antag_spawner/nuke_ops/borg_tele
 	name = "syndicate cyborg beacon"
 	desc = "A single-use beacon designed to quickly launch reinforcement cyborgs into the field."
-	icon = 'icons/obj/device.dmi'
-	icon_state = "locator"
+	antag_datum = /datum/antagonist/nukeop/reinforcement/cyborg
+	special_role_name = "Syndicate Cyborg"
 
 /obj/item/antag_spawner/nuke_ops/borg_tele/assault
 	name = "syndicate assault cyborg beacon"
-	borg_to_spawn = "Assault"
+	special_role_name = ROLE_SYNDICATE_ASSAULTBORG
 
 /obj/item/antag_spawner/nuke_ops/borg_tele/medical
 	name = "syndicate medical beacon"
-	borg_to_spawn = "Medical"
+	special_role_name = ROLE_SYNDICATE_MEDBORG
 
 /obj/item/antag_spawner/nuke_ops/borg_tele/saboteur
 	name = "syndicate saboteur beacon"
-	borg_to_spawn = "Saboteur"
+	special_role_name = ROLE_SYNDICATE_SABOBORG
 
 /obj/item/antag_spawner/nuke_ops/borg_tele/spawn_antag(client/C, turf/T, kind, datum/mind/user)
 	var/mob/living/silicon/robot/borg
@@ -201,13 +240,15 @@
 	if(!creator_op)
 		return
 	var/obj/structure/closet/supplypod/pod = setup_pod()
-	switch(borg_to_spawn)
-		if("Medical")
+	switch(special_role_name)
+		if(ROLE_SYNDICATE_MEDBORG)
 			borg = new /mob/living/silicon/robot/model/syndicate/medical()
-		if("Saboteur")
+		if(ROLE_SYNDICATE_SABOBORG)
 			borg = new /mob/living/silicon/robot/model/syndicate/saboteur()
+		if(ROLE_SYNDICATE_ASSAULTBORG)
+			borg = new /mob/living/silicon/robot/model/syndicate()
 		else
-			borg = new /mob/living/silicon/robot/model/syndicate() //Assault borg by default
+			stack_trace("Unknown cyborg type '[special_role_name]' could not be found by [src]!")
 
 	var/brainfirstname = pick(GLOB.first_names_male)
 	if(prob(50))
@@ -225,10 +266,8 @@
 
 	borg.PossessByPlayer(C.key)
 
-	var/datum/antagonist/nukeop/new_borg = new()
-	new_borg.send_to_spawnpoint = FALSE
-	borg.mind.add_antag_datum(new_borg,creator_op.nuke_team)
-	borg.mind.special_role = "Syndicate Cyborg"
+	borg.mind.add_antag_datum(antag_datum, creator_op ? creator_op.get_team() : null)
+	borg.mind.special_role = special_role_name
 	borg.forceMove(pod)
 	new /obj/effect/pod_landingzone(get_turf(src), pod)
 
@@ -237,7 +276,7 @@
 /obj/item/antag_spawner/slaughter_demon //Warning edgiest item in the game
 	name = "vial of blood"
 	desc = "A magically infused bottle of blood, distilled from countless murder victims. Used in unholy rituals to attract horrifying creatures."
-	icon = 'icons/obj/wizard.dmi'
+	icon = 'icons/obj/mining_zones/artefacts.dmi'
 	icon_state = "vial"
 
 	var/shatter_msg = span_notice("You shatter the bottle, no turning back now!")
@@ -259,7 +298,7 @@
 		spawn_antag(chosen_one.client, get_turf(src), initial(demon_type.name), user.mind)
 		to_chat(user, shatter_msg)
 		to_chat(user, veil_msg)
-		playsound(user.loc, 'sound/effects/glassbr1.ogg', 100, TRUE)
+		playsound(user.loc, 'sound/effects/glass/glassbr1.ogg', 100, TRUE)
 		qdel(src)
 	else
 		to_chat(user, span_warning("The bottle's contents usually pop and boil constantly, but right now they're eerily still and calm. Perhaps you should try again later."))
@@ -268,12 +307,16 @@
 	var/mob/living/basic/demon/spawned = new demon_type(T)
 	new /obj/effect/dummy/phased_mob(T, spawned)
 
+<<<<<<< HEAD
 	spawned.PossessByPlayer(C.key)
+=======
+	spawned.key = C.key
+>>>>>>> tg-pr-88929
 
 /obj/item/antag_spawner/slaughter_demon/laughter
 	name = "vial of tickles"
 	desc = "A magically infused bottle of clown love, distilled from countless hugging attacks. Used in funny rituals to attract adorable creatures."
-	icon = 'icons/obj/wizard.dmi'
+	icon = 'icons/obj/mining_zones/artefacts.dmi'
 	icon_state = "vial"
 	color = "#FF69B4" // HOT PINK
 
@@ -287,8 +330,13 @@
 /obj/item/antag_spawner/loadout
 	name = "generic beacon"
 	desc = "A single-use beacon designed to quickly launch bad code into the field."
+<<<<<<< HEAD
 	icon = 'icons/obj/device.dmi'
 	icon_state = "locator"
+=======
+	icon = 'icons/obj/devices/voice.dmi'
+	icon_state = "walkietalkie"
+>>>>>>> tg-pr-88929
 	/// The mob type to spawn.
 	var/mob/living/spawn_type = /mob/living/carbon/human
 	/// The species type to set a human spawn to.
@@ -298,7 +346,11 @@
 	/// The antag datum applied
 	var/datum/antagonist/antag_datum
 	/// Style used by the droppod
+<<<<<<< HEAD
 	var/pod_style = STYLE_SYNDICATE
+=======
+	var/pod_style = /datum/pod_style/syndicate
+>>>>>>> tg-pr-88929
 	/// Do we use a random subtype of the outfit?
 	var/use_subtypes = TRUE
 	/// The antag role we check if the ghosts have enabled to get the poll.
@@ -328,15 +380,32 @@
 		return
 
 	to_chat(user, span_notice("You activate [src] and wait for confirmation."))
+<<<<<<< HEAD
 	var/list/baddie_candidates = SSpolling.poll_ghost_candidates("Do you want to play as a [role_to_play]?", check_jobban = poll_role_check, role = poll_role_check, poll_time = 15 SECONDS, ignore_category = poll_ignore_category, alert_pic = src, role_name_text = role_to_play)
 	if(!LAZYLEN(baddie_candidates))
+=======
+	var/mob/chosen_one = SSpolling.poll_ghost_candidates(
+		check_jobban = poll_role_check,
+		role = poll_role_check,
+		poll_time = 10 SECONDS,
+		ignore_category = poll_ignore_category,
+		alert_pic = src,
+		role_name_text = role_to_play,
+		amount_to_pick = 1
+	)
+	if(isnull(chosen_one))
+>>>>>>> tg-pr-88929
 		to_chat(user, span_warning(fail_text))
 		return
 	if(QDELETED(src) || !check_usability(user))
 		return
 	used = TRUE
+<<<<<<< HEAD
 	var/mob/dead/observer/ghostie = pick(baddie_candidates)
 	spawn_antag(ghostie.client, get_turf(src), user)
+=======
+	spawn_antag(chosen_one.client, get_turf(src), user)
+>>>>>>> tg-pr-88929
 	do_sparks(4, TRUE, src)
 	qdel(src)
 
@@ -344,7 +413,11 @@
 /obj/item/antag_spawner/loadout/proc/do_special_things(mob/living/carbon/human/spawned_mob, mob/user)
 	return
 
+<<<<<<< HEAD
 /obj/item/antag_spawner/loadout/spawn_antag(client/our_client, turf/T, mob/user, spawn_on_beacon)
+=======
+/obj/item/antag_spawner/loadout/spawn_antag(client/our_client, turf/T, mob/user)
+>>>>>>> tg-pr-88929
 	var/mob/living/spawned_mob = new spawn_type()
 	var/obj/structure/closet/supplypod/pod = setup_pod()
 	our_client.prefs.safe_transfer_prefs_to(spawned_mob, is_antag = TRUE)
@@ -359,7 +432,14 @@
 
 	if(ishuman(spawned_mob))
 		var/mob/living/carbon/human/human_mob = spawned_mob
+<<<<<<< HEAD
 		human_mob.set_species(species_type)
+=======
+		// ignore if it's already the same
+		if(human_mob.dna.species != species_type)
+			human_mob.set_species(species_type)
+
+>>>>>>> tg-pr-88929
 		human_mob.equipOutfit(outfit)
 
 	op_mind.special_role = role_to_play
@@ -367,6 +447,7 @@
 	do_special_things(spawned_mob, user)
 
 	spawned_mob.forceMove(pod)
+<<<<<<< HEAD
 	new /obj/effect/pod_landingzone(T, pod)
 
 /obj/item/antag_spawner/loadout/monkey_man
@@ -382,22 +463,80 @@
 	role_to_play = ROLE_SYNDICATE_MONKEY
 	poll_ignore_category = POLL_IGNORE_SYNDICATE
 	fail_text = "Unable to connect to the Syndicate Banana Department. Please wait and try again later or use the beacon on your uplink to get your points refunded."
+=======
+	new /obj/effect/pod_landingzone(get_turf(src), pod)
+
+/obj/item/antag_spawner/loadout/contractor
+	name = "contractor support beacon"
+	desc = "A beacon sold to the most prestigeous syndicate members, a single-use radio for calling immediate backup."
+	icon = 'icons/obj/devices/voice.dmi'
+	icon_state = "nukietalkie"
+	outfit = /datum/outfit/contractor_partner
+	use_subtypes = FALSE
+	antag_datum = /datum/antagonist/traitor/contractor_support
+	poll_ignore_category = ROLE_TRAITOR
+	role_to_play = ROLE_CONTRACTOR_SUPPORT
+
+/obj/item/antag_spawner/loadout/contractor/do_special_things(mob/living/carbon/human/contractor_support, mob/user)
+	to_chat(contractor_support, "\n[span_alertwarning("[user.real_name] is your superior. Follow any, and all orders given by them. You're here to support their mission only.")]")
+	to_chat(contractor_support, "[span_alertwarning("Should they perish, or be otherwise unavailable, you're to assist other active agents in this mission area to the best of your ability.")]")
+
+/obj/item/antag_spawner/loadout/monkey_man
+	name = "monkey agent beacon"
+	desc = "Call up some backup from ARC for monkey mayhem."
+	icon = 'icons/obj/devices/voice.dmi'
+	icon_state = "walkietalkie"
+	spawn_type = /mob/living/carbon/human/species/monkey
+	species_type = /datum/species/monkey
+	outfit = /datum/outfit/syndicate_monkey
+	antag_datum = /datum/antagonist/syndicate_monkey
+	use_subtypes = FALSE
+	poll_role_check = ROLE_TRAITOR
+	role_to_play = ROLE_SYNDICATE_MONKEY
+	poll_ignore_category = POLL_IGNORE_SYNDICATE
+	fail_text = "Unable to connect to the Animal Rights Consortium's Banana Ops. Please wait and try again later or use the beacon on your uplink to get your points refunded."
+>>>>>>> tg-pr-88929
 
 /obj/item/antag_spawner/loadout/monkey_man/do_special_things(mob/living/carbon/human/monkey_man, mob/user)
 
 	monkey_man.fully_replace_character_name(monkey_man.real_name, pick(GLOB.syndicate_monkey_names))
+<<<<<<< HEAD
 	monkey_man.dna.features["fur"] = COLOR_MONKEY_BROWN
+=======
+
+	monkey_man.crewlike_monkify()
+
+	// fuck you i am no longer playing around. this goes against the entire soul of the item
+	RegisterSignal(monkey_man, COMSIG_SPECIES_GAIN, PROC_REF(allergy))
+
+>>>>>>> tg-pr-88929
 
 	monkey_man.mind.enslave_mind_to_creator(user)
 
 	var/obj/item/implant/explosive/imp = new(src)
 	imp.implant(monkey_man, user)
 
+<<<<<<< HEAD
+=======
+/obj/item/antag_spawner/loadout/monkey_man/proc/allergy(mob/living/second_lifer, datum/species/folly_species)
+	SIGNAL_HANDLER
+	if(is_simian(second_lifer))
+		return
+	// timer is long to let them panic and consider their folly, and because allergies take a while
+	second_lifer.visible_message(span_bolddanger("[second_lifer] starts swelling unhealthily in size. It looks like they had an allergic reaction to becoming a [folly_species]!"), span_userdanger("As your monkey features morph, you feel your allergies coming in. Oh no."))
+	// no brain or items. organs are funny though
+	second_lifer.inflate_gib(drop_bitflags = DROP_ORGANS|DROP_BODYPARTS, gib_time = 25 SECONDS, anim_time = 40 SECONDS)
+
+>>>>>>> tg-pr-88929
 /datum/outfit/syndicate_monkey
 	name = "Syndicate Monkey Agent Kit"
 
 	head = /obj/item/clothing/head/fedora
+<<<<<<< HEAD
 	mask = /obj/item/clothing/mask/cigarette/syndicate
+=======
+	mask = /obj/item/cigarette/syndicate
+>>>>>>> tg-pr-88929
 	uniform = /obj/item/clothing/under/syndicate
 	l_pocket = /obj/item/reagent_containers/cup/soda_cans/monkey_energy
 	r_pocket = /obj/item/storage/fancy/cigarettes/cigpack_syndicate
@@ -405,6 +544,7 @@
 	belt = /obj/item/lighter/skull
 	r_hand = /obj/item/food/grown/banana
 
+<<<<<<< HEAD
 /datum/outfit/syndicate_monkey/post_equip(mob/living/carbon/human/H, visualsOnly)
 	. = ..()
 	H.faction |= ROLE_SYNDICATE
@@ -512,3 +652,5 @@
 		/obj/item/ammo_box/magazine/plastikov9mm = 1,
 		/obj/item/reagent_containers/pill/patch/advanced = 1,
 	)
+=======
+>>>>>>> tg-pr-88929

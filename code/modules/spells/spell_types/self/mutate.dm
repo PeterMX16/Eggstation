@@ -1,7 +1,7 @@
 /// A spell type that adds mutations to the caster temporarily.
 /datum/action/cooldown/spell/apply_mutations
 	button_icon_state = "mutate"
-	sound = 'sound/magic/mutate.ogg'
+	sound = 'sound/effects/magic/mutate.ogg'
 
 	school = SCHOOL_TRANSMUTATION
 
@@ -38,7 +38,7 @@
 
 /datum/action/cooldown/spell/apply_mutations/mutate
 	name = "Mutate"
-	desc = "This spell causes you to turn into a hulk and gain laser vision for a short while."
+	desc = "This spell causes you to turn into a gigantic hulk and gain laser vision for a short while. Unlike the lesser nonmagical version, it works on non-humans and mantains hand dexterity as well!"
 	cooldown_time = 40 SECONDS
 	cooldown_reduction_per_rank = 5 SECONDS
 	spell_max_level = 3
@@ -46,15 +46,25 @@
 	invocation = "BIRUZ BENNAR"
 	invocation_type = INVOCATION_SHOUT
 
+<<<<<<< HEAD
 	mutations_to_add = list(/datum/mutation/laser_eyes, /datum/mutation/hulk/wizardly, /datum/mutation/gigantism)
+=======
+	mutations_to_add = list(/datum/mutation/human/laser_eyes, /datum/mutation/human/hulk/wizardly, /datum/mutation/human/gigantism)
+>>>>>>> tg-pr-88929
 	mutation_duration = 30 SECONDS
 
 /datum/action/cooldown/spell/apply_mutations/mutate/cast(mob/living/carbon/human/cast_on)
 	..()
 	if(HAS_TRAIT(cast_on, TRAIT_USES_SKINTONES) || HAS_TRAIT(cast_on, TRAIT_MUTANT_COLORS))
+<<<<<<< HEAD
 		return//monkestation temp removal, we dont have this refactor yet
 	// Our caster has a species that doesn't greenify when hulked, so we will do it manually.
 	cast_on.add_atom_colour("#00FF00", TEMPORARY_COLOUR_PRIORITY)
+=======
+		return
+	// Our caster has a species that doesn't greenify when hulked, so we will do it manually.
+	cast_on.add_atom_colour(COLOR_VIBRANT_LIME, TEMPORARY_COLOUR_PRIORITY)
+>>>>>>> tg-pr-88929
 
 /datum/action/cooldown/spell/apply_mutations/mutate/remove_mutations(mob/living/carbon/human/cast_on)
 	if(QDELETED(cast_on) || !is_valid_target(cast_on)) // Not 100% sure if this check is still needed, leaving it just in case

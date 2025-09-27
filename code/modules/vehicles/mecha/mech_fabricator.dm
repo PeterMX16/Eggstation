@@ -1,5 +1,5 @@
 /obj/machinery/mecha_part_fabricator
-	icon = 'icons/obj/robotics.dmi'
+	icon = 'icons/obj/machines/robotics.dmi'
 	icon_state = "fab-idle"
 	name = "exosuit fabricator"
 	desc = "Nothing is being built."
@@ -10,6 +10,7 @@
 
 	subsystem_type = /datum/controller/subsystem/processing/fastprocess
 
+	interaction_flags_atom = parent_type::interaction_flags_atom | INTERACT_ATOM_MOUSEDROP_IGNORE_CHECKS
 	/// Current items in the build queue.
 	var/list/datum/design/queue = list()
 
@@ -49,6 +50,7 @@
 	/// All designs in the techweb that can be fabricated by this machine, since the last update.
 	var/list/datum/design/cached_designs
 
+<<<<<<< HEAD
 	//monkestation edit start
 	/// Controls whether or not the more dangerous designs have been unlocked by a head's id manually, rather than alert level unlocks
 	var/authorization_override = FALSE
@@ -140,17 +142,50 @@
 	authorization_override = TRUE
 	obj_flags |= EMAGGED
 	update_static_data_for_all_viewers()
+=======
+	/// Looping sound for printing items
+	var/datum/looping_sound/lathe_print/print_sound
+
+	/// Local designs that only this mechfab have(using when mechfab emaged so it's illegal designs).
+	var/list/datum/design/illegal_local_designs
+
+	/// Direction the produced items will drop (0 means on top of us)
+	var/drop_direction = SOUTH
+
+/obj/machinery/mecha_part_fabricator/Initialize(mapload)
+	print_sound = new(src,  FALSE)
+	rmat = AddComponent(/datum/component/remote_materials, mapload && link_on_init)
+	cached_designs = list()
+	illegal_local_designs = list()
+	RefreshParts() //Recalculating local material sizes if the fab isn't linked
+	return ..()
+
+/obj/machinery/mecha_part_fabricator/Destroy()
+	QDEL_NULL(print_sound)
+	return ..()
+
+/obj/machinery/mecha_part_fabricator/post_machine_initialize()
+	. = ..()
+	if(!CONFIG_GET(flag/no_default_techweb_link) && !stored_research)
+		CONNECT_TO_RND_SERVER_ROUNDSTART(stored_research, src)
+	if(stored_research)
+		on_connected_techweb()
+>>>>>>> tg-pr-88929
 
 /obj/machinery/mecha_part_fabricator/proc/connect_techweb(datum/techweb/new_techweb)
 	if(stored_research)
 		UnregisterSignal(stored_research, list(COMSIG_TECHWEB_ADD_DESIGN, COMSIG_TECHWEB_REMOVE_DESIGN))
-
 	stored_research = new_techweb
+	if(!isnull(stored_research))
+		on_connected_techweb()
+
+/obj/machinery/mecha_part_fabricator/proc/on_connected_techweb()
 	RegisterSignals(
 		stored_research,
 		list(COMSIG_TECHWEB_ADD_DESIGN, COMSIG_TECHWEB_REMOVE_DESIGN),
 		PROC_REF(on_techweb_update)
 	)
+	update_menu_tech()
 
 /obj/machinery/mecha_part_fabricator/multitool_act(mob/living/user, obj/item/multitool/tool)
 	if(!QDELETED(tool.buffer) && istype(tool.buffer, /datum/techweb))
@@ -181,8 +216,8 @@
 
 	//building time adjustment coefficient (1 -> 0.8 -> 0.6)
 	T = -1
-	for(var/datum/stock_part/manipulator/manipulator in component_parts)
-		T += manipulator.tier
+	for(var/datum/stock_part/servo/servo in component_parts)
+		T += servo.tier
 	time_coeff = round(initial(time_coeff) - (initial(time_coeff)*(T))/5,0.01)
 
 	// Adjust the build time of any item currently being built.
@@ -199,17 +234,40 @@
 	. = ..()
 	if(in_range(user, src) || isobserver(user))
 		. += span_notice("The status display reads: Storing up to <b>[rmat.local_size]</b> material units.<br>Material consumption at <b>[component_coeff*100]%</b>.<br>Build time reduced by <b>[100-time_coeff*100]%</b>.")
-	if(panel_open)
-		. += span_notice("Alt-click to rotate the output direction.")
+		. += span_notice("Currently configured to drop printed objects <b>[dir2text(drop_direction)]</b>.")
 
-/obj/machinery/mecha_part_fabricator/AltClick(mob/user)
-	. = ..()
-	if(!user.can_perform_action(src))
+/obj/machinery/mecha_part_fabricator/mouse_drop_dragged(atom/over, mob/user, src_location, over_location, params)
+	if(!can_interact(user) || (!HAS_SILICON_ACCESS(user) && !isAdminGhostAI(user)) && !Adjacent(user))
 		return
-	if(panel_open)
-		dir = turn(dir, -90)
-		balloon_alert(user, "rotated to [dir2text(dir)].")
-		return TRUE
+	if(being_built)
+		balloon_alert(user, "printing started!")
+		return
+	var/direction = get_dir(src, over_location)
+	if(!direction)
+		return
+	drop_direction = direction
+	balloon_alert(user, "dropping [dir2text(drop_direction)]")
+
+/obj/machinery/mecha_part_fabricator/emag_act(mob/user, obj/item/card/emag/emag_card)
+	if(obj_flags & EMAGGED)
+		return FALSE
+	if(!HAS_TRAIT(user, TRAIT_KNOW_ROBO_WIRES))
+		to_chat(user, span_warning("You're unsure about [emag_card ? "where to swipe [emag_card] over" : "how to override"] [src] for any effect. Maybe if you had more knowledge of robotics..."))
+
+		return FALSE
+	obj_flags |= EMAGGED
+	for(var/found_illegal_mech_nods in SSresearch.techweb_nodes)
+		var/datum/techweb_node/illegal_mech_node = SSresearch.techweb_nodes[found_illegal_mech_nods]
+		if(!illegal_mech_node?.illegal_mech_node)
+			continue
+		for(var/id in illegal_mech_node.design_ids)
+			var/datum/design/illegal_mech_design = SSresearch.techweb_design_by_id(id)
+			illegal_local_designs |= illegal_mech_design
+			cached_designs |= illegal_mech_design
+	say("R$c!i&ed ERROR de#i$ns. C@n%ec$%ng to ~NULL~ se%ve$s.")
+	playsound(src, 'sound/machines/uplink/uplinkerror.ogg', 50, TRUE)
+	update_static_data_for_all_viewers()
+	return TRUE
 
 /**
  * Updates the `final_sets` and `buildable_parts` for the current mecha fabricator.
@@ -224,11 +282,14 @@
 		if(design.build_type & MECHFAB)
 			cached_designs |= design
 
+	for(var/datum/design/illegal_disign in illegal_local_designs)
+		cached_designs |= illegal_disign
+
 	var/design_delta = cached_designs.len - previous_design_count
 
 	if(design_delta > 0)
 		say("Received [design_delta] new design[design_delta == 1 ? "" : "s"].")
-		playsound(src, 'sound/machines/twobeep_high.ogg', 50, TRUE)
+		playsound(src, 'sound/machines/beep/twobeep_high.ogg', 50, TRUE)
 
 	update_static_data_for_all_viewers()
 
@@ -240,8 +301,12 @@
 /obj/machinery/mecha_part_fabricator/proc/on_start_printing()
 	add_overlay("fab-active")
 	update_use_power(ACTIVE_POWER_USE)
+<<<<<<< HEAD
 	SStgui.update_uis(src) // monkestation edit: try to ensure UI always updates
 
+=======
+	print_sound.start()
+>>>>>>> tg-pr-88929
 /**
  * Intended to be called when the exofab has stopped working and is no longer printing items.
  *
@@ -252,7 +317,11 @@
 	update_use_power(IDLE_POWER_USE)
 	desc = initial(desc)
 	process_queue = FALSE
+<<<<<<< HEAD
 	SStgui.update_uis(src) // monkestation edit: try to ensure UI always updates
+=======
+	print_sound.stop()
+>>>>>>> tg-pr-88929
 
 /**
  * Attempts to build the next item in the build queue.
@@ -309,7 +378,7 @@
 /obj/machinery/mecha_part_fabricator/process()
 	// If there's a stored part to dispense due to an obstruction, try to dispense it.
 	if(stored_part)
-		var/turf/exit = get_step(src,(dir))
+		var/turf/exit = get_step(src, drop_direction)
 		if(exit.density)
 			return TRUE
 
@@ -340,22 +409,23 @@
  *
  * Returns FALSE is the machine cannot dispense the part on the appropriate turf.
  * Return TRUE if the part was successfully dispensed.
- * * D - Design datum to attempt to dispense.
+ * * dispensed_design - Design datum to attempt to dispense.
  */
-/obj/machinery/mecha_part_fabricator/proc/dispense_built_part(datum/design/D)
-	var/obj/item/I = new D.build_path(src)
+/obj/machinery/mecha_part_fabricator/proc/dispense_built_part(datum/design/dispensed_design)
+	var/obj/item/built_part = new dispensed_design.build_path(src)
+	SSblackbox.record_feedback("nested tally", "lathe_printed_items", 1, list("[type]", "[built_part.type]"))
 
 	being_built = null
 
-	var/turf/exit = get_step(src,(dir))
+	var/turf/exit = get_step(src, drop_direction)
 	if(exit.density)
 		say("Error! The part outlet is obstructed.")
-		desc = "It's trying to dispense the fabricated [D.name], but the part outlet is obstructed."
-		stored_part = I
+		desc = "It's trying to dispense the fabricated [dispensed_design.name], but the part outlet is obstructed."
+		stored_part = built_part
 		return FALSE
 
-	say("The fabrication of [I] is now complete.")
-	I.forceMove(exit)
+	say("The fabrication of [built_part] is now complete.")
+	built_part.forceMove(exit)
 
 	top_job_id += 1
 
@@ -421,8 +491,11 @@
 	var/size32x32 = "[spritesheet.name]32x32"
 
 	for(var/datum/design/design in cached_designs)
+<<<<<<< HEAD
 		var/is_combat_design = weapon_lock_check(design)
 
+=======
+>>>>>>> tg-pr-88929
 		var/cost = list()
 		var/list/materials = design.materials
 		for(var/datum/material/mat in materials)
@@ -471,7 +544,10 @@ skip them. Returns the is_combat_design variable
 	var/list/data = list()
 	check_auth_changes(user)
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> tg-pr-88929
 	data["materials"] = rmat.mat_container.ui_data()
 	data["queue"] = list()
 	data["processing"] = process_queue
@@ -514,9 +590,6 @@ skip them. Returns the is_combat_design variable
 
 	. = TRUE
 
-	add_fingerprint(usr)
-	usr.set_machine(src)
-
 	switch(action)
 		if("build")
 			var/designs = params["designs"]
@@ -528,7 +601,7 @@ skip them. Returns the is_combat_design variable
 				if(!istext(design_id))
 					continue
 
-				if(!stored_research.researched_designs.Find(design_id))
+				if(!(stored_research.researched_designs.Find(design_id) || is_type_in_list(SSresearch.techweb_design_by_id(design_id), illegal_local_designs)))
 					continue
 
 				var/datum/design/design = SSresearch.techweb_design_by_id(design_id)
@@ -608,8 +681,12 @@ skip them. Returns the is_combat_design variable
 /obj/machinery/mecha_part_fabricator/proc/AfterMaterialInsert(item_inserted, id_inserted, amount_inserted)
 	var/datum/material/M = id_inserted
 	add_overlay("fab-load-[M.name]")
+<<<<<<< HEAD
 	addtimer(CALLBACK(src, TYPE_PROC_REF(/atom, cut_overlay), "fab-load-[M.name]"), 10)
 	SStgui.update_uis(src) // monkestation edit: try to ensure UI always updates
+=======
+	addtimer(CALLBACK(src, TYPE_PROC_REF(/atom, cut_overlay), "fab-load-[M.name]"), 1 SECONDS)
+>>>>>>> tg-pr-88929
 
 /obj/machinery/mecha_part_fabricator/screwdriver_act(mob/living/user, obj/item/I)
 	if(..())

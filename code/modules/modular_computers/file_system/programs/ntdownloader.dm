@@ -65,13 +65,17 @@
 
 	downloaded_file = PRG.clone()
 
+	// If the filesize is 0 (or somehow lower), we instantly download to avoid invalid number issues with stepwise download.
+	if(downloaded_file.size <= 0)
+		complete_file_download()
+
 /datum/computer_file/program/ntnetdownload/proc/abort_file_download()
 	if(!downloaded_file)
 		return
 	generate_network_log("Aborted download of file [hacked_download ? "**ENCRYPTED**" : "[downloaded_file.filename].[downloaded_file.filetype]"].")
 	downloaded_file = null
 	download_completion = FALSE
-	ui_header = "downloader_finished.gif"
+	ui_header = null
 
 /datum/computer_file/program/ntnetdownload/proc/complete_file_download()
 	if(!downloaded_file)
@@ -89,20 +93,38 @@
 		return
 	if(download_completion >= downloaded_file.size)
 		complete_file_download()
+		return
 	// Download speed according to connectivity state. NTNet server is assumed to be on unlimited speed so we're limited by our local connectivity
+<<<<<<< HEAD
 	var/download_netspeed
+=======
+	var/download_netspeed = 0
+>>>>>>> tg-pr-88929
 	// Speed defines are found in misc.dm
 	switch(ntnet_status)
-		if(1)
+		if(NTNET_LOW_SIGNAL)
 			download_netspeed = NTNETSPEED_LOWSIGNAL
-		if(2)
+		if(NTNET_GOOD_SIGNAL)
 			download_netspeed = NTNETSPEED_HIGHSIGNAL
-		if(3)
+		if(NTNET_ETHERNET_SIGNAL)
 			download_netspeed = NTNETSPEED_ETHERNET
+<<<<<<< HEAD
 	if(download_netspeed)
 		download_completion += download_netspeed
 
 /datum/computer_file/program/ntnetdownload/ui_act(action, params, datum/tgui/ui, datum/ui_state/state)
+=======
+	if(download_netspeed <= 0)
+		return
+	if(HAS_TRAIT(computer, TRAIT_MODPC_HALVED_DOWNLOAD_SPEED))
+		download_netspeed *= 0.5
+	// We don't complete it here so we stay on 100% for a cycle
+	// We do cap out our completion to avoid UI issues
+	download_completion = min(download_completion  + download_netspeed, downloaded_file.size)
+
+/datum/computer_file/program/ntnetdownload/ui_act(action, params, datum/tgui/ui, datum/ui_state/state)
+	. = ..()
+>>>>>>> tg-pr-88929
 	switch(action)
 		if("PRG_downloadfile")
 			if(!downloaded_file)

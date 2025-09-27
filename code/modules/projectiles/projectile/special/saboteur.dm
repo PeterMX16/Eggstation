@@ -13,14 +13,24 @@
 	range = 21
 	projectile_phasing = PASSTABLE | PASSMOB | PASSMACHINE | PASSSTRUCTURE
 	hitscan = TRUE
+<<<<<<< HEAD
+=======
+	hit_threshhold = LOW_OBJ_LAYER // required to be able to hit floor lights
+>>>>>>> tg-pr-88929
 	var/disrupt_duration = 15 SECONDS
 
 /obj/projectile/energy/fisher/on_hit(atom/target, blocked, pierce_hit)
 	. = ..()
 	var/list/things_to_disrupt = list(target)
+<<<<<<< HEAD
 	if(iscarbon(target))
 		var/mob/living/carbon/carbon_target = target
 		things_to_disrupt += carbon_target.get_all_gear()
+=======
+	if(isliving(target))
+		var/mob/living/live_target = target
+		things_to_disrupt += live_target.get_all_gear()
+>>>>>>> tg-pr-88929
 
 	var/success = FALSE
 	for(var/atom/disrupted as anything in things_to_disrupt)

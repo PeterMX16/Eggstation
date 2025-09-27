@@ -30,9 +30,9 @@
 		this["important_warning"] = ""
 		this["amount_left"] = 0
 		for(var/spawner_obj in GLOB.mob_spawners[spawner])
+			var/obj/effect/mob_spawn/ghost_role/mob_spawner = spawner_obj
 			if(!this["desc"])
 				if(istype(spawner_obj, /obj/effect/mob_spawn))
-					var/obj/effect/mob_spawn/ghost_role/mob_spawner = spawner_obj
 					if(!mob_spawner.allow_spawn(user, silent = TRUE))
 						continue
 					this["you_are_text"] = mob_spawner.you_are_text
@@ -41,7 +41,18 @@
 				else
 					var/obj/object = spawner_obj
 					this["desc"] = object.desc
+			this["amount_left"] += mob_spawner.uses
+			this["infinite"] += mob_spawner.infinite_use
+		if(this["amount_left"] > 0 || this["infinite"])
+			data["spawners"] += list(this)
+	for(var/mob_type in GLOB.joinable_mobs)
+		var/list/this = list()
+		this["name"] = mob_type
+		this["amount_left"] = 0
+		for(var/mob/joinable_mob as anything in GLOB.joinable_mobs[mob_type])
 			this["amount_left"] += 1
+			if(!this["desc"])
+				this["desc"] = initial(joinable_mob.desc)
 		if(this["amount_left"] > 0)
 			data["spawners"] += list(this)
 	for(var/mob_type in GLOB.joinable_mobs)

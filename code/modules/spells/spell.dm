@@ -50,7 +50,6 @@
 	active_overlay_icon_state = "bg_spell_border_active_red"
 	check_flags = AB_CHECK_CONSCIOUS|AB_CHECK_PHASED
 	panel = "Spells"
-	melee_cooldown_time = 0 SECONDS
 
 	/// The sound played on cast.
 	var/sound = null
@@ -145,7 +144,7 @@
 
 // Where the cast chain starts
 /datum/action/cooldown/spell/PreActivate(atom/target)
-	if(SEND_SIGNAL(owner, COMSIG_MOB_ABILITY_STARTED, src) & COMPONENT_BLOCK_ABILITY_START)
+	if(SEND_SIGNAL(owner, COMSIG_MOB_ABILITY_STARTED, src, target) & COMPONENT_BLOCK_ABILITY_START)
 		return FALSE
 	if(target == owner)
 		target = get_caster_from_target(target)
@@ -172,7 +171,7 @@
 		// No point in feedback here, as mindless mobs aren't players
 		return FALSE
 
-	if((spell_requirements & SPELL_REQUIRES_MIME_VOW) && !HAS_TRAIT(owner, TRAIT_MIMING))
+	if((spell_requirements & SPELL_REQUIRES_MIME_VOW) && !HAS_MIND_TRAIT(owner, TRAIT_MIMING))
 		// In the future this can be moved out of spell checks exactly
 		if(feedback)
 			to_chat(owner, span_warning("You must dedicate yourself to silence first!"))
@@ -218,12 +217,25 @@
 
 		// Otherwise, we can check for contents if they have wizardly apparel. This isn't *quite* perfect, but it'll do, especially since many of the edge cases (gorilla holding a wizard hat) still more or less make sense.
 		if(spell_requirements & SPELL_REQUIRES_WIZARD_GARB)
+<<<<<<< HEAD
 			for(var/atom/movable/item in owner.contents)
 				var/obj/item/clothing/clothem = item
 				if(istype(clothem) && clothem.clothing_flags & CASTING_CLOTHES)
 					return TRUE
 			to_chat(owner, span_warning("You don't feel strong enough without your hat!"))
 			return FALSE
+=======
+			var/any_casting = FALSE
+			for(var/obj/item/clothing/item in owner)
+				if(item.clothing_flags & CASTING_CLOTHES)
+					any_casting = TRUE
+					break
+
+			if(!any_casting)
+				if(feedback)
+					to_chat(owner, span_warning("You don't feel strong enough without your hat!"))
+				return FALSE
+>>>>>>> tg-pr-88929
 
 		if(!(spell_requirements & SPELL_CASTABLE_AS_BRAIN) && isbrain(owner))
 			if(feedback)
@@ -256,10 +268,17 @@
 		return target // They're just standing around, proceed as normal
 
 	if(HAS_TRAIT(cast_loc, TRAIT_CASTABLE_LOC))
+<<<<<<< HEAD
 		/*if(HAS_TRAIT(cast_loc, TRAIT_SPELLS_TRANSFER_TO_LOC) && ismob(cast_loc.loc))
 			return cast_loc.loc
 		else*/ //monkestation temp removal
 		return cast_loc
+=======
+		if(HAS_TRAIT(cast_loc, TRAIT_SPELLS_TRANSFER_TO_LOC) && ismob(cast_loc.loc))
+			return cast_loc.loc
+		else
+			return cast_loc
+>>>>>>> tg-pr-88929
 	// They're in an atom which allows casting, so redirect the caster to loc
 
 	return null
@@ -281,7 +300,7 @@
 	if(!(precast_result & SPELL_NO_FEEDBACK))
 		// We do invocation and sound effects here, before actual cast
 		// That way stuff like teleports or shape-shifts can be invoked before ocurring
-		spell_feedback()
+		spell_feedback(owner)
 
 	// Actually cast the spell. Main effects go here
 	cast(cast_on)
@@ -311,6 +330,31 @@
  */
 /datum/action/cooldown/spell/proc/before_cast(atom/cast_on)
 	SHOULD_CALL_PARENT(TRUE)
+
+	// Bonus invocation check done here:
+	// If the caster has no tongue and it's a verbal spell,
+	// Or has no hands and is a gesture spell - cancel it,
+	// and show a funny message that they tried
+	if(ishuman(owner) && !(spell_requirements & SPELL_CASTABLE_WITHOUT_INVOCATION))
+		var/mob/living/carbon/human/caster = owner
+		switch(invocation_type)
+			if(INVOCATION_WHISPER, INVOCATION_SHOUT)
+				if(!caster.get_organ_slot(ORGAN_SLOT_TONGUE))
+					invocation(caster)
+					to_chat(caster, span_warning("Your lack of tongue is making it difficult to say the correct words to cast [src]..."))
+					StartCooldown(2 SECONDS)
+					return SPELL_CANCEL_CAST
+
+			if(INVOCATION_EMOTE)
+				if(caster.usable_hands <= 0)
+					var/arm_describer = (caster.num_hands >= 2 ? "arms limply" : (caster.num_hands == 1 ? "arm wildly" : "arm stumps"))
+					caster.visible_message(
+						span_warning("[caster] wiggles around [caster.p_their()] [arm_describer]."),
+						ignored_mobs = caster,
+					)
+					to_chat(caster, span_warning("You can't position your hands correctly to invoke [src][caster.num_hands > 0 ? "" : ", as you have none"]..."))
+					StartCooldown(2 SECONDS)
+					return SPELL_CANCEL_CAST
 
 	var/sig_return = SEND_SIGNAL(src, COMSIG_SPELL_BEFORE_CAST, cast_on)
 	if(owner)
@@ -365,20 +409,19 @@
 
 
 /// Provides feedback after a spell cast occurs, in the form of a cast sound and/or invocation
-/datum/action/cooldown/spell/proc/spell_feedback()
-	if(!owner)
+/datum/action/cooldown/spell/proc/spell_feedback(mob/living/invoker)
+	if(!invoker)
 		return
 
 	///even INVOCATION_NONE should go through this because the signal might change that
-	invocation()
-	if(sound)
-		playsound(get_turf(owner), sound, 50, TRUE)
+	invocation(invoker)
+	playsound(invoker, sound, 50, vary = TRUE)
 
 /// The invocation that accompanies the spell, called from spell_feedback() before cast().
-/datum/action/cooldown/spell/proc/invocation()
+/datum/action/cooldown/spell/proc/invocation(mob/living/invoker)
 	//lists can be sent by reference, a string would be sent by value
 	var/list/invocation_list = list(invocation, invocation_type, garbled_invocation_prob)
-	SEND_SIGNAL(owner, COMSIG_MOB_PRE_INVOCATION, src, invocation_list)
+	SEND_SIGNAL(invoker, COMSIG_MOB_PRE_INVOCATION, src, invocation_list)
 	var/used_invocation_message = invocation_list[INVOCATION_MESSAGE]
 	var/used_invocation_type = invocation_list[INVOCATION_TYPE]
 	var/used_invocation_garble_prob = invocation_list[INVOCATION_GARBLE_PROB]
@@ -386,21 +429,21 @@
 	switch(used_invocation_type)
 		if(INVOCATION_SHOUT)
 			if(prob(used_invocation_garble_prob))
-				owner.say(replacetext(used_invocation_message," ","`"), forced = "spell ([src])")
+				invoker.say(replacetext(used_invocation_message," ","`"), forced = "spell ([src])")
 			else
-				owner.say(used_invocation_message, forced = "spell ([src])")
+				invoker.say(used_invocation_message, forced = "spell ([src])")
 
 		if(INVOCATION_WHISPER)
 			if(prob(used_invocation_garble_prob))
-				owner.whisper(replacetext(used_invocation_message," ","`"), forced = "spell ([src])")
+				invoker.whisper(replacetext(used_invocation_message," ","`"), forced = "spell ([src])")
 			else
-				owner.whisper(used_invocation_message, forced = "spell ([src])")
+				invoker.whisper(used_invocation_message, forced = "spell ([src])")
 
 		if(INVOCATION_EMOTE)
-			owner.visible_message(used_invocation_message, invocation_self_message)
+			invoker.visible_message(used_invocation_message, invocation_self_message)
 
 /// Checks if the current OWNER of the spell is in a valid state to say the spell's invocation
-/datum/action/cooldown/spell/proc/try_invoke(feedback = TRUE)
+/datum/action/cooldown/spell/proc/try_invoke(mob/living/invoker, feedback = TRUE)
 	if(spell_requirements & SPELL_CASTABLE_WITHOUT_INVOCATION)
 		return TRUE
 
@@ -408,22 +451,31 @@
 		return TRUE
 
 	// If you want a spell usable by ghosts for some reason, it must be INVOCATION_NONE
-	if(!isliving(owner))
+	if(!istype(invoker))
 		if(feedback)
-			to_chat(owner, span_warning("You need to be living to invoke [src]!"))
+			to_chat(invoker, span_warning("You need to be living to invoke [src]!"))
 		return FALSE
 
-	var/mob/living/living_owner = owner
-	if(invocation_type == INVOCATION_EMOTE && HAS_TRAIT(living_owner, TRAIT_EMOTEMUTE))
-		if(feedback)
-			to_chat(owner, span_warning("You can't position your hands correctly to invoke [src]!"))
+	var/invoke_sig_return = SEND_SIGNAL(invoker, COMSIG_MOB_TRY_INVOKE_SPELL, src, feedback)
+	if(invoke_sig_return & SPELL_INVOCATION_ALWAYS_SUCCEED)
+		return TRUE // skips all of the following checks
+	if(invoke_sig_return & SPELL_INVOCATION_FAIL)
 		return FALSE
 
+<<<<<<< HEAD
 	if((invocation_type == INVOCATION_WHISPER || invocation_type == INVOCATION_SHOUT) && !living_owner.can_speak())
 		if(HAS_TRAIT(living_owner, TRAIT_SIGN_LANG) && !HAS_MIND_TRAIT(living_owner, TRAIT_CANT_SIGN_SPELLS)) // monkestation edit: allow sign language users to cast spells
 			return TRUE
+=======
+	if(invocation_type == INVOCATION_EMOTE && HAS_TRAIT(invoker, TRAIT_EMOTEMUTE))
+>>>>>>> tg-pr-88929
 		if(feedback)
-			to_chat(owner, span_warning("You can't get the words out to invoke [src]!"))
+			to_chat(invoker, span_warning("You can't position your hands correctly to invoke [src]!"))
+		return FALSE
+
+	if((invocation_type == INVOCATION_WHISPER || invocation_type == INVOCATION_SHOUT) && !invoker.can_speak())
+		if(feedback)
+			to_chat(invoker, span_warning("You can't get the words out to invoke [src]!"))
 		return FALSE
 
 	return TRUE

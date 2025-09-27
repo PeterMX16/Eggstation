@@ -1,8 +1,8 @@
 /obj/item/reagent_containers/pill/patch
-	name = "chemical patch"
+	name = "patch"
 	desc = "A chemical patch for touch based applications."
 	icon = 'icons/obj/medical/chemical.dmi'
-	icon_state = "bandaid"
+	icon_state = "bandaid_blank"
 	inhand_icon_state = null
 	possible_transfer_amounts = list()
 	volume = 40
@@ -11,6 +11,7 @@
 	self_delay = 30 // three seconds
 	dissolvable = FALSE
 
+<<<<<<< HEAD
 /*
 /obj/item/reagent_containers/pill/patch/attack(mob/living/L, mob/user)
 	if(ishuman(L))
@@ -24,9 +25,23 @@
 	..()
 */
 
+=======
+>>>>>>> tg-pr-88929
 /obj/item/reagent_containers/pill/patch/canconsume(mob/eater, mob/user)
 	if(!iscarbon(eater))
 		return FALSE
+	if(!ishuman(eater))
+		return TRUE
+	var/mob/living/carbon/human/human_eater = eater
+	var/obj/item/bodypart/affecting = human_eater.get_bodypart(check_zone(user.zone_selected))
+	if(!affecting)
+		to_chat(user, span_warning("The limb is missing!"))
+		return FALSE
+
+	if(!IS_ORGANIC_LIMB(affecting))
+		to_chat(user, span_notice("Medicine won't work on an inorganic limb!"))
+		return FALSE
+
 	return TRUE // Masks were stopping people from "eating" patches. Thanks, inheritance.
 
 /obj/item/reagent_containers/pill/patch/libital
@@ -47,11 +62,19 @@
 	list_reagents = list(/datum/reagent/medicine/c2/synthflesh = 20)
 	icon_state = "bandaid_both"
 
+<<<<<<< HEAD
 /obj/item/reagent_containers/pill/patch/modafinil
 	name = "modafinil patch (WARNING)"
 	desc = "Helps quickly wake up patients and cures dizziness. Easy to overdose, apply one patch and wait for it to finish applying before applying another."
 	list_reagents = list(/datum/reagent/medicine/modafinil = 1)
 	icon_state = "bandaid_exclaimationpoint"
+=======
+/obj/item/reagent_containers/pill/patch/ondansetron
+	name = "ondansetron patch"
+	desc = "Alleviates nausea. May cause drowsiness."
+	list_reagents = list(/datum/reagent/medicine/ondansetron = 10)
+	icon_state = "bandaid_toxin"
+>>>>>>> tg-pr-88929
 
 // Patch styles for chem master
 

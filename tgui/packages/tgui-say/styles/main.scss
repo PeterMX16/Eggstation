@@ -7,7 +7,7 @@
 // Atomic styles
 @include meta.load-css('~tgui/styles/atomic/text.scss');
 // External styles
-@include meta.load-css('~tgui/styles/components/TextArea.scss');
+@include meta.load-css('pkg:tgui-styles/components/TextArea');
 // Local styles
 @include meta.load-css('./button.scss');
 @include meta.load-css('./content.scss');
@@ -26,6 +26,7 @@
 }
 
 @each $channel, $color in colors.$channel-map {
+<<<<<<< HEAD
   $darkened: darken($color, 20%);
 
   .button-#{$channel} {
@@ -34,6 +35,16 @@
     &:hover {
       border-color: lighten($color, 10%);
       color: lighten($color, 5%);
+=======
+  $darkened: color.adjust($color, $lightness: -20%, $space: hsl);
+
+  .button-#{$channel} {
+    border-color: color.adjust($color, $lightness: -10%, $space: hsl);
+    color: $color;
+    &:hover {
+      border-color: color.adjust($color, $lightness: 10%, $space: hsl);
+      color: color.adjust($color, $lightness: 5%, $space: hsl);
+>>>>>>> tg-pr-88929
     }
   }
 
@@ -50,11 +61,19 @@
       animation: gradient 10s linear infinite;
       background: linear-gradient(
         to right,
+<<<<<<< HEAD
         darken($color, 35%),
         $color,
         lighten($color, 10%),
         $color,
         darken($color, 35%)
+=======
+        color.adjust($color, $lightness: -35%, $space: hsl),
+        $color,
+        color.adjust($color, $lightness: 10%, $space: hsl),
+        $color,
+        color.adjust($color, $lightness: -35%, $space: hsl)
+>>>>>>> tg-pr-88929
       );
       background-position: 0% 0%;
       background-size: 500% auto;

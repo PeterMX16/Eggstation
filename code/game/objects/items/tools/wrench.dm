@@ -5,18 +5,27 @@
 	icon_state = "wrench"
 	inhand_icon_state = "wrench"
 	worn_icon_state = "wrench"
+	icon_angle = -135
 	lefthand_file = 'icons/mob/inhands/equipment/tools_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/tools_righthand.dmi'
-	flags_1 = CONDUCT_1
+	obj_flags = CONDUCTS_ELECTRICITY
 	slot_flags = ITEM_SLOT_BELT
 	force = 5
 	throwforce = 7
 	demolition_mod = 1.25
 	w_class = WEIGHT_CLASS_SMALL
+<<<<<<< HEAD
 	usesound = 'sound/items/ratchet.ogg'
 	custom_materials = list(/datum/material/iron=SMALL_MATERIAL_AMOUNT*1.5)
 	drop_sound = 'sound/items/handling/wrench_drop.ogg'
 	pickup_sound = 'sound/items/handling/wrench_pickup.ogg'
+=======
+	usesound = 'sound/items/tools/ratchet.ogg'
+	operating_sound = list('sound/items/tools/ratchet_fast.ogg', 'sound/items/tools/ratchet_slow.ogg')
+	custom_materials = list(/datum/material/iron=SMALL_MATERIAL_AMOUNT*1.5)
+	drop_sound = 'sound/items/handling/tools/wrench_drop.ogg'
+	pickup_sound = 'sound/items/handling/tools/wrench_pickup.ogg'
+>>>>>>> tg-pr-88929
 
 	attack_verb_continuous = list("bashes", "batters", "bludgeons", "whacks")
 	attack_verb_simple = list("bash", "batter", "bludgeon", "whack")
@@ -34,14 +43,20 @@
 
 /obj/item/wrench/suicide_act(mob/living/user)
 	user.visible_message(span_suicide("[user] is beating [user.p_them()]self to death with [src]! It looks like [user.p_theyre()] trying to commit suicide!"))
-	playsound(loc, 'sound/weapons/genhit.ogg', 50, TRUE, -1)
+	playsound(loc, 'sound/items/weapons/genhit.ogg', 50, TRUE, -1)
 	return BRUTELOSS
 
 /obj/item/wrench/abductor
 	name = "alien wrench"
 	desc = "A polarized wrench. It causes anything placed between the jaws to turn."
+<<<<<<< HEAD
 	icon = 'icons/obj/abductor.dmi'
 	belt_icon_state = "wrench_alien"
+=======
+	icon = 'icons/obj/antags/abductor.dmi'
+	inside_belt_icon_state = "wrench_alien"
+	icon_angle = -135
+>>>>>>> tg-pr-88929
 	custom_materials = list(/datum/material/iron =SHEET_MATERIAL_AMOUNT * 2.5, /datum/material/silver = SHEET_MATERIAL_AMOUNT*1.25, /datum/material/plasma =HALF_SHEET_MATERIAL_AMOUNT, /datum/material/titanium =SHEET_MATERIAL_AMOUNT, /datum/material/diamond =SHEET_MATERIAL_AMOUNT)
 	usesound = 'sound/effects/empulse.ogg'
 	toolspeed = 0.1
@@ -69,7 +84,7 @@
 	user.Stun(100, ignore_canstun = TRUE)// Stun stops them from wandering off
 	user.set_light_color(COLOR_VERY_SOFT_YELLOW)
 	user.set_light(2)
-	user.add_overlay(mutable_appearance('icons/effects/genetics.dmi', "servitude", -MUTATIONS_LAYER))
+	user.add_overlay(mutable_appearance('icons/mob/effects/genetics.dmi', "servitude", -MUTATIONS_LAYER))
 	playsound(loc, 'sound/effects/pray.ogg', 50, TRUE, -1)
 
 	// Let the sound effect finish playing
@@ -87,7 +102,8 @@
 	name = "hydraulic wrench"
 	desc = "An advanced robotic wrench, powered by internal hydraulics. Twice as fast as the handheld version."
 	icon = 'icons/obj/items_cyborg.dmi'
-	icon_state = "wrench_cyborg"
+	icon_state = "toolkit_engiborg_wrench"
+	icon_angle = 0
 	toolspeed = 0.5
 
 /obj/item/wrench/combat
@@ -95,7 +111,8 @@
 	desc = "It's like a normal wrench but edgier. Can be found on the battlefield."
 	icon_state = "wrench_combat"
 	inhand_icon_state = "wrench_combat"
-	belt_icon_state = "wrench_combat"
+	inside_belt_icon_state = "wrench_combat"
+	icon_angle = -90
 	attack_verb_continuous = list("devastates", "brutalizes", "commits a war crime against", "obliterates", "humiliates")
 	attack_verb_simple = list("devastate", "brutalize", "commit a war crime against", "obliterate", "humiliate")
 	tool_behaviour = null
@@ -106,8 +123,13 @@
 	. = ..()
 	AddComponent( \
 		/datum/component/transforming, \
+<<<<<<< HEAD
 		force_on = 18, \
 		throwforce_on = 10, \
+=======
+		force_on = 6, \
+		throwforce_on = 8, \
+>>>>>>> tg-pr-88929
 		hitsound_on = hitsound, \
 		w_class_on = WEIGHT_CLASS_NORMAL, \
 		clumsy_check = FALSE, \
@@ -126,7 +148,11 @@
 	tool_behaviour = active ? TOOL_WRENCH : initial(tool_behaviour)
 	if(user)
 		balloon_alert(user, "[name] [active ? "active, woe!":"restrained"]")
+<<<<<<< HEAD
 	playsound(src, active ? 'sound/weapons/saberon.ogg' : 'sound/weapons/saberoff.ogg', 5, TRUE)
+=======
+	playsound(src, active ? 'sound/items/weapons/saberon.ogg' : 'sound/items/weapons/saberoff.ogg', 5, TRUE)
+>>>>>>> tg-pr-88929
 	return COMPONENT_NO_DEFAULT_MESSAGE
 
 /obj/item/wrench/combat/proc/on_scan(datum/source, mob/user, list/extra_data)
@@ -144,4 +170,5 @@
 	desc = "A wrench designed to grab into airlock's bolting system and raise it regardless of the airlock's power status."
 	icon_state = "bolter_wrench"
 	inhand_icon_state = "bolter_wrench"
+	icon_angle = -90
 	w_class = WEIGHT_CLASS_NORMAL

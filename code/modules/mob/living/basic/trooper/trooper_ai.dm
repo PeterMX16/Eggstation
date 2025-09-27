@@ -90,7 +90,11 @@
 
 /datum/ai_behavior/basic_ranged_attack/trooper_shotgun
 	action_cooldown = 3 SECONDS
+<<<<<<< HEAD
 	required_distance = 1
+=======
+	required_distance = 3
+>>>>>>> tg-pr-88929
 	avoid_friendly_fire = TRUE
 
 /datum/ai_controller/basic_controller/trooper/viscerator

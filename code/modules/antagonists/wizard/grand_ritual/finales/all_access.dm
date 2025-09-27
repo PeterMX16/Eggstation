@@ -14,6 +14,10 @@
 			target_door.req_one_access = list()
 			INVOKE_ASYNC(target_door, TYPE_PROC_REF(/obj/machinery/door/airlock, open))
 			CHECK_TICK
+<<<<<<< HEAD
 	priority_announce("AULIE OXIN FIERA!!", null, 'sound/magic/knock.ogg', sender_override = "[invoker.real_name]", color_override = "purple")
 	var/obj/item/remote = new /obj/item/door_remote/omni(get_turf(invoker)) //MONKESTATION ADDITION: you now also control bolting
 	invoker.put_in_hands(remote) //MONKESTATION ADDITION
+=======
+	priority_announce("AULIE OXIN FIERA!!", null, 'sound/effects/magic/knock.ogg', sender_override = "[invoker.real_name]", color_override = "purple")
+>>>>>>> tg-pr-88929

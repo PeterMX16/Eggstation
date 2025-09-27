@@ -4,7 +4,7 @@
 /obj/machinery/power/rtg
 	name = "radioisotope thermoelectric generator"
 	desc = "A simple nuclear power generator, used in small outposts to reliably provide power for decades."
-	icon = 'icons/obj/power.dmi'
+	icon = 'icons/obj/machines/engine/other.dmi'
 	icon_state = "rtg"
 	density = TRUE
 	use_power = NO_POWER_USE
@@ -22,8 +22,7 @@
 	connect_to_network()
 
 /obj/machinery/power/rtg/process()
-	..()
-	add_avail(power_gen)
+	add_avail(power_to_energy(power_gen))
 
 /obj/machinery/power/rtg/RefreshParts()
 	. = ..()
@@ -55,7 +54,7 @@
 
 /obj/machinery/power/rtg/abductor
 	name = "Void Core"
-	icon = 'icons/obj/abductor.dmi'
+	icon = 'icons/obj/antags/abductor.dmi'
 	icon_state = "core"
 	desc = "An alien power source that produces energy seemingly out of nowhere."
 	circuit = /obj/item/circuitboard/machine/abductor/core
@@ -70,14 +69,14 @@
 	going_kaboom = TRUE
 	visible_message(span_danger("\The [src] lets out a shower of sparks as it starts to lose stability!"),\
 		span_hear("You hear a loud electrical crack!"))
-	playsound(src.loc, 'sound/magic/lightningshock.ogg', 100, TRUE, extrarange = 5)
-	tesla_zap(src, 5, power_gen * 0.05)
+	playsound(src.loc, 'sound/effects/magic/lightningshock.ogg', 100, TRUE, extrarange = 5)
+	tesla_zap(source = src, zap_range = 5, power = power_gen * 20)
 	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(explosion), src, 2, 3, 4, null, 8), 10 SECONDS) // Not a normal explosion.
 
-/obj/machinery/power/rtg/abductor/bullet_act(obj/projectile/Proj)
+/obj/machinery/power/rtg/abductor/bullet_act(obj/projectile/proj)
 	. = ..()
-	if(!going_kaboom && istype(Proj) && Proj.damage > 0 && ((Proj.damage_type == BURN) || (Proj.damage_type == BRUTE)))
-		log_bomber(Proj.firer, "triggered a", src, "explosion via projectile")
+	if(!going_kaboom && istype(proj) && proj.damage > 0 && ((proj.damage_type == BURN) || (proj.damage_type == BRUTE)))
+		log_bomber(proj.firer, "triggered a", src, "explosion via projectile")
 		overload()
 
 /obj/machinery/power/rtg/abductor/blob_act(obj/structure/blob/B)
@@ -88,6 +87,8 @@
 		qdel(src)
 	else
 		overload()
+
+	return TRUE
 
 /obj/machinery/power/rtg/abductor/fire_act(exposed_temperature, exposed_volume)
 	overload()

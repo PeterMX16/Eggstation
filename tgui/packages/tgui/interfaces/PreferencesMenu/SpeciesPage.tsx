@@ -1,5 +1,17 @@
-import { classes } from 'common/react';
+import {
+  BlockQuote,
+  Box,
+  Button,
+  Divider,
+  Icon,
+  Section,
+  Stack,
+  Tooltip,
+} from 'tgui-core/components';
+import { classes } from 'tgui-core/react';
+
 import { useBackend } from '../../backend';
+<<<<<<< HEAD
 import {
   Box,
   BlockQuote,
@@ -10,6 +22,8 @@ import {
   Stack,
   Tooltip,
 } from '../../components';
+=======
+>>>>>>> tg-pr-88929
 import { CharacterPreview } from '../common/CharacterPreview';
 import {
   createSetPreference,
@@ -35,6 +49,7 @@ const FOOD_ICONS = {
   [Food.Nuts]: 'seedling',
   [Food.Raw]: 'drumstick-bite',
   [Food.Seafood]: 'fish',
+  [Food.Stone]: 'gem',
   [Food.Sugar]: 'candy-cane',
   [Food.Toxic]: 'biohazard',
   [Food.Vegetables]: 'carrot',
@@ -54,6 +69,7 @@ const FOOD_NAMES: Record<keyof typeof FOOD_ICONS, string> = {
   [Food.Nuts]: 'Nuts',
   [Food.Raw]: 'Raw',
   [Food.Seafood]: 'Seafood',
+  [Food.Stone]: 'Rocks',
   [Food.Sugar]: 'Sugar',
   [Food.Toxic]: 'Toxic food',
   [Food.Vegetables]: 'Vegetables',
@@ -173,14 +189,18 @@ const SpeciesPerk = (props: { className: string; perk: Perk }) => {
         </Box>
       }
     >
+<<<<<<< HEAD
       <Box class={className} width="32px" height="32px">
+=======
+      <Box className={className} width="32px" height="32px">
+>>>>>>> tg-pr-88929
         <Icon
           name={perk.ui_icon}
           size={1.5}
           ml={0}
           mt={1}
           style={{
-            'text-align': 'center',
+            textAlign: 'center',
             height: '100%',
             width: '100%',
           }}
@@ -207,7 +227,7 @@ const SpeciesPerks = (props: { perks: Species['perks'] }) => {
         </Stack>
       </Stack.Item>
 
-      <Stack grow>
+      <Stack>
         {neutral.map((perk) => {
           return (
             <Stack.Item key={perk.name}>
@@ -293,7 +313,7 @@ const SpeciesPageInner = (props: {
           </Stack.Item>
 
           <Stack.Item grow>
-            <Box fill>
+            <Box>
               <Box>
                 <Stack fill>
                   <Stack.Item width="70%">

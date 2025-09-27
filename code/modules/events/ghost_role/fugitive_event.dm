@@ -20,7 +20,11 @@
 	if(isnull(landing_turf))
 		return MAP_ERROR
 	var/list/possible_backstories = list()
+<<<<<<< HEAD
 	var/list/candidates = SSpolling.poll_ghost_candidates(check_jobban = ROLE_FUGITIVE, role = ROLE_FUGITIVE, alert_pic = /obj/item/card/id/advanced/prisoner)
+=======
+	var/list/candidates = SSpolling.poll_ghost_candidates(check_jobban = ROLE_FUGITIVE, role = ROLE_FUGITIVE, alert_pic = /obj/item/card/id/advanced/prisoner, jump_target = landing_turf)
+>>>>>>> tg-pr-88929
 
 	if(!length(candidates))
 		return NOT_ENOUGH_PLAYERS
@@ -54,9 +58,16 @@
 		gear_fugitive_leader(leader, landing_turf, backstory)
 
 	//after spawning
-	playsound(src, 'sound/weapons/emitter.ogg', 50, TRUE)
+	playsound(src, 'sound/items/weapons/emitter.ogg', 50, TRUE)
 	new /obj/item/storage/toolbox/mechanical(landing_turf) //so they can actually escape maint
-	addtimer(CALLBACK(src, PROC_REF(spawn_hunters)), 10 MINUTES)
+	var/hunter_backstory = pick(
+		HUNTER_PACK_COPS,
+		HUNTER_PACK_RUSSIAN,
+		HUNTER_PACK_BOUNTY,
+		HUNTER_PACK_PSYKER,
+		HUNTER_PACK_MI13,
+	)
+	addtimer(CALLBACK(src, PROC_REF(check_spawn_hunters), hunter_backstory, 10 MINUTES), 1 MINUTES)
 	role_name = "fugitive hunter"
 	return SUCCESSFUL_SPAWN
 
@@ -65,7 +76,7 @@
 	player_mind.active = TRUE
 	var/mob/living/carbon/human/S = new(landing_turf)
 	player_mind.transfer_to(S)
-	player_mind.set_assigned_role(SSjob.GetJobType(/datum/job/fugitive))
+	player_mind.set_assigned_role(SSjob.get_job_type(/datum/job/fugitive))
 	player_mind.special_role = ROLE_FUGITIVE
 	player_mind.add_antag_datum(/datum/antagonist/fugitive)
 	var/datum/antagonist/fugitive/fugitiveantag = player_mind.has_antag_datum(/datum/antagonist/fugitive)
@@ -97,10 +108,25 @@
 	S.put_in_hands(A)
 	new /obj/item/autosurgeon(landing_turf)
 
+<<<<<<< HEAD
 //security team gets called in after 10 minutes of prep to find the refugees
 /datum/round_event/ghost_role/fugitives/proc/spawn_hunters()
 	var/backstory = pick(HUNTER_PACK_COPS, HUNTER_PACK_RUSSIAN, HUNTER_PACK_BOUNTY) // MONKESTATION REMOVAL HUNTER_PACK_PSYKER DISGUSTING
 	var/datum/map_template/shuttle/ship
+=======
+/datum/round_event/ghost_role/fugitives/proc/check_spawn_hunters(backstory, remaining_time)
+	//if the emergency shuttle has been called, spawn hunters now to give them a chance
+	if(remaining_time == 0 || !EMERGENCY_IDLE_OR_RECALLED)
+		spawn_hunters(backstory)
+		return
+	addtimer(CALLBACK(src, PROC_REF(check_spawn_hunters), backstory, remaining_time - 1 MINUTES), 1 MINUTES)
+
+/datum/round_event/ghost_role/fugitives/proc/spawn_hunters(backstory)
+	var/list/candidates = SSpolling.poll_ghost_candidates("Do you wish to be considered for a group of [span_notice(backstory)]?", check_jobban = ROLE_FUGITIVE_HUNTER, alert_pic = /obj/machinery/sleeper, role_name_text = backstory)
+	shuffle_inplace(candidates)
+
+	var/datum/map_template/shuttle/hunter/ship
+>>>>>>> tg-pr-88929
 	switch(backstory)
 		if(HUNTER_PACK_COPS)
 			ship = new /datum/map_template/shuttle/hunter/space_cop
@@ -108,17 +134,75 @@
 			ship = new /datum/map_template/shuttle/hunter/russian
 		if(HUNTER_PACK_BOUNTY)
 			ship = new /datum/map_template/shuttle/hunter/bounty
+<<<<<<< HEAD
 //		if(HUNTER_PACK_PSYKER) MONKESTATION REMOVAL
 //			ship = new /datum/map_template/shuttle/hunter/psyker
+=======
+		if(HUNTER_PACK_PSYKER)
+			ship = new /datum/map_template/shuttle/hunter/psyker
+		if(HUNTER_PACK_MI13)
+			ship = new/datum/map_template/shuttle/hunter/mi13_foodtruck
+>>>>>>> tg-pr-88929
 
 	var/x = rand(TRANSITIONEDGE,world.maxx - TRANSITIONEDGE - ship.width)
 	var/y = rand(TRANSITIONEDGE,world.maxy - TRANSITIONEDGE - ship.height)
 	var/z = SSmapping.empty_space.z_value
-	var/turf/T = locate(x,y,z)
-	if(!T)
+	var/turf/placement_turf = locate(x,y,z)
+	if(!placement_turf)
 		CRASH("Fugitive Hunters (Created from fugitive event) found no turf to load in")
-	if(!ship.load(T))
+	if(!ship.load(placement_turf))
 		CRASH("Loading [backstory] ship failed!")
-	priority_announce("Unidentified ship detected near the station.")
+
+	for(var/turf/shuttle_turf in ship.get_affected_turfs(placement_turf))
+		for(var/obj/effect/mob_spawn/ghost_role/human/fugitive/spawner in shuttle_turf)
+			if(length(candidates))
+				var/mob/our_candidate = candidates[1]
+				var/mob/spawned_mob = spawner.create_from_ghost(our_candidate)
+				candidates -= our_candidate
+				notify_ghosts(
+					"[spawner.prompt_name] has awoken: [spawned_mob]!",
+					source = spawned_mob,
+					header = "Come look!",
+				)
+			else
+				notify_ghosts(
+					"[spawner.prompt_name] spawner has been created!",
+					source = spawner,
+					header = "Spawn Here!",
+				)
+
+	var/list/announcement_text_list = list()
+	var/announcement_title = ""
+	switch(backstory)
+		if(HUNTER_PACK_COPS)
+			announcement_text_list += "Attention Crew of [GLOB.station_name], this is the Police. A wanted criminal has been reported taking refuge on your station."
+			announcement_text_list += "We have a warrant from the SSC authorities to take them into custody. Officers have been dispatched to your location."
+			announcement_text_list += "We demand your cooperation in bringing this criminal to justice."
+			announcement_title += "Spacepol Command"
+		if(HUNTER_PACK_RUSSIAN)
+			announcement_text_list += "Zdraviya zhelaju, [GLOB.station_name] crew. We are coming to your station."
+			announcement_text_list += "There is a criminal aboard. We will arrest them and return them to the gulag. That's good, yes?"
+			announcement_title += "Russian Freighter"
+		if(HUNTER_PACK_BOUNTY)
+			announcement_text_list += "[GLOB.station_name]. One of our bounty marks has ended up on your station. We will be arriving to collect shortly."
+			announcement_text_list += "Let's make this quick. If you don't want trouble, stay the hell out of our way."
+			announcement_title += "Unregistered Signal"
+		if(HUNTER_PACK_PSYKER)
+			announcement_text_list += "HEY, CAN YOU HEAR US? We're coming to your station. There's a bad guy down there, really bad guy. We need to arrest them."
+			announcement_text_list += "We're also offering fortune telling services out of the front door if you have paying customers."
+			announcement_title += "Fortune-Telling Entertainment Shuttle"
+		if(HUNTER_PACK_MI13)
+			announcement_text_list += "Illegal intrusion detected in the crew monitoring network. Central Command has been informed."
+			announcement_text_list += "Please report any suspicious individuals or behaviour to your local security team."
+			announcement_title += "Nanotrasen Intrusion Countermeasures Electronics"
+	if(!length(announcement_text_list))
+		announcement_text_list += "Unidentified ship detected near the station."
+		stack_trace("Fugitive hunter announcement was unable to generate an announcement text based on backstory: [backstory]")
+
+	if(!length(announcement_title))
+		announcement_title += "Unknown Signal"
+		stack_trace("Fugitive hunter announcement was unable to generate an announcement title based on backstory: [backstory]")
+
+	priority_announce(jointext(announcement_text_list, " "), announcement_title)
 
 #undef TEAM_BACKSTORY_SIZE

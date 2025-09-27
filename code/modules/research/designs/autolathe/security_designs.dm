@@ -167,7 +167,11 @@
 	id = "riot_dart"
 	build_type = AUTOLATHE
 	materials = list(/datum/material/iron =HALF_SHEET_MATERIAL_AMOUNT) //Discount for making individually - no box = less iron!
+<<<<<<< HEAD
 	build_path = /obj/item/ammo_casing/caseless/foam_dart/riot
+=======
+	build_path = /obj/item/ammo_casing/foam_dart/riot
+>>>>>>> tg-pr-88929
 	category = list(
 		RND_CATEGORY_HACKED,
 		RND_CATEGORY_WEAPONS + RND_SUBCATEGORY_WEAPONS_AMMO,
@@ -191,19 +195,27 @@
 	id = "a357"
 	build_type = AUTOLATHE
 	materials = list(/datum/material/iron = SHEET_MATERIAL_AMOUNT*2)
+<<<<<<< HEAD
 	build_path = /obj/item/ammo_casing/a357
+=======
+	build_path = /obj/item/ammo_casing/c357
+>>>>>>> tg-pr-88929
 	category = list(
 		RND_CATEGORY_HACKED,
 		RND_CATEGORY_WEAPONS + RND_SUBCATEGORY_WEAPONS_AMMO,
 	)
 	departmental_flags = DEPARTMENT_BITFLAG_SECURITY
 
-/datum/design/a762surplus
-	name = "7.62 Surplus Bullet Casing (VERY Lethal)"
-	id = "a762surplus"
+/datum/design/strilka310_surplus
+	name = ".310 Surplus Bullet Casing (VERY Lethal)"
+	id = "strilka310_surplus"
 	build_type = AUTOLATHE
 	materials = list(/datum/material/iron = SHEET_MATERIAL_AMOUNT*2)
+<<<<<<< HEAD
 	build_path = /obj/item/ammo_casing/a762/surplus
+=======
+	build_path = /obj/item/ammo_casing/strilka310/surplus
+>>>>>>> tg-pr-88929
 	category = list(
 		RND_CATEGORY_HACKED,
 		RND_CATEGORY_WEAPONS + RND_SUBCATEGORY_WEAPONS_AMMO,

@@ -10,6 +10,7 @@
 	name = "Sandwich"
 	reqs = list(
 		/obj/item/food/breadslice/plain = 2,
+		/obj/item/food/grown/cabbage = 1,
 		/obj/item/food/meat/steak = 1,
 		/obj/item/food/cheese/wedge = 1
 	)
@@ -118,7 +119,10 @@
 
 /datum/crafting_recipe/food/death_sandwich
 	name = "Death Sandwich"
+<<<<<<< HEAD
 	always_available = FALSE
+=======
+>>>>>>> tg-pr-88929
 	reqs = list(
 		/obj/item/food/breadslice/plain = 2,
 		/obj/item/food/salami = 4,
@@ -127,6 +131,10 @@
 	)
 	result = /obj/item/food/sandwich/death
 	category = CAT_SANDWICH
+<<<<<<< HEAD
+=======
+	crafting_flags = CRAFT_CHECK_DENSITY | CRAFT_MUST_BE_LEARNED
+>>>>>>> tg-pr-88929
 
 /datum/crafting_recipe/food/toast_sandwich
 	name = "Toast Sandwich"

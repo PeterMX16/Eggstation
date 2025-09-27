@@ -9,7 +9,7 @@ Slimecrossing Potions
 	name = "extract cloning potion"
 	desc = "A more powerful version of the extract enhancer potion, capable of cloning regular slime extracts."
 	icon = 'icons/obj/medical/chemical.dmi'
-	icon_state = "potpurple"
+	icon_state = "potgold"
 
 /obj/item/slimepotion/extract_cloner/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
 	. = ..()
@@ -26,7 +26,11 @@ Slimecrossing Potions
 		return ITEM_INTERACT_BLOCKING
 	var/path = S.type
 	var/obj/item/slime_extract/C = new path(get_turf(interacting_with))
+<<<<<<< HEAD
 	C.Uses = S.Uses
+=======
+	C.extract_uses = S.extract_uses
+>>>>>>> tg-pr-88929
 	to_chat(user, span_notice("You pour the potion onto [interacting_with], and the fluid solidifies into a copy of it!"))
 	qdel(src)
 	return ITEM_INTERACT_SUCCESS
@@ -102,12 +106,15 @@ Slimecrossing Potions
 	name = "slime pressurization potion"
 	desc = "A potent chemical sealant that will render any article of clothing airtight. Has two uses."
 	icon = 'icons/obj/medical/chemical.dmi'
-	icon_state = "potblue"
+	icon_state = "potblack"
 	var/uses = 2
 
+<<<<<<< HEAD
 /obj/item/slimepotion/spaceproof/storage_insert_on_interaction(datum/storage, atom/storage_holder, mob/user)
 	return !(user?.istate & (ISTATE_HARM | ISTATE_SECONDARY))
 
+=======
+>>>>>>> tg-pr-88929
 /obj/item/slimepotion/spaceproof/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
 	. = ..()
 	if(. & ITEM_INTERACT_ANY_BLOCKER)
@@ -128,11 +135,18 @@ Slimecrossing Potions
 	to_chat(user, span_notice("You slather the blue gunk over the [clothing], making it airtight."))
 	clothing.name = "pressure-resistant [clothing.name]"
 	clothing.remove_atom_colour(WASHABLE_COLOUR_PRIORITY)
+<<<<<<< HEAD
 	clothing.add_atom_colour(COLOR_NAVY, FIXED_COLOUR_PRIORITY)
 	clothing.min_cold_protection_temperature = SPACE_SUIT_MIN_TEMP_PROTECT
 	//clothing.cold_protection = clothing.body_parts_covered
 	clothing.clothing_flags |= STOPSPRESSUREDAMAGE
 	user.update_cached_insulation()
+=======
+	clothing.add_atom_colour(color_transition_filter(COLOR_NAVY, SATURATION_OVERRIDE), FIXED_COLOUR_PRIORITY)
+	clothing.min_cold_protection_temperature = SPACE_SUIT_MIN_TEMP_PROTECT
+	clothing.cold_protection = clothing.body_parts_covered
+	clothing.clothing_flags |= STOPSPRESSUREDAMAGE
+>>>>>>> tg-pr-88929
 	uses--
 	if(uses <= 0)
 		qdel(src)
@@ -143,20 +157,23 @@ Slimecrossing Potions
 	name = "extract maximizer"
 	desc = "An extremely potent chemical mix that will maximize a slime extract's uses."
 	icon = 'icons/obj/medical/chemical.dmi'
-	icon_state = "potpurple"
+	icon_state = "potcerulean"
 
 //Lavaproofing potion - Charged Red
 /obj/item/slimepotion/lavaproof
 	name = "slime lavaproofing potion"
 	desc = "A strange, reddish goo said to repel lava as if it were water, without reducing flammability. Has two uses."
 	icon = 'icons/obj/medical/chemical.dmi'
-	icon_state = "potred"
+	icon_state = "potyellow"
 	resistance_flags = LAVA_PROOF | FIRE_PROOF
 	var/uses = 2
 
+<<<<<<< HEAD
 /obj/item/slimepotion/lavaproof/storage_insert_on_interaction(datum/storage, atom/storage_holder, mob/user)
 	return !(user?.istate & (ISTATE_HARM | ISTATE_SECONDARY))
 
+=======
+>>>>>>> tg-pr-88929
 /obj/item/slimepotion/lavaproof/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
 	. = ..()
 	if(. & ITEM_INTERACT_ANY_BLOCKER)
@@ -172,11 +189,19 @@ Slimecrossing Potions
 	to_chat(user, span_notice("You slather the red gunk over the [clothing], making it lavaproof."))
 	clothing.name = "lavaproof [clothing.name]"
 	clothing.remove_atom_colour(WASHABLE_COLOUR_PRIORITY)
+<<<<<<< HEAD
 	clothing.add_atom_colour(COLOR_MAROON, FIXED_COLOUR_PRIORITY)
+=======
+	clothing.add_atom_colour(color_transition_filter(COLOR_MAROON, SATURATION_OVERRIDE), FIXED_COLOUR_PRIORITY)
+>>>>>>> tg-pr-88929
 	clothing.resistance_flags |= LAVA_PROOF
 	if (isclothing(clothing))
 		var/obj/item/clothing/clothing_real = clothing
 		clothing_real.clothing_flags |= LAVAPROTECT
+<<<<<<< HEAD
+=======
+		clothing_real.resistance_flags |= FIRE_PROOF
+>>>>>>> tg-pr-88929
 	uses--
 	if(uses <= 0)
 		qdel(src)
@@ -187,7 +212,7 @@ Slimecrossing Potions
 	name = "slime revival potion"
 	desc = "Infused with plasma and compressed gel, this brings dead slimes back to life."
 	icon = 'icons/obj/medical/chemical.dmi'
-	icon_state = "potsilver"
+	icon_state = "potgrey"
 
 /obj/item/slimepotion/slime_reviver/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
 	. = ..()

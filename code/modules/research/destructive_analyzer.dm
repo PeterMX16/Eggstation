@@ -14,6 +14,7 @@
 	base_icon_state = "d_analyzer"
 	circuit = /obj/item/circuitboard/machine/destructive_analyzer
 
+<<<<<<< HEAD
 /obj/machinery/rnd/destructive_analyzer/Initialize(mapload)
 	. = ..()
 	register_context()
@@ -43,6 +44,53 @@
 /obj/machinery/rnd/destructive_analyzer/AltClick(mob/user)
 	. = ..()
 	unload_item()
+=======
+/obj/machinery/rnd/destructive_analyzer/add_context(atom/source, list/context, obj/item/held_item, mob/living/user)
+	. = ..()
+
+	var/screentip_set = FALSE
+	if(loaded_item)
+		context[SCREENTIP_CONTEXT_ALT_LMB] = "Remove Item"
+		screentip_set = TRUE
+	else if(!isnull(held_item))
+		context[SCREENTIP_CONTEXT_LMB] = "Insert Item"
+		screentip_set = TRUE
+
+	if(screentip_set)
+		. = CONTEXTUAL_SCREENTIP_SET
+
+/obj/machinery/rnd/destructive_analyzer/examine(mob/user)
+	. = ..()
+	if(!in_range(user, src) && !isobserver(user))
+		return
+
+	if(loaded_item)
+		. += span_notice("[EXAMINE_HINT("Left-Click")] to remove loaded item inside.")
+	else
+		. += span_notice("An item can be loaded inside via [EXAMINE_HINT("Left-Click")].")
+
+/obj/machinery/rnd/destructive_analyzer/base_item_interaction(mob/living/user, obj/item/weapon, list/modifiers)
+	if(LAZYACCESS(modifiers, RIGHT_CLICK))
+		return ..()
+	if(user.combat_mode)
+		return ..()
+	if(!is_insertion_ready(user))
+		return ..()
+	if(!user.transferItemToLoc(weapon, src))
+		to_chat(user, span_warning("\The [weapon] is stuck to your hand, you cannot put it in the [name]!"))
+		return ITEM_INTERACT_BLOCKING
+
+	busy = TRUE
+	loaded_item = weapon
+	to_chat(user, span_notice("You place the [weapon.name] inside the [name]."))
+	flick("[base_icon_state]_la", src)
+	addtimer(CALLBACK(src, PROC_REF(finish_loading)), 1 SECONDS)
+	return ITEM_INTERACT_SUCCESS
+
+/obj/machinery/rnd/destructive_analyzer/click_alt(mob/user)
+	unload_item()
+	return CLICK_ACTION_SUCCESS
+>>>>>>> tg-pr-88929
 
 /obj/machinery/rnd/destructive_analyzer/update_icon_state()
 	icon_state = "[base_icon_state][loaded_item ? "_l" : null]"
@@ -59,8 +107,12 @@
 	data["server_connected"] = !!stored_research
 	data["node_data"] = list()
 	if(loaded_item)
+<<<<<<< HEAD
 		data["item_icon"] = loaded_item.icon
 		data["item_icon_state"] = loaded_item.icon_state
+=======
+		data["item_icon"] = icon2base64(getFlatIcon(image(icon = loaded_item.icon, icon_state = loaded_item.icon_state), no_anim = TRUE))
+>>>>>>> tg-pr-88929
 		data["indestructible"] = !(loaded_item.resistance_flags & INDESTRUCTIBLE)
 		data["loaded_item"] = loaded_item
 		data["already_deconstructed"] = !!stored_research.deconstructed_items[loaded_item.type]
@@ -102,16 +154,42 @@
 			if(!user_try_decon_id(params["deconstruct_id"]))
 				say("Destructive analysis failed!")
 			return TRUE
+<<<<<<< HEAD
+=======
+
+/obj/machinery/rnd/destructive_analyzer/item_interaction_secondary(mob/living/user, obj/item/tool, list/modifiers)
+	// Cringe way to let emags insert on RMB because we still use attackby to insert
+	if(istype(tool, /obj/item/card/emag))
+		return ITEM_INTERACT_SKIP_TO_ATTACK
+	return NONE
+>>>>>>> tg-pr-88929
 
 //This allows people to put syndicate screwdrivers in the machine. Secondary act still passes.
 /obj/machinery/rnd/destructive_analyzer/screwdriver_act(mob/living/user, obj/item/tool)
 	return FALSE
 
+<<<<<<< HEAD
+=======
+//We need to call default_deconstruction_screwdriver here since its parent will call screwdriver_act on this level which will stop us from ever deconstructing.
+/obj/machinery/rnd/destructive_analyzer/screwdriver_act_secondary(mob/living/user, obj/item/tool)
+	return default_deconstruction_screwdriver(user, "[initial(icon_state)]_t", initial(icon_state), tool)
+
+//We need to let wire cutter in (not block) so we can analyze alien wirecutters.
+/obj/machinery/rnd/destructive_analyzer/wirecutter_act(mob/living/user, obj/item/tool)
+	if(panel_open)
+		wires.interact(user)
+		return ITEM_INTERACT_SUCCESS
+
+>>>>>>> tg-pr-88929
 ///Drops the loaded item where it can and nulls it.
 /obj/machinery/rnd/destructive_analyzer/proc/unload_item()
 	if(!loaded_item)
 		return FALSE
+<<<<<<< HEAD
 	playsound(loc, 'sound/machines/terminal_insert_disc.ogg', 30, FALSE)
+=======
+	playsound(loc, 'sound/machines/terminal/terminal_insert_disc.ogg', 30, FALSE)
+>>>>>>> tg-pr-88929
 	loaded_item.forceMove(drop_location())
 	loaded_item = null
 	update_appearance(UPDATE_ICON)
@@ -158,7 +236,11 @@
 	var/list/point_value = techweb_item_point_check(thing)
 	if(point_value && !stored_research.deconstructed_items[thing.type])
 		stored_research.deconstructed_items[thing.type] = TRUE
+<<<<<<< HEAD
 		stored_research.add_point_list(point_value)
+=======
+		stored_research.add_point_list(list(TECHWEB_POINT_TYPE_GENERIC = point_value))
+>>>>>>> tg-pr-88929
 	qdel(thing)
 
 /**
@@ -172,6 +254,10 @@
 	if(isnull(id))
 		return FALSE
 
+<<<<<<< HEAD
+=======
+	var/item_type = loaded_item.type
+>>>>>>> tg-pr-88929
 	if(id == DESTRUCTIVE_ANALYZER_DESTROY_POINTS)
 		if(!destroy_item(gain_research_points = TRUE))
 			return FALSE
@@ -180,11 +266,18 @@
 	var/datum/techweb_node/node_to_discover = SSresearch.techweb_node_by_id(id)
 	if(!istype(node_to_discover))
 		return FALSE
+<<<<<<< HEAD
 	SSblackbox.record_feedback("nested tally", "item_deconstructed", 1, list("[node_to_discover.id]", "[loaded_item.type]"))
 	if(!destroy_item())
 		return FALSE
 	stored_research.unhide_node(SSresearch.techweb_node_by_id(node_to_discover.id))
 	stored_research.update_node_status(SSresearch.techweb_node_by_id(node_to_discover.id))
+=======
+	if(!destroy_item())
+		return FALSE
+	SSblackbox.record_feedback("nested tally", "item_deconstructed", 1, list("[node_to_discover.id]", "[item_type]"))
+	stored_research.unhide_node(node_to_discover)
+>>>>>>> tg-pr-88929
 	return TRUE
 
 #undef DESTRUCTIVE_ANALYZER_DESTROY_POINTS

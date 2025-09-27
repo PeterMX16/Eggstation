@@ -17,7 +17,11 @@
 	///This component's personal uid
 	var/personal_uid
 
+<<<<<<< HEAD
 /datum/component/seethrough_mob/Initialize(target_alpha = 100, animation_time = 0.5 SECONDS, clickthrough = TRUE)
+=======
+/datum/component/seethrough_mob/Initialize(target_alpha = 100, animation_time = 0.5 SECONDS, clickthrough = TRUE, keep_color = FALSE)
+>>>>>>> tg-pr-88929
 	. = ..()
 
 	if(!ismob(parent))
@@ -33,9 +37,15 @@
 	uid++
 	src.personal_uid = uid
 
+<<<<<<< HEAD
 	render_source_atom.appearance_flags |= ( RESET_COLOR | RESET_TRANSFORM)
 
 	render_source_atom.vis_flags |= (VIS_INHERIT_ID | VIS_INHERIT_PLANE | VIS_INHERIT_LAYER)
+=======
+	render_source_atom.appearance_flags |= KEEP_APART
+
+	render_source_atom.vis_flags |= (VIS_INHERIT_ID|VIS_INHERIT_PLANE|VIS_INHERIT_LAYER)
+>>>>>>> tg-pr-88929
 
 	render_source_atom.render_source = "*transparent_bigmob[personal_uid]"
 
@@ -55,7 +65,12 @@
 	for(var/atom/movable/screen/plane_master/seethrough as anything in our_hud.get_true_plane_masters(SEETHROUGH_PLANE))
 		seethrough.unhide_plane(fool)
 
+<<<<<<< HEAD
 	render_source_atom.name = "seethrough" //So our name is not just "movable" when looking at VVs
+=======
+	render_source_atom.pixel_x = -fool.pixel_x
+	render_source_atom.pixel_y = ((fool.get_cached_height() - ICON_SIZE_Y) * 0.5)
+>>>>>>> tg-pr-88929
 
 	initial_render_target_value = fool.render_target
 	fool.render_target = "*transparent_bigmob[personal_uid]"
@@ -120,6 +135,10 @@
 	background_icon_state = "bg_alien"
 	cooldown_time = 1 SECONDS
 	melee_cooldown_time = 0
+<<<<<<< HEAD
+=======
+	can_be_shared = FALSE
+>>>>>>> tg-pr-88929
 
 /datum/action/cooldown/toggle_seethrough/Remove(mob/remove_from)
 	var/datum/component/seethrough_mob/transparency = target

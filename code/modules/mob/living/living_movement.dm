@@ -23,7 +23,7 @@
 	var/area/old_area = old_turf.loc
 	var/area/new_area = new_turf.loc
 	// If the area gravity has changed, then it's possible that our state has changed, so update
-	if(old_area.has_gravity != new_area.has_gravity)
+	if(old_area.default_gravity != new_area.default_gravity)
 		refresh_gravity()
 
 /mob/living/on_changed_z_level(turf/old_turf, turf/new_turf, same_z_layer, notify_contents)
@@ -60,22 +60,27 @@
 	if(.)
 		return
 	if(mover.throwing)
-		return (!density || (body_position == LYING_DOWN) || (mover.throwing.thrower == src && !ismob(mover)))
+		var/mob/thrower = mover.throwing.get_thrower()
+		return (!density || (body_position == LYING_DOWN) || (thrower == src && !ismob(mover)))
 	if(buckled == mover)
 		return TRUE
 	if(ismob(mover) && (mover in buckled_mobs))
 		return TRUE
 	return !mover.density || body_position == LYING_DOWN
 
+<<<<<<< HEAD
 /mob/living/set_move_intent()
 	. = ..()
 	update_move_intent_slowdown()
 
+=======
+>>>>>>> tg-pr-88929
 /mob/living/update_config_movespeed()
 	update_move_intent_slowdown()
 	return ..()
 
 /mob/living/proc/update_move_intent_slowdown()
+<<<<<<< HEAD
 	switch(m_intent)
 		if(MOVE_INTENT_WALK)
 			add_movespeed_modifier(/datum/movespeed_modifier/config_walk_run/walk)
@@ -83,6 +88,9 @@
 			add_movespeed_modifier(/datum/movespeed_modifier/config_walk_run/run)
 		if(MOVE_INTENT_SPRINT)
 			add_movespeed_modifier(/datum/movespeed_modifier/config_walk_run/sprint)
+=======
+	add_movespeed_modifier((move_intent == MOVE_INTENT_WALK)? /datum/movespeed_modifier/config_walk_run/walk : /datum/movespeed_modifier/config_walk_run/run)
+>>>>>>> tg-pr-88929
 
 /mob/living/proc/update_turf_movespeed(turf/open/turf)
 	if(isopenturf(turf) && !HAS_TRAIT(turf, TRAIT_TURF_IGNORE_SLOWDOWN))
@@ -138,7 +146,7 @@
 	return ..()
 
 /mob/living/can_z_move(direction, turf/start, turf/destination, z_move_flags = ZMOVE_FLIGHT_FLAGS, mob/living/rider)
-	if(z_move_flags & ZMOVE_INCAPACITATED_CHECKS && incapacitated())
+	if(z_move_flags & ZMOVE_INCAPACITATED_CHECKS && incapacitated)
 		if(z_move_flags & ZMOVE_FEEDBACK)
 			to_chat(rider || src, span_warning("[rider ? src : "You"] can't do that right now!"))
 		return FALSE

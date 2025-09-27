@@ -119,8 +119,11 @@ GLOBAL_VAR(basketball_game)
 		header = "Basketball Minigame",
 		ghost_sound = 'sound/effects/ghost2.ogg',
 		notify_volume = 75,
+<<<<<<< HEAD
 		action = NOTIFY_ORBIT,
 		notify_flags = NOTIFY_CATEGORY_DEFAULT,
+=======
+>>>>>>> tg-pr-88929
 	)
 
 	create_bodies(ready_players)
@@ -196,7 +199,7 @@ GLOBAL_VAR(basketball_game)
 			player_client.prefs.safe_transfer_prefs_to(baller, is_antag = TRUE)
 		baller.PossessByPlayer(player_key)
 
-		SEND_SOUND(baller, sound('sound/misc/whistle.ogg', volume=30))
+		SEND_SOUND(baller, sound('sound/items/whistle/whistle.ogg', volume=30))
 		if(is_player_referee)
 			to_chat(baller, span_notice("You are a referee. Make sure the teams play fair and use your whistle to call fouls appropriately."))
 		else

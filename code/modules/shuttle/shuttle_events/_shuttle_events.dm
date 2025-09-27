@@ -21,7 +21,15 @@
 	src.port = port
 
 /datum/shuttle_event/proc/start_up_event(evacuation_duration)
+<<<<<<< HEAD
 	activate_at = world.time + evacuation_duration * activation_fraction
+=======
+	if(port.launch_status == ENDGAME_LAUNCHED)
+		active = TRUE //if added during endgame, instant activate
+		activate()
+	else
+		activate_at = world.time + evacuation_duration * activation_fraction
+>>>>>>> tg-pr-88929
 
 ///We got activated
 /datum/shuttle_event/proc/activate()
@@ -140,5 +148,10 @@
 
 ///Do any post-spawn edits you need to do
 /datum/shuttle_event/simple_spawner/proc/post_spawn(atom/movable/spawnee)
+<<<<<<< HEAD
 	ADD_TRAIT(spawnee, TRAIT_FREE_HYPERSPACE_SOFTCORDON_MOVEMENT, REF(src)) //Lets us spawn and move further away from the shuttle without being teleported into space
 	ADD_TRAIT(spawnee, TRAIT_DEL_ON_SPACE_DUMP, REF(src)) //if we hit the cordon, we get deleted. If the shuttle can make you, it can qdel you
+=======
+	ADD_TRAIT(spawnee, TRAIT_FREE_HYPERSPACE_SOFTCORDON_MOVEMENT, INNATE_TRAIT) //Lets us spawn and move further away from the shuttle without being teleported into space
+	ADD_TRAIT(spawnee, TRAIT_DEL_ON_SPACE_DUMP, INNATE_TRAIT) //if we hit the cordon, we get deleted. If the shuttle can make you, it can qdel you
+>>>>>>> tg-pr-88929

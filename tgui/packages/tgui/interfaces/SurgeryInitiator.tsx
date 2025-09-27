@@ -1,11 +1,17 @@
 import { sortBy } from 'common/collections';
-import { KEY_DOWN, KEY_ENTER, KEY_UP } from 'common/keycodes';
-import { BooleanLike } from 'common/react';
-import { Component } from 'inferno';
+import { Component } from 'react';
+import { Button, KeyListener, Stack } from 'tgui-core/components';
+import { KEY_DOWN, KEY_ENTER, KEY_UP } from 'tgui-core/keycodes';
+import { BooleanLike } from 'tgui-core/react';
+
 import { useBackend } from '../backend';
+<<<<<<< HEAD
 import { Button, KeyListener, Section, Stack } from '../components';
 import { BodyZone, BodyZoneSelector } from '../components/BodyZoneSelector';
+=======
+>>>>>>> tg-pr-88929
 import { Window } from '../layouts';
+import { BodyZone, BodyZoneSelector } from './common/BodyZoneSelector';
 
 type Surgery = {
   name: string;
@@ -18,7 +24,8 @@ type SurgeryInitiatorData = {
   target_name: string;
 };
 
-const sortSurgeries = sortBy((surgery: Surgery) => surgery.name);
+const sortSurgeries = (array: Surgery[]) =>
+  sortBy(array, (surgery) => surgery.name);
 
 type SurgeryInitiatorInnerState = {
   selectedSurgeryIndex: number;
@@ -83,6 +90,7 @@ class SurgeryInitiatorInner extends Component<
             </Stack.Item>
 
             <Stack.Item width="95%">
+<<<<<<< HEAD
               <Section fill scrollable>
                 <Stack vertical height="100%">
                   {surgeries.map((surgery, index) => (
@@ -105,6 +113,28 @@ class SurgeryInitiatorInner extends Component<
                   ))}
                 </Stack>
               </Section>
+=======
+              <Stack vertical height="100%">
+                {surgeries.map((surgery, index) => (
+                  <Button
+                    onClick={() => {
+                      act('start_surgery', {
+                        surgery_name: surgery.name,
+                      });
+                    }}
+                    disabled={surgery.blocked}
+                    selected={index === this.state.selectedSurgeryIndex}
+                    tooltip={
+                      surgery.blocked ? 'Their body is covered!' : undefined
+                    }
+                    key={surgery.name}
+                    fluid
+                  >
+                    {surgery.name}
+                  </Button>
+                ))}
+              </Stack>
+>>>>>>> tg-pr-88929
             </Stack.Item>
           </Stack>
 

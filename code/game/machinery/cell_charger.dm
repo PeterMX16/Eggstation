@@ -1,7 +1,7 @@
 /obj/machinery/cell_charger
 	name = "cell charger"
 	desc = "It charges power cells."
-	icon = 'icons/obj/power.dmi'
+	icon = 'icons/obj/machines/cell_charger.dmi'
 	icon_state = "ccharger"
 	power_channel = AREA_USAGE_EQUIP
 	circuit = /obj/item/circuitboard/machine/cell_charger
@@ -20,10 +20,10 @@
 		. += "ccharger-o[newlevel]"
 	. += image(charging.icon, charging.icon_state)
 	if(charging.grown_battery)
-		. += mutable_appearance('icons/obj/power.dmi', "grown_wires")
+		. += mutable_appearance('icons/obj/machines/cell_charger.dmi', "grown_wires")
 	. += "ccharger-[charging.connector_type]-on"
 	if((charging.charge > 0.01) && charging.charge_light_type)
-		. += mutable_appearance('icons/obj/power.dmi', "cell-[charging.charge_light_type]-o[(charging.percent() >= 99.5) ? 2 : 1]")
+		. += mutable_appearance('icons/obj/machines/cell_charger.dmi', "cell-[charging.charge_light_type]-o[(charging.percent() >= 99.5) ? 2 : 1]")
 
 /obj/machinery/cell_charger/examine(mob/user)
 	. = ..()
@@ -41,8 +41,13 @@
 		update_appearance()
 	return ITEM_INTERACT_SUCCESS
 
+<<<<<<< HEAD
 /obj/machinery/cell_charger/attackby(obj/item/attacking_item, mob/user, list/modifiers, list/attack_modifiers)
 	if(istype(attacking_item, /obj/item/stock_parts/power_store/cell) && !panel_open)
+=======
+/obj/machinery/cell_charger/attackby(obj/item/W, mob/user, params)
+	if(istype(W, /obj/item/stock_parts/power_store/cell) && !panel_open)
+>>>>>>> tg-pr-88929
 		if(machine_stat & BROKEN)
 			to_chat(user, span_warning("[src] is broken!"))
 			return
@@ -78,10 +83,9 @@
 			return
 		return ..()
 
-/obj/machinery/cell_charger/deconstruct()
+/obj/machinery/cell_charger/on_deconstruction(disassembled)
 	if(charging)
 		charging.forceMove(drop_location())
-	return ..()
 
 /obj/machinery/cell_charger/Destroy()
 	QDEL_NULL(charging)

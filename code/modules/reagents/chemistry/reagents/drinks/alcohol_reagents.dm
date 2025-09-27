@@ -8,8 +8,9 @@
 	nutriment_factor = 0
 	taste_description = "alcohol"
 	metabolization_rate = 0.5 * REAGENTS_METABOLISM
+	creation_purity = 1 // impure base reagents are a big no-no
 	ph = 7.33
-	burning_temperature = 2193//ethanol burns at 1970C (at it's peak)
+	burning_temperature = 2193//ethanol burns at 1970C (at its peak)
 	burning_volume = 0.1
 	default_container = /obj/item/reagent_containers/cup/glass/bottle/beer
 	fallback_icon = 'icons/obj/drinks/bottles.dmi'
@@ -42,7 +43,7 @@
 
 /datum/reagent/consumable/ethanol/New(list/data)
 	if(LAZYLEN(data))
-		if(data["quality"])
+		if(!isnull(data["quality"]))
 			quality = data["quality"]
 			name = "Natural " + name
 		if(data["boozepwr"])
@@ -51,22 +52,46 @@
 	return ..()
 
 /datum/reagent/consumable/ethanol/on_mob_life(mob/living/carbon/drinker, seconds_per_tick, times_fired)
+	. = ..()
 	if(drinker.get_drunk_amount() < volume * boozepwr * ALCOHOL_THRESHOLD_MODIFIER || boozepwr < 0)
 		var/booze_power = boozepwr
-		if(HAS_TRAIT(drinker, TRAIT_ALCOHOL_TOLERANCE)) //we're an accomplished drinker
+		if(HAS_TRAIT(drinker, TRAIT_ALCOHOL_TOLERANCE)) // we're an accomplished drinker
 			booze_power *= 0.7
 		if(HAS_TRAIT(drinker, TRAIT_LIGHT_DRINKER))
 			booze_power *= 2
+
+		// water will dilute alcohol effects
+		var/total_water_volume = 0
+		var/total_alcohol_volume = 0
+		for(var/datum/reagent/water/sobriety in drinker.reagents.reagent_list)
+			total_water_volume += sobriety.volume
+
+		for(var/datum/reagent/consumable/ethanol/alcohol in drinker.reagents.reagent_list)
+			total_alcohol_volume += alcohol.volume
+
+		var/combined_dilute_volume = total_alcohol_volume + total_water_volume
+		if(combined_dilute_volume) // safety check to prevent division by zero
+			booze_power *= (total_alcohol_volume / combined_dilute_volume)
+
 		// Volume, power, and server alcohol rate effect how quickly one gets drunk
 		drinker.adjust_drunk_effect(sqrt(volume) * booze_power * ALCOHOL_RATE * REM * seconds_per_tick)
+<<<<<<< HEAD
 		if(boozepwr > 0 && !HAS_TRAIT(drinker, TRAIT_LIVING_DRUNK))
 			var/obj/item/organ/internal/liver/liver = drinker.get_organ_slot(ORGAN_SLOT_LIVER)
 			var/heavy_drinker_multiplier = (HAS_TRAIT(drinker, TRAIT_HEAVY_DRINKER) ? 0.5 : 1)
 			if (istype(liver))
 				liver.apply_organ_damage(((max(sqrt(volume) * (boozepwr ** ALCOHOL_EXPONENT) * liver.alcohol_tolerance * heavy_drinker_multiplier * seconds_per_tick, 0))/150), maximum = HAS_TRAIT(drinker, TRAIT_ALCOHOL_TOLERANCE) ? (STANDARD_ORGAN_THRESHOLD - 10) : null)
 	return ..()
+=======
+		if(boozepwr > 0)
+			var/obj/item/organ/liver/liver = drinker.get_organ_slot(ORGAN_SLOT_LIVER)
+			var/heavy_drinker_multiplier = (HAS_TRAIT(drinker, TRAIT_HEAVY_DRINKER) ? 0.5 : 1)
+			if (istype(liver))
+				if(liver.apply_organ_damage(((max(sqrt(volume) * (boozepwr ** ALCOHOL_EXPONENT) * liver.alcohol_tolerance * heavy_drinker_multiplier * seconds_per_tick, 0))/150)))
+					return UPDATE_MOB_HEALTH
+>>>>>>> tg-pr-88929
 
-/datum/reagent/consumable/ethanol/expose_obj(obj/exposed_obj, reac_volume)
+/datum/reagent/consumable/ethanol/expose_obj(obj/exposed_obj, reac_volume, methods=TOUCH, show_message=TRUE)
 	if(istype(exposed_obj, /obj/item/paper))
 		var/obj/item/paper/paperaffected = exposed_obj
 		paperaffected.clear_paper()
@@ -82,31 +107,34 @@
 
 /datum/reagent/consumable/ethanol/expose_mob(mob/living/exposed_mob, methods=TOUCH, reac_volume)//Splashing people with ethanol isn't quite as good as fuel.
 	. = ..()
-	if(!(methods & (TOUCH|VAPOR|PATCH)))
-		return
+	if(methods & INGEST)
+		exposed_mob.check_allergic_reaction(ALCOHOL, chance = reac_volume * 5, histamine_add = min(10, reac_volume))
 
-	exposed_mob.adjust_fire_stacks(reac_volume / 15)
-
-	if(!iscarbon(exposed_mob))
-		return
-
-	var/mob/living/carbon/exposed_carbon = exposed_mob
-	var/power_multiplier = boozepwr / 65 // Weak alcohol has less sterilizing power
-
-	for(var/datum/surgery/surgery as anything in exposed_carbon.surgeries)
-		surgery.speed_modifier = max(0.1 * power_multiplier, surgery.speed_modifier)
+	if(methods & (TOUCH|VAPOR|PATCH))
+		exposed_mob.adjust_fire_stacks(reac_volume / 15)
+		var/power_multiplier = boozepwr / 65 // Weak alcohol has less sterilizing power
+		for(var/datum/surgery/surgery as anything in exposed_mob.surgeries)
+			surgery.speed_modifier = max(0.1 * power_multiplier, surgery.speed_modifier)
 
 /datum/reagent/consumable/ethanol/beer
 	name = "Beer"
 	description = "An alcoholic beverage brewed since ancient times on Old Earth. Still popular today."
-	color = "#664300" // rgb: 102, 67, 0
-	nutriment_factor = 1 * REAGENTS_METABOLISM
+	color = "#D7BC31" // rgb: 215, 188, 49
+	nutriment_factor = 1
 	boozepwr = 25
 	taste_description = "mild carbonated malt"
 	ph = 4
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
 	glass_price = DRINK_PRICE_STOCK
 
+<<<<<<< HEAD
+=======
+// Beer is a chemical composition of alcohol and various other things. It's a garbage nutrient but hey, it's still one. Also alcohol is bad, mmmkay?
+/datum/reagent/consumable/ethanol/beer/on_hydroponics_apply(obj/machinery/hydroponics/mytray, mob/user)
+	mytray.adjust_plant_health(-round(volume * 0.05))
+	mytray.adjust_waterlevel(round(volume * 0.7))
+
+>>>>>>> tg-pr-88929
 /datum/reagent/consumable/ethanol/beer/light
 	name = "Light Beer"
 	description = "An alcoholic beverage brewed since ancient times on Old Earth. This variety has reduced calorie and alcohol content."
@@ -126,19 +154,34 @@
 /datum/reagent/consumable/ethanol/beer/green
 	name = "Green Beer"
 	description = "An alcoholic beverage brewed since ancient times on Old Earth. This variety is dyed a festive green."
-	color = "#A8E61D"
+	color = COLOR_CRAYON_GREEN
+	overdose_threshold = 55 //More than a glass
 	taste_description = "green piss water"
 	ph = 6
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
 
 /datum/reagent/consumable/ethanol/beer/green/on_mob_life(mob/living/carbon/drinker, seconds_per_tick, times_fired)
+	. = ..()
 	if(drinker.color != color)
 		drinker.add_atom_colour(color, TEMPORARY_COLOUR_PRIORITY)
-	return ..()
 
 /datum/reagent/consumable/ethanol/beer/green/on_mob_end_metabolize(mob/living/drinker)
 	. = ..()
 	drinker.remove_atom_colour(TEMPORARY_COLOUR_PRIORITY, color)
+
+/datum/reagent/consumable/ethanol/beer/green/overdose_process(mob/living/affected_mob, seconds_per_tick, times_fired)
+	. = ..()
+	metabolization_rate = 1 * REAGENTS_METABOLISM
+
+	if(!ishuman(affected_mob))
+		return
+
+	var/mob/living/carbon/human/affected_human = affected_mob
+	if(HAS_TRAIT(affected_human, TRAIT_USES_SKINTONES))
+		affected_human.skin_tone = "green"
+	else if(HAS_TRAIT(affected_human, TRAIT_MUTANT_COLORS) && !HAS_TRAIT(affected_human, TRAIT_FIXED_MUTANT_COLORS)) //Code stolen from spraytan overdose
+		affected_human.dna.features["mcolor"] = "#a8e61d"
+	affected_human.update_body(is_creating = TRUE)
 
 /datum/reagent/consumable/ethanol/kahlua
 	name = "Kahlua"
@@ -147,16 +190,19 @@
 	boozepwr = 45
 	ph = 6
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
+<<<<<<< HEAD
 	addiction_types = list(/datum/addiction/coffee = 4) //MONKESTATION ADDITION: Add coffee addiction to alcoholic beverages containing coffee or coffee liqueur
+=======
+	metabolized_traits = list(TRAIT_STIMULATED)
+>>>>>>> tg-pr-88929
 
 /datum/reagent/consumable/ethanol/kahlua/on_mob_life(mob/living/carbon/drinker, seconds_per_tick, times_fired)
+	. = ..()
 	drinker.set_dizzy_if_lower(10 SECONDS * REM * seconds_per_tick)
 	drinker.adjust_drowsiness(-6 SECONDS * REM * seconds_per_tick)
-	drinker.AdjustSleeping(-40 * REM * seconds_per_tick)
+	drinker.AdjustSleeping(-4 SECONDS * REM * seconds_per_tick)
 	if(!HAS_TRAIT(drinker, TRAIT_ALCOHOL_TOLERANCE))
 		drinker.set_jitter_if_lower(10 SECONDS)
-	..()
-	. = TRUE
 
 /datum/reagent/consumable/ethanol/whiskey
 	name = "Whiskey"
@@ -183,37 +229,47 @@
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
 
 /datum/reagent/consumable/ethanol/whiskey/candycorn/on_mob_life(mob/living/carbon/drinker, seconds_per_tick, times_fired)
+	. = ..()
 	if(SPT_PROB(5, seconds_per_tick))
 		drinker.adjust_hallucinations(4 SECONDS * REM * seconds_per_tick)
-	..()
 
 /datum/reagent/consumable/ethanol/thirteenloko
 	name = "Thirteen Loko"
 	description = "A potent mixture of caffeine and alcohol."
 	color = "#102000" // rgb: 16, 32, 0
-	nutriment_factor = 1 * REAGENTS_METABOLISM
+	nutriment_factor = 1
 	boozepwr = 80
 	quality = DRINK_GOOD
 	overdose_threshold = 60
 	taste_description = "jitters and death"
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
+<<<<<<< HEAD
 	addiction_types = list(/datum/addiction/coffee = 5) //MONKESTATION ADDITION: Add coffee addiction to alcoholic beverages containing coffee or coffee liqueur
+=======
+	metabolized_traits = list(TRAIT_STIMULATED)
+>>>>>>> tg-pr-88929
 
 /datum/reagent/consumable/ethanol/thirteenloko/on_mob_life(mob/living/carbon/drinker, seconds_per_tick, times_fired)
+	. = ..()
 	drinker.adjust_drowsiness(-14 SECONDS * REM * seconds_per_tick)
+<<<<<<< HEAD
 	drinker.AdjustSleeping(-40 * REM * seconds_per_tick)
 	drinker.adjust_bodytemperature(COLD_DRINK * REM * seconds_per_tick, min_temp = drinker.standard_body_temperature)
+=======
+	drinker.AdjustSleeping(-4 SECONDS * REM * seconds_per_tick)
+	drinker.adjust_bodytemperature(-5 * REM * TEMPERATURE_DAMAGE_COEFFICIENT * seconds_per_tick, drinker.get_body_temp_normal())
+>>>>>>> tg-pr-88929
 	if(!HAS_TRAIT(drinker, TRAIT_ALCOHOL_TOLERANCE))
 		drinker.set_jitter_if_lower(10 SECONDS)
-	..()
-	return TRUE
 
 /datum/reagent/consumable/ethanol/thirteenloko/overdose_start(mob/living/drinker)
+	. = ..()
 	to_chat(drinker, span_userdanger("Your entire body violently jitters as you start to feel queasy. You really shouldn't have drank all of that [name]!"))
 	drinker.set_jitter_if_lower(40 SECONDS)
 	drinker.Stun(1.5 SECONDS)
 
 /datum/reagent/consumable/ethanol/thirteenloko/overdose_process(mob/living/drinker, seconds_per_tick, times_fired)
+	. = ..()
 	if(SPT_PROB(3.5, seconds_per_tick) && iscarbon(drinker))
 		var/obj/item/held_item = drinker.get_active_held_item()
 		if(held_item)
@@ -225,22 +281,25 @@
 		to_chat(drinker, span_notice("[pick("You have a really bad headache.", "Your eyes hurt.", "You find it hard to stay still.", "You feel your heart practically beating out of your chest.")]"))
 
 	if(SPT_PROB(2.5, seconds_per_tick) && iscarbon(drinker))
-		var/obj/item/organ/internal/eyes/eyes = drinker.get_organ_slot(ORGAN_SLOT_EYES)
-		if(drinker.is_blind())
-			if(istype(eyes))
+		var/obj/item/organ/eyes/eyes = drinker.get_organ_slot(ORGAN_SLOT_EYES)
+		if(eyes && IS_ORGANIC_ORGAN(eyes)) // doesn't affect robotic eyes
+			if(drinker.is_blind())
 				eyes.Remove(drinker)
 				eyes.forceMove(get_turf(drinker))
 				to_chat(drinker, span_userdanger("You double over in pain as you feel your eyeballs liquify in your head!"))
 				drinker.emote("scream")
-				drinker.adjustBruteLoss(15, required_bodytype = affected_bodytype)
-		else
-			to_chat(drinker, span_userdanger("You scream in terror as you go blind!"))
-			eyes.apply_organ_damage(eyes.maxHealth)
-			drinker.emote("scream")
+				if(drinker.adjustBruteLoss(15 * REM * seconds_per_tick, updating_health = FALSE, required_bodytype = affected_bodytype))
+					. = UPDATE_MOB_HEALTH
+			else
+				to_chat(drinker, span_userdanger("You scream in terror as you go blind!"))
+				if(eyes.apply_organ_damage(eyes.maxHealth))
+					. = UPDATE_MOB_HEALTH
+				drinker.emote("scream")
 
 	if(SPT_PROB(1.5, seconds_per_tick) && iscarbon(drinker))
 		drinker.visible_message(span_danger("[drinker] starts having a seizure!"), span_userdanger("You have a seizure!"))
-		drinker.Unconscious(10 SECONDS)
+		if(drinker.Unconscious(10 SECONDS))
+			. = UPDATE_MOB_HEALTH
 		drinker.set_jitter_if_lower(700 SECONDS)
 
 	if(SPT_PROB(0.5, seconds_per_tick) && iscarbon(drinker))
@@ -262,16 +321,16 @@
 	name = "Bilk"
 	description = "This appears to be beer mixed with milk. Disgusting."
 	color = "#895C4C" // rgb: 137, 92, 76
-	nutriment_factor = 2 * REAGENTS_METABOLISM
+	nutriment_factor = 2
 	boozepwr = 15
 	taste_description = "desperation and lactate"
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
 
 /datum/reagent/consumable/ethanol/bilk/on_mob_life(mob/living/carbon/drinker, seconds_per_tick, times_fired)
+	. = ..()
 	if(drinker.getBruteLoss() && SPT_PROB(5, seconds_per_tick))
-		drinker.heal_bodypart_damage(brute = 1)
-		. = TRUE
-	return ..() || .
+		if(drinker.heal_bodypart_damage(brute = 1 * REM * seconds_per_tick, updating_health = FALSE))
+			return UPDATE_MOB_HEALTH
 
 /datum/reagent/consumable/ethanol/threemileisland
 	name = "Three Mile Island Iced Tea"
@@ -284,8 +343,8 @@
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
 
 /datum/reagent/consumable/ethanol/threemileisland/on_mob_life(mob/living/carbon/drinker, seconds_per_tick, times_fired)
+	. = ..()
 	drinker.set_drugginess(100 SECONDS * REM * seconds_per_tick)
-	return ..()
 
 /datum/reagent/consumable/ethanol/gin
 	name = "Gin"
@@ -305,7 +364,32 @@
 	taste_description = "spiked butterscotch"
 	ph = 6.5
 	default_container = /obj/item/reagent_containers/cup/glass/bottle/rum
+	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
 
+<<<<<<< HEAD
+=======
+/datum/reagent/consumable/ethanol/rum/aged
+	name = "Aged Rum"
+	description = "Sink me! That's some fancy rum to share with buckoos."
+	color = "#c0b675" // rgb: 192,183,117
+	boozepwr = 70
+	taste_description = "extra-spiked butterscotch"
+	default_container = /obj/item/reagent_containers/cup/glass/bottle/rum/aged
+	quality = DRINK_FANTASTIC
+	metabolized_traits = list(TRAIT_STRONG_STOMACH)
+
+/datum/reagent/consumable/ethanol/rum/aged/on_mob_metabolize(mob/living/drinker)
+	. = ..()
+	drinker.add_blocked_language(subtypesof(/datum/language) - /datum/language/piratespeak, LANGUAGE_DRINK)
+	drinker.grant_language(/datum/language/piratespeak, source = LANGUAGE_DRINK)
+
+/datum/reagent/consumable/ethanol/rum/aged/on_mob_end_metabolize(mob/living/drinker)
+	if(!QDELING(drinker))
+		drinker.remove_blocked_language(subtypesof(/datum/language), LANGUAGE_DRINK)
+		drinker.remove_language(/datum/language/piratespeak, source = LANGUAGE_DRINK)
+	return ..()
+
+>>>>>>> tg-pr-88929
 /datum/reagent/consumable/ethanol/tequila
 	name = "Tequila"
 	description = "A strong and mildly flavoured, Mexican produced spirit. Feeling thirsty, hombre?"
@@ -384,7 +468,7 @@
 	description = "A sweet and strongly alcoholic drink, made after numerous distillations and years of maturing. Classy as fornication."
 	color = "#AB3C05" // rgb: 171, 60, 5
 	boozepwr = 75
-	taste_description = "angry and irish"
+	taste_description = "smooth and french"
 	ph = 3.5
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
 	glass_price = DRINK_PRICE_STOCK
@@ -398,9 +482,9 @@
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
 
 /datum/reagent/consumable/ethanol/absinthe/on_mob_life(mob/living/carbon/drinker, seconds_per_tick, times_fired)
+	. = ..()
 	if(SPT_PROB(5, seconds_per_tick) && !HAS_TRAIT(drinker, TRAIT_ALCOHOL_TOLERANCE))
-		drinker.adjust_hallucinations(8 SECONDS)
-	..()
+		drinker.adjust_hallucinations(8 SECONDS * REM * seconds_per_tick)
 
 /datum/reagent/consumable/ethanol/hooch
 	name = "Hooch"
@@ -496,13 +580,15 @@
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
 
 /datum/reagent/consumable/ethanol/cuba_libre/on_mob_life(mob/living/carbon/cubano, seconds_per_tick, times_fired)
+	. = ..()
+	var/need_mob_update
 	if(cubano.mind && cubano.mind.has_antag_datum(/datum/antagonist/rev)) //Cuba Libre, the traditional drink of revolutions! Heals revolutionaries.
-		cubano.adjustBruteLoss(-1 * REM * seconds_per_tick, FALSE, required_bodytype = affected_bodytype)
-		cubano.adjustFireLoss(-1 * REM * seconds_per_tick, FALSE, required_bodytype = affected_bodytype)
-		cubano.adjustToxLoss(-1 * REM * seconds_per_tick, FALSE, required_biotype = affected_biotype)
-		cubano.adjustOxyLoss(-5 * REM * seconds_per_tick, FALSE, required_biotype = affected_biotype, required_respiration_type = affected_respiration_type)
-		. = TRUE
-	return ..() || .
+		need_mob_update = cubano.adjustBruteLoss(-1 * REM * seconds_per_tick, updating_health = FALSE, required_bodytype = affected_bodytype)
+		need_mob_update += cubano.adjustFireLoss(-1 * REM * seconds_per_tick, updating_health = FALSE, required_bodytype = affected_bodytype)
+		need_mob_update += cubano.adjustToxLoss(-1 * REM * seconds_per_tick, updating_health = FALSE, required_biotype = affected_biotype)
+		need_mob_update += cubano.adjustOxyLoss(-5 * REM * seconds_per_tick, updating_health = FALSE, required_biotype = affected_biotype, required_respiration_type = affected_respiration_type)
+	if(need_mob_update)
+		return UPDATE_MOB_HEALTH
 
 /datum/reagent/consumable/ethanol/whiskey_cola
 	name = "Whiskey Cola"
@@ -551,6 +637,7 @@
 	taste_description = "oranges"
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
 
+<<<<<<< HEAD
 /datum/reagent/consumable/ethanol/screwdrivercocktail/on_transfer(atom/atom, methods = TOUCH, trans_volume)
 	if(!(methods & INGEST))
 		return ..()
@@ -558,44 +645,71 @@
 	if(src == atom.reagents.get_master_reagent() && istype(atom, /obj/item/reagent_containers/cup/glass/drinkingglass))
 		var/obj/item/reagent_containers/cup/glass/drinkingglass/drink = atom
 		drink.tool_behaviour = TOOL_SCREWDRIVER
+=======
+/datum/reagent/consumable/ethanol/screwdrivercocktail/on_new(data)
+	. = ..()
+	// We want to turn only base drinking glasses with screwdriver(cocktail) into screwdrivers(tool),
+	// but we can't check style so we have to check type, and we don't want it match subtypes like istype does
+	if(holder?.my_atom && holder.my_atom.type == /obj/item/reagent_containers/cup/glass/drinkingglass/)
+>>>>>>> tg-pr-88929
 		var/list/reagent_change_signals = list(
 			COMSIG_REAGENTS_ADD_REAGENT,
 			COMSIG_REAGENTS_NEW_REAGENT,
 			COMSIG_REAGENTS_REM_REAGENT,
-			COMSIG_REAGENTS_DEL_REAGENT,
-			COMSIG_REAGENTS_CLEAR_REAGENTS,
-			COMSIG_REAGENTS_REACTED,
 		)
-		RegisterSignals(drink.reagents, reagent_change_signals, PROC_REF(on_reagent_change))
-
-	return ..()
+		RegisterSignals(holder, reagent_change_signals, PROC_REF(on_reagent_change))
+		RegisterSignal(holder, COMSIG_REAGENTS_CLEAR_REAGENTS, PROC_REF(on_reagents_clear))
+		RegisterSignal(holder, COMSIG_REAGENTS_DEL_REAGENT, PROC_REF(on_reagent_delete))
+		if(src == holder.get_master_reagent())
+			var/obj/item/reagent_containers/cup/glass/drinkingglass/drink = holder.my_atom
+			drink.tool_behaviour = TOOL_SCREWDRIVER
+			drink.usesound = list('sound/items/tools/screwdriver.ogg', 'sound/items/tools/screwdriver2.ogg')
 
 /datum/reagent/consumable/ethanol/screwdrivercocktail/proc/on_reagent_change(datum/reagents/reagents)
 	SIGNAL_HANDLER
-	if(src != reagents.get_master_reagent())
-		var/obj/item/reagent_containers/cup/glass/drinkingglass/drink = reagents.my_atom
+	var/obj/item/reagent_containers/cup/glass/drinkingglass/drink = reagents.my_atom
+	if(reagents.get_master_reagent() == src)
+		drink.tool_behaviour = TOOL_SCREWDRIVER
+		drink.usesound = list('sound/items/tools/screwdriver.ogg', 'sound/items/tools/screwdriver2.ogg')
+	else
 		drink.tool_behaviour = initial(drink.tool_behaviour)
-		UnregisterSignal(reagents, list(
+		drink.usesound = initial(drink.usesound)
+
+/datum/reagent/consumable/ethanol/screwdrivercocktail/proc/on_reagents_clear(datum/reagents/reagents)
+	SIGNAL_HANDLER
+	unregister_screwdriver(reagents)
+
+/datum/reagent/consumable/ethanol/screwdrivercocktail/proc/on_reagent_delete(datum/reagents/reagents, datum/reagent/deleted_reagent)
+	SIGNAL_HANDLER
+	if(deleted_reagent != src)
+		return
+	unregister_screwdriver(reagents)
+
+/datum/reagent/consumable/ethanol/screwdrivercocktail/proc/unregister_screwdriver(datum/reagents/reagents)
+	var/obj/item/reagent_containers/cup/glass/drinkingglass/drink = reagents.my_atom
+	if(drink.tool_behaviour == TOOL_SCREWDRIVER)
+		drink.tool_behaviour = initial(drink.tool_behaviour)
+		drink.usesound = initial(drink.usesound)
+	UnregisterSignal(reagents, list(
 			COMSIG_REAGENTS_ADD_REAGENT,
 			COMSIG_REAGENTS_NEW_REAGENT,
 			COMSIG_REAGENTS_REM_REAGENT,
 			COMSIG_REAGENTS_DEL_REAGENT,
 			COMSIG_REAGENTS_CLEAR_REAGENTS,
-			COMSIG_REAGENTS_REACTED,
 		))
 
 /datum/reagent/consumable/ethanol/screwdrivercocktail/on_mob_life(mob/living/carbon/drinker, seconds_per_tick, times_fired)
-	var/obj/item/organ/internal/liver/liver = drinker.get_organ_slot(ORGAN_SLOT_LIVER)
+	. = ..()
+	var/obj/item/organ/liver/liver = drinker.get_organ_slot(ORGAN_SLOT_LIVER)
 	if(HAS_TRAIT(liver, TRAIT_ENGINEER_METABOLISM))
 		ADD_TRAIT(drinker, TRAIT_HALT_RADIATION_EFFECTS, "[type]")
 		if (HAS_TRAIT(drinker, TRAIT_IRRADIATED))
-			drinker.adjustToxLoss(-2 * REM * seconds_per_tick, required_biotype = affected_biotype)
-
-	return ..()
+			if(drinker.adjustToxLoss(-2 * REM * seconds_per_tick, updating_health = FALSE, required_biotype = affected_biotype))
+				return UPDATE_MOB_HEALTH
 
 /datum/reagent/consumable/ethanol/screwdrivercocktail/on_mob_end_metabolize(mob/living/drinker)
+	. = ..()
 	REMOVE_TRAIT(drinker, TRAIT_HALT_RADIATION_EFFECTS, "[type]")
-	return ..()
 
 /datum/reagent/consumable/ethanol/booger
 	name = "Booger"
@@ -611,13 +725,13 @@
 	color = "#bf707c" // rgb: 191,112,124
 	boozepwr = 55
 	quality = DRINK_GOOD
-	taste_description = "tomatoes with a hint of lime"
+	taste_description = "tomatoes with a hint of lime and liquid murder"
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
 
 /datum/reagent/consumable/ethanol/bloody_mary/on_mob_life(mob/living/carbon/drinker, seconds_per_tick, times_fired)
+	. = ..()
 	if(drinker.blood_volume < BLOOD_VOLUME_NORMAL)
 		drinker.blood_volume = min(drinker.blood_volume + (3 * REM * seconds_per_tick), BLOOD_VOLUME_NORMAL) //Bloody Mary quickly restores blood loss.
-	..()
 
 /datum/reagent/consumable/ethanol/brave_bull
 	name = "Brave Bull"
@@ -630,7 +744,10 @@
 	glass_price = DRINK_PRICE_EASY
 	metabolized_traits = list(TRAIT_FEARLESS, TRAIT_ANALGESIA)
 	var/tough_text
+<<<<<<< HEAD
 	addiction_types = list(/datum/addiction/coffee = 1) //MONKESTATION ADDITION: Add coffee addiction to alcoholic beverages containing coffee or coffee liqueur
+=======
+>>>>>>> tg-pr-88929
 
 /datum/reagent/consumable/ethanol/brave_bull/on_mob_metabolize(mob/living/drinker)
 	. = ..()
@@ -660,7 +777,12 @@
 	. = ..()
 	to_chat(drinker, span_notice("You feel gentle warmth spread through your body!"))
 	light_holder = new(drinker)
+<<<<<<< HEAD
 	light_holder.set_light(l_outer_range = 3, l_power = 0.7, l_color = "#FFCC00") //Tequila Sunrise makes you radiate dim light, like a sunrise!
+=======
+	light_holder.set_light(3, 0.7, COLOR_TANGERINE_YELLOW) //Tequila Sunrise makes you radiate dim light, like a sunrise!
+
+>>>>>>> tg-pr-88929
 /datum/reagent/consumable/ethanol/tequila_sunrise/on_mob_life(mob/living/carbon/drinker, seconds_per_tick, times_fired)
 	if(QDELETED(light_holder))
 		holder.del_reagent(type) //If we lost our light object somehow, remove the reagent
@@ -683,13 +805,18 @@
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
 
 /datum/reagent/consumable/ethanol/toxins_special/on_mob_life(mob/living/drinker, seconds_per_tick, times_fired)
+<<<<<<< HEAD
 	drinker.adjust_bodytemperature(WARM_DRINK * REM * seconds_per_tick, max_temp = drinker.standard_body_temperature + 4 KELVIN) //310.15 is the normal bodytemp.
 	return ..()
+=======
+	. = ..()
+	drinker.adjust_bodytemperature(15 * REM * TEMPERATURE_DAMAGE_COEFFICIENT * seconds_per_tick, 0, drinker.get_body_temp_normal() + 20) //310.15 is the normal bodytemp.
+>>>>>>> tg-pr-88929
 
 /datum/reagent/consumable/ethanol/beepsky_smash
 	name = "Beepsky Smash"
 	description = "Drink this and prepare for the LAW."
-	color = "#808000" // rgb: 128,128,0
+	color = COLOR_OLIVE // rgb: 128,128,0
 	boozepwr = 60 //THE FIST OF THE LAW IS STRONG AND HARD
 	quality = DRINK_GOOD
 	metabolization_rate = 1.25 * REAGENTS_METABOLISM
@@ -701,36 +828,41 @@
 	var/datum/brain_trauma/special/beepsky/beepsky_hallucination
 
 /datum/reagent/consumable/ethanol/beepsky_smash/on_mob_metabolize(mob/living/carbon/drinker)
+	. = ..()
 	if(HAS_TRAIT(drinker, TRAIT_ALCOHOL_TOLERANCE))
 		metabolization_rate = 0.8
 	// if you don't have a liver, or your liver isn't an officer's liver
-	var/obj/item/organ/internal/liver/liver = drinker.get_organ_slot(ORGAN_SLOT_LIVER)
+	var/obj/item/organ/liver/liver = drinker.get_organ_slot(ORGAN_SLOT_LIVER)
 	if(!liver || !HAS_TRAIT(liver, TRAIT_LAW_ENFORCEMENT_METABOLISM))
 		beepsky_hallucination = new()
 		drinker.gain_trauma(beepsky_hallucination, TRAUMA_RESILIENCE_ABSOLUTE)
-	..()
 
 /datum/reagent/consumable/ethanol/beepsky_smash/on_mob_life(mob/living/carbon/drinker, seconds_per_tick, times_fired)
+	. = ..()
 	drinker.set_jitter_if_lower(4 SECONDS)
-	var/obj/item/organ/internal/liver/liver = drinker.get_organ_slot(ORGAN_SLOT_LIVER)
+	var/obj/item/organ/liver/liver = drinker.get_organ_slot(ORGAN_SLOT_LIVER)
 	// if you have a liver and that liver is an officer's liver
 	if(liver && HAS_TRAIT(liver, TRAIT_LAW_ENFORCEMENT_METABOLISM))
+<<<<<<< HEAD
 		. = TRUE
 		drinker.stamina.adjust(10 * REM * seconds_per_tick)
+=======
+		if(drinker.adjustStaminaLoss(-10 * REM * seconds_per_tick, updating_stamina = FALSE, required_biotype = affected_biotype))
+			. = UPDATE_MOB_HEALTH
+>>>>>>> tg-pr-88929
 		if(SPT_PROB(10, seconds_per_tick))
 			drinker.cause_hallucination(get_random_valid_hallucination_subtype(/datum/hallucination/nearby_fake_item), name)
 		if(SPT_PROB(5, seconds_per_tick))
 			drinker.cause_hallucination(/datum/hallucination/stray_bullet, name)
 
-	..()
-
 /datum/reagent/consumable/ethanol/beepsky_smash/on_mob_end_metabolize(mob/living/carbon/drinker)
+	. = ..()
 	if(beepsky_hallucination)
 		QDEL_NULL(beepsky_hallucination)
-	return ..()
 
 /datum/reagent/consumable/ethanol/beepsky_smash/overdose_start(mob/living/carbon/drinker)
-	var/obj/item/organ/internal/liver/liver = drinker.get_organ_slot(ORGAN_SLOT_LIVER)
+	. = ..()
+	var/obj/item/organ/liver/liver = drinker.get_organ_slot(ORGAN_SLOT_LIVER)
 	// if you don't have a liver, or your liver isn't an officer's liver
 	if(!liver || !HAS_TRAIT(liver, TRAIT_LAW_ENFORCEMENT_METABOLISM))
 		drinker.gain_trauma(/datum/brain_trauma/mild/phobia/security, TRAUMA_RESILIENCE_BASIC)
@@ -764,7 +896,9 @@
 			dorf_mode = TRUE
 
 /datum/reagent/consumable/ethanol/manly_dorf/on_mob_life(mob/living/carbon/dwarf, seconds_per_tick, times_fired)
+	. = ..()
 	if(dorf_mode)
+<<<<<<< HEAD
 		dwarf.adjustBruteLoss(-1.75 * REM * seconds_per_tick, required_bodytype = affected_bodytype)
 		dwarf.adjustFireLoss(-1.75 * REM * seconds_per_tick, required_bodytype = affected_bodytype)
 	return ..()
@@ -783,6 +917,13 @@
 	if(prob(0.6))
 		new /mob/living/basic/bee/friendly(get_turf(bee))
 	return ..()
+=======
+		var/need_mob_update
+		need_mob_update = dwarf.adjustBruteLoss(-2 * REM * seconds_per_tick, updating_health = FALSE, required_bodytype = affected_bodytype)
+		need_mob_update += dwarf.adjustFireLoss(-2 * REM * seconds_per_tick, updating_health = FALSE, required_bodytype = affected_bodytype)
+		if(need_mob_update)
+			return UPDATE_MOB_HEALTH
+>>>>>>> tg-pr-88929
 
 /datum/reagent/consumable/ethanol/longislandicedtea
 	name = "Long Island Iced Tea"
@@ -810,11 +951,18 @@
 	taste_description = "angry and irish"
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
 	glass_price = DRINK_PRICE_EASY
+<<<<<<< HEAD
 	addiction_types = list(/datum/addiction/coffee = 3) //MONKESTATION ADDITION: Add coffee addiction to alcoholic beverages containing coffee or coffee liqueur
 
 /datum/reagent/consumable/ethanol/b52/on_mob_metabolize(mob/living/drinker)
 	. = ..()
 	playsound(drinker, 'sound/effects/explosion_distant.ogg', 100, FALSE)
+=======
+
+/datum/reagent/consumable/ethanol/b52/on_mob_metabolize(mob/living/drinker)
+	. = ..()
+	playsound(drinker, 'sound/effects/explosion/explosion_distant.ogg', 100, FALSE)
+>>>>>>> tg-pr-88929
 
 /datum/reagent/consumable/ethanol/irishcoffee
 	name = "Irish Coffee"
@@ -824,7 +972,11 @@
 	quality = DRINK_NICE
 	taste_description = "giving up on the day"
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
+<<<<<<< HEAD
 	addiction_types = list(/datum/addiction/coffee = 4) //MONKESTATION ADDITION: Add coffee addiction to alcoholic beverages containing coffee or coffee liqueur
+=======
+	metabolized_traits = list(TRAIT_STIMULATED)
+>>>>>>> tg-pr-88929
 
 /datum/reagent/consumable/ethanol/margarita
 	name = "Margarita"
@@ -844,7 +996,10 @@
 	quality = DRINK_NICE
 	taste_description = "bitterness"
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
+<<<<<<< HEAD
 	addiction_types = list(/datum/addiction/coffee = 2) //MONKESTATION ADDITION: Add coffee addiction to alcoholic beverages containing coffee or coffee liqueur
+=======
+>>>>>>> tg-pr-88929
 
 /datum/reagent/consumable/ethanol/manhattan
 	name = "Manhattan"
@@ -866,8 +1021,8 @@
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
 
 /datum/reagent/consumable/ethanol/manhattan_proj/on_mob_life(mob/living/carbon/drinker, seconds_per_tick, times_fired)
+	. = ..()
 	drinker.set_drugginess(1 MINUTES * REM * seconds_per_tick)
-	return ..()
 
 /datum/reagent/consumable/ethanol/whiskeysoda
 	name = "Whiskey Soda"
@@ -888,8 +1043,13 @@
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
 
 /datum/reagent/consumable/ethanol/antifreeze/on_mob_life(mob/living/carbon/drinker, seconds_per_tick, times_fired)
+<<<<<<< HEAD
 	drinker.adjust_bodytemperature(2 * WARM_DRINK * REM * seconds_per_tick, max_temp = drinker.standard_body_temperature + 4 KELVIN) //310.15 is the normal bodytemp.
 	return ..()
+=======
+	. = ..()
+	drinker.adjust_bodytemperature(20 * REM * TEMPERATURE_DAMAGE_COEFFICIENT * seconds_per_tick, 0, drinker.get_body_temp_normal() + 20) //310.15 is the normal bodytemp.
+>>>>>>> tg-pr-88929
 
 /datum/reagent/consumable/ethanol/barefoot
 	name = "Barefoot"
@@ -901,17 +1061,17 @@
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
 
 /datum/reagent/consumable/ethanol/barefoot/on_mob_life(mob/living/carbon/drinker, seconds_per_tick, times_fired)
+	. = ..()
 	if(ishuman(drinker)) //Barefoot causes the imbiber to quickly regenerate brute trauma if they're not wearing shoes.
 		var/mob/living/carbon/human/unshoed = drinker
 		if(!unshoed.shoes)
-			unshoed.adjustBruteLoss(-3 * REM * seconds_per_tick, FALSE, required_bodytype = affected_bodytype)
-			. = TRUE
-	return ..() || .
+			if(unshoed.adjustBruteLoss(-3 * REM * seconds_per_tick, updating_health = FALSE, required_bodytype = affected_bodytype))
+				return UPDATE_MOB_HEALTH
 
 /datum/reagent/consumable/ethanol/snowwhite
 	name = "Snow White"
 	description = "A cold refreshment."
-	color = "#FFFFFF" // rgb: 255, 255, 255
+	color = COLOR_WHITE // rgb: 255, 255, 255
 	boozepwr = 35
 	quality = DRINK_NICE
 	taste_description = "refreshing cold"
@@ -925,7 +1085,11 @@
 	quality = DRINK_VERYGOOD
 	taste_description = "sweet tasting iron"
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
+<<<<<<< HEAD
 	bypass_restriction = TRUE
+=======
+	metabolized_traits = list(TRAIT_STIMULATED)
+>>>>>>> tg-pr-88929
 
 /datum/reagent/consumable/ethanol/demonsblood/on_mob_metabolize(mob/living/metabolizer)
 	. = ..()
@@ -962,8 +1126,11 @@
 	quality = DRINK_VERYGOOD
 	taste_description = "bitter iron"
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
+<<<<<<< HEAD
 	bypass_restriction = TRUE
 	addiction_types = list(/datum/addiction/coffee = 1) //MONKESTATION ADDITION: Add coffee addiction to alcoholic beverages containing coffee or coffee liqueur
+=======
+>>>>>>> tg-pr-88929
 
 /datum/reagent/consumable/ethanol/devilskiss/on_mob_metabolize(mob/living/metabolizer)
 	. = ..()
@@ -1026,7 +1193,10 @@
 	quality = DRINK_GOOD
 	taste_description = "pineapple, coconut, and a hint of coffee"
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
+<<<<<<< HEAD
 	addiction_types = list(/datum/addiction/coffee = 1) //MONKESTATION ADDITION: Add coffee addiction to alcoholic beverages containing coffee or coffee liqueur
+=======
+>>>>>>> tg-pr-88929
 
 /datum/reagent/consumable/ethanol/singulo
 	name = "Singulo"
@@ -1044,6 +1214,7 @@
 	drinker.remove_filter("singulo_rays")
 
 /datum/reagent/consumable/ethanol/singulo/on_mob_life(mob/living/carbon/drinker, seconds_per_tick, times_fired)
+	. = ..()
 	if(SPT_PROB(2.5, seconds_per_tick))
 		// 20u = 1x1, 45u = 2x2, 80u = 3x3
 		var/volume_to_radius = FLOOR(sqrt(volume/5), 1) - 1
@@ -1059,7 +1230,10 @@
 		animate(drinker.get_filter("singulo_rays"), offset = 10, time = 1.5 SECONDS, loop = -1)
 		addtimer(CALLBACK(drinker, TYPE_PROC_REF(/datum, remove_filter), "singulo_rays"), 1.5 SECONDS)
 		drinker.emote("burp")
+<<<<<<< HEAD
 	return ..()
+=======
+>>>>>>> tg-pr-88929
 
 /datum/reagent/consumable/ethanol/sbiten
 	name = "Sbiten"
@@ -1071,8 +1245,13 @@
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
 
 /datum/reagent/consumable/ethanol/sbiten/on_mob_life(mob/living/carbon/drinker, seconds_per_tick, times_fired)
+<<<<<<< HEAD
 	drinker.adjust_bodytemperature(2.5 * WARM_DRINK * REM * seconds_per_tick, max_temp = drinker.standard_body_temperature + 8 KELVIN) //310.15 is the normal bodytemp.
 	return ..()
+=======
+	. = ..()
+	drinker.adjust_bodytemperature(50 * REM * TEMPERATURE_DAMAGE_COEFFICIENT * seconds_per_tick, 0, BODYTEMP_HEAT_DAMAGE_LIMIT) //310.15 is the normal bodytemp.
+>>>>>>> tg-pr-88929
 
 /datum/reagent/consumable/ethanol/red_mead
 	name = "Red Mead"
@@ -1087,7 +1266,7 @@
 	name = "Mead"
 	description = "A Viking drink, though a cheap one."
 	color = "#e0c058" // rgb: 224,192,88
-	nutriment_factor = 1 * REAGENTS_METABOLISM
+	nutriment_factor = 1
 	boozepwr = 30
 	quality = DRINK_NICE
 	taste_description = "sweet, sweet alcohol"
@@ -1102,8 +1281,13 @@
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
 
 /datum/reagent/consumable/ethanol/iced_beer/on_mob_life(mob/living/carbon/drinker, seconds_per_tick, times_fired)
+<<<<<<< HEAD
 	drinker.adjust_bodytemperature(2 * COLD_DRINK * REM * seconds_per_tick, min_temp = T0C) //310.15 is the normal bodytemp.
 	return ..()
+=======
+	. = ..()
+	drinker.adjust_bodytemperature(-20 * REM * TEMPERATURE_DAMAGE_COEFFICIENT * seconds_per_tick, T0C) //310.15 is the normal bodytemp.
+>>>>>>> tg-pr-88929
 
 /datum/reagent/consumable/ethanol/grog
 	name = "Grog"
@@ -1169,12 +1353,20 @@
 	quality = DRINK_GOOD
 	taste_description = "your brain coming out your nose"
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
+<<<<<<< HEAD
 	metabolization_rate = 0.2 // monkestation edit
 
 /datum/reagent/consumable/ethanol/changelingsting/on_mob_life(mob/living/carbon/target, seconds_per_tick, times_fired)
 	var/datum/antagonist/changeling/changeling = target.mind?.has_antag_datum(/datum/antagonist/changeling)
 	changeling?.adjust_chemicals(metabolization_rate * seconds_per_tick) // monkestation edit
 	return ..()
+=======
+
+/datum/reagent/consumable/ethanol/changelingsting/on_mob_life(mob/living/carbon/target, seconds_per_tick, times_fired)
+	. = ..()
+	var/datum/antagonist/changeling/changeling = IS_CHANGELING(target)
+	changeling?.adjust_chemicals(metabolization_rate * REM * seconds_per_tick)
+>>>>>>> tg-pr-88929
 
 /datum/reagent/consumable/ethanol/irishcarbomb
 	name = "Irish Car Bomb"
@@ -1195,9 +1387,9 @@
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
 
 /datum/reagent/consumable/ethanol/syndicatebomb/on_mob_life(mob/living/carbon/drinker, seconds_per_tick, times_fired)
+	. = ..()
 	if(SPT_PROB(2.5, seconds_per_tick))
-		playsound(get_turf(drinker), 'sound/effects/explosionfar.ogg', 100, TRUE)
-	return ..()
+		playsound(get_turf(drinker), 'sound/effects/explosion/explosionfar.ogg', 100, TRUE)
 
 /datum/reagent/consumable/ethanol/hiveminderaser
 	name = "Hivemind Eraser"
@@ -1207,7 +1399,10 @@
 	quality = DRINK_GOOD
 	taste_description = "psychic links"
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
+<<<<<<< HEAD
 	addiction_types = list(/datum/addiction/coffee = 2) //MONKESTATION ADDITION: Add coffee addiction to alcoholic beverages containing coffee or coffee liqueur
+=======
+>>>>>>> tg-pr-88929
 
 /datum/reagent/consumable/ethanol/erikasurprise
 	name = "Erika Surprise"
@@ -1221,7 +1416,7 @@
 /datum/reagent/consumable/ethanol/driestmartini
 	name = "Driest Martini"
 	description = "Only for the experienced. You think you see sand floating in the glass."
-	nutriment_factor = 1 * REAGENTS_METABOLISM
+	nutriment_factor = 1
 	color = "#2E6671" // rgb: 46, 102, 113
 	boozepwr = 65
 	quality = DRINK_GOOD
@@ -1231,7 +1426,7 @@
 /datum/reagent/consumable/ethanol/bananahonk
 	name = "Banana Honk"
 	description = "A drink from Clown Heaven."
-	nutriment_factor = 1 * REAGENTS_METABOLISM
+	nutriment_factor = 1
 	color = "#FFFF91" // rgb: 255, 255, 140
 	boozepwr = 60
 	quality = DRINK_GOOD
@@ -1239,16 +1434,16 @@
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
 
 /datum/reagent/consumable/ethanol/bananahonk/on_mob_life(mob/living/carbon/drinker, seconds_per_tick, times_fired)
-	var/obj/item/organ/internal/liver/liver = drinker.get_organ_slot(ORGAN_SLOT_LIVER)
-	if((liver && HAS_TRAIT(liver, TRAIT_COMEDY_METABOLISM)) || ismonkey(drinker))
-		drinker.heal_bodypart_damage(1 * REM * seconds_per_tick, 1 * REM * seconds_per_tick)
-		. = TRUE
-	return ..() || .
+	. = ..()
+	var/obj/item/organ/liver/liver = drinker.get_organ_slot(ORGAN_SLOT_LIVER)
+	if((liver && HAS_TRAIT(liver, TRAIT_COMEDY_METABOLISM)) || is_simian(drinker))
+		if(drinker.heal_bodypart_damage(brute = 1 * REM * seconds_per_tick, burn = 1 * REM * seconds_per_tick, updating_health = FALSE))
+			return UPDATE_MOB_HEALTH
 
 /datum/reagent/consumable/ethanol/silencer
 	name = "Silencer"
 	description = "A drink from Mime Heaven."
-	nutriment_factor = 2 * REAGENTS_METABOLISM
+	nutriment_factor = 2
 	color = "#a8a8a8" // rgb: 168,168,168
 	boozepwr = 59 //Proof that clowns are better than mimes right here
 	quality = DRINK_GOOD
@@ -1256,11 +1451,11 @@
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
 
 /datum/reagent/consumable/ethanol/silencer/on_mob_life(mob/living/carbon/drinker, seconds_per_tick, times_fired)
-	if(ishuman(drinker) && HAS_TRAIT(drinker, TRAIT_MIMING))
+	. = ..()
+	if(ishuman(drinker) && HAS_MIND_TRAIT(drinker, TRAIT_MIMING))
 		drinker.set_silence_if_lower(MIMEDRINK_SILENCE_DURATION)
-		drinker.heal_bodypart_damage(1 * REM * seconds_per_tick, 1 * REM * seconds_per_tick)
-		. = TRUE
-	return ..() || .
+		if(drinker.heal_bodypart_damage(brute = 1 * REM * seconds_per_tick, burn = 1 * REM * seconds_per_tick, updating_health = FALSE))
+			return UPDATE_MOB_HEALTH
 
 /datum/reagent/consumable/ethanol/drunkenblumpkin
 	name = "Drunken Blumpkin"
@@ -1283,7 +1478,7 @@
 	name = "Hard Cider"
 	description = "Apple juice, for adults."
 	color = "#CD6839"
-	nutriment_factor = 1 * REAGENTS_METABOLISM
+	nutriment_factor = 1
 	boozepwr = 25
 	taste_description = "the season that <i>falls</i> between summer and winter"
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
@@ -1300,10 +1495,16 @@
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
 
 /datum/reagent/consumable/ethanol/fetching_fizz/on_mob_life(mob/living/carbon/drinker, seconds_per_tick, times_fired)
+<<<<<<< HEAD
 	var/turf/drinker_turf = get_turf(drinker)
 	for(var/obj/item/stack/ore/ore in orange(3, drinker))
 		step_towards(ore, drinker_turf)
 	return ..()
+=======
+	. = ..()
+	for(var/obj/item/stack/ore/O in orange(3, drinker))
+		step_towards(O, get_turf(drinker))
+>>>>>>> tg-pr-88929
 
 //Another reference. Heals those in critical condition extremely quickly.
 /datum/reagent/consumable/ethanol/hearty_punch
@@ -1315,17 +1516,21 @@
 	metabolization_rate = 0.4 * REAGENTS_METABOLISM
 	taste_description = "bravado in the face of disaster"
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
+<<<<<<< HEAD
 	bypass_restriction = TRUE
+=======
+>>>>>>> tg-pr-88929
 
 /datum/reagent/consumable/ethanol/hearty_punch/on_mob_life(mob/living/carbon/drinker, seconds_per_tick, times_fired)
+	. = ..()
 	if(drinker.health <= 0)
-		drinker.adjustBruteLoss(-3 * REM * seconds_per_tick, FALSE, required_bodytype = affected_bodytype)
-		drinker.adjustFireLoss(-3 * REM * seconds_per_tick, FALSE, required_bodytype = affected_bodytype)
-		drinker.adjustCloneLoss(-5 * REM * seconds_per_tick, 0)
-		drinker.adjustOxyLoss(-4 * REM * seconds_per_tick, FALSE, required_biotype = affected_biotype, required_respiration_type = affected_respiration_type)
-		drinker.adjustToxLoss(-3 * REM * seconds_per_tick, FALSE, required_biotype = affected_biotype)
-		. = TRUE
-	return ..() || .
+		var/need_mob_update
+		need_mob_update = drinker.adjustBruteLoss(-3 * REM * seconds_per_tick, updating_health = FALSE, required_bodytype = affected_bodytype)
+		need_mob_update += drinker.adjustFireLoss(-3 * REM * seconds_per_tick, updating_health = FALSE, required_bodytype = affected_bodytype)
+		need_mob_update += drinker.adjustOxyLoss(-4 * REM * seconds_per_tick, updating_health = FALSE, required_biotype = affected_biotype, required_respiration_type = affected_respiration_type)
+		need_mob_update += drinker.adjustToxLoss(-3 * REM * seconds_per_tick, updating_health = FALSE, required_biotype = affected_biotype)
+		if(need_mob_update)
+			return UPDATE_MOB_HEALTH
 
 /datum/reagent/consumable/ethanol/bacchus_blessing //An EXTREMELY powerful drink. Smashed in seconds, dead in minutes.
 	name = "Bacchus' Blessing"
@@ -1334,8 +1539,11 @@
 	boozepwr = 300 //I warned you
 	taste_description = "a wall of bricks"
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
+<<<<<<< HEAD
 	bypass_restriction = TRUE
 	synthetic_boozepwr = 300 // it's divinely blessed, or so sayeth the name.
+=======
+>>>>>>> tg-pr-88929
 
 /datum/reagent/consumable/ethanol/atomicbomb
 	name = "Atomic Bomb"
@@ -1348,20 +1556,19 @@
 	glass_price = DRINK_PRICE_HIGH
 
 /datum/reagent/consumable/ethanol/atomicbomb/on_mob_life(mob/living/carbon/drinker, seconds_per_tick, times_fired)
+	. = ..()
 	drinker.set_drugginess(100 SECONDS * REM * seconds_per_tick)
 	if(!HAS_TRAIT(drinker, TRAIT_ALCOHOL_TOLERANCE))
 		drinker.adjust_confusion(2 SECONDS * REM * seconds_per_tick)
 	drinker.set_dizzy_if_lower(20 SECONDS * REM * seconds_per_tick)
 	drinker.adjust_slurring(6 SECONDS * REM * seconds_per_tick)
 	switch(current_cycle)
-		if(51 to 200)
+		if(52 to 201)
 			drinker.Sleeping(100 * REM * seconds_per_tick)
-			. = TRUE
-		if(201 to INFINITY)
-			drinker.AdjustSleeping(40 * REM * seconds_per_tick)
-			drinker.adjustToxLoss(2 * REM * seconds_per_tick, FALSE, required_biotype = affected_biotype)
-			. = TRUE
-	..()
+		if(202 to INFINITY)
+			drinker.AdjustSleeping(4 SECONDS * REM * seconds_per_tick)
+			if(drinker.adjustToxLoss(2 * REM * seconds_per_tick, updating_health = FALSE, required_biotype = affected_biotype))
+				return UPDATE_MOB_HEALTH
 
 /datum/reagent/consumable/ethanol/gargle_blaster
 	name = "Pan-Galactic Gargle Blaster"
@@ -1373,20 +1580,19 @@
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
 
 /datum/reagent/consumable/ethanol/gargle_blaster/on_mob_life(mob/living/carbon/drinker, seconds_per_tick, times_fired)
+	. = ..()
 	drinker.adjust_dizzy(3 SECONDS * REM * seconds_per_tick)
 	switch(current_cycle)
-		if(15 to 45)
+		if(16 to 46)
 			drinker.adjust_slurring(3 SECONDS * REM * seconds_per_tick)
-
-		if(45 to 55)
+		if(46 to 56)
 			if(SPT_PROB(30, seconds_per_tick))
 				drinker.adjust_confusion(3 SECONDS * REM * seconds_per_tick)
-		if(55 to 200)
+		if(56 to 201)
 			drinker.set_drugginess(110 SECONDS * REM * seconds_per_tick)
-		if(200 to INFINITY)
-			drinker.adjustToxLoss(2 * REM * seconds_per_tick, FALSE, required_biotype = affected_biotype)
-			. = TRUE
-	..()
+		if(201 to INFINITY)
+			if(drinker.adjustToxLoss(2 * REM * seconds_per_tick, updating_health = FALSE, required_biotype = affected_biotype))
+				return UPDATE_MOB_HEALTH
 
 /datum/reagent/consumable/ethanol/neurotoxin
 	name = "Neurotoxin"
@@ -1397,41 +1603,64 @@
 	taste_description = "a numbing sensation"
 	metabolization_rate = 1 * REAGENTS_METABOLISM
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
+<<<<<<< HEAD
 	bypass_restriction = TRUE
+=======
+>>>>>>> tg-pr-88929
 
 /datum/reagent/consumable/ethanol/neurotoxin/proc/pick_paralyzed_limb()
 	return (pick(TRAIT_PARALYSIS_L_ARM,TRAIT_PARALYSIS_R_ARM,TRAIT_PARALYSIS_R_LEG,TRAIT_PARALYSIS_L_LEG))
 
 /datum/reagent/consumable/ethanol/neurotoxin/on_mob_life(mob/living/carbon/drinker, seconds_per_tick, times_fired)
+	. = ..()
 	drinker.set_drugginess(100 SECONDS * REM * seconds_per_tick)
 	drinker.adjust_dizzy(4 SECONDS * REM * seconds_per_tick)
+<<<<<<< HEAD
 	drinker.adjustOrganLoss(ORGAN_SLOT_BRAIN, 1 * REM * seconds_per_tick, 150, required_organ_flag = affected_organ_flags)
 	if(SPT_PROB(10, seconds_per_tick))
 		drinker.stamina.adjust(-10)
+=======
+	var/need_mob_update
+	need_mob_update = drinker.adjustOrganLoss(ORGAN_SLOT_BRAIN, 1 * REM * seconds_per_tick, 150, required_organ_flag = affected_organ_flags)
+	if(SPT_PROB(10, seconds_per_tick))
+		need_mob_update += drinker.adjustStaminaLoss(10 * REM * seconds_per_tick, updating_stamina = FALSE, required_biotype = affected_biotype)
+>>>>>>> tg-pr-88929
 		drinker.drop_all_held_items()
 		to_chat(drinker, span_notice("You cant feel your hands!"))
-	if(current_cycle > 5)
+	if(current_cycle > 6)
 		if(SPT_PROB(10, seconds_per_tick))
 			var/paralyzed_limb = pick_paralyzed_limb()
 			ADD_TRAIT(drinker, paralyzed_limb, type)
+<<<<<<< HEAD
 			drinker.stamina.adjust(-10)
 		if(current_cycle > 30)
 			drinker.adjustOrganLoss(ORGAN_SLOT_BRAIN, 2 * REM * seconds_per_tick, required_organ_flag = affected_organ_flags)
 			if(current_cycle > 50 && SPT_PROB(7.5, seconds_per_tick))
+=======
+			need_mob_update += drinker.adjustStaminaLoss(10 * REM * seconds_per_tick, updating_stamina = FALSE, required_biotype = affected_biotype)
+		if(current_cycle > 31)
+			need_mob_update += drinker.adjustOrganLoss(ORGAN_SLOT_BRAIN, 2 * REM * seconds_per_tick, required_organ_flag = affected_organ_flags)
+			if(current_cycle > 51 && SPT_PROB(7.5, seconds_per_tick))
+>>>>>>> tg-pr-88929
 				if(!drinker.undergoing_cardiac_arrest() && drinker.can_heartattack())
 					drinker.set_heartattack(TRUE)
 					if(drinker.stat == CONSCIOUS)
 						drinker.visible_message(span_userdanger("[drinker] clutches at [drinker.p_their()] chest as if [drinker.p_their()] heart stopped!"))
-	. = TRUE
-	..()
+	if(need_mob_update)
+		return UPDATE_MOB_HEALTH
 
 /datum/reagent/consumable/ethanol/neurotoxin/on_mob_end_metabolize(mob/living/carbon/drinker)
+	. = ..()
 	REMOVE_TRAIT(drinker, TRAIT_PARALYSIS_L_ARM, type)
 	REMOVE_TRAIT(drinker, TRAIT_PARALYSIS_R_ARM, type)
 	REMOVE_TRAIT(drinker, TRAIT_PARALYSIS_R_LEG, type)
 	REMOVE_TRAIT(drinker, TRAIT_PARALYSIS_L_LEG, type)
+<<<<<<< HEAD
 	drinker.stamina.adjust(-10)
 	..()
+=======
+	drinker.adjustStaminaLoss(10, required_biotype = affected_biotype)
+>>>>>>> tg-pr-88929
 
 /datum/reagent/consumable/ethanol/hippies_delight
 	name = "Hippie's Delight"
@@ -1443,50 +1672,66 @@
 	metabolization_rate = 0.2 * REAGENTS_METABOLISM
 	taste_description = "giving peace a chance"
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
+<<<<<<< HEAD
 	bypass_restriction = TRUE
+=======
+>>>>>>> tg-pr-88929
 
 /datum/reagent/consumable/ethanol/hippies_delight/on_mob_life(mob/living/carbon/drinker, seconds_per_tick, times_fired)
+	. = ..()
 	drinker.set_slurring_if_lower(1 SECONDS * REM * seconds_per_tick)
 
 	switch(current_cycle)
-		if(1 to 5)
+		if(2 to 6)
 			drinker.set_dizzy_if_lower(20 SECONDS * REM * seconds_per_tick)
 			drinker.set_drugginess(1 MINUTES * REM * seconds_per_tick)
 			if(SPT_PROB(5, seconds_per_tick))
 				drinker.emote(pick("twitch","giggle"))
-		if(5 to 10)
+		if(6 to 11)
 			drinker.set_jitter_if_lower(40 SECONDS * REM * seconds_per_tick)
 			drinker.set_dizzy_if_lower(40 SECONDS * REM * seconds_per_tick)
 			drinker.set_drugginess(1.5 MINUTES * REM * seconds_per_tick)
 			if(SPT_PROB(10, seconds_per_tick))
 				drinker.emote(pick("twitch","giggle"))
-		if (10 to 200)
+		if (11 to 201)
 			drinker.set_jitter_if_lower(80 SECONDS * REM * seconds_per_tick)
 			drinker.set_dizzy_if_lower(80 SECONDS * REM * seconds_per_tick)
 			drinker.set_drugginess(2 MINUTES * REM * seconds_per_tick)
 			if(SPT_PROB(16, seconds_per_tick))
 				drinker.emote(pick("twitch","giggle"))
-		if(200 to INFINITY)
+		if(201 to INFINITY)
 			drinker.set_jitter_if_lower(120 SECONDS * REM * seconds_per_tick)
 			drinker.set_dizzy_if_lower(120 SECONDS * REM * seconds_per_tick)
 			drinker.set_drugginess(2.5 MINUTES * REM * seconds_per_tick)
 			if(SPT_PROB(23, seconds_per_tick))
 				drinker.emote(pick("twitch","giggle"))
 			if(SPT_PROB(16, seconds_per_tick))
-				drinker.adjustToxLoss(2, FALSE, required_biotype = affected_biotype)
-				. = TRUE
-	..()
+				if(drinker.adjustToxLoss(2 * REM * seconds_per_tick, updating_health = FALSE, required_biotype = affected_biotype))
+					return UPDATE_MOB_HEALTH
 
 /datum/reagent/consumable/ethanol/eggnog
 	name = "Eggnog"
 	description = "For enjoying the most wonderful time of the year."
-	color = "#fcfdc6" // rgb: 252, 253, 198
-	nutriment_factor = 2 * REAGENTS_METABOLISM
+	color = "#ffe2ad" // rgb: 255, 226, 173
+	nutriment_factor = 2
 	boozepwr = 1
 	quality = DRINK_VERYGOOD
 	taste_description = "custard and alcohol"
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
 
+<<<<<<< HEAD
+=======
+/datum/reagent/consumable/ethanol/dreadnog
+	name = "Dreadnog"
+	description = "For suffering during a period of joy."
+	color = "#f7ffad" // rgb: 247, 255, 173
+	nutriment_factor = 3 * REAGENTS_METABOLISM
+	boozepwr = 1
+	quality = DRINK_REVOLTING
+	taste_description = "custard and alcohol"
+	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
+
+>>>>>>> tg-pr-88929
 /datum/reagent/consumable/ethanol/narsour
 	name = "Nar'Sour"
 	description = "Side effects include self-mutilation and hoarding plasteel."
@@ -1495,17 +1740,20 @@
 	quality = DRINK_FANTASTIC
 	taste_description = "bloody"
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
+<<<<<<< HEAD
 	bypass_restriction = TRUE
+=======
+>>>>>>> tg-pr-88929
 
 /datum/reagent/consumable/ethanol/narsour/on_mob_life(mob/living/carbon/drinker, seconds_per_tick, times_fired)
+	. = ..()
 	drinker.adjust_timed_status_effect(6 SECONDS * REM * seconds_per_tick, /datum/status_effect/speech/slurring/cult, max_duration = 6 SECONDS)
 	drinker.adjust_stutter_up_to(6 SECONDS * REM * seconds_per_tick, 6 SECONDS)
-	return ..()
 
 /datum/reagent/consumable/ethanol/triple_sec
 	name = "Triple Sec"
 	description = "A sweet and vibrant orange liqueur."
-	color = "#ffcc66"
+	color = COLOR_ICECREAM_PEACH
 	boozepwr = 30
 	taste_description = "a warm flowery orange taste which recalls the ocean air and summer wind of the caribbean"
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
@@ -1513,7 +1761,7 @@
 /datum/reagent/consumable/ethanol/creme_de_menthe
 	name = "Creme de Menthe"
 	description = "A minty liqueur excellent for refreshing, cool drinks."
-	color = "#00cc00"
+	color = "#467446" //rgb: 70, 116, 70
 	boozepwr = 20
 	taste_description = "a minty, cool, and invigorating splash of cold streamwater"
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
@@ -1521,7 +1769,7 @@
 /datum/reagent/consumable/ethanol/creme_de_cacao
 	name = "Creme de Cacao"
 	description = "A chocolatey liqueur excellent for adding dessert notes to beverages and bribing sororities."
-	color = "#996633"
+	color = "#350900" // rgb: 53, 9, 0
 	boozepwr = 20
 	taste_description = "a slick and aromatic hint of chocolates swirling in a bite of alcohol"
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
@@ -1544,12 +1792,12 @@
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
 
 /datum/reagent/consumable/ethanol/quadruple_sec/on_mob_life(mob/living/carbon/drinker, seconds_per_tick, times_fired)
+	. = ..()
 	//Securidrink in line with the Screwdriver for engineers or Nothing for mimes
-	var/obj/item/organ/internal/liver/liver = drinker.get_organ_slot(ORGAN_SLOT_LIVER)
+	var/obj/item/organ/liver/liver = drinker.get_organ_slot(ORGAN_SLOT_LIVER)
 	if(liver && HAS_TRAIT(liver, TRAIT_LAW_ENFORCEMENT_METABOLISM))
-		drinker.heal_bodypart_damage(1 * REM * seconds_per_tick, 1 * REM * seconds_per_tick)
-		. = TRUE
-	return ..()
+		if(drinker.heal_bodypart_damage(brute = 1 * REM * seconds_per_tick, burn = 1 * REM * seconds_per_tick, updating_health = FALSE))
+			return UPDATE_MOB_HEALTH
 
 /datum/reagent/consumable/ethanol/quintuple_sec
 	name = "Quintuple Sec"
@@ -1559,16 +1807,28 @@
 	quality = DRINK_FANTASTIC
 	taste_description = "THE LAW"
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
+<<<<<<< HEAD
 	bypass_restriction = TRUE
+=======
+>>>>>>> tg-pr-88929
 
 /datum/reagent/consumable/ethanol/quintuple_sec/on_mob_life(mob/living/carbon/drinker, seconds_per_tick, times_fired)
+	. = ..()
 	//Securidrink in line with the Screwdriver for engineers or Nothing for mimes but STRONG..
-	var/obj/item/organ/internal/liver/liver = drinker.get_organ_slot(ORGAN_SLOT_LIVER)
+	var/obj/item/organ/liver/liver = drinker.get_organ_slot(ORGAN_SLOT_LIVER)
 	if(liver && HAS_TRAIT(liver, TRAIT_LAW_ENFORCEMENT_METABOLISM))
+<<<<<<< HEAD
 		drinker.heal_bodypart_damage(2 * REM * seconds_per_tick, 2 * REM *  seconds_per_tick)
 		drinker.stamina.adjust(2 * REM * seconds_per_tick)
 		. = TRUE
 	return ..()
+=======
+		var/need_mob_update
+		need_mob_update = drinker.heal_bodypart_damage(2 * REM * seconds_per_tick, 2 * REM *  seconds_per_tick, updating_health = FALSE, required_bodytype = affected_bodytype)
+		need_mob_update += drinker.adjustStaminaLoss(-5 * REM * seconds_per_tick, updating_stamina = FALSE, required_biotype = affected_biotype)
+		if(need_mob_update)
+			return UPDATE_MOB_HEALTH
+>>>>>>> tg-pr-88929
 
 /datum/reagent/consumable/ethanol/grasshopper
 	name = "Grasshopper"
@@ -1591,7 +1851,7 @@
 /datum/reagent/consumable/ethanol/bastion_bourbon
 	name = "Bastion Bourbon"
 	description = "Soothing hot herbal brew with restorative properties. Hints of citrus and berry flavors."
-	color = "#00FFFF"
+	color = COLOR_CYAN
 	boozepwr = 30
 	quality = DRINK_FANTASTIC
 	taste_description = "hot herbal brew with a hint of fruit"
@@ -1599,13 +1859,17 @@
 	ph = 4
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
 	glass_price = DRINK_PRICE_HIGH
+<<<<<<< HEAD
 	bypass_restriction = TRUE
+=======
+>>>>>>> tg-pr-88929
 
 /datum/reagent/consumable/ethanol/bastion_bourbon/on_mob_metabolize(mob/living/drinker)
 	. = ..()
 	var/heal_points = 10
 	if(drinker.health <= 0)
 		heal_points = 20 //heal more if we're in softcrit
+<<<<<<< HEAD
 	for(var/counter in 1 to min(volume, heal_points)) //only heals 1 point of damage per unit on add, for balance reasons
 		drinker.adjustBruteLoss(-1, required_bodytype = affected_bodytype)
 		drinker.adjustFireLoss(-1, required_bodytype = affected_bodytype)
@@ -1613,11 +1877,26 @@
 		drinker.adjustOxyLoss(-1, required_biotype = affected_biotype, required_respiration_type = affected_respiration_type)
 		drinker.stamina.adjust(1)
 	drinker.visible_message(span_warning("[drinker] shivers with renewed vigor!"), span_notice("One taste of [lowertext(name)] fills you with energy!"))
+=======
+	var/need_mob_update
+	var/heal_amt = min(volume, heal_points) //only heals 1 point of damage per unit on add, for balance reasons
+	need_mob_update = drinker.adjustBruteLoss(-heal_amt, updating_health = FALSE, required_bodytype = affected_bodytype)
+	need_mob_update += drinker.adjustFireLoss(-heal_amt, updating_health = FALSE, required_bodytype = affected_bodytype)
+	need_mob_update += drinker.adjustToxLoss(-heal_amt, updating_health = FALSE, required_biotype = affected_biotype)
+	need_mob_update += drinker.adjustOxyLoss(-heal_amt, updating_health = FALSE, required_biotype = affected_biotype, required_respiration_type = affected_respiration_type)
+	// heal stamina loss on first metabolization, but only to a max of 20
+	need_mob_update += drinker.adjustStaminaLoss(max(-heal_amt * 5, -20), updating_stamina = FALSE, required_biotype = affected_biotype)
+	if(need_mob_update)
+		drinker.updatehealth()
+	drinker.visible_message(span_warning("[drinker] shivers with renewed vigor!"), span_notice("One taste of [LOWER_TEXT(name)] fills you with energy!"))
+>>>>>>> tg-pr-88929
 	if(!drinker.stat && heal_points == 20) //brought us out of softcrit
 		drinker.visible_message(span_danger("[drinker] lurches to [drinker.p_their()] feet!"), span_boldnotice("Up and at 'em, kid."))
 
 /datum/reagent/consumable/ethanol/bastion_bourbon/on_mob_life(mob/living/drinker, seconds_per_tick, times_fired)
+	. = ..()
 	if(drinker.health > 0)
+<<<<<<< HEAD
 		drinker.adjustBruteLoss(-1 * REM * seconds_per_tick, required_bodytype = affected_bodytype)
 		drinker.adjustFireLoss(-1 * REM * seconds_per_tick, required_bodytype = affected_bodytype)
 		drinker.adjustToxLoss(-0.5 * REM * seconds_per_tick, required_biotype = affected_biotype)
@@ -1625,20 +1904,35 @@
 		drinker.stamina.adjust(5 * REM * seconds_per_tick)
 		. = TRUE
 	..()
+=======
+		var/need_mob_update
+		need_mob_update = drinker.adjustBruteLoss(-1 * REM * seconds_per_tick, updating_health = FALSE, required_bodytype = affected_bodytype)
+		need_mob_update += drinker.adjustFireLoss(-1 * REM * seconds_per_tick, updating_health = FALSE, required_bodytype = affected_bodytype)
+		need_mob_update += drinker.adjustToxLoss(-0.5 * REM * seconds_per_tick, updating_health = FALSE, required_biotype = affected_biotype)
+		need_mob_update += drinker.adjustOxyLoss(-3 * REM * seconds_per_tick, updating_health = FALSE, required_biotype = affected_biotype, required_respiration_type = affected_respiration_type)
+		need_mob_update += drinker.adjustStaminaLoss(-5 * REM * seconds_per_tick, updating_stamina = FALSE, required_biotype = affected_biotype)
+		if(need_mob_update)
+			return UPDATE_MOB_HEALTH
+>>>>>>> tg-pr-88929
 
 /datum/reagent/consumable/ethanol/squirt_cider
 	name = "Squirt Cider"
 	description = "Fermented squirt extract with a nose of stale bread and ocean water. Whatever a squirt is."
-	color = "#FF0000"
+	color = COLOR_RED
 	boozepwr = 40
 	taste_description = "stale bread with a staler aftertaste"
-	nutriment_factor = 2 * REAGENTS_METABOLISM
+	nutriment_factor = 2
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
 
 /datum/reagent/consumable/ethanol/squirt_cider/on_mob_life(mob/living/carbon/drinker, seconds_per_tick, times_fired)
+<<<<<<< HEAD
 	drinker.adjust_satiety(5 * REM * seconds_per_tick) //for context, vitamins give 15 satiety per second
 	..()
 	. = TRUE
+=======
+	. = ..()
+	drinker.satiety += 5 * REM * seconds_per_tick //for context, vitamins give 15 satiety per second
+>>>>>>> tg-pr-88929
 
 /datum/reagent/consumable/ethanol/fringe_weaver
 	name = "Fringe Weaver"
@@ -1656,13 +1950,18 @@
 	boozepwr = 10
 	quality = DRINK_GOOD
 	taste_description = "your arteries clogging with sugar"
-	nutriment_factor = 2 * REAGENTS_METABOLISM
+	nutriment_factor = 2
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
 
 /datum/reagent/consumable/ethanol/sugar_rush/on_mob_life(mob/living/carbon/drinker, seconds_per_tick, times_fired)
+<<<<<<< HEAD
 	drinker.adjust_satiety(-10 * REM * seconds_per_tick)//junky as hell! a whole glass will keep you from being able to eat junk food
 	..()
 	. = TRUE
+=======
+	. = ..()
+	drinker.satiety -= 10 * REM * seconds_per_tick //junky as hell! a whole glass will keep you from being able to eat junk food
+>>>>>>> tg-pr-88929
 
 /datum/reagent/consumable/ethanol/crevice_spike
 	name = "Crevice Spike"
@@ -1672,7 +1971,10 @@
 	quality = DRINK_VERYGOOD
 	taste_description = "a bitter SPIKE with a sour aftertaste"
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
+<<<<<<< HEAD
 	bypass_restriction = TRUE
+=======
+>>>>>>> tg-pr-88929
 
 /datum/reagent/consumable/ethanol/crevice_spike/on_mob_metabolize(mob/living/drinker) //damage only applies when drink first enters system and won't again until drink metabolizes out
 	. = ..()
@@ -1697,9 +1999,14 @@
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
 
 /datum/reagent/consumable/ethanol/peppermint_patty/on_mob_life(mob/living/carbon/drinker, seconds_per_tick, times_fired)
+	. = ..()
 	drinker.apply_status_effect(/datum/status_effect/throat_soothed)
+<<<<<<< HEAD
 	drinker.adjust_bodytemperature(WARM_DRINK * REM * seconds_per_tick, max_temp = drinker.standard_body_temperature)
 	..()
+=======
+	drinker.adjust_bodytemperature(5 * REM * TEMPERATURE_DAMAGE_COEFFICIENT * seconds_per_tick, 0, drinker.get_body_temp_normal())
+>>>>>>> tg-pr-88929
 
 /datum/reagent/consumable/ethanol/alexander
 	name = "Alexander"
@@ -1709,28 +2016,42 @@
 	quality = DRINK_GOOD
 	taste_description = "bitter, creamy cacao"
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
+<<<<<<< HEAD
 	var/obj/item/shield/mighty_shield
+=======
+	var/datum/weakref/mighty_shield
+>>>>>>> tg-pr-88929
 
 /datum/reagent/consumable/ethanol/alexander/on_mob_metabolize(mob/living/drinker)
 	. = ..()
 	if(ishuman(drinker))
 		var/mob/living/carbon/human/the_human = drinker
 		for(var/obj/item/shield/the_shield in the_human.contents)
-			mighty_shield = the_shield
-			mighty_shield.block_chance += 10
+			mighty_shield = WEAKREF(the_shield)
+			the_shield.block_chance += 10
 			to_chat(the_human, span_notice("[the_shield] appears polished, although you don't recall polishing it."))
-			return TRUE
+			break
 
 /datum/reagent/consumable/ethanol/alexander/on_mob_life(mob/living/drinker, seconds_per_tick, times_fired)
-	..()
-	if(mighty_shield && !(mighty_shield in drinker.contents)) //If you had a shield and lose it, you lose the reagent as well. Otherwise this is just a normal drink.
-		holder.remove_reagent(type)
+	var/obj/item/shield/the_shield = mighty_shield?.resolve()
+	if(the_shield && !(the_shield in drinker.contents)) //If you had a shield and lose it, you lose the reagent as well. Otherwise this is just a normal drink.
+		holder.remove_reagent(type, volume)
+		return
+	return ..()
 
 /datum/reagent/consumable/ethanol/alexander/on_mob_end_metabolize(mob/living/drinker)
 	. = ..()
+<<<<<<< HEAD
 	if(mighty_shield)
 		mighty_shield.block_chance -= 10
 		to_chat(drinker,span_notice("You notice [mighty_shield] looks worn again. Weird."))
+=======
+	var/obj/item/shield/the_shield = mighty_shield?.resolve()
+	if(the_shield)
+		the_shield.block_chance -= 10
+		to_chat(drinker,span_notice("You notice [the_shield] looks worn again. Weird."))
+		mighty_shield = null
+>>>>>>> tg-pr-88929
 
 /datum/reagent/consumable/ethanol/amaretto_alexander
 	name = "Amaretto Alexander"
@@ -1762,7 +2083,7 @@
 	glass_price = DRINK_PRICE_MEDIUM
 
 /datum/reagent/consumable/ethanol/between_the_sheets/on_mob_life(mob/living/drinker, seconds_per_tick, times_fired)
-	..()
+	. = ..()
 	var/is_between_the_sheets = FALSE
 	for(var/obj/item/bedsheet/bedsheet in range(drinker.loc, 0))
 		if(bedsheet.loc != drinker.loc) // bedsheets in your backpack/neck don't count
@@ -1773,15 +2094,18 @@
 	if(!drinker.IsSleeping() || !is_between_the_sheets)
 		return
 
+	var/need_mob_update
 	if(drinker.getBruteLoss() && drinker.getFireLoss()) //If you are damaged by both types, slightly increased healing but it only heals one. The more the merrier wink wink.
 		if(prob(50))
-			drinker.adjustBruteLoss(-0.25 * REM * seconds_per_tick, required_bodytype = affected_bodytype)
+			need_mob_update = drinker.adjustBruteLoss(-0.25 * REM * seconds_per_tick, updating_health = FALSE,  required_bodytype = affected_bodytype)
 		else
-			drinker.adjustFireLoss(-0.25 * REM * seconds_per_tick, required_bodytype = affected_bodytype)
+			need_mob_update = drinker.adjustFireLoss(-0.25 * REM * seconds_per_tick, updating_health = FALSE,  required_bodytype = affected_bodytype)
 	else if(drinker.getBruteLoss()) //If you have only one, it still heals but not as well.
-		drinker.adjustBruteLoss(-0.2 * REM * seconds_per_tick, required_bodytype = affected_bodytype)
+		need_mob_update = drinker.adjustBruteLoss(-0.2 * REM * seconds_per_tick, updating_health = FALSE,  required_bodytype = affected_bodytype)
 	else if(drinker.getFireLoss())
-		drinker.adjustFireLoss(-0.2 * REM * seconds_per_tick, required_bodytype = affected_bodytype)
+		need_mob_update = drinker.adjustFireLoss(-0.2 * REM * seconds_per_tick, updating_health = FALSE, required_bodytype = affected_bodytype)
+	if(need_mob_update)
+		return UPDATE_MOB_HEALTH
 
 /datum/reagent/consumable/ethanol/kamikaze
 	name = "Kamikaze"
@@ -1820,11 +2144,12 @@
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
 
 /datum/reagent/consumable/ethanol/fernet/on_mob_life(mob/living/carbon/drinker, seconds_per_tick, times_fired)
+	. = ..()
 	if(drinker.nutrition <= NUTRITION_LEVEL_STARVING)
-		drinker.adjustToxLoss(1 * REM * seconds_per_tick, FALSE, required_biotype = affected_biotype)
+		if(drinker.adjustToxLoss(1 * REM * seconds_per_tick, updating_health = FALSE, required_biotype = affected_biotype))
+			. = UPDATE_MOB_HEALTH
 	drinker.adjust_nutrition(-5 * REM * seconds_per_tick)
 	drinker.overeatduration = 0
-	return ..()
 
 /datum/reagent/consumable/ethanol/fernet_cola
 	name = "Fernet Cola"
@@ -1836,11 +2161,12 @@
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
 
 /datum/reagent/consumable/ethanol/fernet_cola/on_mob_life(mob/living/carbon/drinker, seconds_per_tick, times_fired)
+	. = ..()
 	if(drinker.nutrition <= NUTRITION_LEVEL_STARVING)
-		drinker.adjustToxLoss(0.5 * REM * seconds_per_tick, FALSE, required_biotype = affected_biotype)
+		if(drinker.adjustToxLoss(0.5 * REM * seconds_per_tick, updating_health = FALSE, required_biotype = affected_biotype))
+			. = UPDATE_MOB_HEALTH
 	drinker.adjust_nutrition(-3 * REM * seconds_per_tick)
 	drinker.overeatduration = 0
-	return ..()
 
 /datum/reagent/consumable/ethanol/fanciulli
 	name = "Fanciulli"
@@ -1853,15 +2179,20 @@
 	glass_price = DRINK_PRICE_HIGH
 
 /datum/reagent/consumable/ethanol/fanciulli/on_mob_life(mob/living/carbon/drinker, seconds_per_tick, times_fired)
+	. = ..()
 	drinker.adjust_nutrition(-5 * REM * seconds_per_tick)
 	drinker.overeatduration = 0
-	return ..()
 
 /datum/reagent/consumable/ethanol/fanciulli/on_mob_metabolize(mob/living/drinker)
+	. = ..()
 	if(drinker.health > 0)
+<<<<<<< HEAD
 		drinker.stamina.adjust(-20)
 		. = TRUE
 	..()
+=======
+		drinker.adjustStaminaLoss(20, required_biotype = affected_biotype)
+>>>>>>> tg-pr-88929
 
 /datum/reagent/consumable/ethanol/branca_menta
 	name = "Branca Menta"
@@ -1874,37 +2205,45 @@
 	glass_price = DRINK_PRICE_MEDIUM
 
 /datum/reagent/consumable/ethanol/branca_menta/on_mob_life(mob/living/carbon/drinker, seconds_per_tick, times_fired)
+	. = ..()
 	drinker.adjust_bodytemperature(-20 * REM * TEMPERATURE_DAMAGE_COEFFICIENT * seconds_per_tick, T0C)
-	return ..()
 
 /datum/reagent/consumable/ethanol/branca_menta/on_mob_metabolize(mob/living/drinker)
+	. = ..()
 	if(drinker.health > 0)
+<<<<<<< HEAD
 		drinker.stamina.adjust(-35)
 		. = TRUE
 	..()
+=======
+		drinker.adjustStaminaLoss(35, required_biotype = affected_biotype)
+>>>>>>> tg-pr-88929
 
 /datum/reagent/consumable/ethanol/blank_paper
 	name = "Blank Paper"
 	description = "A bubbling glass of blank paper. Just looking at it makes you feel fresh."
-	nutriment_factor = 1 * REAGENTS_METABOLISM
+	nutriment_factor = 1
 	color = "#DCDCDC" // rgb: 220, 220, 220
 	boozepwr = 20
 	quality = DRINK_GOOD
 	taste_description = "bubbling possibility"
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
+<<<<<<< HEAD
 	bypass_restriction = TRUE
+=======
+>>>>>>> tg-pr-88929
 
 /datum/reagent/consumable/ethanol/blank_paper/on_mob_life(mob/living/carbon/drinker, seconds_per_tick, times_fired)
-	if(ishuman(drinker) && HAS_TRAIT(drinker, TRAIT_MIMING))
+	. = ..()
+	if(ishuman(drinker) && HAS_MIND_TRAIT(drinker, TRAIT_MIMING))
 		drinker.set_silence_if_lower(MIMEDRINK_SILENCE_DURATION)
-		drinker.heal_bodypart_damage(1 * REM * seconds_per_tick, 1 * REM * seconds_per_tick)
-		. = TRUE
-	return ..()
+		if(drinker.heal_bodypart_damage(brute = 1 * REM * seconds_per_tick, burn = 1 * REM * seconds_per_tick, updating_health = FALSE))
+			return UPDATE_MOB_HEALTH
 
 /datum/reagent/consumable/ethanol/fruit_wine
 	name = "Fruit Wine"
 	description = "A wine made from grown plants."
-	color = "#FFFFFF"
+	color = COLOR_WHITE
 	boozepwr = 35
 	quality = DRINK_GOOD
 	taste_description = "bad coding"
@@ -2026,13 +2365,24 @@
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
 
 /datum/reagent/consumable/ethanol/wizz_fizz/on_mob_life(mob/living/carbon/drinker, seconds_per_tick, times_fired)
+	. = ..()
 	//A healing drink similar to Quadruple Sec, Ling Stings, and Screwdrivers for the Wizznerds; the check is consistent with the changeling sting
 	if(drinker?.mind?.has_antag_datum(/datum/antagonist/wizard))
+<<<<<<< HEAD
 		drinker.heal_bodypart_damage(1 * REM * seconds_per_tick, 1 * REM * seconds_per_tick)
 		drinker.adjustOxyLoss(-1 * REM * seconds_per_tick, FALSE, required_biotype = affected_biotype, required_respiration_type = affected_respiration_type)
 		drinker.adjustToxLoss(-1 * REM * seconds_per_tick, FALSE, required_biotype = affected_biotype)
 		drinker.stamina.adjust(1  * REM * seconds_per_tick)
 	return ..()
+=======
+		var/need_mob_update
+		need_mob_update = drinker.heal_bodypart_damage(1 * REM * seconds_per_tick, 1 * REM * seconds_per_tick, updating_health = FALSE)
+		need_mob_update += drinker.adjustOxyLoss(-1 * REM * seconds_per_tick, updating_health = FALSE, required_biotype = affected_biotype, required_respiration_type = affected_respiration_type)
+		need_mob_update += drinker.adjustToxLoss(-1 * REM * seconds_per_tick, updating_health = FALSE, required_biotype = affected_biotype)
+		need_mob_update += drinker.adjustStaminaLoss(-5  * REM * seconds_per_tick, updating_stamina = FALSE, required_biotype = affected_biotype)
+		if(need_mob_update)
+			return UPDATE_MOB_HEALTH
+>>>>>>> tg-pr-88929
 
 /datum/reagent/consumable/ethanol/bug_spray
 	name = "Bug Spray"
@@ -2042,12 +2392,14 @@
 	quality = DRINK_GOOD
 	taste_description = "the pain of ten thousand slain mosquitos"
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
+	affected_biotype = MOB_BUG
 
 /datum/reagent/consumable/ethanol/bug_spray/on_new(data)
 	. = ..()
 	AddElement(/datum/element/bugkiller_reagent)
 
 /datum/reagent/consumable/ethanol/bug_spray/on_mob_life(mob/living/carbon/drinker, seconds_per_tick, times_fired)
+<<<<<<< HEAD
 	// Does some damage to bug biotypes
 	var/did_damage = drinker.adjustToxLoss(1 * REM * seconds_per_tick, updating_health = FALSE, required_biotype = MOB_BUG)
 	// Random chance of causing a screm if we did some damage
@@ -2055,6 +2407,15 @@
 		drinker.emote("scream")
 
 	return ..() || did_damage
+=======
+	. = ..()
+	// Does some damage to bug biotypes
+	if(drinker.adjustToxLoss(1 * REM * seconds_per_tick, updating_health = FALSE, required_biotype = affected_biotype))
+		. = UPDATE_MOB_HEALTH
+		// Random chance of causing a screm if we did some damage
+		if(SPT_PROB(2, seconds_per_tick))
+			drinker.emote("scream")
+>>>>>>> tg-pr-88929
 
 /datum/reagent/consumable/ethanol/applejack
 	name = "Applejack"
@@ -2083,10 +2444,16 @@
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
 
 /datum/reagent/consumable/ethanol/turbo/on_mob_life(mob/living/carbon/drinker, seconds_per_tick, times_fired)
+	. = ..()
 	if(SPT_PROB(2, seconds_per_tick))
 		to_chat(drinker, span_notice("[pick("You feel disregard for the rule of law.", "You feel pumped!", "Your head is pounding.", "Your thoughts are racing..")]"))
+<<<<<<< HEAD
 	drinker.stamina.adjust(0.25 * drinker.get_drunk_amount() * REM * seconds_per_tick)
 	return ..()
+=======
+	if(drinker.adjustStaminaLoss(-0.5 * drinker.get_drunk_amount() * REM * seconds_per_tick, updating_stamina = FALSE, required_biotype = affected_biotype))
+		return UPDATE_MOB_HEALTH
+>>>>>>> tg-pr-88929
 
 /datum/reagent/consumable/ethanol/old_timer
 	name = "Old Timer"
@@ -2098,6 +2465,7 @@
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
 
 /datum/reagent/consumable/ethanol/old_timer/on_mob_life(mob/living/carbon/human/metabolizer, seconds_per_tick, times_fired)
+	. = ..()
 	if(SPT_PROB(10, seconds_per_tick) && istype(metabolizer))
 		metabolizer.age += 1
 		if(metabolizer.age > 70)
@@ -2111,8 +2479,6 @@
 				if(metabolizer.age > 969) //Best not let people get older than this or i might incur G-ds wrath
 					metabolizer.visible_message(span_notice("[metabolizer] becomes older than any man should be.. and crumbles into dust!"))
 					metabolizer.dust(just_ash = FALSE, drop_items = TRUE, force = FALSE)
-
-	return ..()
 
 /datum/reagent/consumable/ethanol/rubberneck
 	name = "Rubberneck"
@@ -2143,11 +2509,12 @@
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
 
 /datum/reagent/consumable/ethanol/trappist/on_mob_life(mob/living/carbon/drinker, seconds_per_tick, times_fired)
+	. = ..()
 	if(drinker.mind?.holy_role)
-		drinker.adjustFireLoss(-2.5 * REM * seconds_per_tick, FALSE, required_bodytype = affected_bodytype)
+		if(drinker.adjustFireLoss(-2.5 * REM * seconds_per_tick, updating_health = FALSE, required_bodytype = affected_bodytype))
+			. = UPDATE_MOB_HEALTH
 		drinker.adjust_jitter(-2 SECONDS * REM * seconds_per_tick)
 		drinker.adjust_stutter(-2 SECONDS * REM * seconds_per_tick)
-	return ..()
 
 /datum/reagent/consumable/ethanol/blazaam
 	name = "Blazaam"
@@ -2159,6 +2526,7 @@
 	var/stored_teleports = 0
 
 /datum/reagent/consumable/ethanol/blazaam/on_mob_life(mob/living/carbon/drinker, seconds_per_tick, times_fired)
+	. = ..()
 	if(drinker.get_drunk_amount() > 40)
 		if(stored_teleports)
 			do_teleport(drinker, get_turf(drinker), rand(1,3), channel = TELEPORT_CHANNEL_WORMHOLE)
@@ -2167,8 +2535,7 @@
 		if(SPT_PROB(5, seconds_per_tick))
 			stored_teleports += rand(2, 6)
 			if(prob(70))
-				drinker.vomit(vomit_type = VOMIT_PURPLE)
-	return ..()
+				drinker.vomit(vomit_flags = VOMIT_CATEGORY_DEFAULT, vomit_type = /obj/effect/decal/cleanable/vomit/purple)
 
 /datum/reagent/consumable/ethanol/planet_cracker
 	name = "Planet Cracker"
@@ -2185,16 +2552,19 @@
 	quality = DRINK_FANTASTIC
 	taste_description = "fiery, with an aftertaste of burnt flesh"
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
+<<<<<<< HEAD
 	bypass_restriction = TRUE
 	addiction_types = list(/datum/addiction/coffee = 1) //MONKESTATION ADDITION: Add coffee addiction to alcoholic beverages containing coffee or coffee liqueur
+=======
+>>>>>>> tg-pr-88929
 
 /datum/reagent/consumable/ethanol/mauna_loa/on_mob_life(mob/living/carbon/drinker, seconds_per_tick, times_fired)
+	. = ..()
 	// Heats the user up while the reagent is in the body. Occasionally makes you burst into flames.
 	drinker.adjust_bodytemperature(2.5 * WARM_DRINK * REM * seconds_per_tick)
 	if (SPT_PROB(2.5, seconds_per_tick))
-		drinker.adjust_fire_stacks(1)
+		drinker.adjust_fire_stacks(1 * REM * seconds_per_tick)
 		drinker.ignite_mob()
-	..()
 
 /datum/reagent/consumable/ethanol/painkiller
 	name = "Painkiller"
@@ -2204,6 +2574,10 @@
 	quality = DRINK_NICE
 	taste_description = "sugary tartness"
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
+<<<<<<< HEAD
+=======
+	metabolized_traits = list(TRAIT_ANALGESIA)
+>>>>>>> tg-pr-88929
 
 /datum/reagent/consumable/ethanol/pina_colada
 	name = "Pina Colada"
@@ -2222,6 +2596,7 @@
 	taste_description = "a horrible emulsion of pineapple and olive oil"
 
 /datum/reagent/consumable/ethanol/pina_olivada/on_mob_life(mob/living/carbon/drinker, seconds_per_tick, times_fired)
+	. = ..()
 	if(SPT_PROB(8, seconds_per_tick))
 		drinker.manual_emote(pick("coughs up some oil", "swallows the lump in [drinker.p_their()] throat", "gags", "chokes up a bit"))
 	if(SPT_PROB(3, seconds_per_tick))
@@ -2233,7 +2608,10 @@
 			"Your throat feels horrible.",
 		)
 		to_chat(drinker, span_notice(pick(messages)))
+<<<<<<< HEAD
 	return ..()
+=======
+>>>>>>> tg-pr-88929
 
 /datum/reagent/consumable/ethanol/pruno // pruno mix is in drink_reagents
 	name = "Pruno"
@@ -2244,8 +2622,8 @@
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
 
 /datum/reagent/consumable/ethanol/pruno/on_mob_life(mob/living/carbon/drinker, seconds_per_tick, times_fired)
+	. = ..()
 	drinker.adjust_disgust(5 * REM * seconds_per_tick)
-	..()
 
 /datum/reagent/consumable/ethanol/ginger_amaretto
 	name = "Ginger Amaretto"
@@ -2285,9 +2663,10 @@
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
 
 /datum/reagent/consumable/ethanol/kortara/on_mob_life(mob/living/carbon/drinker, seconds_per_tick, times_fired)
+	. = ..()
 	if(drinker.getBruteLoss() && SPT_PROB(10, seconds_per_tick))
-		drinker.heal_bodypart_damage(1,0)
-		. = TRUE
+		if(drinker.heal_bodypart_damage(brute = 1 * REM * seconds_per_tick, burn = 0, updating_health = FALSE))
+			return UPDATE_MOB_HEALTH
 
 /datum/reagent/consumable/ethanol/sea_breeze
 	name = "Sea Breeze"
@@ -2299,8 +2678,8 @@
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
 
 /datum/reagent/consumable/ethanol/sea_breeze/on_mob_life(mob/living/carbon/drinker, seconds_per_tick, times_fired)
+	. = ..()
 	drinker.apply_status_effect(/datum/status_effect/throat_soothed)
-	..()
 
 /datum/reagent/consumable/ethanol/white_tiziran
 	name = "White Tiziran"
@@ -2310,7 +2689,10 @@
 	quality = DRINK_GOOD
 	taste_description = "strikes and gutters"
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
+<<<<<<< HEAD
 	addiction_types = list(/datum/addiction/coffee = 1) //MONKESTATION ADDITION: Add coffee addiction to alcoholic beverages containing coffee or coffee liqueur
+=======
+>>>>>>> tg-pr-88929
 
 /datum/reagent/consumable/ethanol/drunken_espatier
 	name = "Drunken Espatier"
@@ -2322,8 +2704,8 @@
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
 
 /datum/reagent/consumable/ethanol/drunken_espatier/on_mob_life(mob/living/carbon/drinker, seconds_per_tick, times_fired)
+	. = ..()
 	drinker.add_mood_event("numb", /datum/mood_event/narcotic_medium, name) //comfortably numb
-	..()
 
 /datum/reagent/consumable/ethanol/drunken_espatier/on_mob_metabolize(mob/living/drinker)
 	. = ..()
@@ -2340,16 +2722,16 @@
 	color = "#FF5B69"
 	quality = DRINK_NICE
 	taste_description = "regret"
-	nutriment_factor = 3 * REAGENTS_METABOLISM
+	nutriment_factor = 3
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
 
 /datum/reagent/consumable/ethanol/protein_blend/on_mob_life(mob/living/carbon/drinker, seconds_per_tick, times_fired)
+	. =	..()
 	drinker.adjust_nutrition(2 * REM * seconds_per_tick)
 	if(!islizard(drinker))
 		drinker.adjust_disgust(5 * REM * seconds_per_tick)
 	else
 		drinker.adjust_disgust(2 * REM * seconds_per_tick)
-	..()
 
 /datum/reagent/consumable/ethanol/mushi_kombucha
 	name = "Mushi Kombucha"
@@ -2364,15 +2746,15 @@
 	name = "Triumphal Arch"
 	description = "A drink celebrating the Lizard Empire and its military victories. It's popular at bars on Unification Day."
 	boozepwr = 60
-	color = "#FFD700"
+	color = COLOR_GOLD
 	quality = DRINK_FANTASTIC
 	taste_description = "victory"
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
 
 /datum/reagent/consumable/ethanol/triumphal_arch/on_mob_life(mob/living/carbon/drinker, seconds_per_tick, times_fired)
+	. = ..()
 	if(islizard(drinker))
 		drinker.add_mood_event("triumph", /datum/mood_event/memories_of_home, name)
-	..()
 
 /datum/reagent/consumable/ethanol/the_juice
 	name = "The Juice"
@@ -2390,9 +2772,9 @@
 	drinker.gain_trauma(prophet_trauma, TRAUMA_RESILIENCE_ABSOLUTE)
 
 /datum/reagent/consumable/ethanol/the_juice/on_mob_end_metabolize(mob/living/carbon/drinker)
+	. = ..()
 	if(prophet_trauma)
 		QDEL_NULL(prophet_trauma)
-	return ..()
 
 //a jacked up absinthe that causes hallucinations to the game master controller basically, used in smuggling objectives
 /datum/reagent/consumable/ethanol/ritual_wine
@@ -2529,16 +2911,15 @@
 	var/hal_cap = 24
 
 /datum/reagent/consumable/ethanol/helianthus/on_mob_life(mob/living/carbon/drinker, seconds_per_tick, times_fired)
+	. = ..()
 	if(SPT_PROB(5, seconds_per_tick))
 		drinker.adjust_hallucinations_up_to(4 SECONDS * REM * seconds_per_tick, 48 SECONDS)
-
-	..()
 
 /datum/reagent/consumable/ethanol/plumwine
 	name = "Plum wine"
 	description = "Plums turned into wine."
 	color = "#8a0421"
-	nutriment_factor = 1 * REAGENTS_METABOLISM
+	nutriment_factor = 1
 	boozepwr = 20
 	taste_description = "a poet's love and undoing"
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
@@ -2562,10 +2943,293 @@
 	quality = DRINK_VERYGOOD
 	taste_description = "light gin with sweet ginger and cucumber"
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
+<<<<<<< HEAD
 
 /datum/reagent/consumable/ethanol/gin_garden/on_mob_life(mob/living/carbon/doll, seconds_per_tick, times_fired)
 	doll.adjust_bodytemperature(COLD_DRINK * REM * seconds_per_tick, min_temp = doll.standard_body_temperature)
 	..()
+=======
+	glass_price = DRINK_PRICE_MEDIUM
+
+/datum/reagent/consumable/ethanol/gin_garden/on_mob_life(mob/living/carbon/doll, seconds_per_tick, times_fired)
+	. = ..()
+	doll.adjust_bodytemperature(-5 * REM * TEMPERATURE_DAMAGE_COEFFICIENT * seconds_per_tick, doll.get_body_temp_normal())
+
+/datum/reagent/consumable/ethanol/wine_voltaic
+	name = "Voltaic Yellow Wine"
+	description = "Electrically charged wine. Recharges ethereals, but also nontoxic."
+	boozepwr = 30
+	color = "#FFAA00"
+	taste_description = "static with a hint of sweetness"
+	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
+
+/datum/reagent/consumable/ethanol/wine_voltaic/expose_mob(mob/living/exposed_mob, methods=TOUCH, reac_volume) //can't be on life because of the way blood works.
+	. = ..()
+	if(!(methods & (INGEST|INJECT|PATCH)) || !iscarbon(exposed_mob))
+		return
+
+	var/mob/living/carbon/exposed_carbon = exposed_mob
+	var/obj/item/organ/stomach/ethereal/stomach = exposed_carbon.get_organ_slot(ORGAN_SLOT_STOMACH)
+	if(istype(stomach))
+		stomach.adjust_charge(reac_volume * 0.001 * ETHEREAL_CHARGE_NORMAL)
+
+/datum/reagent/consumable/ethanol/telepole
+	name = "Telepole"
+	description = "A grounding rod in the form of a drink. Recharges ethereals, and gives temporary shock resistance."
+	boozepwr = 50
+	color = "#b300ff"
+	quality = DRINK_NICE
+	taste_description = "the howling storm"
+	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
+	metabolized_traits = list(TRAIT_SHOCKIMMUNE)
+
+/datum/reagent/consumable/ethanol/telepole/expose_mob(mob/living/exposed_mob, methods=TOUCH, reac_volume) //can't be on life because of the way blood works.
+	. = ..()
+	if(!(methods & (INGEST|INJECT|PATCH)) || !iscarbon(exposed_mob))
+		return
+
+	var/mob/living/carbon/exposed_carbon = exposed_mob
+	var/obj/item/organ/stomach/ethereal/stomach = exposed_carbon.get_organ_slot(ORGAN_SLOT_STOMACH)
+	if(istype(stomach))
+		stomach.adjust_charge(reac_volume * 0.008 * ETHEREAL_CHARGE_NORMAL)
+
+/datum/reagent/consumable/ethanol/pod_tesla
+	name = "Pod Tesla"
+	description = "Ride the lightning!  Recharges ethereals, suppresses phobias, and gives strong temporary shock resistance."
+	boozepwr = 80
+	color = "#00fbff"
+	quality = DRINK_FANTASTIC
+	taste_description = "victory, with a hint of insanity"
+	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
+
+/datum/reagent/consumable/ethanol/pod_tesla/on_mob_metabolize(mob/living/affected_mob)
+	. = ..()
+	affected_mob.add_traits(list(TRAIT_SHOCKIMMUNE,TRAIT_TESLA_SHOCKIMMUNE,TRAIT_FEARLESS), type)
+
+/datum/reagent/consumable/ethanol/pod_tesla/on_mob_end_metabolize(mob/living/affected_mob)
+	. = ..()
+	affected_mob.remove_traits(list(TRAIT_SHOCKIMMUNE,TRAIT_TESLA_SHOCKIMMUNE,TRAIT_FEARLESS), type)
+
+/datum/reagent/consumable/ethanol/pod_tesla/expose_mob(mob/living/exposed_mob, methods=TOUCH, reac_volume) //can't be on life because of the way blood works.
+	. = ..()
+	if(!(methods & (INGEST|INJECT|PATCH)) || !iscarbon(exposed_mob))
+		return
+
+	var/mob/living/carbon/exposed_carbon = exposed_mob
+	var/obj/item/organ/stomach/ethereal/stomach = exposed_carbon.get_organ_slot(ORGAN_SLOT_STOMACH)
+	if(istype(stomach))
+		stomach.adjust_charge(reac_volume * 0.03 * ETHEREAL_CHARGE_NORMAL)
+
+// Welcome to the Blue Room Bar and Grill, home to Mars' finest cocktails
+/datum/reagent/consumable/ethanol/rice_beer
+	name = "Rice Beer"
+	description = "A light, rice-based lagered beer popular on Mars. Considered a hate crime against Bavarians under the Reinheitsgebot Act of 1516."
+	boozepwr = 5
+	color = "#664300"
+	quality = DRINK_NICE
+	taste_description = "mild carbonated malt"
+	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
+
+/datum/reagent/consumable/ethanol/shochu
+	name = "Shochu"
+	description = "Also known as soju or baijiu, this drink is made from fermented rice, much like sake, but at a generally higher proof making it more similar to a true spirit."
+	boozepwr = 45
+	color = "#DDDDDD"
+	quality = DRINK_NICE
+	taste_description = "stiff rice wine"
+	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
+
+/datum/reagent/consumable/ethanol/yuyake
+	name = "Yūyake"
+	description = "A sweet melon liqueur from Japan. Considered a relic of the 1980s by most, it has some niche use in cocktail making, in part due to its bright red colour."
+	boozepwr = 40
+	color = "#F54040"
+	quality = DRINK_NICE
+	taste_description = "sweet melon"
+	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
+
+/datum/reagent/consumable/ethanol/coconut_rum
+	name = "Coconut Rum"
+	description = "The distilled essence of the beach. Tastes like bleach-blonde hair and suncream."
+	boozepwr = 21
+	color = "#F54040"
+	quality = DRINK_NICE
+	taste_description = "coconut rum"
+	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
+
+// Mixed Martian Drinks
+/datum/reagent/consumable/ethanol/yuyakita
+	name = "Yūyakita"
+	description = "A hell unleashed upon the world by an unnamed patron."
+	boozepwr = 40
+	color = "#F54040"
+	quality = DRINK_NICE
+	taste_description = "death"
+	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
+
+/datum/reagent/consumable/ethanol/saibasan
+	name = "Saibāsan"
+	description = "A drink glorifying Cybersun's enduring business."
+	boozepwr = 20
+	color = "#F54040"
+	quality = DRINK_FANTASTIC
+	taste_description = "betrayal"
+	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
+
+/datum/reagent/consumable/ethanol/banzai_ti
+	name = "Banzai-Tī"
+	description = "A variation on the Long Island Iced Tea, made with yuyake for an alternative flavour that's hard to place."
+	boozepwr = 40
+	color = "#F54040"
+	quality = DRINK_VERYGOOD
+	taste_description = "an asian twist on the liquor cabinet"
+	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
+
+/datum/reagent/consumable/ethanol/sanraizusoda
+	name = "Sanraizusōda"
+	description = "It's a melon cream soda, except with alcohol- what's not to love? Well... possibly the hangovers."
+	boozepwr = 6
+	color = "#F54040"
+	quality = DRINK_GOOD
+	taste_description = "creamy melon soda"
+	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
+
+/datum/reagent/consumable/ethanol/kumicho
+	name = "Kumichō"
+	description = "A new take on a classic cocktail, the Kumicho takes the Godfather formula and adds shochu for an Asian twist."
+	boozepwr = 62
+	color = "#F54040"
+	quality = DRINK_VERYGOOD
+	taste_description = "rice and rye"
+	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
+
+/datum/reagent/consumable/ethanol/red_planet
+	name = "Red Planet"
+	description = "Made in celebration of the Martian Concession, the Red Planet is based on the classic El Presidente, and is as patriotic as it is bright crimson."
+	boozepwr = 45
+	color = "#F54040"
+	quality = DRINK_VERYGOOD
+	taste_description = "the spirit of freedom"
+	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
+
+/datum/reagent/consumable/ethanol/amaterasu
+	name = "Amaterasu"
+	description = "Named for Amaterasu, the Shinto Goddess of the Sun, this cocktail embodies radiance- or something like that, anyway."
+	boozepwr = 54 //1 part bitters is a lot
+	color = "#F54040"
+	quality = DRINK_VERYGOOD
+	taste_description = "sweet nectar of the gods"
+	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
+
+/datum/reagent/consumable/ethanol/nekomimosa
+	name = "Nekomimosa"
+	description = "An overly sweet cocktail, made with melon liqueur, melon juice, and champagne (which contains no melon, unfortunately)."
+	boozepwr = 17
+	color = "#FF0C8D"
+	quality = DRINK_GOOD
+	taste_description = "MELON"
+	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
+
+/datum/reagent/consumable/ethanol/sentai_quencha //melon soda, triple citrus, shochu, blue curacao
+	name = "Sentai Quencha"
+	description = "Based on the galaxy-famous \"Kyūkyoku no Ninja Pawā Sentai\", the Sentai Quencha is a favourite at anime conventions and weeb bars."
+	boozepwr = 28
+	color = "#F54040"
+	quality = DRINK_GOOD
+	taste_description = "ultimate ninja power"
+	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
+
+/datum/reagent/consumable/ethanol/bosozoku
+	name = "Bōsōzoku"
+	description = "A simple summer drink from Mars, made from a 1:1 mix of rice beer and lemonade."
+	boozepwr = 6
+	color = "#F54040"
+	quality = DRINK_GOOD
+	taste_description = "bittersweet lemon"
+	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
+
+/datum/reagent/consumable/ethanol/ersatzche
+	name = "Ersatzche"
+	description = "Sweet, bitter, spicy- that's a great combination."
+	boozepwr = 6
+	color = "#F54040"
+	quality = DRINK_VERYGOOD
+	taste_description = "spicy pineapple beer"
+	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
+
+/datum/reagent/consumable/ethanol/red_city_am
+	name = "Red City AM"
+	description = "A breakfast drink from New Osaka, for when you really need to get drunk at 9:30 in the morning in more socially acceptable manner than drinking bagwine on the bullet train. Not that you should drink this on the bullet train either."
+	boozepwr = 5 //this thing is fucking disgusting and both less tasty and less alcoholic than a bloody mary. it is against god and nature
+	color = "#F54040"
+	quality = DRINK_NICE
+	taste_description = "breakfast in a glass"
+	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
+
+/datum/reagent/consumable/ethanol/kings_ransom
+	name = "King's Ransom"
+	description = "A stiff, bitter drink with an odd name and odder recipe."
+	boozepwr = 26
+	color = "#F54040"
+	quality = DRINK_VERYGOOD
+	taste_description = "bitter raspberry"
+	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
+
+/datum/reagent/consumable/ethanol/four_bit
+	name = "Four Bit"
+	description = "A drink to power your typing hands."
+	boozepwr = 26
+	color = "#F54040"
+	quality = DRINK_GOOD
+	taste_description = "cyberspace"
+	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
+
+/datum/reagent/consumable/ethanol/white_hawaiian //coconut milk, coconut rum, coffee liqueur
+	name = "White Hawaiian"
+	description = "A take on the classic White Russian, subbing out the classics for some tropical flavours."
+	boozepwr = 16
+	color = "#F54040"
+	quality = DRINK_GOOD
+	taste_description = "COCONUT"
+	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
+
+/datum/reagent/consumable/ethanol/maui_sunrise //coconut rum, pineapple juice, yuyake, triple citrus, lemon-lime soda
+	name = "Maui Sunrise"
+	description = "Behind this drink's red facade lurks a sharp, complex flavour."
+	boozepwr = 15
+	color = "#F54040"
+	quality = DRINK_VERYGOOD
+	taste_description = "sunrise over the pacific"
+	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
+
+/datum/reagent/consumable/ethanol/imperial_mai_tai //navy rum, rum, lime, triple sec, korta nectar
+	name = "Imperial Mai Tai"
+	description = "For when orgeat is in short supply, do as the spacers do- make do and mend."
+	boozepwr = 52
+	color = "#F54040"
+	quality = DRINK_VERYGOOD
+	taste_description = "spicy nutty rum"
+	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
+
+/datum/reagent/consumable/ethanol/konococo_rumtini //todo: add espresso | coffee, coffee liqueur, coconut rum, sugar
+	name = "Konococo Rumtini"
+	description = "Coconut rum, coffee liqueur, and espresso- an odd combination, to be sure, but a welcomed one."
+	boozepwr = 20
+	color = "#F54040"
+	quality = DRINK_VERYGOOD
+	taste_description = "coconut coffee"
+	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
+	metabolized_traits = list(TRAIT_STIMULATED)
+
+/datum/reagent/consumable/ethanol/blue_hawaiian //pineapple juice, lemon juice, coconut rum, blue curacao
+	name = "Blue Hawaiian"
+	description = "Sweet, sharp and coconutty."
+	boozepwr = 30
+	color = "#F54040"
+	quality = DRINK_VERYGOOD
+	taste_description = "the aloha state"
+	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
+>>>>>>> tg-pr-88929
 
 /datum/reagent/consumable/ethanol/wine_voltaic
 	name = "Voltaic Yellow Wine"

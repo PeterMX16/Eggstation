@@ -3,18 +3,35 @@
 /obj/structure/chair/office{
 	dir = 1
 	},
+<<<<<<< HEAD
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/light/small/directional/south,
 /turf/open/floor/pod,
 /area/virtual_domain/safehouse)
 "c" = (
 /obj/effect/decal/cleanable/dirt,
+=======
+/obj/effect/decal/cleanable/dirt/dust,
+/obj/machinery/light/small/directional/south,
+/turf/open/floor/pod,
+/area/virtual_domain/safehouse)
+"b" = (
+/obj/modular_map_connector,
+/turf/closed/wall,
+/area/virtual_domain/safehouse)
+"c" = (
+/obj/effect/decal/cleanable/dirt/dust,
+>>>>>>> tg-pr-88929
 /obj/machinery/light/small/directional/east,
 /obj/effect/landmark/bitrunning/cache_goal_turf,
 /obj/effect/turf_decal/loading_area{
 	dir = 4
 	},
+<<<<<<< HEAD
 /turf/open/floor/bitrunning_transport,
+=======
+/turf/open/indestructible/bitrunning_transport,
+>>>>>>> tg-pr-88929
 /area/virtual_domain/safehouse)
 "e" = (
 /obj/structure/table/reinforced/plastitaniumglass,
@@ -32,6 +49,15 @@
 	},
 /turf/open/floor/plating,
 /area/virtual_domain/safehouse)
+<<<<<<< HEAD
+=======
+"l" = (
+/obj/structure/railing/corner/end{
+	dir = 4
+	},
+/turf/open/floor/pod/dark,
+/area/virtual_domain/safehouse)
+>>>>>>> tg-pr-88929
 "p" = (
 /turf/open/floor/pod,
 /area/virtual_domain/safehouse)
@@ -44,11 +70,19 @@
 "u" = (
 /obj/structure/railing,
 /obj/effect/turf_decal/siding/dark,
+<<<<<<< HEAD
+=======
+/obj/structure/sign/poster/contraband/hacking_guide/directional/east,
+>>>>>>> tg-pr-88929
 /obj/effect/landmark/bitrunning/cache_goal_turf,
 /obj/effect/turf_decal/loading_area{
 	dir = 4
 	},
+<<<<<<< HEAD
 /turf/open/floor/bitrunning_transport,
+=======
+/turf/open/indestructible/bitrunning_transport,
+>>>>>>> tg-pr-88929
 /area/virtual_domain/safehouse)
 "z" = (
 /obj/effect/turf_decal/trimline/yellow/corner{
@@ -122,7 +156,11 @@
 /turf/open/floor/pod/dark,
 /area/virtual_domain/safehouse)
 "U" = (
+<<<<<<< HEAD
 /obj/effect/decal/cleanable/dirt,
+=======
+/obj/effect/decal/cleanable/dirt/dust,
+>>>>>>> tg-pr-88929
 /obj/structure/sign/departments/cargo/directional/west,
 /obj/machinery/light/small/directional/west,
 /turf/open/floor/pod,
@@ -165,7 +203,11 @@ C
 C
 G
 G
+<<<<<<< HEAD
 C
+=======
+b
+>>>>>>> tg-pr-88929
 "}
 (2,1,1) = {"
 W
@@ -194,7 +236,11 @@ i
 (5,1,1) = {"
 C
 M
+<<<<<<< HEAD
 M
+=======
+l
+>>>>>>> tg-pr-88929
 e
 I
 i

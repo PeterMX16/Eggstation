@@ -13,7 +13,11 @@
 			"color_ids": [2]
 		}
 	],
+<<<<<<< HEAD
 	"kitsuneup": [
+=======
+	"kitsune_up": [
+>>>>>>> tg-pr-88929
 		{
 			"type": "icon_state",
 			"icon_state": "kitsune_base_up",

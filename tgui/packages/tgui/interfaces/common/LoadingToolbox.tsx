@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { Stack, Icon, Dimmer } from '../../components';
+=======
+import { Dimmer, Icon, Stack } from 'tgui-core/components';
+>>>>>>> tg-pr-88929
 
 /** Spinner that represents loading states.
  *

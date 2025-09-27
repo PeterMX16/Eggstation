@@ -1,13 +1,13 @@
 /obj/item/sequence_scanner
 	name = "genetic sequence scanner"
-	icon = 'icons/obj/device.dmi'
+	icon = 'icons/obj/devices/scanner.dmi'
 	icon_state = "gene"
 	inhand_icon_state = "healthanalyzer"
 	worn_icon_state = "healthanalyzer"
 	lefthand_file = 'icons/mob/inhands/equipment/medical_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/medical_righthand.dmi'
 	desc = "A hand-held scanner for analyzing someones gene sequence on the fly. Use on a DNA console to update the internal database."
-	flags_1 = CONDUCT_1
+	obj_flags = CONDUCTS_ELECTRICITY
 	item_flags = NOBLUDGEON
 	slot_flags = ITEM_SLOT_BELT
 	throwforce = 3
@@ -30,8 +30,13 @@
 		. += span_notice("It has the genetic makeup of \"[genetic_makeup_buffer["name"]]\" stored inside its buffer")
 
 /obj/item/sequence_scanner/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
+<<<<<<< HEAD
 	if(istype(interacting_with, /obj/machinery/computer/dna_console))
 		var/obj/machinery/computer/dna_console/console = interacting_with
+=======
+	if(istype(interacting_with, /obj/machinery/computer/scan_consolenew))
+		var/obj/machinery/computer/scan_consolenew/console = interacting_with
+>>>>>>> tg-pr-88929
 		if(console.stored_research)
 			to_chat(user, span_notice("[name] linked to central research database."))
 			discovered = console.stored_research.discovered_mutations
@@ -56,8 +61,13 @@
 	return ITEM_INTERACT_BLOCKING
 
 /obj/item/sequence_scanner/interact_with_atom_secondary(atom/interacting_with, mob/living/user, list/modifiers)
+<<<<<<< HEAD
 	if(istype(interacting_with, /obj/machinery/computer/dna_console))
 		var/obj/machinery/computer/dna_console/console = interacting_with
+=======
+	if(istype(interacting_with, /obj/machinery/computer/scan_consolenew))
+		var/obj/machinery/computer/scan_consolenew/console = interacting_with
+>>>>>>> tg-pr-88929
 		var/buffer_index = tgui_input_number(user, "Slot:", "Which slot to export:", 1, LAZYLEN(console.genetic_makeup_buffer), 1)
 		console.genetic_makeup_buffer[buffer_index] = genetic_makeup_buffer
 		return ITEM_INTERACT_SUCCESS
@@ -96,8 +106,13 @@
 	//dupe list as scanner could modify target data
 	buffer = LAZYLISTDUPLICATE(target.dna.mutation_index)
 	var/list/active_mutations = list()
+<<<<<<< HEAD
 	for(var/datum/mutation/mutation in target.dna.mutations)
 		LAZYOR(buffer, mutation.type)
+=======
+	for(var/datum/mutation/human/mutation in target.dna.mutations)
+		LAZYSET(buffer, mutation.type, GET_SEQUENCE(mutation.type))
+>>>>>>> tg-pr-88929
 		active_mutations.Add(mutation.type)
 
 	var/list/lines = list()
@@ -124,6 +139,19 @@
 	"UF"=target.dna.unique_features,
 	"name"=target.real_name,
 	"blood_type"=target?.dna?.human_blood_type)
+
+///proc for scanning someone's genetic makeup
+/obj/item/sequence_scanner/proc/makeup_scan(mob/living/carbon/target, mob/living/user)
+	if(!iscarbon(target) || !target.has_dna())
+		return
+
+	genetic_makeup_buffer = list(
+	"label"="Analyzer Slot:[target.real_name]",
+	"UI"=target.dna.unique_identity,
+	"UE"=target.dna.unique_enzymes,
+	"UF"=target.dna.unique_features,
+	"name"=target.real_name,
+	"blood_type"=target.dna.blood_type)
 
 /obj/item/sequence_scanner/proc/display_sequence(mob/living/user)
 	if(!LAZYLEN(buffer) || !ready)

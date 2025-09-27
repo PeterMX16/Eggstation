@@ -72,6 +72,7 @@
 			"type": "icon_state",
 			"icon_state": "bodybottom",
 			"blend_mode": "overlay",
+<<<<<<< HEAD
 			"color_ids": [6]
 		},
 		{
@@ -79,6 +80,9 @@
 			"icon_state": "hood",
 			"blend_mode": "overlay",
 			"color_ids": [1]
+=======
+			"color_ids": [ 6 ]
+>>>>>>> tg-pr-88929
 		}
 	]
 }

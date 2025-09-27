@@ -2,7 +2,26 @@
 "aa" = (
 /turf/template_noop,
 /area/template_noop)
+<<<<<<< HEAD
 "ad" = (
+=======
+"b" = (
+/obj/effect/decal/cleanable/dirt,
+/turf/open/floor/plating,
+/area/ruin/syndicate_lava_base/telecomms)
+"c" = (
+/obj/structure/railing{
+	dir = 10
+	},
+/obj/effect/mapping_helpers/no_lava,
+/obj/effect/turf_decal/stripes/line{
+	dir = 10
+	},
+/obj/effect/turf_decal/sand/plating/volcanic,
+/turf/open/floor/plating/lavaland_atmos,
+/area/template_noop)
+"d" = (
+>>>>>>> tg-pr-88929
 /obj/machinery/atmospherics/pipe/smart/manifold4w/general/hidden,
 /turf/closed/wall/mineral/plastitanium/nodiagonal,
 /area/ruin/syndicate_lava_base/telecomms)
@@ -18,6 +37,7 @@
 	},
 /turf/open/floor/carpet/grimey,
 /area/ruin/syndicate_lava_base/telecomms)
+<<<<<<< HEAD
 "af" = (
 /obj/structure/railing,
 /obj/effect/mapping_helpers/no_lava,
@@ -49,6 +69,10 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
 	dir = 4
 	},
+=======
+"j" = (
+/obj/effect/decal/cleanable/dirt,
+>>>>>>> tg-pr-88929
 /turf/open/floor/iron,
 /area/ruin/syndicate_lava_base/telecomms)
 "ak" = (
@@ -71,7 +95,32 @@
 /obj/structure/cable,
 /turf/open/floor/iron,
 /area/ruin/syndicate_lava_base/telecomms)
+<<<<<<< HEAD
 "an" = (
+=======
+"o" = (
+/obj/structure/chair/office{
+	dir = 8
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/open/floor/iron/grimy,
+/area/ruin/syndicate_lava_base/telecomms)
+"p" = (
+/turf/open/floor/iron,
+/area/ruin/syndicate_lava_base/telecomms)
+"q" = (
+/obj/structure/girder,
+/turf/open/floor/plating/lavaland_atmos,
+/area/ruin/syndicate_lava_base/telecomms)
+"r" = (
+/turf/open/floor/iron/grimy,
+/area/ruin/syndicate_lava_base/telecomms)
+"s" = (
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/turf/open/floor/iron,
+/area/ruin/syndicate_lava_base/telecomms)
+"t" = (
+>>>>>>> tg-pr-88929
 /obj/structure/sign/poster/contraband/syndiemoth/directional/west,
 /obj/item/radio/intercom{
 	freerange = 1;
@@ -86,11 +135,19 @@
 	},
 /turf/open/floor/carpet/grimey,
 /area/ruin/syndicate_lava_base/telecomms)
+<<<<<<< HEAD
 "ap" = (
 /turf/open/floor/iron,
 /area/ruin/syndicate_lava_base/telecomms)
 "aq" = (
 /obj/structure/girder,
+=======
+"v" = (
+/obj/structure/railing,
+/obj/effect/mapping_helpers/no_lava,
+/obj/effect/turf_decal/stripes/line,
+/obj/effect/turf_decal/sand/plating/volcanic,
+>>>>>>> tg-pr-88929
 /turf/open/floor/plating/lavaland_atmos,
 /area/ruin/syndicate_lava_base/telecomms)
 "ar" = (
@@ -136,7 +193,24 @@
 	},
 /turf/open/floor/carpet/grimey,
 /area/ruin/syndicate_lava_base/telecomms)
+<<<<<<< HEAD
 "aA" = (
+=======
+"z" = (
+/obj/item/modular_computer/pda/chameleon/broken{
+	pixel_x = 5;
+	pixel_y = 4
+	},
+/obj/structure/table/reinforced,
+/obj/item/food/cherrycupcake{
+	pixel_x = -7;
+	pixel_y = 13
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/open/floor/iron/grimy,
+/area/ruin/syndicate_lava_base/telecomms)
+"A" = (
+>>>>>>> tg-pr-88929
 /obj/machinery/door/poddoor{
 	id = "lavalandsyndi_fredrickright"
 	},
@@ -149,7 +223,17 @@
 	},
 /turf/open/floor/carpet/grimey,
 /area/ruin/syndicate_lava_base/telecomms)
+<<<<<<< HEAD
 "aF" = (
+=======
+"C" = (
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
+	dir = 4
+	},
+/turf/open/floor/iron,
+/area/ruin/syndicate_lava_base/telecomms)
+"D" = (
+>>>>>>> tg-pr-88929
 /obj/structure/railing{
 	dir = 8
 	},
@@ -157,8 +241,10 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
+/obj/effect/turf_decal/sand/plating/volcanic,
 /turf/open/floor/plating/lavaland_atmos,
 /area/template_noop)
+<<<<<<< HEAD
 "aG" = (
 /turf/closed/wall/mineral/plastitanium/nodiagonal,
 /area/ruin/syndicate_lava_base/telecomms)
@@ -190,6 +276,11 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer4{
 	dir = 4
 	},
+=======
+"E" = (
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+>>>>>>> tg-pr-88929
 /obj/structure/cable,
 /obj/modular_map_connector,
 /obj/machinery/door/airlock/security{
@@ -253,6 +344,66 @@
 	},
 /turf/open/floor/iron,
 /area/ruin/syndicate_lava_base/telecomms)
+<<<<<<< HEAD
+=======
+"I" = (
+/obj/machinery/firealarm/directional/north,
+/obj/effect/turf_decal/tile/red{
+	dir = 1
+	},
+/turf/open/floor/iron,
+/area/ruin/syndicate_lava_base/telecomms)
+"K" = (
+/obj/effect/mapping_helpers/no_lava,
+/obj/effect/turf_decal/sand/plating/volcanic,
+/turf/open/floor/plating/lavaland_atmos,
+/area/template_noop)
+"O" = (
+/obj/effect/mapping_helpers/airalarm/syndicate_access,
+/obj/machinery/airalarm/directional/north,
+/turf/open/floor/iron,
+/area/ruin/syndicate_lava_base/telecomms)
+"P" = (
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/structure/cable,
+/turf/open/floor/iron,
+/area/ruin/syndicate_lava_base/telecomms)
+"Q" = (
+/obj/effect/mapping_helpers/no_lava,
+/obj/structure/chair/plastic,
+/obj/effect/turf_decal/sand/plating/volcanic,
+/turf/open/floor/plating/lavaland_atmos,
+/area/template_noop)
+"U" = (
+/turf/open/floor/plating,
+/area/ruin/syndicate_lava_base/telecomms)
+"W" = (
+/obj/machinery/light/small/directional/east,
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer4,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/structure/noticeboard/directional/east,
+/turf/open/floor/iron,
+/area/ruin/syndicate_lava_base/telecomms)
+"X" = (
+/obj/machinery/button/door{
+	id = "lavalandsyndi_fredrickright";
+	name = "Security Blast Door Control";
+	pixel_y = 26;
+	req_access = list("syndicate")
+	},
+/obj/effect/decal/cleanable/dirt,
+/obj/item/stack/tile/iron/grimy,
+/turf/open/floor/plating,
+/area/ruin/syndicate_lava_base/telecomms)
+"Z" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/machinery/atmospherics/components/unary/passive_vent{
+	dir = 8
+	},
+/turf/open/floor/iron,
+/area/ruin/syndicate_lava_base/telecomms)
+>>>>>>> tg-pr-88929
 
 (1,1,1) = {"
 aa
@@ -315,6 +466,7 @@ aR
 aG
 "}
 (7,1,1) = {"
+<<<<<<< HEAD
 aa
 aG
 ap
@@ -323,6 +475,16 @@ ap
 aY
 ak
 aG
+=======
+a
+G
+O
+s
+p
+j
+k
+G
+>>>>>>> tg-pr-88929
 "}
 (8,1,1) = {"
 aa

@@ -24,7 +24,7 @@
 		/datum/job_department/medical,
 		)
 
-	family_heirlooms = list(/obj/item/storage/medkit/ancient/heirloom)
+	family_heirlooms = list(/obj/item/storage/medkit/ancient/heirloom, /obj/item/fishing_hook/rescue)
 
 	mail_goodies = list(
 		/obj/item/reagent_containers/hypospray/medipen = 20,
@@ -32,7 +32,8 @@
 		/obj/item/reagent_containers/hypospray/medipen/salacid = 10,
 		/obj/item/reagent_containers/hypospray/medipen/salbutamol = 10,
 		/obj/item/reagent_containers/hypospray/medipen/penacid = 10,
-		/obj/item/reagent_containers/hypospray/medipen/survival/luxury = 5
+		/obj/item/reagent_containers/hypospray/medipen/survival/luxury = 5,
+		/obj/item/storage/box/bandages = 5,
 	)
 	rpg_title = "Corpse Runner"
 	job_flags = STATION_JOB_FLAGS
@@ -56,11 +57,16 @@
 	gloves = /obj/item/clothing/gloves/latex/nitrile
 	shoes = /obj/item/clothing/shoes/sneakers/blue
 	l_pocket = /obj/item/modular_computer/pda/medical/paramedic
+<<<<<<< HEAD
 	r_pocket = /obj/item/gps/medical
+=======
+	r_pocket = /obj/item/storage/box/bandages
+>>>>>>> tg-pr-88929
 
 	backpack = /obj/item/storage/backpack/medic
 	satchel = /obj/item/storage/backpack/satchel/med
 	duffelbag = /obj/item/storage/backpack/duffelbag/med
+	messenger = /obj/item/storage/backpack/messenger/med
 
 	box = /obj/item/storage/box/survival/medical
 	chameleon_extras = /obj/item/gun/syringe

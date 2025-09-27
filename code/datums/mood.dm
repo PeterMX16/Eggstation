@@ -48,9 +48,17 @@
 
 	RegisterSignal(mob_to_make_moody, COMSIG_MOB_HUD_CREATED, PROC_REF(modify_hud))
 	RegisterSignal(mob_to_make_moody, COMSIG_ENTER_AREA, PROC_REF(check_area_mood))
+	RegisterSignal(mob_to_make_moody, COMSIG_EXIT_AREA, PROC_REF(exit_area))
 	RegisterSignal(mob_to_make_moody, COMSIG_LIVING_REVIVE, PROC_REF(on_revive))
 	RegisterSignal(mob_to_make_moody, COMSIG_MOB_STATCHANGE, PROC_REF(handle_mob_death))
 	RegisterSignal(mob_to_make_moody, COMSIG_QDELETING, PROC_REF(clear_parent_ref))
+<<<<<<< HEAD
+=======
+
+	var/area/our_area = get_area(mob_to_make_moody)
+	if(our_area)
+		check_area_mood(mob_to_make_moody, our_area)
+>>>>>>> tg-pr-88929
 
 	mob_to_make_moody.become_area_sensitive(MOOD_DATUM_TRAIT)
 	if(mob_to_make_moody.hud_used)
@@ -63,7 +71,14 @@
 
 	unmodify_hud()
 	mob_parent.lose_area_sensitivity(MOOD_DATUM_TRAIT)
+<<<<<<< HEAD
 	UnregisterSignal(mob_parent, list(COMSIG_MOB_HUD_CREATED, COMSIG_ENTER_AREA, COMSIG_LIVING_REVIVE, COMSIG_MOB_STATCHANGE, COMSIG_QDELETING))
+=======
+	UnregisterSignal(mob_parent, list(COMSIG_MOB_HUD_CREATED, COMSIG_ENTER_AREA, COMSIG_EXIT_AREA, COMSIG_LIVING_REVIVE, COMSIG_MOB_STATCHANGE, COMSIG_QDELETING))
+	var/area/our_area = get_area(mob_parent)
+	if(our_area)
+		UnregisterSignal(our_area, COMSIG_AREA_BEAUTY_UPDATED)
+>>>>>>> tg-pr-88929
 
 	mob_parent = null
 
@@ -96,7 +111,7 @@
 	// 0.416% is 15 successes / 3600 seconds. Calculated with 2 minute
 	// mood runtime, so 50% average uptime across the hour.
 	if(HAS_TRAIT(mob_parent, TRAIT_DEPRESSION) && SPT_PROB(0.416, seconds_per_tick))
-		add_mood_event("depression_mild", /datum/mood_event/depression_mild)
+		add_mood_event("depression", /datum/mood_event/depression)
 
 	if(HAS_TRAIT(mob_parent, TRAIT_JOLLY) && SPT_PROB(0.416, seconds_per_tick))
 		add_mood_event("jolly", /datum/mood_event/jolly)
@@ -116,6 +131,13 @@
 		clear_mood_event(MOOD_CATEGORY_NUTRITION)
 		return FALSE
 
+<<<<<<< HEAD
+=======
+	if(HAS_TRAIT(mob_parent, TRAIT_GLUTTON))
+		add_mood_event(MOOD_CATEGORY_NUTRITION, /datum/mood_event/hungry) //you'll never get enough
+		return TRUE
+
+>>>>>>> tg-pr-88929
 	if(HAS_TRAIT(mob_parent, TRAIT_FAT) && !HAS_TRAIT(mob_parent, TRAIT_VORACIOUS))
 		add_mood_event(MOOD_CATEGORY_NUTRITION, /datum/mood_event/fat)
 		return TRUE
@@ -146,6 +168,14 @@
  * * type - (path) any /datum/mood_event
  */
 /datum/mood/proc/add_mood_event(category, type, ...)
+	// we may be passed an instantiated mood datum with a modified timeout
+	// it is to be used as a vehicle to copy data from and then cleaned up afterwards.
+	// why do it this way? because the params list may contain numbers, and we may not necessarily want those to be interpreted as a timeout modifier.
+	// this is only used by the food quality system currently
+	var/datum/mood_event/mood_to_copy_from
+	if (istype(type, /datum/mood_event))
+		mood_to_copy_from = type
+		type = mood_to_copy_from.type
 	if (!ispath(type, /datum/mood_event))
 		CRASH("A non path ([type]), was used to add a mood event. This shouldn't be happening.")
 	if (!istext(category))
@@ -158,7 +188,10 @@
 			clear_mood_event(category)
 		else
 			if (the_event.timeout)
+				if (!isnull(mood_to_copy_from))
+					the_event.timeout = mood_to_copy_from.timeout
 				addtimer(CALLBACK(src, PROC_REF(clear_mood_event), category), the_event.timeout, (TIMER_UNIQUE|TIMER_OVERRIDE))
+			qdel(mood_to_copy_from)
 			return // Don't need to update the event.
 	var/list/params = args.Copy(3)
 
@@ -167,8 +200,11 @@
 	if (QDELETED(the_event)) // the mood event has been deleted for whatever reason (requires a job, etc)
 		return
 
-	mood_events[category] = the_event
 	the_event.category = category
+	if (!isnull(mood_to_copy_from))
+		the_event.timeout = mood_to_copy_from.timeout
+	qdel(mood_to_copy_from)
+	mood_events[category] = the_event
 	update_mood()
 
 	if (the_event.timeout)
@@ -268,7 +304,7 @@
 		if (SANITY_LEVEL_INSANE)
 			mood_screen_object.color = "#f15d36"
 
-	if (!conflicting_moodies.len) // theres no special icons, use the normal icon states
+	if (!conflicting_moodies.len) // there's no special icons, use the normal icon states
 		mood_screen_object.icon_state = "mood[mood_level]"
 		return
 
@@ -402,15 +438,21 @@
 				if(MOOD_HAPPY2 to INFINITY)
 					msg += span_boldnicegreen(event.description + "\n")
 	else
+<<<<<<< HEAD
 		msg += "&bull; [span_grey("I don't have much of a reaction to anything right now.")]\n"
 
 	if(LAZYLEN(mob_parent.quirks))
 		msg += span_notice("You have these quirks: [mob_parent.get_quirk_string(FALSE, CAT_QUIRK_ALL)].")
+=======
+		msg += "[span_grey("I don't have much of a reaction to anything right now.")]\n"
+>>>>>>> tg-pr-88929
 	to_chat(user, boxed_message(msg))
 
 /// Updates the mob's moodies, if the area provides a mood bonus
 /datum/mood/proc/check_area_mood(datum/source, area/new_area)
 	SIGNAL_HANDLER
+
+	RegisterSignal(new_area, COMSIG_AREA_BEAUTY_UPDATED, PROC_REF(update_beauty))
 
 	update_beauty(new_area)
 	if (new_area.mood_bonus && (!new_area.mood_trait || HAS_TRAIT(source, new_area.mood_trait)))
@@ -420,8 +462,30 @@
 
 /// Updates the mob's given beauty moodie, based on the area
 /datum/mood/proc/update_beauty(area/area_to_beautify)
+	SIGNAL_HANDLER
 	if (area_to_beautify.outdoors) // if we're outside, we don't care
 		clear_mood_event(MOOD_CATEGORY_AREA_BEAUTY)
+		return
+
+	if(HAS_MIND_TRAIT(mob_parent, TRAIT_MORBID))
+		if(HAS_TRAIT(mob_parent, TRAIT_SNOB))
+			switch(area_to_beautify.beauty)
+				if(BEAUTY_LEVEL_DECENT to BEAUTY_LEVEL_GOOD)
+					add_mood_event(MOOD_CATEGORY_AREA_BEAUTY, /datum/mood_event/ehroom)
+					return
+				if(BEAUTY_LEVEL_GOOD to BEAUTY_LEVEL_GREAT)
+					add_mood_event(MOOD_CATEGORY_AREA_BEAUTY, /datum/mood_event/badroom)
+					return
+				if(BEAUTY_LEVEL_GREAT to INFINITY)
+					add_mood_event(MOOD_CATEGORY_AREA_BEAUTY, /datum/mood_event/horridroom)
+					return
+		switch(area_to_beautify.beauty)
+			if(-INFINITY to BEAUTY_LEVEL_HORRID)
+				add_mood_event(MOOD_CATEGORY_AREA_BEAUTY, /datum/mood_event/greatroom)
+			if(BEAUTY_LEVEL_HORRID to BEAUTY_LEVEL_BAD)
+				add_mood_event(MOOD_CATEGORY_AREA_BEAUTY, /datum/mood_event/goodroom)
+			if(BEAUTY_LEVEL_BAD to BEAUTY_LEVEL_DECENT)
+				clear_mood_event(MOOD_CATEGORY_AREA_BEAUTY)
 		return
 
 	if(HAS_TRAIT(mob_parent, TRAIT_SNOB))
@@ -441,6 +505,10 @@
 			add_mood_event(MOOD_CATEGORY_AREA_BEAUTY, /datum/mood_event/goodroom)
 		if(BEAUTY_LEVEL_GREAT to INFINITY)
 			add_mood_event(MOOD_CATEGORY_AREA_BEAUTY, /datum/mood_event/greatroom)
+
+/datum/mood/proc/exit_area(datum/source, area/old_area)
+	SIGNAL_HANDLER
+	UnregisterSignal(old_area, COMSIG_AREA_BEAUTY_UPDATED)
 
 /// Called when parent is ahealed.
 /datum/mood/proc/on_revive(datum/source, full_heal)

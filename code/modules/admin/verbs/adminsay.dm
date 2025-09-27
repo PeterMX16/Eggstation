@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ADMIN_VERB(cmd_admin_say, R_NONE, FALSE, "ASay", "Send a message to other admins", ADMIN_CATEGORY_MAIN, message as text)
 	message = copytext_char(sanitize(message), 1, MAX_MESSAGE_LEN)
 	if(!message)
@@ -6,6 +7,13 @@ ADMIN_VERB(cmd_admin_say, R_NONE, FALSE, "ASay", "Send a message to other admins
 	SSplexora.relay_admin_say(user, html_decode(message))
 	message = emoji_parse(message)
 
+=======
+ADMIN_VERB(cmd_admin_say, R_NONE, "ASay", "Send a message to other admins", ADMIN_CATEGORY_MAIN, message as text)
+	message = emoji_parse(copytext_char(sanitize(message), 1, MAX_MESSAGE_LEN))
+	if(!message)
+		return
+
+>>>>>>> tg-pr-88929
 	if(findtext(message, "@") || findtext(message, "#"))
 		var/list/link_results = check_asay_links(message)
 		if(length(link_results))

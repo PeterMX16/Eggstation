@@ -54,7 +54,11 @@ GLOBAL_LIST_EMPTY(antagonists)
 	/// The typepath for the outfit to show in the preview for the preferences menu.
 	var/preview_outfit
 	/// Flags for antags to turn on or off and check!
+<<<<<<< HEAD
 	var/antag_flags = FLAG_CAN_SEE_EXPOITABLE_INFO // monkestation edit: allow antags to see exploitable info.
+=======
+	var/antag_flags = NONE
+>>>>>>> tg-pr-88929
 	/// If true, this antagonist can assign themself a new objective
 	var/can_assign_self_objectives = FALSE
 	/// Default to fill in when entering a custom objective.
@@ -63,6 +67,11 @@ GLOBAL_LIST_EMPTY(antagonists)
 	var/hardcore_random_bonus = FALSE
 	/// A path to the audio stinger that plays upon gaining this datum.
 	var/stinger_sound
+<<<<<<< HEAD
+=======
+	/// Whether this antag datum blocks rolling new antag datums
+	var/block_midrounds = TRUE
+>>>>>>> tg-pr-88929
 
 	//ANTAG UI
 
@@ -176,20 +185,20 @@ GLOBAL_LIST_EMPTY(antagonists)
 	return TRUE
 
 /datum/antagonist/proc/can_be_owned(datum/mind/new_owner)
-	. = TRUE
 	var/datum/mind/tested = new_owner || owner
 	if(tested.has_antag_datum(type))
 		return FALSE
 	for(var/datum/antagonist/badguy as anything in tested.antag_datums)
 		if(is_type_in_typecache(src, badguy.typecache_datum_blacklist))
 			return FALSE
+	return TRUE
 
 //This will be called in add_antag_datum before owner assignment.
 //Should return antag datum without owner.
 /datum/antagonist/proc/specialization(datum/mind/new_owner)
 	return src
 
-///Called by the transfer_to() mind proc after the mind (mind.current and new_character.mind) has moved but before the player (key and client) is transfered.
+///Called by the transfer_to() mind proc after the mind (mind.current and new_character.mind) has moved but before the player (key and client) is transferred.
 /datum/antagonist/proc/on_body_transfer(mob/living/old_body, mob/living/new_body)
 	SHOULD_CALL_PARENT(TRUE)
 	remove_innate_effects(old_body)
@@ -284,8 +293,13 @@ GLOBAL_LIST_EMPTY(antagonists)
  */
 /datum/antagonist/proc/is_banned(mob/player)
 	if(!player)
+		stack_trace("Called is_banned without a mob. This shouldn't happen.")
 		return FALSE
-	. = (is_banned_from(player.ckey, list(ROLE_SYNDICATE, job_rank)) || QDELETED(player))
+
+	if(!player.ckey)
+		return FALSE
+
+	return (is_banned_from(player.ckey, list(ROLE_SYNDICATE, job_rank)) || QDELETED(player))
 
 /**
  * Proc that replaces a player who cannot play a specific antagonist due to being banned via a poll, and alerts the player of their being on the banlist.
@@ -299,7 +313,11 @@ GLOBAL_LIST_EMPTY(antagonists)
 		message_admins("[key_name_admin(chosen_one)] has taken control of ([key_name_admin(owner)]) to replace antagonist banned player.")
 		log_game("[key_name(chosen_one)] has taken control of ([key_name(owner)]) to replace antagonist banned player.")
 		owner.current.ghostize(FALSE)
+<<<<<<< HEAD
 		owner.current.PossessByPlayer(chosen_one.key)
+=======
+		owner.current.key = chosen_one.key
+>>>>>>> tg-pr-88929
 	else
 		log_game("Couldn't find antagonist ban replacement for ([key_name(owner)]).")
 
@@ -324,11 +342,16 @@ GLOBAL_LIST_EMPTY(antagonists)
 	UnregisterSignal(owner, COMSIG_MINDSHIELD_IMPLANTED)
 	get_team()?.remove_member(owner)
 	SEND_SIGNAL(owner, COMSIG_ANTAGONIST_REMOVED, src)
+<<<<<<< HEAD
 
 	// Remove HUDs that they should no longer see
 	if(owner.current)
 		SEND_SIGNAL(owner.current, COMSIG_MOB_ANTAGONIST_REMOVED, src)
 
+=======
+	if(owner.current)
+		SEND_SIGNAL(owner.current, COMSIG_MOB_ANTAGONIST_REMOVED, src)
+>>>>>>> tg-pr-88929
 	qdel(src)
 
 /**
@@ -344,6 +367,10 @@ GLOBAL_LIST_EMPTY(antagonists)
 /datum/antagonist/proc/play_stinger()
 	if(isnull(stinger_sound))
 		return
+<<<<<<< HEAD
+=======
+
+>>>>>>> tg-pr-88929
 	owner.current.playsound_local(get_turf(owner.current), stinger_sound, 100, FALSE, pressure_affected = FALSE, use_reverb = FALSE)
 
 /**
@@ -411,7 +438,7 @@ GLOBAL_LIST_EMPTY(antagonists)
  * Appears at start of roundend_catagory section.
  */
 /datum/antagonist/proc/roundend_report_header()
-	return "<span class='header'>The [roundend_category] were:</span><br>"
+	return span_header("The [roundend_category] were:<br>")
 
 /**
  * Proc that sends string data for the round-end report.
@@ -465,10 +492,16 @@ GLOBAL_LIST_EMPTY(cached_antag_previews)
 /// Custom implementors of `get_preview_icon` should use this, as the
 /// result of `get_preview_icon` is expected to be the completed version.
 /datum/antagonist/proc/render_preview_outfit(datum/outfit/outfit, mob/living/carbon/human/dummy)
+<<<<<<< HEAD
 	if(!isnull(GLOB.cached_antag_previews[outfit]))
 		return icon(GLOB.cached_antag_previews[outfit])
 	dummy ||= new /mob/living/carbon/human/dummy/consistent
 	dummy.equipOutfit(outfit, visualsOnly = TRUE)
+=======
+	dummy = dummy || new /mob/living/carbon/human/dummy/consistent
+	dummy.equipOutfit(outfit, visuals_only = TRUE)
+	dummy.wear_suit?.update_greyscale()
+>>>>>>> tg-pr-88929
 	var/icon = getFlatIcon(dummy)
 	GLOB.cached_antag_previews[outfit] = icon(icon)
 
@@ -523,7 +556,11 @@ GLOBAL_LIST_EMPTY(cached_antag_previews)
 		"antag_team_hud_[REF(src)]",
 		hud_image_on(target),
 		antag_to_check || type,
+<<<<<<< HEAD
 		passed_hud_keys || hud_keys, //monkestation edit
+=======
+		get_team() && WEAKREF(get_team()),
+>>>>>>> tg-pr-88929
 	))
 
 	// Add HUDs that they couldn't see before
@@ -583,10 +620,13 @@ GLOBAL_LIST_EMPTY(cached_antag_previews)
 
 	log_game("[key_name(owner_mob)] [retain_existing ? "" : "opted out of their original objectives and "]chose a custom objective: [custom_objective_text]")
 	message_admins("[ADMIN_LOOKUPFLW(owner_mob)] has chosen a custom antagonist objective: [span_syndradio("[custom_objective_text]")] | [ADMIN_SMITE(owner_mob)] | [ADMIN_SYNDICATE_REPLY(owner_mob)]")
+<<<<<<< HEAD
 	for(var/client/staff as anything in GLOB.admins)
 		if(staff?.prefs?.toggles & SOUND_ADMINHELP)
 			SEND_SOUND(staff, sound('sound/effects/adminhelp.ogg'))
 		window_flash(staff, ignorepref = TRUE)
+=======
+>>>>>>> tg-pr-88929
 
 	var/datum/objective/custom/custom_objective = new()
 	custom_objective.owner = owner

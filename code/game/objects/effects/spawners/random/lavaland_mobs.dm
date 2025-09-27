@@ -7,12 +7,20 @@
 	icon_state = "large_egg"
 	loot = list(
 		/mob/living/basic/mining/bileworm = 1,
+<<<<<<< HEAD
+=======
+		/mob/living/basic/mining/brimdemon = 1,
+		/mob/living/basic/mining/goldgrub = 1,
+>>>>>>> tg-pr-88929
 		/mob/living/basic/mining/goliath = 1,
 		/mob/living/basic/mining/legion = 1,
 		/mob/living/basic/mining/lobstrosity/lava = 1,
 		/mob/living/basic/mining/watcher = 1,
+<<<<<<< HEAD
 		/mob/living/basic/mining/brimdemon = 1,
 		/mob/living/basic/mining/goldgrub = 1,
+=======
+>>>>>>> tg-pr-88929
 	)
 
 /// Spawns random watcher variants during map generation
@@ -49,3 +57,20 @@
 		/mob/living/basic/mining/legion = 19,
 		/mob/living/basic/mining/legion/dwarf = 1,
 	)
+<<<<<<< HEAD
+=======
+
+/obj/effect/spawner/random/lavaland_mob/raptor
+	name = "random raptor"
+	desc = "Chance to spawn a rare shiny version."
+	icon = 'icons/mob/simple/lavaland/raptor_big.dmi'
+	icon_state = "raptor_red"
+	loot = list(
+		/mob/living/basic/raptor/red = 20,
+		/mob/living/basic/raptor/white = 20,
+		/mob/living/basic/raptor/purple = 20,
+		/mob/living/basic/raptor/green = 20,
+		/mob/living/basic/raptor/yellow = 20,
+		/mob/living/basic/raptor/black = 1,
+	)
+>>>>>>> tg-pr-88929

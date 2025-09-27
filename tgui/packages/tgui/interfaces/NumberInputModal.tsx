@@ -1,9 +1,17 @@
-import { Loader } from './common/Loader';
-import { InputButtons } from './common/InputButtons';
-import { KEY_ENTER, KEY_ESCAPE } from '../../common/keycodes';
-import { useBackend, useLocalState } from '../backend';
-import { Box, Button, RestrictedInput, Section, Stack } from '../components';
+import { useState } from 'react';
+import {
+  Box,
+  Button,
+  RestrictedInput,
+  Section,
+  Stack,
+} from 'tgui-core/components';
+import { isEscape, KEY } from 'tgui-core/keys';
+
+import { useBackend } from '../backend';
 import { Window } from '../layouts';
+import { InputButtons } from './common/InputButtons';
+import { Loader } from './common/Loader';
 
 type NumberInputData = {
   init_value: number;
@@ -19,6 +27,7 @@ type NumberInputData = {
 export const NumberInputModal = (props) => {
   const { act, data } = useBackend<NumberInputData>();
   const { init_value, large_buttons, message = '', timeout, title } = data;
+<<<<<<< HEAD
   const [input, setInput] = useLocalState('input', init_value);
   const onChange = (value: number) => {
     if (value === input) {
@@ -27,11 +36,17 @@ export const NumberInputModal = (props) => {
     setInput(value);
   };
   const onClick = (value: number) => {
+=======
+  const [input, setInput] = useState(init_value);
+
+  const setValue = (value: number) => {
+>>>>>>> tg-pr-88929
     if (value === input) {
       return;
     }
     setInput(value);
   };
+
   // Dynamically changes the window height based on the message.
   const windowHeight =
     140 +
@@ -43,11 +58,10 @@ export const NumberInputModal = (props) => {
       {timeout && <Loader value={timeout} />}
       <Window.Content
         onKeyDown={(event) => {
-          const keyCode = window.event ? event.which : event.keyCode;
-          if (keyCode === KEY_ENTER) {
+          if (event.key === KEY.Enter) {
             act('submit', { entry: input });
           }
-          if (keyCode === KEY_ESCAPE) {
+          if (isEscape(event.key)) {
             act('cancel');
           }
         }}
@@ -58,7 +72,12 @@ export const NumberInputModal = (props) => {
               <Box color="label">{message}</Box>
             </Stack.Item>
             <Stack.Item>
-              <InputArea input={input} onClick={onClick} onChange={onChange} />
+              <InputArea
+                input={input}
+                onClick={setValue}
+                onChange={setValue}
+                onBlur={setValue}
+              />
             </Stack.Item>
             <Stack.Item>
               <InputButtons input={input} />
@@ -74,7 +93,8 @@ export const NumberInputModal = (props) => {
 const InputArea = (props) => {
   const { act, data } = useBackend<NumberInputData>();
   const { min_value, max_value, init_value, round_value } = data;
-  const { input, onClick, onChange } = props;
+  const { input, onClick, onChange, onBlur } = props;
+
   return (
     <Stack fill>
       <Stack.Item>
@@ -94,6 +114,7 @@ const InputArea = (props) => {
           minValue={min_value}
           maxValue={max_value}
           onChange={(_, value) => onChange(value)}
+          onBlur={(_, value) => onBlur(value)}
           onEnter={(_, value) => act('submit', { entry: value })}
           value={input}
         />

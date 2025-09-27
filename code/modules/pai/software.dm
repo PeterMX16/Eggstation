@@ -123,7 +123,7 @@
 		if("Newscaster")
 			newscaster = new(src)
 		if("Photography Module")
-			camera = new(src)
+			aicamera = new /obj/item/camera/siliconcam/pai_camera(src)
 		if("Remote Signaler")
 			signaler = new(src)
 	return TRUE
@@ -135,11 +135,19 @@
  */
 /mob/living/silicon/pai/proc/change_image()
 	var/list/possible_choices = list()
+<<<<<<< HEAD
 	for(var/datum/pai_screen_image/screen_option as anything in subtypesof(/datum/pai_screen_image))
 		var/datum/radial_menu_choice/choice = new
 		choice.name = screen_option.name
 		choice.image = image(icon = screen_option.icon, icon_state = screen_option.icon_state)
 		possible_choices[screen_option] += choice
+=======
+	for(var/face_option in possible_overlays)
+		var/datum/radial_menu_choice/choice = new
+		choice.name = face_option
+		choice.image = image(icon = card.icon, icon_state = "pai-[face_option]")
+		possible_choices[face_option] += choice
+>>>>>>> tg-pr-88929
 	var/atom/anchor = get_atom_on_turf(src)
 	var/new_image = show_radial_menu(src, anchor, possible_choices, custom_check = CALLBACK(src, PROC_REF(check_menu), anchor), radius = 40, require_near = TRUE)
 	if(isnull(new_image))
@@ -171,7 +179,7 @@
 	if(!holder.has_dna())
 		balloon_alert(src, "no dna detected!")
 		return FALSE
-	to_chat(src, span_boldannounce(("[holder]'s UE string: [holder.dna.unique_enzymes]")))
+	to_chat(src, span_bolddanger(("[holder]'s UE string: [holder.dna.unique_enzymes]")))
 	to_chat(src, span_notice("DNA [holder.dna.unique_enzymes == master_dna ? "matches" : "does not match"] our stored Master's DNA."))
 	return TRUE
 
@@ -230,11 +238,11 @@
 	var/datum/atom_hud/hud
 	var/hud_on
 	if(mode == PAI_TOGGLE_MEDICAL_HUD)
-		hud = GLOB.huds[med_hud]
+		hud = GLOB.huds[DATA_HUD_MEDICAL_ADVANCED]
 		medHUD = !medHUD
 		hud_on = medHUD
 	if(mode == PAI_TOGGLE_SECURITY_HUD)
-		hud = GLOB.huds[sec_hud]
+		hud = GLOB.huds[DATA_HUD_SECURITY_ADVANCED]
 		secHUD = !secHUD
 		hud_on = secHUD
 	if(hud_on)

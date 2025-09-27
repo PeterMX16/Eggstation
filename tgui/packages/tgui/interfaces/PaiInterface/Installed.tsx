@@ -1,5 +1,7 @@
-import { useBackend, useLocalState } from 'tgui/backend';
-import { Button, NoticeBox, Section, Stack } from 'tgui/components';
+import { useState } from 'react';
+import { useBackend } from 'tgui/backend';
+import { Button, NoticeBox, Section, Stack } from 'tgui-core/components';
+
 import { DOOR_JACK, HOST_SCAN, PHOTO_MODE, SOFTWARE_DESC } from './constants';
 import { PaiData } from './types';
 
@@ -8,6 +10,7 @@ import { PaiData } from './types';
  * another section that displays the selected installed
  * software info.
  */
+<<<<<<< HEAD
 export const InstalledDisplay = (props) => {
   return (
     <Stack fill vertical>
@@ -26,58 +29,85 @@ const InstalledSoftware = (props) => {
   const { data } = useBackend<PaiData>();
   const { installed = [] } = data;
   const [currentSelection, setCurrentSelection] = useLocalState('software', '');
+=======
+export function InstalledDisplay(props) {
+  const { data } = useBackend<PaiData>();
+  const { installed = [] } = data;
+>>>>>>> tg-pr-88929
 
-  return (
-    <Section fill scrollable title="Installed Software">
-      {!installed.length ? (
-        <NoticeBox>Nothing installed!</NoticeBox>
-      ) : (
-        installed.map((software, index) => {
-          return (
-            <Button key={index} onClick={() => setCurrentSelection(software)}>
-              {software}
-            </Button>
-          );
-        })
-      )}
-    </Section>
-  );
-};
+  const [currentSelection, setCurrentSelection] = useState('');
 
+<<<<<<< HEAD
 /** Software info for buttons clicked. */
 const InstalledInfo = (props) => {
   const [currentSelection] = useLocalState('software', '');
+=======
+>>>>>>> tg-pr-88929
   const title = !currentSelection ? 'Select a Program' : currentSelection;
 
   return (
-    <Section fill scrollable title={title}>
-      {currentSelection && (
-        <Stack fill vertical>
-          <Stack.Item>{SOFTWARE_DESC[currentSelection]}</Stack.Item>
-          <Stack.Item grow>
-            <SoftwareButtons />
-          </Stack.Item>
-        </Stack>
-      )}
-    </Section>
+    <Stack fill vertical>
+      <Stack.Item grow>
+        <Section fill scrollable title={title}>
+          {currentSelection && (
+            <Stack fill vertical>
+              <Stack.Item>{SOFTWARE_DESC[currentSelection]}</Stack.Item>
+              <Stack.Item grow>
+                <SoftwareButtons currentSelection={currentSelection} />
+              </Stack.Item>
+            </Stack>
+          )}
+        </Section>
+      </Stack.Item>
+      <Stack.Item grow={2}>
+        <Section fill scrollable title="Installed Software">
+          {!installed.length ? (
+            <NoticeBox>Nothing installed!</NoticeBox>
+          ) : (
+            installed.map((software, index) => {
+              return (
+                <Button
+                  key={index}
+                  onClick={() => setCurrentSelection(software)}
+                >
+                  {software}
+                </Button>
+              );
+            })
+          )}
+        </Section>
+      </Stack.Item>
+    </Stack>
   );
+}
+
+type SoftwareButtonsProps = {
+  currentSelection: string;
 };
 
 /**
  * Once a software is selected, generates custom buttons or a default
  * power toggle.
  */
+<<<<<<< HEAD
 const SoftwareButtons = (props) => {
   const { act, data } = useBackend<PaiData>();
   const { door_jack, languages, master_name } = data;
   const [currentSelection] = useLocalState('software', '');
+=======
+function SoftwareButtons(props: SoftwareButtonsProps) {
+  const { currentSelection } = props;
+
+  const { act, data } = useBackend<PaiData>();
+  const { door_jack, languages, master_name } = data;
+>>>>>>> tg-pr-88929
 
   switch (currentSelection) {
     case 'Door Jack':
       return (
         <>
           <Button
-            disabled={door_jack}
+            disabled={!!door_jack}
             icon="plug"
             onClick={() => act(currentSelection, { mode: DOOR_JACK.Cable })}
             tooltip="Drops a cable. Insert into a compatible airlock."
@@ -169,4 +199,4 @@ const SoftwareButtons = (props) => {
         </Button>
       );
   }
-};
+}

@@ -1,5 +1,4 @@
 //Stores several modifiers in a way that isn't cleared by changing species
-
 /datum/physiology
 	/// Multiplier to brute damage received.
 	/// IE: A brute mod of 0.9 = 10% less brute damage.
@@ -11,8 +10,11 @@
 	var/tox_mod = 1
 	/// Multiplier to oxygen damage received
 	var/oxy_mod = 1
+<<<<<<< HEAD
 	/// Multiplier to clone damage received
 	var/clone_mod = 1
+=======
+>>>>>>> tg-pr-88929
 	/// Multiplier to stamina damage received
 	var/stamina_mod = 1
 	/// Multiplier to brain damage received

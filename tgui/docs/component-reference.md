@@ -69,17 +69,21 @@ it is used a lot in this framework.
 
 **Event handlers.**
 Event handlers are callbacks that you can attack to various element to
-listen for browser events. Inferno supports camelcase (`onClick`) and
-lowercase (`onclick`) event names.
+listen for browser events. React supports camelcase (`onClick`) event names.
 
 - Camel case names are what's called _synthetic_ events, and are the
   **preferred way** of handling events in React, for efficiency and
   performance reasons. Please read
+<<<<<<< HEAD
   [Inferno Event Handling](https://infernojs.org/docs/guides/event-handling)
   to understand what this is about.
 - Lower case names are native browser events and should be used sparingly,
   for example when you need an explicit IE8 support. **DO NOT** use
   lowercase event handlers unless you really know what you are doing.
+=======
+  [React Event Handling](https://react.dev/learn/responding-to-events)
+  to understand what this is about.
+>>>>>>> tg-pr-88929
 
 ## `tgui/components`
 
@@ -264,6 +268,7 @@ commit, while escape cancels.
 
 - See inherited props: [Box](#box)
 - `fluid`: fill available horizontal space
+- `disabled: boolean` - Disables and greys out the button.
 - `onCommit: (e, value) => void`: function that is called after the user
   defocuses the input or presses enter
 - `currentValue: string`: default string to display when the input is shown
@@ -366,6 +371,7 @@ and displays selected entry.
 - See inherited props: [Box](#box)
 - See inherited props: [Icon](#icon)
 - `options: string[] | DropdownEntry[]` - An array of strings which will be displayed in the
+<<<<<<< HEAD
   dropdown when open. See Dropdown.tsx for more adcanced usage with DropdownEntry
 - `selected: any` - Currently selected entry
 - `width: string` - Width of dropdown button and resulting menu; css width value
@@ -373,6 +379,14 @@ and displays selected entry.
 - `color: string` - Color of dropdown button
 - `nochevron: boolean` - Whether or not the arrow on the right hand side of the dropdown button is visible
 - `displayText: string | number | InfernoNode` - Text to always display in place of the selected text
+=======
+  dropdown when open. See Dropdown.tsx for more advanced usage with DropdownEntry
+- `selected: any` - Currently selected entry
+- `over: boolean` - Dropdown renders over instead of below
+- `color: string` - Color of dropdown button
+- `noChevron: boolean` - Whether or not the arrow on the right hand side of the dropdown button is visible
+- `displayText: ReactNode` - Text to always display in place of the selected text
+>>>>>>> tg-pr-88929
 - `onClick: (e) => void` - Called when dropdown button is clicked
 - `onSelected: (value) => void` - Called when a value is picked from the list, `value` is the value that was picked
 
@@ -392,10 +406,17 @@ to the left, and certain elements to the right:
 
 ```jsx
 <Flex>
+<<<<<<< HEAD
 	<Flex.Item grow={1}>Button description</Flex.Item>
 	<Flex.Item>
 		<Button>Perform an action</Button>
 	</Flex.Item>
+=======
+  <Flex.Item grow={1}>Button description</Flex.Item>
+  <Flex.Item>
+    <Button>Perform an action</Button>
+  </Flex.Item>
+>>>>>>> tg-pr-88929
 </Flex>
 ```
 
@@ -484,12 +505,21 @@ Example:
 
 ```jsx
 <Grid>
+<<<<<<< HEAD
 	<Grid.Column>
 		<Section title="Section 1">Hello world!</Section>
 	</Grid.Column>
 	<Grid.Column size={2}>
 		<Section title="Section 2">Hello world!</Section>
 	</Grid.Column>
+=======
+  <Grid.Column>
+    <Section title="Section 1">Hello world!</Section>
+  </Grid.Column>
+  <Grid.Column size={2}>
+    <Section title="Section 2">Hello world!</Section>
+  </Grid.Column>
+>>>>>>> tg-pr-88929
 </Grid>
 ```
 
@@ -591,15 +621,24 @@ A basic text input, which allow users to enter text into a UI.
 **Props:**
 
 - See inherited props: [Box](#box)
-- `value: string` - Value of an input.
+- `value: string` - The initial value displayed on the input.
 - `placeholder: string` - Text placed into Input box when it's empty,
   otherwise nothing. Clears automatically when focused.
 - `fluid: boolean` - Fill all available horizontal space.
 - `selfClear: boolean` - Clear after hitting enter, as well as remain focused
   when this happens. Useful for things like chat inputs.
+<<<<<<< HEAD
 - `onChange: (e, value) => void` - An event, which fires when you commit
   the text by either unfocusing the input box, or by pressing the Enter key.
 - `onInput: (e, value) => void` - An event, which fires on every keypress.
+=======
+- `onChange: (e, value) => void` - Fires when the user clicks out or presses enter.
+- `onEnter: (e, value) => void` - Fires when the user hits enter.
+- `onEscape: (e) => void` - Fires when the user hits escape.
+- `onInput: (e, value) => void` - Fires when the user types into the input.
+- `expensive: boolean` - Introduces a delay before updating the input. Useful for large filters,
+  where you don't want to update on every keystroke.
+>>>>>>> tg-pr-88929
 
 ### `Knob`
 
@@ -665,7 +704,11 @@ column is labels, and second column is content.
 
 ```jsx
 <LabeledList>
+<<<<<<< HEAD
 	<LabeledList.Item label="Item">Content</LabeledList.Item>
+=======
+  <LabeledList.Item label="Item">Content</LabeledList.Item>
+>>>>>>> tg-pr-88929
 </LabeledList>
 ```
 
@@ -674,9 +717,15 @@ to perform some sort of action), there is a way to do that:
 
 ```jsx
 <LabeledList>
+<<<<<<< HEAD
 	<LabeledList.Item label="Item" buttons={<Button>Click me!</Button>}>
 		Content
 	</LabeledList.Item>
+=======
+  <LabeledList.Item label="Item" buttons={<Button>Click me!</Button>}>
+    Content
+  </LabeledList.Item>
+>>>>>>> tg-pr-88929
 </LabeledList>
 ```
 
@@ -689,7 +738,7 @@ to perform some sort of action), there is a way to do that:
 **Props:**
 
 - `className: string` - Applies a CSS class to the element.
-- `label: string|InfernoNode` - Item label.
+- `label: string|ReactNode` - Item label.
 - `labelWrap: boolean` - Lets the label wrap and makes it not take the minimum width.
 - `labelColor: string` - Sets the color of the label.
 - `color: string` - Sets the color of the content text.
@@ -713,8 +762,13 @@ Example:
 
 ```jsx
 <LabeledList>
+<<<<<<< HEAD
 	<LabeledList.Item label="Foo">Content</LabeledList.Item>
 	<LabeledList.Divider size={1} />
+=======
+  <LabeledList.Item label="Foo">Content</LabeledList.Item>
+  <LabeledList.Divider size={1} />
+>>>>>>> tg-pr-88929
 </LabeledList>
 ```
 
@@ -753,11 +807,13 @@ to fine tune the value, or single click it to manually type a number.
 **Props:**
 
 - `animated: boolean` - Animates the value if it was changed externally.
+- `disabled: boolean` - Makes the input field uneditable & non draggable to prevent user changes
 - `fluid: boolean` - Fill all available horizontal space.
-- `value: number` - Value itself.
+- `value: string|number` - Value itself.
 - `unit: string` - Unit to display to the right of value.
 - `minValue: number` - Lowest possible value.
 - `maxValue: number` - Highest possible value.
+<<<<<<< HEAD
 - `step: number` (default: 1) - Adjust value by this amount when
   dragging the input.
 - `stepPixelSize: number` (default: 1) - Screen distance mouse needs
@@ -774,6 +830,21 @@ to fine tune the value, or single click it to manually type a number.
 - `onChange: (e, value) => void` - An event, which fires when you release
   the input, or successfully enter a number.
 - `onDrag: (e, value) => void` - An event, which fires about every 500ms
+=======
+- `step: number` - Adjust value by this amount when
+  dragging the input.
+- `stepPixelSize: number` (default: 1) - Screen distance mouse needs
+  to travel to adjust value by one `step`.
+- `width: string` - Width of the element, in `Box` units or pixels.
+- `height: string` - Height of the element, in `Box` units or pixels.
+- `lineHeight: string` - lineHeight of the element, in `Box` units or pixels.
+- `fontSize: string` - fontSize of the element, in `Box` units or pixels.
+- `format: (value: number) => string` - Format value using this function before
+  displaying it.
+- `onChange: (value: number) => void` - An event, which fires when you release
+  the input, or successfully enter a number.
+- `onDrag: (value: number) => void` - An event, which fires about every 500ms
+>>>>>>> tg-pr-88929
   when you drag the input up and down, on release and on manual editing.
 
 ### `Popper`
@@ -782,9 +853,10 @@ Popper lets you position elements so that they don't go out of the bounds of the
 
 **Props:**
 
-- `popperContent: InfernoNode` - The content that will be put inside the popper.
-- `options?: { ... }` - An object of options to pass to `createPopper`. See [https://popper.js.org/docs/v2/constructors/#options], but the one you want most is `placement`. Valid placements are "bottom", "top", "left", and "right". You can affix "-start" and "-end" to achieve something like top left or top right respectively. You can also use "auto" (with an optional "-start" or "-end"), where a best fit will be chosen.
-- `additionalStyles: { ... }` - A map of CSS styles to add to the element that will contain the popper.
+- `content: ReactNode` - The content that will be put inside the popper.
+- `isOpen: boolean` - Whether or not the popper is open.
+- `onClickOutside?: (e) => void` - A function that will be called when the user clicks outside of the popper.
+- `placement?: string` - The placement of the popper. See [https://popper.js.org/docs/v2/constructors/#placement]
 
 ### `ProgressBar`
 
@@ -798,12 +870,21 @@ Usage of `ranges` prop:
 
 ```jsx
 <ProgressBar
+<<<<<<< HEAD
 	ranges={{
 		good: [0.5, Infinity],
 		average: [0.25, 0.5],
 		bad: [-Infinity, 0.25],
 	}}
 	value={0.6}
+=======
+  ranges={{
+    good: [0.5, Infinity],
+    average: [0.25, 0.5],
+    bad: [-Infinity, 0.25],
+  }}
+  value={0.6}
+>>>>>>> tg-pr-88929
 />
 ```
 
@@ -829,6 +910,7 @@ The RoundGauge component provides a visual representation of a single metric, as
 
 ```jsx
 <RoundGauge
+<<<<<<< HEAD
 	size={1.75}
 	value={tankPressure}
 	minValue={0}
@@ -840,6 +922,19 @@ The RoundGauge component provides a visual representation of a single metric, as
 		bad: [pressureLimit * 0.85, pressureLimit],
 	}}
 	format={formatPressure}
+=======
+  size={1.75}
+  value={tankPressure}
+  minValue={0}
+  maxValue={pressureLimit}
+  alertAfter={pressureLimit * 0.7}
+  ranges={{
+    good: [0, pressureLimit * 0.7],
+    average: [pressureLimit * 0.7, pressureLimit * 0.85],
+    bad: [pressureLimit * 0.85, pressureLimit],
+  }}
+  format={formatPressure}
+>>>>>>> tg-pr-88929
 />
 ```
 
@@ -876,7 +971,11 @@ If you want to have a button on the right side of an section title
 
 ```jsx
 <Section title="Cargo" buttons={<Button>Send shuttle</Button>}>
+<<<<<<< HEAD
 	Here you can order supply crates.
+=======
+  Here you can order supply crates.
+>>>>>>> tg-pr-88929
 </Section>
 ```
 
@@ -941,10 +1040,17 @@ Stacks can be vertical by adding a `vertical` property.
 
 ```jsx
 <Stack>
+<<<<<<< HEAD
 	<Stack.Item grow>Button description</Stack.Item>
 	<Stack.Item>
 		<Button>Perform an action</Button>
 	</Stack.Item>
+=======
+  <Stack.Item grow>Button description</Stack.Item>
+  <Stack.Item>
+    <Button>Perform an action</Button>
+  </Stack.Item>
+>>>>>>> tg-pr-88929
 </Stack>
 ```
 
@@ -955,6 +1061,7 @@ Make sure to use the `fill` property.
 
 ```jsx
 <Window>
+<<<<<<< HEAD
 	<Window.Content>
 		<Stack fill>
 			<Stack.Item>
@@ -974,6 +1081,27 @@ Make sure to use the `fill` property.
 			</Stack.Item>
 		</Stack>
 	</Window.Content>
+=======
+  <Window.Content>
+    <Stack fill>
+      <Stack.Item>
+        <Section fill>Sidebar</Section>
+      </Stack.Item>
+      <Stack.Item grow>
+        <Stack fill vertical>
+          <Stack.Item grow>
+            <Section fill scrollable>
+              Main content
+            </Section>
+          </Stack.Item>
+          <Stack.Item>
+            <Section>Bottom pane</Section>
+          </Stack.Item>
+        </Stack>
+      </Stack.Item>
+    </Stack>
+  </Window.Content>
+>>>>>>> tg-pr-88929
 </Window>
 ```
 
@@ -999,12 +1127,21 @@ Example:
 
 ```jsx
 <Table>
+<<<<<<< HEAD
 	<Table.Row>
 		<Table.Cell bold>Hello world!</Table.Cell>
 		<Table.Cell collapsing color="label">
 			Label
 		</Table.Cell>
 	</Table.Row>
+=======
+  <Table.Row>
+    <Table.Cell bold>Hello world!</Table.Cell>
+    <Table.Cell collapsing color="label">
+      Label
+    </Table.Cell>
+  </Table.Row>
+>>>>>>> tg-pr-88929
 </Table>
 ```
 
@@ -1064,12 +1201,21 @@ Tabs also support a vertical configuration. This is usually paired with
 
 ```jsx
 <Stack>
+<<<<<<< HEAD
 	<Stack.Item>
 		<Tabs vertical>...</Tabs>
 	</Stack.Item>
 	<Stack.Item grow={1} basis={0}>
 		Tab content.
 	</Stack.Item>
+=======
+  <Stack.Item>
+    <Tabs vertical>...</Tabs>
+  </Stack.Item>
+  <Stack.Item grow={1} basis={0}>
+    Tab content.
+  </Stack.Item>
+>>>>>>> tg-pr-88929
 </Stack>
 ```
 
@@ -1079,8 +1225,13 @@ component:
 
 ```jsx
 <Section fill fitted scrollable width="128px">
+<<<<<<< HEAD
 	<Tabs vertical>...</Tabs>
 	... other things ...
+=======
+  <Tabs vertical>...</Tabs>
+  ... other things ...
+>>>>>>> tg-pr-88929
 </Section>
 ```
 
@@ -1121,7 +1272,11 @@ Usage:
 
 ```jsx
 <Tooltip position="bottom" content="Box tooltip">
+<<<<<<< HEAD
 	<Box position="relative">Sample text.</Box>
+=======
+  <Box position="relative">Sample text.</Box>
+>>>>>>> tg-pr-88929
 </Tooltip>
 ```
 
@@ -1143,7 +1298,11 @@ Example:
 
 ```jsx
 <Window theme="hackerman">
+<<<<<<< HEAD
 	<Window.Content scrollable>Hello, world!</Window.Content>
+=======
+  <Window.Content scrollable>Hello, world!</Window.Content>
+>>>>>>> tg-pr-88929
 </Window>
 ```
 

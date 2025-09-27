@@ -33,15 +33,19 @@ GLOBAL_DATUM_INIT(status_font, /datum/font, new /datum/font/tiny_unicode/size_12
 	var/message2 = ""
 
 	/// Normal text color
-	var/text_color = "#09F"
+	var/text_color = COLOR_DISPLAY_BLUE
 	/// Color for headers, eg. "- ETA -"
-	var/header_text_color = "#2CF"
+	var/header_text_color = COLOR_DISPLAY_PURPLE
 
 /obj/item/wallframe/status_display
 	name = "status display frame"
 	desc = "Used to build status displays, just secure to the wall."
 	icon_state = "unanchoredstatusdisplay"
+<<<<<<< HEAD
 	custom_materials = list(/datum/material/iron= SHEET_MATERIAL_AMOUNT * 7, /datum/material/glass= SHEET_MATERIAL_AMOUNT * 4)
+=======
+	custom_materials = list(/datum/material/iron= SHEET_MATERIAL_AMOUNT * 7)
+>>>>>>> tg-pr-88929
 	result_path = /obj/machinery/status_display/evac
 	pixel_shift = 32
 
@@ -76,16 +80,13 @@ GLOBAL_DATUM_INIT(status_font, /datum/font, new /datum/font/tiny_unicode/size_12
 	update_appearance()
 	return TRUE
 
-/obj/machinery/status_display/deconstruct(disassembled = TRUE)
-	if(flags_1 & NODECONSTRUCT_1)
-		return
+/obj/machinery/status_display/on_deconstruction(disassembled)
 	if(!disassembled)
 		new /obj/item/stack/sheet/iron(drop_location(), 2)
 		new /obj/item/shard(drop_location())
 		new /obj/item/shard(drop_location())
 	else
 		new /obj/item/wallframe/status_display(drop_location())
-	qdel(src)
 
 /// Immediately change the display to the given picture.
 /obj/machinery/status_display/proc/set_picture(state)
@@ -194,7 +195,11 @@ GLOBAL_LIST_EMPTY(key_to_status_display)
 	)
 		set_light(0)
 		return
+<<<<<<< HEAD
 	set_light(l_outer_range = 1.4, l_power = 0.7, l_color = LIGHT_COLOR_BLUE) // blue light
+=======
+	set_light(1.5, 0.7, LIGHT_COLOR_FAINT_CYAN) // blue light
+>>>>>>> tg-pr-88929
 
 /obj/machinery/status_display/update_overlays(updates)
 	. = ..()
@@ -272,7 +277,11 @@ GLOBAL_LIST_EMPTY(key_to_status_display)
 		set_messages("shutl","not in service")
 		return PROCESS_KILL
 	else if(shuttle.timer)
+<<<<<<< HEAD
 		var/line1 = "<<< [shuttle.getModeStr()]"
+=======
+		var/line1 = shuttle.getModeStr()
+>>>>>>> tg-pr-88929
 		var/line2 = shuttle.getTimerStr()
 
 		set_messages(line1, line2)
@@ -384,6 +393,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/status_display/evac, 32)
 	AddComponent(/datum/component/usb_port, list(
 		/obj/item/circuit_component/status_display,
 	))
+	find_and_hang_on_wall()
 
 /obj/machinery/status_display/evac/Destroy()
 	SSradio.remove_object(src,frequency)
@@ -438,8 +448,8 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/status_display/evac, 32)
 /obj/machinery/status_display/supply
 	name = "supply display"
 	current_mode = SD_MESSAGE
-	text_color = "#F90"
-	header_text_color = "#FC2"
+	text_color = COLOR_DISPLAY_ORANGE
+	header_text_color = COLOR_DISPLAY_YELLOW
 
 /obj/machinery/status_display/supply/process()
 	if(machine_stat & NOPOWER)
@@ -462,7 +472,11 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/status_display/evac, 32)
 			line1 = ""
 			line2 = ""
 	else
+<<<<<<< HEAD
 		line1 = "<<< [SSshuttle.supply.getModeStr()]"
+=======
+		line1 = SSshuttle.supply.getModeStr()
+>>>>>>> tg-pr-88929
 		line2 = SSshuttle.supply.getTimerStr()
 	set_messages(line1, line2)
 
@@ -473,8 +487,8 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/status_display/evac, 32)
 	current_mode = SD_MESSAGE
 	var/shuttle_id
 
-	text_color = "#0F5"
-	header_text_color = "#2FC"
+	text_color = COLOR_DISPLAY_GREEN
+	header_text_color = COLOR_DISPLAY_CYAN
 
 /obj/machinery/status_display/shuttle/process()
 	if(!shuttle_id || (machine_stat & NOPOWER))
@@ -506,14 +520,6 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/status_display/evac, 32)
 	var/emotion = AI_DISPLAY_DONT_GLOW
 
 MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/status_display/ai, 32)
-
-/obj/machinery/status_display/ai/Initialize(mapload)
-	. = ..()
-	GLOB.ai_status_displays.Add(src)
-
-/obj/machinery/status_display/ai/Destroy()
-	GLOB.ai_status_displays.Remove(src)
-	. = ..()
 
 /obj/machinery/status_display/ai/attack_ai(mob/living/silicon/ai/user)
 	if(!isAI(user))
@@ -571,11 +577,14 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/status_display/ai, 32)
 		"Red Alert" = "redalert",
 		"Blue Alert" = "bluealert",
 		"Green Alert" = "greenalert",
+<<<<<<< HEAD
 		"Yellow Alert" = "yellowalert",
 		"Amber Alert" = "amberalert",
 		"Gamma Alert" = "gammaalert",
 		"Lambda Alert" = "lambdaalert",
 		"Epsilon Alert" = "epsilonalert",
+=======
+>>>>>>> tg-pr-88929
 		"Biohazard" = "biohazard",
 		"Lockdown" = "lockdown",
 		"Radiation" = "radiation",
@@ -621,6 +630,19 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/status_display/ai, 32)
 			status_signal.data["picture_state"] = picture_map[picture.value]
 
 	connected_display.receive_signal(status_signal)
+
+/obj/machinery/status_display/random_message
+	current_mode = SD_MESSAGE
+	/// list to pick the first line from
+	var/list/firstline_to_secondline = list()
+
+/obj/machinery/status_display/random_message/Initialize(mapload, ndir, building)
+	if(firstline_to_secondline?.len)
+		message1 = pick(firstline_to_secondline)
+		message2 = firstline_to_secondline[message1]
+	return ..() // status displays call update appearance on init so i suppose we should set the messages before calling parent as to not call it twice
+
+MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/status_display/random_message, 32)
 
 #undef MAX_STATIC_WIDTH
 #undef FONT_STYLE

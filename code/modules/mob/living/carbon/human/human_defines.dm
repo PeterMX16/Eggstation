@@ -2,10 +2,14 @@
 /mob/living/carbon/human
 	name = "Unknown"
 	real_name = "Unknown"
-	icon = 'icons/mob/species/human/human.dmi'
+	icon = 'icons/mob/human/human.dmi'
 	icon_state = "human_basic"
 	appearance_flags = KEEP_TOGETHER|TILE_BOUND|PIXEL_SCALE|LONG_GLIDE
+<<<<<<< HEAD
 	hud_possible = list(HEALTH_HUD,STATUS_HUD,ID_HUD,WANTED_HUD,IMPLOYAL_HUD,IMPCHEM_HUD,IMPTRACK_HUD,ANTAG_HUD,GLAND_HUD,FAN_HUD,NANITE_HUD,DIAG_NANITE_FULL_HUD,PERMIT_HUD,SENSOR_HUD,CREW_HUD,BORER_HUD)
+=======
+	hud_possible = list(HEALTH_HUD,STATUS_HUD,ID_HUD,WANTED_HUD,IMPLOYAL_HUD,IMPSEC_FIRST_HUD,IMPSEC_SECOND_HUD,ANTAG_HUD,GLAND_HUD,FAN_HUD)
+>>>>>>> tg-pr-88929
 	hud_type = /datum/hud/human
 	pressure_resistance = 25
 	can_buckle = TRUE
@@ -13,28 +17,42 @@
 	mob_biotypes = MOB_ORGANIC|MOB_HUMANOID
 	can_be_shoved_into = TRUE
 	initial_language_holder = /datum/language_holder/empty // We get stuff from our species
+<<<<<<< HEAD
 
 	bodytemp_cold_damage_limit = BODYTEMP_COLD_DAMAGE_LIMIT
 	bodytemp_heat_damage_limit = BODYTEMP_HEAT_DAMAGE_LIMIT
+=======
+	flags_1 = PREVENT_CONTENTS_EXPLOSION_1
+	max_grab = GRAB_KILL
+>>>>>>> tg-pr-88929
 
 	//Hair colour and style
-	var/hair_color = "#000000"
+	var/hair_color = COLOR_BLACK
 	var/hairstyle = "Bald"
 
 	///Colours used for hair and facial hair gradients.
-	var/list/grad_color
+	var/list/grad_color = list(
+		COLOR_BLACK,	//Hair Gradient Color
+		COLOR_BLACK,	//Facial Hair Gradient Color
+	)
 	///Styles used for hair and facial hair gradients.
-	var/list/grad_style
+	var/list/grad_style = list(
+		"None",	//Hair Gradient Style
+		"None",	//Facial Hair Gradient Style
+	)
 
 	//Facial hair colour and style
-	var/facial_hair_color = "#000000"
+	var/facial_hair_color = COLOR_BLACK
 	var/facial_hairstyle = "Shaved"
 
-	//Eye colour
-	var/eye_color_left = "#000000"
-	var/eye_color_right = "#000000"
+	// Base "natural" eye color
+	var/eye_color_left = COLOR_BLACK
+	var/eye_color_right = COLOR_BLACK
 	/// Var used to keep track of a human mob having a heterochromatic right eye. To ensure prefs don't overwrite shit
 	var/eye_color_heterochromatic = FALSE
+	// Eye color overrides assoc lists - priority key to hex color
+	var/list/eye_color_left_overrides
+	var/list/eye_color_right_overrides
 
 	var/skin_tone = "caucasian1" //Skin tone
 
@@ -48,7 +66,7 @@
 
 	//consider updating /mob/living/carbon/human/copy_clothing_prefs() if adding more of these
 	var/underwear = "Nude" //Which underwear the player wants
-	var/underwear_color = "#000000"
+	var/underwear_color = COLOR_BLACK
 	var/undershirt = "Nude" //Which undershirt the player wants
 	var/socks = "Nude" //Which socks the player wants
 	var/backpack = DBACKPACK //Which backpack type the player has chosen.
@@ -65,8 +83,6 @@
 
 	var/special_voice = "" // For changing our voice. Used by a symptom.
 
-	var/name_override //For temporary visible name changes
-
 	var/datum/physiology/physiology
 
 	/// What types of mobs are allowed to ride/buckle to this mob
@@ -75,7 +91,11 @@
 		/mob/living/carbon/human,
 		/mob/living/basic/slime,
 	))
+<<<<<<< HEAD
 	var/lastpuke = 0
+=======
+
+>>>>>>> tg-pr-88929
 	var/account_id
 
 	var/hardcore_survival_score = 0

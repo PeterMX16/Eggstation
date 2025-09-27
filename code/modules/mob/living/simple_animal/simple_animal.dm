@@ -51,8 +51,6 @@
 	///Harm-intent verb in present simple tense.
 	var/response_harm_simple = "hit"
 	var/harm_intent_damage = 3
-	///Minimum force required to deal any damage.
-	var/force_threshold = 0
 	///Maximum amount of stamina damage the mob can be inflicted with total
 	var/max_staminaloss = 200
 	///How much stamina the mob recovers per second
@@ -67,9 +65,6 @@
 
 	/// List of weather immunity traits that are then added on Initialize(), see traits.dm.
 	var/list/weather_immunities
-
-	///Healable by medical stacks? Defaults to yes.
-	var/healable = 1
 
 	///Atmos effect - Yes, you can make creatures that require plasma or co2 to survive. N2O is a trace gas and handled separately, hence why it isn't here. It'd be hard to add it. Hard and me don't mix (Yes, yes make all the dick jokes you want with that.) - Errorage
 	///Leaving something at 0 means it's off - has no maximum.
@@ -87,7 +82,7 @@
 	///Damage type of a simple mob's melee attack, should it do damage.
 	var/melee_damage_type = BRUTE
 	/// 1 for full damage , 0 for none , -1 for 1:1 heal from that source.
-	var/list/damage_coeff = list(BRUTE = 1, BURN = 1, TOX = 1, CLONE = 1, STAMINA = 0, OXY = 1)
+	var/list/damage_coeff = list(BRUTE = 1, BURN = 1, TOX = 1, STAMINA = 0, OXY = 1)
 	///Attacking verb in present continuous tense.
 	var/attack_verb_continuous = "attacks"
 	///Attacking verb in present simple tense.
@@ -176,7 +171,6 @@
 		add_traits(weather_immunities, ROUNDSTART_TRAIT)
 	if (environment_smash >= ENVIRONMENT_SMASH_WALLS)
 		AddElement(/datum/element/wall_smasher, strength_flag = environment_smash)
-
 	if(speak)
 		speak = string_list(speak)
 	if(speak_emote)
@@ -185,8 +179,6 @@
 		emote_hear = string_list(emote_hear)
 	if(emote_see)
 		emote_see = string_list(emote_hear)
-	if(atmos_requirements)
-		atmos_requirements = string_assoc_list(atmos_requirements)
 	if(damage_coeff)
 		damage_coeff = string_assoc_list(damage_coeff)
 	if(footstep_type)
@@ -195,6 +187,24 @@
 		unsuitable_cold_damage = unsuitable_atmos_damage
 	if(isnull(unsuitable_heat_damage))
 		unsuitable_heat_damage = unsuitable_atmos_damage
+
+	///We need to wait for SSair to be initialized before we can check atmos/temp requirements.
+	if(PERFORM_ALL_TESTS(focus_only/atmos_and_temp_requirements) && mapload && !SSair.initialized)
+		RegisterSignal(SSair, COMSIG_SUBSYSTEM_POST_INITIALIZE, PROC_REF(on_ssair_init))
+		return
+	init_atmos_temp_requirement(mapload)
+
+/mob/living/simple_animal/proc/on_ssair_init(datum/source)
+	SIGNAL_HANDLER
+	UnregisterSignal(SSair, COMSIG_SUBSYSTEM_POST_INITIALIZE)
+	init_atmos_temp_requirement(TRUE)
+
+/mob/living/simple_animal/proc/init_atmos_temp_requirement(mapload)
+	if(atmos_requirements && unsuitable_atmos_damage)
+		atmos_requirements = string_assoc_list(atmos_requirements)
+		AddElement(/datum/element/atmos_requirements, atmos_requirements, unsuitable_atmos_damage, mapload)
+	if((unsuitable_cold_damage || unsuitable_heat_damage) && (minbodytemp > 0 || maxbodytemp < INFINITY))
+		AddElement(/datum/element/body_temp_sensitive, minbodytemp, maxbodytemp, unsuitable_cold_damage, unsuitable_heat_damage, mapload)
 
 /mob/living/simple_animal/Life(seconds_per_tick = SSMOBS_DT, times_fired)
 	. = ..()
@@ -234,7 +244,13 @@
  * Updates the speed and staminaloss of a given simplemob.
  * Reduces the stamina loss by stamina_recovery
  */
+<<<<<<< HEAD
 /mob/living/simple_animal/on_stamina_update()
+=======
+/mob/living/simple_animal/update_stamina()
+	if(damage_coeff[STAMINA] <= 0) //we shouldn't reset our speed to its initial value if we don't need to, as that can mess with things like mulebot motor wires
+		return
+>>>>>>> tg-pr-88929
 	set_varspeed(initial(speed) + (staminaloss * 0.06))
 
 /mob/living/simple_animal/proc/handle_automated_action()
@@ -296,6 +312,7 @@
 					else
 						manual_emote(pick(emote_hear))
 
+<<<<<<< HEAD
 /mob/living/simple_animal/proc/environment_air_is_safe()
 	. = TRUE
 
@@ -341,9 +358,12 @@
 	if((areatemp < bodytemp_cold_damage_limit) || (areatemp > bodytemp_heat_damage_limit))
 		. = FALSE
 
+=======
+>>>>>>> tg-pr-88929
 /mob/living/simple_animal/handle_environment(datum/gas_mixture/environment, seconds_per_tick, times_fired)
 	. = ..()
 
+<<<<<<< HEAD
 	if(!environment_air_is_safe() && unsuitable_atmos_damage)
 		adjustHealth(unsuitable_atmos_damage * seconds_per_tick)
 		if(unsuitable_atmos_damage > 0)
@@ -384,6 +404,9 @@
 		clear_alert(ALERT_TEMPERATURE)
 
 /mob/living/simple_animal/gib(no_brain, no_organs, no_bodyparts, safe_gib = TRUE)
+=======
+/mob/living/simple_animal/gib()
+>>>>>>> tg-pr-88929
 	if(butcher_results || guaranteed_butcher_results)
 		var/list/butcher = list()
 		if(butcher_results)
@@ -401,10 +424,8 @@
 		new /obj/effect/temp_visual/gib_animation/animal(loc, icon_gib)
 
 
-/mob/living/simple_animal/say_mod(input, list/message_mods = list())
-	if(length(speak_emote))
-		verb_say = pick(speak_emote)
-	return ..()
+/mob/living/simple_animal/get_default_say_verb()
+	return length(speak_emote) ? pick(speak_emote) : ..()
 
 /mob/living/simple_animal/proc/set_varspeed(var_value)
 	speed = var_value
@@ -435,6 +456,7 @@
 		del_on_death = FALSE
 		ghostize(can_reenter_corpse = FALSE)
 		qdel(src)
+<<<<<<< HEAD
 	else
 		health = 0
 		icon_state = icon_dead
@@ -442,13 +464,31 @@
 			transform = transform.Turn(180)
 		ADD_TRAIT(src, TRAIT_UNDENSE, BASIC_MOB_DEATH_TRAIT)
 		..()
+=======
+		return
+
+	health = 0
+	icon_state = icon_dead
+	if(flip_on_death)
+		transform = transform.Turn(180)
+	ADD_TRAIT(src, TRAIT_UNDENSE, BASIC_MOB_DEATH_TRAIT)
+	return ..()
+>>>>>>> tg-pr-88929
 
 /mob/living/simple_animal/proc/CanAttack(atom/the_target)
+	if(!isatom(the_target)) // no
+		stack_trace("Invalid target in CanAttack(): [the_target]")
+		return FALSE
 	if(see_invisible < the_target.invisibility)
 		return FALSE
 	if(ismob(the_target))
+<<<<<<< HEAD
 		var/mob/M = the_target
 		if(HAS_TRAIT(M, TRAIT_GODMODE))
+=======
+		var/mob/mob = the_target
+		if(HAS_TRAIT(mob, TRAIT_GODMODE))
+>>>>>>> tg-pr-88929
 			return FALSE
 	if (isliving(the_target))
 		var/mob/living/L = the_target
@@ -557,7 +597,7 @@
 //ANIMAL RIDING
 
 /mob/living/simple_animal/user_buckle_mob(mob/living/M, mob/user, check_loc = TRUE)
-	if(user.incapacitated())
+	if(user.incapacitated)
 		return
 	for(var/atom/movable/A in get_turf(src))
 		if(A != src && A != M && A.density)
@@ -583,7 +623,7 @@
 	return
 
 /mob/living/simple_animal/relaymove(mob/living/user, direction)
-	if(user.incapacitated())
+	if(user.incapacitated)
 		return
 	return relaydrive(user, direction)
 
@@ -601,7 +641,7 @@
 /mob/living/simple_animal/proc/Goto(target, delay, minimum_distance)
 	if(prevent_goto_movement)
 		return FALSE
-	SSmove_manager.move_to(src, target, minimum_distance, delay)
+	GLOB.move_manager.move_to(src, target, minimum_distance, delay)
 	return TRUE
 
 //Makes this mob hunt the prey, be it living or an object. Will kill living creatures, and delete objects.
@@ -623,7 +663,7 @@
 	if(isliving(hunted)) // Are we hunting a living mob?
 		var/mob/living/prey = hunted
 		if(inept_hunter) // Make your hunter inept to have them unable to catch their prey.
-			visible_message("<span class='warning'>[src] chases [prey] around, to no avail!</span>")
+			visible_message(span_warning("[src] chases [prey] around, to no avail!"))
 			step(prey, pick(GLOB.cardinals))
 			COOLDOWN_START(src, emote_cooldown, 1 MINUTES)
 			return

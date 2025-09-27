@@ -1,5 +1,17 @@
-import { multiline } from 'common/string';
+import {
+  AnimatedNumber,
+  Box,
+  Button,
+  Flex,
+  Icon,
+  LabeledList,
+  ProgressBar,
+  Section,
+  Stack,
+} from 'tgui-core/components';
+
 import { useBackend, useSharedState } from '../backend';
+<<<<<<< HEAD
 import {
   AnimatedNumber,
   Box,
@@ -11,6 +23,8 @@ import {
   Section,
   Stack,
 } from '../components';
+=======
+>>>>>>> tg-pr-88929
 import { Window } from '../layouts';
 
 export const MedicalKiosk = (props) => {
@@ -28,7 +42,7 @@ export const MedicalKiosk = (props) => {
                 index={1}
                 icon="procedures"
                 name="General Health Scan"
-                description={multiline`
+                description={`
                   Reads back exact values of your general health scan.
                 `}
               />
@@ -36,7 +50,7 @@ export const MedicalKiosk = (props) => {
                 index={2}
                 icon="heartbeat"
                 name="Symptom Based Checkup"
-                description={multiline`
+                description={`
                   Provides information based on various non-obvious symptoms,
                   like blood levels or disease status.
                 `}
@@ -45,7 +59,7 @@ export const MedicalKiosk = (props) => {
                 index={3}
                 icon="radiation-alt"
                 name="Neurological/Radiological Scan"
-                description={multiline`
+                description={`
                   Provides information about brain trauma and radiation.
                 `}
               />
@@ -53,7 +67,7 @@ export const MedicalKiosk = (props) => {
                 index={4}
                 icon="mortar-pestle"
                 name="Chemical and Psychoactive Scan"
-                description={multiline`
+                description={`
                   Provides a list of consumed chemicals, as well as potential
                   side effects.
                 `}
@@ -123,7 +137,7 @@ const MedicalKioskInstructions = (props) => {
       </Box>
       <Button
         mt={1}
-        tooltip={multiline`
+        tooltip={`
           Resets the current scanning target, cancelling current scans.
         `}
         icon="sync"
@@ -220,16 +234,14 @@ const MedicalKioskScanResults2 = (props) => {
 
 const MedicalKioskScanResults3 = (props) => {
   const { data } = useBackend();
+<<<<<<< HEAD
   const { clone_health, brain_damage, brain_health, trauma_status } = data;
+=======
+  const { brain_damage, brain_health, trauma_status } = data;
+>>>>>>> tg-pr-88929
   return (
-    <Section title="Patient Neurological and Radiological Health">
+    <Section title="Patient Neurological Health">
       <LabeledList>
-        <LabeledList.Item label="Cellular Damage">
-          <ProgressBar value={clone_health / 100} color="good">
-            <AnimatedNumber value={clone_health} />
-          </ProgressBar>
-        </LabeledList.Item>
-        <LabeledList.Divider />
         <LabeledList.Item label="Brain Damage">
           <ProgressBar value={brain_damage / 100} color="good">
             <AnimatedNumber value={brain_damage} />
@@ -253,6 +265,7 @@ const MedicalKioskScanResults4 = (props) => {
     overdose_list = [],
     addict_list = [],
     hallucinating_status,
+    blood_alcohol,
   } = data;
   return (
     <Section title="Chemical and Psychoactive Analysis">
@@ -285,6 +298,19 @@ const MedicalKioskScanResults4 = (props) => {
         </LabeledList.Item>
         <LabeledList.Item label="Psychoactive Status">
           {hallucinating_status}
+        </LabeledList.Item>
+        <LabeledList.Item label="Blood Alcohol Content">
+          <ProgressBar
+            value={blood_alcohol}
+            minValue={0}
+            maxValue={0.3}
+            ranges={{
+              blue: [-Infinity, 0.23],
+              bad: [0.23, Infinity],
+            }}
+          >
+            <AnimatedNumber value={blood_alcohol} />
+          </ProgressBar>
         </LabeledList.Item>
       </LabeledList>
     </Section>

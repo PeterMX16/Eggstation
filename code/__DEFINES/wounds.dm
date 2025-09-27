@@ -25,6 +25,7 @@
 /// outright dismemberment of limb
 #define WOUND_SEVERITY_LOSS 4
 
+<<<<<<< HEAD
 /// A "chronological" list of wound severities, starting at the least severe.
 GLOBAL_LIST_INIT(wound_severities_chronological, list(
 	"[WOUND_SEVERITY_TRIVIAL]",
@@ -33,6 +34,21 @@ GLOBAL_LIST_INIT(wound_severities_chronological, list(
 	"[WOUND_SEVERITY_CRITICAL]"
 ))
 
+=======
+// how much blood the limb needs to be losing per tick (not counting laying down/self grasping modifiers) to get the different bleed icons
+#define BLEED_OVERLAY_LOW 0.5
+#define BLEED_OVERLAY_MED 1.5
+#define BLEED_OVERLAY_GUSH 3.25
+
+/// A "chronological" list of wound severities, starting at the least severe.
+GLOBAL_LIST_INIT(wound_severities_chronological, list(
+	"[WOUND_SEVERITY_TRIVIAL]",
+	"[WOUND_SEVERITY_MODERATE]",
+	"[WOUND_SEVERITY_SEVERE]",
+	"[WOUND_SEVERITY_CRITICAL]"
+))
+
+>>>>>>> tg-pr-88929
 // ~wound categories: wounding_types
 /// any brute weapon/attack that doesn't have sharpness. rolls for blunt bone wounds
 #define WOUND_BLUNT "wound_blunt"
@@ -56,6 +72,49 @@ GLOBAL_LIST_INIT(wound_severities_chronological, list(
 /// the max amount of determination you can have
 #define WOUND_DETERMINATION_MAX (1 MINUTES)
 
+/// Wounds using this competition mode will remove any wounds of a greater severity than itself in a random wound roll. In most cases, you dont want to use this.
+#define WOUND_COMPETITION_OVERPOWER_GREATERS "wound_submit"
+/// Wounds using this competition mode will remove any wounds of a lower severity than itself in a random wound roll. Used for ensuring the worse case scenario of a given injury_roll.
+#define WOUND_COMPETITION_OVERPOWER_LESSERS "wound_dominate"
+
+<<<<<<< HEAD
+// ~biology defines
+// What kind of biology a limb has, and what wounds it can suffer
+/// Has absolutely fucking nothing, no wounds
+#define BIO_INORGANIC NONE
+/// Has bone - allows the victim to suffer T2-T3 bone blunt wounds
+#define BIO_BONE (1<<0)
+/// Has flesh - allows the victim to suffer fleshy slash pierce and burn wounds
+#define BIO_FLESH (1<<1)
+/// Has metal - allows the victim to suffer robotic blunt and burn wounds
+#define BIO_METAL (1<<2)
+/// Is wired internally - allows the victim to suffer electrical wounds (robotic T1-T3 slash/pierce)
+#define BIO_WIRED (1<<3)
+/// Has bloodflow - can suffer bleeding wounds and can bleed
+#define BIO_BLOODED (1<<4)
+/// Is connected by a joint - can suffer T1 bone blunt wounds (dislocation)
+#define BIO_JOINTED (1<<5)
+/// Robotic - can suffer all metal/wired wounds, such as: UNIMPLEMENTED PLEASE UPDATE ONCE SYNTH WOUNDS 9/5/2023 ~Niko
+#define BIO_ROBOTIC (BIO_METAL|BIO_WIRED)
+/// Has flesh and bone - See BIO_BONE and BIO_FLESH
+#define BIO_FLESH_BONE (BIO_BONE|BIO_FLESH)
+/// Standard humanoid - can bleed and suffer all flesh/bone wounds, such as: T1-3 slash/pierce/burn/blunt, except dislocations. Think human heads/chests
+#define BIO_STANDARD_UNJOINTED (BIO_FLESH_BONE|BIO_BLOODED)
+/// Standard humanoid limbs - can bleed and suffer all flesh/bone wounds, such as: T1-3 slash/pierce/burn/blunt. Can also bleed, and be dislocated. Think human arms and legs
+#define BIO_STANDARD_JOINTED (BIO_STANDARD_UNJOINTED|BIO_JOINTED)
+
+// "Where" a specific biostate is within a given limb
+// Interior is hard shit, the last line, shit like bones
+// Exterior is soft shit, targeted by slashes and pierces (usually), protects exterior
+// A limb needs both mangled interior and exterior to be dismembered, but slash/pierce must mangle exterior to attack the interior
+// Not having exterior/interior counts as mangled exterior/interior for the purposes of dismemberment
+/// The given biostate is on the "interior" of the limb - hard shit, protected by exterior
+#define ANATOMY_INTERIOR (1<<0)
+/// The given biostate is on the "exterior" of the limb - soft shit, protects interior
+#define ANATOMY_EXTERIOR (1<<1)
+#define ANATOMY_EXTERIOR_AND_INTERIOR (ANATOMY_EXTERIOR|ANATOMY_INTERIOR)
+
+=======
 /// Wounds using this competition mode will remove any wounds of a greater severity than itself in a random wound roll. In most cases, you dont want to use this.
 #define WOUND_COMPETITION_OVERPOWER_GREATERS "wound_submit"
 /// Wounds using this competition mode will remove any wounds of a lower severity than itself in a random wound roll. Used for ensuring the worse case scenario of a given injury_roll.
@@ -97,6 +156,7 @@ GLOBAL_LIST_INIT(wound_severities_chronological, list(
 #define ANATOMY_EXTERIOR (1<<1)
 #define ANATOMY_EXTERIOR_AND_INTERIOR (ANATOMY_EXTERIOR|ANATOMY_INTERIOR)
 
+>>>>>>> tg-pr-88929
 /// A assoc list of BIO_ define to EXTERIOR/INTERIOR defines.
 /// This is where the interior/exterior state of a given biostate is set.
 /// Note that not all biostates are guaranteed to be one of these - and in fact, many are not
@@ -125,6 +185,7 @@ GLOBAL_LIST_INIT(bio_state_anatomy, list(
 /// Cranial fissure wound.
 #define WOUND_SERIES_CRANIAL_FISSURE "wound_series_cranial_fissure"
 
+<<<<<<< HEAD
 // MONKESTATION ADDITION START
 //Have to put it here so it can be used in the global list of wound series wounding_types_to_series
 /// muscle wounds applied at a low chance from blunt, slash, or pierce attacks
@@ -133,6 +194,8 @@ GLOBAL_LIST_INIT(bio_state_anatomy, list(
 #define WOUND_SERIES_MUSCLE_DAMAGE "nova_wound_series_muscle_damage"
 // MONKESTATION ADDITION END
 
+=======
+>>>>>>> tg-pr-88929
 /// A assoc list of (wound typepath -> wound_pregen_data instance). Every wound should have a pregen data.
 GLOBAL_LIST_INIT_TYPED(all_wound_pregen_data, /datum/wound_pregen_data, generate_wound_static_data())
 
@@ -215,10 +278,13 @@ GLOBAL_LIST_INIT(wounding_types_to_series, list(
 	WOUND_PIERCE = list(
 		WOUND_SERIES_FLESH_PUNCTURE_BLEED
 	),
+<<<<<<< HEAD
 	//MONKESTATION ADDITION
 	WOUND_MUSCLE = list(
 		WOUND_SERIES_MUSCLE_DAMAGE
 	),
+=======
+>>>>>>> tg-pr-88929
 ))
 
 /// Used in get_corresponding_wound_type(): Will pick the highest severity wound out of severity_min and severity_max
@@ -254,21 +320,35 @@ GLOBAL_LIST_INIT(wounding_types_to_series, list(
 	RETURN_TYPE(/datum/wound) // note that just because its set to return this doesnt mean its non-nullable
 
 	var/list/wounding_type_list = list()
+<<<<<<< HEAD
 	for (var/wounding_type in wounding_types)
+=======
+	for (var/wounding_type as anything in wounding_types)
+>>>>>>> tg-pr-88929
 		wounding_type_list += GLOB.wounding_types_to_series[wounding_type]
 	if (!length(wounding_type_list))
 		return null
 
 	var/list/datum/wound/paths_to_pick_from = list()
+<<<<<<< HEAD
 	for (var/series in shuffle(wounding_type_list))
+=======
+	for (var/series as anything in shuffle(wounding_type_list))
+>>>>>>> tg-pr-88929
 		var/list/severity_list = GLOB.wound_series_collections[series]
 		if (!length(severity_list))
 			continue
 
 		var/picked_severity
+<<<<<<< HEAD
 		for (var/severity_text in shuffle(GLOB.wound_severities_chronological))
 			var/severity = text2num(severity_text)
 			if (severity > severity_min || severity < severity_max)
+=======
+		for (var/severity_text as anything in shuffle(GLOB.wound_severities_chronological))
+			var/severity = text2num(severity_text)
+			if (!ISINRANGE(severity, severity_min, severity_max))
+>>>>>>> tg-pr-88929
 				continue
 
 			if (isnull(picked_severity) || ((severity_pick_mode == WOUND_PICK_HIGHEST_SEVERITY && severity > picked_severity) || (severity_pick_mode == WOUND_PICK_LOWEST_SEVERITY && severity < picked_severity)))
@@ -307,8 +387,8 @@ GLOBAL_LIST_INIT(biotypes_to_scar_file, list(
 // ~random wound balance defines
 /// how quickly sanitization removes infestation and decays per second
 #define WOUND_BURN_SANITIZATION_RATE 0.075
-/// how much blood you can lose per tick per slash max.
-#define WOUND_SLASH_MAX_BLOODFLOW 4.5
+/// how much blood you can lose per tick per wound max.
+#define WOUND_MAX_BLOODFLOW 4.5
 /// further slash attacks on a bodypart with a slash wound have their blood_flow further increased by damage * this (10 damage slash adds .25 flow)
 #define WOUND_SLASH_DAMAGE_FLOW_COEFF 0.025
 /// if we suffer a bone wound to the head that creates brain traumas, the timer for the trauma cycle is +/- by this percent (0-100)

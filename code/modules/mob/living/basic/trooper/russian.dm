@@ -10,7 +10,11 @@
 	faction = list(FACTION_RUSSIAN)
 	attack_verb_continuous = "slashes"
 	attack_verb_simple = "slash"
+<<<<<<< HEAD
 	attack_sound = 'sound/weapons/bladeslice.ogg'
+=======
+	attack_sound = 'sound/items/weapons/bladeslice.ogg'
+>>>>>>> tg-pr-88929
 	attack_vis_effect = ATTACK_EFFECT_SLASH
 
 	mob_spawner = /obj/effect/mob_spawn/corpse/human/russian
@@ -29,7 +33,11 @@
 		/obj/item/gun/ballistic/revolver/nagant,
 	)
 	var/casingtype = /obj/item/ammo_casing/n762
+<<<<<<< HEAD
 	var/projectilesound = 'sound/weapons/gun/revolver/shot.ogg'
+=======
+	var/projectilesound = 'sound/items/weapons/gun/revolver/shot.ogg'
+>>>>>>> tg-pr-88929
 
 /mob/living/basic/trooper/russian/ranged/Initialize(mapload)
 	. = ..()

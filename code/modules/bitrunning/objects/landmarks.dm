@@ -6,6 +6,7 @@
 /// In case you want to gate the crate behind a special condition.
 /obj/effect/landmark/bitrunning/loot_signal
 	name = "Mysterious aura"
+<<<<<<< HEAD
 	/// The amount required to spawn a crate
 	var/points_goal = 10
 	/// A special condition limits this from spawning a crate
@@ -43,12 +44,22 @@
 	sparks.start()
 
 	qdel(src)
+=======
+>>>>>>> tg-pr-88929
 
 /// Where the exit hololadder spawns
 /obj/effect/landmark/bitrunning/hololadder_spawn
 	name = "Bitrunning hololadder spawn"
 	icon_state = "hololadder"
 
+<<<<<<< HEAD
+=======
+/// A permanent exit for the domain
+/obj/effect/landmark/bitrunning/permanent_exit
+	name = "Bitrunning permanent exit"
+	icon_state = "perm_exit"
+
+>>>>>>> tg-pr-88929
 /// Where the crates need to be taken
 /obj/effect/landmark/bitrunning/cache_goal_turf
 	name = "Bitrunning goal turf"
@@ -57,6 +68,7 @@
 /// Where you want the crate to spawn
 /obj/effect/landmark/bitrunning/cache_spawn
 	name = "Bitrunning crate spawn"
+<<<<<<< HEAD
 	icon_state = "spawn"
 
 /// Where the safehouse will spawn
@@ -68,6 +80,14 @@
 /obj/effect/landmark/bitrunning/mob_segment
 	name = "Bitrunning modular mob segment"
 	icon_state = "mob_segment"
+=======
+	icon_state = "crate"
+
+/// Where you want secondary objectives to spawn
+/obj/effect/landmark/bitrunning/curiosity_spawn
+	name = "Bitrunning curiosity spawn"
+	icon_state = "crate"
+>>>>>>> tg-pr-88929
 
 ///Swaps the locations of an encrypted crate in the area with another randomly selected crate.
 ///Randomizes names, so you have to inspect crates manually.
@@ -78,7 +98,14 @@
 /obj/effect/landmark/bitrunning/crate_replacer/Initialize(mapload)
 	. = ..()
 
+<<<<<<< HEAD
 	#ifndef UNIT_TESTS
+=======
+#ifdef UNIT_TESTS
+	return
+#endif
+
+>>>>>>> tg-pr-88929
 	var/list/crate_list = list()
 	var/obj/structure/closet/crate/secure/bitrunning/encrypted/encrypted_crate
 	var/area/my_area = get_area(src)
@@ -106,4 +133,19 @@
 	encrypted_crate.abstract_move(selected_crate.loc)
 	selected_crate.abstract_move(original_location)
 
+<<<<<<< HEAD
 	#endif
+=======
+
+/// A location for mobs to spawn.
+/obj/effect/landmark/bitrunning/mob_segment
+	name = "Bitrunning modular mob segment"
+	icon_state = "mob_segment"
+
+
+/// Bitrunning safehouses. Typically 7x6 rooms with a single entrance.
+/obj/modular_map_root/safehouse
+	config_file = "strings/modular_maps/safehouse.toml"
+	icon = 'icons/effects/bitrunning.dmi'
+	icon_state = "safehouse"
+>>>>>>> tg-pr-88929

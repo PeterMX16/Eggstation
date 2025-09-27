@@ -5,17 +5,25 @@
 /area/station/solars
 	icon_state = "panels"
 	requires_power = FALSE
+<<<<<<< HEAD
 	area_flags = UNIQUE_AREA | AREA_USES_STARLIGHT
+=======
+	area_flags = UNIQUE_AREA|NO_GRAVITY
+>>>>>>> tg-pr-88929
 	flags_1 = NONE
 	ambience_index = AMBIENCE_ENGI
 	airlock_wires = /datum/wires/airlock/engineering
 	sound_environment = SOUND_AREA_SPACE
+<<<<<<< HEAD
 	outdoors = TRUE
 
 /area/station/solars/Initialize(mapload)
 	. = ..()
 	if(!SSmapping.level_trait(src.z, ZTRAIT_STARLIGHT))
 		set_base_lighting(new_base_lighting_color = GLOB.starlight_color, new_alpha = 255)
+=======
+	default_gravity = ZERO_GRAVITY
+>>>>>>> tg-pr-88929
 
 /area/station/solars/fore
 	name = "\improper Fore Solar Array"
@@ -46,10 +54,26 @@
 	name = "\improper Starboard Bow Solar Array"
 	icon_state = "panelsFS"
 
+<<<<<<< HEAD
+=======
+/area/station/solars/starboard/fore/asteriod
+	name = "\improper Starboard Bow Asteriod Solar Array"
+	icon_state = "panelsFS"
+	area_flags = UNIQUE_AREA // solar areas directly on asteriod have gravity
+
+>>>>>>> tg-pr-88929
 /area/station/solars/port
 	name = "\improper Port Solar Array"
 	icon_state = "panelsP"
 
+<<<<<<< HEAD
+=======
+/area/station/solars/port/asteriod
+	name = "\improper Port Asteriod Solar Array"
+	icon_state = "panelsP"
+	area_flags = UNIQUE_AREA // solar areas directly on asteriod have gravity
+
+>>>>>>> tg-pr-88929
 /area/station/solars/port/aft
 	name = "\improper Port Quarter Solar Array"
 	icon_state = "panelsAP"

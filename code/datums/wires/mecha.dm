@@ -3,7 +3,11 @@
 	proper_name = "Mecha Control"
 
 /datum/wires/mecha/New(atom/holder)
+<<<<<<< HEAD
 	wires = list(WIRE_IDSCAN, WIRE_DISARM, WIRE_ZAP, WIRE_OVERCLOCK)
+=======
+	wires = list(WIRE_IDSCAN, WIRE_DISARM, WIRE_ZAP, WIRE_OVERCLOCK, WIRE_LAUNCH)
+>>>>>>> tg-pr-88929
 	var/obj/vehicle/sealed/mecha/mecha = holder
 	if(mecha.mecha_flags & HAS_LIGHTS)
 		wires += WIRE_LIGHT
@@ -27,7 +31,11 @@
 	status += "The blue light is [mecha.equipment_disabled ? "on" : "off"]."
 	return status
 
+<<<<<<< HEAD
 /datum/wires/mecha/on_pulse(wire)
+=======
+/datum/wires/mecha/on_pulse(wire, user)
+>>>>>>> tg-pr-88929
 	var/obj/vehicle/sealed/mecha/mecha = holder
 	switch(wire)
 		if(WIRE_IDSCAN)
@@ -42,6 +50,11 @@
 			mecha.set_light_on(!mecha.light_on)
 		if(WIRE_OVERCLOCK)
 			mecha.toggle_overclock()
+<<<<<<< HEAD
+=======
+		if(WIRE_LAUNCH)
+			try_attack(user)
+>>>>>>> tg-pr-88929
 
 /datum/wires/mecha/on_cut(wire, mend, source)
 	var/obj/vehicle/sealed/mecha/mecha = holder
@@ -58,11 +71,22 @@
 				mecha.internal_damage &= ~MECHA_INT_SHORT_CIRCUIT
 			else
 				mecha.internal_damage |= MECHA_INT_SHORT_CIRCUIT
+<<<<<<< HEAD
+=======
+				if(isliving(source))
+					mecha.shock(source, 50)
+>>>>>>> tg-pr-88929
 		if(WIRE_LIGHT)
 			mecha.set_light_on(!mend)
 		if(WIRE_OVERCLOCK)
 			if(!mend)
 				mecha.toggle_overclock(FALSE)
+<<<<<<< HEAD
+=======
+		if(WIRE_LAUNCH)
+			if(!mend)
+				try_attack(source)
+>>>>>>> tg-pr-88929
 
 /datum/wires/mecha/proc/try_attack(mob/living/target)
 	var/obj/vehicle/sealed/mecha/mecha = holder

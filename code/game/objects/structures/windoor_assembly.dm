@@ -1,13 +1,3 @@
-/* Windoor (window door) assembly -Nodrak
- * Step 1: Create a windoor out of rglass
- * Step 2: Add r-glass to the assembly to make a secure windoor (Optional)
- * Step 3: Rotate or Flip the assembly to face and open the way you want
- * Step 4: Wrench the assembly in place
- * Step 5: Add cables to the assembly
- * Step 6: Set access for the door.
- * Step 7: Screwdriver the door to complete
- */
-
 
 /obj/structure/windoor_assembly
 	icon = 'icons/obj/doors/windoor.dmi'
@@ -20,16 +10,34 @@
 	dir = NORTH
 	obj_flags = CAN_BE_HIT | BLOCKS_CONSTRUCTION_DIR
 	set_dir_on_move = FALSE
+	can_atmos_pass = ATMOS_PASS_PROC
 
+	/// Reference to the airlock electronics inside for determining window access.
 	var/obj/item/electronics/airlock/electronics = null
+	/// Player generated name string from renaming.
 	var/created_name = null
 
 	//Vars to help with the icon's name
-	var/facing = "l" //Does the windoor open to the left or right?
-	var/secure = FALSE //Whether or not this creates a secure windoor
-	var/state = "01" //How far the door assembly has progressed
-	can_atmos_pass = ATMOS_PASS_PROC
+	///Does the windoor open to the left or right?
+	var/facing = "l"
+	///Whether or not this creates a secure windoor
+	var/secure = FALSE
+	/**
+	  * Windoor (window door) assembly -Nodrak
+	  * Step 1: Create a windoor out of rglass
+	  * Step 2: Add r-glass to the assembly to make a secure windoor (Optional)
+	  * Step 3: Rotate or Flip the assembly to face and open the way you want
+	  * Step 4: Wrench the assembly in place
+	  * Step 5: Add cables to the assembly
+	  * Step 6: Set access for the door.
+	  * Step 7: Crowbar the door to complete
+	 */
+	var/state = "01"
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> tg-pr-88929
 /obj/structure/windoor_assembly/Initialize(mapload, set_dir)
 	. = ..()
 	if(set_dir)
@@ -97,8 +105,13 @@
 	add_fingerprint(user)
 	switch(state)
 		if("01")
+<<<<<<< HEAD
 			if(attacking_item.tool_behaviour == TOOL_WELDER && !anchored)
 				if(!attacking_item.tool_start_check(user, amount=0))
+=======
+			if(W.tool_behaviour == TOOL_WELDER && !anchored)
+				if(!W.tool_start_check(user, amount=1))
+>>>>>>> tg-pr-88929
 					return
 
 				user.visible_message(span_notice("[user] disassembles the windoor assembly."),
@@ -246,8 +259,13 @@
 					electronics = null
 					ae.forceMove(drop_location())
 
+<<<<<<< HEAD
 			else if(IS_WRITING_UTENSIL(attacking_item))
 				var/t = tgui_input_text(user, "Enter the name for the door", "Windoor Renaming", created_name, MAX_NAME_LEN)
+=======
+			else if(IS_WRITING_UTENSIL(W))
+				var/t = tgui_input_text(user, "Enter the name for the door", "Windoor Renaming", created_name, max_length = MAX_NAME_LEN)
+>>>>>>> tg-pr-88929
 				if(!t)
 					return
 				if(!in_range(src, usr) && loc != usr)
@@ -266,7 +284,11 @@
 				user.visible_message(span_notice("[user] pries the windoor into the frame."),
 					span_notice("You start prying the windoor into the frame..."))
 
+<<<<<<< HEAD
 				if(attacking_item.use_tool(src, user, 40, volume=100) && electronics)
+=======
+				if(W.use_tool(src, user, 40, volume=100) && electronics)
+>>>>>>> tg-pr-88929
 					set_density(TRUE) //Shouldn't matter but just incase
 
 					to_chat(user, span_notice("You finish the windoor."))
@@ -279,6 +301,24 @@
 	//Update to reflect changes(if applicable)
 	update_appearance()
 
+<<<<<<< HEAD
+=======
+/obj/structure/windoor_assembly/examine(mob/user)
+	. = ..()
+	if(!anchored)
+		. += span_notice("\The [src] can be [span_boldnotice("wrenched")] down.")
+		. += span_notice("\The [src] could also be [span_boldnotice("cut apart")] with a [span_boldnotice("welder")].")
+		return
+	switch(state)
+		if("01")
+			. += span_notice("\The [src] needs [span_boldnotice("wiring")], or could be [span_boldnotice("un-wrenched")] from the floor.")
+		if("02")
+			if(!electronics)
+				. += span_notice("\The [src] needs [span_boldnotice("airlock electronics")] to continue installation, or [span_boldnotice("wirecutters")] to take apart.")
+			else
+				. += span_notice("\The [src] is ready to be [span_boldnotice("levered")] into place with a [span_boldnotice("crowbar")].")
+
+>>>>>>> tg-pr-88929
 /obj/structure/windoor_assembly/proc/finish_door()
 	var/obj/machinery/door/window/windoor
 	if(secure)
@@ -327,8 +367,11 @@
 
 	qdel(src)
 
+<<<<<<< HEAD
 /obj/structure/windoor_assembly/AltClick(mob/user)
 	return ..() // This hotkey is BLACKLISTED since it's used by /datum/component/simple_rotation
+=======
+>>>>>>> tg-pr-88929
 
 //Flips the windoor assembly, determines whather the door opens to the left or the right
 /obj/structure/windoor_assembly/verb/flip()

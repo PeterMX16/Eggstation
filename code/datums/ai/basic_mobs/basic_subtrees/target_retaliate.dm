@@ -11,7 +11,10 @@
 	var/check_faction = FALSE
 
 /datum/ai_planning_subtree/target_retaliate/SelectBehaviors(datum/ai_controller/controller, seconds_per_tick)
+<<<<<<< HEAD
 	. = ..()
+=======
+>>>>>>> tg-pr-88929
 	controller.queue_behavior(/datum/ai_behavior/target_from_retaliate_list, BB_BASIC_MOB_RETALIATE_LIST, target_key, targeting_strategy_key, hiding_place_key, check_faction)
 
 /datum/ai_planning_subtree/target_retaliate/check_faction
@@ -35,10 +38,17 @@
 	var/vision_range = 9
 
 /datum/ai_behavior/target_from_retaliate_list/perform(seconds_per_tick, datum/ai_controller/controller, shitlist_key, target_key, targeting_strategy_key, hiding_location_key, check_faction)
+<<<<<<< HEAD
 	. = ..()
 	var/mob/living/living_mob = controller.pawn
 	var/datum/targeting_strategy/targeting_strategy = GET_TARGETING_STRATEGY(controller.blackboard[targeting_strategy_key])
 	if(!targeting_strategy)
+=======
+	var/mob/living/living_mob = controller.pawn
+	var/datum/targeting_strategy/targeting_strategy = GET_TARGETING_STRATEGY(controller.blackboard[targeting_strategy_key])
+	if(!targeting_strategy)
+		. = AI_BEHAVIOR_DELAY
+>>>>>>> tg-pr-88929
 		CRASH("No target datum was supplied in the blackboard for [controller.pawn]")
 
 	var/list/shitlist = controller.blackboard[shitlist_key]
@@ -48,8 +58,12 @@
 		controller.set_blackboard_key(BB_TEMPORARILY_IGNORE_FACTION, TRUE)
 
 	if (!QDELETED(existing_target) && (locate(existing_target) in shitlist) && targeting_strategy.can_attack(living_mob, existing_target, vision_range))
+<<<<<<< HEAD
 		finish_action(controller, succeeded = TRUE, check_faction = check_faction)
 		return
+=======
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_SUCCEEDED
+>>>>>>> tg-pr-88929
 
 	var/list/enemies_list = list()
 	for(var/mob/living/potential_target as anything in shitlist)
@@ -58,9 +72,13 @@
 		enemies_list += potential_target
 
 	if(!length(enemies_list))
+<<<<<<< HEAD
 		controller.clear_blackboard_key(target_key)
 		finish_action(controller, succeeded = FALSE, check_faction = check_faction)
 		return
+=======
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
+>>>>>>> tg-pr-88929
 
 	var/atom/new_target = pick_final_target(controller, enemies_list)
 	controller.set_blackboard_key(target_key, new_target)
@@ -70,13 +88,21 @@
 	if(potential_hiding_location) //If they're hiding inside of something, we need to know so we can go for that instead initially.
 		controller.set_blackboard_key(hiding_location_key, potential_hiding_location)
 
+<<<<<<< HEAD
 	finish_action(controller, succeeded = TRUE, check_faction = check_faction)
+=======
+	return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_SUCCEEDED
+>>>>>>> tg-pr-88929
 
 /// Returns the desired final target from the filtered list of enemies
 /datum/ai_behavior/target_from_retaliate_list/proc/pick_final_target(datum/ai_controller/controller, list/enemies_list)
 	return pick(enemies_list)
 
+<<<<<<< HEAD
 /datum/ai_behavior/target_from_retaliate_list/finish_action(datum/ai_controller/controller, succeeded, check_faction)
+=======
+/datum/ai_behavior/target_from_retaliate_list/finish_action(datum/ai_controller/controller, succeeded, shitlist_key, target_key, targeting_strategy_key, hiding_location_key, check_faction)
+>>>>>>> tg-pr-88929
 	. = ..()
 	if (succeeded || check_faction)
 		return

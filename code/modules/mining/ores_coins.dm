@@ -22,6 +22,9 @@
 	var/list/stack_overlays
 	var/scan_state = "" //Used by mineral turfs for their scan overlay.
 	var/spreadChance = 0 //Also used by mineral turfs for spreading veins
+	drop_sound = SFX_STONE_DROP
+	pickup_sound = SFX_STONE_PICKUP
+	sound_vary = TRUE
 
 /obj/item/stack/ore/update_overlays()
 	. = ..()
@@ -50,7 +53,7 @@
 	if(!refined_type)
 		return TRUE
 
-	if(I.use_tool(src, user, 0, volume=50, amount=15))
+	if(I.use_tool(src, user, 0, volume=50))
 		new refined_type(drop_location())
 		use(1)
 
@@ -107,9 +110,14 @@
 	merge_type = /obj/item/stack/ore/glass
 
 GLOBAL_LIST_INIT(sand_recipes, list(\
-		new /datum/stack_recipe("sandstone", /obj/item/stack/sheet/mineral/sandstone, 1, 1, 50, check_density = FALSE, category = CAT_MISC),\
-		new /datum/stack_recipe("aesthetic volcanic floor tile", /obj/item/stack/tile/basalt, 2, 1, 50, check_density = FALSE, category = CAT_TILES)\
+		new /datum/stack_recipe("pile of dirt", /obj/machinery/hydroponics/soil, 3, time = 1 SECONDS, crafting_flags = CRAFT_CHECK_DENSITY | CRAFT_ONE_PER_TURF | CRAFT_ON_SOLID_GROUND, category = CAT_TOOLS), \
+		new /datum/stack_recipe("sandstone", /obj/item/stack/sheet/mineral/sandstone, 1, 1, 50, crafting_flags = NONE, category = CAT_MISC),\
+		new /datum/stack_recipe("aesthetic volcanic floor tile", /obj/item/stack/tile/basalt, 2, 1, 50, crafting_flags = NONE, category = CAT_TILES)\
 ))
+
+/obj/item/stack/ore/glass/Initialize(mapload, new_amount, merge, list/mat_override, mat_amt)
+	. = ..()
+	AddComponent(/datum/component/storm_hating)
 
 /obj/item/stack/ore/glass/get_main_recipes()
 	. = ..()
@@ -131,6 +139,9 @@ GLOBAL_LIST_INIT(sand_recipes, list(\
 /obj/item/stack/ore/glass/ex_act(severity, target)
 	if(severity)
 		qdel(src)
+		return TRUE
+
+	return FALSE
 
 /obj/item/stack/ore/glass/basalt
 	name = "volcanic ash"
@@ -190,6 +201,9 @@ GLOBAL_LIST_INIT(sand_recipes, list(\
 	scan_state = "rock_Diamond"
 	merge_type = /obj/item/stack/ore/diamond
 
+/obj/item/stack/ore/diamond/five
+	amount = 5
+
 /obj/item/stack/ore/bananium
 	name = "bananium ore"
 	icon_state = "bananium"
@@ -228,17 +242,35 @@ GLOBAL_LIST_INIT(sand_recipes, list(\
 	inhand_icon_state = "Gibtonite ore"
 	w_class = WEIGHT_CLASS_BULKY
 	throw_range = 0
+	/// if the gibtonite is currently primed for explosion
 	var/primed = FALSE
-	var/det_time = 100
-	var/quality = GIBTONITE_QUALITY_LOW //How pure this gibtonite is, determines the explosion produced by it and is derived from the det_time of the rock wall it was taken from, higher value = better
-	var/attacher = "UNKNOWN"
+	/// how long does it take for this to detonate
+	var/det_time = 10 SECONDS
+	/// the timer
 	var/det_timer
+	/// How pure this gibtonite is, determines the explosion produced by it and is derived from the det_time of the rock wall it was taken from, higher value = better
+	var/quality = GIBTONITE_QUALITY_LOW
+	/// who attached the rig to us
+	var/attacher
+	/// the assembly rig
+	var/obj/item/assembly_holder/rig
+	/// the rig overlay
+	var/mutable_appearance/rig_overlay
 
 /obj/item/gibtonite/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/two_handed, require_twohands=TRUE)
+	AddComponent(/datum/component/golem_food, consume_on_eat = FALSE, golem_food_key = /obj/item/gibtonite)
+
+/obj/item/gibtonite/examine(mob/user)
+	. = ..()
+	if(rig)
+		. += span_warning("There is some kind of device <b>rigged</b> to it!")
+	else
+		. += span_notice("You could <b>rig</b> something to it.")
 
 /obj/item/gibtonite/Destroy()
+<<<<<<< HEAD
 	qdel(wires)
 	set_wires(null)
 	return ..()
@@ -255,13 +287,65 @@ GLOBAL_LIST_INIT(sand_recipes, list(\
 	if(wires && !primed)
 		if(is_wire_tool(attacking_item))
 			wires.interact(user)
-			return
+=======
+	QDEL_NULL(rig)
+	rig_overlay = null
+	return ..()
 
+/obj/item/gibtonite/Exited(atom/movable/gone, direction)
+	. = ..()
+	if(gone == rig)
+		rig = null
+		attacher = null
+		cut_overlays(rig_overlay)
+		UnregisterSignal(src, COMSIG_IGNITER_ACTIVATE)
+
+/obj/item/gibtonite/IsSpecialAssembly()
+	return TRUE
+
+/obj/item/gibtonite/attackby(obj/item/I, mob/user, params)
+	if(istype(I, /obj/item/assembly_holder) && !rig)
+		var/obj/item/assembly_holder/holder = I
+		if(!(locate(/obj/item/assembly/igniter) in holder.assemblies))
+			return ..()
+		if(!user.transferItemToLoc(holder, src))
+			return
+		add_fingerprint(user)
+		rig = holder
+		holder.master = src
+		holder.on_attach()
+		rig_overlay = holder
+		rig_overlay.pixel_y -= 5
+		add_overlay(rig_overlay)
+		RegisterSignal(src, COMSIG_IGNITER_ACTIVATE, PROC_REF(igniter_prime))
+		log_bomber(user, "attached [holder] to ", src)
+		attacher = key_name(user)
+		user.balloon_alert_to_viewers("attached rig")
+		return
+
+	if(I.tool_behaviour == TOOL_WRENCH && rig)
+		rig.on_found()
+		if(QDELETED(src))
+>>>>>>> tg-pr-88929
+			return
+		user.balloon_alert_to_viewers("detached rig")
+		user.log_message("detached [rig] from [src].", LOG_GAME)
+		user.put_in_hands(rig)
+		return
+
+<<<<<<< HEAD
 	if(attacking_item.tool_behaviour == TOOL_MINING || istype(attacking_item, /obj/item/resonator) || attacking_item.force >= 10)
 		GibtoniteReaction(user)
 		return
 
 	if(istype(attacking_item, /obj/item/mining_scanner) || istype(attacking_item, /obj/item/t_scanner/adv_mining_scanner) || attacking_item.tool_behaviour == TOOL_MULTITOOL)
+=======
+	if(I.tool_behaviour == TOOL_MINING || istype(I, /obj/item/resonator) || I.force >= 10)
+		GibtoniteReaction(user, "A resonator has primed for detonation a")
+		return
+
+	if(istype(I, /obj/item/mining_scanner) || istype(I, /obj/item/t_scanner/adv_mining_scanner) || I.tool_behaviour == TOOL_MULTITOOL)
+>>>>>>> tg-pr-88929
 		defuse(user)
 		return
 
@@ -284,20 +368,31 @@ GLOBAL_LIST_INIT(sand_recipes, list(\
 	else
 		return ..()
 
+<<<<<<< HEAD
 /obj/item/gibtonite/bullet_act(obj/projectile/P)
 	GibtoniteReaction(P.firer)
+=======
+/obj/item/gibtonite/bullet_act(obj/projectile/proj)
+	GibtoniteReaction(proj.firer, "A projectile has primed for detonation a")
+>>>>>>> tg-pr-88929
 	return ..()
 
 /obj/item/gibtonite/ex_act()
-	GibtoniteReaction(null, 1)
+	GibtoniteReaction(null, "An explosion has primed for detonation a")
+	return TRUE
 
+<<<<<<< HEAD
 /obj/item/gibtonite/proc/GibtoniteReaction(mob/user, triggered_by = 0)
+=======
+/obj/item/gibtonite/proc/GibtoniteReaction(mob/user, triggered_by)
+>>>>>>> tg-pr-88929
 	if(primed)
 		return
 	primed = TRUE
 	playsound(src,'sound/effects/hit_on_shattered_glass.ogg',50,TRUE)
 	icon_state = "gibtonite_active"
 	var/notify_admins = FALSE
+<<<<<<< HEAD
 	if(z != 5)//Only annoy the admins ingame if we're triggered off the mining zlevel
 		notify_admins = TRUE
 
@@ -313,18 +408,45 @@ GLOBAL_LIST_INIT(sand_recipes, list(\
 	else
 		user.visible_message(span_warning("[user] strikes \the [src], causing a chain reaction!"), span_danger("You strike \the [src], causing a chain reaction."))
 		log_bomber(user, "has primed a", src, "for detonation", notify_admins)
+=======
+	if(!is_mining_level(z))//Only annoy the admins ingame if we're triggered off the mining zlevel
+		notify_admins = TRUE
+
+	if(user)
+		user.visible_message(span_warning("[user] strikes \the [src], causing a chain reaction!"), span_danger("You strike \the [src], causing a chain reaction."))
+
+	var/attacher_text = attacher ? "Igniter attacher: [ADMIN_LOOKUPFLW(attacher)]" : null
+
+	if(triggered_by)
+		log_bomber(user, triggered_by, src, attacher_text, notify_admins)
+	else
+		log_bomber(user, "Something has primed a", src, "for detonation.[attacher_text ? " " : ""][attacher_text]", notify_admins)
+
+>>>>>>> tg-pr-88929
 	det_timer = addtimer(CALLBACK(src, PROC_REF(detonate), notify_admins), det_time, TIMER_STOPPABLE)
 
 /obj/item/gibtonite/proc/detonate(notify_admins)
 	if(primed)
 		switch(quality)
 			if(GIBTONITE_QUALITY_HIGH)
-				explosion(src, devastation_range = 2, heavy_impact_range = 4, light_impact_range = 9, adminlog = notify_admins)
+				explosion(src, devastation_range = 2, heavy_impact_range = 4, light_impact_range = 9, flame_range = 0, flash_range = 0, adminlog = notify_admins)
 			if(GIBTONITE_QUALITY_MEDIUM)
-				explosion(src, devastation_range = 1, heavy_impact_range = 2, light_impact_range = 5, adminlog = notify_admins)
+				explosion(src, devastation_range = 1, heavy_impact_range = 2, light_impact_range = 5, flame_range = 0, flash_range = 0, adminlog = notify_admins)
 			if(GIBTONITE_QUALITY_LOW)
-				explosion(src, heavy_impact_range = 1, light_impact_range = 3, adminlog = notify_admins)
+				explosion(src, heavy_impact_range = 1, light_impact_range = 3, flame_range = 0, flash_range = 0, adminlog = notify_admins)
 		qdel(src)
+
+/obj/item/gibtonite/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
+	. = ..()
+	if (throwingdatum.dist_travelled < 2 || !isliving(hit_atom))
+		return
+	var/mob/living/hit_mob = hit_atom
+	hit_mob.Paralyze(1.5 SECONDS)
+	hit_mob.Knockdown(8 SECONDS)
+
+/obj/item/gibtonite/proc/igniter_prime()
+	SIGNAL_HANDLER
+	GibtoniteReaction(null, "An attached rig has primed a")
 
 /obj/item/stack/ore/Initialize(mapload, new_amount, merge = TRUE, list/mat_override=null, mat_amt=1)
 	. = ..()
@@ -334,22 +456,29 @@ GLOBAL_LIST_INIT(sand_recipes, list(\
 /obj/item/stack/ore/ex_act(severity, target)
 	if(severity >= EXPLODE_DEVASTATE)
 		qdel(src)
+		return TRUE
+
+	return FALSE
 
 
 /*****************************Coin********************************/
 
-// The coin's value is a value of it's materials.
+// The coin's value is a value of its materials.
 // Yes, the gold standard makes a come-back!
 // This is the only way to make coins that are possible to produce on station actually worth anything.
 /obj/item/coin
 	icon = 'icons/obj/economy.dmi'
 	name = "coin"
 	icon_state = "coin"
-	flags_1 = CONDUCT_1
+	obj_flags = CONDUCTS_ELECTRICITY
 	force = 1
 	throwforce = 2
 	w_class = WEIGHT_CLASS_TINY
+<<<<<<< HEAD
 	custom_materials = list(/datum/material/iron = HALF_SHEET_MATERIAL_AMOUNT*0.4)
+=======
+	custom_materials = list(/datum/material/iron = COIN_MATERIAL_AMOUNT)
+>>>>>>> tg-pr-88929
 	material_flags = MATERIAL_EFFECTS | MATERIAL_ADD_PREFIX | MATERIAL_COLOR | MATERIAL_AFFECT_STATISTICS
 	var/string_attached
 	var/list/sideslist = list("heads","tails")
@@ -370,15 +499,15 @@ GLOBAL_LIST_INIT(sand_recipes, list(\
 	icon_state = "coin_[coinflip]"
 	pixel_x = base_pixel_x + rand(0, 16) - 8
 	pixel_y = base_pixel_y + rand(0, 8) - 8
+	add_traits(list(TRAIT_FISHING_BAIT, TRAIT_BAIT_ALLOW_FISHING_DUD), INNATE_TRAIT)
 
-/obj/item/coin/set_custom_materials(list/materials, multiplier = 1)
+/obj/item/coin/finalize_material_effects(list/materials)
 	. = ..()
 	if(override_material_worth)
 		return
 	value = 0
-	for(var/i in custom_materials)
-		var/datum/material/M = i
-		value += M.value_per_unit * custom_materials[M]
+	for(var/datum/material/material as anything in materials)
+		value += material.value_per_unit * materials[material][MATERIAL_LIST_OPTIMAL_AMOUNT]
 
 /obj/item/coin/get_item_credit_value()
 	return value
@@ -388,7 +517,7 @@ GLOBAL_LIST_INIT(sand_recipes, list(\
 	if (!attack_self(user))
 		user.visible_message(span_suicide("[user] couldn't flip \the [src]!"))
 		return SHAME
-	addtimer(CALLBACK(src, PROC_REF(manual_suicide), user), 10)//10 = time takes for flip animation
+	addtimer(CALLBACK(src, PROC_REF(manual_suicide), user), 1 SECONDS)//10 = time takes for flip animation
 	return MANUAL_SUICIDE_NONLETHAL
 
 /obj/item/coin/proc/manual_suicide(mob/living/user)
@@ -446,7 +575,7 @@ GLOBAL_LIST_INIT(sand_recipes, list(\
 		playsound(user.loc, 'sound/items/coinflip.ogg', 50, TRUE)
 		var/oldloc = loc
 		sleep(1.5 SECONDS)
-		if(loc == oldloc && user && !user.incapacitated())
+		if(loc == oldloc && user && !user.incapacitated)
 			user.visible_message(span_notice("[user] flips [src]. It lands on [coinflip]."), \
 				span_notice("You flip [src]. It lands on [coinflip]."), \
 				span_hear("You hear the clattering of loose change."))
@@ -464,6 +593,7 @@ GLOBAL_LIST_INIT(sand_recipes, list(\
 	return
 
 /obj/item/coin/gold
+<<<<<<< HEAD
 	custom_materials = list(/datum/material/gold = HALF_SHEET_MATERIAL_AMOUNT*0.4)
 
 /obj/item/coin/silver
@@ -495,6 +625,39 @@ GLOBAL_LIST_INIT(sand_recipes, list(\
 
 /obj/item/coin/runite
 	custom_materials = list(/datum/material/runite = HALF_SHEET_MATERIAL_AMOUNT*0.4)
+=======
+	custom_materials = list(/datum/material/gold = COIN_MATERIAL_AMOUNT)
+
+/obj/item/coin/silver
+	custom_materials = list(/datum/material/silver = COIN_MATERIAL_AMOUNT)
+
+/obj/item/coin/diamond
+	custom_materials = list(/datum/material/diamond = COIN_MATERIAL_AMOUNT)
+
+/obj/item/coin/plasma
+	custom_materials = list(/datum/material/plasma = COIN_MATERIAL_AMOUNT)
+
+/obj/item/coin/uranium
+	custom_materials = list(/datum/material/uranium = COIN_MATERIAL_AMOUNT)
+
+/obj/item/coin/titanium
+	custom_materials = list(/datum/material/titanium = COIN_MATERIAL_AMOUNT)
+
+/obj/item/coin/bananium
+	custom_materials = list(/datum/material/bananium = COIN_MATERIAL_AMOUNT)
+
+/obj/item/coin/adamantine
+	custom_materials = list(/datum/material/adamantine = COIN_MATERIAL_AMOUNT)
+
+/obj/item/coin/mythril
+	custom_materials = list(/datum/material/mythril = COIN_MATERIAL_AMOUNT)
+
+/obj/item/coin/plastic
+	custom_materials = list(/datum/material/plastic = COIN_MATERIAL_AMOUNT)
+
+/obj/item/coin/runite
+	custom_materials = list(/datum/material/runite = COIN_MATERIAL_AMOUNT)
+>>>>>>> tg-pr-88929
 
 /obj/item/coin/twoheaded
 	desc = "Hey, this coin's the same on both sides!"
@@ -504,7 +667,11 @@ GLOBAL_LIST_INIT(sand_recipes, list(\
 	name = "antag token"
 	desc = "A novelty coin that helps the heart know what hard evidence cannot prove."
 	icon_state = "coin_valid"
+<<<<<<< HEAD
 	custom_materials = list(/datum/material/plastic = HALF_SHEET_MATERIAL_AMOUNT*0.4)
+=======
+	custom_materials = list(/datum/material/plastic = COIN_MATERIAL_AMOUNT)
+>>>>>>> tg-pr-88929
 	sideslist = list("valid", "salad")
 	heads_name = "valid"
 	material_flags = NONE
@@ -513,7 +680,11 @@ GLOBAL_LIST_INIT(sand_recipes, list(\
 /obj/item/coin/iron
 
 /obj/item/coin/gold/debug
+<<<<<<< HEAD
 	custom_materials = list(/datum/material/gold = HALF_SHEET_MATERIAL_AMOUNT*0.4)
+=======
+	custom_materials = list(/datum/material/gold = COIN_MATERIAL_AMOUNT)
+>>>>>>> tg-pr-88929
 	desc = "If you got this somehow, be aware that it will dust you. Almost certainly."
 
 /obj/item/coin/gold/debug/attack_self(mob/user)
@@ -528,7 +699,7 @@ GLOBAL_LIST_INIT(sand_recipes, list(\
 		playsound(user.loc, 'sound/items/coinflip.ogg', 50, TRUE)
 		var/oldloc = loc
 		sleep(1.5 SECONDS)
-		if(loc == oldloc && user && !user.incapacitated())
+		if(loc == oldloc && user && !user.incapacitated)
 			user.visible_message(span_notice("[user] flips [src]. It lands on [coinflip]."), \
 				span_notice("You flip [src]. It lands on [coinflip]."), \
 				span_hear("You hear the clattering of loose change."))
@@ -549,7 +720,7 @@ GLOBAL_LIST_INIT(sand_recipes, list(\
 
 /obj/item/coin/eldritch
 	name = "eldritch coin"
-	desc = "Everytime it lands it bolts or opens doors, except for you."
+	desc = "A surprisingly heavy, ornate coin. Its sides seem to depict a different image each time you look."
 	icon_state = "coin_heretic"
 	custom_materials = list(/datum/material/diamond =HALF_SHEET_MATERIAL_AMOUNT, /datum/material/plasma =HALF_SHEET_MATERIAL_AMOUNT)
 	sideslist = list("heretic", "blade")

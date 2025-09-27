@@ -22,12 +22,15 @@
 // Only ever goes away when dismissed directly.
 #define LANGUAGE_ABSORB "absorb"
 #define LANGUAGE_APHASIA "aphasia"
-#define LANGUAGE_CTF "ctf"
 #define LANGUAGE_CULTIST "cultist"
 #define LANGUAGE_CURATOR "curator"
 #define LANGUAGE_GLAND "gland"
 #define LANGUAGE_HAT "hat"
 #define LANGUAGE_QUIRK "quirk"
+<<<<<<< HEAD
+=======
+#define LANGUAGE_DRINK "drink"
+>>>>>>> tg-pr-88929
 #define LANGUAGE_MALF "malf"
 #define LANGUAGE_PIRATE "pirate"
 #define LANGUAGE_MASTER "master"
@@ -37,9 +40,13 @@
 #define LANGUAGE_VOICECHANGE "voicechange"
 #define LANGUAGE_RADIOKEY "radiokey"
 #define LANGUAGE_BABEL "babel"
+<<<<<<< HEAD
 #define LANGUAGE_BLOODSUCKER "bloodsucker"
 #define LANGUAGE_VASSAL "vassal"
 #define LANGUAGE_DARKSPAWN "darkspawn"
+=======
+#define LANGUAGE_EMP "emp"
+>>>>>>> tg-pr-88929
 
 // Language flags. Used in granting and removing languages.
 /// This language can be spoken.

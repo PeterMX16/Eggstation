@@ -8,4 +8,8 @@
 	message = "oogas."
 	message_param = "oogas at %t."
 	emote_type = EMOTE_AUDIBLE | EMOTE_VISIBLE
+<<<<<<< HEAD
 	sound = 'sound/creatures/gorilla.ogg'
+=======
+	sound = 'sound/mobs/non-humanoids/gorilla/gorilla.ogg'
+>>>>>>> tg-pr-88929

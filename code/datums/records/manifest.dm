@@ -11,10 +11,9 @@ GLOBAL_DATUM_INIT(manifest, /datum/manifest, new)
 
 /// Builds the list of crew records for all crew members.
 /datum/manifest/proc/build()
-	for(var/i in GLOB.new_player_list)
-		var/mob/dead/new_player/readied_player = i
+	for(var/mob/dead/new_player/readied_player as anything in GLOB.new_player_list)
 		if(readied_player.new_character)
-			log_manifest(readied_player.ckey,readied_player.new_character.mind,readied_player.new_character)
+			log_manifest(readied_player.ckey, readied_player.new_character.mind, readied_player.new_character)
 		if(ishuman(readied_player.new_character))
 			inject(readied_player.new_character)
 		CHECK_TICK
@@ -32,7 +31,7 @@ GLOBAL_DATUM_INIT(manifest, /datum/manifest, new)
 		var/name = target.name
 		var/rank = target.rank // user-visible job
 		var/trim = target.trim // internal jobs by trim type
-		var/datum/job/job = SSjob.GetJob(trim)
+		var/datum/job/job = SSjob.get_job(trim)
 		if(!job || !(job.job_flags & JOB_CREW_MANIFEST) || !LAZYLEN(job.departments_list)) // In case an unlawful custom rank is added.
 			var/list/misc_list = manifest_out[DEPARTMENT_UNASSIGNED]
 			misc_list[++misc_list.len] = list(
@@ -41,7 +40,14 @@ GLOBAL_DATUM_INIT(manifest, /datum/manifest, new)
 				"trim" = trim,
 				)
 			continue
+<<<<<<< HEAD
 		for(var/department_type in job.departments_list)
+=======
+		for(var/department_type as anything in job.departments_list)
+			//Jobs under multiple departments should only be displayed if this is their first department or the command department
+			if(job.departments_list[1] != department_type && !(job.departments_bitflags & DEPARTMENT_BITFLAG_COMMAND))
+				continue
+>>>>>>> tg-pr-88929
 			var/datum/job_department/department = departments_by_type[department_type]
 			if(!department)
 				stack_trace("get_manifest() failed to get job department for [department_type] of [job.type]")
@@ -101,13 +107,17 @@ GLOBAL_DATUM_INIT(manifest, /datum/manifest, new)
 	if(!(person.mind?.assigned_role.job_flags & JOB_CREW_MANIFEST))
 		return
 
-	var/assignment = person.mind.assigned_role.title
+	// Attempt to get assignment from ID, otherwise default to mind.
+	var/obj/item/card/id/id_card = person.get_idcard(hand_first = FALSE)
+	var/assignment = id_card?.get_trim_assignment() || person.mind.assigned_role.title
+
 	var/mutable_appearance/character_appearance = new(person.appearance)
 	var/person_gender = "Other"
 	if(person.gender == "male")
 		person_gender = "Male"
 	if(person.gender == "female")
 		person_gender = "Female"
+<<<<<<< HEAD
 	var/datum/dna/record_dna = new()
 	person.dna.copy_dna(record_dna)
 
@@ -116,13 +126,25 @@ GLOBAL_DATUM_INIT(manifest, /datum/manifest, new)
 	var/datum/record/locked/lockfile = new(
 		age = person.age,
 		blood_type = "[person.get_blood_type() || "None"]",
+=======
+	var/datum/dna/stored/record_dna = new()
+	person.dna.copy_dna(record_dna)
+
+	var/datum/record/locked/lockfile = new(
+		age = person.age,
+		blood_type = record_dna.blood_type,
+>>>>>>> tg-pr-88929
 		character_appearance = character_appearance,
 		dna_string = record_dna.unique_enzymes,
 		fingerprint = md5(record_dna.unique_identity),
 		gender = person_gender,
 		initial_rank = assignment,
 		name = person.real_name,
+<<<<<<< HEAD
 		rank = chosen_assignment,
+=======
+		rank = assignment,
+>>>>>>> tg-pr-88929
 		species = record_dna.species.name,
 		trim = assignment,
 		mind_ref = WEAKREF(person.mind), // monkestation edit: weakreffed mind ref
@@ -133,14 +155,22 @@ GLOBAL_DATUM_INIT(manifest, /datum/manifest, new)
 
 	var/datum/record/crew/crewfile = new (
 		age = person.age,
+<<<<<<< HEAD
 		blood_type = "[person.get_blood_type() || "None"]",
+=======
+		blood_type = record_dna.blood_type,
+>>>>>>> tg-pr-88929
 		character_appearance = character_appearance,
 		dna_string = record_dna.unique_enzymes,
 		fingerprint = md5(record_dna.unique_identity),
 		gender = person_gender,
 		initial_rank = assignment,
 		name = person.real_name,
+<<<<<<< HEAD
 		rank = chosen_assignment,
+=======
+		rank = assignment,
+>>>>>>> tg-pr-88929
 		species = record_dna.species.name,
 		trim = assignment,
 		mind_ref = WEAKREF(person.mind), // monkestation edit: weakreffed mind ref
@@ -153,12 +183,15 @@ GLOBAL_DATUM_INIT(manifest, /datum/manifest, new)
 		quirk_notes = person.get_quirk_string(TRUE, CAT_QUIRK_NOTES),
 	)
 
+<<<<<<< HEAD
 	person.mind.crewfile = crewfile
 	person.mind.lockfile = lockfile
 	person.crew_hud_set_crew_status() //MONKE, when someone is added to crew, set their crew hud status, to make hud know they're crew.
 
 	return
 
+=======
+>>>>>>> tg-pr-88929
 /// Edits the rank and trim of the found record.
 /datum/manifest/proc/modify(name, assignment, trim)
 	var/datum/record/crew/target = find_record(name)

@@ -5,7 +5,6 @@
 	icon_state = "engi"
 	icon_deny = "engi-deny"
 	panel_type = "panel10"
-	req_access = list(ACCESS_ENGINE_EQUIP)
 	products = list(
 		/obj/item/clothing/under/rank/engineering/chief_engineer = 4,
 		/obj/item/clothing/under/rank/engineering/engineer = 4,
@@ -29,7 +28,7 @@
 		/obj/item/stock_parts/scanning_module = 5,
 		/obj/item/stock_parts/micro_laser = 5,
 		/obj/item/stock_parts/matter_bin = 5,
-		/obj/item/stock_parts/manipulator = 5,
+		/obj/item/stock_parts/servo = 5,
 		)
 	refill_canister = /obj/item/vending_refill/engineering
 	default_price = PAYCHECK_CREW

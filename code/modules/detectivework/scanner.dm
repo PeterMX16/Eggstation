@@ -3,14 +3,14 @@
 /obj/item/detective_scanner
 	name = "forensic scanner"
 	desc = "Used to remotely scan objects and biomass for DNA and fingerprints. Can print a report of the findings."
-	icon = 'icons/obj/device.dmi'
+	icon = 'icons/obj/devices/scanner.dmi'
 	icon_state = "forensicnew"
 	w_class = WEIGHT_CLASS_SMALL
 	inhand_icon_state = "electronic"
 	worn_icon_state = "electronic"
 	lefthand_file = 'icons/mob/inhands/items/devices_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/items/devices_righthand.dmi'
-	flags_1 = CONDUCT_1
+	obj_flags = CONDUCTS_ELECTRICITY
 	item_flags = NOBLUDGEON
 	slot_flags = ITEM_SLOT_BELT
 	/// if the scanner is currently busy processing
@@ -42,8 +42,15 @@
 	//This could be a global count like sec and med record printouts. See GLOB.manifest.generalPrintCount AKA datacore.dm
 	var/frNum = ++forensicPrintCount
 
+<<<<<<< HEAD
 	report_paper.name = text("FR-[] 'Forensic Record'", frNum)
 	var/list/report_text = list("<H1>Forensic Record - (FR-[frNum])</H1><HR>")
+=======
+	report_paper.name = "FR-[frNum] 'Forensic Record'"
+	var/report_text = "<center><B>Forensic Record - (FR-[frNum])</B></center><HR><BR>"
+	report_text += jointext(log, "<BR>")
+	report_text += "<HR><B>Notes:</B><BR>"
+>>>>>>> tg-pr-88929
 
 	for(var/list/log in log_data)
 		report_text += "<H2>[capitalize(log["scan_target"])] scan at [log["scan_time"]]</H2><DL>"
@@ -128,10 +135,14 @@
  * This should always return TRUE barring a runtime
  */
 /obj/item/detective_scanner/proc/scan(mob/user, atom/scanned_atom)
-	// Can remotely scan objects and mobs.
-	if((get_dist(scanned_atom, user) > range) || (!(scanned_atom in view(range, user)) && view_check) || (loc != user))
+	if(loc != user)
 		return TRUE
-
+	// Can scan items we hold and store
+	if(!(scanned_atom in user.get_all_contents()))
+		// Can remotely scan objects and mobs.
+		if((get_dist(scanned_atom, user) > range) || (!(scanned_atom in view(range, user)) && view_check))
+			return TRUE
+	playsound(src, SFX_INDUSTRIAL_SCAN, 20, TRUE, -2, TRUE, FALSE)
 	scanner_busy = TRUE
 
 
@@ -203,8 +214,25 @@
 /proc/get_timestamp()
 	return time2text(world.time + 432000, ":ss")
 
+<<<<<<< HEAD
 /obj/item/detective_scanner/AltClick(mob/living/user)
 	return clear_logs()
+=======
+/obj/item/detective_scanner/click_alt(mob/living/user)
+	if(!LAZYLEN(log))
+		balloon_alert(user, "no logs!")
+		return CLICK_ACTION_BLOCKING
+	if(scanner_busy)
+		balloon_alert(user, "scanner busy!")
+		return CLICK_ACTION_BLOCKING
+	balloon_alert(user, "deleting logs...")
+	if(!do_after(user, 3 SECONDS, target = src))
+		return CLICK_ACTION_BLOCKING
+	balloon_alert(user, "logs cleared")
+	log = list()
+	return CLICK_ACTION_SUCCESS
+
+>>>>>>> tg-pr-88929
 
 /obj/item/detective_scanner/examine(mob/user)
 	. = ..()

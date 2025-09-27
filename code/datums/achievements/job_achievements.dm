@@ -3,6 +3,7 @@
 	category = "Jobs"
 
 //engineering
+<<<<<<< HEAD
 
 /datum/award/achievement/jobs/theoretical_limits
 	name = "All Within Theoretical Limits"
@@ -29,6 +30,28 @@
 	desc = "Passed the chemistry tutorial with perfect purity!"
 	database_id = MEDAL_CHEM_TUT
 	icon_state = "chem_tut"
+=======
+
+/datum/award/achievement/jobs/theoretical_limits
+	name = "All Within Theoretical Limits"
+	desc = "I never thought I'd see a resonance cascade, let alone prevent one..."
+	database_id = MEDAL_THEORETICAL_LIMITS
+	icon_state = "theoreticallimits"
+
+//medical
+
+/datum/award/achievement/jobs/sandman
+	name = "Mister Sandman"
+	desc = "Mechanically speaking, there's no real benefit to being unconscious during surgery. Weird how insistent this doctor is about using the N2O anyway though, huh?"
+	database_id = MEDAL_SANDMAN
+	icon_state = "basemisc"
+
+/datum/award/achievement/jobs/helbitaljanken
+	name = "Helbitaljanken"
+	desc = "You janked hard"
+	database_id = MEDAL_HELBITALJANKEN
+	icon_state = "helbital"
+>>>>>>> tg-pr-88929
 
 //mining
 

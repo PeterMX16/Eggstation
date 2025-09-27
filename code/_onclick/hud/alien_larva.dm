@@ -6,6 +6,18 @@
 	..()
 	var/atom/movable/screen/using
 
+<<<<<<< HEAD
+=======
+	action_intent = new /atom/movable/screen/combattoggle/flashy(null, src)
+	action_intent.icon = ui_style
+	action_intent.screen_loc = ui_combat_toggle
+	static_inventory += action_intent
+
+	floor_change = new /atom/movable/screen/floor_changer(null, src)
+	floor_change.icon = ui_style
+	static_inventory += floor_change
+
+>>>>>>> tg-pr-88929
 	healths = new /atom/movable/screen/healths/alien(null, src)
 	infodisplay += healths
 
@@ -18,6 +30,15 @@
 	pull_icon.screen_loc = ui_above_movement
 	hotkeybuttons += pull_icon
 
+<<<<<<< HEAD
+=======
+	rest_icon = new /atom/movable/screen/rest(null, src)
+	rest_icon.icon = ui_style
+	rest_icon.screen_loc = ui_above_intent
+	rest_icon.update_appearance()
+	static_inventory += rest_icon
+
+>>>>>>> tg-pr-88929
 	using = new/atom/movable/screen/language_menu(null, src)
 	using.screen_loc = ui_alien_language_menu
 	static_inventory += using

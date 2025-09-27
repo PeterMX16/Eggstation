@@ -1,27 +1,48 @@
+<<<<<<< HEAD
 /obj/structure/ore_container/gutlunch_trough
 	name = "gutlunch trough"
 	desc = "The gutlunches will eat out of it!"
 	icon = 'icons/obj/structures.dmi'
 	icon_state = "gutlunch_trough"
+=======
+/obj/structure/ore_container/food_trough
+>>>>>>> tg-pr-88929
 	density = TRUE
 	anchored = TRUE
 	///list of materials in the trough
 	var/list/list_of_materials = list()
+<<<<<<< HEAD
 
 /obj/structure/ore_container/gutlunch_trough/Entered(atom/movable/mover)
+=======
+	///x offsets for materials to be placed
+	var/list/x_offsets = list()
+	///y offsets for materials to be placed
+	var/list/y_offsets = list()
+
+/obj/structure/ore_container/food_trough/Entered(atom/movable/mover)
+>>>>>>> tg-pr-88929
 	if(!istype(mover, /obj/item/stack/ore))
 		return ..()
 	if(list_of_materials[mover.type])
 		return ..()
+<<<<<<< HEAD
 	list_of_materials[mover.type] = list("pixel_x" = rand(-5, 8), "pixel_y" = rand(-2, -7))
 	return ..()
 
 /obj/structure/ore_container/gutlunch_trough/Exited(atom/movable/mover)
+=======
+	list_of_materials[mover.type] = list("pixel_x" = rand(x_offsets[1], x_offsets[2]), "pixel_y" = rand(y_offsets[1], y_offsets[2]))
+	return ..()
+
+/obj/structure/ore_container/food_trough/Exited(atom/movable/mover)
+>>>>>>> tg-pr-88929
 	if(!istype(mover, /obj/item/stack/ore) || !isnull(locate(mover.type) in contents))
 		return ..()
 	list_of_materials -= mover.type
 	return ..()
 
+<<<<<<< HEAD
 /obj/structure/ore_container/gutlunch_trough/deconstruct(disassembled = TRUE)
 	if(flags_1 & NODECONSTRUCT_1)
 		return
@@ -29,6 +50,12 @@
 	qdel(src)
 
 /obj/structure/ore_container/gutlunch_trough/update_overlays()
+=======
+/obj/structure/ore_container/food_trough/atom_deconstruct(disassembled = TRUE)
+	new /obj/item/stack/sheet/mineral/wood(drop_location(), 5)
+
+/obj/structure/ore_container/food_trough/update_overlays()
+>>>>>>> tg-pr-88929
 	. = ..()
 	for(var/ore_entry in list_of_materials)
 		var/obj/item/ore_item = ore_entry
@@ -38,3 +65,14 @@
 		ore_icon.pixel_x = pixel_positions["pixel_x"]
 		ore_icon.pixel_y = pixel_positions["pixel_y"]
 		. += ore_icon
+<<<<<<< HEAD
+=======
+
+/obj/structure/ore_container/food_trough/gutlunch_trough
+	name = "gutlunch trough"
+	desc = "The gutlunches will eat out of it!"
+	icon = 'icons/obj/structures.dmi'
+	icon_state = "gutlunch_trough"
+	x_offsets = list(-5, 8)
+	y_offsets = list(-2, -7)
+>>>>>>> tg-pr-88929

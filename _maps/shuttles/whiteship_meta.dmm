@@ -29,22 +29,6 @@
 "ag" = (
 /turf/closed/wall/mineral/titanium,
 /area/shuttle/abandoned/crew)
-"ah" = (
-/obj/machinery/door/airlock/external/ruin,
-/obj/effect/mapping_helpers/airlock/cyclelink_helper,
-/obj/docking_port/mobile{
-	callTime = 250;
-	can_move_docking_ports = 1;
-	dir = 2;
-	shuttle_id = "whiteship";
-	launch_status = 0;
-	movement_force = list("KNOCKDOWN" = 0, "THROW" = 0);
-	name = "Salvage Ship";
-	port_direction = 8;
-	preferred_direction = 4
-	},
-/turf/open/floor/plating,
-/area/shuttle/abandoned/crew)
 "ai" = (
 /turf/closed/wall/mineral/titanium/nodiagonal,
 /area/shuttle/abandoned/crew)
@@ -286,11 +270,14 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden{
 	dir = 4
 	},
+<<<<<<< HEAD
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden{
 	dir = 4
 	},
+=======
+>>>>>>> tg-pr-88929
 /mob/living/basic/trooper/syndicate/ranged{
 	environment_smash = 0;
 	name = "Syndicate Salvage Worker"
@@ -685,6 +672,13 @@
 	pixel_x = 14
 	},
 /obj/structure/cable,
+<<<<<<< HEAD
+=======
+/obj/item/megaphone{
+	pixel_x = -2;
+	pixel_y = -4
+	},
+>>>>>>> tg-pr-88929
 /turf/open/floor/iron/dark,
 /area/shuttle/abandoned/bridge)
 "cf" = (
@@ -738,6 +732,16 @@
 /obj/structure/cable,
 /turf/open/floor/plating,
 /area/shuttle/abandoned/engine)
+"ck" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/machinery/airalarm/directional/east,
+/obj/effect/mapping_helpers/airalarm/all_access,
+/obj/effect/decal/cleanable/dirt,
+/obj/machinery/atmospherics/components/unary/vent_pump/on{
+	dir = 8
+	},
+/turf/open/floor/iron,
+/area/shuttle/abandoned/bar)
 "cl" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/decal/cleanable/dirt,
@@ -779,13 +783,22 @@
 /turf/open/floor/iron,
 /area/shuttle/abandoned/bar)
 "cv" = (
+<<<<<<< HEAD
 /obj/machinery/computer/shuttle/white_ship/bridge{
 	dir = 8
 	},
+=======
+>>>>>>> tg-pr-88929
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/turf_decal/tile/blue/half/contrasted{
 	dir = 8
 	},
+/obj/structure/table,
+/obj/item/folder/blue{
+	pixel_x = 6;
+	pixel_y = 9
+	},
+/obj/machinery/recharger,
 /turf/open/floor/iron/dark,
 /area/shuttle/abandoned/bridge)
 "cx" = (
@@ -839,20 +852,21 @@
 /obj/structure/table,
 /obj/machinery/light/small/built/directional/west,
 /obj/effect/decal/cleanable/dirt,
+<<<<<<< HEAD
+=======
+/obj/machinery/cell_charger,
+/obj/item/stock_parts/power_store/cell/high,
+>>>>>>> tg-pr-88929
 /obj/item/radio/off{
 	pixel_x = 6;
 	pixel_y = 7
 	},
-/obj/item/megaphone{
-	pixel_x = -2;
-	pixel_y = -4
-	},
 /turf/open/floor/iron/dark,
 /area/shuttle/abandoned/bridge)
 "cE" = (
-/obj/structure/table,
 /obj/machinery/firealarm/directional/south,
 /obj/effect/decal/cleanable/dirt,
+<<<<<<< HEAD
 /obj/machinery/cell_charger,
 /obj/item/stock_parts/power_store/cell/high,
 /obj/item/storage/toolbox/emergency{
@@ -861,6 +875,10 @@
 /obj/item/wrench{
 	pixel_x = -12
 	},
+=======
+/obj/item/wrench,
+/obj/item/storage/toolbox/emergency,
+>>>>>>> tg-pr-88929
 /turf/open/floor/iron/dark,
 /area/shuttle/abandoned/bridge)
 "cF" = (
@@ -999,9 +1017,13 @@
 /area/shuttle/abandoned/bar)
 "cX" = (
 /obj/effect/decal/cleanable/dirt,
+<<<<<<< HEAD
 /obj/machinery/power/smes/engineering{
 	charge = 1e+006
 	},
+=======
+/obj/machinery/power/smes/ship,
+>>>>>>> tg-pr-88929
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/turf_decal/bot,
@@ -1095,6 +1117,17 @@
 /obj/structure/sign/departments/botany,
 /turf/closed/wall/mineral/titanium/nodiagonal,
 /area/shuttle/abandoned/bar)
+<<<<<<< HEAD
+=======
+"dm" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/machinery/hydroponics/constructable,
+/obj/effect/decal/cleanable/dirt,
+/obj/machinery/light/small/directional/west,
+/obj/effect/turf_decal/tile/green/half/contrasted,
+/turf/open/floor/iron,
+/area/shuttle/abandoned/bar)
+>>>>>>> tg-pr-88929
 "do" = (
 /obj/machinery/porta_turret/centcom_shuttle/weak{
 	dir = 4
@@ -1270,10 +1303,6 @@
 /obj/effect/decal/cleanable/food/flour,
 /turf/open/floor/iron/cafeteria,
 /area/shuttle/abandoned/bar)
-"dS" = (
-/obj/machinery/smartfridge,
-/turf/closed/wall/mineral/titanium/nodiagonal,
-/area/shuttle/abandoned/bar)
 "dT" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/structure/sink/directional/east,
@@ -1372,7 +1401,6 @@
 	pixel_y = 14
 	},
 /obj/item/reagent_containers/condiment/enzyme{
-	layer = 5;
 	pixel_x = -5;
 	pixel_y = 6
 	},
@@ -1390,6 +1418,19 @@
 /obj/machinery/light/small/built/directional/east,
 /turf/open/floor/iron,
 /area/shuttle/abandoned/bar)
+<<<<<<< HEAD
+=======
+"ef" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/machinery/light/small/built/directional/west,
+/obj/machinery/hydroponics/constructable,
+/obj/effect/decal/cleanable/dirt,
+/obj/effect/turf_decal/tile/green/half/contrasted{
+	dir = 1
+	},
+/turf/open/floor/iron,
+/area/shuttle/abandoned/bar)
+>>>>>>> tg-pr-88929
 "eh" = (
 /obj/effect/turf_decal/bot_white,
 /obj/machinery/door/poddoor{
@@ -1447,6 +1488,18 @@
 /obj/effect/decal/cleanable/blood,
 /turf/open/floor/iron/dark,
 /area/shuttle/abandoned/cargo)
+<<<<<<< HEAD
+=======
+"gs" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/machinery/airalarm/directional/west,
+/obj/effect/mapping_helpers/airalarm/all_access,
+/obj/effect/decal/cleanable/dirt,
+/obj/machinery/processor,
+/obj/effect/decal/cleanable/dirt,
+/turf/open/floor/iron,
+/area/shuttle/abandoned/bar)
+>>>>>>> tg-pr-88929
 "gt" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/turf_decal/stripes/white/line{
@@ -1456,6 +1509,7 @@
 /obj/effect/turf_decal/tile/neutral/fourcorners,
 /turf/open/floor/iron/dark,
 /area/shuttle/abandoned/bar)
+<<<<<<< HEAD
 "hr" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/airalarm/directional/west,
@@ -1465,6 +1519,17 @@
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron,
 /area/shuttle/abandoned/bar)
+=======
+"he" = (
+/obj/machinery/light/built/directional/west,
+/obj/effect/decal/cleanable/dirt,
+/obj/effect/decal/cleanable/dirt,
+/obj/machinery/airalarm/directional/west,
+/obj/effect/mapping_helpers/airalarm/all_access,
+/obj/structure/cable,
+/turf/open/floor/iron/dark,
+/area/shuttle/abandoned/cargo)
+>>>>>>> tg-pr-88929
 "hv" = (
 /obj/effect/turf_decal/box/white/corners{
 	dir = 1
@@ -1515,6 +1580,7 @@
 /obj/effect/turf_decal/tile/neutral/fourcorners,
 /turf/open/floor/iron/dark,
 /area/shuttle/abandoned/crew)
+<<<<<<< HEAD
 "jo" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/light/small/built/directional/west,
@@ -1535,17 +1601,22 @@
 	},
 /turf/open/floor/iron,
 /area/shuttle/abandoned/bar)
+=======
+>>>>>>> tg-pr-88929
 "kz" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/atmospherics/components/unary/vent_pump/on{
 	dir = 8
 	},
 /obj/effect/decal/cleanable/blood/gibs/old,
+<<<<<<< HEAD
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/atmospherics/components/unary/vent_pump/on{
 	dir = 8
 	},
 /obj/effect/decal/cleanable/blood/gibs/old,
+=======
+>>>>>>> tg-pr-88929
 /mob/living/basic/trooper/syndicate/melee{
 	environment_smash = 0
 	},
@@ -1575,6 +1646,19 @@
 /obj/effect/turf_decal/tile/neutral/fourcorners,
 /turf/open/floor/iron/dark,
 /area/shuttle/abandoned/cargo)
+"ny" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/effect/decal/cleanable/dirt,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden,
+/obj/machinery/airalarm/directional/west,
+/obj/effect/mapping_helpers/airalarm/all_access,
+/obj/effect/turf_decal/stripes/white/corner{
+	dir = 1
+	},
+/obj/structure/cable,
+/obj/effect/turf_decal/tile/neutral/fourcorners,
+/turf/open/floor/iron/dark,
+/area/shuttle/abandoned/engine)
 "nK" = (
 /obj/effect/turf_decal/arrows/white{
 	dir = 4
@@ -1594,6 +1678,7 @@
 /obj/effect/turf_decal/tile/neutral/fourcorners,
 /turf/open/floor/iron/dark,
 /area/shuttle/abandoned/bar)
+<<<<<<< HEAD
 "pp" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/growing/tray,
@@ -1603,6 +1688,8 @@
 /obj/effect/turf_decal/tile/green/half/contrasted,
 /turf/open/floor/iron,
 /area/shuttle/abandoned/bar)
+=======
+>>>>>>> tg-pr-88929
 "pS" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/door/airlock{
@@ -1614,7 +1701,10 @@
 /area/shuttle/abandoned/crew)
 "qc" = (
 /obj/effect/decal/cleanable/dirt,
+<<<<<<< HEAD
 /obj/effect/decal/cleanable/dirt,
+=======
+>>>>>>> tg-pr-88929
 /obj/machinery/atmospherics/components/unary/vent_pump/on,
 /mob/living/basic/trooper/syndicate/melee{
 	environment_smash = 0
@@ -1636,10 +1726,13 @@
 	dir = 4
 	},
 /obj/effect/decal/cleanable/dirt,
+<<<<<<< HEAD
 /obj/effect/turf_decal/box/white/corners{
 	dir = 4
 	},
 /obj/effect/decal/cleanable/dirt,
+=======
+>>>>>>> tg-pr-88929
 /mob/living/basic/trooper/syndicate/melee{
 	environment_smash = 0
 	},
@@ -1653,6 +1746,37 @@
 /obj/item/reagent_containers/syringe,
 /turf/open/floor/iron/dark,
 /area/shuttle/abandoned/cargo)
+<<<<<<< HEAD
+=======
+"tq" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/machinery/hydroponics/constructable,
+/obj/machinery/firealarm/directional/east,
+/obj/effect/spawner/random/food_or_drink/seed_rare,
+/obj/effect/turf_decal/tile/green/half/contrasted{
+	dir = 1
+	},
+/turf/open/floor/iron,
+/area/shuttle/abandoned/bar)
+"uS" = (
+/obj/machinery/light/built/directional/east,
+/obj/effect/decal/cleanable/dirt,
+/obj/machinery/airalarm/directional/east,
+/obj/effect/mapping_helpers/airalarm/all_access,
+/turf/open/floor/iron/dark,
+/area/shuttle/abandoned/cargo)
+"wm" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/machinery/atmospherics/components/unary/vent_pump/on{
+	dir = 4
+	},
+/obj/machinery/airalarm/directional/south,
+/obj/effect/mapping_helpers/airalarm/all_access,
+/obj/machinery/light/small/built/directional/south,
+/obj/effect/decal/cleanable/blood,
+/turf/open/floor/plating,
+/area/shuttle/abandoned/engine)
+>>>>>>> tg-pr-88929
 "wn" = (
 /obj/effect/turf_decal/box/white/corners{
 	dir = 1
@@ -1663,6 +1787,12 @@
 /obj/effect/spawner/random/maintenance/three,
 /turf/open/floor/iron/dark,
 /area/shuttle/abandoned/cargo)
+"wE" = (
+/obj/machinery/airalarm/directional/north,
+/obj/effect/mapping_helpers/airalarm/all_access,
+/obj/effect/decal/cleanable/dirt,
+/turf/open/floor/iron/dark,
+/area/shuttle/abandoned/bridge)
 "xK" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/atmospherics/components/unary/vent_pump/on{
@@ -1764,6 +1894,29 @@
 /obj/effect/turf_decal/tile/neutral/fourcorners,
 /turf/open/floor/iron/dark,
 /area/shuttle/abandoned/bridge)
+"Bg" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/machinery/airalarm/directional/north,
+/obj/effect/mapping_helpers/airalarm/all_access,
+/obj/structure/closet/secure_closet/personal,
+/obj/effect/decal/cleanable/dirt,
+/obj/effect/turf_decal/tile/neutral/fourcorners,
+/turf/open/floor/iron/dark,
+/area/shuttle/abandoned/crew)
+"Cp" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/machinery/hydroponics/constructable,
+/obj/machinery/airalarm/directional/east,
+/obj/effect/mapping_helpers/airalarm/all_access,
+/obj/effect/spawner/random/food_or_drink/seed_rare,
+/obj/effect/turf_decal/tile/green/half/contrasted,
+/turf/open/floor/iron,
+/area/shuttle/abandoned/bar)
+"Dv" = (
+/obj/machinery/smartfridge,
+/obj/machinery/door/firedoor,
+/turf/open/floor/iron,
+/area/shuttle/abandoned/bar)
 "Dw" = (
 /obj/effect/turf_decal/bot_white,
 /obj/effect/decal/cleanable/dirt,
@@ -1782,6 +1935,22 @@
 /obj/effect/spawner/random/maintenance/three,
 /turf/open/floor/iron/dark,
 /area/shuttle/abandoned/cargo)
+"EU" = (
+/obj/machinery/door/airlock/external/ruin,
+/obj/effect/mapping_helpers/airlock/cyclelink_helper,
+/obj/docking_port/mobile{
+	callTime = 250;
+	can_move_docking_ports = 1;
+	dir = 2;
+	shuttle_id = "whiteship";
+	launch_status = 0;
+	movement_force = list("KNOCKDOWN"=0,"THROW"=0);
+	name = "Salvage Ship";
+	port_direction = 8;
+	preferred_direction = 4
+	},
+/turf/open/floor/plating,
+/area/shuttle/abandoned/crew)
 "Fb" = (
 /obj/effect/turf_decal/box/white/corners{
 	dir = 8
@@ -1821,6 +1990,17 @@
 /obj/effect/turf_decal/tile/neutral/fourcorners,
 /turf/open/floor/iron/dark,
 /area/shuttle/abandoned/cargo)
+"Gg" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/machinery/atmospherics/components/unary/vent_pump/on{
+	dir = 4
+	},
+/obj/machinery/airalarm/directional/north,
+/obj/effect/mapping_helpers/airalarm/all_access,
+/obj/machinery/light/small/built/directional/north,
+/obj/structure/cable,
+/turf/open/floor/plating,
+/area/shuttle/abandoned/engine)
 "Gh" = (
 /obj/effect/turf_decal/bot_white,
 /obj/effect/decal/cleanable/dirt,
@@ -1972,6 +2152,7 @@
 /obj/effect/turf_decal/tile/neutral/fourcorners,
 /turf/open/floor/iron/dark,
 /area/shuttle/abandoned/crew)
+<<<<<<< HEAD
 "OM" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/growing/tray,
@@ -1982,6 +2163,8 @@
 	},
 /turf/open/floor/iron,
 /area/shuttle/abandoned/bar)
+=======
+>>>>>>> tg-pr-88929
 "Qd" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden,
@@ -2000,6 +2183,7 @@
 /obj/effect/turf_decal/tile/neutral/fourcorners,
 /turf/open/floor/iron/dark,
 /area/shuttle/abandoned/bar)
+<<<<<<< HEAD
 "Rz" = (
 /obj/machinery/light/built/directional/west,
 /obj/effect/decal/cleanable/dirt,
@@ -2020,19 +2204,43 @@
 /obj/structure/cable,
 /turf/open/floor/plating,
 /area/shuttle/abandoned/engine)
+=======
+"RV" = (
+/obj/machinery/light/small/built/directional/south,
+/obj/effect/decal/cleanable/dirt,
+/obj/machinery/airalarm/directional/south,
+/obj/effect/mapping_helpers/airalarm/all_access,
+/obj/effect/decal/cleanable/dirt,
+/obj/effect/turf_decal/stripes/white/line,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden,
+/obj/structure/cable,
+/obj/effect/turf_decal/tile/neutral/fourcorners,
+/turf/open/floor/iron/dark,
+/area/shuttle/abandoned/bar)
+>>>>>>> tg-pr-88929
 "Sd" = (
 /obj/effect/turf_decal/box/white/corners{
 	dir = 4
 	},
+<<<<<<< HEAD
 /obj/effect/decal/cleanable/dirt/dust,
 /obj/effect/decal/cleanable/dirt/dust,
+=======
+/obj/effect/decal/cleanable/dirt,
+/obj/effect/decal/cleanable/dirt,
+>>>>>>> tg-pr-88929
 /obj/structure/closet/crate/preopen,
 /obj/effect/spawner/random/maintenance/three,
 /turf/open/floor/iron/dark,
 /area/shuttle/abandoned/cargo)
 "Sm" = (
+<<<<<<< HEAD
 /obj/effect/decal/cleanable/dirt/dust,
 /obj/effect/decal/cleanable/dirt/dust,
+=======
+/obj/effect/decal/cleanable/dirt,
+/obj/effect/decal/cleanable/dirt,
+>>>>>>> tg-pr-88929
 /obj/structure/closet/crate/preopen,
 /obj/effect/spawner/random/maintenance/three,
 /turf/open/floor/iron/dark,
@@ -2084,6 +2292,7 @@
 /obj/effect/turf_decal/tile/neutral/fourcorners,
 /turf/open/floor/iron/dark,
 /area/shuttle/abandoned/cargo)
+<<<<<<< HEAD
 "UU" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/atmospherics/components/unary/vent_pump/on{
@@ -2095,6 +2304,22 @@
 /obj/effect/decal/cleanable/blood,
 /turf/open/floor/plating,
 /area/shuttle/abandoned/engine)
+=======
+"VG" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/machinery/airalarm/directional/north,
+/obj/effect/mapping_helpers/airalarm/all_access,
+/obj/effect/decal/cleanable/dirt,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden{
+	dir = 4
+	},
+/obj/structure/cable,
+/obj/effect/turf_decal/tile/neutral/half/contrasted{
+	dir = 1
+	},
+/turf/open/floor/iron,
+/area/shuttle/abandoned/crew)
+>>>>>>> tg-pr-88929
 "VL" = (
 /obj/effect/turf_decal/arrows/white{
 	dir = 1
@@ -2107,6 +2332,7 @@
 /obj/effect/turf_decal/tile/neutral/fourcorners,
 /turf/open/floor/iron/dark,
 /area/shuttle/abandoned/cargo)
+<<<<<<< HEAD
 "WY" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/growing/tray,
@@ -2115,6 +2341,23 @@
 /obj/effect/turf_decal/tile/green/half/contrasted,
 /turf/open/floor/iron,
 /area/shuttle/abandoned/bar)
+=======
+"VM" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/machinery/airalarm/directional/north,
+/obj/effect/mapping_helpers/airalarm/all_access,
+/obj/effect/turf_decal/stripes/white/line{
+	dir = 1
+	},
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden{
+	dir = 1
+	},
+/obj/structure/cable,
+/obj/machinery/light/small/directional/north,
+/obj/effect/turf_decal/tile/neutral/fourcorners,
+/turf/open/floor/iron/dark,
+/area/shuttle/abandoned/crew)
+>>>>>>> tg-pr-88929
 "XR" = (
 /obj/machinery/door/firedoor,
 /obj/effect/decal/cleanable/dirt,
@@ -2221,7 +2464,11 @@ ab
 ac
 aB
 aO
+<<<<<<< HEAD
 UU
+=======
+wm
+>>>>>>> tg-pr-88929
 ac
 bH
 ac
@@ -2229,7 +2476,11 @@ cj
 ac
 cH
 ac
+<<<<<<< HEAD
 RH
+=======
+Gg
+>>>>>>> tg-pr-88929
 dr
 dJ
 ac
@@ -2245,7 +2496,11 @@ by
 Qd
 NG
 hW
+<<<<<<< HEAD
 zL
+=======
+ny
+>>>>>>> tg-pr-88929
 Qd
 by
 bj
@@ -2304,7 +2559,11 @@ Fb
 iK
 wn
 cJ
+<<<<<<< HEAD
 Rz
+=======
+he
+>>>>>>> tg-pr-88929
 db
 SI
 bV
@@ -2374,7 +2633,11 @@ as
 aF
 ni
 bo
+<<<<<<< HEAD
 zG
+=======
+uS
+>>>>>>> tg-pr-88929
 ap
 DL
 eD
@@ -2448,7 +2711,11 @@ aa
 ag
 ai
 ai
+<<<<<<< HEAD
 AA
+=======
+VM
+>>>>>>> tg-pr-88929
 FF
 oT
 bO
@@ -2458,20 +2725,28 @@ bO
 cN
 bK
 Fu
+<<<<<<< HEAD
 iG
+=======
+RV
+>>>>>>> tg-pr-88929
 bD
 bD
 cW
 "}
 (18,1,1) = {"
-ah
+EU
 at
 aI
 Of
 bs
 bD
 HJ
+<<<<<<< HEAD
 jT
+=======
+ck
+>>>>>>> tg-pr-88929
 cq
 cC
 Aa
@@ -2503,7 +2778,11 @@ bD
 "}
 (20,1,1) = {"
 ai
+<<<<<<< HEAD
 JV
+=======
+Bg
+>>>>>>> tg-pr-88929
 ai
 ba
 ai
@@ -2513,7 +2792,11 @@ cd
 GZ
 cD
 bQ
+<<<<<<< HEAD
 hr
+=======
+gs
+>>>>>>> tg-pr-88929
 dj
 dB
 dQ
@@ -2528,7 +2811,11 @@ bb
 bt
 bG
 bQ
+<<<<<<< HEAD
 ZZ
+=======
+wE
+>>>>>>> tg-pr-88929
 kz
 cE
 bQ
@@ -2543,7 +2830,11 @@ eb
 ai
 ai
 ai
+<<<<<<< HEAD
 mL
+=======
+VG
+>>>>>>> tg-pr-88929
 bu
 ai
 bQ
@@ -2554,7 +2845,7 @@ bQ
 bD
 dl
 dD
-dS
+Dv
 bD
 bD
 "}
@@ -2579,7 +2870,11 @@ eb
 "}
 (24,1,1) = {"
 ai
+<<<<<<< HEAD
 JV
+=======
+Bg
+>>>>>>> tg-pr-88929
 ai
 be
 bw
@@ -2590,7 +2885,11 @@ bR
 bR
 bR
 bD
+<<<<<<< HEAD
 pp
+=======
+Cp
+>>>>>>> tg-pr-88929
 dF
 dU
 OM

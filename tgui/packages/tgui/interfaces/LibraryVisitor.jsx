@@ -1,6 +1,17 @@
 import { map, sortBy } from 'common/collections';
-import { flow } from 'common/fp';
+import {
+  Box,
+  Button,
+  Dropdown,
+  Input,
+  NoticeBox,
+  Section,
+  Stack,
+  Table,
+} from 'tgui-core/components';
+
 import { useBackend } from '../backend';
+<<<<<<< HEAD
 import {
   Box,
   Button,
@@ -11,6 +22,8 @@ import {
   Stack,
   Table,
 } from '../components';
+=======
+>>>>>>> tg-pr-88929
 import { Window } from '../layouts';
 import { PageSelect } from './LibraryConsole';
 
@@ -70,14 +83,14 @@ const SearchAndDisplay = (props) => {
     author,
     params_changed,
   } = data;
-  const records = flow([
-    map((record, i) => ({
+  const records = sortBy(
+    map(data.pages, (record, i) => ({
       ...record,
       // Generate a unique id
       key: i,
     })),
-    sortBy((record) => record.key),
-  ])(data.pages);
+    (record) => record.key,
+  );
   return (
     <Section>
       <Stack justify="space-between">

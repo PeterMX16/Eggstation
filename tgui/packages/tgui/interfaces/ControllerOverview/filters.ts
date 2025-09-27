@@ -25,10 +25,14 @@ type Action =
   | { type: FilterAction.Query; payload: string }
   | { type: FilterAction.Update; payload: Partial<FilterState> };
 
+<<<<<<< HEAD
 export const filterReducer = (
   state: FilterState,
   action: Action,
 ): FilterState => {
+=======
+export function filterReducer(state: FilterState, action: Action): FilterState {
+>>>>>>> tg-pr-88929
   switch (action.type) {
     case FilterAction.Inactive:
       return { ...state, inactive: action.payload };
@@ -45,4 +49,8 @@ export const filterReducer = (
     default:
       return state;
   }
+<<<<<<< HEAD
 };
+=======
+}
+>>>>>>> tg-pr-88929

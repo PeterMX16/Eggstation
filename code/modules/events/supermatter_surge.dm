@@ -2,6 +2,10 @@
 #define SURGE_DURATION_MAX 270 EVENT_SECONDS
 #define SURGE_SEVERITY_MIN 1
 #define SURGE_SEVERITY_MAX 4
+<<<<<<< HEAD
+=======
+#define SURGE_SEVERITY_RANDOM 5
+>>>>>>> tg-pr-88929
 /// The amount of bullet energy we add for the duration of the SM surge
 #define SURGE_BULLET_ENERGY_ADDITION 5
 /// The amount of powerloss inhibition (energy retention) we add for the duration of the SM surge
@@ -36,7 +40,11 @@
 		/datum/event_admin_setup/input_number/surge_spiciness,
 	)
 
+<<<<<<< HEAD
 /datum/round_event_control/supermatter_surge/can_spawn_event(players_amt, allow_magic = FALSE, fake_check = FALSE) //monkestation edit: adds fake_check
+=======
+/datum/round_event_control/supermatter_surge/can_spawn_event(players_amt, allow_magic = FALSE)
+>>>>>>> tg-pr-88929
 	. = ..()
 
 	if(!SSjob.has_minimum_jobs(crew_threshold = 3, jobs = JOB_GROUP_ENGINEERS, head_jobs = list(JOB_CHIEF_ENGINEER)))
@@ -46,7 +54,11 @@
 	announce_when = 4
 	end_when = SURGE_DURATION_MIN
 	/// How powerful is the supermatter surge going to be?
+<<<<<<< HEAD
 	var/surge_class = null //monkestation edit
+=======
+	var/surge_class = SURGE_SEVERITY_RANDOM
+>>>>>>> tg-pr-88929
 	/// Typecasted reference to the supermatter chosen at event start
 	var/obj/machinery/power/supermatter_crystal/engine
 	/// Typecasted reference to the nitrogen properies in the SM chamber
@@ -54,11 +66,19 @@
 
 /datum/event_admin_setup/input_number/surge_spiciness
 	input_text = "Set surge intensity. (Higher is more severe.)"
+<<<<<<< HEAD
 	min_value = 1
 	max_value = 4
 
 /datum/event_admin_setup/input_number/surge_spiciness/prompt_admins()
 	default_value = rand(1, 4)
+=======
+	min_value = SURGE_SEVERITY_MIN
+	max_value = SURGE_SEVERITY_MAX
+
+/datum/event_admin_setup/input_number/surge_spiciness/prompt_admins()
+	default_value = rand(SURGE_SEVERITY_MIN, SURGE_SEVERITY_MAX)
+>>>>>>> tg-pr-88929
 	return ..()
 
 /datum/event_admin_setup/input_number/surge_spiciness/apply_to_event(datum/round_event/supermatter_surge/event)
@@ -75,6 +95,7 @@
 		stack_trace("SM surge event failed to find gas properties for [engine].")
 		return
 
+<<<<<<< HEAD
 	if(isnull(surge_class))
 		surge_class = rand(SURGE_SEVERITY_MIN, SURGE_SEVERITY_MAX)
 
@@ -83,6 +104,25 @@
 
 /datum/round_event/supermatter_surge/announce(fake)
 	priority_announce("The Crystal Integrity Monitoring System has detected unusual atmospheric properties in the supermatter chamber, energy output from the supermatter crystal has increased significantly. Engineering intervention is required to stabilize the engine.", "Class [surge_class] Supermatter Surge Alert", 'sound/machines/engine_alert3.ogg')
+=======
+	if(surge_class == SURGE_SEVERITY_RANDOM)
+		var/severity_weight = rand(1, 100)
+		switch(severity_weight)
+			if(1 to 14)
+				surge_class = 1
+			if(15 to 34)
+				surge_class = 2
+			if(35 to 69)
+				surge_class = 3
+			if(70 to 100)
+				surge_class = 4
+
+	end_when = rand(SURGE_DURATION_MIN, SURGE_DURATION_MAX)
+
+/datum/round_event/supermatter_surge/announce(fake)
+	var/class_to_announce = fake ? pick(1, 2, 3, 4) : surge_class
+	priority_announce("The Crystal Integrity Monitoring System has detected unusual atmospheric properties in the supermatter chamber, energy output from the supermatter crystal has increased significantly. Engineering intervention is required to stabilize the engine.", "Class [class_to_announce] Supermatter Surge Alert", 'sound/machines/engine_alert/engine_alert3.ogg')
+>>>>>>> tg-pr-88929
 
 /datum/round_event/supermatter_surge/start()
 	engine.bullet_energy = surge_class + SURGE_BULLET_ENERGY_ADDITION
@@ -90,7 +130,10 @@
 	sm_gas.heat_power_generation = (surge_class * SURGE_POWER_GENERATION_MODIFIER) - 1
 	sm_gas.heat_modifier = (surge_class * SURGE_HEAT_MODIFIER) - 1
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> tg-pr-88929
 /datum/round_event/supermatter_surge/end()
 	engine.bullet_energy = initial(engine.bullet_energy)
 	sm_gas.powerloss_inhibition = initial(sm_gas.powerloss_inhibition)
@@ -117,14 +160,22 @@
 	fakeable = FALSE
 
 /datum/round_event/supermatter_surge/poly/announce(fake)
+<<<<<<< HEAD
 	priority_announce("The Crystal Integrity Monitoring System has detected unusual parrot type resonance in the supermatter chamber, energy output from the supermatter crystal has increased significantly. Engineering intervention is required to stabilize the engine.", "Class P Supermatter Surge Alert", 'sound/machines/engine_alert3.ogg')
 	engine.base_icon_state = "dm" //monkestation edit
 	engine.icon_state = "dm" //monkestation edit
+=======
+	priority_announce("The Crystal Integrity Monitoring System has detected unusual parrot type resonance in the supermatter chamber, energy output from the supermatter crystal has increased significantly. Engineering intervention is required to stabilize the engine.", "Class P Supermatter Surge Alert", 'sound/machines/engine_alert/engine_alert3.ogg')
+>>>>>>> tg-pr-88929
 
 #undef SURGE_DURATION_MIN
 #undef SURGE_DURATION_MAX
 #undef SURGE_SEVERITY_MIN
 #undef SURGE_SEVERITY_MAX
+<<<<<<< HEAD
+=======
+#undef SURGE_SEVERITY_RANDOM
+>>>>>>> tg-pr-88929
 #undef SURGE_BULLET_ENERGY_ADDITION
 #undef SURGE_BASE_POWERLOSS_INHIBITION
 #undef SURGE_POWERLOSS_INHIBITION_MODIFIER

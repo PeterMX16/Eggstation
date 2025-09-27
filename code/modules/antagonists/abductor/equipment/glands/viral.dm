@@ -1,4 +1,4 @@
-/obj/item/organ/internal/heart/gland/viral
+/obj/item/organ/heart/gland/viral
 	abductor_hint = "contamination incubator. The abductee becomes a carrier of a random advanced disease - of which they are unaffected by."
 	cooldown_low = 3 MINUTES
 	cooldown_high = 4 MINUTES
@@ -7,7 +7,7 @@
 	mind_control_uses = 1
 	mind_control_duration = 3 MINUTES
 
-/obj/item/organ/internal/heart/gland/viral/activate()
+/obj/item/organ/heart/gland/viral/activate()
 	to_chat(owner, span_warning("You feel sick."))
 
 	var/list/anti = list(
@@ -37,7 +37,7 @@
 	D.AddToGoggleView(owner)
 
 
-/obj/item/organ/internal/heart/gland/viral/proc/random_virus(max_symptoms, max_level)
+/obj/item/organ/heart/gland/viral/proc/random_virus(max_symptoms, max_level)
 	if(max_symptoms > VIRUS_SYMPTOM_LIMIT)
 		max_symptoms = VIRUS_SYMPTOM_LIMIT
 	var/datum/disease/advance/A = new /datum/disease/advance()

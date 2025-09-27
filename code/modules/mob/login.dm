@@ -8,7 +8,7 @@
  * * sets lastKnownIP
  * * sets computer_id
  * * logs the login
- * * tells the world to update it's status (for player count)
+ * * tells the world to update its status (for player count)
  * * create mob huds for the mob if needed
  * * reset next_move to 1
  * * Set statobj to our mob
@@ -29,12 +29,13 @@
 /mob/Login()
 	if(!client)
 		return FALSE
+
 	canon_client = client
 	client.persistent_client.set_mob(src)
 	add_to_player_list()
 	lastKnownIP = client.address
 	computer_id = client.computer_id
-	log_access("Mob Login: [key_name(src)] was assigned to a [type]")
+	log_access("Mob Login: [key_name(src)] was assigned to a [type] ([tag])")
 	world.update_status()
 	client.clear_screen() //remove hud items just in case
 	client.images = list()
@@ -117,7 +118,10 @@
 
 		for(var/datum/callback/CB as anything in persistent_client.post_login_callbacks)
 			CB.Invoke()
+<<<<<<< HEAD
 
+=======
+>>>>>>> tg-pr-88929
 		log_played_names(
 			client.ckey,
 			list(
@@ -128,10 +132,14 @@
 		auto_deadmin_on_login()
 
 	log_message("Client [key_name(src)] has taken ownership of mob [src]([src.type])", LOG_OWNERSHIP)
+<<<<<<< HEAD
 #ifndef DISABLE_DEMOS
 	SSdemo.write_event_line("setmob [client.ckey] \ref[src]") //Monkestation Edit: REPLAYS
 #endif
 	log_mob_tag("NEW OWNER: [key_name(src)]")
+=======
+	log_mob_tag("TAG: [tag] NEW OWNER: [key_name(src)]")
+>>>>>>> tg-pr-88929
 	SEND_SIGNAL(src, COMSIG_MOB_CLIENT_LOGIN, client)
 	SEND_SIGNAL(client, COMSIG_CLIENT_MOB_LOGIN, src)
 	client.init_verbs()

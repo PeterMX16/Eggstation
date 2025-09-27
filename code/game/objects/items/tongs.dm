@@ -1,12 +1,19 @@
 /// Tongs, let you pick up and feed people food from further away.
 /obj/item/kitchen/tongs
 	name = "tongs"
+<<<<<<< HEAD
 	icon = 'icons/obj/service/kitchen.dmi'
+=======
+>>>>>>> tg-pr-88929
 	desc = "So you never have to touch anything with your dirty, unwashed hands."
 	reach = 2
 	icon_state = "tongs"
 	base_icon_state = "tongs"
 	inhand_icon_state = "fork" // close enough
+<<<<<<< HEAD
+=======
+	icon_angle = -45
+>>>>>>> tg-pr-88929
 	attack_verb_continuous = list("pinches", "tongs", "nips")
 	attack_verb_simple = list("pinch", "tong", "nip")
 	/// What are we holding in our tongs?

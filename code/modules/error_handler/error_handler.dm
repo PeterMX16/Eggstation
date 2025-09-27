@@ -27,7 +27,13 @@ GLOBAL_VAR_INIT(total_runtimes_skipped, 0)
 		Reboot(reason = 1)
 		return
 
+<<<<<<< HEAD
 	var/static/regex/stack_workaround = regex("[WORKAROUND_IDENTIFIER](.+?)[WORKAROUND_IDENTIFIER]")
+=======
+	var/static/regex/stack_workaround
+	if(isnull(stack_workaround))
+		stack_workaround = regex("[WORKAROUND_IDENTIFIER](.+?)[WORKAROUND_IDENTIFIER]")
+>>>>>>> tg-pr-88929
 	var/static/list/error_last_seen = list()
 	var/static/list/error_cooldown = list() /* Error_cooldown items will either be positive(cooldown time) or negative(silenced error)
 												If negative, starts at -1, and goes down by 1 each time that error gets skipped*/
@@ -35,9 +41,12 @@ GLOBAL_VAR_INIT(total_runtimes_skipped, 0)
 	if(!error_last_seen) // A runtime is occurring too early in start-up initialization
 		return ..()
 
+<<<<<<< HEAD
 	if(!islist(error_last_seen))
 		return ..() //how the fuck?
 
+=======
+>>>>>>> tg-pr-88929
 	if(stack_workaround.Find(E.name))
 		var/list/data = json_decode(stack_workaround.group[1])
 		E.file = data[1]
@@ -105,14 +114,20 @@ GLOBAL_VAR_INIT(total_runtimes_skipped, 0)
 	// The proceeding mess will almost definitely break if error messages are ever changed
 	var/list/splitlines = splittext(E.desc, "\n")
 	var/list/desclines = list()
+<<<<<<< HEAD
 #ifndef DISABLE_DREAMLUAU
+=======
+>>>>>>> tg-pr-88929
 	var/list/state_stack = GLOB.lua_state_stack
 	var/is_lua_call = length(state_stack)
 	var/list/lua_stacks = list()
 	if(is_lua_call)
 		for(var/level in 1 to state_stack.len)
 			lua_stacks += list(splittext(DREAMLUAU_GET_TRACEBACK(level), "\n"))
+<<<<<<< HEAD
 #endif
+=======
+>>>>>>> tg-pr-88929
 	if(LAZYLEN(splitlines) > ERROR_USEFUL_LEN) // If there aren't at least three lines, there's no info
 		for(var/line in splitlines)
 			if(LAZYLEN(line) < 3 || findtext(line, "source file:") || findtext(line, "usr.loc:"))
@@ -122,17 +137,21 @@ GLOBAL_VAR_INIT(total_runtimes_skipped, 0)
 					desclines.Add(usrinfo)
 					usrinfo = null
 				continue // Our usr info is better, replace it
-
 			if(copytext(line, 1, 3) != "  ")//3 == length("  ") + 1
 				desclines += ("  " + line) // Pad any unpadded lines, so they look pretty
 			else
 				desclines += line
 	if(usrinfo) //If this info isn't null, it hasn't been added yet
 		desclines.Add(usrinfo)
+<<<<<<< HEAD
 #ifndef DISABLE_DREAMLUAU
 	if(is_lua_call)
 		SSlua.log_involved_runtime(E, desclines, lua_stacks)
 #endif
+=======
+	if(is_lua_call)
+		SSlua.log_involved_runtime(E, desclines, lua_stacks)
+>>>>>>> tg-pr-88929
 	if(silencing)
 		desclines += "  (This error will now be silenced for [DisplayTimeText(configured_error_silence_time)])"
 	if(GLOB.error_cache)

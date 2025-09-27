@@ -4,7 +4,11 @@
  * @license MIT
  */
 
+<<<<<<< HEAD
 import { useLocalState } from '../backend';
+=======
+import { useState } from 'react';
+>>>>>>> tg-pr-88929
 import {
   Box,
   DraggableControl,
@@ -15,7 +19,11 @@ import {
   NumberInput,
   Section,
   Slider,
+<<<<<<< HEAD
 } from '../components';
+=======
+} from 'tgui-core/components';
+>>>>>>> tg-pr-88929
 
 export const meta = {
   title: 'Input',
@@ -23,8 +31,13 @@ export const meta = {
 };
 
 const Story = (props) => {
+<<<<<<< HEAD
   const [number, setNumber] = useLocalState('number', 0);
   const [text, setText] = useLocalState('text', 'Sample text');
+=======
+  const [number, setNumber] = useState(0);
+  const [text, setText] = useState('Sample text');
+>>>>>>> tg-pr-88929
   return (
     <Section>
       <LabeledList>
@@ -43,7 +56,7 @@ const Story = (props) => {
             value={number}
             minValue={-100}
             maxValue={100}
-            onChange={(e, value) => setNumber(value)}
+            onChange={(value) => setNumber(value)}
           />
         </LabeledList.Item>
         <LabeledList.Item label="NumberInput (onDrag)">
@@ -55,7 +68,7 @@ const Story = (props) => {
             value={number}
             minValue={-100}
             maxValue={100}
-            onDrag={(e, value) => setNumber(value)}
+            onDrag={(value) => setNumber(value)}
           />
         </LabeledList.Item>
         <LabeledList.Item label="Slider (onDrag)">

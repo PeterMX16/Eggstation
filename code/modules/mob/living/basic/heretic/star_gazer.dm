@@ -6,7 +6,11 @@
 	icon_living = "star_gazer"
 	pixel_x = -32
 	base_pixel_x = -32
+<<<<<<< HEAD
 	mob_biotypes = MOB_HUMANOID | MOB_EPIC
+=======
+	mob_biotypes = MOB_HUMANOID | MOB_SPECIAL
+>>>>>>> tg-pr-88929
 	response_help_continuous = "passes through"
 	response_help_simple = "pass through"
 	speed = -0.2
@@ -21,11 +25,19 @@
 	attack_verb_continuous = "ravages"
 	attack_verb_simple = "ravage"
 	attack_vis_effect = ATTACK_EFFECT_SLASH
+<<<<<<< HEAD
 	attack_sound = 'sound/weapons/bladeslice.ogg'
 	melee_attack_cooldown = 0.6 SECONDS
 	speak_emote = list("growls")
 	damage_coeff = list(BRUTE = 1, BURN = 0.5, TOX = 0, CLONE = 0, STAMINA = 0, OXY = 0)
 	death_sound = 'sound/magic/cosmic_expansion.ogg'
+=======
+	attack_sound = 'sound/items/weapons/bladeslice.ogg'
+	melee_attack_cooldown = 0.6 SECONDS
+	speak_emote = list("growls")
+	damage_coeff = list(BRUTE = 1, BURN = 0.5, TOX = 0, STAMINA = 0, OXY = 0)
+	death_sound = 'sound/effects/magic/cosmic_expansion.ogg'
+>>>>>>> tg-pr-88929
 
 	slowed_by_drag = FALSE
 	move_force = MOVE_FORCE_OVERPOWERING
@@ -34,14 +46,18 @@
 	can_buckle_to = FALSE
 	mob_size = MOB_SIZE_HUGE
 	layer = LARGE_MOB_LAYER
-	plane = GAME_PLANE_UPPER_FOV_HIDDEN
 	flags_1 = PREVENT_CONTENTS_EXPLOSION_1
 
 	ai_controller = /datum/ai_controller/basic_controller/star_gazer
 
 /mob/living/basic/heretic_summon/star_gazer/Initialize(mapload)
 	. = ..()
+<<<<<<< HEAD
 	AddElement(/datum/element/death_drops, list(/obj/effect/temp_visual/cosmic_domain))
+=======
+	var/static/list/death_loot = list(/obj/effect/temp_visual/cosmic_domain)
+	AddElement(/datum/element/death_drops, death_loot)
+>>>>>>> tg-pr-88929
 	AddElement(/datum/element/death_explosion, 3, 6, 12)
 	AddElement(/datum/element/footstep, FOOTSTEP_MOB_SHOE)
 	AddElement(/datum/element/wall_smasher, ENVIRONMENT_SMASH_RWALLS)
@@ -64,7 +80,11 @@
 		return
 
 	target.apply_status_effect(/datum/status_effect/star_mark)
+<<<<<<< HEAD
 	target.apply_damage(damage = 5, damagetype = CLONE)
+=======
+	target.apply_damage(damage = 5, damagetype = BURN)
+>>>>>>> tg-pr-88929
 	var/datum/targeting_strategy/target_confirmer = GET_TARGETING_STRATEGY(ai_controller.blackboard[BB_TARGETING_STRATEGY])
 	for(var/mob/living/nearby_mob in range(1, src))
 		if(target == nearby_mob || !target_confirmer?.can_attack(src, nearby_mob))
@@ -103,7 +123,11 @@
 	can_attack_turfs = TRUE
 	can_attack_dense_objects = TRUE
 
+<<<<<<< HEAD
 /datum/pet_command/point_targeting/attack/star_gazer
+=======
+/datum/pet_command/attack/star_gazer
+>>>>>>> tg-pr-88929
 	speech_commands = list("attack", "sic", "kill", "slash them")
 	command_feedback = "stares!"
 	pointed_reaction = "stares intensely!"

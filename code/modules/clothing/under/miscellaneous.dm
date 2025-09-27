@@ -15,7 +15,7 @@
 	icon_state = "blue_pyjamas"
 
 /obj/item/clothing/under/misc/patriotsuit
-	name = "Patriotic Suit"
+	name = "patriotic suit"
 	desc = "Motorcycle not included."
 	icon_state = "ek"
 	inhand_icon_state = null
@@ -27,12 +27,16 @@
 	icon_state = "mailman"
 	inhand_icon_state = "b_suit"
 	clothing_traits = list(TRAIT_HATED_BY_DOGS)
+	custom_premium_price = PAYCHECK_CREW
 
 /obj/item/clothing/under/misc/psyche
 	name = "psychedelic jumpsuit"
 	desc = "Groovy!"
 	icon_state = "psyche"
 	inhand_icon_state = "p_suit"
+
+/obj/item/clothing/under/misc/psyche/get_general_color(icon/base_icon)
+	return "#3f3f3f"
 
 /obj/item/clothing/under/misc/vice_officer
 	name = "vice officer's jumpsuit"
@@ -49,15 +53,24 @@
 	worn_icon = 'icons/mob/clothing/under/syndicate.dmi'
 	desc = "A cybernetically enhanced jumpsuit used for administrative duties."
 	body_parts_covered = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
+<<<<<<< HEAD
 	armor_type = /datum/armor/misc_adminsuit
 
+=======
+	armor_type = /datum/armor/clothing_under/adminsuit
+	cold_protection = CHEST | GROIN | LEGS | FEET | ARMS | HANDS
+>>>>>>> tg-pr-88929
 	min_cold_protection_temperature = SPACE_SUIT_MIN_TEMP_PROTECT
 
 	max_heat_protection_temperature = SPACE_SUIT_MAX_TEMP_PROTECT
 	can_adjust = FALSE
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 
-/datum/armor/misc_adminsuit
+/obj/item/clothing/under/misc/adminsuit/Initialize(mapload)
+	. = ..()
+	AddComponent(/datum/component/adjust_fishing_difficulty, -25)
+
+/datum/armor/clothing_under/adminsuit
 	melee = 100
 	bullet = 100
 	laser = 100
@@ -66,6 +79,7 @@
 	bio = 100
 	fire = 100
 	acid = 100
+	wound = 100
 
 /obj/item/clothing/under/misc/burial
 	name = "burial garments"
@@ -96,15 +110,15 @@
 	icon_state = "durathread"
 	inhand_icon_state = null
 	can_adjust = FALSE
-	armor_type = /datum/armor/misc_durathread
+	armor_type = /datum/armor/clothing_under/durathread
 
-/datum/armor/misc_durathread
+/datum/armor/clothing_under/durathread
 	melee = 10
 	laser = 10
 	fire = 40
 	acid = 10
 	bomb = 5
-	bio = 10
+	wound = 10
 
 /obj/item/clothing/under/misc/bouncer
 	name = "bouncer uniform"
@@ -112,11 +126,10 @@
 	icon_state = "bouncer"
 	inhand_icon_state = null
 	can_adjust = FALSE
-	armor_type = /datum/armor/misc_bouncer
+	armor_type = /datum/armor/clothing_under/bouncer
 
-/datum/armor/misc_bouncer
+/datum/armor/clothing_under/bouncer
 	melee = 5
-	bio = 10
 	fire = 30
 	acid = 30
 

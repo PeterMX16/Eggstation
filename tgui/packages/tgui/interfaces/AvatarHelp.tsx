@@ -1,5 +1,11 @@
+<<<<<<< HEAD
 import { useBackend } from '../backend';
 import { Box, Icon, Section, Stack } from '../components';
+=======
+import { Box, Icon, Section, Stack } from 'tgui-core/components';
+
+import { useBackend } from '../backend';
+>>>>>>> tg-pr-88929
 import { Window } from '../layouts';
 
 type Data = {

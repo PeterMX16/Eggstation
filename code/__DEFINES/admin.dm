@@ -7,7 +7,7 @@
 #define MUTE_ADMINHELP (1<<3)
 #define MUTE_DEADCHAT (1<<4)
 #define MUTE_INTERNET_REQUEST (1<<5)
-#define MUTE_ALL (~0)
+#define MUTE_ALL ALL
 
 //Some constants for DB_Ban
 #define BANTYPE_PERMA 1
@@ -47,7 +47,10 @@
 
 #define ADMIN_QUE(user) "(<a href='byond://?_src_=holder;[HrefToken(forceGlobal = TRUE)];adminmoreinfo=[REF(user)]'>?</a>)"
 #define ADMIN_FLW(user) "(<a href='byond://?_src_=holder;[HrefToken(forceGlobal = TRUE)];adminplayerobservefollow=[REF(user)]'>FLW</a>)"
+<<<<<<< HEAD
 #define ADMIN_DEMO(user) "(<a href='byond://?_src_=holder;[HrefToken(forceGlobal = TRUE)];adminopendemo=[REF(user)]'>REPLAY</a>)" //Monkestation Edit: REPLAYS
+=======
+>>>>>>> tg-pr-88929
 #define ADMIN_PP(user) "(<a href='byond://?_src_=holder;[HrefToken(forceGlobal = TRUE)];adminplayeropts=[REF(user)]'>PP</a>)"
 #define ADMIN_VV(atom) "(<a href='byond://?_src_=vars;[HrefToken(forceGlobal = TRUE)];Vars=[REF(atom)]'>VV</a>)"
 #define ADMIN_SM(user) "(<a href='byond://?_src_=holder;[HrefToken(forceGlobal = TRUE)];subtlemessage=[REF(user)]'>SM</a>)"
@@ -74,23 +77,32 @@
 #define ADMIN_LUAVIEW_CHUNK(state, log_index) "(<a href='byond://?_src_=holder;[HrefToken(forceGlobal = TRUE)];lua_state=[REF(state)];log_index=[log_index]'>VIEW CODE</a>)"
 /// Displays "(SHOW)" in the chat, when clicked it tries to show atom(paper). First you need to set the request_state variable to TRUE for the paper.
 #define ADMIN_SHOW_PAPER(atom) "(<A href='byond://?_src_=holder;[HrefToken(forceGlobal = TRUE)];show_paper=[REF(atom)]'>SHOW</a>)"
+<<<<<<< HEAD
 /// Displays "(PLAY)" in the chat, when clicked it tries to play internet sounds from the request.
 #define ADMIN_PLAY_INTERNET(text) "(<A href='byond://?_src_=holder;[HrefToken(forceGlobal = TRUE)];play_internet=[url_encode(text)]'>PLAY</a>)"
+=======
+/// Displays "(PRINT)" in the chat, when clicked it will try to print the atom(paper) on the CentCom/Syndicate fax machine.
+#define ADMIN_PRINT_FAX(atom, sender, destination) "(<a href='byond://?_src_=holder;[HrefToken(forceGlobal = TRUE)];print_fax=[REF(atom)];sender_name=[sender];destination=[destination]'>PRINT</a>)"
+/// Displays "(PLAY)" in the chat, when clicked it tries to play internet sounds from the request.
+#define ADMIN_PLAY_INTERNET(text, credit) "(<A href='byond://?_src_=holder;[HrefToken(forceGlobal = TRUE)];play_internet=[url_encode(text)];credit=[credit]'>PLAY</a>)"
+/// Displays "(SEE Z-LEVEL LAYOUT)" in the chat, when clicked it shows the z-level layouts for the current world state.
+#define ADMIN_SEE_ZLEVEL_LAYOUT "(<A href='byond://?_src_=holder;[HrefToken(forceGlobal = TRUE)];debug_z_levels=1'>SEE Z-LEVEL LAYOUT</a>)"
+>>>>>>> tg-pr-88929
 
 /atom/proc/Admin_Coordinates_Readable(area_name, admin_jump_ref)
-	var/turf/T = Safe_COORD_Location()
-	return T ? "[area_name ? "[get_area_name(T, TRUE)] " : " "]([T.x],[T.y],[T.z])[admin_jump_ref ? " [ADMIN_JMP(T)]" : ""]" : "nonexistent location"
+	var/turf/turf_at_coords = Safe_COORD_Location()
+	return turf_at_coords ? "[area_name ? "[get_area_name(turf_at_coords, TRUE)] " : " "]([turf_at_coords.x],[turf_at_coords.y],[turf_at_coords.z])[admin_jump_ref ? " [ADMIN_JMP(turf_at_coords)]" : ""]" : "nonexistent location"
 
 /atom/proc/Safe_COORD_Location()
-	var/atom/A = drop_location()
-	if(!A)
+	var/atom/drop_atom = drop_location()
+	if(!drop_atom)
 		return //not a valid atom.
-	var/turf/T = get_step(A, 0) //resolve where the thing is.
-	if(!T) //incase it's inside a valid drop container, inside another container. ie if a mech picked up a closet and has it inside it's internal storage.
-		var/atom/last_try = A.loc?.drop_location() //one last try, otherwise fuck it.
+	var/turf/drop_turf = get_step(drop_atom, 0) //resolve where the thing is.
+	if(!drop_turf) //incase it's inside a valid drop container, inside another container. ie if a mech picked up a closet and has it inside its internal storage.
+		var/atom/last_try = drop_atom.loc?.drop_location() //one last try, otherwise fuck it.
 		if(last_try)
-			T = get_step(last_try, 0)
-	return T
+			drop_turf = get_step(last_try, 0)
+	return drop_turf
 
 /turf/Safe_COORD_Location()
 	return src
@@ -135,7 +147,7 @@
 #define BROWSE_ROOT_CURRENT_LOGS 2
 
 // allowed ghost roles this round, starts as everything allowed
-GLOBAL_VAR_INIT(ghost_role_flags, (~0))
+GLOBAL_VAR_INIT(ghost_role_flags, ALL)
 
 //Flags that control what ways ghosts can get back into the round
 //ie fugitives, space dragon, etc. also includes dynamic midrounds as it's the same deal
@@ -175,6 +187,7 @@ GLOBAL_VAR_INIT(ghost_role_flags, (~0))
 /// Used in logging uses of admin verbs (and sometimes some non-admin or debug verbs) to the blackbox
 /// Only pass it a string key, the verb being used.
 #define BLACKBOX_LOG_ADMIN_VERB(the_verb) SSblackbox.record_feedback("tally", "admin_verb", 1, the_verb)
+<<<<<<< HEAD
 
 /// MONKE EDIT Used in the logging uses of mentor verbs. Similar to admin.
 /// Only pass it a string key, the verb being used.
@@ -185,3 +198,5 @@ GLOBAL_VAR_INIT(ghost_role_flags, (~0))
 #define MRP_PORT		3121
 #define HRP_PORT		1342
 #define VANDERLIN_PORT	1541
+=======
+>>>>>>> tg-pr-88929

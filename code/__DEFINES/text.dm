@@ -64,7 +64,13 @@
  */
 #define PREVENT_CHARACTER_TRIM_LOSS(integer) (integer + 1)
 
+<<<<<<< HEAD
 #define ANTAG_MAPTEXT(value, color) MAPTEXT("<div align='center' valign='middle' style='position:relative; top:0px; left:6px'><font color='[color]'>[round(value)]</font></div>")
+=======
+/// BYOND's string procs don't support being used on datum references (as in it doesn't look for a name for stringification)
+/// We just use this macro to ensure that we will only pass strings to this BYOND-level function without developers needing to really worry about it.
+#define LOWER_TEXT(thing) lowertext(UNLINT("[thing]"))
+>>>>>>> tg-pr-88929
 
 /// Folder directory for strings
 #define STRING_DIRECTORY "strings"
@@ -110,3 +116,10 @@
 #define SPLASH_FILE "splashes.json"
 ///File location for mother hallucination lines
 #define MOTHER_FILE "mother.json"
+<<<<<<< HEAD
+=======
+
+#define ALPHABET list("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z")
+#define VOWELS list("a", "e", "i", "o", "u")
+#define CONSONANTS (ALPHABET - VOWELS)
+>>>>>>> tg-pr-88929

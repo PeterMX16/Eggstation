@@ -251,6 +251,8 @@
 		/mob/living/basic/carp,
 		/mob/living/basic/carp/magic,
 		/mob/living/basic/carp/magic/chaos,
+		/mob/living/basic/chick,
+		/mob/living/basic/chicken,
 		/mob/living/basic/cow,
 		/mob/living/basic/cow/wisdom,
 		/mob/living/basic/crab,
@@ -265,6 +267,11 @@
 		/mob/living/basic/mouse,
 		/mob/living/basic/mushroom,
 		/mob/living/basic/parrot,
+<<<<<<< HEAD
+=======
+		/mob/living/basic/pet/cat,
+		/mob/living/basic/pet/cat/cak,
+>>>>>>> tg-pr-88929
 		/mob/living/basic/pet/dog/breaddog,
 		/mob/living/basic/pet/dog/corgi,
 		/mob/living/basic/pet/dog/pug,
@@ -275,8 +282,11 @@
 		/mob/living/basic/stickman,
 		/mob/living/basic/stickman/dog,
 		/mob/living/simple_animal/hostile/megafauna/dragon/lesser,
+<<<<<<< HEAD
 		/mob/living/simple_animal/pet/cat,
 		/mob/living/simple_animal/pet/cat/cak,
+=======
+>>>>>>> tg-pr-88929
 		/obj/item/food/sausage/american,
 		/obj/item/skub,
 	)
@@ -390,7 +400,7 @@
 
 	if(istype(character, /datum/mind))
 		var/datum/mind/character_mind = character
-		return "\the [lowertext(initial(character_mind.assigned_role.title))]"
+		return "\the [LOWER_TEXT(initial(character_mind.assigned_role.title))]"
 
 	// Generic result - mobs get "the guy", objs / turfs get "a thing"
 	return ismob(character) ? "\the [character]" : "\a [character]"

@@ -3,7 +3,7 @@
 	result = /mob/living/simple_animal/bot/secbot/ed209
 	reqs = list(
 		/obj/item/robot_suit = 1,
-		/obj/item/clothing/head/helmet = 1,
+		/obj/item/clothing/head/helmet/sec = 1,
 		/obj/item/clothing/suit/armor/vest = 1,
 		/obj/item/bodypart/leg/left/robot = 1,
 		/obj/item/bodypart/leg/right/robot = 1,
@@ -42,12 +42,12 @@
 	time = 4 SECONDS
 	category = CAT_ROBOT
 
-/datum/crafting_recipe/floorbot
-	name = "Floorbot"
-	result = /mob/living/simple_animal/bot/floorbot
+/datum/crafting_recipe/repairbot
+	name = "Repairbot"
+	result = /mob/living/basic/bot/repairbot
 	reqs = list(
 		/obj/item/storage/toolbox = 1,
-		/obj/item/stack/tile/iron = 10,
+		/obj/item/stack/conveyor = 1,
 		/obj/item/assembly/prox_sensor = 1,
 		/obj/item/bodypart/arm/right/robot = 1,
 	)
@@ -75,6 +75,7 @@
 	var/obj/item/storage/medkit/medkit = bot.contents[3]
 	bot.medkit_type = medkit
 	bot.health_analyzer = bot.contents[4]
+<<<<<<< HEAD
 
 	if (istype(medkit, /obj/item/storage/medkit/fire))
 		bot.skin = "ointment"
@@ -87,12 +88,15 @@
 	else if (istype(medkit, /obj/item/storage/medkit/advanced))
 		bot.skin = "advanced"
 
+=======
+	bot.skin = medkit.get_medbot_skin()
+>>>>>>> tg-pr-88929
 	bot.damage_type_healer = initial(medkit.damagetype_healed) ? initial(medkit.damagetype_healed) : BRUTE
 	bot.update_appearance()
 
 /datum/crafting_recipe/honkbot
 	name = "Honkbot"
-	result = /mob/living/simple_animal/bot/secbot/honkbot
+	result = /mob/living/basic/bot/honkbot
 	reqs = list(
 		/obj/item/storage/box/clown = 1,
 		/obj/item/bodypart/arm/right/robot = 1,
@@ -104,7 +108,7 @@
 
 /datum/crafting_recipe/firebot
 	name = "Firebot"
-	result = /mob/living/simple_animal/bot/firebot
+	result = /mob/living/basic/bot/firebot
 	reqs = list(
 		/obj/item/extinguisher = 1,
 		/obj/item/bodypart/arm/right/robot = 1,
@@ -116,7 +120,7 @@
 
 /datum/crafting_recipe/vibebot
 	name = "Vibebot"
-	result = /mob/living/simple_animal/bot/vibebot
+	result = /mob/living/basic/bot/vibebot
 	reqs = list(
 		/obj/item/light/bulb = 2,
 		/obj/item/bodypart/head/robot = 1,
@@ -195,7 +199,7 @@
 		/obj/item/stack/cable_coil = 5,
 		/obj/item/stack/rods = 2,
 		/obj/item/stack/sheet/glass = 1,
-		/obj/item/organ/internal/heart/ethereal = 1,
+		/obj/item/organ/heart/ethereal = 1,
 	)
 	category = CAT_ROBOT
 

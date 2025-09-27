@@ -19,7 +19,7 @@
 	/// Time to wait (in deciseconds) between each call to fire(). Must be a positive integer.
 	var/wait = 20
 
-	/// Priority Weight: When mutiple subsystems need to run in the same tick, higher priority subsystems will be given a higher share of the tick before MC_TICK_CHECK triggers a sleep, higher priority subsystems also run before lower priority subsystems
+	/// Priority Weight: When multiple subsystems need to run in the same tick, higher priority subsystems will be given a higher share of the tick before MC_TICK_CHECK triggers a sleep, higher priority subsystems also run before lower priority subsystems
 	var/priority = FIRE_PRIORITY_DEFAULT
 
 	/// [Subsystem Flags][SS_NO_INIT] to control binary behavior. Flags must be set at compile time or before preinit finishes to take full effect. (You can also restart the mc to force them to process again)
@@ -41,12 +41,15 @@
 	///Bitmap of what game states can this subsystem fire at. See [RUNLEVELS_DEFAULT] for more details.
 	var/runlevels = RUNLEVELS_DEFAULT //points of the game at which the SS can fire
 
+<<<<<<< HEAD
 	///A list of var names present on this subsystem to be checked during CheckQueue. See [SS_HIBERNATE] for usage.
 	var/list/hibernate_checks
 
 	///Subsystem ID. Used for when we need a technical name for the SS used by SSmetrics
 	var/ss_id = "generic_ss_id"
 
+=======
+>>>>>>> tg-pr-88929
 	/**
 	 * boolean set by admins. if TRUE then this subsystem will stop the world profiler after ignite() returns and start it again when called.
 	 * used so that you can audit a specific subsystem or group of subsystems' synchronous call chain.
@@ -286,7 +289,7 @@
 /datum/controller/subsystem/proc/OnConfigLoad()
 
 /**
- * Used to initialize the subsystem. This is expected to be overriden by subtypes.
+ * Used to initialize the subsystem. This is expected to be overridden by subtypes.
  */
 /datum/controller/subsystem/Initialize()
 	return SS_INIT_NONE

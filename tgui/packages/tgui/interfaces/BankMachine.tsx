@@ -1,5 +1,15 @@
-import { BooleanLike } from 'common/react';
+import {
+  AnimatedNumber,
+  Button,
+  LabeledList,
+  NoticeBox,
+  Section,
+} from 'tgui-core/components';
+import { formatMoney } from 'tgui-core/format';
+import { BooleanLike } from 'tgui-core/react';
+
 import { useBackend } from '../backend';
+<<<<<<< HEAD
 import {
   AnimatedNumber,
   Button,
@@ -8,6 +18,8 @@ import {
   Section,
 } from '../components';
 import { formatMoney } from '../format';
+=======
+>>>>>>> tg-pr-88929
 import { Window } from '../layouts';
 
 type Data = {

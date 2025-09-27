@@ -13,17 +13,22 @@
 		/obj/item/clothing/suit/wizrobe/red = 1,
 		/obj/item/clothing/head/wizard/yellow = 1,
 		/obj/item/clothing/suit/wizrobe/yellow = 1,
+<<<<<<< HEAD
 		/obj/item/clothing/head/wizard/magician = 1, //MONKESTATION ADDITION
 		/obj/item/clothing/suit/wizrobe/magician = 1, //MONKESTATION ADDITION
 		/obj/item/clothing/neck/tie/bunnytie/magician = 1, //MONKESTATION ADDITION
 		/obj/item/clothing/under/costume/playbunny/magician = 1, //MONKESTATION ADDITION
 		/obj/item/clothing/shoes/heels/magician = 1, //MONKESTATION ADDITION
+=======
+		/obj/item/clothing/head/wizard/black = 1,
+		/obj/item/clothing/suit/wizrobe/black = 1,
+>>>>>>> tg-pr-88929
 		/obj/item/clothing/shoes/sandal/magic = 1,
 		/obj/item/staff = 2,
 	)
 	armor_type = /datum/armor/vending_magivend
 	resistance_flags = FIRE_PROOF
-	default_price = 0 //Just in case, since it's primary use is storage.
+	default_price = 0 //Just in case, since its primary use is storage.
 	extra_price = PAYCHECK_COMMAND
 	payment_department = ACCOUNT_SRV
 	light_mask = "magivend-light-mask"

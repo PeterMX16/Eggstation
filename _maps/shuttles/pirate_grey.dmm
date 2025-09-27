@@ -132,10 +132,13 @@
 /obj/structure/sign/poster/random/directional/east,
 /turf/open/floor/plating,
 /area/shuttle/pirate)
+<<<<<<< HEAD
 "eK" = (
 /obj/machinery/power/shuttle_engine/propulsion,
 /turf/open/floor/plating/airless,
 /area/shuttle/pirate)
+=======
+>>>>>>> tg-pr-88929
 "eU" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/turf_decal/tile/neutral/fourcorners,
@@ -187,7 +190,11 @@
 /turf/open/floor/plating,
 /area/shuttle/pirate)
 "gQ" = (
+<<<<<<< HEAD
 /obj/machinery/vending/boozeomat/all_access,
+=======
+/obj/machinery/vending/boozeomat,
+>>>>>>> tg-pr-88929
 /turf/closed/wall,
 /area/shuttle/pirate)
 "hk" = (
@@ -263,7 +270,10 @@
 /obj/effect/spawner/random/entertainment/arcade{
 	dir = 1
 	},
+<<<<<<< HEAD
 /obj/machinery/light/dim/directional/south,
+=======
+>>>>>>> tg-pr-88929
 /turf/open/floor/plating,
 /area/shuttle/pirate)
 "kw" = (
@@ -275,7 +285,10 @@
 "lk" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/effect/mapping_helpers/broken_floor,
+<<<<<<< HEAD
 /obj/item/assembly/flash,
+=======
+>>>>>>> tg-pr-88929
 /turf/open/floor/plating,
 /area/shuttle/pirate)
 "ll" = (
@@ -299,10 +312,13 @@
 /obj/item/stack/sheet/mineral/uranium/five,
 /turf/open/floor/plating,
 /area/shuttle/pirate)
+<<<<<<< HEAD
 "lD" = (
 /obj/item/assembly/flash,
 /turf/open/floor/plating,
 /area/shuttle/pirate)
+=======
+>>>>>>> tg-pr-88929
 "lL" = (
 /obj/effect/turf_decal/trimline/yellow/warning{
 	dir = 10
@@ -350,7 +366,10 @@
 	},
 /obj/effect/mapping_helpers/airlock/cutaiwire,
 /obj/structure/fans/tiny,
+<<<<<<< HEAD
 /obj/effect/mapping_helpers/airlock/access/any/syndicate,
+=======
+>>>>>>> tg-pr-88929
 /turf/open/floor/pod/light,
 /area/shuttle/pirate)
 "os" = (
@@ -364,8 +383,14 @@
 /obj/machinery/light/small/directional/west,
 /obj/machinery/computer/camera_advanced/shuttle_docker/syndicate/pirate{
 	dir = 4;
+<<<<<<< HEAD
 	x_offset = -3;
 	y_offset = 7
+=======
+	x_offset = -5;
+	y_offset = 12;
+	view_range = 10
+>>>>>>> tg-pr-88929
 	},
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/firealarm/directional/south,
@@ -392,7 +417,12 @@
 /area/shuttle/pirate)
 "pB" = (
 /obj/effect/mapping_helpers/burnt_floor,
+<<<<<<< HEAD
 /obj/item/storage/box/emergency_eva,
+=======
+/obj/item/clothing/suit/utility/fire/firefighter,
+/obj/item/clothing/head/helmet/space/eva,
+>>>>>>> tg-pr-88929
 /turf/open/floor/plating,
 /area/shuttle/pirate)
 "pR" = (
@@ -434,6 +464,10 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/structure/disposalpipe/segment,
 /obj/machinery/power/port_gen/pacman/pre_loaded,
+<<<<<<< HEAD
+=======
+/obj/machinery/light/small/directional/south,
+>>>>>>> tg-pr-88929
 /turf/open/floor/plating,
 /area/shuttle/pirate)
 "qn" = (
@@ -442,8 +476,13 @@
 /turf/open/floor/plating,
 /area/shuttle/pirate)
 "qo" = (
+<<<<<<< HEAD
 /obj/structure/cable,
 /obj/machinery/power/smes/magical,
+=======
+/obj/machinery/power/smes/magical,
+/obj/structure/cable,
+>>>>>>> tg-pr-88929
 /turf/open/floor/plating,
 /area/shuttle/pirate)
 "qs" = (
@@ -467,7 +506,12 @@
 /area/shuttle/pirate)
 "rB" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+<<<<<<< HEAD
 /obj/item/storage/box/emergency_eva,
+=======
+/obj/item/clothing/suit/utility/fire/firefighter,
+/obj/item/clothing/head/helmet/space/eva,
+>>>>>>> tg-pr-88929
 /turf/open/floor/plating,
 /area/shuttle/pirate)
 "rM" = (
@@ -490,9 +534,15 @@
 /turf/open/floor/wood,
 /area/shuttle/pirate)
 "sh" = (
+<<<<<<< HEAD
 /obj/effect/decal/cleanable/dirt,
 /obj/structure/cable,
 /obj/machinery/power/smes/magical,
+=======
+/obj/machinery/power/smes/ship,
+/obj/effect/decal/cleanable/dirt,
+/obj/structure/cable,
+>>>>>>> tg-pr-88929
 /turf/open/floor/plating,
 /area/shuttle/pirate)
 "sm" = (
@@ -535,7 +585,12 @@
 /obj/effect/turf_decal/tile/neutral/half/contrasted{
 	dir = 8
 	},
+<<<<<<< HEAD
 /obj/item/storage/box/emergency_eva,
+=======
+/obj/item/clothing/suit/utility/fire/firefighter,
+/obj/item/clothing/head/helmet/space/eva,
+>>>>>>> tg-pr-88929
 /turf/open/floor/iron,
 /area/shuttle/pirate)
 "tJ" = (
@@ -608,6 +663,7 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
+<<<<<<< HEAD
 /obj/item/storage/box/emergency_eva,
 /turf/open/floor/plating,
 /area/shuttle/pirate)
@@ -617,6 +673,12 @@
 	},
 /turf/closed/wall/r_wall,
 /area/shuttle/pirate)
+=======
+/obj/item/clothing/suit/utility/fire/firefighter,
+/obj/item/clothing/head/helmet/space/eva,
+/turf/open/floor/plating,
+/area/shuttle/pirate)
+>>>>>>> tg-pr-88929
 "wb" = (
 /obj/structure/grille,
 /turf/open/floor/plating,
@@ -714,7 +776,12 @@
 /obj/structure/chair/wood{
 	dir = 4
 	},
+<<<<<<< HEAD
 /obj/item/storage/box/emergency_eva,
+=======
+/obj/item/clothing/suit/utility/fire/firefighter,
+/obj/item/clothing/head/helmet/space/eva,
+>>>>>>> tg-pr-88929
 /turf/open/floor/wood,
 /area/shuttle/pirate)
 "xO" = (
@@ -865,15 +932,25 @@
 	},
 /obj/effect/mapping_helpers/airlock/cutaiwire,
 /obj/docking_port/mobile/pirate{
+<<<<<<< HEAD
 	dir = 4
 	},
 /obj/structure/fans/tiny,
 /obj/effect/mapping_helpers/airlock/access/any/syndicate,
+=======
+	dir = 8
+	},
+/obj/structure/fans/tiny,
+>>>>>>> tg-pr-88929
 /turf/open/floor/pod/light,
 /area/shuttle/pirate)
 "Bu" = (
 /obj/machinery/power/apc/auto_name/directional/north{
+<<<<<<< HEAD
 	cell_type = /obj/item/stock_parts/power_store/cell/bluespace
+=======
+	cell_type = /obj/item/stock_parts/power_store/battery/bluespace
+>>>>>>> tg-pr-88929
 	},
 /obj/structure/reagent_dispensers/watertank,
 /obj/effect/turf_decal/bot,
@@ -963,7 +1040,11 @@
 /area/shuttle/pirate)
 "DP" = (
 /obj/structure/bed,
+<<<<<<< HEAD
 /obj/item/bedsheet/random,
+=======
+/obj/effect/spawner/random/bedsheet/any,
+>>>>>>> tg-pr-88929
 /turf/open/floor/plating,
 /area/shuttle/pirate)
 "DX" = (
@@ -1035,10 +1116,13 @@
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/plating,
 /area/shuttle/pirate)
+<<<<<<< HEAD
 "GB" = (
 /obj/effect/mapping_helpers/burnt_floor,
 /turf/closed/wall/r_wall,
 /area/shuttle/pirate)
+=======
+>>>>>>> tg-pr-88929
 "GE" = (
 /obj/structure/rack,
 /obj/effect/spawner/random/clothing/costume,
@@ -1075,7 +1159,11 @@
 /obj/machinery/door/poddoor/shutters/preopen{
 	id = "silverbridge"
 	},
+<<<<<<< HEAD
 /turf/closed/wall/r_wall/rust,
+=======
+/turf/closed/wall/rust,
+>>>>>>> tg-pr-88929
 /area/shuttle/pirate)
 "HS" = (
 /obj/effect/spawner/random/engineering/atmospherics_portable,
@@ -1246,8 +1334,13 @@
 /turf/open/floor/plating,
 /area/shuttle/pirate)
 "Pn" = (
+<<<<<<< HEAD
 /turf/closed/wall/r_wall,
 /area/template_noop)
+=======
+/turf/closed/wall,
+/area/shuttle/pirate)
+>>>>>>> tg-pr-88929
 "PM" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/spawner/random/trash/grille_or_waste,
@@ -1359,7 +1452,11 @@
 /obj/effect/turf_decal/trimline/yellow/warning{
 	dir = 10
 	},
+<<<<<<< HEAD
 /turf/closed/wall/r_wall,
+=======
+/turf/closed/wall/rust,
+>>>>>>> tg-pr-88929
 /area/shuttle/pirate)
 "Ue" = (
 /obj/effect/turf_decal/bot,
@@ -1457,7 +1554,10 @@
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+<<<<<<< HEAD
 /obj/machinery/light/small/directional/north,
+=======
+>>>>>>> tg-pr-88929
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
@@ -1505,16 +1605,22 @@
 /obj/effect/turf_decal/tile/neutral/half/contrasted{
 	dir = 1
 	},
+<<<<<<< HEAD
 /obj/item/assembly/flash,
+=======
+>>>>>>> tg-pr-88929
 /turf/open/floor/iron,
 /area/shuttle/pirate)
 "ZD" = (
 /obj/effect/spawner/random/trash/garbage,
 /turf/open/floor/plating,
 /area/shuttle/pirate)
+<<<<<<< HEAD
 "ZU" = (
 /turf/closed/wall,
 /area/shuttle/pirate)
+=======
+>>>>>>> tg-pr-88929
 
 (1,1,1) = {"
 je
@@ -1540,7 +1646,11 @@ je
 vw
 pk
 TT
+<<<<<<< HEAD
 pk
+=======
+zB
+>>>>>>> tg-pr-88929
 Mu
 Mu
 Mu
@@ -1548,9 +1658,15 @@ UJ
 Mu
 Mu
 Mu
+<<<<<<< HEAD
 pk
 TT
 pk
+=======
+zB
+TT
+zB
+>>>>>>> tg-pr-88929
 vw
 je
 "}
@@ -1563,6 +1679,7 @@ zB
 Ww
 Ww
 Ww
+<<<<<<< HEAD
 eK
 Ww
 Ww
@@ -1570,6 +1687,15 @@ Ww
 pk
 zN
 Sh
+=======
+Ww
+Ww
+Ww
+Ww
+zB
+zN
+zB
+>>>>>>> tg-pr-88929
 AE
 je
 "}
@@ -1593,7 +1719,11 @@ ag
 TV
 "}
 (5,1,1) = {"
+<<<<<<< HEAD
 pk
+=======
+zB
+>>>>>>> tg-pr-88929
 qE
 Su
 Si
@@ -1603,16 +1733,27 @@ KU
 xR
 PS
 Yj
+<<<<<<< HEAD
 lD
+=======
+Wy
+>>>>>>> tg-pr-88929
 xR
 mT
 ci
 QI
 NO
+<<<<<<< HEAD
 pk
 "}
 (6,1,1) = {"
 pk
+=======
+zB
+"}
+(6,1,1) = {"
+zB
+>>>>>>> tg-pr-88929
 CP
 rB
 xu
@@ -1628,7 +1769,11 @@ Lp
 KZ
 yv
 ko
+<<<<<<< HEAD
 Sh
+=======
+zB
+>>>>>>> tg-pr-88929
 "}
 (7,1,1) = {"
 pk
@@ -1647,7 +1792,11 @@ VI
 xe
 ax
 uY
+<<<<<<< HEAD
 pk
+=======
+zB
+>>>>>>> tg-pr-88929
 "}
 (8,1,1) = {"
 pk
@@ -1666,7 +1815,11 @@ BL
 Yj
 NI
 jS
+<<<<<<< HEAD
 Sh
+=======
+zB
+>>>>>>> tg-pr-88929
 "}
 (9,1,1) = {"
 HD
@@ -1685,10 +1838,17 @@ IY
 Kq
 xT
 qm
+<<<<<<< HEAD
 GB
 "}
 (10,1,1) = {"
 Sh
+=======
+Ti
+"}
+(10,1,1) = {"
+Pn
+>>>>>>> tg-pr-88929
 Ut
 kw
 CH
@@ -1703,8 +1863,13 @@ Yj
 rV
 Tq
 uE
+<<<<<<< HEAD
 pk
 vU
+=======
+Pn
+HD
+>>>>>>> tg-pr-88929
 "}
 (11,1,1) = {"
 zB
@@ -1722,7 +1887,11 @@ wX
 Oa
 Tq
 Lo
+<<<<<<< HEAD
 pk
+=======
+Pn
+>>>>>>> tg-pr-88929
 ei
 "}
 (12,1,1) = {"
@@ -1731,7 +1900,11 @@ sB
 GE
 Yj
 Nu
+<<<<<<< HEAD
 ZU
+=======
+Pn
+>>>>>>> tg-pr-88929
 am
 Eq
 yN
@@ -1741,14 +1914,22 @@ Sh
 Fn
 Tq
 ro
+<<<<<<< HEAD
 pk
+=======
+zB
+>>>>>>> tg-pr-88929
 HD
 "}
 (13,1,1) = {"
 HD
 XX
 vJ
+<<<<<<< HEAD
 ZU
+=======
+Pn
+>>>>>>> tg-pr-88929
 SB
 Nm
 Vw
@@ -1760,14 +1941,22 @@ Sh
 gQ
 dd
 xy
+<<<<<<< HEAD
 pk
+=======
+Pn
+>>>>>>> tg-pr-88929
 HD
 "}
 (14,1,1) = {"
 pk
 pS
 pU
+<<<<<<< HEAD
 ZU
+=======
+Pn
+>>>>>>> tg-pr-88929
 QO
 Ac
 Wc
@@ -1780,6 +1969,7 @@ os
 fW
 Sh
 Sh
+<<<<<<< HEAD
 pk
 "}
 (15,1,1) = {"
@@ -1787,6 +1977,15 @@ Sh
 dI
 Sv
 ZU
+=======
+zB
+"}
+(15,1,1) = {"
+Pn
+dI
+Sv
+Pn
+>>>>>>> tg-pr-88929
 Bu
 xO
 yf
@@ -1799,6 +1998,7 @@ Sb
 fN
 rp
 ff
+<<<<<<< HEAD
 pk
 "}
 (16,1,1) = {"
@@ -1806,6 +2006,15 @@ Sh
 vM
 lO
 ZU
+=======
+zB
+"}
+(16,1,1) = {"
+zB
+vM
+lO
+Pn
+>>>>>>> tg-pr-88929
 tJ
 xO
 ax
@@ -1818,7 +2027,11 @@ Aa
 LQ
 vJ
 uP
+<<<<<<< HEAD
 Sh
+=======
+zB
+>>>>>>> tg-pr-88929
 "}
 (17,1,1) = {"
 pk
@@ -1837,7 +2050,11 @@ Wd
 Jq
 RE
 Ho
+<<<<<<< HEAD
 Sh
+=======
+zB
+>>>>>>> tg-pr-88929
 "}
 (18,1,1) = {"
 wE
@@ -1855,12 +2072,20 @@ Sh
 Bh
 Uf
 DP
+<<<<<<< HEAD
 Sh
+=======
+zB
+>>>>>>> tg-pr-88929
 Pn
 "}
 (19,1,1) = {"
 je
+<<<<<<< HEAD
 Sh
+=======
+zB
+>>>>>>> tg-pr-88929
 Oo
 AZ
 RU
@@ -1869,17 +2094,29 @@ sm
 CY
 fj
 DG
+<<<<<<< HEAD
 ZU
+=======
+Pn
+>>>>>>> tg-pr-88929
 Ci
 Sh
 Gb
 xm
+<<<<<<< HEAD
 Sh
+=======
+Pn
+>>>>>>> tg-pr-88929
 je
 "}
 (20,1,1) = {"
 je
+<<<<<<< HEAD
 pk
+=======
+Pn
+>>>>>>> tg-pr-88929
 ia
 NI
 yU
@@ -1888,18 +2125,31 @@ bv
 aD
 cJ
 tU
+<<<<<<< HEAD
 ZU
+=======
+Pn
+>>>>>>> tg-pr-88929
 xl
 Sh
 AR
 lO
+<<<<<<< HEAD
 pk
+=======
+Pn
+>>>>>>> tg-pr-88929
 je
 "}
 (21,1,1) = {"
 je
+<<<<<<< HEAD
 pk
 pk
+=======
+Pn
+Pn
+>>>>>>> tg-pr-88929
 xm
 yU
 OG
@@ -1907,22 +2157,36 @@ qo
 pT
 De
 sh
+<<<<<<< HEAD
 ZU
 Zc
 ZU
 pB
 pk
 pk
+=======
+Pn
+Zc
+Pn
+pB
+Pn
+Pn
+>>>>>>> tg-pr-88929
 je
 "}
 (22,1,1) = {"
 je
 je
+<<<<<<< HEAD
 pk
+=======
+Pn
+>>>>>>> tg-pr-88929
 EA
 ll
 FI
 Hh
+<<<<<<< HEAD
 ZU
 ZU
 Hh
@@ -1931,6 +2195,16 @@ gz
 ZU
 RX
 Sh
+=======
+Pn
+Pn
+Hh
+Pn
+gz
+Pn
+RX
+Pn
+>>>>>>> tg-pr-88929
 je
 je
 "}
@@ -1947,8 +2221,13 @@ ti
 Yf
 FI
 aV
+<<<<<<< HEAD
 ZU
 Sh
+=======
+Pn
+Pn
+>>>>>>> tg-pr-88929
 je
 je
 je
@@ -1966,7 +2245,11 @@ Am
 FT
 pk
 pk
+<<<<<<< HEAD
 Sh
+=======
+Pn
+>>>>>>> tg-pr-88929
 je
 je
 je
@@ -1979,9 +2262,15 @@ je
 je
 pk
 zB
+<<<<<<< HEAD
 pk
 pk
 pk
+=======
+Pn
+Pn
+zB
+>>>>>>> tg-pr-88929
 pk
 pk
 je

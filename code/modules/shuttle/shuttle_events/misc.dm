@@ -38,6 +38,7 @@
 	while(islist(spawn_list))
 		spawn_list = pick_weight(spawn_list)
 	return spawn_list
+<<<<<<< HEAD
 
 ///Sensors indicate that a black hole's gravitational field is affecting the region of space we were headed through
 /datum/shuttle_event/simple_spawner/black_hole
@@ -59,3 +60,5 @@
 	activation_fraction = 0.2
 	spawning_list = list(/obj/singularity/shuttle_event = 10)
 	remove_from_list_when_spawned = TRUE
+=======
+>>>>>>> tg-pr-88929

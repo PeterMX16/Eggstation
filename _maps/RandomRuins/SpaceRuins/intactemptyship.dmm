@@ -23,6 +23,7 @@
 	},
 /turf/template_noop,
 /area/ruin/space/has_grav/powered/authorship)
+<<<<<<< HEAD
 "f" = (
 /obj/structure/window/reinforced/spawner/directional/east,
 /obj/machinery/power/shuttle_engine/heater{
@@ -37,13 +38,9 @@
 	},
 /turf/open/floor/mineral/titanium/purple,
 /area/ruin/space/has_grav/powered/authorship)
+=======
+>>>>>>> tg-pr-88929
 "h" = (
-/turf/open/floor/mineral/titanium/purple,
-/area/ruin/space/has_grav/powered/authorship)
-"i" = (
-/obj/structure/table,
-/obj/item/flashlight/lamp,
-/obj/machinery/light/directional/north,
 /turf/open/floor/mineral/titanium/purple,
 /area/ruin/space/has_grav/powered/authorship)
 "j" = (
@@ -59,12 +56,13 @@
 /obj/effect/spawner/random/food_or_drink/donkpockets_single,
 /turf/open/floor/mineral/titanium/purple,
 /area/ruin/space/has_grav/powered/authorship)
-"m" = (
-/obj/machinery/light/directional/west,
-/turf/open/floor/mineral/titanium/purple,
-/area/ruin/space/has_grav/powered/authorship)
 "n" = (
 /obj/structure/table/wood,
+/turf/open/floor/mineral/titanium/purple,
+/area/ruin/space/has_grav/powered/authorship)
+"o" = (
+/obj/structure/table,
+/obj/item/flashlight/lamp,
 /turf/open/floor/mineral/titanium/purple,
 /area/ruin/space/has_grav/powered/authorship)
 "p" = (
@@ -102,16 +100,6 @@
 	},
 /turf/open/floor/mineral/titanium/purple,
 /area/ruin/space/has_grav/powered/authorship)
-"w" = (
-/obj/structure/table/wood,
-/obj/item/paper,
-/obj/item/pen,
-/turf/open/floor/mineral/titanium/purple,
-/area/ruin/space/has_grav/powered/authorship)
-"x" = (
-/obj/machinery/light/directional/south,
-/turf/open/floor/mineral/titanium/purple,
-/area/ruin/space/has_grav/powered/authorship)
 "y" = (
 /mob/living/basic/bot/medbot/derelict,
 /turf/open/floor/mineral/titanium/purple,
@@ -131,15 +119,11 @@
 	icon_state = "diagonalWall3"
 	},
 /area/ruin/space/has_grav/powered/authorship)
-"C" = (
-/obj/machinery/light/directional/south,
-/obj/structure/bed,
-/turf/open/floor/mineral/titanium/purple,
-/area/ruin/space/has_grav/powered/authorship)
 "D" = (
 /obj/machinery/door/airlock/external/ruin,
 /turf/open/floor/mineral/titanium/purple,
 /area/ruin/space/has_grav/powered/authorship)
+<<<<<<< HEAD
 "W" = (
 /obj/structure/table/wood,
 /obj/effect/spawner/random/food_or_drink/dinner,
@@ -149,6 +133,49 @@
 /obj/structure/table/wood,
 /obj/effect/spawner/random/food_or_drink/refreshing_beverage,
 /turf/open/floor/mineral/titanium/purple,
+=======
+"K" = (
+/obj/structure/bed,
+/turf/open/floor/mineral/titanium/purple,
+/area/ruin/space/has_grav/powered/authorship)
+"M" = (
+/obj/machinery/light/floor,
+/turf/open/floor/mineral/titanium/purple,
+/area/ruin/space/has_grav/powered/authorship)
+"N" = (
+/obj/structure/table/wood,
+/obj/item/flashlight/lamp/green,
+/turf/open/floor/mineral/titanium/purple,
+/area/ruin/space/has_grav/powered/authorship)
+"P" = (
+/obj/structure/table/wood,
+/obj/machinery/light/small/directional/south,
+/turf/open/floor/mineral/titanium/purple,
+/area/ruin/space/has_grav/powered/authorship)
+"Q" = (
+/obj/machinery/light_switch/directional/north,
+/turf/open/floor/mineral/titanium/purple,
+/area/ruin/space/has_grav/powered/authorship)
+"R" = (
+/obj/structure/table/wood,
+/obj/item/clothing/under/shorts/black,
+/obj/machinery/light/small/directional/north,
+/turf/open/floor/mineral/titanium/purple,
+/area/ruin/space/has_grav/powered/authorship)
+"U" = (
+/obj/structure/table/wood,
+/obj/item/paper,
+/obj/item/pen,
+/obj/machinery/light/directional/east,
+/turf/open/floor/mineral/titanium/purple,
+/area/ruin/space/has_grav/powered/authorship)
+"W" = (
+/obj/structure/window/reinforced/spawner/directional/east,
+/obj/machinery/power/shuttle_engine/heater{
+	dir = 8
+	},
+/turf/open/floor/plating/airless,
+>>>>>>> tg-pr-88929
 /area/ruin/space/has_grav/powered/authorship)
 
 (1,1,1) = {"
@@ -179,20 +206,20 @@ a
 "}
 (3,1,1) = {"
 b
-f
-f
+W
+W
 c
 q
+M
 h
-x
 c
-f
-f
+W
+W
 z
 "}
 (4,1,1) = {"
 c
-g
+R
 l
 c
 p
@@ -200,7 +227,11 @@ D
 p
 c
 A
+<<<<<<< HEAD
 X
+=======
+P
+>>>>>>> tg-pr-88929
 c
 "}
 (5,1,1) = {"
@@ -212,21 +243,26 @@ h
 h
 y
 c
+<<<<<<< HEAD
 h
 W
+=======
+Q
+N
+>>>>>>> tg-pr-88929
 c
 "}
 (6,1,1) = {"
 c
-i
-h
-m
+o
 h
 h
 h
-m
 h
-C
+h
+h
+h
+K
 c
 "}
 (7,1,1) = {"
@@ -235,7 +271,7 @@ j
 h
 h
 h
-h
+M
 h
 h
 h
@@ -272,11 +308,11 @@ B
 a
 a
 c
-m
 h
 h
 h
-m
+h
+h
 c
 a
 a
@@ -300,8 +336,13 @@ a
 c
 j
 r
+<<<<<<< HEAD
 w
 X
+=======
+U
+n
+>>>>>>> tg-pr-88929
 j
 c
 a

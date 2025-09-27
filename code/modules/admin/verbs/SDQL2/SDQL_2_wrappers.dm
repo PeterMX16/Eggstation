@@ -86,11 +86,16 @@
 /proc/_log(X, Y)
 	return log(X, Y)
 
+<<<<<<< HEAD
 /proc/_uppertext(T)
 	return uppertext(T)
 
 /proc/_lowertext(T)
 	return lowertext(T)
+=======
+/proc/_LOWER_TEXT(T)
+	return LOWER_TEXT(T)
+>>>>>>> tg-pr-88929
 
 /proc/_matrix(a, b, c, d, e, f)
 	return matrix(a, b, c, d, e, f)

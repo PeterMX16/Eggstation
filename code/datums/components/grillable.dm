@@ -14,6 +14,7 @@
 	var/use_large_steam_sprite = FALSE
 	/// REF() to the mind which placed us on the griddle
 	var/who_placed_us
+<<<<<<< HEAD
 	/// Are we grilling right now?
 	var/is_grilling = FALSE
 	/// Open turf we were last placed on, to check temperature
@@ -25,6 +26,12 @@
 	var/pollutant_type
 
 /datum/component/grillable/Initialize(cook_result, required_cook_time, positive_result, use_large_steam_sprite, pollutant_type)
+=======
+	/// Reagents that should be added to the result
+	var/list/added_reagents
+
+/datum/component/grillable/Initialize(cook_result, required_cook_time, positive_result, use_large_steam_sprite, list/added_reagents)
+>>>>>>> tg-pr-88929
 	. = ..()
 	if(!isitem(parent)) //Only items support grilling at the moment
 		return COMPONENT_INCOMPATIBLE
@@ -33,14 +40,22 @@
 	src.required_cook_time = required_cook_time
 	src.positive_result = positive_result
 	src.use_large_steam_sprite = use_large_steam_sprite
+<<<<<<< HEAD
 	src.pollutant_type = pollutant_type
 
 /datum/component/grillable/RegisterWithParent()
 	RegisterSignal(parent, COMSIG_ITEM_GRILL_PLACED_ON, PROC_REF(on_grill_placed))
+=======
+	src.added_reagents = added_reagents
+
+/datum/component/grillable/RegisterWithParent()
+	RegisterSignal(parent, COMSIG_ITEM_GRILL_PLACED, PROC_REF(on_grill_placed))
+>>>>>>> tg-pr-88929
 	RegisterSignal(parent, COMSIG_ITEM_GRILL_TURNED_ON, PROC_REF(on_grill_turned_on))
 	RegisterSignal(parent, COMSIG_ITEM_GRILL_TURNED_OFF, PROC_REF(on_grill_turned_off))
 	RegisterSignal(parent, COMSIG_ITEM_GRILL_PROCESS, PROC_REF(on_grill))
 	RegisterSignal(parent, COMSIG_ATOM_EXAMINE, PROC_REF(on_examine))
+<<<<<<< HEAD
 	RegisterSignal(parent, COMSIG_MOVABLE_MOVED, PROC_REF(on_location_changed))
 	on_location_changed(parent)
 
@@ -48,13 +63,21 @@
 	if (listening_turf)
 		UnregisterSignal(listening_turf, COMSIG_TURF_EXPOSE)
 
+=======
+
+/datum/component/grillable/UnregisterFromParent()
+>>>>>>> tg-pr-88929
 	UnregisterSignal(parent, list(
 		COMSIG_ATOM_EXAMINE,
 		COMSIG_ITEM_GRILL_TURNED_ON,
 		COMSIG_ITEM_GRILL_TURNED_OFF,
 		COMSIG_ITEM_GRILL_PROCESS,
+<<<<<<< HEAD
 		COMSIG_ITEM_GRILL_PLACED_ON,
 		COMSIG_MOVABLE_MOVED
+=======
+		COMSIG_ITEM_GRILL_PLACED,
+>>>>>>> tg-pr-88929
 	))
 
 // Inherit the new values passed to the component
@@ -70,6 +93,7 @@
 	if(use_large_steam_sprite)
 		src.use_large_steam_sprite = use_large_steam_sprite
 
+<<<<<<< HEAD
 /datum/component/grillable/Destroy(force)
 	. = ..()
 	STOP_PROCESSING(SSmachines, src)
@@ -97,12 +121,20 @@
 	on_turf_atmos_changed(current_turf, current_turf.air, current_turf.air?.temperature || 0)
 
 /// Signal proc for [COMSIG_ITEM_GRILL_PLACED_ON], starts the grilling process.
+=======
+/// Signal proc for [COMSIG_ITEM_GRILL_PLACED], item is placed on the grill.
+>>>>>>> tg-pr-88929
 /datum/component/grillable/proc/on_grill_placed(datum/source, mob/griller)
 	SIGNAL_HANDLER
 
 	if(griller && griller.mind)
 		who_placed_us = REF(griller.mind)
 
+<<<<<<< HEAD
+=======
+	RegisterSignal(parent, COMSIG_MOVABLE_MOVED, PROC_REF(on_moved))
+
+>>>>>>> tg-pr-88929
 /// Signal proc for [COMSIG_ITEM_GRILL_TURNED_ON], starts the grilling process.
 /datum/component/grillable/proc/on_grill_turned_on(datum/source)
 	RegisterSignal(parent, COMSIG_ATOM_UPDATE_OVERLAYS, PROC_REF(add_grilled_item_overlay))
@@ -116,6 +148,13 @@
 	UnregisterSignal(parent, COMSIG_ATOM_UPDATE_OVERLAYS)
 
 	is_grilling = FALSE
+	var/atom/atom_parent = parent
+	atom_parent.update_appearance()
+
+/// Signal proc for [COMSIG_ITEM_GRILL_TURNED_OFF], stops the grilling process.
+/datum/component/grillable/proc/on_grill_turned_off(datum/source)
+	UnregisterSignal(parent, COMSIG_ATOM_UPDATE_OVERLAYS)
+
 	var/atom/atom_parent = parent
 	atom_parent.update_appearance()
 
@@ -147,8 +186,17 @@
 		if(original_object.custom_materials)
 			grilled_result.set_custom_materials(original_object.custom_materials)
 
+<<<<<<< HEAD
 	if(IS_EDIBLE(grilled_result))
 		BLACKBOX_LOG_FOOD_MADE(grilled_result)
+=======
+	if(IsEdible(grilled_result) && positive_result)
+		BLACKBOX_LOG_FOOD_MADE(grilled_result.type)
+		grilled_result.reagents.clear_reagents()
+		original_object.reagents?.trans_to(grilled_result, original_object.reagents.total_volume)
+		if(added_reagents) // Add any new reagents that should be added
+			grilled_result.reagents.add_reagent_list(added_reagents)
+>>>>>>> tg-pr-88929
 
 	SEND_SIGNAL(parent, COMSIG_ITEM_GRILLED, grilled_result)
 	if(who_placed_us)
@@ -177,7 +225,7 @@
 		else if(current_cook_time <= required_cook_time)
 			examine_list += span_notice("[parent] seems to be almost finished cooking!")
 	else
-		examine_list += span_danger("[parent] should probably not be cooked for much longer!")
+		examine_list += span_danger("[parent] should probably not be put on the grill.")
 
 /datum/component/grillable/proc/add_grilled_item_overlay(datum/source, list/overlays)
 	SIGNAL_HANDLER

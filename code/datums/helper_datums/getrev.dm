@@ -85,8 +85,16 @@
 
 	// Game mode odds
 	msg += "<br><b>Current Informational Settings:</b>"
+<<<<<<< HEAD
 	msg += "<b>Protect Authority Roles From Traitor:</b> [CONFIG_GET(flag/protect_roles_from_antagonist) ? "Yes" : "No"]"
 	msg += "<b>Protect Assistant Role From Traitor:</b> [CONFIG_GET(flag/protect_assistant_from_antagonist) ? "Yes" : "No"]"
 	msg += "<b>Enforce Human Authority:</b> [CONFIG_GET(flag/enforce_human_authority) ? "Yes" : "No"]"
 	msg += "<b>Allow Latejoin Antagonists:</b> [CONFIG_GET(flag/allow_latejoin_antagonists) ? "Yes" : "No"]"
 	to_chat(src, fieldset_block("Server Revision Info", span_infoplain(jointext(msg, "<br>")), "boxed_message"), type = MESSAGE_TYPE_INFO)
+=======
+	msg += "Protect Authority Roles From Traitor: [CONFIG_GET(flag/protect_roles_from_antagonist)]"
+	msg += "Protect Assistant Role From Traitor: [CONFIG_GET(flag/protect_assistant_from_antagonist)]"
+	msg += "Enforce Human Authority: [CONFIG_GET(string/human_authority)]"
+	msg += "Allow Latejoin Antagonists: [CONFIG_GET(flag/allow_latejoin_antagonists)]"
+	to_chat(src, span_infoplain(msg.Join("<br>")))
+>>>>>>> tg-pr-88929

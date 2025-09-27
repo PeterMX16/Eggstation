@@ -2,6 +2,7 @@
 	"zombie": {
 		"aaah": "oh",
 		"aabz": ["oops", "ops", "oof"],
+<<<<<<< HEAD
 		"abzah": [
 			"myself",
 			"yourself",
@@ -11,6 +12,9 @@
 			"ourselves",
 			"themselves"
 		],
+=======
+		"abzah": ["myself", "yourself", "himself", "herself", "itself", "ourselves", "themselves"],
+>>>>>>> tg-pr-88929
 		"hah": ["he"],
 		"zam": ["him", "they", "them"],
 		"zhar": ["she", "her"],
@@ -112,6 +116,7 @@
 		"zhag": "weak",
 		"angarzangang": "understand",
 		"gahmangang": "demand",
+<<<<<<< HEAD
 		"barragahz": [
 			"barricade",
 			"cade",
@@ -123,6 +128,9 @@
 			"window",
 			"weld"
 		],
+=======
+		"barragahz": ["barricade", "cade", "airlock", "door", "bolt", "wall", "sandbag", "window", "weld"],
+>>>>>>> tg-pr-88929
 		"barg": "eat",
 		"brang": "bring",
 		"bram": "from",
@@ -141,6 +149,10 @@
 		"ahahz": "away",
 		"anh": "and",
 		"ann": "on",
+<<<<<<< HEAD
+=======
+		"arghazzm": "orgasm",
+>>>>>>> tg-pr-88929
 		"abrahb": ["afraid", "fear"],
 		"hanah": "honey",
 		"hag": "hug",
@@ -196,6 +208,7 @@
 		"zambahz": "zombies",
 		"zzzz": ["chill", "relax", "sleep", "calm", "peace", "dream"],
 		"bah": ["bad", "evil", "but"],
+<<<<<<< HEAD
 		"gag": [
 			"gross",
 			"nasty",
@@ -208,10 +221,14 @@
 			"silence",
 			"shutup"
 		],
+=======
+		"gag": ["gross", "nasty", "vomit", "smelly", "stinky", "stench", "foul", "quiet", "silence", "shutup"],
+>>>>>>> tg-pr-88929
 		"gammah": ["give", "gimmie"],
 		"gah": ["get", "go"],
 		"gargazz": ["body", "corpse"],
 		"rag": ["uniform", "suit", "rag", "clothing", "jumpsuit"],
+<<<<<<< HEAD
 		"garbagz": [
 			"garbage",
 			"janitor",
@@ -254,6 +271,13 @@
 			"flood",
 			"siphon"
 		],
+=======
+		"garbagz": ["garbage", "janitor", "custodian", "trash", "clean", "dirt", "filth", "mess", "junk"],
+		"bagman": ["doctor", "medic", "healer", "paramedic", "curator", "librarian"],
+		"gangbang": ["death", "kill", "die", "slay", "ERP", "punish", "detain", "prison", "prisoner", "brig", "cell", "jail", "perma", "permabrig"],
+		"bag": ["duffle", "dufflebag", "pocket", "box", "bag", "backpack", "storage", "inventory"],
+		"aarbagz": ["airbag", "atmos", "airtank", "canister", "air", "atmos tech", "atmospherics", "tank", "gas", "flood", "siphon"],
+>>>>>>> tg-pr-88929
 		"bar": ["bar", "drink", "alchol", "liquor"],
 		"bar man": "bartender",
 		"barn": ["hydroponics", "botany", "office", "room"],
@@ -274,6 +298,7 @@
 		"aman": "amen",
 		"amaz!ng": "amazing",
 		"zahz": ["say", "says", "that"],
+<<<<<<< HEAD
 		"gab": [
 			"told",
 			"talk",
@@ -298,12 +323,18 @@
 			"destruction",
 			"demolish"
 		],
+=======
+		"gab": ["told", "talk", "speak", "spoke", "language", "communication", "radio", "comms", "text", "word", "speech"],
+		"mrh": ["why", "how", "when", "who", "what", "where"],
+		"zmazh": ["smash", "break", "destroy", "deconstruct", "dismantle", "ruin", "destruction", "demolish"],
+>>>>>>> tg-pr-88929
 		"ranz": ["run", "ran", "ride"],
 		"hahg": ["hide", "hidden", "shelter"],
 		"zanz": ["dance", "spin", "flip"],
 		"ganna": ["going", "gonna"],
 		"mannah": ["many", "much", "very"],
 		"mazzargh": "massacure",
+<<<<<<< HEAD
 		"mazzah": [
 			"lord",
 			"god",
@@ -314,6 +345,9 @@
 			"messiah",
 			"christ"
 		],
+=======
+		"mazzah": ["lord", "god", "religion", "chapel", "altar", "bible", "messiah", "christ"],
+>>>>>>> tg-pr-88929
 		"mararana": ["weed", "420", "marijuana", "drug"],
 		"barb": ["knife", "poke", "thorn", "joke"],
 		"mmmm": ["delicious", "tasty", "like", "enjoy"],
@@ -323,6 +357,7 @@
 		"ban!zh": ["ban", "banish"],
 		"brazzarz": ["brother", "skeleton", "skele"],
 		"zambah": ["zombie", "undead", "dead", "horde"],
+<<<<<<< HEAD
 		"ganz": [
 			"gun",
 			"rifle",
@@ -379,12 +414,28 @@
 			"cuff",
 			"arrest"
 		],
+=======
+		"gangbang harmanz": ["sec", "security", "assistant", "greyshirt", "greytide", "cargo", "syndie", "rev", "shitsec", "shitcurity"],
+		"ganz": ["gun", "rifle", "taser", "shotgun", "revovler", "sniper", "pistol"],
+		"bang": ["bomb", "detonate", "explode", "explosion", "boom", "bang", "noise", "loud"],
+		"bang-bang": ["bullet", "shot", "shoot", "fire", "laser", "lazer"],
+		"harm": ["attack", "punch", "hit", "throw", "fight", "strike", "combat", "choke", "suffoicate", "baton", "harmbaton"],
+		"ram": ["smash", "smack", "punch", "tackle", "kick", "push", "beat"],
+		"zhangh": ["stab", "slash", "slice"],
+		"bang bang man": ["officer", "warden", "hos", "bounty hunter", "hunt", "hunter"],
+		"manbagz": ["testicle", "balls"],
+		"grahn": ["groan", "gasp", "crit", "moan", "unconscious"],
+		"gahn": "gone",
+		"ganarazharh": ["power", "apc", "generator", "smes"],
+		"grabz": ["grab", "hold", "held", "grip", "restrain", "handcuff", "cuff", "arrest"],
+>>>>>>> tg-pr-88929
 		"mah": ["my", "me"],
 		"mana man": "wizard",
 		"mana": "magic",
 		"mana bang-bang": "spell",
 		"mahg": "make",
 		"mannarz": "manner",
+<<<<<<< HEAD
 		"brainz": [
 			"brain",
 			"intelligence",
@@ -398,4 +449,10 @@
 		"harman": ["human", "food", "person", "groceries"],
 		"harmanz": ["crew", "people", "humans"]
 	}
+=======
+		"brainz": ["brain", "intelligence", "smart", "hungry", "hunger", "eat", "meat", "desert"],
+		"harman": ["human", "food", "person", "groceries"],
+		"harmanz": ["crew", "people", "humans"]
+		}
+>>>>>>> tg-pr-88929
 }

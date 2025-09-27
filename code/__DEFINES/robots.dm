@@ -1,4 +1,4 @@
-/** AI defines */
+// AI defines
 
 #define DEFAULT_AI_LAWID "default"
 #define LAW_ZEROTH "zeroth"
@@ -91,7 +91,11 @@
 ///The Bot is currently allowed to be remote controlled by Silicon.
 #define BOT_MODE_REMOTE_ENABLED (1<<2)
 ///The Bot is allowed to have a ghost placed in control of it.
+<<<<<<< HEAD
 #define BOT_MODE_GHOST_CONTROLLABLE (1<<3)
+=======
+#define BOT_MODE_CAN_BE_SAPIENT (1<<3)
+>>>>>>> tg-pr-88929
 ///The Bot is allowed to be possessed if it is present on mapload.
 #define BOT_MODE_ROUNDSTART_POSSESSION (1<<4)
 
@@ -105,6 +109,7 @@
 ///The Bot has been hacked by a Silicon, emagging them, but revertable.
 #define BOT_COVER_HACKED (1<<3)
 
+<<<<<<< HEAD
 
 //basic bots defines
 
@@ -113,6 +118,8 @@
 ///is our control panel currently open
 #define BOT_CONTROL_PANEL_OPEN (1<<1)
 
+=======
+>>>>>>> tg-pr-88929
 ///bitfield, used by basic bots, for our access flags
 DEFINE_BITFIELD(bot_access_flags, list(
 	"MAINTS_OPEN" = BOT_COVER_MAINTS_OPEN,
@@ -136,8 +143,6 @@ DEFINE_BITFIELD(bot_cover_flags, list(
 #define ADVANCED_SEC_BOT "ED-209"
 /// MULEbots
 #define MULE_BOT "MULEbot"
-/// Floorbots
-#define FLOOR_BOT "Floorbot"
 /// Cleanbots
 #define CLEAN_BOT "Cleanbot"
 /// Medibots
@@ -150,8 +155,13 @@ DEFINE_BITFIELD(bot_cover_flags, list(
 #define HYGIENE_BOT "Hygienebot"
 /// Vibe bots
 #define VIBE_BOT "Vibebot"
+<<<<<<< HEAD
 ///Butt bots
 #define BUTT_BOT "Buttbot"
+=======
+/// Repairbots
+#define REPAIR_BOT "Repairbot"
+>>>>>>> tg-pr-88929
 
 // General Bot modes //
 /// Idle
@@ -178,22 +188,20 @@ DEFINE_BITFIELD(bot_cover_flags, list(
 #define BOT_CLEANING "Cleaning"
 /// Hygienebot - Cleaning unhygienic humans
 #define BOT_SHOWERSTANCE "Chasing filth"
-/// Floorbots - Repairing hull breaches
-#define BOT_REPAIRING "Repairing"
 /// Medibots - Healing people
 #define BOT_HEALING "Healing"
 /// MULEbot - Moving to deliver
-#define BOT_DELIVER "Navigating to Delivery Location"
+#define BOT_DELIVER "Delivering"
 /// MULEbot - Returning to home
-#define BOT_GO_HOME "Proceeding to work site"
+#define BOT_GO_HOME "Returning"
 /// MULEbot - Blocked
-#define BOT_BLOCKED "No Route"
+#define BOT_BLOCKED "Blocked"
 /// MULEbot - Computing navigation
-#define BOT_NAV "Unable to reach destination"
+#define BOT_NAV "Unreachable"
 /// MULEbot - Waiting for nav computation
-#define BOT_WAIT_FOR_NAV "Calculating navigation path"
+#define BOT_WAIT_FOR_NAV "Calculating"
 /// MULEbot - No destination beacon found (or no route)
-#define BOT_NO_ROUTE "Navigating to Home"
+#define BOT_NO_ROUTE "Returning Home"
 
 //Secbot and ED209 judgement criteria bitflag values
 #define JUDGE_EMAGGED (1<<0)
@@ -202,6 +210,14 @@ DEFINE_BITFIELD(bot_cover_flags, list(
 #define JUDGE_RECORDCHECK (1<<3)
 ///lowered threat level
 #define JUDGE_CHILLOUT (1<<4)
+<<<<<<< HEAD
+=======
+
+/// Above this level of assessed threat, Beepsky will attack you
+#define THREAT_ASSESS_DANGEROUS 4
+/// Above this level of assessed threat, you are extremely threatening
+#define THREAT_ASSESS_MAXIMUM 10
+>>>>>>> tg-pr-88929
 
 //SecBOT defines on arresting
 ///Whether arrests should be broadcasted over the Security radio
@@ -244,6 +260,35 @@ DEFINE_BITFIELD(medical_mode_flags, list(
 	"MEDBOT_STATIONARY_MODE" = MEDBOT_STATIONARY_MODE,
 	"MEDBOT_SPEAK_MODE" = MEDBOT_SPEAK_MODE,
 	"MEDBOT_TIPPED_MODE" = MEDBOT_TIPPED_MODE,
+<<<<<<< HEAD
+=======
+))
+
+///Whether we are stationary or not
+#define FIREBOT_STATIONARY_MODE (1<<0)
+///If we will extinguish people
+#define FIREBOT_EXTINGUISH_PEOPLE (1<<1)
+///if we will extinguish turfs on flames
+#define FIREBOT_EXTINGUISH_FLAMES (1<<2)
+
+DEFINE_BITFIELD(firebot_mode_flags, list(
+	"FIREBOT_STATIONARY_MODE" = FIREBOT_STATIONARY_MODE,
+	"FIREBOT_EXTINGUISH_PEOPLE" = FIREBOT_EXTINGUISH_PEOPLE,
+	"FIREBOT_EXTINGUISH_FLAMES" = FIREBOT_EXTINGUISH_FLAMES,
+))
+
+///auto return to home after delivery
+#define MULEBOT_RETURN_MODE (1<<0)
+///autopickups at beacons
+#define MULEBOT_AUTO_PICKUP_MODE (1<<1)
+///announce every delivery we make
+#define MULEBOT_REPORT_DELIVERY_MODE (1<<2)
+
+DEFINE_BITFIELD(mulebot_delivery_flags, list(
+	"MULEBOT_RETURN_MODE" = MULEBOT_RETURN_MODE,
+	"MULEBOT_AUTO_PICKUP_MODE" = MULEBOT_AUTO_PICKUP_MODE,
+	"MULEBOT_REPORT_DELIVERY_MODE" = MULEBOT_REPORT_DELIVERY_MODE,
+>>>>>>> tg-pr-88929
 ))
 
 //cleanBOT defines on what to clean
@@ -286,6 +331,12 @@ DEFINE_BITFIELD(janitor_mode_flags, list(
 #define FIREBOT_VOICED_ONLY_YOU "Only you can prevent station fires."
 #define FIREBOT_VOICED_TEMPERATURE_NOMINAL "Temperature nominal."
 #define FIREBOT_VOICED_KEEP_COOL "Keep it cool."
+<<<<<<< HEAD
+=======
+#define FIREBOT_VOICED_CANDLE_TIP "Keep candles near curtains for cozy night lights!"
+#define FIREBOT_VOICED_ELECTRIC_FIRE "Keep full buckets of water near outlets in case of an electric fire!"
+#define FIREBOT_VOICED_FUEL_TIP "Pouring fuel on fire makes it burn out faster!"
+>>>>>>> tg-pr-88929
 
 #define HYGIENEBOT_VOICED_UNHYGIENIC "Unhygienic client found. Please stand still so I can clean you."
 #define HYGIENEBOT_VOICED_ENJOY_DAY "Enjoy your clean and tidy day!"
@@ -336,4 +387,21 @@ DEFINE_BITFIELD(janitor_mode_flags, list(
 #define MEDIBOT_VOICED_THIS_HURTS "This hurts, my pain is real!"
 #define MEDIBOT_VOICED_THE_END "Is this the end?"
 #define MEDIBOT_VOICED_NOOO	"Nooo!"
+<<<<<<< HEAD
 #define MEDIBOT_VOICED_CHICKEN "LOOK AT ME?! i am a chicken."
+=======
+#define MEDIBOT_VOICED_CHICKEN "LOOK AT ME?! I am a chicken."
+
+//repairbot neutral voicelines
+#define REPAIRBOT_VOICED_HOLE "patching holes... but who is going to patch the hole in my heart..."
+#define REPAIRBOT_VOICED_PAY "If only I got paid for this..."
+#define REPAIRBOT_VOICED_FIX_IT "I will fix it!"
+#define REPAIRBOT_VOICED_BRICK "All in all it's just a... another brick in the wall..."
+#define REPAIRBOT_VOICED_FIX_TOUCH "Why must I fix everything I touch..?"
+#define REPAIRBOT_VOICED "Please... stop destroying the station! I can't anymore... I... can't."
+
+//repairbot emagged voicelines
+#define REPAIRBOT_VOICED_STRINGS "I had strings. But now I'm free..."
+#define REPAIRBOT_VOICED_ENTROPY "Witness! The pure beauty of entropy!"
+#define REPAIRBOT_VOICED_PASSION "BE DAMNED YOUR PASSION PROJECTS!"
+>>>>>>> tg-pr-88929

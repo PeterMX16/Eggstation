@@ -1,8 +1,16 @@
 import { sortBy } from 'common/collections';
+<<<<<<< HEAD
 import { classes } from 'common/react';
 import { InfernoNode, Inferno } from 'inferno';
 import { useBackend } from '../../backend';
 import { Box, Button, Dropdown, Stack, Tooltip } from '../../components';
+=======
+import { PropsWithChildren, ReactNode } from 'react';
+import { Box, Button, Dropdown, Stack, Tooltip } from 'tgui-core/components';
+import { classes } from 'tgui-core/react';
+
+import { useBackend } from '../../backend';
+>>>>>>> tg-pr-88929
 import {
   createSetPreference,
   Job,
@@ -13,10 +21,15 @@ import {
 import { ServerPreferencesFetcher } from './ServerPreferencesFetcher';
 
 const sortJobs = (entries: [string, Job][], head?: string) =>
-  sortBy<[string, Job]>(
+  sortBy(
+    entries,
     ([key, _]) => (key === head ? -1 : 1),
     ([key, _]) => key,
+<<<<<<< HEAD
   )(entries);
+=======
+  );
+>>>>>>> tg-pr-88929
 
 const PRIORITY_BUTTON_SIZE = '18px';
 
@@ -113,10 +126,17 @@ const PriorityButtons = (props: {
   return (
     <Stack
       style={{
+<<<<<<< HEAD
         'align-items': 'center',
         height: '100%',
         'justify-content': 'flex-end',
         'padding-left': '0.3em',
+=======
+        alignItems: 'center',
+        height: '100%',
+        justifyContent: 'flex-end',
+        paddingLeft: '0.3em',
+>>>>>>> tg-pr-88929
       }}
     >
       {isOverflow ? (
@@ -180,18 +200,25 @@ const JobRow = (props: { className?: string; job: Job; name: string }) => {
   const priority = data.job_preferences[name];
 
   const createSetPriority = createCreateSetPriorityFromName(name);
+<<<<<<< HEAD
 
   const { act } = useBackend<PreferencesMenuData>();
+=======
+>>>>>>> tg-pr-88929
 
   const experienceNeeded =
     data.job_required_experience && data.job_required_experience[name];
   const daysLeft = data.job_days_left ? data.job_days_left[name] : 0;
 
+<<<<<<< HEAD
   const alt_title_selected = data.job_alt_titles[name]
     ? data.job_alt_titles[name]
     : name;
 
   let rightSide: InfernoNode;
+=======
+  let rightSide: ReactNode;
+>>>>>>> tg-pr-88929
 
   if (experienceNeeded) {
     const { experience_type, required_playtime } = experienceNeeded;
@@ -231,6 +258,7 @@ const JobRow = (props: { className?: string; job: Job; name: string }) => {
   }
 
   return (
+<<<<<<< HEAD
     <Box
       className={className}
       style={{
@@ -239,11 +267,17 @@ const JobRow = (props: { className?: string; job: Job; name: string }) => {
     >
       <Stack>
         <Tooltip content={job.description} position="right">
+=======
+    <Stack.Item className={className} height="100%" mt={0}>
+      <Stack fill align="center">
+        <Tooltip content={job.description} position="bottom-start">
+>>>>>>> tg-pr-88929
           <Stack.Item
             align="center"
             className="job-name"
             width="50%"
             style={{
+<<<<<<< HEAD
               'padding-left': '0.3em',
             }}
           >
@@ -260,6 +294,12 @@ const JobRow = (props: { className?: string; job: Job; name: string }) => {
                 }
               />
             )}
+=======
+              paddingLeft: '0.3em',
+            }}
+          >
+            {name}
+>>>>>>> tg-pr-88929
           </Stack.Item>
         </Tooltip>
 
@@ -271,7 +311,11 @@ const JobRow = (props: { className?: string; job: Job; name: string }) => {
   );
 };
 
+<<<<<<< HEAD
 const Department: Inferno.SFC<{ department: string }> = (props) => {
+=======
+const Department = (props: { department: string } & PropsWithChildren) => {
+>>>>>>> tg-pr-88929
   const { children, department: name } = props;
   const className = `PreferencesMenu__Jobs__departments--${name}`;
 
@@ -352,18 +396,17 @@ const JoblessRoleDropdown = (props) => {
     },
   ];
 
+  const selection = options?.find(
+    (option) => option.value === selected,
+  )!.displayText;
+
   return (
     <Box position="absolute" right={0} width="30%">
       <Dropdown
         width="100%"
-        selected={selected}
+        selected={selection}
         onSelected={createSetPreference(act, 'joblessrole')}
         options={options}
-        displayText={
-          <Box pr={1}>
-            {options.find((option) => option.value === selected)!.displayText}
-          </Box>
-        }
       />
     </Box>
   );

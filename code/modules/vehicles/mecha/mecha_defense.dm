@@ -41,6 +41,7 @@
 	if(damage_taken <= 0 || atom_integrity < 0)
 		return damage_taken
 
+	diag_hud_set_mechhealth()
 	spark_system?.start()
 	try_deal_internal_damage(damage_taken)
 	if(damage_taken >= 5 || prob(33))
@@ -62,7 +63,7 @@
 		return
 	user.changeNext_move(CLICK_CD_MELEE) // Ugh. Ideally we shouldn't be setting cooldowns outside of click code.
 	user.do_attack_animation(src, ATTACK_EFFECT_PUNCH)
-	playsound(loc, 'sound/weapons/tap.ogg', 40, TRUE, -1)
+	playsound(loc, 'sound/items/weapons/tap.ogg', 40, TRUE, -1)
 	user.visible_message(span_danger("[user] hits [src]. Nothing happens."), null, null, COMBAT_MESSAGE_RANGE)
 	log_message("Attack by hand/paw (no damage). Attacker - [user].", LOG_MECHA, color="red")
 
@@ -71,7 +72,7 @@
 
 /obj/vehicle/sealed/mecha/attack_alien(mob/living/user, list/modifiers)
 	log_message("Attack by alien. Attacker - [user].", LOG_MECHA, color="red")
-	playsound(loc, 'sound/weapons/slash.ogg', 100, TRUE)
+	playsound(loc, 'sound/items/weapons/slash.ogg', 100, TRUE)
 	attack_generic(user, rand(user.melee_damage_lower, user.melee_damage_upper), BRUTE, MELEE, 0)
 
 /obj/vehicle/sealed/mecha/attack_animal(mob/living/simple_animal/user, list/modifiers)
@@ -114,6 +115,7 @@
 	return ..()
 
 /obj/vehicle/sealed/mecha/bullet_act(obj/projectile/hitting_projectile, def_zone, piercing_hit) //wrapper
+<<<<<<< HEAD
 	. = ..()
 	if(. != BULLET_ACT_HIT)
 		return .
@@ -126,6 +128,17 @@
 		for(var/mob/living/hitmob as anything in occupants)
 			hitmob.bullet_act(hitting_projectile, def_zone, piercing_hit) //If the sides are open, the occupant can be hit
 		return BULLET_ACT_HIT
+=======
+	//allows bullets to hit the pilot of open-canopy mechs
+	if(!(mecha_flags & IS_ENCLOSED) \
+		&& LAZYLEN(occupants) \
+		&& !(mecha_flags & SILICON_PILOT) \
+		&& (def_zone == BODY_ZONE_HEAD || def_zone == BODY_ZONE_CHEST))
+		var/mob/living/hitmob = pick(occupants)
+		return hitmob.projectile_hit(hitting_projectile, def_zone, piercing_hit) //If the sides are open, the occupant can be hit
+
+	. = ..()
+>>>>>>> tg-pr-88929
 
 	log_message("Hit by projectile. Type: [hitting_projectile]([hitting_projectile.damage_type]).", LOG_MECHA, color="red")
 	// yes we *have* to run the armor calc proc here I love tg projectile code too
@@ -136,6 +149,10 @@
 		attack_dir = REVERSE_DIR(hitting_projectile.dir),
 		armour_penetration = hitting_projectile.armour_penetration,
 	), def_zone)
+<<<<<<< HEAD
+=======
+
+>>>>>>> tg-pr-88929
 
 /obj/vehicle/sealed/mecha/ex_act(severity, target)
 	log_message("Affected by explosion of severity: [severity].", LOG_MECHA, color="red")
@@ -198,7 +215,7 @@
 
 /obj/vehicle/sealed/mecha/fire_act() //Check if we should ignite the pilot of an open-canopy mech
 	. = ..()
-	if(enclosed || mecha_flags & SILICON_PILOT)
+	if(mecha_flags & IS_ENCLOSED || mecha_flags & SILICON_PILOT)
 		return
 	for(var/mob/living/cookedalive as anything in occupants)
 		if(cookedalive.fire_stacks < 5)
@@ -251,6 +268,7 @@
 		return part.try_attach_part(user, src, attach_right = TRUE)
 	return ..()
 
+<<<<<<< HEAD
 /// Try to insert a stock part into the mech
 /obj/vehicle/sealed/mecha/proc/try_insert_part(obj/item/stock_parts/tool, mob/living/user)
 	if(!(mecha_flags & PANEL_OPEN))
@@ -286,6 +304,49 @@
 		log_message("[tool] installed", LOG_MECHA)
 		update_part_values()
 		return ITEM_INTERACT_SUCCESS
+=======
+/obj/vehicle/sealed/mecha/attackby(obj/item/weapon, mob/living/user, params)
+	if(user.combat_mode)
+		return ..()
+	if(istype(weapon, /obj/item/mmi))
+		if(mmi_move_inside(weapon,user))
+			balloon_alert(user, "weapon initialized.")
+		else
+			balloon_alert(user, "weapon initialization failed!")
+		return
+
+	if(istype(weapon, /obj/item/mecha_ammo))
+		ammo_resupply(weapon, user)
+		return
+
+	if(istype(weapon, /obj/item/rcd_upgrade))
+		upgrade_rcd(weapon, user)
+		return
+
+	if(weapon.GetID())
+		if(!allowed(user))
+			if(mecha_flags & ID_LOCK_ON)
+				balloon_alert(user, "access denied!")
+			else
+				balloon_alert(user, "unable to set id lock!")
+			return
+		mecha_flags ^= ID_LOCK_ON
+		balloon_alert(user, "[mecha_flags & ID_LOCK_ON ? "enabled" : "disabled"] id lock !")
+		return
+
+	if(istype(weapon, /obj/item/mecha_parts))
+		var/obj/item/mecha_parts/part = weapon
+		part.try_attach_part(user, src, FALSE)
+		return
+
+	if(is_wire_tool(weapon) && (mecha_flags & PANEL_OPEN))
+		wires.interact(user)
+		return
+
+	if(istype(weapon, /obj/item/stock_parts))
+		try_insert_part(weapon, user)
+		return
+>>>>>>> tg-pr-88929
 
 	if(istype(tool, /obj/item/stock_parts/capacitor))
 		if(capacitor)
@@ -319,11 +380,69 @@
 
 	return NONE
 
+/// Try to insert a stock part into the mech
+/obj/vehicle/sealed/mecha/proc/try_insert_part(obj/item/stock_parts/weapon, mob/living/user)
+	if(!(mecha_flags & PANEL_OPEN))
+		balloon_alert(user, "open the panel first!")
+		return
+
+	if(istype(weapon, /obj/item/stock_parts/power_store/cell))
+		if(!cell)
+			if(!user.transferItemToLoc(weapon, src, silent = FALSE))
+				return
+			cell = weapon
+			balloon_alert(user, "installed power cell")
+			diag_hud_set_mechcell()
+			playsound(src, 'sound/items/tools/screwdriver2.ogg', 50, FALSE)
+			log_message("Power cell installed", LOG_MECHA)
+		else
+			balloon_alert(user, "already installed!")
+		return
+
+	if(istype(weapon, /obj/item/stock_parts/scanning_module))
+		if(!scanmod)
+			if(!user.transferItemToLoc(weapon, src, silent = FALSE))
+				return
+			scanmod = weapon
+			balloon_alert(user, "installed scanning module")
+			playsound(src, 'sound/items/tools/screwdriver2.ogg', 50, FALSE)
+			log_message("[weapon] installed", LOG_MECHA)
+			update_part_values()
+		else
+			balloon_alert(user, "already installed!")
+		return
+
+	if(istype(weapon, /obj/item/stock_parts/capacitor))
+		if(!capacitor)
+			if(!user.transferItemToLoc(weapon, src, silent = FALSE))
+				return
+			capacitor = weapon
+			balloon_alert(user, "installed capacitor")
+			playsound(src, 'sound/items/tools/screwdriver2.ogg', 50, FALSE)
+			log_message("[weapon] installed", LOG_MECHA)
+			update_part_values()
+		else
+			balloon_alert(user, "already installed!")
+		return
+
+	if(istype(weapon, /obj/item/stock_parts/servo))
+		if(!servo)
+			if(!user.transferItemToLoc(weapon, src, silent = FALSE))
+				return
+			servo = weapon
+			balloon_alert(user, "installed servo")
+			playsound(src, 'sound/items/tools/screwdriver2.ogg', 50, FALSE)
+			log_message("[weapon] installed", LOG_MECHA)
+			update_part_values()
+		else
+			balloon_alert(user, "already installed!")
+		return
+
 /obj/vehicle/sealed/mecha/attacked_by(obj/item/attacking_item, mob/living/user)
 	if(!attacking_item.force)
 		return
 
-	var/damage_taken = take_damage(attacking_item.force * attacking_item.demolition_mod, attacking_item.damtype, MELEE, 1)
+	var/damage_taken = take_damage(attacking_item.force * attacking_item.demolition_mod, attacking_item.damtype, MELEE, 1, get_dir(src, user))
 	try_damage_component(damage_taken, user.zone_selected)
 
 	var/hit_verb = length(attacking_item.attack_verb_simple) ? "[pick(attacking_item.attack_verb_simple)]" : "hit"
@@ -341,6 +460,7 @@
 	. = ..()
 	if(.)
 		try_damage_component(., user.zone_selected)
+		diag_hud_set_mechhealth()
 
 /obj/vehicle/sealed/mecha/examine(mob/user)
 	. = ..()
@@ -353,6 +473,7 @@
 	..()
 	. = TRUE
 
+<<<<<<< HEAD
 	if(!(mecha_flags & PANEL_OPEN) && LAZYLEN(occupants))
 		for(var/mob/occupant as anything in occupants)
 			occupant.show_message(
@@ -368,6 +489,11 @@
 				span_userdanger("You hear someone opening the maintenance panel of [src]!"), MSG_AUDIBLE,
 			)
 		visible_message(span_danger("[user] has opened the maintenance panel of [src]!"))
+=======
+	if(LAZYLEN(occupants))
+		balloon_alert(user, "panel blocked")
+		return
+>>>>>>> tg-pr-88929
 
 	mecha_flags ^= PANEL_OPEN
 	balloon_alert(user, (mecha_flags & PANEL_OPEN) ? "panel open" : "panel closed")
@@ -399,8 +525,13 @@
 		stock_parts += scanmod
 	if(capacitor)
 		stock_parts += capacitor
+<<<<<<< HEAD
 	if(manipulator)
 		stock_parts += manipulator
+=======
+	if(servo)
+		stock_parts += servo
+>>>>>>> tg-pr-88929
 
 	if(length(stock_parts))
 		var/obj/item/stock_parts/part_to_remove = tgui_input_list(user, "Which part to remove?", "Part Removal", stock_parts)
@@ -423,13 +554,13 @@
 	if(atom_integrity >= max_integrity)
 		balloon_alert(user, "it's not damaged!")
 		return
-	if(!W.tool_start_check(user, amount=1))
+	if(!W.tool_start_check(user, amount=1, heat_required = HIGH_TEMPERATURE_REQUIRED))
 		return
 	user.balloon_alert_to_viewers("started welding [src]", "started repairing [src]")
 	audible_message(span_hear("You hear welding."))
 	var/did_the_thing
 	while(atom_integrity < max_integrity)
-		if(W.use_tool(src, user, 2.5 SECONDS, volume=50, amount=1))
+		if(W.use_tool(src, user, 2.5 SECONDS, volume=50))
 			did_the_thing = TRUE
 			atom_integrity += min(10, (max_integrity - atom_integrity))
 			audible_message(span_hear("You hear welding."))
@@ -437,6 +568,7 @@
 			break
 	if(did_the_thing)
 		user.balloon_alert_to_viewers("[(atom_integrity >= max_integrity) ? "fully" : "partially"] repaired [src]")
+		diag_hud_set_mechhealth()
 	else
 		user.balloon_alert_to_viewers("stopped welding [src]", "interrupted the repair!")
 
@@ -445,6 +577,7 @@
 	atom_integrity = max_integrity
 	if(cell && charge_cell)
 		cell.charge = cell.maxcharge
+		diag_hud_set_mechcell()
 	if(internal_damage & MECHA_INT_FIRE)
 		clear_internal_damage(MECHA_INT_FIRE)
 	if(internal_damage & MECHA_INT_TEMP_CONTROL)
@@ -455,6 +588,7 @@
 		clear_internal_damage(MECHA_CABIN_AIR_BREACH)
 	if(internal_damage & MECHA_INT_CONTROL_LOST)
 		clear_internal_damage(MECHA_INT_CONTROL_LOST)
+	diag_hud_set_mechhealth()
 
 /obj/vehicle/sealed/mecha/narsie_act()
 	emp_act(EMP_HEAVY)
@@ -533,5 +667,9 @@
 /obj/vehicle/sealed/mecha/proc/upgrade_rcd(obj/item/rcd_upgrade/rcd_upgrade, mob/user)
 	for(var/obj/item/mecha_parts/mecha_equipment/rcd/rcd_equip in flat_equipment)
 		if(rcd_equip.internal_rcd.install_upgrade(rcd_upgrade, user))
+<<<<<<< HEAD
 			return ITEM_INTERACT_SUCCESS
 	return ITEM_INTERACT_BLOCKING
+=======
+			return
+>>>>>>> tg-pr-88929

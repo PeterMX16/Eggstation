@@ -9,7 +9,11 @@
 		return FALSE
 
 	var/species_type = preferences.read_preference(/datum/preference/choiced/species)
+<<<<<<< HEAD
 	var/datum/species/species = new species_type
+=======
+	var/datum/species/species = GLOB.species_prototypes[species_type]
+>>>>>>> tg-pr-88929
 	return !(TRAIT_FIXED_MUTANT_COLORS in species.inherent_traits)
 
 /datum/preference/color/mutant_color/create_default_value()

@@ -1,4 +1,16 @@
+import {
+  Box,
+  Button,
+  ByondUi,
+  Flex,
+  Section,
+  Slider,
+  Stack,
+} from 'tgui-core/components';
+import { capitalize } from 'tgui-core/string';
+
 import { useBackend } from '../backend';
+<<<<<<< HEAD
 import {
   Box,
   Stack,
@@ -8,8 +20,9 @@ import {
   Flex,
   Button,
 } from '../components';
+=======
+>>>>>>> tg-pr-88929
 import { Window } from '../layouts';
-import { capitalize } from 'common/string';
 
 const colorToMatrix = (param) => {
   switch (param) {

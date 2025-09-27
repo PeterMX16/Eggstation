@@ -101,7 +101,11 @@
 /turf/open/floor/plating,
 /area/shuttle/abandoned/crew)
 "ap" = (
+<<<<<<< HEAD
 /obj/machinery/vending/boozeomat/all_access,
+=======
+/obj/machinery/vending/boozeomat,
+>>>>>>> tg-pr-88929
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/decal/cleanable/dirt,
@@ -455,6 +459,7 @@
 	dir = 8
 	},
 /obj/effect/decal/cleanable/blood/old,
+<<<<<<< HEAD
 /obj/effect/turf_decal/tile/bar/opposingcorners,
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/atmospherics/components/unary/vent_pump/on{
@@ -468,6 +473,8 @@
 	dir = 8
 	},
 /obj/effect/decal/cleanable/blood/old,
+=======
+>>>>>>> tg-pr-88929
 /mob/living/basic/spider/giant/hunter/scrawny,
 /obj/effect/turf_decal/tile/bar/opposingcorners,
 /turf/open/floor/iron,
@@ -940,6 +947,11 @@
 	pixel_y = 12
 	},
 /obj/item/camera,
+<<<<<<< HEAD
+=======
+/obj/effect/decal/cleanable/dirt,
+/obj/effect/decal/cleanable/dirt,
+>>>>>>> tg-pr-88929
 /obj/machinery/light/small/directional/west,
 /obj/machinery/power/apc/auto_name/directional/west,
 /obj/structure/cable,
@@ -950,11 +962,18 @@
 /turf/open/floor/iron/dark,
 /area/shuttle/abandoned/bridge)
 "cf" = (
+<<<<<<< HEAD
+=======
+/obj/effect/decal/cleanable/dirt,
+>>>>>>> tg-pr-88929
 /obj/item/gun/energy/laser/retro,
 /obj/item/gun/energy/laser/retro,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden,
 /obj/structure/cable,
+<<<<<<< HEAD
 /obj/effect/decal/cleanable/dirt,
+=======
+>>>>>>> tg-pr-88929
 /mob/living/basic/spider/giant/tarantula/scrawny,
 /turf/open/floor/iron/dark,
 /area/shuttle/abandoned/bridge)
@@ -994,9 +1013,13 @@
 	dir = 8
 	},
 /obj/effect/decal/cleanable/dirt,
+<<<<<<< HEAD
 /obj/machinery/power/smes/engineering{
 	charge = 1e+006
 	},
+=======
+/obj/machinery/power/smes/ship,
+>>>>>>> tg-pr-88929
 /obj/structure/cable,
 /turf/open/floor/plating,
 /area/shuttle/abandoned/engine)
@@ -1515,6 +1538,7 @@
 	dir = 8
 	},
 /obj/effect/decal/cleanable/dirt,
+<<<<<<< HEAD
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/atmospherics/components/unary/vent_pump/on{
 	dir = 8
@@ -1526,6 +1550,8 @@
 	dir = 8
 	},
 /obj/effect/decal/cleanable/dirt,
+=======
+>>>>>>> tg-pr-88929
 /mob/living/basic/spider/giant/nurse/scrawny,
 /turf/open/floor/iron,
 /area/shuttle/abandoned/cargo)
@@ -1596,10 +1622,15 @@
 /turf/open/floor/iron/white/side,
 /area/shuttle/abandoned/medbay)
 "dG" = (
+<<<<<<< HEAD
 /obj/structure/cable,
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/decal/cleanable/dirt,
+=======
+/obj/effect/decal/cleanable/dirt,
+/obj/structure/cable,
+>>>>>>> tg-pr-88929
 /mob/living/basic/spider/giant/hunter/scrawny,
 /turf/open/floor/iron,
 /area/shuttle/abandoned/medbay)
@@ -1647,7 +1678,7 @@
 /area/shuttle/abandoned/medbay)
 "dO" = (
 /obj/structure/table,
-/obj/item/storage/backpack/duffelbag/med/surgery{
+/obj/effect/spawner/surgery_tray/full{
 	pixel_y = 4
 	},
 /obj/effect/decal/cleanable/dirt,
@@ -1939,7 +1970,11 @@
 /turf/open/floor/iron/dark,
 /area/shuttle/abandoned/cargo)
 "Ps" = (
+<<<<<<< HEAD
 /obj/effect/decal/cleanable/dirt/dust,
+=======
+/obj/effect/decal/cleanable/dirt,
+>>>>>>> tg-pr-88929
 /obj/structure/closet/crate/preopen,
 /obj/effect/spawner/random/maintenance/three,
 /obj/effect/turf_decal/tile/neutral/fourcorners,

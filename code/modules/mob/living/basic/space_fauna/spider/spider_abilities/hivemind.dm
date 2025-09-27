@@ -18,16 +18,23 @@
 	var/current_directive = ""
 
 /datum/action/cooldown/mob_cooldown/set_spider_directive/Activate(atom/target)
+<<<<<<< HEAD
 	var/new_directive = tgui_input_text(owner, "Enter the new directive", "Create directive", "[current_directive]")
+=======
+	var/new_directive = tgui_input_text(owner, "Enter the new directive", "Create directive", "[current_directive]", max_length = MAX_MESSAGE_LEN)
+>>>>>>> tg-pr-88929
 	if(isnull(new_directive) || QDELETED(src) || QDELETED(owner) || !IsAvailable(feedback = TRUE))
 		return
 
 	current_directive = new_directive
 	message_admins("[ADMIN_LOOKUPFLW(owner)] set its directive to: '[current_directive]'.")
 	owner.log_message("set its directive to: '[current_directive]'.", LOG_GAME)
+<<<<<<< HEAD
 	if(isspider(owner))
 		var/mob/living/basic/spider/spider_owner = owner
 		spider_owner.directive = new_directive
+=======
+>>>>>>> tg-pr-88929
 	StartCooldown()
 
 /**
@@ -47,7 +54,11 @@
 	click_to_activate = FALSE
 
 /datum/action/cooldown/mob_cooldown/command_spiders/Activate(trigger_flags)
+<<<<<<< HEAD
 	var/input = tgui_input_text(owner, "Input a command for your legions to follow.", "Command")
+=======
+	var/input = tgui_input_text(owner, "Input a command for your legions to follow.", "Command", max_length = MAX_MESSAGE_LEN)
+>>>>>>> tg-pr-88929
 	if(!input || QDELETED(src) || QDELETED(owner) || !IsAvailable(feedback = TRUE))
 		return
 	spider_command(owner, input)
@@ -64,6 +75,7 @@
 /datum/action/cooldown/mob_cooldown/command_spiders/proc/spider_command(mob/living/user, message)
 	var/my_message = format_message(user,message)
 	for(var/mob/living/basic/spider as anything in GLOB.spidermobs)
+<<<<<<< HEAD
 		var/is_own_message = spider == user
 		to_chat(spider, my_message, type = MESSAGE_TYPE_RADIO, avoid_highlighting = is_own_message)
 		if(!is_own_message)
@@ -71,6 +83,12 @@
 	for(var/ghost in GLOB.dead_mob_list)
 		var/link = FOLLOW_LINK(ghost, user)
 		to_chat(ghost, "[link] [my_message]", type = MESSAGE_TYPE_RADIO)
+=======
+		to_chat(spider, my_message)
+	for(var/ghost in GLOB.dead_mob_list)
+		var/link = FOLLOW_LINK(ghost, user)
+		to_chat(ghost, "[link] [my_message]")
+>>>>>>> tg-pr-88929
 	user.log_talk(message, LOG_SAY, tag = "spider command")
 
 /**
@@ -90,3 +108,19 @@
 
 /datum/action/cooldown/mob_cooldown/command_spiders/communication_spiders/format_message(mob/living/user, message)
 	return span_spiderscout("<b>Report from [user]:</b> [message]")
+<<<<<<< HEAD
+=======
+
+/**
+ * Sends a smaller message to all currently living spiders.
+ */
+/datum/action/cooldown/mob_cooldown/command_spiders/warning_spiders
+	name = "Warning"
+	desc = "Send a warning to all living spiders."
+	button_icon = 'icons/mob/actions/actions_animal.dmi'
+	button_icon_state = "warning"
+
+/datum/action/cooldown/mob_cooldown/command_spiders/warning_spiders/format_message(mob/living/user, message)
+	return span_spiderbreacher("<b>Warning from [user]:</b> [message]")
+
+>>>>>>> tg-pr-88929

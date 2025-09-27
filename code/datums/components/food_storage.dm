@@ -4,7 +4,7 @@
 
 /datum/component/food_storage
 	/// Reference to what we have in our food.
-	var/obj/item/stored_item
+	VAR_FINAL/obj/item/stored_item
 	/// The amount of volume the food has on creation - Used for probabilities
 	var/initial_volume = 10
 	/// Minimum size items that can be inserted
@@ -13,14 +13,18 @@
 	var/bad_chance_of_discovery = 0
 	/// What are the odds we see the stored item before we bite it?
 	var/good_chance_of_discovery = 100
-	/// The stored item was found out somehow.
-	var/discovered = FALSE
 
 /datum/component/food_storage/Initialize(_minimum_weight_class = WEIGHT_CLASS_SMALL, _bad_chance = 0, _good_chance = 100)
 
+<<<<<<< HEAD
 	RegisterSignal(parent, COMSIG_ATOM_ATTACKBY, PROC_REF(try_inserting_item))
+=======
+	RegisterSignal(parent, COMSIG_ATOM_ITEM_INTERACTION_SECONDARY, PROC_REF(try_inserting_item))
+	RegisterSignal(parent, COMSIG_ATOM_REQUESTING_CONTEXT_FROM_ITEM, PROC_REF(on_requesting_context_from_item))
+>>>>>>> tg-pr-88929
 	RegisterSignal(parent, COMSIG_CLICK_CTRL, PROC_REF(try_removing_item))
 	RegisterSignal(parent, COMSIG_FOOD_EATEN, PROC_REF(consume_food_storage))
+	RegisterSignals(parent, list(COMSIG_FOOD_CONSUMED, COMSIG_OBJ_DECONSTRUCT), PROC_REF(storage_consumed))
 
 	var/atom/food = parent
 	initial_volume = food.reagents.total_volume
@@ -29,12 +33,30 @@
 	bad_chance_of_discovery = _bad_chance
 	good_chance_of_discovery = _good_chance
 
+<<<<<<< HEAD
 /datum/component/food_storage/Destroy(force)
 	if(stored_item)
 		stored_item.forceMove(stored_item.drop_location())
 		stored_item.dropped()
 		stored_item = null
 	. = ..()
+=======
+	food.flags_1 |= HAS_CONTEXTUAL_SCREENTIPS_1
+
+/datum/component/food_storage/UnregisterFromParent()
+	UnregisterSignal(parent, list(
+		COMSIG_ATOM_ITEM_INTERACTION_SECONDARY,
+		COMSIG_ATOM_REQUESTING_CONTEXT_FROM_ITEM,
+		COMSIG_CLICK_CTRL,
+		COMSIG_FOOD_CONSUMED,
+		COMSIG_FOOD_EATEN,
+		COMSIG_OBJ_DECONSTRUCT,
+	))
+	if(QDELING(parent) || QDELETED(stored_item))
+		return
+	stored_item.forceMove(stored_item.drop_location())
+	stored_item = null
+>>>>>>> tg-pr-88929
 
 /** Begins the process of inserted an item.
  *
@@ -44,34 +66,37 @@
  * inserted_item - the item being placed into the food
  * user - the person inserting the item
  */
-/datum/component/food_storage/proc/try_inserting_item(datum/source, obj/item/inserted_item, mob/living/user, params)
+/datum/component/food_storage/proc/try_inserting_item(datum/source, mob/living/user, obj/item/inserted_item, list/modifiers)
 	SIGNAL_HANDLER
 
 	// No matryoshka-ing food storage
 	if(istype(inserted_item, /obj/item/storage) || IS_EDIBLE(inserted_item))
-		return
+		return NONE
 
 	//Harm intent will bypass inserting for injecting food with syringes and such
+<<<<<<< HEAD
 	if((user.istate & ISTATE_HARM))
 		return
+=======
+	if(user.combat_mode)
+		return NONE
+>>>>>>> tg-pr-88929
 
 	if(inserted_item.w_class > minimum_weight_class)
-		to_chat(user, span_warning("\The [inserted_item.name] won't fit in \the [parent]."))
-		return
+		to_chat(user, span_warning("[inserted_item] won't fit in [parent]."))
+		return ITEM_INTERACT_BLOCKING
 
 	if(!QDELETED(stored_item))
-		to_chat(user, span_warning("There's something in \the [parent]."))
-		return
+		to_chat(user, span_warning("There's something in [parent]."))
+		return ITEM_INTERACT_BLOCKING
 
-	if(HAS_TRAIT(inserted_item, TRAIT_NODROP))
-		to_chat(user, span_warning("\the [inserted_item] is stuck to your hand, you can't put into \the [parent]!"))
-		return
-
-	user.visible_message(span_notice("[user.name] begins inserting [inserted_item.name] into \the [parent]."), \
-					span_notice("You start to insert the [inserted_item.name] into \the [parent]."))
+	user.visible_message(
+		span_notice("[user] begins inserting [inserted_item] into [parent]."),
+		span_notice("You start to insert the [inserted_item] into [parent]."),
+	)
 
 	INVOKE_ASYNC(src, PROC_REF(insert_item), inserted_item, user)
-	return COMPONENT_CANCEL_ATTACK_CHAIN
+	return ITEM_INTERACT_SUCCESS
 
 /** Begins the process of attempting to remove the stored item.
  *
@@ -85,17 +110,14 @@
 
 	var/atom/food = parent
 
-	if(QDELETED(stored_item))
-		return
-
 	if(!food.can_interact(user))
-		return
+		return CLICK_ACTION_BLOCKING
 
-	user.visible_message(span_notice("[user.name] begins tearing at \the [parent]."), \
-					span_notice("You start to rip into \the [parent]."))
+	user.visible_message(span_notice("[user] begins tearing at [parent]."), \
+					span_notice("You start to rip into [parent]."))
 
 	INVOKE_ASYNC(src, PROC_REF(begin_remove_item), user)
-	return COMPONENT_CANCEL_ATTACK_CHAIN
+	return CLICK_ACTION_SUCCESS
 
 /** Inserts the item into the food, after a do_after.
  *
@@ -104,15 +126,20 @@
  * user - the person inserting the item.
  */
 /datum/component/food_storage/proc/insert_item(obj/item/inserted_item, mob/user)
-	if(do_after(user, 1.5 SECONDS, target = parent))
-		var/atom/food = parent
-		to_chat(user, span_notice("You slip [inserted_item.name] inside \the [parent]."))
-		inserted_item.forceMove(food)
-		user.log_message("inserted [inserted_item] into [parent].", LOG_ATTACK)
-		food.add_fingerprint(user)
-		inserted_item.add_fingerprint(user)
+	if(!do_after(user, 1.5 SECONDS, target = parent))
+		return
+	if(!user.temporarilyRemoveItemFromInventory(inserted_item))
+		to_chat(user, span_warning("You can't seem to insert [inserted_item] into [parent]."))
+		return
 
-		stored_item = inserted_item
+	var/atom/food = parent
+	to_chat(user, span_notice("You slip [inserted_item] inside [parent]."))
+	inserted_item.forceMove(food)
+	user.log_message("inserted [inserted_item] into [parent].", LOG_ATTACK)
+	food.add_fingerprint(user)
+	inserted_item.add_fingerprint(user)
+
+	stored_item = inserted_item
 
 /** Removes the item from the food, after a do_after.
  *
@@ -120,19 +147,22 @@
  * user - person removing the item.
  */
 /datum/component/food_storage/proc/begin_remove_item(mob/user)
-	if(do_after(user, 10 SECONDS, target = parent))
-		remove_item(user)
+	if(!do_after(user, 10 SECONDS, target = parent))
+		return
+	if(QDELETED(stored_item))
+		to_chat(user, span_warning("There's nothing in [parent]."))
+		return
+	remove_item(user)
 
 /**
  * Removes the stored item, putting it in user's hands or on the ground, then updates the reference.
  */
 /datum/component/food_storage/proc/remove_item(mob/user)
 	if(user.put_in_hands(stored_item))
-		user.visible_message(span_warning("[user.name] slowly pulls [stored_item.name] out of \the [parent]."), \
-							span_warning("You slowly pull [stored_item.name] out of \the [parent]."))
+		user.visible_message(span_warning("[user] slowly pulls [stored_item] out of [parent]."), \
+							span_warning("You slowly pull [stored_item] out of [parent]."))
 	else
-		stored_item.dropped()
-		stored_item.visible_message(span_warning("[stored_item.name] falls out of \the [parent]."))
+		stored_item.visible_message(span_warning("[stored_item] falls out of [parent]."))
 
 	update_stored_item()
 
@@ -161,9 +191,10 @@
 	/// Chance of finding the held item = bad chance - 50
 	good_chance_of_discovery = bad_chance_of_discovery - 50
 
+	var/discovered = FALSE
 	if(prob(good_chance_of_discovery)) //finding the item, without biting it
 		discovered = TRUE
-		to_chat(target, span_warning("It feels like there's something in \the [parent]...!"))
+		to_chat(target, span_warning("It feels like there's something in [parent]...!"))
 
 	else if(prob(bad_chance_of_discovery)) //finding the item, BY biting it
 		user.log_message("just fed [key_name(target)] \a [stored_item] which was hidden in [parent].", LOG_ATTACK)
@@ -172,6 +203,14 @@
 
 	if(!QDELETED(stored_item) && discovered)
 		INVOKE_ASYNC(src, PROC_REF(remove_item), user)
+
+/// When fully consumed, just drop the item out on the ground.
+/datum/component/food_storage/proc/storage_consumed(datum/source, mob/living/target, mob/living/user)
+	SIGNAL_HANDLER
+	if(QDELETED(stored_item))
+		return
+	stored_item.forceMove(stored_item.drop_location())
+	stored_item = null
 
 /** Updates the reference of the stored item.
  *
@@ -199,3 +238,26 @@
 	//if there's nothing else in the food, or we found nothing valid
 	stored_item = null
 	return FALSE
+
+/**
+ * Adds context sensitivy directly to the processable file for screentips
+ * Arguments:
+ * * source - refers to item that will display its screentip
+ * * context - refers to, in this case, an item that can be inserted into another item
+ * * held_item - refers to item in user's hand, typically the one that will be inserted into the food item
+ * * user - refers to user who will see the screentip when the proper context and tool are there
+ */
+
+/datum/component/food_storage/proc/on_requesting_context_from_item(datum/source, list/context, obj/item/held_item, mob/user)
+	SIGNAL_HANDLER
+	. = NONE
+
+	if(isnull(held_item) || held_item == source)
+		context[SCREENTIP_CONTEXT_CTRL_LMB] = "Remove embedded item (if any)"
+		. = CONTEXTUAL_SCREENTIP_SET
+
+	if(istype(held_item) && held_item.w_class <= WEIGHT_CLASS_SMALL && held_item != source && !IS_EDIBLE(held_item))
+		context[SCREENTIP_CONTEXT_RMB] = "Embed item"
+		. = CONTEXTUAL_SCREENTIP_SET
+
+	return .

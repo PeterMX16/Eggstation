@@ -29,10 +29,13 @@
 	desc = "<i>'HONK!'</i>"
 	icon_state = "clown"
 	inhand_icon_state = "clown"
-	species_exception = list(/datum/species/golem/bananium)
 	female_sprite_flags = FEMALE_UNIFORM_TOP_ONLY
 	can_adjust = FALSE
+<<<<<<< HEAD
 	var/squeak_sounds = list('sound/items/bikehorn.ogg'=1)
+=======
+	supports_variations_flags = CLOTHING_NO_VARIATION
+>>>>>>> tg-pr-88929
 
 /obj/item/clothing/under/rank/civilian/clown/Initialize(mapload)
 	. = ..()
@@ -79,8 +82,20 @@
 /obj/item/clothing/under/rank/civilian/clown/jester
 	name = "jester suit"
 	desc = "A jolly dress, well suited to entertain your master, nuncle."
-	icon_state = "jester"
+	icon_state = "jester_map"
+	greyscale_colors = "#00ff00#ff0000"
+	greyscale_config = /datum/greyscale_config/jester_suit
+	greyscale_config_worn = /datum/greyscale_config/jester_suit/worn
+	flags_1 = IS_PLAYER_COLORABLE_1
 
+<<<<<<< HEAD
+=======
+/obj/item/clothing/under/rank/civilian/clown/jesteralt
+	name = "jester suit"
+	desc = "A jolly dress, well suited to entertain your master, nuncle."
+	icon_state = "jester2"
+
+>>>>>>> tg-pr-88929
 /obj/item/clothing/under/rank/civilian/clown/sexy
 	name = "sexy-clown suit"
 	desc = "It makes you look HONKable!"

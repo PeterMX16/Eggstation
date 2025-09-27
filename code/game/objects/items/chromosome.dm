@@ -1,8 +1,8 @@
 /obj/item/chromosome
 	name = "blank chromosome"
-	icon = 'icons/obj/chromosomes.dmi'
+	icon = 'icons/obj/science/chromosomes.dmi'
 	icon_state = ""
-	desc = "A tube holding chromosomic data."
+	desc = "A tube holding chromosomal data."
 	force = 0
 	w_class = WEIGHT_CLASS_SMALL
 
@@ -21,7 +21,11 @@
 /obj/item/chromosome/proc/can_apply(datum/mutation/mutation)
 	if(!mutation || QDELETED(mutation.owner) || mutation.can_chromosome != CHROMOSOME_NONE)
 		return FALSE
+<<<<<<< HEAD
 	if(!isnull(stabilizer_coeff) && (mutation.stabilizer_coeff != MUTATION_COEFFICIENT_UNMODIFIABLE))
+=======
+	if((stabilizer_coeff != 1) && (HM.stabilizer_coeff != -1)) //if the chromosome is 1, we don't change anything. If the mutation is -1, we can't change it. sorry
+>>>>>>> tg-pr-88929
 		return TRUE
 	if(!isnull(synchronizer_coeff) && (mutation.synchronizer_coeff != MUTATION_COEFFICIENT_UNMODIFIABLE))
 		return TRUE

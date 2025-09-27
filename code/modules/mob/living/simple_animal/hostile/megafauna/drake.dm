@@ -12,7 +12,7 @@
  *
  *It acts as a melee creature, chasing down and attacking its target while also using different attacks to augment its power that increase as it takes damage.
  *
- *Whenever possible, the drake will breathe fire directly at it's target, igniting and heavily damaging anything caught in the blast.
+ *Whenever possible, the drake will breathe fire directly at its target, igniting and heavily damaging anything caught in the blast.
  *It also often causes lava to pool from the ground around you - many nearby turfs will temporarily turn into lava, dealing damage to anything on the turfs.
  *The drake also utilizes its wings to fly into the sky, flying after its target and attempting to slam down on them. Anything near when it slams down takes huge damage.
  *Sometimes it will chain these swooping attacks over and over, making swiftness a necessity.
@@ -36,7 +36,7 @@
 	maxHealth = 2500
 	attack_verb_continuous = "chomps"
 	attack_verb_simple = "chomp"
-	attack_sound = 'sound/magic/demon_attack1.ogg'
+	attack_sound = 'sound/effects/magic/demon_attack1.ogg'
 	attack_vis_effect = ATTACK_EFFECT_BITE
 	icon = 'icons/mob/simple/lavaland/96x96megafauna.dmi'
 	icon_state = "dragon"
@@ -67,8 +67,12 @@
 	crusher_achievement_type = /datum/award/achievement/boss/drake_crusher
 	score_achievement_type = /datum/award/score/drake_score
 	death_message = "collapses into a pile of bones, its flesh sloughing away."
-	death_sound = 'sound/magic/demon_dies.ogg'
+	death_sound = 'sound/effects/magic/demon_dies.ogg'
 	footstep_type = FOOTSTEP_MOB_HEAVY
+<<<<<<< HEAD
+=======
+	summon_line = "ROOOOOOOOAAAAAAAAAAAR!"
+>>>>>>> tg-pr-88929
 	/// Fire cone ability
 	var/datum/action/cooldown/mob_cooldown/fire_breath/cone/fire_cone
 	/// Meteors ability
@@ -80,10 +84,10 @@
 
 /mob/living/simple_animal/hostile/megafauna/dragon/Initialize(mapload)
 	. = ..()
-	fire_cone = new /datum/action/cooldown/mob_cooldown/fire_breath/cone()
-	meteors = new /datum/action/cooldown/mob_cooldown/meteors()
-	mass_fire = new /datum/action/cooldown/mob_cooldown/fire_breath/mass_fire()
-	lava_swoop = new /datum/action/cooldown/mob_cooldown/lava_swoop()
+	fire_cone = new(src)
+	meteors = new(src)
+	mass_fire = new(src)
+	lava_swoop = new(src)
 	fire_cone.Grant(src)
 	meteors.Grant(src)
 	mass_fire.Grant(src)
@@ -92,22 +96,13 @@
 	RegisterSignal(src, COMSIG_MOB_ABILITY_FINISHED, PROC_REF(finished_attack))
 	RegisterSignal(src, COMSIG_SWOOP_INVULNERABILITY_STARTED, PROC_REF(swoop_invulnerability_started))
 	RegisterSignal(src, COMSIG_LAVA_ARENA_FAILED, PROC_REF(on_arena_fail))
+	AddElement(/datum/element/change_force_on_death, move_force = MOVE_FORCE_DEFAULT)
 
 /mob/living/simple_animal/hostile/megafauna/dragon/Destroy()
-	QDEL_NULL(fire_cone)
-	QDEL_NULL(meteors)
-	QDEL_NULL(mass_fire)
-	QDEL_NULL(lava_swoop)
-	return ..()
-
-/mob/living/simple_animal/hostile/megafauna/dragon/revive(full_heal_flags = NONE, excess_healing = 0, force_grab_ghost = FALSE)
-	. = ..()
-	if(!.)
-		return
-	pull_force = MOVE_FORCE_OVERPOWERING
-
-/mob/living/simple_animal/hostile/megafauna/dragon/death(gibbed)
-	move_force = MOVE_FORCE_DEFAULT
+	fire_cone = null
+	meteors = null
+	mass_fire = null
+	lava_swoop = null
 	return ..()
 
 /mob/living/simple_animal/hostile/megafauna/dragon/OpenFire()
@@ -169,7 +164,11 @@
 	mass_fire.StartCooldown(8 SECONDS)
 	move_to_delay = initial(move_to_delay)
 	remove_atom_colour(TEMPORARY_COLOUR_PRIORITY)
+<<<<<<< HEAD
 	set_light_range(initial(light_outer_range))
+=======
+	set_light_range(initial(light_range))
+>>>>>>> tg-pr-88929
 
 /mob/living/simple_animal/hostile/megafauna/dragon/ex_act(severity, target)
 	if(severity <= EXPLODE_LIGHT)
@@ -220,9 +219,9 @@
 
 /obj/effect/temp_visual/lava_warning/proc/fall(reset_time)
 	var/turf/T = get_turf(src)
-	playsound(T,'sound/magic/fleshtostone.ogg', 80, TRUE)
+	playsound(T,'sound/effects/magic/fleshtostone.ogg', 80, TRUE)
 	sleep(duration)
-	playsound(T,'sound/magic/fireball.ogg', 200, TRUE)
+	playsound(T,'sound/effects/magic/fireball.ogg', 200, TRUE)
 
 	for(var/mob/living/L in T.contents - owner)
 		if(istype(L, /mob/living/simple_animal/hostile/megafauna/dragon))
@@ -245,7 +244,7 @@
 	desc = "An ash drakes true flame."
 	name = "Fire Barrier"
 	icon = 'icons/effects/fire.dmi'
-	icon_state = "1"
+	icon_state = "light"
 	anchored = TRUE
 	opacity = FALSE
 	density = TRUE
@@ -254,14 +253,14 @@
 	color = COLOR_DARK_ORANGE
 
 /obj/effect/temp_visual/lava_safe
-	icon = 'icons/obj/hand_of_god_structures.dmi'
+	icon = 'icons/obj/service/hand_of_god_structures.dmi'
 	icon_state = "trap-earth"
 	layer = BELOW_MOB_LAYER
 	light_outer_range = 2
 	duration = 13
 
 /obj/effect/temp_visual/fireball
-	icon = 'icons/obj/wizard.dmi'
+	icon = 'icons/effects/magic.dmi'
 	icon_state = "fireball"
 	name = "fireball"
 	desc = "Get out of the way!"
@@ -289,7 +288,7 @@
 
 /obj/effect/temp_visual/target/proc/fall(list/flame_hit)
 	var/turf/T = get_turf(src)
-	playsound(T,'sound/magic/fleshtostone.ogg', 80, TRUE)
+	playsound(T,'sound/effects/magic/fleshtostone.ogg', 80, TRUE)
 	new /obj/effect/temp_visual/fireball(T)
 	sleep(duration)
 	if(ismineralturf(T))
@@ -318,7 +317,7 @@
 	melee_damage_upper = 30
 	melee_damage_lower = 30
 	mouse_opacity = MOUSE_OPACITY_ICON
-	damage_coeff = list(BRUTE = 1, BURN = 1, TOX = 1, CLONE = 1, STAMINA = 0, OXY = 1)
+	damage_coeff = list(BRUTE = 1, BURN = 1, TOX = 1, STAMINA = 0, OXY = 1)
 	loot = list()
 	crusher_loot = list()
 	butcher_results = list(/obj/item/stack/ore/diamond = 5, /obj/item/stack/sheet/sinew = 5, /obj/item/stack/sheet/bone = 30)
@@ -332,7 +331,7 @@
 
 /mob/living/simple_animal/hostile/megafauna/dragon/lesser/adjustHealth(amount, updating_health = TRUE, forced = FALSE)
 	. = ..()
-	lava_swoop.enraged = FALSE
+	lava_swoop?.enraged = FALSE // In case taking damage caused us to start deleting ourselves
 
 /mob/living/simple_animal/hostile/megafauna/dragon/lesser/grant_achievement(medaltype,scoretype)
 	return

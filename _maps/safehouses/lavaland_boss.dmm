@@ -63,7 +63,11 @@
 /obj/machinery/light/directional/east,
 /obj/structure/railing,
 /obj/effect/landmark/bitrunning/cache_goal_turf,
+<<<<<<< HEAD
 /turf/open/floor/bitrunning_transport,
+=======
+/turf/open/indestructible/bitrunning_transport,
+>>>>>>> tg-pr-88929
 /area/virtual_domain/safehouse)
 "A" = (
 /obj/effect/turf_decal/trimline/brown/filled/line{
@@ -99,7 +103,15 @@
 	},
 /obj/structure/closet,
 /obj/item/gun/ballistic/rocketlauncher/unrestricted,
+<<<<<<< HEAD
 /obj/item/energy_katana,
+=======
+/obj/item/ammo_casing/rocket,
+/obj/item/ammo_casing/rocket,
+/obj/item/ammo_casing/rocket,
+/obj/item/energy_katana,
+/obj/item/ammo_box/magazine/m7mm,
+>>>>>>> tg-pr-88929
 /turf/open/floor/iron/dark/smooth_edge{
 	dir = 8
 	},
@@ -118,6 +130,13 @@
 	},
 /turf/open/floor/iron/dark/smooth_edge,
 /area/virtual_domain/safehouse)
+<<<<<<< HEAD
+=======
+"N" = (
+/obj/modular_map_connector,
+/turf/closed/wall,
+/area/virtual_domain/safehouse)
+>>>>>>> tg-pr-88929
 "O" = (
 /obj/item/gun/energy/recharge/kinetic_accelerator{
 	pixel_x = -6;
@@ -187,7 +206,11 @@ f
 f
 P
 P
+<<<<<<< HEAD
 f
+=======
+N
+>>>>>>> tg-pr-88929
 "}
 (2,1,1) = {"
 P

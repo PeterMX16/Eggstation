@@ -69,4 +69,4 @@
 		object_list += target
 
 	result.set_output(object_list)
-	TIMER_COOLDOWN_START(parent, COOLDOWN_CIRCUIT_VIEW_SENSOR, view_cooldown)
+	TIMER_COOLDOWN_START(parent.shell, COOLDOWN_CIRCUIT_VIEW_SENSOR, view_cooldown)

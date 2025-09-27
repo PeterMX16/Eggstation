@@ -9,14 +9,13 @@
 	desc = "An exosuit module that allows exosuits to teleport to any position in view."
 	icon_state = "mecha_teleport"
 	equip_cooldown = 150
-	energy_drain = 1000
+	energy_drain = STANDARD_CELL_CHARGE
 	range = MECHA_RANGED
 	movedelay = 0.4
 	var/teleport_range = 7
 
 /obj/item/mecha_parts/mecha_equipment/teleporter/action(mob/source, atom/target, list/modifiers)
-	var/area/ourarea = get_area(src)
-	if(!action_checks(target) || ourarea.area_flags & NOTELEPORT)
+	if(!action_checks(target) || check_teleport_valid(source, target, TELEPORT_CHANNEL_BLUESPACE))
 		return
 	var/turf/T = get_turf(target)
 	if(T && (loc.z == T.z) && (get_dist(loc, T) <= teleport_range))
@@ -38,8 +37,7 @@
 
 
 /obj/item/mecha_parts/mecha_equipment/wormhole_generator/action(mob/source, atom/target, list/modifiers)
-	var/area/ourarea = get_area(src)
-	if(!action_checks(target) || ourarea.area_flags & NOTELEPORT)
+	if(!action_checks(target) || check_teleport_valid(source, target, TELEPORT_CHANNEL_WORMHOLE))
 		return
 	var/area/targetarea = pick(get_areas_in_range(100, chassis))
 	if(!targetarea)//Literally middle of nowhere how did you even get here
@@ -132,7 +130,7 @@
 /obj/item/mecha_parts/mecha_equipment/gravcatapult/proc/do_scatter(atom/movable/scatter, atom/movable/target)
 	var/dist = 5 - get_dist(scatter, target)
 	var/delay = 2
-	SSmove_manager.move_away(scatter, target, delay = delay, timeout = delay * dist, flags = MOVEMENT_LOOP_START_FAST, priority = MOVEMENT_ABOVE_SPACE_PRIORITY)
+	GLOB.move_manager.move_away(scatter, target, delay = delay, timeout = delay * dist, flags = MOVEMENT_LOOP_START_FAST, priority = MOVEMENT_ABOVE_SPACE_PRIORITY)
 
 /obj/item/mecha_parts/mecha_equipment/gravcatapult/get_snowflake_data()
 	return list(
@@ -280,7 +278,10 @@
 	icon_state = "tesla"
 	range = MECHA_MELEE
 	equipment_slot = MECHA_POWER
+<<<<<<< HEAD
 	movedelay = 0.4
+=======
+>>>>>>> tg-pr-88929
 	can_be_toggled = TRUE
 	active = FALSE
 	///Type of fuel the generator is using. Is set in generator_init() to add the starting amount of fuel
@@ -290,9 +291,15 @@
 	///Fuel used per second while actively generating, in units
 	var/fuelrate_active = 0.05 * SHEET_MATERIAL_AMOUNT
 	///Maximum fuel capacity of the generator, in units
+<<<<<<< HEAD
 	var/max_fuel = 50 * SHEET_MATERIAL_AMOUNT
 	///Energy recharged per second
 	var/rechargerate = 100
+=======
+	var/max_fuel = 75 * SHEET_MATERIAL_AMOUNT
+	///Energy recharged per second
+	var/rechargerate = 0.05 * STANDARD_CELL_RATE
+>>>>>>> tg-pr-88929
 
 /obj/item/mecha_parts/mecha_equipment/generator/Initialize(mapload)
 	. = ..()
@@ -316,11 +323,15 @@
 /obj/item/mecha_parts/mecha_equipment/generator/handle_ui_act(action, list/params)
 	if(action == "toggle")
 		if(active)
+<<<<<<< HEAD
 			to_chat(usr, "[icon2html(src, usr)][span_warning("Power generation enabled.")]")
+=======
+			to_chat(chassis.occupants, "[icon2html(src, chassis.occupants)][span_warning("Power generation enabled.")]")
+>>>>>>> tg-pr-88929
 			START_PROCESSING(SSobj, src)
 			log_message("Activated.", LOG_MECHA)
 		else
-			to_chat(usr, "[icon2html(src, usr)][span_warning("Power generation disabled.")]")
+			to_chat(chassis.occupants, "[icon2html(src, chassis.occupants)][span_warning("Power generation disabled.")]")
 			STOP_PROCESSING(SSobj, src)
 			log_message("Deactivated.", LOG_MECHA)
 		return TRUE
@@ -431,15 +442,18 @@
 
 /obj/item/mecha_parts/mecha_equipment/thrusters/proc/generate_effect(movement_dir)
 	var/obj/effect/particle_effect/E = new effect_type(get_turf(chassis))
-	E.dir = turn(movement_dir, 180)
-	step(E, turn(movement_dir, 180))
+	E.dir = REVERSE_DIR(movement_dir)
+	step(E, REVERSE_DIR(movement_dir))
 	QDEL_IN(E, 5)
 
 /obj/item/mecha_parts/mecha_equipment/thrusters/gas
 	name = "RCS thruster package"
 	desc = "A set of thrusters that allow for exosuit movement in zero-gravity environments, by expelling gas from the internal life support tank."
 	effect_type = /obj/effect/particle_effect/fluid/smoke
+<<<<<<< HEAD
 	movedelay = 0.2
+=======
+>>>>>>> tg-pr-88929
 	var/move_cost = 0.05 //moles per step (5 times more than human jetpacks)
 
 /obj/item/mecha_parts/mecha_equipment/thrusters/gas/thrust(movement_dir)
@@ -517,7 +531,7 @@
 /obj/item/mecha_parts/camera_kit
 	name = "exosuit-mounted camera"
 	desc = "A security camera meant for exosuit-mounted surveillance-on-the-go."
-	icon = 'icons/mecha/mecha_equipment.dmi'
+	icon = 'icons/obj/devices/mecha_equipment.dmi'
 	icon_state = "mecha_camera"
 	w_class = WEIGHT_CLASS_SMALL
 
@@ -528,6 +542,7 @@
 
 	. = ..()
 
-	mech.chassis_camera = new /obj/machinery/camera/exosuit (mech)
+	mech.chassis_camera = new /obj/machinery/camera/exosuit(mech)
 	mech.chassis_camera.update_c_tag(mech)
 	mech.diag_hud_set_camera()
+

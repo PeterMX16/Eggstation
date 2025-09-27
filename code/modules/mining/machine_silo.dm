@@ -1,21 +1,25 @@
 /obj/machinery/ore_silo
 	name = "ore silo"
 	desc = "An all-in-one bluespace storage and transmission system for the station's mineral distribution needs."
-	icon = 'icons/obj/mining.dmi'
+	icon = 'icons/obj/machines/ore_silo.dmi'
 	icon_state = "silo"
 	density = TRUE
 	circuit = /obj/item/circuitboard/machine/ore_silo
 	interaction_flags_machine = INTERACT_MACHINE_WIRES_IF_OPEN|INTERACT_MACHINE_ALLOW_SILICON|INTERACT_MACHINE_OPEN_SILICON
 	processing_flags = NONE
 
+<<<<<<< HEAD
 	/// By default, an ore silo requires you to be wearing an ID to pull materials from it.
 	var/ID_required = TRUE
+=======
+>>>>>>> tg-pr-88929
 	/// List of all connected components that are on hold from accessing materials.
 	var/list/holds = list()
 	/// List of all components that are sharing ores with this silo.
 	var/list/datum/component/remote_materials/ore_connected_machines = list()
 	/// Material Container
 	var/datum/component/material_container/materials
+<<<<<<< HEAD
 	/// A list of names of bank account IDs that are banned from using this ore silo.
 	var/list/banned_users = list()
 	///The machine's internal radio, used to broadcast alerts.
@@ -44,6 +48,12 @@
 
 /obj/machinery/ore_silo/Initialize(mapload)
 	. = ..()
+=======
+
+/obj/machinery/ore_silo/Initialize(mapload)
+	. = ..()
+
+>>>>>>> tg-pr-88929
 	materials = AddComponent( \
 		/datum/component/material_container, \
 		SSmaterials.materials_by_category[MAT_CATEGORY_SILO], \
@@ -124,7 +134,11 @@
 
 /obj/machinery/ore_silo/ui_assets(mob/user)
 	return list(
+<<<<<<< HEAD
 		get_asset_datum(/datum/asset/spritesheet_batched/sheetmaterials)
+=======
+		get_asset_datum(/datum/asset/spritesheet/sheetmaterials)
+>>>>>>> tg-pr-88929
 	)
 
 /obj/machinery/ore_silo/ui_interact(mob/user, datum/tgui/ui)
@@ -149,8 +163,13 @@
 				"icon" = icon2base64(icon(initial(parent.icon), initial(parent.icon_state), frame = 1)),
 				"name" = parent.name,
 				"onHold" = !!holds[remote],
+<<<<<<< HEAD
 				"location" = get_area_name(parent, TRUE)
 				)
+=======
+				"location" = get_area_name(parent, TRUE),
+			)
+>>>>>>> tg-pr-88929
 		)
 
 	data["logs"] = list()
@@ -163,13 +182,21 @@
 				"action" = entry.action,
 				"amount" = entry.amount,
 				"time" = entry.timestamp,
+<<<<<<< HEAD
 				"noun" = entry.noun
+=======
+				"noun" = entry.noun,
+>>>>>>> tg-pr-88929
 			)
 		)
 
 	return data
 
+<<<<<<< HEAD
 /obj/machinery/ore_silo/ui_act(action, list/params)
+=======
+/obj/machinery/ore_silo/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
+>>>>>>> tg-pr-88929
 	. = ..()
 	if(.)
 		return

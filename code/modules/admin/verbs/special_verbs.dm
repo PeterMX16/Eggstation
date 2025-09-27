@@ -1,6 +1,10 @@
 // Admin Verbs in this file are special and cannot use the AVD system for some reason or another.
 
+<<<<<<< HEAD
 /client/proc/show_verbs() //MONKE EDIT Added from AVD system hide_verbs
+=======
+/client/proc/show_verbs()
+>>>>>>> tg-pr-88929
 	set name = "Adminverbs - Show"
 	set category = ADMIN_CATEGORY_MAIN
 
@@ -10,7 +14,11 @@
 	to_chat(src, span_interface("All of your adminverbs are now visible."), confidential = TRUE)
 	BLACKBOX_LOG_ADMIN_VERB("Show Adminverbs")
 
+<<<<<<< HEAD
 /client/proc/readmin() //MONKE EDIT Added from /client/New
+=======
+/client/proc/readmin()
+>>>>>>> tg-pr-88929
 	set name = "Readmin"
 	set category = "Admin"
 	set desc = "Regain your admin powers."

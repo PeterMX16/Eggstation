@@ -10,7 +10,11 @@
 	speed = 5
 	pixel_x = -12
 	base_pixel_x = -12
+<<<<<<< HEAD
 	mob_biotypes = MOB_ORGANIC|MOB_BUG|MOB_MINING
+=======
+	mob_biotypes = MOB_ORGANIC|MOB_BEAST
+>>>>>>> tg-pr-88929
 	friendly_verb_continuous = "harmlessly rolls into"
 	friendly_verb_simple = "harmlessly roll into"
 	maxHealth = 45
@@ -19,7 +23,12 @@
 	melee_damage_upper = 0
 	attack_verb_continuous = "barrels into"
 	attack_verb_simple = "barrel into"
+<<<<<<< HEAD
 	attack_sound = 'sound/weapons/punch1.ogg'
+=======
+	attack_sound = 'sound/items/weapons/punch1.ogg'
+	combat_mode = FALSE
+>>>>>>> tg-pr-88929
 	speak_emote = list("screeches")
 	death_message = "stops moving as green liquid oozes from the carcass!"
 	status_flags = CANPUSH
@@ -35,7 +44,11 @@
 		/datum/pet_command/free,
 		/datum/pet_command/grub_spit,
 		/datum/pet_command/follow,
+<<<<<<< HEAD
 		/datum/pet_command/point_targeting/fetch,
+=======
+		/datum/pet_command/fetch,
+>>>>>>> tg-pr-88929
 	)
 
 /mob/living/basic/mining/goldgrub/Initialize(mapload)
@@ -43,6 +56,11 @@
 
 	if(mapload)
 		generate_loot()
+<<<<<<< HEAD
+=======
+	else
+		can_lay_eggs = FALSE
+>>>>>>> tg-pr-88929
 
 	var/static/list/innate_actions = list(
 		/datum/action/cooldown/mob_cooldown/spit_ore = BB_SPIT_ABILITY,
@@ -61,8 +79,15 @@
 		make_tameable()
 	if(can_lay_eggs)
 		make_egg_layer()
+<<<<<<< HEAD
 
 	RegisterSignal(src, COMSIG_ATOM_PRE_BULLET_ACT, PROC_REF(block_bullets))
+=======
+	ADD_TRAIT(src, TRAIT_BOULDER_BREAKER, INNATE_TRAIT)
+	ADD_TRAIT(src, TRAIT_INSTANTLY_PROCESSES_BOULDERS, INNATE_TRAIT)
+	RegisterSignal(src, COMSIG_ATOM_PRE_BULLET_ACT, PROC_REF(block_bullets))
+	RegisterSignal(src, COMSIG_MOB_ATE, PROC_REF(on_eat))
+>>>>>>> tg-pr-88929
 
 /mob/living/basic/mining/goldgrub/proc/block_bullets(datum/source, obj/projectile/hitting_projectile)
 	SIGNAL_HANDLER
@@ -70,12 +95,23 @@
 	if(stat != CONSCIOUS)
 		return COMPONENT_BULLET_PIERCED
 
+<<<<<<< HEAD
+=======
+	///high penetration bullets should still go through. No goldgrub can save you from the colossus' death bolts.
+	if(prob(hitting_projectile.armour_penetration))
+		return NONE
+
+>>>>>>> tg-pr-88929
 	visible_message(span_danger("[hitting_projectile] is repelled by [source]'s girth!"))
 	return COMPONENT_BULLET_BLOCKED
 
 /mob/living/basic/mining/goldgrub/proc/barf_contents(gibbed)
 	playsound(src, 'sound/effects/splat.ogg', 50, TRUE)
+<<<<<<< HEAD
 	for(var/obj/item/ore as anything in src)
+=======
+	for(var/obj/item/stack/ore/ore in src)
+>>>>>>> tg-pr-88929
 		ore.forceMove(loc)
 	if(!gibbed)
 		visible_message(span_danger("[src] spits out its consumed ores!"))
@@ -97,15 +133,23 @@
 	return ..()
 
 /mob/living/basic/mining/goldgrub/proc/make_tameable()
+<<<<<<< HEAD
 	AddComponent(/datum/component/tameable, food_types = list(/obj/item/stack/ore), tame_chance = 25, bonus_tame_chance = 5)
+=======
+	var/list/food_types = string_list(list(/obj/item/stack/ore))
+	AddComponent(/datum/component/tameable, food_types = food_types, tame_chance = 25, bonus_tame_chance = 5)
+>>>>>>> tg-pr-88929
 
 /mob/living/basic/mining/goldgrub/tamed(mob/living/tamer, atom/food)
 	new /obj/effect/temp_visual/heart(src.loc)
 	AddElement(/datum/element/ridable, /datum/component/riding/creature/goldgrub)
 	AddComponent(/datum/component/obeys_commands, pet_commands)
+<<<<<<< HEAD
 	response_help_simple = "pet"
 	response_help_continuous = "pets"
 	AddElement(/datum/element/pet_bonus, "undulates!")
+=======
+>>>>>>> tg-pr-88929
 
 /mob/living/basic/mining/goldgrub/proc/make_egg_layer()
 	AddComponent(\
@@ -122,13 +166,25 @@
 	. = ..()
 	if(!istype(arrived, /obj/item/stack/ore))
 		return
+<<<<<<< HEAD
 	playsound(src,'sound/items/eatfood.ogg', rand(10,50), TRUE)
+=======
+>>>>>>> tg-pr-88929
 	if(!can_lay_eggs)
 		return
 	if(!istype(arrived, /obj/item/stack/ore/bluespace_crystal) || prob(60))
 		return
 	new /obj/item/food/egg/green/grub_egg(get_turf(src))
 
+<<<<<<< HEAD
+=======
+/mob/living/basic/mining/goldgrub/proc/on_eat(atom/source, atom/movable/food, mob/feeder)
+	SIGNAL_HANDLER
+
+	food.forceMove(src)
+	return COMSIG_MOB_TERMINATE_EAT
+
+>>>>>>> tg-pr-88929
 /mob/living/basic/mining/goldgrub/baby
 	icon = 'icons/mob/simple/lavaland/lavaland_monsters.dmi'
 	name = "goldgrub baby"
@@ -156,12 +212,16 @@
 		upper_growth_value = 1,\
 		signals_to_kill_on = list(COMSIG_MOB_CLIENT_LOGIN),\
 		optional_checks = CALLBACK(src, PROC_REF(ready_to_grow)),\
+<<<<<<< HEAD
 		optional_grow_behavior = CALLBACK(src, PROC_REF(grow)),\
+=======
+>>>>>>> tg-pr-88929
 	)
 
 /mob/living/basic/mining/goldgrub/baby/proc/ready_to_grow()
 	return (stat == CONSCIOUS && !is_jaunting(src))
 
+<<<<<<< HEAD
 /mob/living/basic/mining/goldgrub/baby/proc/grow()
 	var/mob/living/new_mob = /mob/living/basic/mining/goldgrub
 	var/new_mob_name = initial(new_mob.name)
@@ -177,6 +237,8 @@
 	if(initial(new_mob.unique_name))
 		transformed_mob.set_name()
 
+=======
+>>>>>>> tg-pr-88929
 /obj/item/food/egg/green/grub_egg
 	name = "grub egg"
 	desc = "Covered in disgusting fluid."

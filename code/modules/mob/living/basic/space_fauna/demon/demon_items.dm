@@ -1,16 +1,28 @@
 /// The loot from killing a slaughter demon - can be consumed to allow the user to blood crawl
+<<<<<<< HEAD
 /obj/item/organ/internal/heart/demon
+=======
+/obj/item/organ/heart/demon
+>>>>>>> tg-pr-88929
 	name = "demon heart"
 	desc = "Still it beats furiously, emanating an aura of utter hate."
 	icon = 'icons/obj/medical/organs/organs.dmi'
 	icon_state = "demon_heart-on"
 	decay_factor = 0
 
+<<<<<<< HEAD
 /obj/item/organ/internal/heart/demon/Initialize(mapload)
 	AddElement(/datum/element/update_icon_blocker)
 	return ..()
 
 /obj/item/organ/internal/heart/demon/attack(mob/target_mob, mob/living/carbon/user, obj/target)
+=======
+/obj/item/organ/heart/demon/Initialize(mapload)
+	AddElement(/datum/element/update_icon_blocker)
+	return ..()
+
+/obj/item/organ/heart/demon/attack(mob/target_mob, mob/living/carbon/user, obj/target)
+>>>>>>> tg-pr-88929
 	if(target_mob != user)
 		return ..()
 
@@ -18,7 +30,11 @@
 		span_warning("[user] raises [src] to [user.p_their()] mouth and tears into it with [user.p_their()] teeth!"),
 		span_danger("An unnatural hunger consumes you. You raise [src] your mouth and devour it!"),
 	)
+<<<<<<< HEAD
 	playsound(user, 'sound/magic/demon_consume.ogg', 50, TRUE)
+=======
+	playsound(user, 'sound/effects/magic/demon_consume.ogg', 50, TRUE)
+>>>>>>> tg-pr-88929
 
 	if(locate(/datum/action/cooldown/spell/jaunt/bloodcrawl) in user.actions)
 		to_chat(user, span_warning("...and you don't feel any different."))
@@ -33,18 +49,30 @@
 	user.temporarilyRemoveItemFromInventory(src, TRUE)
 	src.Insert(user) //Consuming the heart literally replaces your heart with a demon heart. H A R D C O R E
 
+<<<<<<< HEAD
 /obj/item/organ/internal/heart/demon/on_insert(mob/living/carbon/heart_owner)
+=======
+/obj/item/organ/heart/demon/on_mob_insert(mob/living/carbon/heart_owner)
+>>>>>>> tg-pr-88929
 	. = ..()
 	// Gives a non-eat-people crawl to the new owner
 	var/datum/action/cooldown/spell/jaunt/bloodcrawl/crawl = new(heart_owner)
 	crawl.Grant(heart_owner)
 
+<<<<<<< HEAD
 /obj/item/organ/internal/heart/demon/on_remove(mob/living/carbon/heart_owner, special = FALSE)
+=======
+/obj/item/organ/heart/demon/on_mob_remove(mob/living/carbon/heart_owner, special = FALSE, movement_flags)
+>>>>>>> tg-pr-88929
 	. = ..()
 	var/datum/action/cooldown/spell/jaunt/bloodcrawl/crawl = locate() in heart_owner.actions
 	qdel(crawl)
 
+<<<<<<< HEAD
 /obj/item/organ/internal/heart/demon/Stop()
+=======
+/obj/item/organ/heart/demon/Stop()
+>>>>>>> tg-pr-88929
 	return FALSE // Always beating.
 
 /obj/effect/decal/cleanable/blood/innards
@@ -54,9 +82,12 @@
 	icon = 'icons/obj/medical/organs/organs.dmi'
 	icon_state = "innards"
 	random_icon_states = null
+<<<<<<< HEAD
 	base_name = ""
 	can_dry = FALSE
 
 /obj/effect/decal/cleanable/blood/innards/Initialize(mapload, list/datum/disease/diseases)
 	. = ..()
 	add_blood_DNA(list("DEMON BLOOD" = /datum/blood_type/animal))
+=======
+>>>>>>> tg-pr-88929

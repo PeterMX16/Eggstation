@@ -10,6 +10,10 @@
 
 /datum/round_event/wizard/blobies/start()
 	for(var/mob/living/carbon/human/H in GLOB.dead_mob_list)
+<<<<<<< HEAD
 		if(is_station_level(H.loc))
 			new /mob/living/basic/blob_minion/spore/minion(H.loc) // Creates zombies which ghosts can control
 //monkestation edit end
+=======
+		new /mob/living/basic/blob_minion/spore/minion(H.loc) // Creates zombies which ghosts can control
+>>>>>>> tg-pr-88929

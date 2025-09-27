@@ -1,7 +1,7 @@
 /// How often the sensor data is updated
 #define SENSORS_UPDATE_PERIOD (10 SECONDS) //How often the sensor data updates.
 /// The job sorting ID associated with otherwise unknown jobs
-#define UNKNOWN_JOB_ID 81
+#define UNKNOWN_JOB_ID 998
 
 /obj/machinery/computer/crew
 	name = "crew monitoring console"
@@ -97,7 +97,8 @@ GLOBAL_DATUM_INIT(crewmonitor, /datum/crewmonitor, new)
 	var/list/jobs = list(
 		// Note that jobs divisible by 10 are considered heads of staff, and bolded
 		// 00: Captain
-		JOB_CAPTAIN = 00,
+		JOB_CAPTAIN = 0,
+		JOB_HUMAN_AI = 1,
 		// 10-19: Security
 		JOB_HEAD_OF_SECURITY = 10,
 		JOB_WARDEN = 11,
@@ -112,9 +113,9 @@ GLOBAL_DATUM_INIT(crewmonitor, /datum/crewmonitor, new)
 		// 20-29: Medbay
 		JOB_CHIEF_MEDICAL_OFFICER = 20,
 		JOB_CHEMIST = 21,
-		JOB_VIROLOGIST = 22,
-		JOB_MEDICAL_DOCTOR = 23,
-		JOB_PARAMEDIC = 24,
+		JOB_MEDICAL_DOCTOR = 22,
+		JOB_PARAMEDIC = 23,
+		JOB_CORONER = 24,
 		// 30-39: Science
 		JOB_RESEARCH_DIRECTOR = 30,
 		JOB_SCIENTIST = 31,
@@ -130,6 +131,7 @@ GLOBAL_DATUM_INIT(crewmonitor, /datum/crewmonitor, new)
 		JOB_QUARTERMASTER = 50,
 		JOB_SHAFT_MINER = 51,
 		JOB_CARGO_TECHNICIAN = 52,
+<<<<<<< HEAD
 		JOB_LATEJOIN_EXPLORER = 53, //monkestation edit: explorer
 		// 60+: Civilian/other
 		JOB_HEAD_OF_PERSONNEL = 60,
@@ -145,6 +147,23 @@ GLOBAL_DATUM_INIT(crewmonitor, /datum/crewmonitor, new)
 		JOB_PSYCHOLOGIST = 71,
 		JOB_LATEJOIN_BARBER = 72, //monkestation edit: barber
 		// 200-239: Centcom
+=======
+		JOB_BITRUNNER = 53,
+		// 60+: Service
+		JOB_HEAD_OF_PERSONNEL = 60,
+		JOB_BARTENDER = 61,
+		JOB_CHEF = 62,
+		JOB_COOK = 63,
+		JOB_BOTANIST = 64,
+		JOB_CURATOR = 65,
+		JOB_CHAPLAIN = 66,
+		JOB_CLOWN = 67,
+		JOB_MIME = 68,
+		JOB_JANITOR = 69,
+		JOB_LAWYER = 71,
+		JOB_PSYCHOLOGIST = 72,
+		// 200-229: Centcom
+>>>>>>> tg-pr-88929
 		JOB_CENTCOM_ADMIRAL = 200,
 		JOB_CENTCOM = 201,
 		JOB_CENTCOM_OFFICIAL = 210,
@@ -253,14 +272,30 @@ GLOBAL_DATUM_INIT(crewmonitor, /datum/crewmonitor, new)
 		var/sensor_mode = get_tracking_level(tracked_mob, z, nt_net)
 		if (sensor_mode == SENSOR_OFF)
 			continue
+<<<<<<< HEAD
 		var/mob/living/tracked_living_mob = tracked_mob
 		// MONKESTATION EDIT END
+=======
+
+		// Check they have a uniform
+		var/obj/item/clothing/under/uniform = tracked_human.w_uniform
+		if (!istype(uniform))
+			stack_trace("Human without a suit sensors compatible uniform is in suit_sensors_list: [tracked_human] ([tracked_human.type]) ([uniform?.type])")
+			continue
+
+		// Check if their uniform is in a compatible mode.
+		if((uniform.has_sensor == NO_SENSORS) || !uniform.sensor_mode)
+			stack_trace("Human without active suit sensors is in suit_sensors_list: [tracked_human] ([tracked_human.type]) ([uniform.type])")
+			continue
+
+		var/sensor_mode = uniform.sensor_mode
+>>>>>>> tg-pr-88929
 
 		// The entry for this human
 		var/list/entry = list(
 			"ref" = REF(tracked_living_mob),
 			"name" = "Unknown",
-			"ijob" = UNKNOWN_JOB_ID
+			"ijob" = UNKNOWN_JOB_ID,
 		)
 
 		// ID and id-related data
@@ -272,10 +307,25 @@ GLOBAL_DATUM_INIT(crewmonitor, /datum/crewmonitor, new)
 			if (jobs[trim_assignment] != null)
 				entry["ijob"] = jobs[trim_assignment]
 
+<<<<<<< HEAD
 		// MONKESTATION EDIT ADDITION START - Checking for robotic race
 		if (isipc(tracked_living_mob))
 			entry["is_robot"] = TRUE
 		// MONKESTATION EDIT ADDITION END
+=======
+		// Broken sensors show garbage data
+		if (uniform.has_sensor == BROKEN_SENSORS)
+			entry["life_status"] = rand(0,1)
+			entry["area"] = pick_list (ION_FILE, "ionarea")
+			entry["oxydam"] = rand(0,175)
+			entry["toxdam"] = rand(0,175)
+			entry["burndam"] = rand(0,175)
+			entry["brutedam"] = rand(0,175)
+			entry["health"] = -50
+			entry["can_track"] = tracked_living_mob.can_track()
+			results[++results.len] = entry
+			continue
+>>>>>>> tg-pr-88929
 
 		// Current status
 		if (sensor_mode >= SENSOR_LIVING)

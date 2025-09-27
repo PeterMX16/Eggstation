@@ -25,6 +25,17 @@
 /obj/effect/turf_decal/tile/neutral/fourcorners,
 /turf/open/floor/iron/dark,
 /area/ruin/syndicate_lava_base/testlab)
+<<<<<<< HEAD
+=======
+"ae" = (
+/obj/machinery/firealarm/directional/south,
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/neutral/fourcorners,
+/turf/open/floor/iron/dark,
+/area/ruin/syndicate_lava_base/testlab)
+>>>>>>> tg-pr-88929
 "af" = (
 /obj/structure/chair{
 	dir = 1
@@ -38,15 +49,52 @@
 /obj/effect/turf_decal/tile/neutral/fourcorners,
 /turf/open/floor/iron/dark,
 /area/ruin/syndicate_lava_base/testlab)
+<<<<<<< HEAD
 "ah" = (
 /turf/open/floor/engine,
 /area/ruin/syndicate_lava_base/testlab)
+=======
+"ag" = (
+/obj/structure/table/reinforced,
+/obj/item/restraints/handcuffs,
+/obj/item/taperecorder,
+/obj/effect/decal/cleanable/dirt,
+/obj/effect/turf_decal/tile/neutral/fourcorners,
+/obj/machinery/light/small/directional/east,
+/turf/open/floor/iron/dark,
+/area/ruin/syndicate_lava_base/testlab)
+"ah" = (
+/turf/open/floor/engine,
+/area/ruin/syndicate_lava_base/testlab)
+"ai" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/effect/turf_decal/tile/neutral/fourcorners,
+/turf/open/floor/iron/dark,
+/area/ruin/syndicate_lava_base/testlab)
+>>>>>>> tg-pr-88929
 "aj" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
 	dir = 4
 	},
 /turf/open/floor/engine,
 /area/ruin/syndicate_lava_base/testlab)
+<<<<<<< HEAD
+=======
+"ak" = (
+/obj/structure/table/reinforced,
+/obj/effect/decal/cleanable/dirt,
+/obj/item/paper_bin,
+/obj/item/pen,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/effect/turf_decal/tile/neutral/fourcorners,
+/turf/open/floor/iron/dark,
+/area/ruin/syndicate_lava_base/testlab)
+>>>>>>> tg-pr-88929
 "al" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer4,
@@ -68,6 +116,15 @@
 /obj/structure/sign/warning/explosives/alt/directional/west,
 /turf/open/floor/engine,
 /area/ruin/syndicate_lava_base/testlab)
+<<<<<<< HEAD
+=======
+"ao" = (
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
+	dir = 4
+	},
+/turf/open/floor/engine,
+/area/ruin/syndicate_lava_base/testlab)
+>>>>>>> tg-pr-88929
 "ap" = (
 /obj/structure/table/reinforced,
 /obj/item/storage/toolbox/syndicate,
@@ -125,6 +182,25 @@
 /obj/effect/turf_decal/tile/neutral/fourcorners,
 /turf/open/floor/iron/dark,
 /area/ruin/syndicate_lava_base/testlab)
+<<<<<<< HEAD
+=======
+"av" = (
+/obj/structure/table/reinforced,
+/obj/item/storage/box/monkeycubes/syndicate,
+/obj/item/storage/box/monkeycubes/syndicate,
+/obj/effect/turf_decal/tile/neutral/fourcorners,
+/turf/open/floor/iron/dark,
+/area/ruin/syndicate_lava_base/testlab)
+"aw" = (
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer4{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/neutral/fourcorners,
+/obj/effect/mapping_helpers/airalarm/syndicate_access,
+/obj/machinery/airalarm/directional/south,
+/turf/open/floor/iron/dark,
+/area/ruin/syndicate_lava_base/testlab)
+>>>>>>> tg-pr-88929
 "ax" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer4{
 	dir = 4
@@ -153,6 +229,23 @@
 /obj/effect/turf_decal/tile/neutral/fourcorners,
 /turf/open/floor/iron/dark,
 /area/ruin/syndicate_lava_base/testlab)
+<<<<<<< HEAD
+=======
+"aA" = (
+/obj/structure/bed/medical/emergency,
+/obj/machinery/iv_drip,
+/obj/effect/decal/cleanable/dirt,
+/obj/effect/decal/cleanable/dirt,
+/mob/living/carbon/human/species/monkey{
+	faction = list("neutral","Syndicate")
+	},
+/obj/effect/turf_decal/tile/neutral/fourcorners,
+/obj/machinery/light/small/directional/north,
+/obj/effect/mapping_helpers/airalarm/syndicate_access,
+/obj/machinery/airalarm/directional/west,
+/turf/open/floor/iron/dark,
+/area/ruin/syndicate_lava_base/testlab)
+>>>>>>> tg-pr-88929
 "aB" = (
 /obj/machinery/light/small/directional/north,
 /obj/machinery/button/door{
@@ -177,6 +270,22 @@
 "aD" = (
 /turf/closed/wall/mineral/plastitanium/nodiagonal,
 /area/ruin/syndicate_lava_base/testlab)
+<<<<<<< HEAD
+=======
+"aE" = (
+/obj/machinery/door/firedoor,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/machinery/door/airlock/hatch{
+	name = "Experimentation Lab"
+	},
+/obj/effect/mapping_helpers/airlock/access/all/syndicate/general,
+/obj/structure/cable,
+/obj/modular_map_connector,
+/obj/effect/turf_decal/tile/neutral/fourcorners,
+/turf/open/floor/iron/dark,
+/area/ruin/syndicate_lava_base/testlab)
+>>>>>>> tg-pr-88929
 "aF" = (
 /obj/machinery/door/firedoor,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden,
@@ -198,10 +307,29 @@
 /obj/effect/turf_decal/tile/neutral/fourcorners,
 /turf/open/floor/iron/dark,
 /area/ruin/syndicate_lava_base/testlab)
+<<<<<<< HEAD
+=======
+"aH" = (
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/turf/open/floor/engine,
+/area/ruin/syndicate_lava_base/testlab)
+>>>>>>> tg-pr-88929
 "aI" = (
 /obj/structure/sign/warning/secure_area,
 /turf/closed/wall/mineral/plastitanium/nodiagonal,
 /area/ruin/syndicate_lava_base/testlab)
+<<<<<<< HEAD
+=======
+"aJ" = (
+/obj/structure/chair{
+	dir = 1
+	},
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/effect/turf_decal/tile/neutral/fourcorners,
+/turf/open/floor/iron/dark,
+/area/ruin/syndicate_lava_base/testlab)
+>>>>>>> tg-pr-88929
 "aK" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer4,
@@ -211,10 +339,43 @@
 /obj/effect/spawner/structure/window/reinforced/plasma/plastitanium,
 /turf/open/floor/plating,
 /area/ruin/syndicate_lava_base/testlab)
+<<<<<<< HEAD
+=======
+"aM" = (
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/turf/open/floor/engine,
+/area/ruin/syndicate_lava_base/testlab)
+"aN" = (
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/structure/extinguisher_cabinet/directional/east,
+/obj/structure/cable,
+/obj/effect/turf_decal/tile/neutral/fourcorners,
+/turf/open/floor/iron/dark,
+/area/ruin/syndicate_lava_base/testlab)
+"aO" = (
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/effect/turf_decal/tile/neutral/fourcorners,
+/obj/effect/mapping_helpers/airalarm/syndicate_access,
+/obj/machinery/airalarm/directional/south,
+/turf/open/floor/iron/dark,
+/area/ruin/syndicate_lava_base/testlab)
+>>>>>>> tg-pr-88929
 "aP" = (
 /obj/structure/sign/warning/explosives/alt/directional/east,
 /turf/open/floor/engine,
 /area/ruin/syndicate_lava_base/testlab)
+<<<<<<< HEAD
+=======
+"aQ" = (
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/turf/open/floor/engine,
+/area/ruin/syndicate_lava_base/testlab)
+>>>>>>> tg-pr-88929
 "aR" = (
 /obj/structure/table/reinforced,
 /obj/effect/decal/cleanable/dirt,
@@ -229,6 +390,20 @@
 /obj/machinery/light/small/directional/east,
 /turf/open/floor/engine,
 /area/ruin/syndicate_lava_base/testlab)
+<<<<<<< HEAD
+=======
+"aT" = (
+/obj/effect/spawner/structure/window/reinforced/plasma/plastitanium,
+/obj/machinery/door/firedoor,
+/obj/machinery/door/poddoor/preopen{
+	id = "lavalandsyndi";
+	name = "Syndicate Research Experimentation Shutters"
+	},
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/turf/open/floor/plating,
+/area/ruin/syndicate_lava_base/testlab)
+>>>>>>> tg-pr-88929
 "aU" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden,
@@ -259,6 +434,7 @@
 /obj/machinery/light/small/directional/west,
 /turf/open/floor/engine,
 /area/ruin/syndicate_lava_base/testlab)
+<<<<<<< HEAD
 "uo" = (
 /obj/machinery/airalarm/directional/south,
 /obj/effect/mapping_helpers/airalarm/syndicate_access,
@@ -269,6 +445,9 @@
 /turf/open/floor/iron/dark,
 /area/ruin/syndicate_lava_base/testlab)
 "Aq" = (
+=======
+"aZ" = (
+>>>>>>> tg-pr-88929
 /obj/structure/bed/medical/emergency,
 /obj/machinery/iv_drip,
 /obj/effect/decal/cleanable/dirt,
@@ -291,6 +470,23 @@
 	},
 /obj/effect/turf_decal/tile/neutral/fourcorners,
 /turf/open/floor/iron/dark,
+/area/ruin/syndicate_lava_base/testlab)
+"gS" = (
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/turf/open/floor/engine,
+/area/ruin/syndicate_lava_base/testlab)
+"IP" = (
+/obj/effect/mapping_helpers/airalarm/syndicate_access,
+/obj/machinery/airalarm/directional/north,
+/turf/open/floor/engine,
+/area/ruin/syndicate_lava_base/testlab)
+"Zh" = (
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
+	dir = 4
+	},
+/turf/open/floor/engine,
 /area/ruin/syndicate_lava_base/testlab)
 
 (1,1,1) = {"
@@ -316,8 +512,13 @@ aD
 aD
 aD
 aD
+<<<<<<< HEAD
 Aq
 Rm
+=======
+aA
+aZ
+>>>>>>> tg-pr-88929
 aa
 aa
 "}
@@ -339,6 +540,7 @@ aa
 aD
 aW
 ah
+<<<<<<< HEAD
 aj
 ah
 aj
@@ -346,11 +548,21 @@ ah
 ac
 at
 az
+=======
+ao
+ah
+ao
+ah
+ac
+at
+ae
+>>>>>>> tg-pr-88929
 aa
 aa
 "}
 (5,1,1) = {"
 aD
+<<<<<<< HEAD
 ah
 ah
 aC
@@ -360,6 +572,17 @@ ah
 aD
 aB
 uo
+=======
+IP
+ah
+aH
+ah
+aH
+ah
+aD
+aB
+aO
+>>>>>>> tg-pr-88929
 aa
 aa
 "}
@@ -367,6 +590,7 @@ aa
 aD
 ah
 ah
+<<<<<<< HEAD
 aV
 ah
 as
@@ -374,6 +598,15 @@ ah
 am
 ap
 ay
+=======
+Zh
+ah
+aM
+ah
+am
+ap
+ai
+>>>>>>> tg-pr-88929
 aX
 aa
 "}
@@ -381,6 +614,7 @@ aa
 aD
 aW
 ah
+<<<<<<< HEAD
 aq
 aU
 ax
@@ -390,6 +624,17 @@ aR
 af
 al
 aF
+=======
+aQ
+gS
+gS
+aQ
+aT
+ak
+aJ
+aN
+aE
+>>>>>>> tg-pr-88929
 "}
 (8,1,1) = {"
 aD
@@ -400,8 +645,13 @@ aP
 aS
 ah
 am
+<<<<<<< HEAD
 ad
 aG
+=======
+ag
+av
+>>>>>>> tg-pr-88929
 aa
 aa
 "}

@@ -20,6 +20,7 @@
 	color = blood_color
 	icon_state = "[splatter_type][pick(1, 2, 3, 4, 5, 6)]"
 	. = ..()
+<<<<<<< HEAD
 	var/target_pixel_x = pixel_x
 	var/target_pixel_y = pixel_y
 	switch(angle)
@@ -71,6 +72,34 @@
 		if(316 to 359)
 			target_pixel_x += round(-6 * ((360 - angle) / 45))
 			target_pixel_y += 8
+=======
+	var/target_pixel_x = 0
+	var/target_pixel_y = 0
+	switch(set_dir)
+		if(NORTH)
+			target_pixel_y = 16
+		if(SOUTH)
+			target_pixel_y = -16
+			layer = ABOVE_MOB_LAYER
+		if(EAST)
+			target_pixel_x = 16
+		if(WEST)
+			target_pixel_x = -16
+		if(NORTHEAST)
+			target_pixel_x = 16
+			target_pixel_y = 16
+		if(NORTHWEST)
+			target_pixel_x = -16
+			target_pixel_y = 16
+		if(SOUTHEAST)
+			target_pixel_x = 16
+			target_pixel_y = -16
+			layer = ABOVE_MOB_LAYER
+		if(SOUTHWEST)
+			target_pixel_x = -16
+			target_pixel_y = -16
+			layer = ABOVE_MOB_LAYER
+>>>>>>> tg-pr-88929
 	animate(src, pixel_x = target_pixel_x, pixel_y = target_pixel_y, alpha = 0, time = duration)
 
 /obj/effect/temp_visual/dir_setting/bloodsplatter/Destroy()
@@ -97,7 +126,13 @@
 /obj/effect/temp_visual/dir_setting/firing_effect
 	icon = 'icons/effects/effects.dmi'
 	icon_state = "firing_effect"
-	duration = 2
+	duration = 3
+
+/obj/effect/temp_visual/dir_setting/firing_effect/Initialize(mapload, set_dir)
+	. = ..()
+	if (ismovable(loc))
+		var/atom/movable/spawned_inside = loc
+		spawned_inside.vis_contents += src
 
 /obj/effect/temp_visual/dir_setting/firing_effect/setDir(newdir)
 	switch(newdir)
@@ -113,8 +148,14 @@
 			pixel_y += rand(-1,1)
 	..()
 
-/obj/effect/temp_visual/dir_setting/firing_effect/energy
-	icon_state = "firing_effect_energy"
+/obj/effect/temp_visual/dir_setting/firing_effect/blue
+	icon = 'icons/effects/effects.dmi'
+	icon_state = "firing_effect_blue"
+	duration = 3
+
+/obj/effect/temp_visual/dir_setting/firing_effect/red
+	icon = 'icons/effects/effects.dmi'
+	icon_state = "firing_effect_red"
 	duration = 3
 
 /obj/effect/temp_visual/dir_setting/firing_effect/magic
@@ -281,8 +322,13 @@
 
 /obj/effect/temp_visual/fire
 	icon = 'icons/effects/fire.dmi'
+<<<<<<< HEAD
 	icon_state = "3"
 	light_outer_range = LIGHT_RANGE_FIRE
+=======
+	icon_state = "heavy"
+	light_range = LIGHT_RANGE_FIRE
+>>>>>>> tg-pr-88929
 	light_color = LIGHT_COLOR_FIRE
 	duration = 1 SECONDS
 
@@ -344,14 +390,6 @@
 
 /obj/effect/temp_visual/gib_animation/animal
 	icon = 'icons/mob/simple/animal.dmi'
-
-/obj/effect/temp_visual/dust_animation
-	icon = 'icons/mob/simple/mob.dmi'
-	duration = 15
-
-/obj/effect/temp_visual/dust_animation/Initialize(mapload, dust_icon)
-	icon_state = dust_icon // Before ..() so the correct icon is flick()'d
-	. = ..()
 
 /obj/effect/temp_visual/mummy_animation
 	icon = 'icons/mob/simple/mob.dmi'
@@ -436,7 +474,12 @@
 	duration = 6
 
 /obj/effect/temp_visual/impact_effect/neurotoxin
-	icon_state = "impact_neurotoxin"
+	icon_state = "impact_spit"
+	color = "#5BDD04"
+
+/obj/effect/temp_visual/impact_effect/ink_spit
+	icon_state = "impact_spit"
+	color = COLOR_NEARLY_ALL_BLACK
 
 /obj/effect/temp_visual/heart
 	name = "heart"
@@ -474,7 +517,11 @@
 	var/size_matrix = matrix()
 	if(size_calc_target)
 		layer = size_calc_target.layer + 0.01
+<<<<<<< HEAD
 		size_matrix = matrix() * (size_calc_target.get_cached_height() /world.icon_size)
+=======
+		size_matrix = matrix() * (size_calc_target.get_visual_height() / ICON_SIZE_Y)
+>>>>>>> tg-pr-88929
 		transform = size_matrix //scale the bleed overlay's size based on the target's icon size
 	var/matrix/M = transform
 	if(shrink)
@@ -525,7 +572,7 @@
 	duration = 2 SECONDS
 
 /obj/effect/constructing_effect
-	icon = 'icons/effects/effects_rcd.dmi'
+	icon = 'icons/effects/rcd.dmi'
 	icon_state = ""
 	layer = ABOVE_ALL_MOB_LAYER
 	plane = ABOVE_GAME_PLANE
@@ -588,7 +635,7 @@
 		mouse_opacity = MOUSE_OPACITY_TRANSPARENT
 		obj_flags &= ~CAN_BE_HIT
 		icon_state = "rcd_end"
-		addtimer(CALLBACK(src, PROC_REF(end)), 15)
+		addtimer(CALLBACK(src, PROC_REF(end)), 1.5 SECONDS)
 
 /obj/effect/constructing_effect/proc/end()
 	qdel(src)
@@ -596,7 +643,11 @@
 /obj/effect/constructing_effect/proc/attacked(mob/user)
 	user.do_attack_animation(src, ATTACK_EFFECT_PUNCH)
 	user.changeNext_move(CLICK_CD_MELEE)
+<<<<<<< HEAD
 	playsound(loc, 'sound/weapons/egloves.ogg', vol = 80, vary = TRUE)
+=======
+	playsound(loc, 'sound/items/weapons/egloves.ogg', vol = 80, vary = TRUE)
+>>>>>>> tg-pr-88929
 	end()
 
 /obj/effect/constructing_effect/attackby(obj/item/weapon, mob/user, params)
@@ -628,23 +679,39 @@
 	var/image/modsuit_image
 	/// The person in the modsuit at the moment, really just used to remove this from their screen
 	var/datum/weakref/mod_man
+	/// The creature we're placing this on
+	var/datum/weakref/pinged_person
 	/// The icon state applied to the image created for this ping.
 	var/real_icon_state = "sonar_ping"
+	/// Does the visual follow the creature?
+	var/follow_creature = TRUE
+	/// Creature's X & Y coords, which can either be overridden or kept the same depending on follow_creature.
+	var/creature_x
+	var/creature_y
 
-/obj/effect/temp_visual/sonar_ping/Initialize(mapload, mob/living/looker, mob/living/creature)
+/obj/effect/temp_visual/sonar_ping/Initialize(mapload, mob/living/looker, mob/living/creature, ping_state, follow_creatures = TRUE)
 	. = ..()
 	if(!looker || !creature)
 		return INITIALIZE_HINT_QDEL
+	if(ping_state)
+		real_icon_state = ping_state
+	follow_creature = follow_creatures
+	creature_x = creature.x
+	creature_y = creature.y
+
 	modsuit_image = image(icon = icon, loc = looker.loc, icon_state = real_icon_state, layer = ABOVE_ALL_MOB_LAYER, pixel_x = ((creature.x - looker.x) * 32), pixel_y = ((creature.y - looker.y) * 32))
 	modsuit_image.plane = ABOVE_LIGHTING_PLANE
 	SET_PLANE_EXPLICIT(modsuit_image, ABOVE_LIGHTING_PLANE, creature)
 	mod_man = WEAKREF(looker)
+	pinged_person = WEAKREF(creature)
 	add_mind(looker)
+	START_PROCESSING(SSfastprocess, src)
 
 /obj/effect/temp_visual/sonar_ping/Destroy()
 	var/mob/living/previous_user = mod_man?.resolve()
 	if(previous_user)
 		remove_mind(previous_user)
+	STOP_PROCESSING(SSfastprocess, src)
 	// Null so we don't shit the bed when we delete
 	modsuit_image = null
 	return ..()
@@ -657,6 +724,23 @@
 /obj/effect/temp_visual/sonar_ping/proc/remove_mind(mob/living/looker)
 	looker?.client?.images -= modsuit_image
 
+<<<<<<< HEAD
+=======
+/// Update the position of the ping while it's still up. Not sure if i need to use the full proc but just being safe
+/obj/effect/temp_visual/sonar_ping/process(seconds_per_tick)
+	var/mob/living/looker = mod_man?.resolve()
+	var/mob/living/creature = pinged_person?.resolve()
+	if(isnull(looker) || isnull(creature))
+		return PROCESS_KILL
+	modsuit_image.loc = looker.loc
+	// Long pings follow, short pings stay put. We still need to update for looker.x&y though
+	if(follow_creature)
+		creature_y = creature.y
+		creature_x = creature.x
+	modsuit_image.pixel_x = ((creature_x - looker.x) * 32)
+	modsuit_image.pixel_y = ((creature_y - looker.y) * 32)
+
+>>>>>>> tg-pr-88929
 /obj/effect/temp_visual/block //color is white by default, set to whatever is needed
 	name = "blocking glow"
 	icon_state = "block"
@@ -669,6 +753,18 @@
 	pixel_x = rand(-12, 12)
 	pixel_y = rand(-9, 0)
 
+<<<<<<< HEAD
+=======
+/obj/effect/temp_visual/crit
+	name = "critical hit"
+	icon_state = "crit"
+	duration = 15
+
+/obj/effect/temp_visual/crit/Initialize(mapload)
+	. = ..()
+	animate(src, pixel_y = pixel_y + 16, alpha = 0, time = duration)
+
+>>>>>>> tg-pr-88929
 /obj/effect/temp_visual/jet_plume
 	name = "jet plume"
 	icon_state = "jet_plume"
@@ -676,6 +772,7 @@
 	plane = GAME_PLANE
 	duration = 0.4 SECONDS
 
+<<<<<<< HEAD
 /obj/effect/temp_visual/dir_setting/firing_effect/sweep_attack
 	icon = 'icons/effects/96x96.dmi'
 	icon_state = "big_slash"
@@ -691,3 +788,58 @@
 /obj/effect/temp_visual/dir_setting/firing_effect/sweep_attack/full_circle
 	icon_state = "big_slash_360"
 	duration = 0.4 SECONDS
+=======
+/// Plays a dispersing animation on hivelord and legion minions so they don't just vanish
+/obj/effect/temp_visual/despawn_effect
+	name = "withering spawn"
+	duration = 1 SECONDS
+
+/obj/effect/temp_visual/despawn_effect/Initialize(mapload, atom/copy_from)
+	if (isnull(copy_from))
+		. = ..()
+		return INITIALIZE_HINT_QDEL
+	icon = copy_from.icon
+	icon_state = copy_from.icon_state
+	pixel_x = copy_from.pixel_x
+	pixel_y = copy_from.pixel_y
+	duration = rand(0.5 SECONDS, 1 SECONDS)
+	var/matrix/transformation = matrix(transform)
+	transformation.Turn(rand(-70, 70))
+	transformation.Scale(0.7, 0.7)
+	animate(
+		src,
+		pixel_x = rand(-5, 5),
+		pixel_y = -5,
+		transform = transformation,
+		color = "#44444400",
+		time = duration,
+		flags = ANIMATION_RELATIVE,
+	)
+	return ..()
+
+/obj/effect/temp_visual/mech_sparks
+	name = "mech sparks"
+	icon_state = "mech_sparks"
+	duration = 0.4 SECONDS
+
+/obj/effect/temp_visual/mech_sparks/Initialize(mapload, set_color)
+	. = ..()
+	pixel_x = rand(-16, 16)
+	pixel_y = rand(-8, 8)
+
+/obj/effect/temp_visual/mech_attack_aoe_charge
+	name = "mech attack aoe charge"
+	icon = 'icons/effects/96x96.dmi'
+	icon_state = "mech_attack_aoe_charge"
+	duration = 1 SECONDS
+	pixel_x = -32
+	pixel_y = -32
+
+/obj/effect/temp_visual/mech_attack_aoe_attack
+	name = "mech attack aoe attack"
+	icon = 'icons/effects/96x96.dmi'
+	icon_state = "mech_attack_aoe_attack"
+	duration = 0.5 SECONDS
+	pixel_x = -32
+	pixel_y = -32
+>>>>>>> tg-pr-88929

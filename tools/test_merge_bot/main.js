@@ -73,11 +73,20 @@ export async function processTestMerges({ github, context }) {
       },
     );
 
+<<<<<<< HEAD
     const existingComment = comments.repository.pullRequest.comments.nodes.find(
       (comment) =>
         comment.author.login === "github-actions" &&
         comment.body.startsWith(TEST_MERGE_COMMENT_HEADER),
     );
+=======
+		const existingComment =
+			comments.repository.pullRequest.comments.nodes.find(
+				(comment) =>
+					comment.author?.login === "github-actions" &&
+					comment.body.startsWith(TEST_MERGE_COMMENT_HEADER)
+			);
+>>>>>>> tg-pr-88929
 
     const newBody = createComment(servers, existingComment?.body);
     if (!newBody) {
@@ -85,6 +94,7 @@ export async function processTestMerges({ github, context }) {
       continue;
     }
 
+<<<<<<< HEAD
     if (existingComment === undefined) {
       await github.rest.issues.createComment({
         owner: context.repo.owner,
@@ -101,4 +111,44 @@ export async function processTestMerges({ github, context }) {
       });
     }
   }
+=======
+		if (existingComment === undefined) {
+			try {
+				await github.rest.issues.createComment({
+					owner: context.repo.owner,
+					repo: context.repo.repo,
+					issue_number: prNumber,
+					body: newBody,
+				});
+			} catch (error) {
+				if(error.status){
+					console.error(`Failed to create comment for #{prNumber}`)
+					console.error(error)
+					continue;
+				}
+				else{
+					throw error
+				}
+			}
+		} else {
+			try {
+				await github.rest.issues.updateComment({
+					owner: context.repo.owner,
+					repo: context.repo.repo,
+					comment_id: existingComment.databaseId,
+					body: newBody,
+				});
+			} catch (error) {
+				if(error.status){
+					console.error(`Failed to update comment for #{prNumber}`)
+					console.error(error)
+					continue;
+				}
+				else{
+					throw error
+				}
+			}
+		}
+	}
+>>>>>>> tg-pr-88929
 }

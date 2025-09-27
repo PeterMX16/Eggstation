@@ -1,13 +1,21 @@
 /datum/action/cooldown/spell/pointed/projectile/moon_parade
 	name = "Lunar parade"
+<<<<<<< HEAD
 	desc = "This unleashes the parade towards a target."
+=======
+	desc = "This unleashes the parade, making everyone in its way join it and suffer hallucinations."
+>>>>>>> tg-pr-88929
 	background_icon_state = "bg_heretic"
 	overlay_icon_state = "bg_heretic_border"
 	button_icon = 'icons/mob/actions/actions_ecult.dmi'
 	button_icon_state = "moon_parade"
 	ranged_mousepointer = 'icons/effects/mouse_pointers/moon_target.dmi'
 
+<<<<<<< HEAD
 	sound = 'sound/magic/cosmic_energy.ogg'
+=======
+	sound = 'sound/effects/magic/cosmic_energy.ogg'
+>>>>>>> tg-pr-88929
 	school = SCHOOL_FORBIDDEN
 	cooldown_time = 30 SECONDS
 
@@ -26,12 +34,19 @@
 	icon_state = "lunar_parade"
 	damage = 0
 	damage_type = BURN
+<<<<<<< HEAD
 	speed = 1
+=======
+	speed = 0.2
+>>>>>>> tg-pr-88929
 	range = 75
 	ricochets_max = 40
 	ricochet_chance = 500
 	ricochet_incidence_leeway = 0
+<<<<<<< HEAD
 	pixel_speed_multiplier = 0.2
+=======
+>>>>>>> tg-pr-88929
 	projectile_piercing = PASSMOB|PASSVEHICLE
 	///looping sound datum for our projectile.
 	var/datum/looping_sound/moon_parade/soundloop
@@ -64,7 +79,11 @@
 		return PROJECTILE_PIERCE_PHASE
 
 	// Anti-magic destroys the projectile for consistency and counterplay
+<<<<<<< HEAD
 	if(victim.can_block_magic(MAGIC_RESISTANCE))
+=======
+	if(victim.can_block_magic(MAGIC_RESISTANCE|MAGIC_RESISTANCE_MIND))
+>>>>>>> tg-pr-88929
 		visible_message(span_warning("The parade hits [victim] and a sudden wave of clarity comes over you!"))
 		return PROJECTILE_DELETE_WITHOUT_HITTING
 
@@ -86,7 +105,11 @@
 
 	victim.add_mood_event("Moon Insanity", /datum/mood_event/moon_insanity)
 	victim.cause_hallucination(/datum/hallucination/delusion/preset/moon, name)
+<<<<<<< HEAD
 	victim.mob_mood?.set_sanity(victim.mob_mood.sanity - 20)
+=======
+	victim.mob_mood.set_sanity(victim.mob_mood.sanity - 20)
+>>>>>>> tg-pr-88929
 
 /obj/projectile/moon_parade/Destroy()
 	for(var/mob/living/leftover_mob as anything in mobs_hit)

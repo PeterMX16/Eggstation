@@ -1,6 +1,6 @@
 // Cocoa Pod
 /obj/item/seeds/cocoapod
-	name = "pack of cocoa pod seeds"
+	name = "cocoa pod seed pack"
 	desc = "These seeds grow into cacao trees. They look fattening." //SIC: cocoa is the seeds. The trees are spelled cacao.
 	icon_state = "seed-cocoapod"
 	species = "cocoapod"
@@ -11,7 +11,7 @@
 	production = 25
 	yield = 20
 	growthstages = 5
-	growing_icon = 'icons/obj/hydroponics/growing_fruits.dmi'
+	growing_icon = 'icons/obj/service/hydroponics/growing_fruits.dmi'
 	icon_grow = "cocoapod-grow"
 	icon_dead = "cocoapod-dead"
 	genes = list(/datum/plant_gene/trait/repeated_harvest)
@@ -30,7 +30,7 @@
 
 // Vanilla Pod
 /obj/item/seeds/cocoapod/vanillapod
-	name = "pack of vanilla pod seeds"
+	name = "vanilla pod seed pack"
 	desc = "These seeds grow into vanilla trees. They look fattening."
 	icon_state = "seed-vanillapod"
 	species = "vanillapod"
@@ -51,7 +51,7 @@
 	distill_reagent = /datum/reagent/consumable/vanilla //Takes longer, but you can get even more vanilla from it.
 
 /obj/item/seeds/cocoapod/bungotree
-	name = "pack of bungo tree seeds"
+	name = "bungo tree seed pack"
 	desc = "These seeds grow into bungo trees. They appear to be heavy and almost perfectly spherical."
 	icon_state = "seed-bungotree"
 	plant_icon_offset = 4
@@ -66,7 +66,7 @@
 	possible_mutations = list()
 	reagents_add = list(/datum/reagent/consumable/enzyme = 0.1, /datum/reagent/consumable/nutriment = 0.1)
 	growthstages = 4
-	growing_icon = 'icons/obj/hydroponics/growing_fruits.dmi'
+	growing_icon = 'icons/obj/service/hydroponics/growing_fruits.dmi'
 	icon_grow = "bungotree-grow"
 	icon_dead = "bungotree-dead"
 	rarity = 15
@@ -79,7 +79,7 @@
 	bite_consumption_mod = 2
 	trash_type = /obj/item/food/grown/bungopit
 	foodtypes = FRUIT
-	juice_results = list(/datum/reagent/consumable/bungojuice = 0)
+	juice_typepath = /datum/reagent/consumable/bungojuice
 	tastes = list("bungo" = 2, "tropical fruitiness" = 1)
 	distill_reagent = null
 

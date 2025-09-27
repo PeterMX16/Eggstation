@@ -21,7 +21,7 @@
 /datum/chemical_reaction/medicine/rezadone
 	results = list(/datum/reagent/medicine/rezadone = 3)
 	required_reagents = list(/datum/reagent/toxin/carpotoxin = 1, /datum/reagent/cryptobiolin = 1, /datum/reagent/copper = 1)
-	reaction_tags = REACTION_TAG_EASY | REACTION_TAG_HEALING | REACTION_TAG_CLONE
+	reaction_tags = REACTION_TAG_EASY | REACTION_TAG_HEALING
 
 /datum/chemical_reaction/medicine/spaceacillin
 	results = list(/datum/reagent/medicine/antipathogenic/spaceacillin = 2)
@@ -211,6 +211,16 @@
 	required_reagents = list(/datum/reagent/medicine/omnizine/protozine = 1, /datum/reagent/water/holywater = 1, /datum/reagent/toxin/mutagen = 1)
 	reaction_tags = REACTION_TAG_EASY | REACTION_TAG_HEALING | REACTION_TAG_PLANT | REACTION_TAG_OTHER
 
+/datum/chemical_reaction/medicine/fishy_reagent
+	results = list(/datum/reagent/medicine/strange_reagent/fishy_reagent = 3)
+	required_reagents = list(/datum/reagent/medicine/omnizine = 1, /datum/reagent/water/salt = 1, /datum/reagent/toxin/carpotoxin = 1)
+	reaction_tags = REACTION_TAG_EASY | REACTION_TAG_HEALING | REACTION_TAG_OTHER
+
+/datum/chemical_reaction/medicine/fishy_reagent/alt
+	results = list(/datum/reagent/medicine/strange_reagent/fishy_reagent = 6)
+	required_reagents = list(/datum/reagent/medicine/omnizine = 1, /datum/reagent/water/salt = 1, /datum/reagent/toxin/tetrodotoxin = 1)
+	reaction_tags = REACTION_TAG_EASY | REACTION_TAG_HEALING | REACTION_TAG_OTHER
+
 /datum/chemical_reaction/medicine/mannitol
 	results = list(/datum/reagent/medicine/mannitol = 3)
 	required_reagents = list(/datum/reagent/consumable/sugar = 1, /datum/reagent/hydrogen = 1, /datum/reagent/water = 1)
@@ -299,18 +309,12 @@
 /datum/chemical_reaction/medicine/cryoxadone
 	results = list(/datum/reagent/medicine/cryoxadone = 3)
 	required_reagents = list(/datum/reagent/stable_plasma = 1, /datum/reagent/acetone = 1, /datum/reagent/toxin/mutagen = 1)
-	reaction_tags = REACTION_TAG_EASY | REACTION_TAG_HEALING | REACTION_TAG_PLANT | REACTION_TAG_BRUTE |REACTION_TAG_BURN | REACTION_TAG_TOXIN | REACTION_TAG_OXY | REACTION_TAG_CLONE
+	reaction_tags = REACTION_TAG_EASY | REACTION_TAG_HEALING | REACTION_TAG_PLANT | REACTION_TAG_BRUTE |REACTION_TAG_BURN | REACTION_TAG_TOXIN | REACTION_TAG_OXY
 
 /datum/chemical_reaction/medicine/pyroxadone
 	results = list(/datum/reagent/medicine/pyroxadone = 2)
 	required_reagents = list(/datum/reagent/medicine/cryoxadone = 1, /datum/reagent/toxin/slimejelly = 1)
-	reaction_tags = REACTION_TAG_EASY | REACTION_TAG_HEALING | REACTION_TAG_BRUTE |REACTION_TAG_BURN | REACTION_TAG_TOXIN | REACTION_TAG_OXY | REACTION_TAG_CLONE
-
-/datum/chemical_reaction/medicine/clonexadone
-	results = list(/datum/reagent/medicine/clonexadone = 2)
-	required_reagents = list(/datum/reagent/medicine/cryoxadone = 1, /datum/reagent/sodium = 1)
-	required_catalysts = list(/datum/reagent/toxin/plasma = 5)
-	reaction_tags = REACTION_TAG_EASY | REACTION_TAG_HEALING | REACTION_TAG_CLONE
+	reaction_tags = REACTION_TAG_EASY | REACTION_TAG_HEALING | REACTION_TAG_BRUTE |REACTION_TAG_BURN | REACTION_TAG_TOXIN | REACTION_TAG_OXY
 
 /datum/chemical_reaction/medicine/haloperidol
 	results = list(/datum/reagent/medicine/haloperidol = 5)
@@ -354,6 +358,7 @@
 
 /datum/chemical_reaction/medicine/medsuture
 	required_reagents = list(/datum/reagent/cellulose = 10, /datum/reagent/toxin/formaldehyde = 20, /datum/reagent/medicine/polypyr = 15) //This might be a bit much, reagent cost should be reviewed after implementation.
+	reaction_flags = REACTION_INSTANT
 	reaction_tags = REACTION_TAG_EASY | REACTION_TAG_HEALING | REACTION_TAG_BRUTE
 
 /datum/chemical_reaction/medicine/medsuture/on_reaction(datum/reagents/holder, datum/equilibrium/reaction, created_volume)
@@ -362,7 +367,8 @@
 		new /obj/item/stack/medical/suture/medicated(location)
 
 /datum/chemical_reaction/medicine/medmesh
-	required_reagents = list(/datum/reagent/cellulose = 20, /datum/reagent/consumable/aloejuice = 20, /datum/reagent/space_cleaner/sterilizine = 10)
+	required_reagents = list(/datum/reagent/cellulose = 10, /datum/reagent/consumable/aloejuice = 20, /datum/reagent/space_cleaner/sterilizine = 10)
+	reaction_flags = REACTION_INSTANT
 	reaction_tags = REACTION_TAG_EASY | REACTION_TAG_HEALING | REACTION_TAG_BURN
 
 /datum/chemical_reaction/medicine/medmesh/on_reaction(datum/reagents/holder, datum/equilibrium/reaction, created_volume)
@@ -372,6 +378,7 @@
 
 /datum/chemical_reaction/medicine/poultice
 	required_reagents = list(/datum/reagent/toxin/bungotoxin = 20, /datum/reagent/cellulose = 20, /datum/reagent/consumable/aloejuice = 20)
+	reaction_flags = REACTION_INSTANT
 	reaction_tags = REACTION_TAG_EASY | REACTION_TAG_HEALING | REACTION_TAG_BRUTE | REACTION_TAG_BURN
 
 /datum/chemical_reaction/medicine/poultice/on_reaction(datum/reagents/holder, datum/equilibrium/reaction, created_volume)
@@ -384,7 +391,16 @@
 	required_reagents = list(/datum/reagent/medicine/coagulant/seraka_extract = 1, /datum/reagent/lye = 1)
 	reaction_tags = REACTION_TAG_EASY
 
+<<<<<<< HEAD
 /datum/chemical_reaction/medicine/robopiates
 	results = list(/datum/reagent/medicine/painkiller/robopiates = 3)
 	required_reagents = list(/datum/reagent/silver = 1, /datum/reagent/dinitrogen_plasmide = 1, /datum/reagent/acetone = 1)
 	reaction_tags = REACTION_TAG_EASY | REACTION_TAG_HEALING | REACTION_TAG_DRUG
+=======
+/datum/chemical_reaction/medicine/ondansetron
+	results = list(/datum/reagent/medicine/ondansetron = 3)
+	required_reagents = list(/datum/reagent/fuel/oil = 1, /datum/reagent/nitrogen = 1, /datum/reagent/oxygen = 1)
+	required_catalysts = list(/datum/reagent/consumable/ethanol = 3)
+	optimal_ph_max = 11
+	reaction_tags = REACTION_TAG_EASY | REACTION_TAG_HEALING | REACTION_TAG_OTHER | REACTION_TAG_DRUG
+>>>>>>> tg-pr-88929

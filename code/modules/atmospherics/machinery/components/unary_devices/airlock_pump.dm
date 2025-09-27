@@ -21,7 +21,11 @@
 /obj/machinery/atmospherics/components/unary/airlock_pump
 	name = "external airlock pump"
 	desc = "A pump for cycling an external airlock controlled by the connected doors."
+<<<<<<< HEAD
 	icon = 'icons/obj/atmospherics/components/unary_devices.dmi'
+=======
+	icon = 'icons/obj/machines/atmospherics/unary_devices.dmi'
+>>>>>>> tg-pr-88929
 	icon_state = "airlock_pump"
 	pipe_state = "airlock_pump"
 	use_power = ACTIVE_POWER_USE
@@ -51,7 +55,11 @@
 	///Which pressure holds docked vessel\station for override of external_pressure_target
 	var/docked_side_pressure
 	///Rate of the pump to remove gases from the air
+<<<<<<< HEAD
 	var/volume_rate = 2000
+=======
+	var/volume_rate = 1000
+>>>>>>> tg-pr-88929
 	///The start time of the current cycle to calculate cycle duration
 	var/cycle_start_time
 	///Max duration of cycle, after which the pump will unlock the airlocks with a warning
@@ -161,7 +169,11 @@
 	waste_air.volume = 1000
 
 
+<<<<<<< HEAD
 /obj/machinery/atmospherics/components/unary/airlock_pump/deconstruct(disassembled)
+=======
+/obj/machinery/atmospherics/components/unary/airlock_pump/on_deconstruction(disassembled)
+>>>>>>> tg-pr-88929
 	. = ..()
 	if(cycling_set_up)
 		break_all_links()
@@ -259,7 +271,11 @@
 /// Proc for triggering cycle by clicking on a bolted airlock that has a pump assigned
 /obj/machinery/atmospherics/components/unary/airlock_pump/proc/airlock_act(obj/machinery/door/airlock/airlock)
 	if(on)
+<<<<<<< HEAD
 		airlock.do_animate("deny") // Already cycling
+=======
+		airlock.run_animation(DOOR_DENY_ANIMATION) // Already cycling
+>>>>>>> tg-pr-88929
 		return
 	if(!cycling_set_up)
 		airlock.say("Airlock pair not found.")
@@ -272,14 +288,24 @@
 			var/turf/external_tile = get_step(airlock, REVERSE_DIR(dir))
 			// Map edge or space turf
 			if (external_tile == null || is_space_or_openspace(external_tile))
+<<<<<<< HEAD
 				airlock.do_animate("deny")
+=======
+				airlock.run_animation(DOOR_DENY_ANIMATION)
+>>>>>>> tg-pr-88929
 				return
 			var/tile_air_pressure = max(0, external_tile.return_air().return_pressure())
 			var/pressure_delta = docked_side_pressure - tile_air_pressure
 			if (pressure_delta > 0 ? (pressure_delta > allowed_pressure_error*10) : (pressure_delta*-1 > allowed_pressure_error*10))
 				// Disabled to avoid airlocks close-open spam
+<<<<<<< HEAD
 				airlock.do_animate("deny")
 				return
+=======
+				airlock.run_animation(DOOR_DENY_ANIMATION)
+				return
+
+>>>>>>> tg-pr-88929
 		start_cycle(ATMOS_DIRECTION_SIPHONING, airlock)
 	else if(airlock in internal_airlocks)
 		start_cycle(ATMOS_DIRECTION_RELEASING, airlock)
@@ -480,6 +506,7 @@
 	internal_airlocks = get_adjacent_airlocks(internal_airlocks_origin, perpendicular_dirs)
 	external_airlocks = get_adjacent_airlocks(external_airlocks_origin, perpendicular_dirs)
 
+<<<<<<< HEAD
 	// This is support for awkwardly shaped airlocks that cycle on a group ID
 	if(!length(internal_airlocks))
 		for(var/obj/machinery/door/airlock/external_airlock as anything in external_airlocks)
@@ -496,6 +523,13 @@
 			CRASH("[type] couldn't find airlocks to cycle with!")
 		internal_airlocks.Cut()
 		external_airlocks.Cut()
+=======
+	if(!internal_airlocks.len || !internal_airlocks.len)
+		if(!can_unwrench) //maploaded pump
+			CRASH("[type] couldn't find airlocks to cycle with!")
+		internal_airlocks = list()
+		external_airlocks = list()
+>>>>>>> tg-pr-88929
 		say("Cycling setup failed. No opposite airlocks found.")
 		return
 
@@ -596,6 +630,7 @@
 		user.ventcrawl_layer = clamp(user.ventcrawl_layer - 2, PIPING_LAYER_DEFAULT - 1, PIPING_LAYER_DEFAULT + 1)
 	to_chat(user, "You align yourself with the [user.ventcrawl_layer == 2 ? 1 : 2]\th output.")
 
+<<<<<<< HEAD
 /obj/machinery/atmospherics/components/unary/airlock_pump/on_set_is_operational(was_operational)
 	if(was_operational && !is_operational)
 		// unbolt all the doors but don't open them
@@ -611,6 +646,8 @@
 				INVOKE_ASYNC(airlock, TYPE_PROC_REF(/obj/machinery/door/airlock, secure_open))
 		audible_message(span_notice("[src] whirrs as [p_they()] regains power, re-engaging airlock bolts."))
 
+=======
+>>>>>>> tg-pr-88929
 /obj/machinery/atmospherics/components/unary/airlock_pump/unbolt_only
 	open_airlock_on_cycle = FALSE
 

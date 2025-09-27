@@ -1,3 +1,10 @@
+<<<<<<< HEAD
+=======
+#define CELL_DRAIN_TIME 35
+#define CELL_POWER_GAIN (0.06 * STANDARD_CELL_CHARGE)
+#define CELL_POWER_DRAIN (0.75 * STANDARD_CELL_CHARGE)
+
+>>>>>>> tg-pr-88929
 /**
  * # Power store abstract type
  *
@@ -30,6 +37,7 @@
 	///Does the cell start without any charge?
 	var/empty = FALSE
 
+<<<<<<< HEAD
 	// MONKE EDIT: Microfusion `monkestation\code\modules\microfusion\code\microfusion_cell.dm`
 	/// Is this cell stabilised? (used in microfusion guns)
 	var/stabilised = FALSE
@@ -45,6 +53,11 @@
 	. += NAMEOF(src, rigged)
 	return .
 
+=======
+/obj/item/stock_parts/power_store/get_cell()
+	return src
+
+>>>>>>> tg-pr-88929
 /obj/item/stock_parts/power_store/Initialize(mapload, override_maxcharge)
 	. = ..()
 	create_reagents(5, INJECTABLE | DRAINABLE)
@@ -55,7 +68,11 @@
 		charge = maxcharge
 	if(empty)
 		charge = 0
+<<<<<<< HEAD
 	if(ratingdesc && !microfusion_readout) //monkestation edit: adds the microfusion_readout check
+=======
+	if(ratingdesc)
+>>>>>>> tg-pr-88929
 		desc += " This one has a rating of [display_energy(maxcharge)][prob(10) ? ", and you should not swallow it" : ""]." //joke works better if it's not on every cell
 	update_appearance()
 
@@ -65,11 +82,19 @@
 	)
 	AddElement(/datum/element/connect_loc, loc_connections)
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> tg-pr-88929
 /obj/item/stock_parts/power_store/Moved(atom/old_loc, movement_dir, forced, list/old_locs, momentum_change = TRUE)
 	. = ..()
 	if(!isturf(old_loc))
 		update_appearance()
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> tg-pr-88929
 /**
  * Signal proc for [COMSIG_ITEM_MAGICALLY_CHARGED]
  *
@@ -108,8 +133,19 @@
 
 /obj/item/stock_parts/power_store/create_reagents(max_vol, flags)
 	. = ..()
+<<<<<<< HEAD
 	// MONKE EDIT: Don't have the unified COMSIG_REAGENTS_HOLDER_UPDATED
 	RegisterSignals(reagents, list(COMSIG_REAGENTS_ADD_REAGENT, COMSIG_REAGENTS_NEW_REAGENT, COMSIG_REAGENTS_REM_REAGENT, COMSIG_REAGENTS_DEL_REAGENT, COMSIG_REAGENTS_CLEAR_REAGENTS, COMSIG_REAGENTS_REACTED), PROC_REF(on_reagent_change))
+=======
+	RegisterSignals(reagents, list(COMSIG_REAGENTS_NEW_REAGENT, COMSIG_REAGENTS_ADD_REAGENT, COMSIG_REAGENTS_DEL_REAGENT, COMSIG_REAGENTS_REM_REAGENT), PROC_REF(on_reagent_change))
+	RegisterSignal(reagents, COMSIG_QDELETING, PROC_REF(on_reagents_del))
+
+/// Handles properly detaching signal hooks.
+/obj/item/stock_parts/power_store/proc/on_reagents_del(datum/reagents/reagents)
+	SIGNAL_HANDLER
+	UnregisterSignal(reagents, list(COMSIG_REAGENTS_NEW_REAGENT, COMSIG_REAGENTS_ADD_REAGENT, COMSIG_REAGENTS_DEL_REAGENT, COMSIG_REAGENTS_REM_REAGENT, COMSIG_QDELETING))
+	return NONE
+>>>>>>> tg-pr-88929
 
 /obj/item/stock_parts/power_store/update_overlays()
 	. = ..()
@@ -162,7 +198,10 @@
 /// - force: If true, uses the remaining power from the cell if there isn't enough power to supply the demand.
 /// Returns: The power used from the cell in joules.
 /obj/item/stock_parts/power_store/use(used, force = FALSE)
+<<<<<<< HEAD
 	SHOULD_CALL_PARENT(FALSE) // MONKE EDIT: Ignoring the parent call
+=======
+>>>>>>> tg-pr-88929
 	var/power_used = min(used, charge)
 	if(rigged && power_used > 0)
 		explode()
@@ -183,7 +222,10 @@
 	charge += power_used
 	if(rigged && amount > 0)
 		explode()
+<<<<<<< HEAD
 	SEND_SIGNAL(src,COMSIG_CELL_CHANGE_POWER) // MONKE EDIT: Signal
+=======
+>>>>>>> tg-pr-88929
 	return power_used
 
 /**
@@ -206,12 +248,21 @@
 	else if(!isnull(charge_light_type))
 		. += "The charge meter reads [CEILING(percent(), 0.1)]%." //so it doesn't say 0% charge when the overlay indicates it still has charge
 
+<<<<<<< HEAD
 /obj/item/stock_parts/power_store/proc/on_reagent_change(datum/reagents/holder)
 	SIGNAL_HANDLER
 
 	rigged = corrupted || !!holder.has_reagent(/datum/reagent/toxin/plasma, 5) ? TRUE : FALSE //has_reagent returns the reagent datum
 	return NONE
 
+=======
+/obj/item/stock_parts/power_store/proc/on_reagent_change(datum/reagents/holder, ...)
+	SIGNAL_HANDLER
+	rigged = (corrupted || holder.has_reagent(/datum/reagent/toxin/plasma, 5)) ? TRUE : FALSE //has_reagent returns the reagent datum
+	return NONE
+
+
+>>>>>>> tg-pr-88929
 /obj/item/stock_parts/power_store/proc/explode()
 	if(!charge)
 		return
@@ -268,16 +319,26 @@
 	if(!eating_success || QDELETED(src) || charge == 0)
 		user.visible_message(span_suicide("[user] chickens out!"))
 		return SHAME
+<<<<<<< HEAD
 	playsound(user, 'sound/effects/sparks1.ogg', charge / maxcharge)
 	var/damage = charge / (1 KILO JOULES)
 	var/discharged_energy = charge
 	user.electrocute_act(damage, src, 1, SHOCK_NOGLOVES) // MONKE EDIT: removed missing flags SHOCK_IGNORE_IMMUNITY|SHOCK_DELAY_STUN|
+=======
+	playsound(user, 'sound/effects/sparks/sparks1.ogg', charge / maxcharge)
+	var/damage = charge / (1 KILO JOULES)
+	user.electrocute_act(damage, src, 1, SHOCK_IGNORE_IMMUNITY|SHOCK_DELAY_STUN|SHOCK_NOGLOVES)
+>>>>>>> tg-pr-88929
 	charge = 0
 	update_appearance()
 	if(user.stat != DEAD)
 		to_chat(user, span_suicide("There's not enough charge in [src] to kill you!"))
 		return SHAME
+<<<<<<< HEAD
 	addtimer(CALLBACK(src, PROC_REF(gib_user), user, discharged_energy), 3 SECONDS)
+=======
+	addtimer(CALLBACK(src, PROC_REF(gib_user), user, charge), 3 SECONDS)
+>>>>>>> tg-pr-88929
 	return MANUAL_SUICIDE
 
 /obj/item/stock_parts/power_store/proc/gib_user(mob/living/user, discharged_energy)
@@ -287,6 +348,7 @@
 		return
 	user.dropItemToGround(src)
 	user.dust(just_ash = TRUE)
+<<<<<<< HEAD
 	playsound(src, 'sound/magic/lightningshock.ogg', 50, TRUE, 10)
 	tesla_zap(source = src, zap_range = 10, power = discharged_energy)
 
@@ -337,6 +399,42 @@
 #undef CELL_DRAIN_TIME
 #undef CELL_POWER_GAIN
 #undef CELL_POWER_DRAIN
+=======
+	playsound(src, 'sound/effects/magic/lightningshock.ogg', 50, TRUE, 10)
+	tesla_zap(source = src, zap_range = 10, power = discharged_energy)
+
+/obj/item/stock_parts/power_store/attack_self(mob/user)
+	if(ishuman(user))
+		var/mob/living/carbon/human/H = user
+		var/obj/item/organ/stomach/maybe_stomach = H.get_organ_slot(ORGAN_SLOT_STOMACH)
+
+		if(istype(maybe_stomach, /obj/item/organ/stomach/ethereal))
+
+			var/charge_limit = ETHEREAL_CHARGE_DANGEROUS - CELL_POWER_GAIN
+			var/obj/item/organ/stomach/ethereal/stomach = maybe_stomach
+			var/obj/item/stock_parts/power_store/stomach_cell = stomach.cell
+			if((stomach.drain_time > world.time) || !stomach)
+				return
+			if(charge < CELL_POWER_DRAIN)
+				to_chat(H, span_warning("[src] doesn't have enough power!"))
+				return
+			if(stomach_cell.charge() > charge_limit)
+				to_chat(H, span_warning("Your charge is full!"))
+				return
+			to_chat(H, span_notice("You begin clumsily channeling power from [src] into your body."))
+			stomach.drain_time = world.time + CELL_DRAIN_TIME
+			while(do_after(user, CELL_DRAIN_TIME, target = src))
+				if((charge < CELL_POWER_DRAIN) || (stomach_cell.charge() > charge_limit))
+					return
+				if(istype(stomach))
+					to_chat(H, span_notice("You receive some charge from [src], wasting some in the process."))
+					stomach.adjust_charge(CELL_POWER_GAIN)
+					charge -= CELL_POWER_DRAIN //you waste way more than you receive, so that ethereals cant just steal one cell and forget about hunger
+				else
+					to_chat(H, span_warning("You can't receive charge from [src]!"))
+			return
+
+>>>>>>> tg-pr-88929
 
 /obj/item/stock_parts/power_store/blob_act(obj/structure/blob/B)
 	SSexplosions.high_mov_atom += src
@@ -346,3 +444,10 @@
 
 /obj/item/stock_parts/power_store/get_part_rating()
 	return maxcharge * 10 + charge
+<<<<<<< HEAD
+=======
+
+#undef CELL_DRAIN_TIME
+#undef CELL_POWER_GAIN
+#undef CELL_POWER_DRAIN
+>>>>>>> tg-pr-88929

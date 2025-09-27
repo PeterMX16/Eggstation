@@ -1,18 +1,27 @@
 #define DOOM_SINGULARITY "singularity"
 #define DOOM_TESLA "tesla"
 #define DOOM_METEORS "meteors"
+<<<<<<< HEAD
 #define DOOM_EVENTS "events" //monkestation edit: we can get singalos and teslas normally, so im adding a few more
 #define DOOM_ANTAGS "threats" //monkestation edit
 #define DOOM_ROD "rod" //monkestation edit
+=======
+>>>>>>> tg-pr-88929
 
 /// Kill yourself and probably a bunch of other people
 /datum/grand_finale/armageddon
 	name = "Annihilation"
 	desc = "This crew have offended you beyond the realm of pranks. Make the ultimate sacrifice to teach them a lesson your elders can really respect. \
 		YOU WILL NOT SURVIVE THIS."
+<<<<<<< HEAD
 	icon = 'icons/hud/screen_alert.dmi'
 	icon_state = "wounded"
 	minimum_time = 80 MINUTES // This will probably immediately end the round if it gets finished. //monkestation edit: from 90 to 80 minutes
+=======
+	icon = 'icons/mob/simple/lavaland/lavaland_monsters.dmi'
+	icon_state = "legion_head"
+	minimum_time = 90 MINUTES // This will probably immediately end the round if it gets finished.
+>>>>>>> tg-pr-88929
 	ritual_invoke_time = 60 SECONDS // Really give the crew some time to interfere with this one.
 	dire_warning = TRUE
 	glow_colour = "#be000048"
@@ -34,6 +43,7 @@
 	)
 
 /datum/grand_finale/armageddon/trigger(mob/living/carbon/human/invoker)
+<<<<<<< HEAD
 	priority_announce(pick(possible_last_words), null, 'sound/magic/voidblink.ogg', sender_override = "[invoker.real_name]", color_override = "purple")
 	var/turf/current_location = get_turf(invoker)
 	invoker.gib()
@@ -48,10 +58,25 @@
 	switch(pick(doom_options))
 //monkestation removal start
 		/*if (DOOM_SINGULARITY)
+=======
+	priority_announce(pick(possible_last_words), null, 'sound/effects/magic/voidblink.ogg', sender_override = "[invoker.real_name]", color_override = "purple")
+	var/turf/current_location = get_turf(invoker)
+	invoker.gib(DROP_ALL_REMAINS)
+
+	var/static/list/doom_options = list()
+	if (!length(doom_options))
+		doom_options = list(DOOM_SINGULARITY, DOOM_TESLA)
+		if (!SSmapping.is_planetary())
+			doom_options += DOOM_METEORS
+
+	switch(pick(doom_options))
+		if (DOOM_SINGULARITY)
+>>>>>>> tg-pr-88929
 			var/obj/singularity/singulo = new(current_location)
 			singulo.energy = 300
 		if (DOOM_TESLA)
 			var/obj/energy_ball/tesla = new (current_location)
+<<<<<<< HEAD
 			tesla.energy = 200*/
 //monkestation removal end
 		if (DOOM_METEORS)
@@ -92,10 +117,21 @@
 			rod.can_suplex = FALSE
 			rod.deadchat_plays(ANARCHY_MODE, 4 SECONDS)
 //monkestation edit end
+=======
+			tesla.energy = 200
+		if (DOOM_METEORS)
+			var/datum/dynamic_ruleset/roundstart/meteor/meteors = new()
+			meteors.meteordelay = 0
+			SSdynamic.execute_roundstart_rule(meteors) // Meteors will continue until morale is crushed.
+			priority_announce("Meteors have been detected on collision course with the station.", "Meteor Alert", ANNOUNCER_METEORS)
+>>>>>>> tg-pr-88929
 
 #undef DOOM_SINGULARITY
 #undef DOOM_TESLA
 #undef DOOM_METEORS
+<<<<<<< HEAD
 #undef DOOM_EVENTS //monkestation edit
 #undef DOOM_ANTAGS //monkestation edit
 #undef DOOM_ROD //monkestation edit
+=======
+>>>>>>> tg-pr-88929

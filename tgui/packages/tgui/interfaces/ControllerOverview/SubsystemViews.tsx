@@ -1,5 +1,12 @@
+<<<<<<< HEAD
 import { useBackend, useLocalState } from '../../backend';
 import { Button, Section, Stack, Table } from '../../components';
+=======
+import { Dispatch, useEffect, useState } from 'react';
+import { Button, Section, Stack, Table } from 'tgui-core/components';
+
+import { useBackend } from '../../backend';
+>>>>>>> tg-pr-88929
 import { SORTING_TYPES } from './contants';
 import { FilterState } from './filters';
 import { SubsystemRow } from './SubsystemRow';
@@ -7,12 +14,19 @@ import { ControllerData, SubsystemData } from './types';
 
 type Props = {
   filterOpts: FilterState;
+<<<<<<< HEAD
   setSelected: (newSelected: SubsystemData | undefined) => void;
 };
 
 let lastInDeciseconds: boolean | undefined;
 
 export const SubsystemViews = (props: Props) => {
+=======
+  setSelected: Dispatch<SubsystemData | undefined>;
+};
+
+export function SubsystemViews(props: Props) {
+>>>>>>> tg-pr-88929
   const { data } = useBackend<ControllerData>();
   const { subsystems } = data;
 
@@ -20,7 +34,11 @@ export const SubsystemViews = (props: Props) => {
   const { ascending, inactive, query, smallValues, sortType } = filterOpts;
   const { propName, inDeciseconds } = SORTING_TYPES[sortType];
 
+<<<<<<< HEAD
   const [bars, setBars] = useLocalState('bars', inDeciseconds);
+=======
+  const [bars, setBars] = useState(inDeciseconds);
+>>>>>>> tg-pr-88929
 
   const sorted = subsystems
     .filter((subsystem) => {
@@ -66,14 +84,22 @@ export const SubsystemViews = (props: Props) => {
   }
 
   // Toggles default bar view for valid cases
+<<<<<<< HEAD
   if (inDeciseconds !== lastInDeciseconds) {
     lastInDeciseconds = inDeciseconds;
+=======
+  useEffect(() => {
+>>>>>>> tg-pr-88929
     if (inDeciseconds && !bars) {
       setBars(true);
     } else if (!inDeciseconds && bars) {
       setBars(false);
     }
+<<<<<<< HEAD
   }
+=======
+  }, [inDeciseconds]);
+>>>>>>> tg-pr-88929
 
   return (
     <Section
@@ -112,4 +138,8 @@ export const SubsystemViews = (props: Props) => {
       </Table>
     </Section>
   );
+<<<<<<< HEAD
 };
+=======
+}
+>>>>>>> tg-pr-88929

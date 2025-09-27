@@ -266,7 +266,11 @@
 /turf/open/floor/fakebasalt,
 /area/centcom/basketball)
 "nv" = (
+<<<<<<< HEAD:_maps/minigame/Basketball/ash_gladiators.dmm
 /obj/machinery/growing/soil,
+=======
+/obj/machinery/hydroponics/soil,
+>>>>>>> tg-pr-88929:_maps/map_files/Basketball/ash_gladiators.dmm
 /turf/open/floor/fakebasalt,
 /area/centcom/basketball)
 "oR" = (

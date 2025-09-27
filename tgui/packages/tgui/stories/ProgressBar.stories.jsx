@@ -4,7 +4,17 @@
  * @license MIT
  */
 
+import {
+  Box,
+  Button,
+  Input,
+  LabeledList,
+  ProgressBar,
+  Section,
+} from 'tgui-core/components';
+
 import { useLocalState } from '../backend';
+<<<<<<< HEAD
 import {
   Box,
   Button,
@@ -13,6 +23,8 @@ import {
   ProgressBar,
   Section,
 } from '../components';
+=======
+>>>>>>> tg-pr-88929
 
 export const meta = {
   title: 'ProgressBar',

@@ -14,6 +14,7 @@
 	attack_verb_continuous = "smashes their armored gauntlet into"
 	attack_verb_simple = "smash your armored gauntlet into"
 	speed = 2.5
+<<<<<<< HEAD
 	attack_sound = 'sound/weapons/punch3.ogg'
 	status_flags = NONE
 	mob_size = MOB_SIZE_LARGE
@@ -21,12 +22,27 @@
 	construct_spells = list(
 		/datum/action/cooldown/spell/forcewall/cult,
 		/datum/action/cooldown/spell/basic_projectile/juggernaut,
+=======
+	attack_sound = 'sound/items/weapons/punch3.ogg'
+	status_flags = NONE
+	mob_size = MOB_SIZE_LARGE
+	construct_spells = list(
+		/datum/action/cooldown/spell/basic_projectile/juggernaut,
+		/datum/action/cooldown/spell/forcewall/cult,
+>>>>>>> tg-pr-88929
 		/datum/action/innate/cult/create_rune/wall,
 	)
 	playstyle_string = span_bold("You are a Juggernaut. Though slow, your shell can withstand heavy punishment, create shield walls, rip apart enemies and walls alike, and even deflect energy weapons.")
 
 	smashes_walls = TRUE
 
+<<<<<<< HEAD
+=======
+/mob/living/basic/construct/juggernaut/Initialize(mapload)
+	. = ..()
+	AddElement(/datum/element/damage_threshold, 10)
+
+>>>>>>> tg-pr-88929
 /// Hostile NPC version. Pretty dumb, just attacks whoever is near.
 /mob/living/basic/construct/juggernaut/hostile
 	ai_controller = /datum/ai_controller/basic_controller/juggernaut

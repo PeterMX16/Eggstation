@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Window } from '../layouts';
 import { useBackend } from '../backend';
 import {
@@ -10,7 +11,22 @@ import {
   Table,
   Tooltip,
 } from '../components';
+=======
+>>>>>>> tg-pr-88929
 import { sortBy } from 'common/collections';
+import {
+  Box,
+  Button,
+  Flex,
+  Icon,
+  LabeledList,
+  Section,
+  Table,
+  Tooltip,
+} from 'tgui-core/components';
+
+import { useBackend } from '../backend';
+import { Window } from '../layouts';
 
 const ExperimentStages = (props) => {
   return (
@@ -108,7 +124,7 @@ export const ExperimentConfigure = (props) => {
   const { always_active, has_start_callback } = data;
   let techwebs = data.techwebs ?? [];
 
-  const experiments = sortBy((exp) => exp.name)(data.experiments ?? []);
+  const experiments = sortBy(data.experiments ?? [], (exp) => exp.name);
 
   // Group servers together by web
   let webs = new Map();
@@ -147,8 +163,11 @@ export const ExperimentConfigure = (props) => {
               <Section
                 title="Experiments"
                 className="ExperimentConfigure__ExperimentsContainer"
+<<<<<<< HEAD
                 scrollable // MONKESTATION ADDITION: See note(react) above
                 fill // MONKESTATION ADDITION: See note(react) above
+=======
+>>>>>>> tg-pr-88929
               >
                 <Flex.Item mb={1}>
                   {(experiments.length &&

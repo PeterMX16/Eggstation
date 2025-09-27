@@ -42,6 +42,11 @@
 
 #define SUPERMATTER_WARNING_DELAY (60 SECONDS)
 
+/// If the crystal is healing faster than this per damage check, we suppress the Common radio notification for the cooldown
+#define SUPERMATTER_FAST_HEALING_RATE 0.025
+
+#define SUPERMATTER_COMMON_RADIO_DELAY (6 MINUTES)
+
 #define SM_HALLUCINATION_RANGE(P) (min(7, round(P ** 0.25)))
 
 #define GRAVITATIONAL_ANOMALY "gravitational_anomaly"
@@ -52,7 +57,10 @@
 #define VORTEX_ANOMALY "vortex_anomaly"
 #define DIMENSIONAL_ANOMALY "dimensional_anomaly"
 
-#define SUPERMATTER_COUNTDOWN_TIME (30 SECONDS)
+/// How long it takes for the supermatter to delaminate after hitting 0 integrity
+#define SUPERMATTER_COUNTDOWN_TIME (15 SECONDS)
+/// How long it takes for the supermatter to delaminate after hitting 0 integrity if a sliver has been removed
+#define SUPERMATTER_SLIVER_REMOVED_COUNTDOWN_TIME (5 SECONDS)
 
 ///to prevent accent sounds from layering
 #define SUPERMATTER_ACCENT_SOUND_MIN_COOLDOWN (2 SECONDS)
@@ -67,11 +75,19 @@
 /// High energy zap energy accumulation key from high energy extra effects.
 #define ZAP_ENERGY_ACCUMULATION_HIGH_ENERGY "high"
 
+<<<<<<< HEAD
 #define SUPERMATTER_DEFAULT_BULLET_ENERGY 2
 
 /// Zap energy discharge portion per tick.
 #define ZAP_ENERGY_DISCHARGE_PORTION 0.1
 
+=======
+/// Zap energy discharge portion per tick.
+#define ZAP_ENERGY_DISCHARGE_PORTION 0.1
+
+#define SUPERMATTER_DEFAULT_BULLET_ENERGY 2
+
+>>>>>>> tg-pr-88929
 #define SUPERMATTER_CASCADE_PERCENT 80
 
 /// The divisor scaling value for cubic power loss.
@@ -172,9 +188,9 @@
 #define SM_TEMP_LIMIT_LOW_MOLES "Low Moles Heat Resistance"
 
 /// How much we are multiplying our zap energy.
-#define SM_ZAP_BASE "Base Zap Multiplier"
+#define SM_ZAP_BASE "Base Zap Transmission"
 /// How much we are multiplying our zap energy because of gas factors.
-#define SM_ZAP_GAS "Gas Zap Multiplier"
+#define SM_ZAP_GAS "Gas Zap Transmission Modifier"
 /// Delamination types.
 #define CASCADE_DELAMINATION "cascade"
 #define SINGULARITY_DELAMINATION "singularity"
@@ -182,7 +198,7 @@
 /// Colours used for effects.
 #define SUPERMATTER_COLOUR "#ffd04f"
 #define SUPERMATTER_RED "#aa2c16"
-#define SUPERMATTER_CASCADE_COLOUR "#333333"
+#define SUPERMATTER_CASCADE_COLOUR COLOR_ALMOST_BLACK
 #define SUPERMATTER_TESLA_COLOUR "#00ffff"
 #define SUPERMATTER_SINGULARITY_RAYS_COLOUR "#750000"
 #define SUPERMATTER_SINGULARITY_LIGHT_COLOUR "#400060"

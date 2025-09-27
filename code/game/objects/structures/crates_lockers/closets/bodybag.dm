@@ -1,12 +1,12 @@
 /obj/structure/closet/body_bag
 	name = "body bag"
 	desc = "A plastic bag designed for the storage and transportation of cadavers."
-	icon = 'icons/obj/bodybag.dmi'
+	icon = 'icons/obj/medical/bodybag.dmi'
 	icon_state = "bodybag"
 	density = FALSE
 	mob_storage_capacity = 2
-	open_sound = 'sound/items/zip.ogg'
-	close_sound = 'sound/items/zip.ogg'
+	open_sound = 'sound/items/zip/zip.ogg'
+	close_sound = 'sound/items/zip/zip.ogg'
 	open_sound_volume = 15
 	close_sound_volume = 15
 	integrity_failure = 0
@@ -18,14 +18,21 @@
 	has_closed_overlay = FALSE
 	can_install_electronics = FALSE
 	paint_jobs = null
+<<<<<<< HEAD
+=======
+	can_weld_shut = FALSE
+>>>>>>> tg-pr-88929
 
 	var/foldedbag_path = /obj/item/bodybag
 	var/obj/item/bodybag/foldedbag_instance = null
 	/// The tagged name of the bodybag, also used to check if the bodybag IS tagged.
 	var/tag_name
 
+<<<<<<< HEAD
 	var/tagged = FALSE // so closet code knows to put the tag overlay back
 	can_install_electronics = FALSE
+=======
+>>>>>>> tg-pr-88929
 
 /obj/structure/closet/body_bag/Initialize(mapload)
 	. = ..()
@@ -58,21 +65,22 @@
 			return
 		handle_tag("[t ? t : initial(name)]")
 		return
-	if(!tagged)
+	if(!tag_name)
 		return
 	if(interact_tool.tool_behaviour == TOOL_WIRECUTTER || interact_tool.get_sharpness())
 		to_chat(user, span_notice("You cut the tag off [src]."))
 		handle_tag()
 
 ///Handles renaming of the bodybag's examine tag.
-/obj/structure/closet/body_bag/proc/handle_tag(tag_name)
+/obj/structure/closet/body_bag/proc/handle_tag(new_name)
+	playsound(src, SFX_WRITING_PEN, 50, TRUE, SHORT_RANGE_SOUND_EXTRARANGE, SOUND_FALLOFF_EXPONENT + 3, ignore_walls = FALSE)
+	tag_name = new_name
 	name = tag_name ? "[initial(name)] - [tag_name]" : initial(name)
-	tagged = !!tag_name
 	update_appearance()
 
 /obj/structure/closet/body_bag/update_overlays()
 	. = ..()
-	if(tagged)
+	if(tag_name)
 		. += "bodybag_label"
 
 /obj/structure/closet/body_bag/after_close(mob/living/user)
@@ -117,13 +125,27 @@
 		*/
 /obj/structure/closet/body_bag/proc/perform_fold(mob/living/carbon/human/the_folder)
 	visible_message(span_notice("[the_folder] folds up [src]."))
-	var/obj/item/bodybag/folding_bodybag = foldedbag_instance || new foldedbag_path
-	the_folder.put_in_hands(folding_bodybag)
+	the_folder.put_in_hands(undeploy_bodybag(the_folder.loc))
+
+/// Makes the bag into an item, returns that item
+/obj/structure/closet/body_bag/proc/undeploy_bodybag(atom/fold_loc)
+	var/obj/item/bodybag/folding_bodybag = foldedbag_instance || new foldedbag_path()
+	if(fold_loc)
+		folding_bodybag.forceMove(fold_loc)
+	return folding_bodybag
+
+/obj/structure/closet/body_bag/container_resist_act(mob/living/user, loc_required = TRUE)
+	// ideally we support this natively but i guess that's for a later time
+	if(!istype(loc, /obj/machinery/disposal))
+		return ..()
+	for(var/atom/movable/thing as anything in src)
+		thing.forceMove(loc)
+	undeploy_bodybag(loc)
 
 /obj/structure/closet/body_bag/bluespace
 	name = "bluespace body bag"
 	desc = "A bluespace body bag designed for the storage and transportation of cadavers."
-	icon = 'icons/obj/bodybag.dmi'
+	icon = 'icons/obj/medical/bodybag.dmi'
 	icon_state = "bluebodybag"
 	foldedbag_path = /obj/item/bodybag/bluespace
 	mob_storage_capacity = 15
@@ -153,7 +175,7 @@
 
 /obj/structure/closet/body_bag/bluespace/perform_fold(mob/living/carbon/human/the_folder)
 	visible_message(span_notice("[the_folder] folds up [src]."))
-	var/obj/item/bodybag/folding_bodybag = foldedbag_instance || new foldedbag_path
+	var/obj/item/bodybag/folding_bodybag = undeploy_bodybag(the_folder.loc)
 	var/max_weight_of_contents = initial(folding_bodybag.w_class)
 	for(var/am in contents)
 		var/atom/movable/content = am
@@ -162,7 +184,11 @@
 			to_chat(content, span_userdanger("You're suddenly forced into a tiny, compressed space!"))
 		if(iscarbon(content))
 			var/mob/living/carbon/mob = content
+<<<<<<< HEAD
 			if (mob.dna?.get_mutation(/datum/mutation/dwarfism))
+=======
+			if (mob.dna?.get_mutation(/datum/mutation/human/dwarfism))
+>>>>>>> tg-pr-88929
 				max_weight_of_contents = max(WEIGHT_CLASS_NORMAL, max_weight_of_contents)
 				continue
 		if(!isitem(content))
@@ -172,7 +198,7 @@
 		if(A_is_item.w_class < max_weight_of_contents)
 			continue
 		max_weight_of_contents = A_is_item.w_class
-	folding_bodybag.w_class = max_weight_of_contents
+	folding_bodybag.update_weight_class(max_weight_of_contents)
 	the_folder.put_in_hands(folding_bodybag)
 
 /// Environmental bags. They protect against bad weather.
@@ -180,7 +206,7 @@
 /obj/structure/closet/body_bag/environmental
 	name = "environmental protection bag"
 	desc = "An insulated, reinforced bag designed to protect against exoplanetary storms and other environmental factors."
-	icon = 'icons/obj/bodybag.dmi'
+	icon = 'icons/obj/medical/bodybag.dmi'
 	icon_state = "envirobag"
 	mob_storage_capacity = 1
 	contents_pressure_protection = 0.8
@@ -193,8 +219,7 @@
 
 /obj/structure/closet/body_bag/environmental/Initialize(mapload)
 	. = ..()
-	for(var/trait in weather_protection)
-		ADD_TRAIT(src, trait, ROUNDSTART_TRAIT)
+	add_traits(weather_protection, INNATE_TRAIT)
 	refresh_air()
 
 /obj/structure/closet/body_bag/environmental/Destroy()
@@ -231,7 +256,7 @@
 /obj/structure/closet/body_bag/environmental/nanotrasen
 	name = "elite environmental protection bag"
 	desc = "A heavily reinforced and insulated bag, capable of fully isolating its contents from external factors."
-	icon = 'icons/obj/bodybag.dmi'
+	icon = 'icons/obj/medical/bodybag.dmi'
 	icon_state = "ntenvirobag"
 	contents_pressure_protection = 1
 	contents_thermal_insulation = 1
@@ -243,7 +268,7 @@
 /obj/structure/closet/body_bag/environmental/prisoner
 	name = "prisoner transport bag"
 	desc = "Intended for transport of prisoners through hazardous environments, this environmental protection bag comes with straps to keep an occupant secure."
-	icon = 'icons/obj/bodybag.dmi'
+	icon = 'icons/obj/medical/bodybag.dmi'
 	icon_state = "prisonerenvirobag"
 	foldedbag_path = /obj/item/bodybag/environmental/prisoner
 	breakout_time = 4 MINUTES // because it's probably about as hard to get out of this as it is to get out of a straightjacket.
@@ -278,6 +303,7 @@
 	else
 		icon_state = initial(icon_state)
 
+<<<<<<< HEAD
 /obj/structure/closet/body_bag/environmental/prisoner/container_resist_act(mob/living/user)
 	/// copy-pasted with changes because flavor text as well as some other misc stuff
 	if(opened)
@@ -291,6 +317,12 @@
 	if(!sinched)
 		open(user)
 		return
+=======
+/obj/structure/closet/body_bag/environmental/prisoner/container_resist_act(mob/living/user, loc_required = TRUE)
+	// copy-pasted with changes because flavor text as well as some other misc stuff
+	if(opened || ismovable(loc) || !sinched)
+		return ..()
+>>>>>>> tg-pr-88929
 
 	user.changeNext_move(CLICK_CD_BREAKOUT)
 	user.last_special = world.time + CLICK_CD_BREAKOUT
@@ -303,6 +335,8 @@
 		//we check after a while whether there is a point of resisting anymore and whether the user is capable of resisting
 		user.visible_message(span_danger("[user] successfully broke out of [src]!"),
 							span_notice("You successfully break out of [src]!"))
+		if(istype(loc, /obj/machinery/disposal))
+			return ..()
 		bust_open()
 	else
 		if(user.loc == src) //so we don't get the message if we resisted multiple times and succeeded.
@@ -347,7 +381,7 @@
 /obj/structure/closet/body_bag/environmental/prisoner/syndicate
 	name = "syndicate prisoner transport bag"
 	desc = "An alteration of Nanotrasen's environmental protection bag which has been used in several high-profile kidnappings. Designed to keep a victim unconscious, alive, and secured during transport."
-	icon = 'icons/obj/bodybag.dmi'
+	icon = 'icons/obj/medical/bodybag.dmi'
 	icon_state = "syndieenvirobag"
 	contents_pressure_protection = 1
 	contents_thermal_insulation = 1
@@ -375,7 +409,7 @@
 
 /obj/structure/closet/body_bag/environmental/hardlight/play_attack_sound(damage_amount, damage_type = BRUTE, damage_flag = 0)
 	if(damage_type in list(BRUTE, BURN))
-		playsound(src, 'sound/weapons/egloves.ogg', 80, TRUE)
+		playsound(src, 'sound/items/weapons/egloves.ogg', 80, TRUE)
 
 /obj/structure/closet/body_bag/environmental/prisoner/hardlight
 	name = "hardlight prisoner bodybag"
@@ -387,4 +421,4 @@
 
 /obj/structure/closet/body_bag/environmental/prisoner/hardlight/play_attack_sound(damage_amount, damage_type = BRUTE, damage_flag = 0)
 	if(damage_type in list(BRUTE, BURN))
-		playsound(src, 'sound/weapons/egloves.ogg', 80, TRUE)
+		playsound(src, 'sound/items/weapons/egloves.ogg', 80, TRUE)

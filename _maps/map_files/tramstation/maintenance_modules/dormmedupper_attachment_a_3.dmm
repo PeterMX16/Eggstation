@@ -15,7 +15,10 @@
 	pixel_y = 4
 	},
 /obj/structure/window/spawner/directional/south,
+<<<<<<< HEAD
 /obj/structure/rack,
+=======
+>>>>>>> tg-pr-88929
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron/smooth,
 /area/station/maintenance/department/crew_quarters/dorms)

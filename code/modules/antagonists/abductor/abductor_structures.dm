@@ -4,7 +4,11 @@
 /obj/structure/bed/abductor
 	name = "resting contraption"
 	desc = "This looks similar to contraptions from Earth. Could aliens be stealing our technology?"
+<<<<<<< HEAD
 	icon = 'icons/obj/abductor.dmi'
+=======
+	icon = 'icons/obj/antags/abductor.dmi'
+>>>>>>> tg-pr-88929
 	build_stack_type = /obj/item/stack/sheet/mineral/abductor
 	icon_state = "bed"
 
@@ -15,7 +19,11 @@
 	framestack = /obj/item/stack/sheet/mineral/abductor
 	framestackamount = 1
 
+<<<<<<< HEAD
 /obj/structure/table_frame/abductor/attackby(obj/item/attacking_item, mob/user, list/modifiers, list/attack_modifiers)
+=======
+/obj/structure/table_frame/abductor/attackby(obj/item/attacking_item, mob/user, params)
+>>>>>>> tg-pr-88929
 	if(attacking_item.tool_behaviour == TOOL_WRENCH)
 		to_chat(user, span_notice("You start disassembling [src]..."))
 		attacking_item.play_tool_sound(src)
@@ -70,7 +78,11 @@
 	framestack = /obj/item/stack/sheet/mineral/abductor
 	buildstackamount = 1
 	framestackamount = 1
+<<<<<<< HEAD
 	icon = 'icons/obj/abductor.dmi'
+=======
+	icon = 'icons/obj/antags/abductor.dmi'
+>>>>>>> tg-pr-88929
 	icon_state = "bed"
 	can_buckle = TRUE
 	buckle_lying = 90

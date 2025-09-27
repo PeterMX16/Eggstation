@@ -31,7 +31,11 @@
 	SIGNAL_HANDLER
 
 	if(istype(attacking_item, /obj/item/kinetic_crusher))
+<<<<<<< HEAD
 		total_damage += damage_dealt
+=======
+		total_damage += (-1 * damage_dealt)
+>>>>>>> tg-pr-88929
 
 /datum/status_effect/syphon_mark
 	id = "syphon_mark"
@@ -55,7 +59,7 @@
 	if(!QDELETED(reward_target))
 		reward_target.get_kill(owner)
 
-/datum/status_effect/syphon_mark/tick()
+/datum/status_effect/syphon_mark/tick(seconds_between_ticks)
 	if(owner.stat == DEAD)
 		get_kill()
 		qdel(src)
@@ -120,10 +124,10 @@
 
 /datum/status_effect/bounty/on_apply()
 	to_chat(owner, span_boldnotice("You hear something behind you talking... \"You have been marked for death by [rewarded]. If you die, they will be rewarded.\""))
-	playsound(owner, 'sound/weapons/gun/shotgun/rack.ogg', 75, FALSE)
+	playsound(owner, 'sound/items/weapons/gun/shotgun/rack.ogg', 75, FALSE)
 	return ..()
 
-/datum/status_effect/bounty/tick()
+/datum/status_effect/bounty/tick(seconds_between_ticks)
 	if(owner.stat == DEAD)
 		rewards()
 		qdel(src)
@@ -131,16 +135,18 @@
 /datum/status_effect/bounty/proc/rewards()
 	if(rewarded && rewarded.mind && rewarded.stat != DEAD)
 		to_chat(owner, span_boldnotice("You hear something behind you talking... \"Bounty claimed.\""))
-		playsound(owner, 'sound/weapons/gun/shotgun/shot.ogg', 75, FALSE)
+		playsound(owner, 'sound/items/weapons/gun/shotgun/shot.ogg', 75, FALSE)
 		to_chat(rewarded, span_greentext("You feel a surge of mana flow into you!"))
 		for(var/datum/action/cooldown/spell/spell in rewarded.actions)
 			spell.reset_spell_cooldown()
 
-		rewarded.adjustBruteLoss(-25)
-		rewarded.adjustFireLoss(-25)
-		rewarded.adjustToxLoss(-25)
-		rewarded.adjustOxyLoss(-25)
-		rewarded.adjustCloneLoss(-25)
+		var/need_mob_update = FALSE
+		need_mob_update += rewarded.adjustBruteLoss(-25, updating_health = FALSE)
+		need_mob_update += rewarded.adjustFireLoss(-25, updating_health = FALSE)
+		need_mob_update += rewarded.adjustToxLoss(-25, updating_health = FALSE)
+		need_mob_update += rewarded.adjustOxyLoss(-25, updating_health = FALSE)
+		if(need_mob_update)
+			rewarded.updatehealth()
 
 // heldup is for the person being aimed at
 /datum/status_effect/grouped/heldup
@@ -173,9 +179,19 @@
 
 /atom/movable/screen/alert/status_effect/holdup
 	name = "Holding Up"
-	desc = "You're currently pointing a gun at someone."
+	desc = "You're currently pointing a gun at someone. Click to cancel."
 	icon_state = "aimed"
 	clickable_glow = TRUE
+<<<<<<< HEAD
+=======
+
+/atom/movable/screen/alert/status_effect/holdup/Click(location, control, params)
+	. = ..()
+	if(!.)
+		return
+	var/datum/component/gunpoint/gunpoint = owner.GetComponent(/datum/component/gunpoint)
+	gunpoint?.cancel()
+>>>>>>> tg-pr-88929
 
 // this status effect is used to negotiate the high-fiving capabilities of all concerned parties
 /datum/status_effect/offering
@@ -230,7 +246,10 @@
 	LAZYADD(possible_takers, possible_candidate)
 	RegisterSignal(possible_candidate, COMSIG_MOVABLE_MOVED, PROC_REF(check_taker_in_range))
 	G.setup(possible_candidate, src)
+<<<<<<< HEAD
 	SEND_SIGNAL(possible_candidate, COMSIG_LIVING_GIVE_ITEM_CHECK, G, offered_item)
+=======
+>>>>>>> tg-pr-88929
 
 /// Remove the alert and signals for the specified carbon mob. Automatically removes the status effect when we lost the last taker
 /datum/status_effect/offering/proc/remove_candidate(mob/living/carbon/removed_candidate)
@@ -268,8 +287,13 @@
  *
  * Returns `TRUE` if the taker is valid as a target for the offering.
  */
+<<<<<<< HEAD
 /datum/status_effect/offering/proc/is_taker_elligible(mob/living/carbon/taker, obj/item/offer)
 	return (owner.CanReach(taker) && !IS_DEAD_OR_INCAP(taker) && additional_taker_check(taker)) || SEND_SIGNAL(taker, COMSIG_LIVING_ITEM_OFFERED_PRECHECK, offer)
+=======
+/datum/status_effect/offering/proc/is_taker_elligible(mob/living/carbon/taker)
+	return owner.CanReach(taker) && !IS_DEAD_OR_INCAP(taker) && additional_taker_check(taker)
+>>>>>>> tg-pr-88929
 
 /**
  * Additional checks added to `CanReach()` and `IS_DEAD_OR_INCAP()` in `is_taker_elligible()`.
@@ -376,10 +400,14 @@
 	owner.remove_status_effect(/datum/status_effect/grouped/surrender, REF(src))
 	return ..()
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> tg-pr-88929
 /*
  * A status effect used for preventing caltrop message spam
  *
- * While a mob has this status effect, they won't recieve any messages about
+ * While a mob has this status effect, they won't receive any messages about
  * stepping on caltrops. But they will be stunned and damaged regardless.
  *
  * The status effect itself has no effect, other than to disappear after
@@ -388,11 +416,15 @@
 /datum/status_effect/caltropped
 	id = "caltropped"
 	duration = 1 SECONDS
+<<<<<<< HEAD
 	tick_interval = STATUS_EFFECT_NO_TICK // monkestation edit
+=======
+	tick_interval = STATUS_EFFECT_NO_TICK
+>>>>>>> tg-pr-88929
 	status_type = STATUS_EFFECT_REFRESH
 	alert_type = null
 
-#define EIGENSTASIUM_MAX_BUFFER -250
+#define EIGENSTASIUM_MAX_BUFFER -251
 #define EIGENSTASIUM_STABILISATION_RATE 5
 #define EIGENSTASIUM_PHASE_1_END 50
 #define EIGENSTASIUM_PHASE_2_END 80
@@ -419,7 +451,7 @@
 		QDEL_NULL(alt_clone)
 	return ..()
 
-/datum/status_effect/eigenstasium/tick()
+/datum/status_effect/eigenstasium/tick(seconds_between_ticks)
 	. = ..()
 	//This stuff runs every cycle
 	if(prob(5))
@@ -452,6 +484,10 @@
 			stable_message = TRUE
 		return
 	stable_message = FALSE
+
+
+	//Increment cycle
+	current_cycle++ //needs to be done here because phase 2 can early return
 
 	//These run on specific cycles
 	switch(current_cycle)
@@ -533,17 +569,19 @@
 			if(QDELETED(human_mob))
 				return
 			if(prob(1))//low chance of the alternative reality returning to monkey
+<<<<<<< HEAD
 				var/obj/item/organ/external/tail/monkey/monkey_tail = new()
 				monkey_tail.Insert(human_mob, drop_if_replaced = FALSE)
+=======
+				var/obj/item/organ/tail/monkey/monkey_tail = new ()
+				monkey_tail.Insert(human_mob, movement_flags = DELETE_IF_REPLACED)
+>>>>>>> tg-pr-88929
 			var/datum/species/human_species = human_mob.dna?.species
 			if(human_species)
-				human_species.randomize_features(human_mob)
+				human_species.randomize_active_features(human_mob)
 				human_species.randomize_active_underwear(human_mob)
 
 			owner.remove_status_effect(/datum/status_effect/eigenstasium)
-
-	//Finally increment cycle
-	current_cycle++
 
 /datum/status_effect/eigenstasium/proc/remove_clone_from_var()
 	SIGNAL_HANDLER
@@ -563,6 +601,7 @@
 #undef EIGENSTASIUM_PHASE_3_START
 #undef EIGENSTASIUM_PHASE_3_END
 
+<<<<<<< HEAD
 /datum/status_effect/tagalong //applied to darkspawns while they accompany someone //yogs start: darkspawn
 	id = "tagalong"
 	tick_interval = 2 //as fast as possible
@@ -616,12 +655,38 @@
 	desc = replacetext(desc, "TARGET_NAME", tagalong.shadowing.real_name)
 	..()
 	desc = initial(desc) //yogs end
+=======
+///Makes the mob luminescent for the duration of the effect.
+/datum/status_effect/tinlux_light
+	id = "tinea_luxor_light"
+	processing_speed = STATUS_EFFECT_NORMAL_PROCESS
+	remove_on_fullheal = TRUE
+	alert_type = null
+	var/obj/effect/dummy/lighting_obj/moblight/mob_light_obj
+
+/datum/status_effect/tinlux_light/on_creation(mob/living/new_owner, duration)
+	if(duration)
+		src.duration = duration
+	return ..()
+
+/datum/status_effect/tinlux_light/on_apply()
+	mob_light_obj = owner.mob_light(2, 1.5, "#ccff33")
+	return TRUE
+
+/datum/status_effect/tinlux_light/on_remove()
+	QDEL_NULL(mob_light_obj)
+>>>>>>> tg-pr-88929
 
 /datum/status_effect/gutted
 	id = "gutted"
 	alert_type = null
+<<<<<<< HEAD
 	duration = -1
 	tick_interval = -1
+=======
+	duration = STATUS_EFFECT_PERMANENT
+	tick_interval = STATUS_EFFECT_NO_TICK
+>>>>>>> tg-pr-88929
 
 /datum/status_effect/gutted/on_apply()
 	RegisterSignal(owner, COMSIG_MOB_STATCHANGE, PROC_REF(stop_gutting))
@@ -633,3 +698,119 @@
 /datum/status_effect/gutted/proc/stop_gutting()
 	SIGNAL_HANDLER
 	qdel(src)
+<<<<<<< HEAD
+=======
+
+/datum/status_effect/washing_regen
+	id = "shower_regen"
+	duration = STATUS_EFFECT_PERMANENT
+	status_type = STATUS_EFFECT_UNIQUE
+	alert_type = /atom/movable/screen/alert/status_effect/washing_regen
+	/// How much stamina we regain from washing
+	var/stamina_heal_per_tick = -4
+	/// How much brute, tox and fie damage we heal from this
+	var/heal_per_tick = 0
+	/// The main reagent used for the shower (if no reagent is at least 70% of volume then it's null)
+	var/datum/reagent/shower_reagent
+
+/datum/status_effect/washing_regen/on_creation(mob/living/new_owner, shower_reagent)
+	if(!src.shower_reagent)
+		src.shower_reagent = shower_reagent
+	return ..()
+
+/datum/status_effect/washing_regen/on_apply()
+	. = ..()
+	if(istype(shower_reagent, /datum/reagent/blood))
+		if(HAS_TRAIT(owner, TRAIT_MORBID) || HAS_TRAIT(owner, TRAIT_EVIL) || (owner.mob_biotypes & MOB_UNDEAD))
+			alert_type = /atom/movable/screen/alert/status_effect/washing_regen/bloody_like
+		else
+			alert_type  = /atom/movable/screen/alert/status_effect/washing_regen/bloody_dislike
+	else if(istype(shower_reagent, /datum/reagent/water))
+		if(HAS_TRAIT(owner, TRAIT_WATER_HATER) && !HAS_TRAIT(owner, TRAIT_WATER_ADAPTATION))
+			alert_type = /atom/movable/screen/alert/status_effect/washing_regen/hater
+		else
+			alert_type = /atom/movable/screen/alert/status_effect/washing_regen
+	else if(!shower_reagent) // dirty shower
+		alert_type  = /atom/movable/screen/alert/status_effect/washing_regen/dislike
+
+/datum/status_effect/washing_regen/tick(seconds_between_ticks)
+	. = ..()
+
+	var/is_disgusted = FALSE
+
+	if(istype(shower_reagent, /datum/reagent/water))
+		var/water_adaptation = HAS_TRAIT(owner, TRAIT_WATER_ADAPTATION)
+		var/water_hater = HAS_TRAIT(owner, TRAIT_WATER_HATER)
+		var/stam_recovery = (water_hater && !water_adaptation ? -stamina_heal_per_tick : stamina_heal_per_tick) * seconds_between_ticks
+		var/recovery = heal_per_tick
+		if(water_adaptation)
+			recovery -= 1
+			stam_recovery *= 1.5
+		else if(water_hater)
+			recovery *= 0
+		recovery *= seconds_between_ticks
+
+		var/healed = 0
+		if(recovery) //very mild healing for those with the water adaptation trait (fish infusion)
+			healed += owner.adjustOxyLoss(recovery * (water_adaptation ? 1.5 : 1), updating_health = FALSE, required_biotype = MOB_ORGANIC)
+			healed += owner.adjustFireLoss(recovery, updating_health = FALSE, required_bodytype = BODYTYPE_ORGANIC)
+			healed += owner.adjustToxLoss(recovery, updating_health = FALSE, required_biotype = MOB_ORGANIC)
+			healed += owner.adjustBruteLoss(recovery, updating_health = FALSE, required_bodytype = BODYTYPE_ORGANIC)
+		healed += owner.adjustStaminaLoss(stam_recovery, updating_stamina = FALSE)
+		if(healed)
+			owner.updatehealth()
+	else if(istype(shower_reagent, /datum/reagent/blood))
+		var/enjoy_bloody_showers = HAS_TRAIT(owner, TRAIT_MORBID) || HAS_TRAIT(owner, TRAIT_EVIL) || (owner.mob_biotypes & MOB_UNDEAD)
+		is_disgusted = !enjoy_bloody_showers
+	else if(!shower_reagent) // dirty shower
+		is_disgusted = TRUE
+
+	if(is_disgusted)
+		owner.adjust_disgust(2)
+
+/atom/movable/screen/alert/status_effect/washing_regen
+	name = "Washing"
+	desc = "A good wash fills me with energy!"
+	icon_state = "shower_regen"
+
+/atom/movable/screen/alert/status_effect/washing_regen/hater
+	desc = "Waaater... Fuck this WATER!!"
+	icon_state = "shower_regen_catgirl"
+
+/atom/movable/screen/alert/status_effect/washing_regen/dislike
+	desc = "This water feels dirty..."
+	icon_state = "shower_regen_dirty"
+
+/atom/movable/screen/alert/status_effect/washing_regen/bloody_like
+	desc = "Mhhhmmmm... the crimson red drops of life. How delightful."
+	icon_state = "shower_regen_blood_happy"
+
+/atom/movable/screen/alert/status_effect/washing_regen/bloody_dislike
+	desc = "Is that... blood? What the fuck!"
+	icon_state = "shower_regen_blood_bad"
+
+/datum/status_effect/washing_regen/hot_spring
+	alert_type = /atom/movable/screen/alert/status_effect/washing_regen/hotspring
+	stamina_heal_per_tick = -4.5
+	heal_per_tick = -0.4
+	shower_reagent = /datum/reagent/water
+
+/datum/status_effect/washing_regen/hot_spring/on_apply()
+	. = ..()
+	if(HAS_TRAIT(owner, TRAIT_WATER_HATER) && !HAS_TRAIT(owner, TRAIT_WATER_ADAPTATION))
+		alert_type = /atom/movable/screen/alert/status_effect/washing_regen/hotspring/hater
+
+/datum/status_effect/washing_regen/hot_spring/tick(seconds_between_ticks)
+	. = ..()
+	owner.adjust_bodytemperature(10 * seconds_between_ticks, 0, T0C + 45)
+
+/atom/movable/screen/alert/status_effect/washing_regen/hotspring
+	name = "Hotspring"
+	desc = "Hot Springs are so relaxing..."
+	icon_state = "hotspring_regen"
+
+/atom/movable/screen/alert/status_effect/washing_regen/hotspring/hater
+	name = "Hotspring"
+	desc = "Waaater... FUCK THIS HOT WATER!!"
+	icon_state = "hotspring_regen_catgirl"
+>>>>>>> tg-pr-88929

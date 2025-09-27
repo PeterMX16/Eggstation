@@ -2,23 +2,31 @@
 	name = "\improper Plasmaman"
 	plural_form = "Plasmamen"
 	id = SPECIES_PLASMAMAN
-	sexes = 0
+	sexes = FALSE
 	meat = /obj/item/stack/sheet/mineral/plasma
 	// plasmemes get hard to wound since they only need a severe bone wound to dismember, but unlike skellies, they can't pop their bones back into place
 	inherent_traits = list(
 		TRAIT_NO_TRANSFORMATION_STING,
 		TRAIT_GENELESS,
 		TRAIT_HARDLY_WOUNDED,
+		TRAIT_NOBLOOD,
+		TRAIT_NO_DNA_COPY,
+		TRAIT_NO_PLASMA_TRANSFORM,
 		TRAIT_RADIMMUNE,
 		TRAIT_RESISTCOLD,
+<<<<<<< HEAD
 		TRAIT_NOBLOOD,
 		TRAIT_NO_DEBRAIN_OVERLAY,
 		TRAIT_NO_DNA_COPY,
 		TRAIT_RESISTLOWPRESSURE,
+=======
+		TRAIT_UNHUSKABLE,
+>>>>>>> tg-pr-88929
 	)
 
 	inherent_biotypes = MOB_HUMANOID|MOB_MINERAL|MOB_ORGANIC
 	inherent_respiration_type = RESPIRATION_PLASMA
+<<<<<<< HEAD
 	mutantlungs = /obj/item/organ/internal/lungs/plasmaman
 	mutanttongue = /obj/item/organ/internal/tongue/bone/plasmaman
 	mutantliver = /obj/item/organ/internal/liver/bone/plasmaman
@@ -30,6 +38,19 @@
 	payday_modifier = 0.75
 	breathid = "plas"
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_PRIDE | MIRROR_MAGIC
+=======
+	mutantlungs = /obj/item/organ/lungs/plasmaman
+	smoker_lungs = /obj/item/organ/lungs/plasmaman/plasmaman_smoker
+	mutanttongue = /obj/item/organ/tongue/bone/plasmaman
+	mutantliver = /obj/item/organ/liver/bone/plasmaman
+	mutantstomach = /obj/item/organ/stomach/bone/plasmaman
+	mutantappendix = null
+	mutantheart = null
+	heatmod = 1.5
+	payday_modifier = 1.0
+	breathid = GAS_PLASMA
+	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_PRIDE | MIRROR_MAGIC | ERT_SPAWN
+>>>>>>> tg-pr-88929
 	species_cookie = /obj/item/reagent_containers/condiment/milk
 	outfit_important_for_life = /datum/outfit/plasmaman
 	species_language_holder = /datum/language_holder/skeleton
@@ -57,11 +78,23 @@
 		/datum/outfit/syndicate/full = /datum/outfit/syndicate/full/plasmaman,
 		/datum/outfit/syndicate/leader = /datum/outfit/syndicate/leader/plasmaman,
 		/datum/outfit/syndicate/reinforcement = /datum/outfit/syndicate/reinforcement/plasmaman,
+<<<<<<< HEAD
+=======
+		/datum/outfit/syndicate/reinforcement/cybersun = /datum/outfit/syndicate/reinforcement/plasmaman,
+		/datum/outfit/syndicate/reinforcement/donk = /datum/outfit/syndicate/reinforcement/plasmaman,
+		/datum/outfit/syndicate/reinforcement/gorlex = /datum/outfit/syndicate/reinforcement/plasmaman,
+		/datum/outfit/syndicate/reinforcement/interdyne = /datum/outfit/syndicate/reinforcement/plasmaman,
+		/datum/outfit/syndicate/reinforcement/mi13 = /datum/outfit/syndicate/reinforcement/plasmaman,
+		/datum/outfit/syndicate/reinforcement/waffle = /datum/outfit/syndicate/reinforcement/plasmaman,
+		/datum/outfit/syndicate/support = /datum/outfit/syndicate/support/plasmaman,
+		/datum/outfit/syndicate/full/loneop = /datum/outfit/syndicate/full/plasmaman/loneop,
+>>>>>>> tg-pr-88929
 	)
 
 	/// If the bones themselves are burning clothes won't help you much
 	var/internal_fire = FALSE
 
+<<<<<<< HEAD
 /datum/species/plasmaman/spec_life(mob/living/carbon/human/H, seconds_per_tick, times_fired)
 	. = ..()
 	var/atmos_sealed = TRUE
@@ -126,12 +159,15 @@
 	. = ..()
 	UnregisterSignal(C, COMSIG_HUMAN_BURNING)
 
+=======
+>>>>>>> tg-pr-88929
 /datum/species/plasmaman/pre_equip_species_outfit(datum/job/job, mob/living/carbon/human/equipping, visuals_only = FALSE)
 	if(job?.plasmaman_outfit)
 		equipping.equipOutfit(job.plasmaman_outfit, visuals_only)
 	else
 		give_important_for_life(equipping)
 
+<<<<<<< HEAD
 /datum/species/plasmaman/random_name(gender,unique,lastname)
 	if(unique)
 		return random_unique_plasmaman_name()
@@ -142,6 +178,18 @@
 		randname += " [lastname]"
 
 	return randname
+=======
+/datum/species/plasmaman/get_scream_sound(mob/living/carbon/human)
+	return pick(
+		'sound/mobs/humanoids/plasmaman/plasmeme_scream_1.ogg',
+		'sound/mobs/humanoids/plasmaman/plasmeme_scream_2.ogg',
+		'sound/mobs/humanoids/plasmaman/plasmeme_scream_3.ogg',
+	)
+
+/datum/species/plasmaman/get_physical_attributes()
+	return "Plasmamen literally breathe and live plasma. They spontaneously combust on contact with oxygen, and besides all the quirks that go with that, \
+		they're very vulnerable to all kinds of physical damage due to their brittle structure."
+>>>>>>> tg-pr-88929
 
 /datum/species/plasmaman/get_species_description()
 	return "Found on the Icemoon of Freyja, plasmamen consist of colonial \
@@ -182,12 +230,6 @@
 			SPECIES_PERK_ICON = "fire",
 			SPECIES_PERK_NAME = "Living Torch",
 			SPECIES_PERK_DESC = "Plasmamen instantly ignite when their body makes contact with oxygen.",
-		),
-		list(
-			SPECIES_PERK_TYPE = SPECIES_NEGATIVE_PERK,
-			SPECIES_PERK_ICON = "wind",
-			SPECIES_PERK_NAME = "Plasma Breathing",
-			SPECIES_PERK_DESC = "Plasmamen must breathe plasma to survive. You receive a tank when you arrive.",
 		),
 		list(
 			SPECIES_PERK_TYPE = SPECIES_NEGATIVE_PERK,

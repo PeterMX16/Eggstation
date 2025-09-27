@@ -91,5 +91,10 @@
 /// A list of possible egg laying descriptions
 #define EGG_LAYING_MESSAGES list("lays an egg.","squats down and croons.","begins making a huge racket.","begins clucking raucously.")
 
+<<<<<<< HEAD
 /// limiter for potency
 #define TRAIT_LIMIT_POTENCY (1<<0)
+=======
+/// Used as a baseline plant rarity for more uncommon plants, usually requiring mutation
+#define PLANT_MODERATELY_RARE 20
+>>>>>>> tg-pr-88929

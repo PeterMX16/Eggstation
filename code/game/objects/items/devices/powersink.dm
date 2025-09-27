@@ -2,22 +2,22 @@
 #define CLAMPED_OFF 1
 #define OPERATING 2
 
-#define FRACTION_TO_RELEASE 50
+#define FRACTION_TO_RELEASE 25
 #define ALERT 90
-#define MINIMUM_HEAT 10000
+#define MINIMUM_HEAT 20000
 
 // Powersink - used to drain station power
 
 /obj/item/powersink
 	name = "power sink"
 	desc = "A power sink which drains energy from electrical systems and converts it to heat. Ensure short workloads and ample time to cool down if used in high energy systems."
-	icon = 'icons/obj/device.dmi'
+	icon = 'icons/obj/devices/syndie_gadget.dmi'
 	icon_state = "powersink0"
 	inhand_icon_state = "electronic"
 	lefthand_file = 'icons/mob/inhands/items/devices_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/items/devices_righthand.dmi'
 	w_class = WEIGHT_CLASS_BULKY
-	flags_1 = CONDUCT_1
+	obj_flags = CONDUCTS_ELECTRICITY
 	item_flags = NO_PIXEL_RANDOM_DROP
 	throwforce = 5
 	throw_speed = 1
@@ -38,7 +38,7 @@
 	. = ..()
 	if(mode)
 		. += "\The [src] is bolted to the floor."
-	if(in_range(user, src) || isobserver(user) && internal_heat > max_heat * 0.5)
+	if((in_range(user, src) || isobserver(user)) && internal_heat > max_heat * 0.5)
 		. += span_danger("[src] is warping the air above it. It must be very hot.")
 
 /obj/item/powersink/set_anchored(anchorvalue)
@@ -151,7 +151,11 @@
 		air_update_turf(FALSE, FALSE)
 	if(warning_given && internal_heat < max_heat * 0.75)
 		warning_given = FALSE
+<<<<<<< HEAD
 		message_admins("Power sink at ([x],[y],[z] - <A HREF='byond://?_src_=holder;[HrefToken()];adminplayerobservecoodjump=1;X=[x];Y=[y];Z=[z]'>JMP</a>) has cooled down and will not explode.")
+=======
+		message_admins("Power sink at ([x],[y],[z] - <A href='byond://?_src_=holder;[HrefToken()];adminplayerobservecoodjump=1;X=[x];Y=[y];Z=[z]'>JMP</a>) has cooled down and will not explode.")
+>>>>>>> tg-pr-88929
 	if(mode != OPERATING && internal_heat < MINIMUM_HEAT)
 		internal_heat = 0
 		STOP_PROCESSING(SSobj, src)
@@ -171,7 +175,11 @@
 		if(istype(terminal.master, /obj/machinery/power/apc))
 			var/obj/machinery/power/apc/apc = terminal.master
 			if(apc.operating && apc.cell)
+<<<<<<< HEAD
 				drained += 0.001 * apc.cell.use(50 KILO JOULES, force = TRUE)
+=======
+				drained += 0.001 * apc.cell.use(0.1 * STANDARD_BATTERY_CHARGE, force = TRUE)
+>>>>>>> tg-pr-88929
 	internal_heat += drained
 
 /obj/item/powersink/process()
@@ -188,7 +196,11 @@
 	if(internal_heat > max_heat * ALERT / 100)
 		if (!warning_given)
 			warning_given = TRUE
+<<<<<<< HEAD
 			message_admins("Power sink at ([x],[y],[z] - <A HREF='byond://?_src_=holder;[HrefToken()];adminplayerobservecoodjump=1;X=[x];Y=[y];Z=[z]'>JMP</a>) has reached [ALERT]% of max heat. Explosion imminent.")
+=======
+			message_admins("Power sink at ([x],[y],[z] - <A href='byond://?_src_=holder;[HrefToken()];adminplayerobservecoodjump=1;X=[x];Y=[y];Z=[z]'>JMP</a>) has reached [ALERT]% of max heat. Explosion imminent.")
+>>>>>>> tg-pr-88929
 			notify_ghosts(
 				"[src] is about to reach critical heat capacity!",
 				source = src,

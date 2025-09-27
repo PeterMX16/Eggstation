@@ -1,4 +1,4 @@
-/**********************Ore Redemption Unit**************************/
+/**********************Ore Redemption Unit (ORM)**************************/
 //Turns all the various mining machines into a single unit to speed up mining and establish a point system
 
 /obj/machinery/mineral/ore_redemption
@@ -52,6 +52,10 @@
 	if(!GLOB.autounlock_techwebs[/datum/techweb/autounlocking/smelter])
 		GLOB.autounlock_techwebs[/datum/techweb/autounlocking/smelter] = new /datum/techweb/autounlocking/smelter
 	stored_research = GLOB.autounlock_techwebs[/datum/techweb/autounlocking/smelter]
+<<<<<<< HEAD
+=======
+
+>>>>>>> tg-pr-88929
 	//mat_container_signals is for reedeming points from local storage if silo is not required
 	var/list/local_signals = null
 	if(!requires_silo)
@@ -90,11 +94,20 @@
 	if(panel_open)
 		. += span_notice("Alt-click to rotate the input and output direction.")
 
+<<<<<<< HEAD
 /obj/machinery/mineral/ore_redemption/proc/silo_redeem_points(obj/machinery/mineral/ore_redemption/machine, container, obj/item/stack/ore/gathered_ore)
 	SIGNAL_HANDLER
 
 	local_redeem_points(container, gathered_ore)
 
+=======
+
+/obj/machinery/mineral/ore_redemption/proc/silo_redeem_points(obj/machinery/mineral/ore_redemption/machine, container, obj/item/stack/ore/gathered_ore)
+	SIGNAL_HANDLER
+
+	local_redeem_points(container, gathered_ore)
+
+>>>>>>> tg-pr-88929
 /obj/machinery/mineral/ore_redemption/proc/local_redeem_points(container, obj/item/stack/ore/gathered_ore)
 	SIGNAL_HANDLER
 
@@ -142,9 +155,15 @@
 	var/has_minerals = FALSE
 	var/list/appended_list = list()
 
+<<<<<<< HEAD
 	for(var/mat in mat_container.materials)
 		var/datum/material/material_datum = mat
 		var/mineral_amount = mat_container.materials[mat] / SHEET_MATERIAL_AMOUNT
+=======
+	for(var/current_material in mat_container.materials)
+		var/datum/material/material_datum = current_material
+		var/mineral_amount = mat_container.materials[current_material] / SHEET_MATERIAL_AMOUNT
+>>>>>>> tg-pr-88929
 		if(mineral_amount)
 			has_minerals = TRUE
 		appended_list["[capitalize(material_datum.name)]"] = "[mineral_amount] sheets"
@@ -189,7 +208,10 @@
 
 		SEND_SIGNAL(src, COMSIG_ORM_COLLECTED_ORE)
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> tg-pr-88929
 	if(!console_notify_timer)
 		// gives 5 seconds for a load of ores to be sucked up by the ORM before it sends out request console notifications. This should be enough time for most deposits that people make
 		console_notify_timer = addtimer(CALLBACK(src, PROC_REF(send_console_message)), 5 SECONDS)
@@ -206,6 +228,7 @@
 /obj/machinery/mineral/ore_redemption/screwdriver_act(mob/living/user, obj/item/tool)
 	default_deconstruction_screwdriver(user, "ore_redemption-open", "ore_redemption", tool)
 	return ITEM_INTERACT_SUCCESS
+<<<<<<< HEAD
 
 /obj/machinery/mineral/ore_redemption/crowbar_act(mob/living/user, obj/item/tool)
 	default_deconstruction_crowbar(tool)
@@ -244,6 +267,27 @@
 		register_input_turf() // register the new one
 		update_appearance(UPDATE_OVERLAYS)
 		return TRUE
+=======
+
+/obj/machinery/mineral/ore_redemption/crowbar_act(mob/living/user, obj/item/tool)
+	default_deconstruction_crowbar(tool)
+	return ITEM_INTERACT_SUCCESS
+
+/obj/machinery/mineral/ore_redemption/wrench_act(mob/living/user, obj/item/tool)
+	default_unfasten_wrench(user, tool)
+	return ITEM_INTERACT_SUCCESS
+
+/obj/machinery/mineral/ore_redemption/click_alt(mob/living/user)
+	if(!panel_open)
+		return CLICK_ACTION_BLOCKING
+	input_dir = turn(input_dir, -90)
+	output_dir = turn(output_dir, -90)
+	to_chat(user, span_notice("You change [src]'s I/O settings, setting the input to [dir2text(input_dir)] and the output to [dir2text(output_dir)]."))
+	unregister_input_turf() // someone just rotated the input and output directions, unregister the old turf
+	register_input_turf() // register the new one
+	update_appearance(UPDATE_OVERLAYS)
+	return CLICK_ACTION_SUCCESS
+>>>>>>> tg-pr-88929
 
 /obj/machinery/mineral/ore_redemption/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
@@ -282,6 +326,10 @@
 				"icon" = alloy_type::icon,
 				"icon_state" = alloy_type::icon_state,
 			))
+<<<<<<< HEAD
+=======
+
+>>>>>>> tg-pr-88929
 	data["disconnected"] = null
 	if (!mat_container)
 		data["disconnected"] = "Local mineral storage is unavailable"
@@ -310,6 +358,7 @@
 			)
 	return data
 
+<<<<<<< HEAD
 /obj/machinery/mineral/ore_redemption/ui_static_data(mob/user)
 	var/list/data = list()
 
@@ -333,6 +382,8 @@
 	return data
 
 
+=======
+>>>>>>> tg-pr-88929
 /obj/machinery/mineral/ore_redemption/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
 	. = ..()
 	if(.)
@@ -422,7 +473,7 @@
 	if((machine_stat & NOPOWER))
 		return
 	var/image/ore_input = image(icon='icons/obj/doors/airlocks/station/overlays.dmi', icon_state="unres_[input_dir]")
-	var/image/ore_output = image(icon='icons/obj/doors/airlocks/station/overlays.dmi', icon_state="unres_[turn(input_dir, 180)]")
+	var/image/ore_output = image(icon='icons/obj/doors/airlocks/station/overlays.dmi', icon_state="unres_[REVERSE_DIR(input_dir)]")
 
 	switch(input_dir)
 		if(NORTH)
@@ -450,4 +501,3 @@
 	. += ore_output
 	. += light_in
 	. += light_out
-

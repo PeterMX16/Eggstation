@@ -389,30 +389,49 @@ GLOBAL_DATUM_INIT(ahelp_tickets, /datum/admin_help_tickets, new)
 	. += " (<A href='byond://?_src_=holder;[HrefToken()];showmessageckey=[initiator.ckey]'>NOTES</A>)"
 	if(state == AHELP_ACTIVE)
 		if (CONFIG_GET(flag/popup_admin_pm))
+<<<<<<< HEAD
 			. += " (<A HREF='byond://?_src_=holder;[HrefToken(forceGlobal = TRUE)];adminpopup=[REF(initiator)]'>POPUP</A>)"
+=======
+			. += " (<A href='byond://?_src_=holder;[HrefToken(forceGlobal = TRUE)];adminpopup=[REF(initiator)]'>POPUP</A>)"
+>>>>>>> tg-pr-88929
 		. += ClosureLinks(ref_src)
 
 //private
 /datum/admin_help/proc/ClosureLinks(ref_src)
 	if(!ref_src)
 		ref_src = "[REF(src)]"
+<<<<<<< HEAD
 	. = " (<A HREF='byond://?_src_=holder;[HrefToken(forceGlobal = TRUE)];ahelp=[ref_src];ahelp_action=reject'>REJT</A>)"
 	. += " (<A HREF='byond://?_src_=holder;[HrefToken(forceGlobal = TRUE)];ahelp=[ref_src];ahelp_action=icissue'>IC</A>)"
 	. += " (<A HREF='byond://?_src_=holder;[HrefToken(forceGlobal = TRUE)];ahelp=[ref_src];ahelp_action=close'>CLOSE</A>)"
 	. += " (<A HREF='byond://?_src_=holder;[HrefToken(forceGlobal = TRUE)];ahelp=[ref_src];ahelp_action=resolve'>RSLVE</A>)"
 	. += ADMIN_DEMO(ref_src)//Monkestation Edit: REPLAYS
+=======
+	. = " (<A href='byond://?_src_=holder;[HrefToken(forceGlobal = TRUE)];ahelp=[ref_src];ahelp_action=reject'>REJT</A>)"
+	. += " (<A href='byond://?_src_=holder;[HrefToken(forceGlobal = TRUE)];ahelp=[ref_src];ahelp_action=icissue'>IC</A>)"
+	. += " (<A href='byond://?_src_=holder;[HrefToken(forceGlobal = TRUE)];ahelp=[ref_src];ahelp_action=close'>CLOSE</A>)"
+	. += " (<A href='byond://?_src_=holder;[HrefToken(forceGlobal = TRUE)];ahelp=[ref_src];ahelp_action=resolve'>RSLVE</A>)"
+>>>>>>> tg-pr-88929
 
 //private
 /datum/admin_help/proc/LinkedReplyName(ref_src)
 	if(!ref_src)
 		ref_src = "[REF(src)]"
+<<<<<<< HEAD
 	return "<A HREF='byond://?_src_=holder;[HrefToken(forceGlobal = TRUE)];ahelp=[ref_src];ahelp_action=reply'>[initiator_key_name]</A>"
+=======
+	return "<A href='byond://?_src_=holder;[HrefToken(forceGlobal = TRUE)];ahelp=[ref_src];ahelp_action=reply'>[initiator_key_name]</A>"
+>>>>>>> tg-pr-88929
 
 //private
 /datum/admin_help/proc/TicketHref(msg, ref_src, action = "ticket")
 	if(!ref_src)
 		ref_src = "[REF(src)]"
+<<<<<<< HEAD
 	return "<A HREF='byond://?_src_=holder;[HrefToken(forceGlobal = TRUE)];ahelp=[ref_src];ahelp_action=[action]'>[msg]</A>"
+=======
+	return "<A href='byond://?_src_=holder;[HrefToken(forceGlobal = TRUE)];ahelp=[ref_src];ahelp_action=[action]'>[msg]</A>"
+>>>>>>> tg-pr-88929
 
 //message from the initiator without a target, all admins will see this
 //won't bug irc/discord
@@ -523,7 +542,7 @@ GLOBAL_DATUM_INIT(ahelp_tickets, /datum/admin_help_tickets, new)
 	state = AHELP_RESOLVED
 	GLOB.ahelp_tickets.ListInsert(src)
 
-	addtimer(CALLBACK(initiator, TYPE_PROC_REF(/client, giveadminhelpverb)), 50)
+	addtimer(CALLBACK(initiator, TYPE_PROC_REF(/client, giveadminhelpverb)), 5 SECONDS)
 
 	AddInteraction("Resolved by [key_name(usr)].", "Ticket resolved.") // Monkestation edit: datum ticket interactions
 	to_chat(initiator, span_adminhelp("Your ticket has been resolved by an admin. The Adminhelp verb will be returned to you shortly."), confidential = TRUE)
@@ -600,6 +619,10 @@ GLOBAL_DATUM_INIT(ahelp_tickets, /datum/admin_help_tickets, new)
 	dat += "<br><b>Log:</b><br><br>"
 	for(var/I in ticket_interactions)
 		dat += "[I]<br>"
+
+	// Helper for opening directly to player ticket history
+	dat += "<br><br><b>Player Ticket History:</b>"
+	dat += "[FOURSPACES]<A href='byond://?_src_=holder;[HrefToken()];player_ticket_history=[initiator_ckey]'>Open</A>"
 
 	// Append any tickets also opened by this user if relevant
 	var/list/related_tickets = GLOB.ahelp_tickets.TicketsByCKey(initiator_ckey)
@@ -809,7 +832,7 @@ GLOBAL_DATUM_INIT(admin_help_ui_handler, /datum/admin_help_ui_handler, new)
 	if(user_client.handle_spam_prevention(message, MUTE_ADMINHELP))
 		return
 
-	SSblackbox.record_feedback("tally", "admin_verb", 1, "Adminhelp") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
+	BLACKBOX_LOG_ADMIN_VERB("Adminhelp")
 
 	if(urgent)
 		if(!COOLDOWN_FINISHED(src, ahelp_cooldowns?[user_client.ckey]))
@@ -1057,7 +1080,11 @@ GLOBAL_DATUM_INIT(admin_help_ui_handler, /datum/admin_help_ui_handler, new)
 							if(is_special_character(found))
 								is_antag = 1
 							founds += "Name: [found.name]([found.real_name]) Key: [found.key] Ckey: [found.ckey] [is_antag ? "(Antag)" : null] "
+<<<<<<< HEAD
 							msg += "[original_word]<font size='1' color='[is_antag ? "red" : "black"]'>(<A HREF='byond://?_src_=holder;[HrefToken(forceGlobal = TRUE)];adminmoreinfo=[REF(found)]'>?</A>|<A HREF='byond://?_src_=holder;[HrefToken(forceGlobal = TRUE)];adminplayerobservefollow=[REF(found)]'>F</A>)</font> "
+=======
+							msg += "[original_word]<font size='1' color='[is_antag ? "red" : "black"]'>(<A href='byond://?_src_=holder;[HrefToken(forceGlobal = TRUE)];adminmoreinfo=[REF(found)]'>?</A>|<A href='byond://?_src_=holder;[HrefToken(forceGlobal = TRUE)];adminplayerobservefollow=[REF(found)]'>F</A>)</font> "
+>>>>>>> tg-pr-88929
 							continue
 		msg += "[original_word] "
 	if(external)
@@ -1084,10 +1111,10 @@ GLOBAL_DATUM_INIT(admin_help_ui_handler, /datum/admin_help_ui_handler, new)
 		if(!M.mind)
 			continue
 
-		for(var/string in splittext(lowertext(M.real_name), " "))
+		for(var/string in splittext(LOWER_TEXT(M.real_name), " "))
 			if(!(string in ignored_words))
 				nameWords += string
-		for(var/string in splittext(lowertext(M.name), " "))
+		for(var/string in splittext(LOWER_TEXT(M.name), " "))
 			if(!(string in ignored_words))
 				nameWords += string
 

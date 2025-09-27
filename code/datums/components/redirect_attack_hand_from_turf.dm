@@ -102,6 +102,9 @@
 	var/atom/movable/movable_parent = parent
 	if (!movable_parent.can_interact(user))
 		return NONE
+	
+	if (!isnull(interact_check) && !interact_check.Invoke(user))
+		return NONE
 
 	if (!isnull(interact_check) && !interact_check.Invoke(user))
 		return NONE
@@ -123,6 +126,9 @@
 		return NONE
 
 	if (!isnull(held_item))
+		return NONE
+	
+	if (!isnull(interact_check) && !interact_check.Invoke(user))
 		return NONE
 
 	if (!isnull(interact_check) && !interact_check.Invoke(user))

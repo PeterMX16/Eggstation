@@ -99,9 +99,14 @@
 /datum/status_effect/limp
 	id = "limp"
 	status_type = STATUS_EFFECT_REPLACE
+<<<<<<< HEAD
 	tick_interval = STATUS_EFFECT_NO_TICK // monkestation edit
 	on_remove_on_mob_delete = TRUE
+=======
+	tick_interval = STATUS_EFFECT_NO_TICK
+>>>>>>> tg-pr-88929
 	alert_type = /atom/movable/screen/alert/status_effect/limp
+	on_remove_on_mob_delete = TRUE
 	var/msg_stage = 0//so you dont get the most intense messages immediately
 	/// The left leg of the limping person
 	var/obj/item/bodypart/leg/left/left
@@ -121,16 +126,26 @@
 /datum/status_effect/limp/on_apply()
 	if(!iscarbon(owner))
 		return FALSE
-	var/mob/living/carbon/C = owner
-	left = C.get_bodypart(BODY_ZONE_L_LEG)
-	right = C.get_bodypart(BODY_ZONE_R_LEG)
+	var/mob/living/carbon/carbon_owner = owner
+	left = carbon_owner.get_bodypart(BODY_ZONE_L_LEG)
+	right = carbon_owner.get_bodypart(BODY_ZONE_R_LEG)
 	update_limp()
+<<<<<<< HEAD
 	RegisterSignal(C, COMSIG_MOVABLE_MOVED, PROC_REF(check_step))
 	RegisterSignals(C, list(COMSIG_CARBON_GAIN_WOUND, COMSIG_CARBON_POST_LOSE_WOUND, COMSIG_CARBON_ATTACH_LIMB, COMSIG_CARBON_REMOVE_LIMB), PROC_REF(update_limp))
+=======
+	RegisterSignal(carbon_owner, COMSIG_MOVABLE_MOVED, PROC_REF(check_step))
+	RegisterSignals(carbon_owner, list(COMSIG_CARBON_GAIN_WOUND, COMSIG_CARBON_POST_LOSE_WOUND, COMSIG_CARBON_ATTACH_LIMB, COMSIG_CARBON_REMOVE_LIMB), PROC_REF(update_limp))
+>>>>>>> tg-pr-88929
 	return TRUE
 
 /datum/status_effect/limp/on_remove()
 	UnregisterSignal(owner, list(COMSIG_MOVABLE_MOVED, COMSIG_CARBON_GAIN_WOUND, COMSIG_CARBON_POST_LOSE_WOUND, COMSIG_CARBON_ATTACH_LIMB, COMSIG_CARBON_REMOVE_LIMB))
+<<<<<<< HEAD
+=======
+	left = null
+	right = null
+>>>>>>> tg-pr-88929
 
 /atom/movable/screen/alert/status_effect/limp
 	name = "Limping"
@@ -139,7 +154,7 @@
 /datum/status_effect/limp/proc/check_step(mob/whocares, OldLoc, Dir, forced)
 	SIGNAL_HANDLER
 
-	if(!owner.client || owner.body_position == LYING_DOWN || !owner.has_gravity() || (owner.movement_type & FLYING) || forced || owner.buckled)
+	if(!owner.client || owner.body_position == LYING_DOWN || !owner.has_gravity() || (owner.movement_type & (FLYING|FLOATING)) || forced || owner.buckled)
 		return
 
 	if(SEND_SIGNAL(owner, COMSIG_CARBON_LIMPING, (next_leg || right || left)) & COMPONENT_CANCEL_LIMP)
@@ -147,6 +162,9 @@
 
 	// less limping while we have determination still
 	var/determined_mod = owner.can_feel_pain(TRUE) ? 1 : 0.5
+
+	if(SEND_SIGNAL(owner, COMSIG_CARBON_LIMPING) & COMPONENT_CANCEL_LIMP)
+		return
 
 	if(next_leg == left)
 		if(prob(limp_chance_left * determined_mod))
@@ -190,7 +208,6 @@
 	if(!slowdown_left && !slowdown_right)
 		C.remove_status_effect(src)
 		return
-
 
 /////////////////////////
 //////// WOUNDS /////////
@@ -249,8 +266,11 @@
 /datum/status_effect/wound/blunt/bone
 
 // blunt
+<<<<<<< HEAD
 /datum/status_effect/wound/blunt/bone/rib_break
 	id = "rib_break"
+=======
+>>>>>>> tg-pr-88929
 /datum/status_effect/wound/blunt/bone/moderate
 	id = "disjoint"
 /datum/status_effect/wound/blunt/bone/severe

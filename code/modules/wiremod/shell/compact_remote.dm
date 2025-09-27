@@ -5,7 +5,7 @@
  */
 /obj/item/compact_remote
 	name = "compact remote"
-	icon = 'icons/obj/wiremod.dmi'
+	icon = 'icons/obj/science/circuits.dmi'
 	icon_state = "setup_small_simple"
 	inhand_icon_state = "electronic"
 	worn_icon_state = "electronic"
@@ -13,6 +13,7 @@
 	righthand_file = 'icons/mob/inhands/items/devices_righthand.dmi'
 	light_system = OVERLAY_LIGHT_DIRECTIONAL
 	light_on = FALSE
+	w_class = WEIGHT_CLASS_TINY
 
 /obj/item/compact_remote/Initialize(mapload)
 	. = ..()
@@ -45,6 +46,10 @@
 /obj/item/circuit_component/compact_remote/proc/send_trigger(atom/source, mob/user)
 	SIGNAL_HANDLER
 	source.balloon_alert(user, "clicked primary button")
+<<<<<<< HEAD
 	playsound(src, SFX_BUTTON_CLICK, vol = 25, vary = FALSE, extrarange = SILENCED_SOUND_EXTRARANGE, mixer_channel = CHANNEL_MACHINERY) // monkestation edit: button sounds
+=======
+	playsound(source, SFX_TERMINAL_TYPE, 25, FALSE)
+>>>>>>> tg-pr-88929
 	entity.set_output(user)
 	signal.set_output(COMPONENT_SIGNAL)

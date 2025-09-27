@@ -3,10 +3,14 @@
 /// Please do not bloat this. Love you <3
 /turf/open/misc
 	name = "coder/mapper fucked up"
+<<<<<<< HEAD
 	desc = "report on github please"
+=======
+	desc = "report on GitHub please"
+>>>>>>> tg-pr-88929
 
-	flags_1 = NO_SCREENTIPS_1
-	turf_flags = CAN_BE_DIRTY_1 | IS_SOLID | NO_RUST
+	flags_1 = NO_SCREENTIPS_1 | CAN_BE_DIRTY_1
+	turf_flags = IS_SOLID | NO_RUST
 
 	footstep = FOOTSTEP_FLOOR
 	barefootstep = FOOTSTEP_HARD_BAREFOOT
@@ -17,11 +21,15 @@
 	smoothing_groups = SMOOTH_GROUP_TURF_OPEN
 	canSmoothWith = SMOOTH_GROUP_TURF_OPEN + SMOOTH_GROUP_OPEN_FLOOR
 
-	thermal_conductivity = 0.04
-	heat_capacity = 10000
+	thermal_conductivity = 0.02
+	heat_capacity = 20000
 	tiled_dirt = TRUE
 
+<<<<<<< HEAD
 /turf/open/misc/attackby(obj/item/attacking_item, mob/user, list/modifiers, list/attack_modifiers)
+=======
+/turf/open/misc/attackby(obj/item/attacking_item, mob/user, params)
+>>>>>>> tg-pr-88929
 	. = ..()
 	if(.)
 		return TRUE
@@ -29,7 +37,12 @@
 	if(istype(attacking_item, /obj/item/stack/rods))
 		build_with_rods(attacking_item, user)
 		return TRUE
+<<<<<<< HEAD
 	else if(istype(attacking_item, /obj/item/stack/tile/iron))
+=======
+
+	if(ismetaltile(attacking_item))
+>>>>>>> tg-pr-88929
 		build_with_floor_tiles(attacking_item, user)
 		return TRUE
 
@@ -66,6 +79,7 @@
 				break_tile()
 				hotspot_expose(1000,CELL_VOLUME)
 
+	return TRUE
 
 /turf/open/misc/is_shielded()
 	for(var/obj/structure/A in contents)
@@ -75,6 +89,7 @@
 	return
 
 /turf/open/misc/rcd_vals(mob/user, obj/item/construction/rcd/the_rcd)
+<<<<<<< HEAD
 	switch(the_rcd.mode)
 		if(RCD_FLOORWALL)
 			var/obj/structure/lattice/L = locate(/obj/structure/lattice, src)
@@ -126,40 +141,21 @@
 			if(!cost)
 				return FALSE
 			return list("mode" = RCD_FURNISHING, "delay" = cost, "cost" = delay)
+=======
+	if(the_rcd.mode == RCD_TURF)
+		if(the_rcd.rcd_design_path != /turf/open/floor/plating/rcd)
+			return FALSE
+
+		return list("delay" = 0, "cost" = 3)
+>>>>>>> tg-pr-88929
 	return FALSE
 
-/turf/open/misc/rcd_act(mob/user, obj/item/construction/rcd/the_rcd, passed_mode)
-	switch(passed_mode)
-		if(RCD_FLOORWALL)
-			PlaceOnTop(/turf/open/floor/plating, flags = CHANGETURF_INHERIT_AIR)
-			return TRUE
-		if(RCD_REFLECTOR)
-			if(locate(/obj/structure/reflector) in src)
-				return FALSE
-			var/obj/structure/reflector/reflector_base = new(src)
-			reflector_base.set_anchored(TRUE)
-			return TRUE
-		if(RCD_AIRLOCK)
-			if(ispath(the_rcd.airlock_type, /obj/machinery/door/window))
-				if(!valid_build_direction(src, user.dir, is_fulltile = FALSE))
-					balloon_alert(user, "there's already a windoor!")
-					return FALSE
-				for(var/obj/machinery/door/door in src)
-					if(istype(door, /obj/machinery/door/window))
-						continue
-					balloon_alert(user, "there's already a door!")
-					return FALSE
-				var/obj/machinery/door/window/new_window = new the_rcd.airlock_type(src, user.dir, the_rcd.airlock_electronics?.unres_sides)
-				if(the_rcd.airlock_electronics)
-					new_window.name = the_rcd.airlock_electronics.passed_name || initial(new_window.name)
-					if(the_rcd.airlock_electronics.one_access)
-						new_window.req_one_access = the_rcd.airlock_electronics.accesses.Copy()
-					else
-						new_window.req_access = the_rcd.airlock_electronics.accesses.Copy()
-				new_window.autoclose = TRUE
-				new_window.update_appearance()
-				return TRUE
+/turf/open/misc/rcd_act(mob/user, obj/item/construction/rcd/the_rcd, list/rcd_data)
+	if(rcd_data["[RCD_DESIGN_MODE]"] == RCD_TURF)
+		if(rcd_data["[RCD_DESIGN_PATH]"] != /turf/open/floor/plating/rcd)
+			return FALSE
 
+<<<<<<< HEAD
 			for(var/obj/machinery/door/door in src)
 				if(door.sub_door)
 					continue
@@ -231,4 +227,8 @@
 			var/atom/new_furnish = new the_rcd.furnish_type(src)
 			new_furnish.setDir(user.dir)
 			return TRUE
+=======
+		place_on_top(/turf/open/floor/plating, flags = CHANGETURF_INHERIT_AIR)
+		return TRUE
+>>>>>>> tg-pr-88929
 	return FALSE

@@ -1,4 +1,4 @@
-///A component added to the mind of anyone who is playing in an ongoing CTF match. Any player specific CTF functionality should be implimented here. (someone should impliment score tracking here)
+///A component added to the mind of anyone who is playing in an ongoing CTF match. Any player specific CTF functionality should be implemented here. (someone should implement score tracking here)
 /datum/component/ctf_player
 	///The team that this player is associated with.
 	var/team
@@ -23,6 +23,7 @@
 	player_mob = true_parent.current
 	ckey_reference = player_mob.ckey
 	register_mob()
+<<<<<<< HEAD
 
 /datum/component/ctf_player/PostTransfer()
 	if(!istype(parent, /datum/mind))
@@ -31,6 +32,16 @@
 	player_mob = true_parent.current
 	register_mob()
 
+=======
+
+/datum/component/ctf_player/PostTransfer(datum/new_parent)
+	if(!istype(new_parent, /datum/mind))
+		return COMPONENT_INCOMPATIBLE
+	var/datum/mind/true_parent = new_parent
+	player_mob = true_parent.current
+	register_mob()
+
+>>>>>>> tg-pr-88929
 /// Called when we get a new player mob, register signals and set up the mob.
 /datum/component/ctf_player/proc/register_mob()
 	RegisterSignal(player_mob, COMSIG_MOB_AFTER_APPLY_DAMAGE, PROC_REF(damage_type_check))

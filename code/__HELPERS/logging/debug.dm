@@ -14,18 +14,34 @@
 /// Logging for job slot changes
 /proc/log_job_debug(text, list/data)
 	logger.Log(LOG_CATEGORY_DEBUG_JOB, text, data)
+<<<<<<< HEAD
+=======
+
+/// Logging for TTS
+/proc/log_tts(text, list/data)
+	logger.Log(LOG_CATEGORY_DEBUG_TTS, text, data)
+>>>>>>> tg-pr-88929
 
 #ifndef DISABLE_DREAMLUAU
 /// Logging for lua scripting
 /proc/log_lua(text, list/data)
 	logger.Log(LOG_CATEGORY_DEBUG_LUA, text, data)
+<<<<<<< HEAD
 #endif
+=======
+>>>>>>> tg-pr-88929
 
 /// Logging for mapping errors
 /proc/log_mapping(text, skip_world_log)
 #ifdef UNIT_TESTS
 	GLOB.unit_test_mapping_logs += text
 #endif
+<<<<<<< HEAD
+=======
+#ifdef MAP_TEST
+	message_admins("Mapping: [text]")
+#endif
+>>>>>>> tg-pr-88929
 	logger.Log(LOG_CATEGORY_DEBUG_MAPPING, text)
 	if(skip_world_log)
 		return
@@ -38,7 +54,11 @@
 
 /// Logging for hard deletes
 /proc/log_qdel(text, list/data)
+<<<<<<< HEAD
 	logger.Log(LOG_CATEGORY_DEBUG_QDEL, text, data)
+=======
+	logger.Log(LOG_CATEGORY_QDEL, text, data)
+>>>>>>> tg-pr-88929
 
 /* Log to the logfile only. */
 /proc/log_runtime(text, list/data)

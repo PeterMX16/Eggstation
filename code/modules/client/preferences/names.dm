@@ -17,20 +17,25 @@
 	/// If the highest priority job matches this, will prioritize this name in the UI
 	var/relevant_job
 
+
 /datum/preference/name/apply_to_human(mob/living/carbon/human/target, value)
 	// Only real_name applies directly, everything else is applied by something else
 	return
 
+
 /datum/preference/name/deserialize(input, datum/preferences/preferences)
 	return reject_bad_name("[input]", allow_numbers)
+
 
 /datum/preference/name/serialize(input)
 	// `is_valid` should always be run before `serialize`, so it should not
 	// be possible for this to return `null`.
 	return reject_bad_name(input, allow_numbers)
 
+
 /datum/preference/name/is_valid(value)
 	return istext(value) && !isnull(reject_bad_name(value, allow_numbers))
+
 
 /// A character's real name
 /datum/preference/name/real_name
@@ -43,15 +48,14 @@
 /datum/preference/name/real_name/apply_to_human(mob/living/carbon/human/target, value)
 	target.real_name = value
 	target.name = value
-	target.log_mob_tag("RENAMED: [key_name(target)]")
+	target.log_mob_tag("TAG: [target.tag] RENAMED: [key_name(target)]")
 
 /datum/preference/name/real_name/create_informed_default_value(datum/preferences/preferences)
-	var/species_type = preferences.read_preference(/datum/preference/choiced/species)
-	var/gender = preferences.read_preference(/datum/preference/choiced/gender)
-
-	var/datum/species/species = new species_type
-
-	return species.random_name(gender, unique = TRUE)
+	return generate_random_name_species_based(
+		preferences.read_preference(/datum/preference/choiced/gender),
+		TRUE,
+		preferences.read_preference(/datum/preference/choiced/species),
+	)
 
 /datum/preference/name/real_name/deserialize(input, datum/preferences/preferences)
 	input = ..(input)
@@ -75,9 +79,7 @@
 	allow_numbers = TRUE // Monkestation addition
 
 /datum/preference/name/backup_human/create_informed_default_value(datum/preferences/preferences)
-	var/gender = preferences.read_preference(/datum/preference/choiced/gender)
-
-	return random_unique_name(gender)
+	return generate_random_name(preferences.read_preference(/datum/preference/choiced/gender))
 
 /datum/preference/name/clown
 	savefile_key = "clown_name"
@@ -176,8 +178,40 @@
 		return FALSE
 
 	// If one of the roles is ticked in the antag prefs menu, this option will show.
+<<<<<<< HEAD
 	var/static/list/ops_roles = list(ROLE_OPERATIVE, ROLE_LONE_OPERATIVE, ROLE_OPERATIVE_MIDROUND, ROLE_CLOWN_OPERATIVE, ROLE_JUNIOR_LONE_OPERATIVE, ROLE_COMMANDO_OPERATIVE, ROLE_COMMANDO_OPERATIVE_MIDROUND)
+=======
+	var/static/list/ops_roles = list(ROLE_OPERATIVE, ROLE_LONE_OPERATIVE, ROLE_OPERATIVE_MIDROUND, ROLE_CLOWN_OPERATIVE)
+>>>>>>> tg-pr-88929
 	if(length(ops_roles & preferences.be_special))
 		return TRUE
 
 	return FALSE
+<<<<<<< HEAD
+=======
+
+
+/// The name to use while bitrunning
+/datum/preference/name/hacker_alias
+	explanation = "Hacker alias"
+	group = "bitrunning"
+	savefile_key = "hacker_alias"
+	relevant_job = /datum/job/bitrunner
+
+
+/datum/preference/name/hacker_alias/create_default_value()
+	return pick(GLOB.hacker_aliases)
+
+
+/datum/preference/name/hacker_alias/is_valid(value)
+	return !isnull(permissive_sanitize_name(value))
+
+
+/datum/preference/name/hacker_alias/deserialize(input, datum/preferences/preferences)
+	return permissive_sanitize_name(input)
+
+
+/datum/preference/name/hacker_alias/serialize(input)
+	return permissive_sanitize_name(input)
+
+>>>>>>> tg-pr-88929

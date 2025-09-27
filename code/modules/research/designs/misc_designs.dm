@@ -1,7 +1,4 @@
-
-/////////////////////////////////////////
-/////////////////HUDs////////////////////
-/////////////////////////////////////////
+// HUDs
 
 /datum/design/health_hud
 	name = "Health Scanner HUD"
@@ -90,9 +87,7 @@
 	)
 	departmental_flags = DEPARTMENT_BITFLAG_SCIENCE
 
-/////////////////////////////////////////
-//////////////////Misc///////////////////
-/////////////////////////////////////////
+// Misc
 
 /datum/design/welding_goggles
 	name = "Welding Goggles"
@@ -171,6 +166,7 @@
 	)
 	departmental_flags = DEPARTMENT_BITFLAG_SERVICE
 
+<<<<<<< HEAD
 /datum/design/air_horn
 	name = "Air Horn"
 	desc = "Damn son, where'd you find this?"
@@ -183,12 +179,25 @@
 	)
 	departmental_flags = DEPARTMENT_BITFLAG_SERVICE
 
+=======
+>>>>>>> tg-pr-88929
 /datum/design/clown_firing_pin
 	name = "Hilarious Firing Pin"
 	id = "clown_firing_pin"
 	build_type = PROTOLATHE | AWAY_LATHE
 	materials = list(/datum/material/iron =SMALL_MATERIAL_AMOUNT*5, /datum/material/glass =SMALL_MATERIAL_AMOUNT * 3, /datum/material/bananium =SMALL_MATERIAL_AMOUNT*5)
 	build_path = /obj/item/firing_pin/clown
+	category = list(
+		RND_CATEGORY_EQUIPMENT + RND_SUBCATEGORY_EQUIPMENT_SERVICE
+	)
+	departmental_flags = DEPARTMENT_BITFLAG_SERVICE
+
+/datum/design/water_balloon
+	name = "Water Balloon"
+	id = "water_balloon"
+	build_type = PROTOLATHE | AWAY_LATHE
+	materials = list(/datum/material/plastic =SMALL_MATERIAL_AMOUNT*5)
+	build_path = /obj/item/toy/waterballoon
 	category = list(
 		RND_CATEGORY_EQUIPMENT + RND_SUBCATEGORY_EQUIPMENT_SERVICE
 	)
@@ -426,7 +435,7 @@
 	category = list(
 		RND_CATEGORY_STOCK_PARTS + RND_SUBCATEGORY_STOCK_PARTS_MISC
 	)
-	departmental_flags = DEPARTMENT_BITFLAG_ENGINEERING
+	departmental_flags = DEPARTMENT_BITFLAG_ENGINEERING | DEPARTMENT_BITFLAG_SERVICE
 
 /datum/design/oxygen_tank
 	name = "Oxygen Tank"
@@ -489,7 +498,7 @@
 
 /datum/design/plasticducky
 	name = "Rubber Ducky"
-	desc = "The classic Nanotrasen design for competitively priced bath based duck toys. No need for fancy Waffle co. rubber, buy Plastic Ducks today!"
+	desc = "The classic Nanotrasen design for competitively priced bath based duck toys. No need for fancy Waffle Corp. rubber, buy Plastic Ducks today!"
 	id = "plasticducky"
 	build_type = PROTOLATHE | AWAY_LATHE
 	materials = list(/datum/material/plastic =HALF_SHEET_MATERIAL_AMOUNT)
@@ -511,9 +520,7 @@
 	)
 	departmental_flags = DEPARTMENT_BITFLAG_ENGINEERING | DEPARTMENT_BITFLAG_SECURITY | DEPARTMENT_BITFLAG_SCIENCE
 
-/////////////////////////////////////////
-////////////Janitor Designs//////////////
-/////////////////////////////////////////
+// Janitor Designs
 
 /datum/design/advmop
 	name = "Advanced Mop"
@@ -636,9 +643,7 @@
 	departmental_flags = DEPARTMENT_BITFLAG_SERVICE
 
 
-/////////////////////////////////////////
-/////////////Hydroponics/////////////////
-/////////////////////////////////////////
+// Hydroponics
 
 /datum/design/adv_watering_can
 	name = "Advanced Watering Can"
@@ -651,9 +656,7 @@
 	build_path = /obj/item/reagent_containers/cup/watering_can/advanced
 	departmental_flags = DEPARTMENT_BITFLAG_SERVICE
 
-/////////////////////////////////////////
-/////////////Holobarriers////////////////
-/////////////////////////////////////////
+// Holobarriers
 
 /datum/design/holosign
 	name = "Holographic Sign Projector"
@@ -727,12 +730,10 @@
 	)
 	departmental_flags = DEPARTMENT_BITFLAG_MEDICAL
 
-/////////////////////////////////////////
-////////////////Armour///////////////////
-/////////////////////////////////////////
+// Armour
 
 /datum/design/reactive_armour
-	name = "Reactive Armour Shell"
+	name = "Reactive Armor Shell"
 	desc = "An experimental suit of armour capable of utilizing an implanted anomaly core to protect the user."
 	id = "reactive_armour"
 	build_type = PROTOLATHE | AWAY_LATHE
@@ -743,7 +744,11 @@
 		/datum/material/silver = SHEET_MATERIAL_AMOUNT*2.5,
 		/datum/material/gold = SHEET_MATERIAL_AMOUNT * 2.5,
 	)
+<<<<<<< HEAD
 	build_path = /obj/item/reactive_armour_shell
+=======
+	build_path = /obj/item/reactive_armor_shell
+>>>>>>> tg-pr-88929
 	category = list(
 		RND_CATEGORY_EQUIPMENT + RND_SUBCATEGORY_EQUIPMENT_SCIENCE
 	)
@@ -767,11 +772,7 @@
 	build_path = /obj/item/clothing/head/helmet/knight/greyscale
 	category = list(RND_CATEGORY_IMPORTED)
 
-
-
-/////////////////////////////////////////
-/////////////Security////////////////////
-/////////////////////////////////////////
+// Security
 
 /datum/design/seclite
 	name = "Seclite"
@@ -834,6 +835,10 @@
 	)
 	departmental_flags = DEPARTMENT_BITFLAG_SECURITY
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> tg-pr-88929
 /datum/design/dragnet_beacon
 	name = "DRAGnet Beacon"
 	desc = "A beacon that can be used as a teleport destination for DRAGnet snare rounds. Remember to sync it with your DRAGnet first!"
@@ -853,6 +858,17 @@
 	build_type = PROTOLATHE | AWAY_LATHE
 	materials = list(/datum/material/iron =SHEET_MATERIAL_AMOUNT * 2.5, /datum/material/glass =HALF_SHEET_MATERIAL_AMOUNT, /datum/material/gold =HALF_SHEET_MATERIAL_AMOUNT, /datum/material/uranium =SHEET_MATERIAL_AMOUNT)
 	build_path = /obj/item/inspector
+	category = list(
+		RND_CATEGORY_EQUIPMENT + RND_SUBCATEGORY_EQUIPMENT_SECURITY
+	)
+	departmental_flags = DEPARTMENT_BITFLAG_SECURITY
+
+/datum/design/sec_pen
+	name = "Security Pen"
+	id = "sec_pen"
+	build_type = PROTOLATHE | AUTOLATHE
+	materials = list(/datum/material/iron =SMALL_MATERIAL_AMOUNT)
+	build_path = /obj/item/pen/red/security
 	category = list(
 		RND_CATEGORY_EQUIPMENT + RND_SUBCATEGORY_EQUIPMENT_SECURITY
 	)
@@ -891,9 +907,7 @@
 	)
 	departmental_flags = ALL
 
-/////////////////////////////////////////
-/////////////////Tape////////////////////
-/////////////////////////////////////////
+// Tape
 
 /datum/design/super_sticky_tape
 	name = "Super Sticky Tape"
@@ -928,9 +942,7 @@
 	)
 	departmental_flags = DEPARTMENT_BITFLAG_SERVICE
 
-/////////////////////////////////////////
-////////////Tackle Gloves////////////////
-/////////////////////////////////////////
+// Tackle Gloves
 
 /datum/design/tackle_dolphin
 	name = "Dolphin Gloves"
@@ -954,11 +966,7 @@
 	)
 	departmental_flags = DEPARTMENT_BITFLAG_SECURITY
 
-
-
-/////////////////////////////////////////
-/////////Restaurant Equipment////////////
-/////////////////////////////////////////
+// Restaurant Equipment
 
 /datum/design/holosign/restaurant
 	name = "Restaurant Seating Projector"
@@ -996,9 +1004,7 @@
 	)
 	departmental_flags = DEPARTMENT_BITFLAG_SERVICE
 
-/////////////////////////////////////////
-/////////Fishing Equipment///////////////
-/////////////////////////////////////////
+// Fishing Equipment
 
 /datum/design/fishing_rod_tech
 	name = "Advanced Fishing Rod"
@@ -1010,35 +1016,104 @@
 	category = list(
 		RND_CATEGORY_EQUIPMENT + RND_SUBCATEGORY_EQUIPMENT_SERVICE
 	)
-	departmental_flags = DEPARTMENT_BITFLAG_SERVICE
+	departmental_flags = DEPARTMENT_BITFLAG_SERVICE | DEPARTMENT_BITFLAG_CARGO | DEPARTMENT_BITFLAG_SCIENCE
 
+<<<<<<< HEAD
+=======
+/datum/design/fishing_gloves
+	name = "Athletic Fishing Gloves"
+	desc = "A pair of gloves to fish without a fishing rod and train your athletics with."
+	id = "fishing_gloves"
+	build_type = PROTOLATHE | AWAY_LATHE
+	materials = list(/datum/material/iron = HALF_SHEET_MATERIAL_AMOUNT, /datum/material/plastic = SHEET_MATERIAL_AMOUNT)
+	build_path = /obj/item/clothing/gloves/fishing
+	category = list(
+		RND_CATEGORY_EQUIPMENT + RND_SUBCATEGORY_EQUIPMENT_SERVICE
+	)
+	departmental_flags = DEPARTMENT_BITFLAG_SERVICE | DEPARTMENT_BITFLAG_CARGO | DEPARTMENT_BITFLAG_SCIENCE
+
+>>>>>>> tg-pr-88929
 /datum/design/stabilized_hook
 	name = "Gyro-Stabilized Hook"
 	desc = "An advanced fishing hook that gives the user a tighter control on the fish when reeling in."
 	id = "stabilized_hook"
 	build_type = PROTOLATHE | AWAY_LATHE
+<<<<<<< HEAD
 	materials = list(/datum/material/iron = SMALL_MATERIAL_AMOUNT*5, /datum/material/gold = SMALL_MATERIAL_AMOUNT*3, /datum/material/titanium = SMALL_MATERIAL_AMOUNT*2)
+=======
+	materials = list(/datum/material/iron = SMALL_MATERIAL_AMOUNT * 5, /datum/material/gold = SMALL_MATERIAL_AMOUNT * 3, /datum/material/titanium = SMALL_MATERIAL_AMOUNT * 2)
+>>>>>>> tg-pr-88929
 	build_path = /obj/item/fishing_hook/stabilized
 	category = list(
 		RND_CATEGORY_EQUIPMENT + RND_SUBCATEGORY_EQUIPMENT_SERVICE
 	)
+<<<<<<< HEAD
 	departmental_flags = DEPARTMENT_BITFLAG_SERVICE
+=======
+	departmental_flags = DEPARTMENT_BITFLAG_SERVICE | DEPARTMENT_BITFLAG_CARGO | DEPARTMENT_BITFLAG_SCIENCE
+
+/datum/design/auto_reel
+	name = "Fishing Line Auto-Reel"
+	desc = "An advanced line reel which can be used speed up fishing or casually snag other items in your direction."
+	id = "auto_reel"
+	build_type = PROTOLATHE | AWAY_LATHE
+	materials = list(/datum/material/iron = SMALL_MATERIAL_AMOUNT * 4, /datum/material/gold = SMALL_MATERIAL_AMOUNT * 3, /datum/material/silver = SMALL_MATERIAL_AMOUNT * 3)
+	build_path = /obj/item/fishing_line/auto_reel
+	category = list(
+		RND_CATEGORY_EQUIPMENT + RND_SUBCATEGORY_EQUIPMENT_SERVICE
+	)
+	departmental_flags = DEPARTMENT_BITFLAG_SERVICE | DEPARTMENT_BITFLAG_CARGO | DEPARTMENT_BITFLAG_SCIENCE
+>>>>>>> tg-pr-88929
 
 /datum/design/fish_analyzer
 	name = "Fish Analyzer"
 	desc = "An analyzer used to monitor fish's status and traits with."
 	id = "fish_analyzer"
 	build_type = PROTOLATHE | AWAY_LATHE
+<<<<<<< HEAD
 	materials = list(/datum/material/iron = SMALL_MATERIAL_AMOUNT*5, /datum/material/glass = SMALL_MATERIAL_AMOUNT*0.5)
+=======
+	materials = list(/datum/material/iron = SMALL_MATERIAL_AMOUNT * 5, /datum/material/glass = SMALL_MATERIAL_AMOUNT * 0.5)
+>>>>>>> tg-pr-88929
 	build_path = /obj/item/fish_analyzer
 	category = list(
 		RND_CATEGORY_EQUIPMENT + RND_SUBCATEGORY_EQUIPMENT_SERVICE
 	)
+<<<<<<< HEAD
 	departmental_flags = DEPARTMENT_BITFLAG_SERVICE
 
 /////////////////////////////////////////
 /////////Coffeemaker Stuff///////////////
 /////////////////////////////////////////
+=======
+	departmental_flags = DEPARTMENT_BITFLAG_SERVICE | DEPARTMENT_BITFLAG_CARGO | DEPARTMENT_BITFLAG_SCIENCE
+
+/datum/design/bluespace_fish_case
+	name = "Bluespace Fish Case"
+	desc = "An improved fish case to keep large fish in stasis in a compact little space."
+	id = "bluespace_fish_case"
+	build_type = PROTOLATHE | AWAY_LATHE
+	materials = list(/datum/material/iron = SMALL_MATERIAL_AMOUNT, /datum/material/plastic = SMALL_MATERIAL_AMOUNT, /datum/material/bluespace = SMALL_MATERIAL_AMOUNT)
+	build_path = /obj/item/storage/fish_case/bluespace
+	category = list(
+		RND_CATEGORY_EQUIPMENT + RND_SUBCATEGORY_EQUIPMENT_SERVICE
+	)
+	departmental_flags = DEPARTMENT_BITFLAG_SERVICE | DEPARTMENT_BITFLAG_CARGO | DEPARTMENT_BITFLAG_SCIENCE
+
+/datum/design/bluespace_fish_tank
+	name = "Bluespace Fish Tank Kit"
+	desc = "The required components to upgrade the capacity of a fish tank."
+	id = "bluespace_fish_tank_kit"
+	build_type = PROTOLATHE | AWAY_LATHE
+	materials = list(/datum/material/iron = SMALL_MATERIAL_AMOUNT * 3, /datum/material/titanium = SMALL_MATERIAL_AMOUNT, /datum/material/bluespace = SMALL_MATERIAL_AMOUNT * 3)
+	build_path = /obj/item/aquarium_upgrade/bluespace_tank
+	category = list(
+		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_SERVICE,
+	)
+	departmental_flags = DEPARTMENT_BITFLAG_SERVICE | DEPARTMENT_BITFLAG_CARGO | DEPARTMENT_BITFLAG_SCIENCE
+
+// Coffeemaker Stuff
+>>>>>>> tg-pr-88929
 
 /datum/design/coffeepot
 	name = "Coffeepot"
@@ -1084,6 +1159,7 @@
 	)
 	departmental_flags = DEPARTMENT_BITFLAG_SERVICE
 
+<<<<<<< HEAD
 /////////////////////////////////////////
 ////////////Soul Catchers////////////////
 /////////////////////////////////////////
@@ -1194,6 +1270,52 @@
 	)
 	build_path = /obj/item/flashlight/lamp/space_bubble
 	category = list(
+=======
+/datum/design/radio_navigation_beacon
+	name = "Compact Radio Navigation Gigabeacon"
+	id = "gigabeacon"
+	build_type = PROTOLATHE | AWAY_LATHE
+	materials = list(/datum/material/iron = SHEET_MATERIAL_AMOUNT * 2,
+		/datum/material/glass = HALF_SHEET_MATERIAL_AMOUNT)
+	build_path = /obj/item/folded_navigation_gigabeacon
+	category = list(
+		RND_CATEGORY_EQUIPMENT + RND_SUBCATEGORY_EQUIPMENT_ENGINEERING
+	)
+	departmental_flags = DEPARTMENT_BITFLAG_ENGINEERING | DEPARTMENT_BITFLAG_SCIENCE | DEPARTMENT_BITFLAG_CARGO
+
+// Experimental designs
+
+/datum/design/polymorph_belt
+	name = "Polymorphic Field Inverter"
+	id = "polymorph_belt"
+	desc = "This device can scan and store DNA from other life forms, and use it to transform its wearer. It requires a Bioscrambler Anomaly Core in order to function."
+	build_type = PROTOLATHE | AWAY_LATHE
+	build_path = /obj/item/polymorph_belt
+	materials = list(
+		/datum/material/silver = SHEET_MATERIAL_AMOUNT * 2,
+		/datum/material/uranium = SHEET_MATERIAL_AMOUNT,
+		/datum/material/diamond = SHEET_MATERIAL_AMOUNT,
+	)
+	category = list(
+		RND_CATEGORY_EQUIPMENT + RND_SUBCATEGORY_EQUIPMENT_SCIENCE
+	)
+	departmental_flags = DEPARTMENT_BITFLAG_SCIENCE
+
+/datum/design/perceptomatrix
+	name = "Perceptomatrix Helm"
+	id = "perceptomatrix"
+	desc = "This helm harnesses hallucinative energies to shield its owner from perceptual anomalies. It requires a Hallucination Anomaly Core in order to function."
+	build_type = PROTOLATHE | AWAY_LATHE
+	build_path = /obj/item/clothing/head/helmet/perceptomatrix
+	materials = list(
+		/datum/material/titanium = SHEET_MATERIAL_AMOUNT * 2,
+		/datum/material/silver = SHEET_MATERIAL_AMOUNT * 1,
+		/datum/material/gold = SHEET_MATERIAL_AMOUNT * 0.5,
+		/datum/material/plasma = SHEET_MATERIAL_AMOUNT * 3,
+		/datum/material/uranium = SHEET_MATERIAL_AMOUNT,
+	)
+	category = list(
+>>>>>>> tg-pr-88929
 		RND_CATEGORY_EQUIPMENT + RND_SUBCATEGORY_EQUIPMENT_SCIENCE
 	)
 	departmental_flags = DEPARTMENT_BITFLAG_SCIENCE

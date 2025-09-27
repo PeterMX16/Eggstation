@@ -12,8 +12,15 @@
 	var/mob/wearer
 	/// Callback called when we catch a projectile
 	var/datum/callback/on_intercepted
+<<<<<<< HEAD
 
 /datum/component/bullet_intercepting/Initialize(block_chance = 2, block_type = BULLET, active_slots, datum/callback/on_intercepted)
+=======
+	/// Number of things we can block before we delete ourself (stop being able to block)
+	var/block_charges = INFINITY
+
+/datum/component/bullet_intercepting/Initialize(block_chance = 2, block_type = BULLET, active_slots, datum/callback/on_intercepted, block_charges = INFINITY)
+>>>>>>> tg-pr-88929
 	. = ..()
 	if (!isitem(parent))
 		return COMPONENT_INCOMPATIBLE
@@ -21,6 +28,10 @@
 	src.block_type = block_type
 	src.active_slots = active_slots
 	src.on_intercepted = on_intercepted
+<<<<<<< HEAD
+=======
+	src.block_charges = block_charges
+>>>>>>> tg-pr-88929
 
 	RegisterSignal(parent, COMSIG_ITEM_EQUIPPED, PROC_REF(on_parent_equipped))
 	RegisterSignal(parent, COMSIG_ITEM_PRE_UNEQUIP, PROC_REF(on_unequipped))
@@ -53,6 +64,7 @@
 	wearer = null
 
 /// Called when wearer is shot, check if we're going to block the hit
+<<<<<<< HEAD
 /datum/component/bullet_intercepting/proc/on_wearer_shot(mob/living/victim, list/signal_args, obj/projectile/bullet)
 	SIGNAL_HANDLER
 	if (victim != wearer || victim.stat == DEAD || bullet.armor_flag != block_type )
@@ -60,6 +72,18 @@
 	if (!prob(block_chance))
 		return
 	on_intercepted?.Invoke(victim, bullet)
+=======
+/datum/component/bullet_intercepting/proc/on_wearer_shot(mob/living/victim, obj/projectile/bullet)
+	SIGNAL_HANDLER
+	if (victim != wearer || victim.stat == DEAD || bullet.armor_flag != block_type)
+		return NONE
+	if (!prob(block_chance))
+		return NONE
+	on_intercepted?.Invoke(victim, bullet)
+	block_charges--
+	if (block_charges <= 0)
+		qdel(src)
+>>>>>>> tg-pr-88929
 	return PROJECTILE_INTERRUPT_HIT
 
 /// Called when wearer is deleted, stop tracking them

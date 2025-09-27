@@ -11,7 +11,7 @@
 	mob_biotypes = MOB_ORGANIC | MOB_BEAST
 	speak_emote = list("moos","moos hauntingly")
 	speed = 1.1
-	butcher_results = list(/obj/item/food/meat/slab = 6)
+	butcher_results = list(/obj/item/food/meat/slab/grassfed = 6)
 	response_help_continuous = "pets"
 	response_help_simple = "pet"
 	response_disarm_continuous = "gently pushes aside"
@@ -20,7 +20,7 @@
 	response_harm_simple = "kick"
 	attack_verb_continuous = "kicks"
 	attack_verb_simple = "kick"
-	attack_sound = 'sound/weapons/punch1.ogg'
+	attack_sound = 'sound/items/weapons/punch1.ogg'
 	attack_vis_effect = ATTACK_EFFECT_KICK
 	health = 50
 	maxHealth = 50
@@ -33,8 +33,25 @@
 	var/tame_message = "lets out a happy moo"
 	/// singular version for player cows
 	var/self_tame_message = "let out a happy moo"
+<<<<<<< HEAD
 	/// does this cow contribute to the cowcap?
 	var/contributes_to_cowcap = TRUE
+=======
+	/// What kind of juice do we produce?
+	var/milked_reagent = /datum/reagent/consumable/milk
+
+/datum/emote/cow
+	mob_type_allowed_typecache = /mob/living/basic/cow
+	mob_type_blacklist_typecache = list()
+
+/datum/emote/cow/moo
+	key = "moo"
+	key_third_person = "moos"
+	message = "moos happily!"
+	emote_type = EMOTE_VISIBLE | EMOTE_AUDIBLE
+	vary = TRUE
+	sound = 'sound/mobs/non-humanoids/cow/cow.ogg'
+>>>>>>> tg-pr-88929
 
 /mob/living/basic/cow/Initialize(mapload)
 	if(contributes_to_cowcap)
@@ -50,20 +67,24 @@
 		untip_time = 0.5 SECONDS, \
 		self_right_time = rand(25 SECONDS, 50 SECONDS), \
 		post_tipped_callback = CALLBACK(src, PROC_REF(after_cow_tipped)))
-	AddElement(/datum/element/pet_bonus, "moos happily!")
+	AddElement(/datum/element/pet_bonus, "moo")
 	AddElement(/datum/element/swabable, CELL_LINE_TABLE_COW, CELL_VIRUS_TABLE_GENERIC_MOB, 1, 5)
-	udder_component()
+	setup_udder()
 	setup_eating()
 	. = ..()
+<<<<<<< HEAD
 	ai_controller.set_blackboard_key(BB_BASIC_FOODS, food_types)
 
 /mob/living/basic/cow/Destroy()
 	SSmobs.cubecows -= src
 	return ..()
+=======
+	ai_controller.set_blackboard_key(BB_BASIC_FOODS, typecacheof(food_types))
+>>>>>>> tg-pr-88929
 
 ///wrapper for the udder component addition so you can have uniquely uddered cow subtypes
-/mob/living/basic/cow/proc/udder_component()
-	AddComponent(/datum/component/udder)
+/mob/living/basic/cow/proc/setup_udder()
+	AddComponent(/datum/component/udder, reagent_produced_override = milked_reagent)
 
 /*
  * food related components and elements are set up here for a few reasons:
@@ -76,10 +97,15 @@
 	if(!food_types)
 		food_types = src.food_types.Copy()
 	AddComponent(/datum/component/tameable, food_types = food_types, tame_chance = 25, bonus_tame_chance = 15)
+<<<<<<< HEAD
 	AddElement(/datum/element/basic_eating, food_types = food_types)
 
 /mob/living/basic/cow/tamed(mob/living/tamer, atom/food)
 	buckle_lying = 0
+=======
+
+/mob/living/basic/cow/tamed(mob/living/tamer, atom/food)
+>>>>>>> tg-pr-88929
 	visible_message("[src] [tame_message] as it seems to bond with [tamer].", "You [self_tame_message], recognizing [tamer] as your new pal.")
 	AddElement(/datum/element/ridable, /datum/component/riding/creature/cow)
 

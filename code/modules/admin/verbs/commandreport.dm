@@ -4,8 +4,13 @@
 #define WIZARD_PRESET "The Wizard Federation"
 #define CUSTOM_PRESET "Custom Command Name"
 
+<<<<<<< HEAD
 ADMIN_VERB(change_command_name, R_ADMIN, FALSE, "Change Command Name", "Change the name of Central Command.", ADMIN_CATEGORY_EVENTS)
 	var/input = input(user, "Please input a new name for Central Command.", "What?", "") as text | null
+=======
+ADMIN_VERB(change_command_name, R_ADMIN, "Change Command Name", "Change the name of Central Command.", ADMIN_CATEGORY_EVENTS)
+	var/input = input(user, "Please input a new name for Central Command.", "What?", "") as text|null
+>>>>>>> tg-pr-88929
 	if(!input)
 		return
 	change_command_name(input)
@@ -13,7 +18,11 @@ ADMIN_VERB(change_command_name, R_ADMIN, FALSE, "Change Command Name", "Change t
 	log_admin("[key_name(user)] has changed the Central Command name to: [input]")
 
 /// Verb to open the create command report window and send command reports.
+<<<<<<< HEAD
 ADMIN_VERB(create_command_report, R_ADMIN, FALSE, "Create Command Report", "Create a command report to be sent to the station.", ADMIN_CATEGORY_EVENTS)
+=======
+ADMIN_VERB(create_command_report, R_ADMIN, "Create Command Report", "Create a command report to be sent to the station.", ADMIN_CATEGORY_EVENTS)
+>>>>>>> tg-pr-88929
 	BLACKBOX_LOG_ADMIN_VERB("Create Command Report")
 	var/datum/command_report_menu/tgui = new /datum/command_report_menu(user.mob)
 	tgui.ui_interact(user.mob)
@@ -33,7 +42,11 @@ ADMIN_VERB(create_command_report, R_ADMIN, FALSE, "Create Command Report", "Crea
 	/// Whether a copy of the report is printed at every console.
 	var/print_report = TRUE
 	/// The sound that's going to accompany our message.
+<<<<<<< HEAD
 	var/played_sound = DEFAULT_COMMANDREPORT_SOUND
+=======
+	var/played_sound = DEFAULT_ANNOUNCEMENT_SOUND
+>>>>>>> tg-pr-88929
 	/// The colour of the announcement when sent
 	var/announcement_color = "default"
 	/// The subheader to include when sending the announcement. Keep blank to not include a subheader
@@ -75,7 +88,11 @@ ADMIN_VERB(create_command_report, R_ADMIN, FALSE, "Create Command Report", "Crea
 /datum/command_report_menu/ui_static_data(mob/user)
 	var/list/data = list()
 	data["command_name_presets"] = preset_names
+<<<<<<< HEAD
 	data["announcer_sounds"] = list(DEFAULT_COMMANDREPORT_SOUND, DEFAULT_ALERT_SOUND, CUSTOM_ALERT_SOUND) + GLOB.announcer_keys // Monkestation edit - custom alert sounds
+=======
+	data["announcer_sounds"] = list(DEFAULT_ANNOUNCEMENT_SOUND) + GLOB.announcer_keys
+>>>>>>> tg-pr-88929
 	data["announcement_colors"] = ANNOUNCEMENT_COLORS
 
 	return data
@@ -166,6 +183,7 @@ ADMIN_VERB(create_command_report, R_ADMIN, FALSE, "Create Command Report", "Crea
 				chosen_color = "red"
 			else if(command_name == WIZARD_PRESET)
 				chosen_color = "purple"
+<<<<<<< HEAD
 		// monkestation edit start - preview reports, togglable update append
 		if (preview)
 			to_chat(ui_user, "The following is a preview of what the command report will look like for other players.")
@@ -176,6 +194,12 @@ ADMIN_VERB(create_command_report, R_ADMIN, FALSE, "Create Command Report", "Crea
 
 	if(!preview && (!announce_contents || print_report))
 		print_command_report(command_report_content, "[announce_contents ? "" : "Classified "][command_name] Update", !announce_contents, sanitize = sanitize_content)
+=======
+		priority_announce(command_report_content, subheader == ""? null : subheader, report_sound, has_important_message = TRUE, color_override = chosen_color)
+
+	if(!announce_contents || print_report)
+		print_command_report(command_report_content, "[announce_contents ? "" : "Classified "][command_name] Update", !announce_contents)
+>>>>>>> tg-pr-88929
 
 	change_command_name(original_command_name)
 

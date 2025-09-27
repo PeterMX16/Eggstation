@@ -1,6 +1,6 @@
 // Cannabis
 /obj/item/seeds/cannabis
-	name = "pack of cannabis seeds"
+	name = "cannabis seed pack"
 	desc = "Taxable."
 	icon_state = "seed-cannabis"
 	plant_icon_offset = 6
@@ -10,7 +10,12 @@
 	maturation = 40
 	potency = 20
 	growthstages = 1
+<<<<<<< HEAD
 	growing_icon = 'icons/obj/hydroponics/growing.dmi'
+=======
+	instability = 40
+	growing_icon = 'icons/obj/service/hydroponics/growing.dmi'
+>>>>>>> tg-pr-88929
 	icon_grow = "cannabis-grow" // Uses one growth icons set for all the subtypes
 	icon_dead = "cannabis-dead" // Same for the dead icon
 	genes = list(/datum/plant_gene/trait/repeated_harvest)
@@ -22,7 +27,7 @@
 
 
 /obj/item/seeds/cannabis/rainbow
-	name = "pack of rainbow weed seeds"
+	name = "rainbow weed seed pack"
 	desc = "These seeds grow into rainbow weed. Groovy... and also highly addictive."
 	icon_state = "seed-megacannabis"
 	icon_grow = "megacannabis-grow"
@@ -34,7 +39,7 @@
 	rarity = 40
 
 /obj/item/seeds/cannabis/death
-	name = "pack of deathweed seeds"
+	name = "deathweed seed pack"
 	desc = "These seeds grow into deathweed. Not groovy."
 	icon_state = "seed-blackcannabis"
 	icon_grow = "blackcannabis-grow"
@@ -46,7 +51,7 @@
 	rarity = 40
 
 /obj/item/seeds/cannabis/white
-	name = "pack of lifeweed seeds"
+	name = "lifeweed seed pack"
 	desc = "I will give unto him that is munchies of the fountain of the cravings of life, freely."
 	icon_state = "seed-whitecannabis"
 	icon_grow = "whitecannabis-grow"
@@ -59,7 +64,7 @@
 
 
 /obj/item/seeds/cannabis/ultimate
-	name = "pack of omega weed seeds"
+	name = "omega weed seed pack"
 	desc = "These seeds grow into omega weed."
 	icon_state = "seed-ocannabis"
 	plant_icon_offset = 0
@@ -88,7 +93,7 @@
 
 /obj/item/food/grown/cannabis
 	seed = /obj/item/seeds/cannabis
-	icon = 'icons/obj/hydroponics/harvest.dmi'
+	icon = 'icons/obj/service/hydroponics/harvest.dmi'
 	name = "cannabis leaf"
 	desc = "Recently legalized in most galaxies."
 	icon_state = "cannabis"

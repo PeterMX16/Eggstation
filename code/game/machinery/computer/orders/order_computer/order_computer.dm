@@ -50,7 +50,7 @@ GLOBAL_LIST_EMPTY(order_console_products)
 	if(GLOB.order_console_products.len)
 		return
 	for(var/datum/orderable_item/path as anything in subtypesof(/datum/orderable_item))
-		if(!initial(path.item_path))
+		if(!initial(path.purchase_path))
 			continue
 		GLOB.order_console_products += new path
 
@@ -74,10 +74,10 @@ GLOBAL_LIST_EMPTY(order_console_products)
 /**
  * points is any type of currency this machine accepts(money, mining points etc) which is displayed on the ui
  * Args:
- * card - The ID card we retrive these points from
+ * card - The ID card we retrieve these points from
  */
-/obj/machinery/computer/order_console/proc/retrive_points(obj/item/card/id/id_card)
-	return FLOOR(id_card.registered_account?.account_balance, 1)
+/obj/machinery/computer/order_console/proc/retrieve_points(obj/item/card/id/id_card)
+	return round(id_card.registered_account?.account_balance)
 
 /obj/machinery/computer/order_console/ui_data(mob/user)
 	var/list/data = list()
@@ -95,7 +95,11 @@ GLOBAL_LIST_EMPTY(order_console_products)
 		var/mob/living/living_user = user
 		var/obj/item/card/id/id_card = living_user.get_idcard(TRUE)
 		if(id_card)
+<<<<<<< HEAD
 			data["points"] = retrive_points(id_card)
+=======
+			data["points"] = retrieve_points(id_card)
+>>>>>>> tg-pr-88929
 
 	return data
 
@@ -119,9 +123,15 @@ GLOBAL_LIST_EMPTY(order_console_products)
 			"desc" = item.desc,
 			"cat" = item.category_index,
 			"ref" = REF(item),
+<<<<<<< HEAD
 			"cost" = FLOOR(item.cost_per_order * cargo_cost_multiplier, 1),
 			"icon" = item.item_path::icon,
 			"icon_state" = item.item_path::icon_state,
+=======
+			"cost" = round(item.cost_per_order * cargo_cost_multiplier),
+			"icon" = item.purchase_path::icon,
+			"icon_state" = item.purchase_path::icon_state,
+>>>>>>> tg-pr-88929
 		))
 	return data
 
@@ -135,12 +145,19 @@ GLOBAL_LIST_EMPTY(order_console_products)
 	switch(action)
 		if("add_one")
 			var/datum/orderable_item/wanted_item = locate(params["target"]) in GLOB.order_console_products
-			grocery_list[wanted_item] += 1
+			if(grocery_list[wanted_item] >= 20)
+				return
+			else
+				grocery_list[wanted_item] += 1
 		if("remove_one")
 			var/datum/orderable_item/wanted_item = locate(params["target"]) in GLOB.order_console_products
 			if(!grocery_list[wanted_item])
 				return
-			grocery_list[wanted_item] -= 1
+			if(grocery_list[wanted_item] < 1)
+				grocery_list[wanted_item] = 0
+				return
+			else
+				grocery_list[wanted_item] -= 1
 			if(!grocery_list[wanted_item])
 				grocery_list -= wanted_item
 		if("cart_set")
@@ -157,6 +174,7 @@ GLOBAL_LIST_EMPTY(order_console_products)
 			//So miners cant spam buy crates for a very low price
 			if(get_total_cost() < CARGO_CRATE_VALUE)
 				return
+
 			var/obj/item/card/id/used_id_card = living_user.get_idcard(TRUE)
 			if(!used_id_card || !used_id_card.registered_account)
 				say("No bank account detected!")
@@ -191,17 +209,17 @@ GLOBAL_LIST_EMPTY(order_console_products)
 					grocery_list.Remove(item)
 					continue
 				for(var/amt in 1 to grocery_list[item])//every order amount
-					ordered_paths += item.item_path
+					ordered_paths += item.purchase_path
 			podspawn(list(
 				"target" = get_turf(living_user),
-				"style" = STYLE_BLUESPACE,
+				"style" = /datum/pod_style/advanced,
 				"spawn" = ordered_paths,
 			))
 			grocery_list.Cut()
 	return TRUE
 
 /**
- * Checks if an ID card is able to afford the total cost of the current console's grocieries
+ * Checks if an ID card is able to afford the total cost of the current console's groceries
  * and deducts the cost if they can.
  * Args:
  * card - The ID card we check for balance
@@ -209,15 +227,18 @@ GLOBAL_LIST_EMPTY(order_console_products)
  * returns TRUE if we can afford, FALSE otherwise.
  */
 /obj/machinery/computer/order_console/proc/purchase_items(obj/item/card/id/card, express = FALSE)
-	var/final_cost = get_total_cost() * (express ? express_cost_multiplier : cargo_cost_multiplier)
-	var/failure_message = !express ? "Sorry, but you do not have enough [credit_type]." : " Remember, Express upcharges the cost!"
+	var/final_cost = round(get_total_cost() * (express ? express_cost_multiplier : cargo_cost_multiplier))
 	if(subtract_points(final_cost, card))
 		return TRUE
-	say(failure_message)
+	say("Sorry, but you do not have enough [credit_type].")
 	return FALSE
 
 /**
+<<<<<<< HEAD
  * whatever type of points was retrieved in retrive_points() subtract those type of points from the card upon confirming order
+=======
+ * whatever type of points was retrieved in retrieve_points() subtract those type of points from the card upon confirming order
+>>>>>>> tg-pr-88929
  * Args:
  * final_cost - amount of points to subtract from this card
  * card - The ID card to subtract these points from

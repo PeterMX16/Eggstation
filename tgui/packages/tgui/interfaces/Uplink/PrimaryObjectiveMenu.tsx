@@ -1,5 +1,11 @@
+<<<<<<< HEAD
 import { useBackend } from '../../backend';
 import { Box, Button, Dimmer, Section, Stack } from '../../components';
+=======
+import { Box, Button, Dimmer, Section, Stack } from 'tgui-core/components';
+
+import { useBackend } from '../../backend';
+>>>>>>> tg-pr-88929
 import { ObjectiveElement } from './ObjectiveMenu';
 
 type PrimaryObjectiveMenuProps = {
@@ -20,7 +26,11 @@ export const PrimaryObjectiveMenu = (props: PrimaryObjectiveMenuProps) => {
         Your Primary Objectives are as follows. Complete these at all costs.
       </Box>
       <Box my={4} bold fontSize={1.2}>
+<<<<<<< HEAD
         Completing Secondary Objectives may allow you to acquire additional
+=======
+        Completing Secondary Objectives may allow you to aquire additional
+>>>>>>> tg-pr-88929
         equipment.
       </Box>
       {final_objective && (

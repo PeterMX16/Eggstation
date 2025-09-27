@@ -71,7 +71,7 @@
 
 	var/display_order = JOB_DISPLAY_ORDER_DEFAULT
 
-	///What types of bounty tasks can this job recieve past the default?
+	///What types of bounty tasks can this job receive past the default?
 	var/bounty_types = CIV_JOB_BASIC
 
 	/// Goodies that can be received via the mail system.
@@ -103,7 +103,11 @@
 	/// List of family heirlooms this job can get with the family heirloom quirk. List of types.
 	var/list/family_heirlooms
 
+<<<<<<< HEAD
 	/// All values = (JOB_ANNOUNCE_ARRIVAL | JOB_CREW_MANIFEST | JOB_EQUIP_RANK | JOB_CREW_MEMBER | JOB_NEW_PLAYER_JOINABLE | JOB_BOLD_SELECT_TEXT | JOB_ASSIGN_QUIRKS | JOB_CAN_BE_INTERN | JOB_CANNOT_OPEN_SLOTS)
+=======
+	/// All values = (JOB_ANNOUNCE_ARRIVAL | JOB_CREW_MANIFEST | JOB_EQUIP_RANK | JOB_CREW_MEMBER | JOB_NEW_PLAYER_JOINABLE | JOB_BOLD_SELECT_TEXT | JOB_ASSIGN_QUIRKS | JOB_CAN_BE_INTERN | JOB_CANNOT_OPEN_SLOTS | JOB_HEAD_OF_STAFF)
+>>>>>>> tg-pr-88929
 	var/job_flags = NONE
 
 	/// Holidays this job should only appear on. Leave null for it to always show. Supports multiple holidays.
@@ -118,11 +122,13 @@
 	/// String. If set to a non-empty one, it will be the key for the policy text value to show this role on spawn.
 	var/policy_index = ""
 
-	///RPG job names, for the memes
+	/// RPG job names, for the memes
 	var/rpg_title
 
-	/// Does this job ignore human authority?
-	var/ignore_human_authority = FALSE
+	/// Alternate titles to register as pointing to this job.
+	var/list/alternate_titles
+
+	var/human_authority = JOB_AUTHORITY_NON_HUMANS_ALLOWED
 
 	/// String key to track any variables we want to tie to this job in config, so we can avoid using the job title. We CAPITALIZE it in order to ensure it's unique and resistant to trivial formatting changes.
 	/// You'll probably break someone's config if you change this, so it's best to not to.
@@ -131,11 +137,19 @@
 	/// custom ringtone for this job
 	var/job_tone
 
+<<<<<<< HEAD
 	/// Donor rank required for this job. Leave null for no requirement.
 	//defines found in [code\__DEFINES\~monkestation\_patreon.dm]
 	var/job_req_donor = null //MONKESTATION EDIT
 	//donator bypass for holidays
 	var/job_donor_bypass = null //MONKESTATION EDIT
+=======
+	/// Minimal character age for this job
+	var/required_character_age
+
+	/// If set, look for a policy with this instead of the job title
+	var/policy_override
+>>>>>>> tg-pr-88929
 
 /datum/job/New()
 	. = ..()
@@ -153,10 +167,14 @@
 	if(length(mind_traits))
 		spawned.mind.add_traits(mind_traits, JOB_TRAIT)
 
+<<<<<<< HEAD
 	if(faction == FACTION_STATION)
 		ADD_TRAIT(spawned.mind, TRAIT_JOINED_AS_CREW, CREW_JOIN_TRAIT)
 
 	var/obj/item/organ/internal/liver/liver = spawned.get_organ_slot(ORGAN_SLOT_LIVER)
+=======
+	var/obj/item/organ/liver/liver = spawned.get_organ_slot(ORGAN_SLOT_LIVER)
+>>>>>>> tg-pr-88929
 	if(liver && length(liver_traits))
 		liver.add_traits(liver_traits, JOB_TRAIT)
 
@@ -178,6 +196,7 @@
 		for(var/i in roundstart_experience)
 			spawned_human.mind.adjust_experience(i, roundstart_experience[i], TRUE)
 
+<<<<<<< HEAD
 	if(prob(25))
 		var/virus_choice = pick(WILD_ACUTE_DISEASES)
 		var/list/anti = list(
@@ -206,6 +225,15 @@
 /// Announce that this job as joined the round to all crew members.
 /// Note the joining mob has no client at this point.
 /datum/job/proc/announce_job(mob/living/joining_mob, job_title)
+=======
+/// Return the outfit to use
+/datum/job/proc/get_outfit(consistent)
+	return outfit
+
+/// Announce that this job as joined the round to all crew members.
+/// Note the joining mob has no client at this point.
+/datum/job/proc/announce_job(mob/living/joining_mob)
+>>>>>>> tg-pr-88929
 	if(head_announce)
 		announce_head(joining_mob, head_announce, job_title)
 
@@ -219,6 +247,7 @@
 /datum/job/proc/special_config_check()
 	return FALSE
 
+<<<<<<< HEAD
 /mob/living/proc/on_job_equipping(datum/job/equipping, datum/preferences/used_pref)
 	return
 
@@ -256,13 +285,45 @@
 		equip_to_slot_or_del(new /obj/item/food/griddle_toast(src), ITEM_SLOT_MASK)
 
 #undef VERY_LATE_ARRIVAL_TOAST_PROB
-
-/mob/living/proc/dress_up_as_job(datum/job/equipping, visual_only = FALSE)
+=======
+/mob/living/proc/on_job_equipping(datum/job/equipping, client/player_client)
 	return
 
+#define VERY_LATE_ARRIVAL_TOAST_PROB 20
+
+/mob/living/carbon/human/on_job_equipping(datum/job/equipping, client/player_client)
+	if(equipping.paycheck_department)
+		var/datum/bank_account/bank_account = new(real_name, equipping, dna.species.payday_modifier)
+		bank_account.payday(STARTING_PAYCHECKS, TRUE)
+		account_id = bank_account.account_id
+		bank_account.replaceable = FALSE
+		add_mob_memory(/datum/memory/key/account, remembered_id = account_id)
+>>>>>>> tg-pr-88929
+
+	dress_up_as_job(
+		equipping = equipping,
+		visual_only = FALSE,
+		player_client = player_client,
+		consistent = FALSE,
+	)
+
+	if(EMERGENCY_PAST_POINT_OF_NO_RETURN && prob(VERY_LATE_ARRIVAL_TOAST_PROB))
+		equip_to_slot_or_del(new /obj/item/food/griddle_toast(src), ITEM_SLOT_MASK)
+
+#undef VERY_LATE_ARRIVAL_TOAST_PROB
+
+/mob/living/proc/dress_up_as_job(datum/job/equipping, visual_only = FALSE, client/player_client, consistent = FALSE)
+	return
+
+<<<<<<< HEAD
 /mob/living/carbon/human/dress_up_as_job(datum/job/equipping, visual_only = FALSE, datum/preferences/used_pref)
 	dna.species.pre_equip_species_outfit(equipping, src, visual_only)
 	equip_outfit_and_loadout(equipping.outfit, used_pref, visual_only, equipping)
+=======
+/mob/living/carbon/human/dress_up_as_job(datum/job/equipping, visual_only = FALSE, client/player_client, consistent = FALSE)
+	dna.species.pre_equip_species_outfit(equipping, src, visual_only)
+	equip_outfit_and_loadout(equipping.get_outfit(consistent), player_client?.prefs, visual_only)
+>>>>>>> tg-pr-88929
 
 /datum/job/proc/announce_head(mob/living/carbon/human/human, channels) //tells the given channel that the given mob is the new department head. See communications.dm for valid channels.
 	if(!human)
@@ -295,6 +356,11 @@
 
 	//Without a database connection we can't get a player's age so we'll assume they're old enough for all jobs
 	if(!SSdbcore.Connect())
+		return 0
+
+	// If they have been exempted from date availability checks, we assume they are old enough for all jobs.
+	// This is only added whenever an admin manually ticks the box for this player.
+	if(player.prefs?.db_flags & DB_FLAG_EXEMPT)
 		return 0
 
 	// As of the time of writing this comment, verifying database connection isn't "solved". Sometimes rust-g will report a
@@ -335,6 +401,7 @@
 	return TRUE
 
 /// Gets the message that shows up when spawning as this job
+<<<<<<< HEAD
 /// monkestation edit: added "chosen_title" argument
 /datum/job/proc/get_spawn_message(chosen_title)
 	SHOULD_NOT_OVERRIDE(TRUE)
@@ -350,6 +417,18 @@
 	var/list/info = list()
 	info += "<b>You are the [title].</b>\n"
 	var/related_policy = get_policy(title)
+=======
+/datum/job/proc/get_spawn_message()
+	SHOULD_NOT_OVERRIDE(TRUE)
+	return boxed_message(span_infoplain(jointext(get_spawn_message_information(), "\n&bull; ")))
+
+/// Returns a list of strings that correspond to chat messages sent to this mob when they join the round.
+/datum/job/proc/get_spawn_message_information()
+	SHOULD_CALL_PARENT(TRUE)
+	var/list/info = list()
+	info += "<b>You are the [title].</b>\n"
+	var/related_policy = get_policy(policy_override || title)
+>>>>>>> tg-pr-88929
 	var/radio_info = get_radio_information()
 	if(related_policy)
 		info += related_policy
@@ -365,22 +444,28 @@
 			[CONFIG_GET(flag/jobs_have_minimal_access) ? "full crew, only your job's necessities" : "skeleton crew, additional access may"] \
 			have been added to your ID card.")
 
+<<<<<<< HEAD
 	// monkestation edit start
 	if(chosen_title != title)
 		info += "Remember that alternate titles are purely for flavor and roleplay. " \
 			+ span_warning("Do not use your \"[chosen_title]\" alt \ title as an excuse to forego your duties as a [title].")
 	// monkestation edit end
 
+=======
+>>>>>>> tg-pr-88929
 	return info
 
 /// Returns information pertaining to this job's radio.
 /datum/job/proc/get_radio_information()
 	if(job_flags & JOB_CREW_MEMBER)
 		return "<b>Prefix your message with :h to speak on your department's radio. To see other prefixes, look closely at your headset.</b>"
+<<<<<<< HEAD
 
 //Checks if certain conditions are met making the job eligible.
 /datum/job/proc/conditions_met()
 	return TRUE
+=======
+>>>>>>> tg-pr-88929
 
 /datum/outfit/job
 	name = "Standard Gear"
@@ -400,10 +485,11 @@
 	var/backpack = /obj/item/storage/backpack
 	var/satchel = /obj/item/storage/backpack/satchel
 	var/duffelbag = /obj/item/storage/backpack/duffelbag
+	var/messenger = /obj/item/storage/backpack/messenger
 
 	var/pda_slot = ITEM_SLOT_BELT
 
-/datum/outfit/job/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+/datum/outfit/job/pre_equip(mob/living/carbon/human/H, visuals_only = FALSE)
 	if(ispath(back, /obj/item/storage/backpack))
 		switch(H.backpack)
 			if(GBACKPACK)
@@ -414,14 +500,21 @@
 				back = /obj/item/storage/backpack/duffelbag //Grey Duffel bag
 			if(LSATCHEL)
 				back = /obj/item/storage/backpack/satchel/leather //Leather Satchel
+<<<<<<< HEAD
 			if(BSATCHEL)
 				back = /obj/item/storage/backpack/satchel/blackleather //Black Leather Satchel MONKESTATION
 			if(RSATCHEL)
 				back = /obj/item/storage/backpack/satchel/retro //Retro Satchel MONKESTATION
+=======
+			if(GMESSENGER)
+				back = /obj/item/storage/backpack/messenger //Grey messenger bag
+>>>>>>> tg-pr-88929
 			if(DSATCHEL)
 				back = satchel //Department satchel
 			if(DDUFFELBAG)
 				back = duffelbag //Department duffel bag
+			if(DMESSENGER)
+				back = messenger //Department messenger bag
 			else
 				back = backpack //Department backpack
 
@@ -440,14 +533,14 @@
 	if(client?.is_veteran() && client?.prefs.read_preference(/datum/preference/toggle/playtime_reward_cloak))
 		neck = /obj/item/clothing/neck/cloak/skill_reward/playing
 
-/datum/outfit/job/post_equip(mob/living/carbon/human/equipped, visualsOnly = FALSE)
-	if(visualsOnly)
+/datum/outfit/job/post_equip(mob/living/carbon/human/equipped, visuals_only = FALSE)
+	if(visuals_only)
 		return
 
-	var/datum/job/equipped_job = SSjob.GetJobType(jobtype)
+	var/datum/job/equipped_job = SSjob.get_job_type(jobtype)
 
 	if(!equipped_job)
-		equipped_job = SSjob.GetJob(equipped.job)
+		equipped_job = SSjob.get_job(equipped.job)
 
 	var/obj/item/card/id/card = equipped.wear_id
 
@@ -563,8 +656,7 @@
 	picked.used = TRUE
 
 	if(!.)
-		log_world("Couldn't find a round start spawn point for [title]")
-
+		log_mapping("Job [title] ([type]) couldn't find a round start spawn point.")
 
 /// Finds a valid latejoin spawn point, checking for events and special conditions.
 /datum/job/proc/get_latejoin_spawn_point()
@@ -600,11 +692,28 @@
 	if(!player_client)
 		return // Disconnected while checking for the appearance ban.
 
-	var/require_human = CONFIG_GET(flag/enforce_human_authority) && (job.departments_bitflags & DEPARTMENT_BITFLAG_COMMAND)
-	if(require_human)
-		var/all_authority_require_human = CONFIG_GET(flag/enforce_human_authority_on_everyone)
-		if(!all_authority_require_human && job.ignore_human_authority)
-			require_human = FALSE
+	var/human_authority_setting = CONFIG_GET(string/human_authority)
+	var/require_human = FALSE
+
+	// If the job in question is a head of staff,
+	// check the config to see if we should force the player onto a human character or not
+	if(job.job_flags & JOB_HEAD_OF_STAFF)
+		switch(human_authority_setting)
+
+			// If non-humans are the norm and jobs must be forced to be only for humans
+			// then we only force the player to be a human if the job exclusively allows humans
+			if(HUMAN_AUTHORITY_HUMAN_WHITELIST)
+				require_human = job.human_authority == JOB_AUTHORITY_HUMANS_ONLY
+
+			// If humans are the norm and jobs must be allowed to be played by non-humans
+			// then we only force the player to be a human if the job doesn't allow for non-humans to play it
+			if(HUMAN_AUTHORITY_NON_HUMAN_WHITELIST)
+				require_human = job.human_authority != JOB_AUTHORITY_NON_HUMANS_ALLOWED
+
+			// If humans are the norm and there is no chance that a non-human can be a head of staff
+			// always return true, since there is no chance that a non-human can be a head of staff.
+			if(HUMAN_AUTHORITY_ENFORCED)
+				require_human = TRUE
 
 	src.job = job.title
 
@@ -632,12 +741,16 @@
 			dna.species.roundstart_changed = TRUE
 			apply_pref_name(/datum/preference/name/backup_human, player_client)
 		if(CONFIG_GET(flag/force_random_names))
-			var/species_type = player_client.prefs.read_preference(/datum/preference/choiced/species)
-			var/datum/species/species = new species_type
-
-			var/gender = player_client.prefs.read_preference(/datum/preference/choiced/gender)
-			real_name = species.random_name(gender, TRUE)
+			real_name = generate_random_name_species_based(
+				player_client.prefs.read_preference(/datum/preference/choiced/gender),
+				TRUE,
+				player_client.prefs.read_preference(/datum/preference/choiced/species),
+			)
 	dna.update_dna_identity()
+<<<<<<< HEAD
+=======
+	updateappearance()
+>>>>>>> tg-pr-88929
 
 /mob/living/silicon/ai/apply_prefs_job(client/player_client, datum/job/job)
 	if(GLOB.current_anonymous_theme)
@@ -657,9 +770,11 @@
 			if(!player_client)
 				return // Disconnected while checking the appearance ban.
 
-			var/species_type = player_client.prefs.read_preference(/datum/preference/choiced/species)
-			var/datum/species/species = new species_type
-			organic_name = species.random_name(player_client.prefs.read_preference(/datum/preference/choiced/gender), TRUE)
+			organic_name = generate_random_name_species_based(
+				player_client.prefs.read_preference(/datum/preference/choiced/gender),
+				TRUE,
+				player_client.prefs.read_preference(/datum/preference/choiced/species),
+			)
 		else
 			if(!player_client)
 				return // Disconnected while checking the appearance ban.

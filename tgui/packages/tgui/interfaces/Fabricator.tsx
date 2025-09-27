@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { useBackend } from '../backend';
 import {
   Stack,
@@ -15,6 +16,26 @@ import { FabricatorData, Design, MaterialMap } from './Fabrication/Types';
 import { classes } from 'common/react';
 import { DesignBrowser } from './Fabrication/DesignBrowser';
 
+=======
+import {
+  Box,
+  Button,
+  Dimmer,
+  Icon,
+  Section,
+  Stack,
+  Tooltip,
+} from 'tgui-core/components';
+import { classes } from 'tgui-core/react';
+
+import { useBackend } from '../backend';
+import { Window } from '../layouts';
+import { DesignBrowser } from './Fabrication/DesignBrowser';
+import { MaterialAccessBar } from './Fabrication/MaterialAccessBar';
+import { MaterialCostSequence } from './Fabrication/MaterialCostSequence';
+import { Design, FabricatorData, MaterialMap } from './Fabrication/Types';
+
+>>>>>>> tg-pr-88929
 export const Fabricator = (props) => {
   const { act, data } = useBackend<FabricatorData>();
   const { fabName, onHold, designs, busy, SHEET_MATERIAL_AMOUNT } = data;
@@ -57,7 +78,7 @@ export const Fabricator = (props) => {
           </Stack.Item>
         </Stack>
         {!!onHold && (
-          <Dimmer style={{ 'font-size': '2em', 'text-align': 'center' }}>
+          <Dimmer style={{ fontSize: '2em', textAlign: 'center' }}>
             Mineral access is on hold, please contact the quartermaster.
           </Dimmer>
         )}
@@ -115,10 +136,20 @@ type CustomPrintProps = {
 const CustomPrint = (props: CustomPrintProps) => {
   const { act } = useBackend();
   const { design, available } = props;
+<<<<<<< HEAD
   const canPrint = !Object.entries(design.cost).some(
     ([material, amount]) =>
       !available[material] || amount > (available[material] ?? 0),
+=======
+  let maxMult = Object.entries(design.cost).reduce(
+    (accumulator: number, [material, required]) => {
+      return Math.min(accumulator, (available[material] || 0) / required);
+    },
+    Infinity,
+>>>>>>> tg-pr-88929
   );
+  maxMult = Math.min(Math.floor(maxMult), 50);
+  const canPrint = maxMult > 0;
 
   return (
     <div
@@ -128,16 +159,16 @@ const CustomPrint = (props: CustomPrintProps) => {
       ])}
     >
       <Button.Input
-        content={'[Max: ' + design.maxmult + ']'}
-        color={'transparent'}
-        maxValue={design.maxmult}
+        color="transparent"
         onCommit={(_e, value: string) =>
           act('build', {
             ref: design.id,
             amount: value,
           })
         }
-      />
+      >
+        [Max: {maxMult}]
+      </Button.Input>
     </div>
   );
 };

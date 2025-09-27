@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+import { useState } from 'react';
+>>>>>>> tg-pr-88929
 import {
   Button,
   Icon,
@@ -7,14 +11,20 @@ import {
   Stack,
   Table,
   Tooltip,
+<<<<<<< HEAD
 } from '../components';
 import { TableCell, TableRow } from '../components/Table';
 import { createSearch, decodeHtmlEntities } from 'common/string';
 import { useBackend, useLocalState } from '../backend';
+=======
+} from 'tgui-core/components';
+import { createSearch, decodeHtmlEntities } from 'tgui-core/string';
+>>>>>>> tg-pr-88929
 
+import { useBackend } from '../backend';
+import { Window } from '../layouts';
 import { InputButtons } from './common/InputButtons';
 import { Loader } from './common/Loader';
-import { Window } from '../layouts';
 
 type Data = {
   items: string[];
@@ -37,12 +47,18 @@ export const CheckboxInput = (props) => {
     title,
   } = data;
 
+<<<<<<< HEAD
   const [selections, setSelections] = useLocalState<string[]>('selections', []);
 
   const [searchQuery, setSearchQuery] = useLocalState<string>(
     'searchQuery',
     '',
   );
+=======
+  const [selections, setSelections] = useState<string[]>([]);
+
+  const [searchQuery, setSearchQuery] = useState('');
+>>>>>>> tg-pr-88929
   const search = createSearch(searchQuery, (item: string) => item);
   const toDisplay = items.filter(search);
 
@@ -53,6 +69,12 @@ export const CheckboxInput = (props) => {
 
     setSelections(newSelections);
   };
+
+  const selectionsWithIndexes = (
+    selections: string[],
+    items: string[],
+  ): [string, number][] =>
+    selections.map((selected) => [selected, items.indexOf(selected) + 1]);
 
   return (
     <Window title={title} width={425} height={300}>
@@ -70,8 +92,8 @@ export const CheckboxInput = (props) => {
             <Section fill scrollable>
               <Table>
                 {toDisplay.map((item, index) => (
-                  <TableRow className="candystripe" key={index}>
-                    <TableCell>
+                  <Table.Row className="candystripe" key={index}>
+                    <Table.Cell>
                       <Button.Checkbox
                         checked={selections.includes(item)}
                         disabled={
@@ -83,8 +105,8 @@ export const CheckboxInput = (props) => {
                       >
                         {item}
                       </Button.Checkbox>
-                    </TableCell>
-                  </TableRow>
+                    </Table.Cell>
+                  </Table.Row>
                 ))}
               </Table>
             </Section>
@@ -105,7 +127,7 @@ export const CheckboxInput = (props) => {
           </Stack>
           <Stack.Item mt={0.7}>
             <Section>
-              <InputButtons input={selections} />
+              <InputButtons input={selectionsWithIndexes(selections, items)} />
             </Section>
           </Stack.Item>
         </Stack>

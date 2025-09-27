@@ -19,7 +19,11 @@
 
 /datum/grand_finale/immortality/trigger(mob/living/carbon/human/invoker)
 	new /obj/effect/temp_visual/immortality_blast(get_turf(invoker))
+<<<<<<< HEAD
 	SEND_SOUND(world, sound('sound/magic/teleport_diss.ogg'))
+=======
+	SEND_SOUND(world, sound('sound/effects/magic/teleport_diss.ogg'))
+>>>>>>> tg-pr-88929
 	for (var/mob/living/alive_guy as anything in GLOB.mob_living_list)
 		new /obj/effect/temp_visual/immortality_pulse(get_turf(alive_guy))
 		if (!alive_guy.mind)
@@ -109,6 +113,7 @@
 	for(var/datum/quirk/target_quirk as anything in target.quirks)
 		LAZYADD(quirks, new target_quirk.type)
 
+<<<<<<< HEAD
 	hair_gradient_style = LAZYLISTDUPLICATE(target.grad_style)
 	hair_gradient_colours = LAZYLISTDUPLICATE(target.grad_color)
 
@@ -118,27 +123,46 @@
 //monkestation removal end
 
 /// Make the targetted human look like this
+=======
+	voice = target.voice
+	voice_filter = target.voice_filter
+
+/// Make the targeted human look like this
+>>>>>>> tg-pr-88929
 /datum/human_appearance_profile/proc/apply_to(mob/living/carbon/human/target)
 	target.real_name = name
 	target.age = age
 	target.physique = physique
+<<<<<<< HEAD
 	target.grad_style = LAZYLISTDUPLICATE(hair_gradient_style)
 	target.grad_color = LAZYLISTDUPLICATE(hair_gradient_colours)
 //monkestation removal start
 	/*target.voice = voice
 	target.voice_filter = voice_filter*/
 //monkestation removal end
+=======
+	target.voice = voice
+	target.voice_filter = voice_filter
+>>>>>>> tg-pr-88929
 
 	for(var/datum/quirk/target_quirk as anything in quirks)
 		target_quirk.add_to_holder(target)
 
+<<<<<<< HEAD
 	dna.copy_dna(target.dna, COPY_DNA_SE|COPY_DNA_SPECIES)
+=======
+	dna.transfer_identity(target, TRUE)
+>>>>>>> tg-pr-88929
 	for(var/obj/item/bodypart/limb as anything in target.bodyparts)
 		limb.update_limb(is_creating = TRUE)
 	target.updateappearance(mutcolor_update = TRUE)
 	target.domutcheck()
 	target.regenerate_icons()
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> tg-pr-88929
 /// A ghostly image of a mob showing where and what is going to respawn
 /obj/effect/spectre_of_resurrection
 	name = "spectre"
@@ -149,9 +173,13 @@
 	plane = GAME_PLANE
 	alpha = 0
 	color = COLOR_PALE_GREEN
+<<<<<<< HEAD
 //	light_range = 2 //monkestation removal
 	light_inner_range = 1 //monkestation edit
 	light_outer_range = 2 //monkestation edit
+=======
+	light_range = 2
+>>>>>>> tg-pr-88929
 	light_color = COLOR_PALE_GREEN
 	resistance_flags = parent_type::resistance_flags | SHUTTLE_CRUSH_PROOF
 	/// Who are we reviving?

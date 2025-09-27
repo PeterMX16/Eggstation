@@ -7,8 +7,13 @@ import {
   Section,
   Stack,
   Tabs,
+<<<<<<< HEAD
 } from '../components';
 import type { BooleanLike } from 'common/react';
+=======
+} from 'tgui-core/components';
+import { BooleanLike } from 'tgui-core/react';
+>>>>>>> tg-pr-88929
 
 import { useBackend, useSharedState } from '../backend';
 import { Window } from '../layouts';

@@ -51,7 +51,7 @@ GLOBAL_LIST_INIT(adventure_loot_generator_index,generate_generator_index())
 		var/datum/adventure_loot_generator/simple/cash/replacement = new
 		return replacement.generate()
 	var/chosen_pack_type = pick(still_locked_packs)
-	return new /obj/item/trade_chip(null,chosen_pack_type)
+	return list(new /obj/item/trade_chip(null, chosen_pack_type))
 
 /// Just picks and instatiates the path from the list
 /datum/adventure_loot_generator/simple
@@ -96,22 +96,29 @@ GLOBAL_LIST_INIT(adventure_loot_generator_index,generate_generator_index())
 	id = "pets"
 	var/carrier_type = /obj/item/pet_carrier/biopod
 	var/list/possible_pets = list(
+<<<<<<< HEAD
 		/mob/living/basic/pet/dog/corgi,
 		/mob/living/basic/pet/dog/pug,
 		/mob/living/basic/pet/penguin/baby,
 		/mob/living/simple_animal/pet/cat/space,
+=======
+		/mob/living/basic/pet/cat/space,
+		/mob/living/basic/pet/dog/corgi,
+		/mob/living/basic/pet/dog/pug,
+		/mob/living/basic/pet/penguin/baby,
+>>>>>>> tg-pr-88929
 	)
 
 /datum/adventure_loot_generator/pet/generate()
 	var/obj/item/pet_carrier/carrier = new carrier_type()
 	var/chosen_pet_type = pick(possible_pets)
-	var/mob/living/simple_animal/pet/pet = new chosen_pet_type()
+	var/mob/living/basic/pet/pet = new chosen_pet_type()
 	carrier.add_occupant(pet)
-	return carrier
+	return list(carrier)
 
 /obj/item/antique
 	name = "antique"
-	desc = "Valuable and completly incomprehensible."
+	desc = "Valuable and completely incomprehensible."
 	icon = 'icons/obj/exploration.dmi'
 	icon_state = "antique"
 
@@ -152,8 +159,12 @@ GLOBAL_LIST_INIT(adventure_loot_generator_index,generate_generator_index())
 	lefthand_file = 'icons/mob/inhands/items/firelance_lefthand.dmi'
 	var/windup_time = 10 SECONDS
 	var/melt_range = 3
+<<<<<<< HEAD
 	var/charge_per_use = 200
 	var/obj/item/stock_parts/power_store/cell/cell
+=======
+	var/obj/item/stock_parts/power_store/cell
+>>>>>>> tg-pr-88929
 
 /obj/item/firelance/Initialize(mapload)
 	. = ..()
@@ -175,7 +186,11 @@ GLOBAL_LIST_INIT(adventure_loot_generator_index,generate_generator_index())
 		return .
 	if(LAZYACCESS(user.do_afters, "firelance"))
 		return .
+<<<<<<< HEAD
 	if(!cell.use(200))
+=======
+	if(!cell.use(0.2 * STANDARD_CELL_CHARGE))
+>>>>>>> tg-pr-88929
 		to_chat(user,span_warning("[src]'s battery ran dry!"))
 		return .
 	ADD_TRAIT(user, TRAIT_IMMOBILIZED, REF(src))

@@ -54,6 +54,11 @@
 	icon_living = icon_state
 
 /mob/living/basic/shade/death()
+<<<<<<< HEAD
+=======
+	if(IS_CULTIST(src))
+		SSblackbox.record_feedback("tally", "cult_shade_killed", 1)
+>>>>>>> tg-pr-88929
 	if(death_message == initial(death_message))
 		death_message = "lets out a contented sigh as [p_their()] form unwinds."
 	..()
@@ -63,6 +68,14 @@
 		return FALSE
 	return ..()
 
+<<<<<<< HEAD
+=======
+/mob/living/basic/shade/suicide_log(obj/item/suicide_tool)
+	if(IS_CULTIST(src))
+		SSblackbox.record_feedback("tally", "cult_shade_suicided", 1)
+	..()
+
+>>>>>>> tg-pr-88929
 /mob/living/basic/shade/attackby(obj/item/item, mob/user, params)
 	if(istype(item, /obj/item/soulstone))
 		var/obj/item/soulstone/stone = item

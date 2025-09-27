@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 #ifndef DISABLE_DREAMLUAU
+=======
+>>>>>>> tg-pr-88929
 /proc/wrap_lua_get_var(datum/thing, var_name)
 	SHOULD_NOT_SLEEP(TRUE)
 	if(thing == world)

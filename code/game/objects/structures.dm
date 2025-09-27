@@ -20,7 +20,7 @@
 
 /obj/structure/Initialize(mapload)
 	. = ..()
-	if(smoothing_flags & (SMOOTH_CORNERS|SMOOTH_BITMASK))
+	if(smoothing_flags & USES_SMOOTHING)
 		QUEUE_SMOOTH(src)
 		QUEUE_SMOOTH_NEIGHBORS(src)
 		if(smoothing_flags & SMOOTH_CORNERS)
@@ -28,10 +28,14 @@
 	GLOB.cameranet.updateVisibility(src)
 	GLOB.thrallnet.updateVisibility(src)
 
-/obj/structure/Destroy()
+/obj/structure/Destroy(force)
 	GLOB.cameranet.updateVisibility(src)
+<<<<<<< HEAD
 	GLOB.thrallnet.updateVisibility(src)
 	if(smoothing_flags & (SMOOTH_CORNERS|SMOOTH_BITMASK))
+=======
+	if(smoothing_flags & USES_SMOOTHING)
+>>>>>>> tg-pr-88929
 		QUEUE_SMOOTH_NEIGHBORS(src)
 	return ..()
 
@@ -61,11 +65,24 @@
 			if(!broken)
 				return  span_warning("It's falling apart!")
 
+/obj/structure/examine_descriptor(mob/user)
+	return "structure"
+
 /obj/structure/rust_heretic_act()
 	take_damage(500, BRUTE, "melee", 1)
 
 /obj/structure/zap_act(power, zap_flags)
 	if(zap_flags & ZAP_OBJ_DAMAGE)
-		take_damage(power/8000, BURN, "energy")
-	power -= power/2000 //walls take a lot out of ya
+		take_damage(power * 2.5e-4, BURN, "energy")
+	power -= power * 5e-4 //walls take a lot out of ya
 	. = ..()
+
+/obj/structure/animate_atom_living(mob/living/owner)
+	new /mob/living/simple_animal/hostile/mimic/copy(drop_location(), src, owner)
+
+/// For when a mob comes flying through the window, smash it and damage the mob
+/obj/structure/proc/smash_and_injure(mob/living/flying_mob, atom/oldloc, direction)
+	flying_mob.balloon_alert_to_viewers("smashed through!")
+	flying_mob.apply_damage(damage = rand(5, 15), damagetype = BRUTE, wound_bonus = 15, bare_wound_bonus = 25, sharpness = SHARP_EDGED, attack_direction = get_dir(src, oldloc))
+	new /obj/effect/decal/cleanable/glass(get_step(flying_mob, flying_mob.dir))
+	deconstruct(disassembled = FALSE)

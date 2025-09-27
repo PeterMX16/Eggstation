@@ -17,10 +17,16 @@
 	icon_state = "archercoat"
 	inhand_icon_state = "archercoat"
 	body_parts_covered = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
+<<<<<<< HEAD
 
 
 	armor_type = /datum/armor/chaplainsuit_armor_weaker
 	clothing_flags = BLOCKS_SHOVE_KNOCKDOWN
+=======
+	cold_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
+	heat_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
+	armor_type = /datum/armor/chaplainsuit_armor_weaker
+>>>>>>> tg-pr-88929
 	strip_delay = 80
 	equip_delay_other = 60
 	hoodtype = /obj/item/clothing/head/hooded/chaplain_hood/divine_archer
@@ -40,6 +46,10 @@
 	name = "divine archer hood"
 	desc = "A divine hood included, because have you ever got the sun in your eyes during archery? Oh, it's just the worst."
 	icon_state = "archerhood"
+<<<<<<< HEAD
+=======
+	armor_type = /datum/armor/chaplainsuit_armor_weaker
+>>>>>>> tg-pr-88929
 
 /// gloves
 /obj/item/clothing/gloves/divine_archer

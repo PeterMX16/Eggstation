@@ -13,6 +13,7 @@
 	/// Who gave out this medal
 	var/awarder
 
+<<<<<<< HEAD
 /// Callback for do_after to check if we can still be pinned
 /obj/item/clothing/accessory/medal/proc/pin_checks(mob/living/pinner, mob/living/carbon/human/pinning_on)
 	if(QDELETED(src) || QDELETED(pinner) || QDELETED(pinning_on))
@@ -65,6 +66,16 @@
 		)
 
 	return .
+=======
+/obj/item/clothing/accessory/medal/Initialize(mapload)
+	. = ..()
+	AddComponent(/datum/component/pinnable_accessory, on_pre_pin = CALLBACK(src, PROC_REF(provide_reason)))
+
+/// Input a reason for the medal for the round end screen
+/obj/item/clothing/accessory/medal/proc/provide_reason(mob/living/carbon/human/distinguished, mob/user)
+	commendation_message = tgui_input_text(user, "Reason for this commendation? It will be recorded by Nanotrasen.", "Commendation", max_length = 140)
+	return !!commendation_message
+>>>>>>> tg-pr-88929
 
 /obj/item/clothing/accessory/medal/attach(obj/item/clothing/under/attach_to, mob/living/attacher)
 	var/mob/living/distinguished = attach_to.loc
@@ -171,7 +182,11 @@
 	return exposed_temperature > 300
 
 /obj/item/clothing/accessory/medal/plasma/atmos_expose(datum/gas_mixture/air, exposed_temperature)
+<<<<<<< HEAD
 	atmos_spawn_air("plasma=20;TEMP=[exposed_temperature]")
+=======
+	atmos_spawn_air("[GAS_PLASMA]=20;[TURF_TEMPERATURE(exposed_temperature)]")
+>>>>>>> tg-pr-88929
 	visible_message(span_danger("\The [src] bursts into flame!"), span_userdanger("Your [src] bursts into flame!"))
 	qdel(src)
 

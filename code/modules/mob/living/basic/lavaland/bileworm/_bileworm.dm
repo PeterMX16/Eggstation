@@ -5,7 +5,11 @@
 	icon_state = "bileworm"
 	icon_living = "bileworm"
 	icon_dead = "bileworm_dead"
+<<<<<<< HEAD
 	mob_biotypes = MOB_ORGANIC|MOB_BUG|MOB_MINING
+=======
+	mob_biotypes = MOB_BUG
+>>>>>>> tg-pr-88929
 	maxHealth = 100
 	health = 100
 	verb_say = "spittles"
@@ -37,8 +41,6 @@
 
 /mob/living/basic/mining/bileworm/Initialize(mapload)
 	. = ..()
-	//traits and elements
-
 	ADD_TRAIT(src, TRAIT_IMMOBILIZED, INNATE_TRAIT)
 
 	if(ispath(evolve_path))
@@ -47,10 +49,11 @@
 
 	//setup mob abilities
 
-	var/datum/action/cooldown/mob_cooldown/projectile_attack/dir_shots/bileworm/spew_bile = new attack_action_path(src)
-	spew_bile.Grant(src)
 	//well, one of them has to start on infinite cooldown
+	var/datum/action/cooldown/mob_cooldown/projectile_attack/dir_shots/bileworm/spew_bile = new(src)
+	spew_bile.Grant(src)
 	spew_bile.StartCooldownSelf(INFINITY)
+<<<<<<< HEAD
 	var/datum/action/cooldown/mob_cooldown/resurface/resurface = new(src)
 	resurface.Grant(src)
 	var/datum/action/cooldown/mob_cooldown/devour/devour = new(src)
@@ -60,3 +63,13 @@
 	ai_controller.set_blackboard_key(BB_BILEWORM_SPEW_BILE, spew_bile)
 	ai_controller.set_blackboard_key(BB_BILEWORM_RESURFACE, resurface)
 	ai_controller.set_blackboard_key(BB_BILEWORM_DEVOUR, devour)
+=======
+	ai_controller?.set_blackboard_key(BB_BILEWORM_SPEW_BILE, spew_bile)
+
+	var/static/list/other_innate_actions = list(
+		/datum/action/adjust_vision/bileworm = null,
+		/datum/action/cooldown/mob_cooldown/devour = BB_BILEWORM_DEVOUR,
+		/datum/action/cooldown/mob_cooldown/resurface = BB_BILEWORM_RESURFACE,
+	)
+	grant_actions_by_list(other_innate_actions)
+>>>>>>> tg-pr-88929

@@ -60,5 +60,10 @@
 
 ///If the combat mode would be changed into a different state, updates it and returns TRUE, otherwise returns FALSE
 /datum/element/ai_swap_combat_mode/proc/swap_mode(mob/living/source, new_mode)
+<<<<<<< HEAD
+=======
+	if(source.combat_mode == new_mode)
+		return FALSE
+>>>>>>> tg-pr-88929
 	source.set_combat_mode(new_mode)
 	return TRUE

@@ -54,8 +54,13 @@
 			return //Everything worked, we're done!
 	if(isliving(crossing_movable))
 		var/mob/living/crossing_mob = crossing_movable
+<<<<<<< HEAD
 		if(crossing_mob.mob_size > MOB_SIZE_SMALL && !(crossing_mob.movement_type & FLYING))
 			if(HAS_TRAIT(crossing_mob, TRAIT_PACIFISM) || HAS_TRAIT(crossing_mob, TRAIT_CAREFUL_STEPS))
+=======
+		if(crossing_mob.mob_size > MOB_SIZE_SMALL && !(crossing_mob.movement_type & MOVETYPES_NOT_TOUCHING_GROUND))
+			if(HAS_TRAIT(crossing_mob, TRAIT_PACIFISM))
+>>>>>>> tg-pr-88929
 				crossing_mob.visible_message(span_notice("[crossing_mob] carefully steps over [parent_as_living]."), span_notice("You carefully step over [parent_as_living] to avoid hurting it."))
 				return
 			if(should_squash)
@@ -72,7 +77,7 @@
 
 /datum/component/squashable/proc/Squish(mob/living/target)
 	if(squash_flags & SQUASHED_SHOULD_BE_GIBBED)
-		target.gib()
+		target.gib(DROP_ALL_REMAINS)
 	else
 		target.adjustBruteLoss(squash_damage)
 

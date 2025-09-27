@@ -13,7 +13,11 @@ GLOBAL_DATUM(tower_of_babel, /datum/tower_of_babel)
 
 	for(var/mob/living/carbon/target in GLOB.player_list)
 		if(!target.mind)
+<<<<<<< HEAD
 			return
+=======
+			continue
+>>>>>>> tg-pr-88929
 		if(IS_WIZARD(target) && !badmin)
 			// wizards are not only immune but can speak all languages to taunt their victims over the radio
 			target.grant_all_languages(source = LANGUAGE_BABEL)
@@ -49,7 +53,11 @@ GLOBAL_DATUM(tower_of_babel, /datum/tower_of_babel)
 	if(!to_curse.mind)
 		return
 
+<<<<<<< HEAD
 	if(to_curse.can_block_magic(MAGIC_RESISTANCE | MAGIC_RESISTANCE_MIND) || HAS_MIND_TRAIT(to_curse, TRAIT_TOWER_OF_BABEL))
+=======
+	if(to_curse.can_block_magic(MAGIC_RESISTANCE|MAGIC_RESISTANCE_MIND) || HAS_MIND_TRAIT(to_curse, TRAIT_TOWER_OF_BABEL))
+>>>>>>> tg-pr-88929
 		to_chat(to_curse, span_notice("You have a strange feeling for a moment, but then it passes."))
 		return
 

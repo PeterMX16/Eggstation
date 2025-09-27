@@ -100,5 +100,10 @@ GLOBAL_DATUM(ctf_spawner, /obj/effect/landmark/ctf)
 
 /datum/map_template/ctf/turbine
 	name = "Turbine"
+<<<<<<< HEAD
 	description = "A CTF map that takes place in a familiar facility. Don't try to hold out mid- Theres no sentries in this version."
 	mappath = "_maps/minigame/CTF/turbine.dmm"
+=======
+	description = "A CTF map that takes place in a familiar facility. Don't try to hold out mid- There's no sentries in this version."
+	mappath = "_maps/map_files/CTF/turbine.dmm"
+>>>>>>> tg-pr-88929

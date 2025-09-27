@@ -55,3 +55,7 @@
 	var/expected_icon_state = initial(emp_bar_sign.icon_state)
 	if(testing_sign.icon_state != expected_icon_state)
 		TEST_FAIL("[testing_sign]'s icon_state was [testing_sign.icon_state] when it should have been [expected_icon_state].")
+<<<<<<< HEAD
+=======
+
+>>>>>>> tg-pr-88929

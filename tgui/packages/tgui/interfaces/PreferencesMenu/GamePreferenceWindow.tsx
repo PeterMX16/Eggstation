@@ -1,19 +1,25 @@
-import { Stack } from '../../components';
+import { useState } from 'react';
+import { Stack } from 'tgui-core/components';
+import { exhaustiveCheck } from 'tgui-core/exhaustive';
+
+import { useBackend } from '../../backend';
 import { Window } from '../../layouts';
-import { KeybindingsPage } from './KeybindingsPage';
-import { GamePreferencesPage } from './GamePreferencesPage';
-import { PageButton } from './PageButton';
-import { useBackend, useLocalState } from '../../backend';
 import { GamePreferencesSelectedPage, PreferencesMenuData } from './data';
-import { exhaustiveCheck } from 'common/exhaustive';
+import { GamePreferencesPage } from './GamePreferencesPage';
+import { KeybindingsPage } from './KeybindingsPage';
+import { PageButton } from './PageButton';
 
 export const GamePreferenceWindow = (props: {
   startingPage?: GamePreferencesSelectedPage;
 }) => {
   const { act, data } = useBackend<PreferencesMenuData>();
 
+<<<<<<< HEAD
   const [currentPage, setCurrentPage] = useLocalState(
     'currentPage',
+=======
+  const [currentPage, setCurrentPage] = useState(
+>>>>>>> tg-pr-88929
     props.startingPage ?? GamePreferencesSelectedPage.Settings,
   );
 

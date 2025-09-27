@@ -1,6 +1,11 @@
+<<<<<<< HEAD
 ADMIN_VERB(map_template_load, R_DEBUG, FALSE, "Map Template - Place", "Place a map template at your current location.", ADMIN_CATEGORY_DEBUG)
 	var/datum/map_template/template
 
+=======
+ADMIN_VERB(map_template_load, R_DEBUG, "Map Template - Place", "Place a map template at your current location.", ADMIN_CATEGORY_DEBUG)
+	var/datum/map_template/template
+>>>>>>> tg-pr-88929
 	var/map = tgui_input_list(user, "Choose a Map Template to place at your CURRENT LOCATION","Place Map Template", sort_list(SSmapping.map_templates))
 	if(!map)
 		return
@@ -39,8 +44,13 @@ ADMIN_VERB(map_template_load, R_DEBUG, FALSE, "Map Template - Place", "Place a m
 			to_chat(user, "Failed to place map", confidential = TRUE)
 	user.images -= preview
 
+<<<<<<< HEAD
 ADMIN_VERB(map_template_upload, R_DEBUG, FALSE, "Map Template - Upload", "Upload a map template to the server.", ADMIN_CATEGORY_DEBUG)
 	var/map = input(user, "Choose a Map Template to upload to template storage","Upload Map Template") as null | file
+=======
+ADMIN_VERB(map_template_upload, R_DEBUG, "Map Template - Upload", "Upload a map template to the server.", ADMIN_CATEGORY_DEBUG)
+	var/map = input(user, "Choose a Map Template to upload to template storage","Upload Map Template") as null|file
+>>>>>>> tg-pr-88929
 	if(!map)
 		return
 	if(copytext("[map]", -4) != ".dmm")//4 == length(".dmm")

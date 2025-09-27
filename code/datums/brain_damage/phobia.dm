@@ -10,6 +10,9 @@
 	/// Cooldown for freakouts to prevent permastunning.
 	COOLDOWN_DECLARE(scare_cooldown)
 
+	///What mood event to apply when we see the thing & freak out.
+	var/datum/mood_event/mood_event_type
+
 	var/regex/trigger_regex
 	//instead of cycling every atom, only cycle the relevant types
 	var/list/trigger_mobs
@@ -34,9 +37,15 @@
 	trigger_species = GLOB.phobia_species[phobia_type]
 	..()
 
+<<<<<<< HEAD
 /datum/brain_trauma/mild/phobia/on_clone()
 	if(trauma_flags & TRAUMA_CLONEABLE)
 		return new type(phobia_type)
+=======
+/datum/brain_trauma/mild/phobia/on_lose(silent)
+	owner.clear_mood_event("phobia_[phobia_type]")
+	return ..()
+>>>>>>> tg-pr-88929
 
 /datum/brain_trauma/mild/phobia/on_life(seconds_per_tick, times_fired)
 	..()
@@ -96,7 +105,7 @@
 		return
 
 	if(trigger_regex.Find(hearing_args[HEARING_RAW_MESSAGE]) != 0)
-		addtimer(CALLBACK(src, PROC_REF(freak_out), null, trigger_regex.group[2]), 10) //to react AFTER the chat message
+		addtimer(CALLBACK(src, PROC_REF(freak_out), null, trigger_regex.group[2]), 1 SECONDS) //to react AFTER the chat message
 		hearing_args[HEARING_RAW_MESSAGE] = trigger_regex.Replace(hearing_args[HEARING_RAW_MESSAGE], "[span_phobia("$2")]$3")
 
 /datum/brain_trauma/mild/phobia/handle_speech(datum/source, list/speech_args)
@@ -116,14 +125,20 @@
 	COOLDOWN_START(src, scare_cooldown, 12 SECONDS)
 	if(owner.stat == DEAD)
 		return
+	if(mood_event_type)
+		owner.add_mood_event("phobia_[phobia_type]", mood_event_type)
 	var/message = pick("spooks you to the bone", "shakes you up", "terrifies you", "sends you into a panic", "sends chills down your spine")
 	if(reason)
-		to_chat(owner, span_userdanger("Seeing [reason] [message]!"))
+		to_chat(owner, span_userdanger("Seeing [span_phobia(reason.name)] [message]!"))
 	else if(trigger_word)
+<<<<<<< HEAD
 		if(said_not_heard)
 			to_chat(owner, span_userdanger("Saying \"[trigger_word]\" [message]!"))
 		else
 			to_chat(owner, span_userdanger("Hearing \"[trigger_word]\" [message]!"))
+=======
+		to_chat(owner, span_userdanger("Hearing [span_phobia(trigger_word)] [message]!"))
+>>>>>>> tg-pr-88929
 	else
 		to_chat(owner, span_userdanger("Something [message]!"))
 	var/reaction = rand(1,4)
@@ -150,6 +165,7 @@
 
 // Defined phobia types for badminry, not included in the RNG trauma pool to avoid diluting.
 
+<<<<<<< HEAD
 /datum/brain_trauma/mild/phobia/spiders
 	phobia_type = "spiders"
 	trauma_flags = parent_type::trauma_flags | TRAUMA_NOT_RANDOM
@@ -198,10 +214,13 @@
 	phobia_type = "the supernatural"
 	trauma_flags = parent_type::trauma_flags | TRAUMA_NOT_RANDOM
 
+=======
+>>>>>>> tg-pr-88929
 /datum/brain_trauma/mild/phobia/aliens
 	phobia_type = "aliens"
 	trauma_flags = parent_type::trauma_flags | TRAUMA_NOT_RANDOM
 
+<<<<<<< HEAD
 /datum/brain_trauma/mild/phobia/strangers
 	phobia_type = "strangers"
 	trauma_flags = parent_type::trauma_flags | TRAUMA_NOT_RANDOM
@@ -241,6 +260,19 @@
 /datum/brain_trauma/mild/phobia/guns
 	phobia_type = "guns"
 	trauma_flags = parent_type::trauma_flags | TRAUMA_NOT_RANDOM
+=======
+/datum/brain_trauma/mild/phobia/anime
+	phobia_type = "anime"
+	random_gain = FALSE
+
+/datum/brain_trauma/mild/phobia/authority
+	phobia_type = "authority"
+	random_gain = FALSE
+
+/datum/brain_trauma/mild/phobia/birds
+	phobia_type = "birds"
+	random_gain = FALSE
+>>>>>>> tg-pr-88929
 
 /datum/brain_trauma/mild/phobia/blood
 	phobia_type = "blood"
@@ -250,3 +282,81 @@
 	if (GET_ATOM_BLOOD_DNA_LENGTH(checked))
 		return TRUE
 	return ..()
+
+/datum/brain_trauma/mild/phobia/carps
+	phobia_type = "carps"
+	random_gain = FALSE
+
+/datum/brain_trauma/mild/phobia/clowns
+	phobia_type = "clowns"
+	random_gain = FALSE
+
+/datum/brain_trauma/mild/phobia/conspiracies
+	phobia_type = "conspiracies"
+	random_gain = FALSE
+
+/datum/brain_trauma/mild/phobia/doctors
+	phobia_type = "doctors"
+	random_gain = FALSE
+
+/datum/brain_trauma/mild/phobia/falling
+	phobia_type = "falling"
+	random_gain = FALSE
+
+/datum/brain_trauma/mild/phobia/greytide
+	phobia_type = "greytide"
+	random_gain = FALSE
+
+/datum/brain_trauma/mild/phobia/guns
+	phobia_type = "guns"
+	random_gain = FALSE
+
+/datum/brain_trauma/mild/phobia/heresy
+	phobia_type = "heresy"
+	mood_event_type = /datum/mood_event/heresy
+	random_gain = FALSE
+
+/datum/brain_trauma/mild/phobia/insects
+	phobia_type = "insects"
+	random_gain = FALSE
+
+/datum/brain_trauma/mild/phobia/lizards
+	phobia_type = "lizards"
+	random_gain = FALSE
+
+/datum/brain_trauma/mild/phobia/ocky_icky
+	phobia_type = "ocky icky"
+	random_gain = FALSE
+
+/datum/brain_trauma/mild/phobia/robots
+	phobia_type = "robots"
+	random_gain = FALSE
+
+/datum/brain_trauma/mild/phobia/security
+	phobia_type = "security"
+	random_gain = FALSE
+
+/datum/brain_trauma/mild/phobia/skeletons
+	phobia_type = "skeletons"
+	mood_event_type = /datum/mood_event/spooked
+	random_gain = FALSE
+
+/datum/brain_trauma/mild/phobia/snakes
+	phobia_type = "snakes"
+	random_gain = FALSE
+
+/datum/brain_trauma/mild/phobia/space
+	phobia_type = "space"
+	random_gain = FALSE
+
+/datum/brain_trauma/mild/phobia/spiders
+	phobia_type = "spiders"
+	random_gain = FALSE
+
+/datum/brain_trauma/mild/phobia/strangers
+	phobia_type = "strangers"
+	random_gain = FALSE
+
+/datum/brain_trauma/mild/phobia/supernatural
+	phobia_type = "the supernatural"
+	random_gain = FALSE

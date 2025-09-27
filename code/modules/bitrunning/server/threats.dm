@@ -78,7 +78,10 @@
 	var/mob/chosen_one = SSpolling.poll_ghosts_for_target(
 		question = "<span class='ooc'>A temporary antagonist role is spawning in the virtual domain.</span>\
 		\n<span class='boldnotice'>You will return to your previous body on conclusion.</span>",
+<<<<<<< HEAD
 		role = ROLE_GLITCH,
+=======
+>>>>>>> tg-pr-88929
 		check_jobban = ROLE_GLITCH,
 		poll_time = 20 SECONDS,
 		checked_target = mutation_target,
@@ -96,7 +99,12 @@
 		return
 
 	if(QDELETED(src) || isnull(ghost) || isnull(generated_domain) || !is_ready || !is_operational)
+<<<<<<< HEAD
 		mutation_target.remove_digital_aura()
+=======
+		var/atom/thing = mutation_target
+		thing.remove_digital_aura()
+>>>>>>> tg-pr-88929
 		return
 
 	var/role_name = initial(chosen_role.name)
@@ -108,20 +116,34 @@
 		else // any other humanoid mob
 			new_mob = new /mob/living/carbon/human(mutation_target.loc)
 
+<<<<<<< HEAD
 	mutation_target.gib()
+=======
+	mutation_target.gib(DROP_ALL_REMAINS)
+>>>>>>> tg-pr-88929
 
 	var/datum/mind/ghost_mind = ghost.mind
 	new_mob.key = ghost.key
 
+<<<<<<< HEAD
 	if(ghost_mind)
+=======
+	if(ghost_mind?.current)
+>>>>>>> tg-pr-88929
 		new_mob.AddComponent(/datum/component/temporary_body, ghost_mind, ghost_mind.current, TRUE)
 
 	var/datum/mind/antag_mind = new_mob.mind
 	antag_mind.add_antag_datum(chosen_role)
 	antag_mind.special_role = ROLE_GLITCH
+<<<<<<< HEAD
 	antag_mind.set_assigned_role(SSjob.GetJobType(/datum/job/bitrunning_glitch))
 
 	playsound(new_mob, 'sound/magic/ethereal_exit.ogg', 50, vary = TRUE)
+=======
+	antag_mind.set_assigned_role(SSjob.get_job_type(/datum/job/bitrunning_glitch))
+
+	playsound(new_mob, 'sound/effects/magic/ethereal_exit.ogg', 50, vary = TRUE)
+>>>>>>> tg-pr-88929
 	message_admins("[ADMIN_LOOKUPFLW(new_mob)] has been made into virtual antagonist by an event.")
 	new_mob.log_message("was spawned as a virtual antagonist by an event.", LOG_GAME)
 
@@ -132,13 +154,21 @@
 /obj/machinery/quantum_server/proc/station_spawn(mob/living/antag, obj/machinery/byteforge/chosen_forge)
 	antag.balloon_alert(antag, "scanning...")
 	chosen_forge.setup_particles(angry = TRUE)
+<<<<<<< HEAD
 	radio.talk_into(src, "QUANTUM SERVER ALERT: Security breach detected. Unauthorized entry sequence in progress...", list(RADIO_CHANNEL_SECURITY))
+=======
+	radio.talk_into(src, "SECURITY BREACH: Unauthorized entry sequence detected.", RADIO_CHANNEL_SUPPLY)
+>>>>>>> tg-pr-88929
 	SEND_SIGNAL(src, COMSIG_BITRUNNER_STATION_SPAWN)
 
 	var/timeout = 2 SECONDS
 	if(!ishuman(antag))
+<<<<<<< HEAD
 		radio.talk_into(src, "QUANTUM SERVER ALERT: Fabrication protocols have crashed unexpectedly. Please evacuate the area.", list(RADIO_CHANNEL_SECURITY))
 
+=======
+		radio.talk_into(src, "Fabrication protocols have crashed unexpectedly. Please evacuate the area.", RADIO_CHANNEL_SUPPLY)
+>>>>>>> tg-pr-88929
 		timeout = 10 SECONDS
 
 	if(!do_after(antag, timeout) || QDELETED(chosen_forge) || QDELETED(antag) || QDELETED(src) || !is_ready || !is_operational)
@@ -161,7 +191,11 @@
 	if(ishuman(antag))
 		reset_equipment(antag)
 	else
+<<<<<<< HEAD
 		radio.talk_into(src, "QUANTUM SERVER ALERT: Fabrication protocols have crashed unexpectedly. Please evacuate the area.", list(RADIO_CHANNEL_COMMON))
+=======
+		radio.talk_into(src, "CRITICAL ALERT: Unregistered mechanical entity deployed.")
+>>>>>>> tg-pr-88929
 
 	var/datum/antagonist/antag_datum = antag.mind?.has_antag_datum(/datum/antagonist/bitrunning_glitch)
 	if(istype(antag_datum))
@@ -171,7 +205,11 @@
 	if(temp_body)
 		qdel(temp_body)
 
+<<<<<<< HEAD
 	do_teleport(antag, get_turf(chosen_forge), forced = TRUE, asoundin = 'sound/magic/ethereal_enter.ogg', asoundout = 'sound/magic/ethereal_exit.ogg', channel = TELEPORT_CHANNEL_QUANTUM)
+=======
+	do_teleport(antag, get_turf(chosen_forge), forced = TRUE, asoundin = 'sound/effects/magic/ethereal_enter.ogg', asoundout = 'sound/effects/magic/ethereal_exit.ogg', channel = TELEPORT_CHANNEL_QUANTUM)
+>>>>>>> tg-pr-88929
 
 
 /// Removes any invalid candidates from the list

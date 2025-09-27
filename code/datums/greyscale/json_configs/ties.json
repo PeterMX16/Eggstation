@@ -22,5 +22,14 @@
 			"blend_mode": "overlay",
 			"color_ids": [1]
 		}
+	],
+	"bowtie_greyscale": [
+		{
+			"type": "icon_state",
+			"icon_state": "bowtie_greyscale",
+			"blend_mode": "overlay",
+			"color_ids": [ 1 ]
+		}
 	]
+
 }

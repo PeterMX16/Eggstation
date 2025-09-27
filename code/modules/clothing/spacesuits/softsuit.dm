@@ -16,13 +16,14 @@
 	name = "Engineering Void Helmet"
 	desc = "A CentCom engineering dark red space suit helmet. While old and dusty, it still gets the job done."
 	icon_state = "void"
+	slowdown = 2
 
 /obj/item/clothing/suit/space/nasavoid/old
 	name = "Engineering Voidsuit"
 	icon_state = "void"
 	inhand_icon_state = "void_suit"
 	desc = "A CentCom engineering dark red space suit. Age has degraded the suit making it difficult to move around in."
-	slowdown = 4
+	slowdown = 2
 	allowed = list(/obj/item/flashlight, /obj/item/tank/internals, /obj/item/multitool)
 
 	//EVA suit
@@ -73,6 +74,7 @@
 	inhand_icon_state = "syndicate-helm-orange" //resprite?
 	armor_type = /datum/armor/space_fragile
 	strip_delay = 65
+<<<<<<< HEAD
 	flash_protect = FLASH_PROTECTION_NONE //no free flash protect
 
 //now to make it crap against facehuggers :)
@@ -90,6 +92,9 @@
 		playsound(loc, 'sound/weapons/slashmiss.ogg', 50, TRUE)
 		playsound(loc, 'sound/effects/snap.ogg', 50, TRUE)
 
+=======
+	slowdown = 1
+>>>>>>> tg-pr-88929
 
 /obj/item/clothing/suit/space/fragile
 	name = "emergency space suit"
@@ -97,7 +102,7 @@
 	var/torn = FALSE
 	icon_state = "syndicate-orange"
 	inhand_icon_state = "syndicate-orange"
-	slowdown = 2
+	slowdown = 1
 	armor_type = /datum/armor/space_fragile
 	strip_delay = 65
 	cell = /obj/item/stock_parts/power_store/cell/crap //might wanna actually increase this to a better cell, currently it runs out in a minute of use
@@ -105,13 +110,18 @@
 /datum/armor/space_fragile
 	melee = 5
 
+<<<<<<< HEAD
 /obj/item/clothing/suit/space/fragile/hit_reaction(mob/living/carbon/human/owner, atom/movable/hitby, attack_text = "the attack", final_block_chance = 0, damage = 0, attack_type = MELEE_ATTACK)
 	if(!torn && prob(10))
+=======
+/obj/item/clothing/suit/space/fragile/hit_reaction(mob/living/carbon/human/owner, atom/movable/hitby, attack_text = "the attack", final_block_chance = 0, damage = 0, attack_type = MELEE_ATTACK, damage_type = BRUTE)
+	if(!torn && prob(50))
+>>>>>>> tg-pr-88929
 		to_chat(owner, span_warning("[src] tears from the damage, breaking the air-tight seal!"))
 		clothing_flags &= ~STOPSPRESSUREDAMAGE
 		name = "torn emergency space suit"
 		desc = "A bulky suit meant to protect the user during emergency situations, at least until someone tore a hole in the suit."
 		torn = TRUE
-		playsound(loc, 'sound/weapons/slashmiss.ogg', 50, TRUE)
+		playsound(loc, 'sound/items/weapons/slashmiss.ogg', 50, TRUE)
 		playsound(loc, 'sound/effects/refill.ogg', 50, TRUE)
 		playsound(loc, 'sound/effects/alert.ogg', 20, TRUE) //scare them

@@ -80,7 +80,11 @@
 	page_count = round(max(bookcount - 1, 0) / BOOKS_PER_PAGE) //This is just floor()
 	search_page = clamp(search_page, 0, page_count)
 
+<<<<<<< HEAD
 /obj/machinery/computer/libraryconsole/admin_only_do_not_map_in_you_fucker/ui_status(mob/user)
+=======
+/obj/machinery/computer/libraryconsole/admin_only_do_not_map_in_you_fucker/ui_status(mob/user, datum/ui_state/state)
+>>>>>>> tg-pr-88929
 	if(!check_rights_for(user.client, R_BAN))
 		return UI_CLOSE
 	if(!SSdbcore.Connect())
@@ -140,7 +144,11 @@
 	.["view_raw"] = view_raw
 	.["show_deleted"] = show_deleted
 	var/list/histories = list()
+<<<<<<< HEAD
 	for(var/id in book_history)
+=======
+	for(var/id as anything in book_history)
+>>>>>>> tg-pr-88929
 		var/list/insert = list()
 		for(var/datum/book_history_entry/entry in book_history[id])
 			insert += list(entry.serialize())
@@ -339,7 +347,11 @@
 		ui.set_autoupdate(FALSE) // Nothing is changing here brother
 		ui.open()
 
+<<<<<<< HEAD
 /datum/admin_book_viewer/ui_status(mob/user)
+=======
+/datum/admin_book_viewer/ui_status(mob/user, datum/ui_state/state)
+>>>>>>> tg-pr-88929
 	if(!check_rights_for(user.client, R_BAN))
 		return UI_CLOSE
 	return UI_INTERACTIVE

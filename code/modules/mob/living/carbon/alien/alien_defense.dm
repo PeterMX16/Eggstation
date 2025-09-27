@@ -18,22 +18,21 @@ In all, this is a lot like the monkey code. /N
 		if(user == src && check_self_for_injuries())
 			return
 		set_resting(FALSE)
-		AdjustStun(-60)
-		AdjustKnockdown(-60)
-		AdjustImmobilized(-60)
-		AdjustParalyzed(-60)
-		AdjustUnconscious(-60)
-		AdjustSleeping(-100)
+		AdjustStun(-6 SECONDS)
+		AdjustKnockdown(-6 SECONDS)
+		AdjustImmobilized(-6 SECONDS)
+		AdjustParalyzed(-6 SECONDS)
+		AdjustUnconscious(-6 SECONDS)
+		AdjustSleeping(-10 SECONDS)
 		visible_message(span_notice("[user.name] nuzzles [src] trying to wake [p_them()] up!"))
 	else if(health > 0)
 		user.do_attack_animation(src, ATTACK_EFFECT_BITE)
-		playsound(loc, 'sound/weapons/bite.ogg', 50, TRUE, -1)
+		playsound(loc, 'sound/items/weapons/bite.ogg', 50, TRUE, -1)
 		visible_message(span_danger("[user.name] bites [src]!"), \
 						span_userdanger("[user.name] bites you!"), span_hear("You hear a chomp!"), COMBAT_MESSAGE_RANGE, user)
 		to_chat(user, span_danger("You bite [src]!"))
 		adjustBruteLoss(1)
 		log_combat(user, src, "attacked")
-		updatehealth()
 	else
 		to_chat(user, span_warning("[name] is too injured for that."))
 
@@ -44,6 +43,7 @@ In all, this is a lot like the monkey code. /N
 
 /mob/living/carbon/alien/attack_hand(mob/living/carbon/human/user, list/modifiers)
 	. = ..()
+<<<<<<< HEAD
 	if(.) //to allow surgery to return properly.
 		return FALSE
 
@@ -56,10 +56,24 @@ In all, this is a lot like the monkey code. /N
 			user.do_attack_animation(src, ATTACK_EFFECT_DISARM)
 			return TRUE
 		user.do_attack_animation(src, ATTACK_EFFECT_PUNCH)
+=======
+	if(.)
+>>>>>>> tg-pr-88929
 		return TRUE
+
+	if(LAZYACCESS(modifiers, RIGHT_CLICK))
+		user.disarm(src)
+		return TRUE
+	if(user.combat_mode)
+		user.do_attack_animation(src, ATTACK_EFFECT_PUNCH)
 	else
 		help_shake_act(user)
+		return TRUE
 
+/mob/living/carbon/alien/get_shove_flags(mob/living/shover, obj/item/weapon)
+	. = ..()
+	if(isnull(weapon) || stat != CONSCIOUS)
+		. &= ~(SHOVE_CAN_MOVE|SHOVE_CAN_HIT_SOMETHING|SHOVE_CAN_STAGGER)
 
 /mob/living/carbon/alien/attack_paw(mob/living/carbon/human/user, list/modifiers)
 	if(..())
@@ -67,6 +81,7 @@ In all, this is a lot like the monkey code. /N
 			var/obj/item/bodypart/affecting = get_bodypart(get_random_valid_zone(user.zone_selected))
 			apply_damage(rand(1, 3), BRUTE, affecting)
 
+<<<<<<< HEAD
 
 /mob/living/carbon/alien/attack_animal(mob/living/simple_animal/user, list/modifiers)
 	. = ..()
@@ -85,20 +100,20 @@ In all, this is a lot like the monkey code. /N
 				adjustCloneLoss(damage)
 			if(STAMINA)
 				stamina.adjust(-damage)
+=======
+/mob/living/carbon/alien/create_splatter(splatter_dir)
+	new /obj/effect/temp_visual/dir_setting/bloodsplatter/xenosplatter(get_turf(src), splatter_dir)
+>>>>>>> tg-pr-88929
 
 /mob/living/carbon/alien/ex_act(severity, target, origin)
-	if(origin && istype(origin, /datum/spacevine_mutation) && isvineimmune(src))
+	. = ..()
+	if(!. || QDELETED(src))
 		return FALSE
 
-	. = ..()
-	if(QDELETED(src))
-		return
-
-	var/obj/item/organ/internal/ears/ears = get_organ_slot(ORGAN_SLOT_EARS)
+	var/obj/item/organ/ears/ears = get_organ_slot(ORGAN_SLOT_EARS)
 	switch (severity)
 		if (EXPLODE_DEVASTATE)
-			gib()
-			return
+			gib(DROP_ALL_REMAINS)
 
 		if (EXPLODE_HEAVY)
 			take_overall_damage(60, 60)
@@ -112,8 +127,17 @@ In all, this is a lot like the monkey code. /N
 			if(ears)
 				ears.adjustEarDamage(15,60)
 
+	return TRUE
+
+
 /mob/living/carbon/alien/soundbang_act(intensity = 1, stun_pwr = 20, damage_pwr = 5, deafen_pwr = 15)
 	return 0
 
 /mob/living/carbon/alien/acid_act(acidpwr, acid_volume)
 	return FALSE//aliens are immune to acid.
+<<<<<<< HEAD
+=======
+
+/mob/living/carbon/alien/on_fire_stack(seconds_per_tick, datum/status_effect/fire_handler/fire_stacks/fire_handler)
+	adjust_bodytemperature((BODYTEMP_HEATING_MAX + (fire_handler.stacks * 12)) * 0.5 * seconds_per_tick)
+>>>>>>> tg-pr-88929

@@ -9,13 +9,24 @@
 "o" = (
 /turf/open/floor/carpet/green,
 /area/virtual_domain/safehouse)
+<<<<<<< HEAD
+=======
+"p" = (
+/obj/item/kirbyplants/random/fullysynthetic,
+/turf/open/indestructible/hotelwood,
+/area/virtual_domain/safehouse)
+>>>>>>> tg-pr-88929
 "s" = (
 /obj/machinery/light/small/directional/east,
 /obj/effect/landmark/bitrunning/cache_goal_turf,
 /obj/effect/turf_decal/loading_area{
 	dir = 4
 	},
+<<<<<<< HEAD
 /turf/open/floor/bitrunning_transport,
+=======
+/turf/open/indestructible/bitrunning_transport,
+>>>>>>> tg-pr-88929
 /area/virtual_domain/safehouse)
 "v" = (
 /obj/machinery/light/small/directional/east,
@@ -23,6 +34,19 @@
 /obj/item/newspaper,
 /turf/open/indestructible/hotelwood,
 /area/virtual_domain/safehouse)
+<<<<<<< HEAD
+=======
+"w" = (
+/obj/modular_map_connector,
+/turf/closed/wall/mineral/wood,
+/area/virtual_domain/safehouse)
+"x" = (
+/obj/structure/railing/corner/end{
+	dir = 4
+	},
+/turf/open/floor/carpet/green,
+/area/virtual_domain/safehouse)
+>>>>>>> tg-pr-88929
 "z" = (
 /obj/structure/sign/poster/random/directional/east,
 /turf/open/indestructible/hotelwood,
@@ -36,7 +60,11 @@
 /obj/effect/turf_decal/loading_area{
 	dir = 4
 	},
+<<<<<<< HEAD
 /turf/open/floor/bitrunning_transport,
+=======
+/turf/open/indestructible/bitrunning_transport,
+>>>>>>> tg-pr-88929
 /area/virtual_domain/safehouse)
 "T" = (
 /obj/effect/landmark/bitrunning/hololadder_spawn,
@@ -58,7 +86,11 @@ G
 i
 G
 G
+<<<<<<< HEAD
 G
+=======
+w
+>>>>>>> tg-pr-88929
 "}
 (2,1,1) = {"
 i
@@ -70,7 +102,11 @@ i
 "}
 (3,1,1) = {"
 G
+<<<<<<< HEAD
 a
+=======
+p
+>>>>>>> tg-pr-88929
 o
 o
 T
@@ -87,7 +123,11 @@ G
 (5,1,1) = {"
 G
 a
+<<<<<<< HEAD
 o
+=======
+x
+>>>>>>> tg-pr-88929
 o
 T
 G

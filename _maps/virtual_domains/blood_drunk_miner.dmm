@@ -13,9 +13,14 @@
 /turf/template_noop,
 /area/virtual_domain/safehouse)
 "d" = (
+<<<<<<< HEAD
 /obj/effect/baseturf_helper/virtual_domain,
 /turf/closed/indestructible/binary,
 /area/lavaland/surface/outdoors/virtual_domain)
+=======
+/turf/closed/indestructible/binary,
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "f" = (
 /obj/structure/stone_tile{
 	dir = 1
@@ -64,12 +69,15 @@
 /obj/structure/marker_beacon/yellow,
 /turf/open/misc/asteroid/basalt/lava_land_surface/no_ruins,
 /area/lavaland/surface/outdoors/virtual_domain)
+<<<<<<< HEAD
 "p" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
 /turf/open/misc/asteroid/basalt/lava_land_surface/no_ruins,
 /area/lavaland/surface/outdoors/virtual_domain)
+=======
+>>>>>>> tg-pr-88929
 "q" = (
 /obj/effect/baseturf_helper/virtual_domain,
 /turf/template_noop,
@@ -91,9 +99,12 @@
 /obj/structure/stone_tile/cracked,
 /turf/open/misc/asteroid/basalt/lava_land_surface/no_ruins,
 /area/lavaland/surface/outdoors/virtual_domain)
+<<<<<<< HEAD
 "v" = (
 /turf/closed/indestructible/binary,
 /area/lavaland/surface/outdoors/virtual_domain)
+=======
+>>>>>>> tg-pr-88929
 "w" = (
 /obj/structure/stone_tile/block/cracked{
 	dir = 4
@@ -124,9 +135,15 @@
 /turf/open/misc/asteroid/basalt/lava_land_surface/no_ruins,
 /area/lavaland/surface/outdoors/virtual_domain)
 "D" = (
+<<<<<<< HEAD
 /obj/effect/turf_decal/sand/plating/volcanic,
 /turf/open/misc/asteroid/basalt/lava_land_surface/no_ruins,
 /area/lavaland/surface/outdoors/virtual_domain/protected_space)
+=======
+/obj/effect/baseturf_helper/virtual_domain,
+/turf/closed/mineral/volcanic/lava_land_surface,
+/area/lavaland/surface/outdoors/virtual_domain)
+>>>>>>> tg-pr-88929
 "G" = (
 /obj/structure/stone_tile{
 	dir = 4
@@ -156,6 +173,7 @@
 /turf/open/misc/asteroid/basalt/lava_land_surface/no_ruins,
 /area/lavaland/surface/outdoors/virtual_domain)
 "L" = (
+<<<<<<< HEAD
 /obj/effect/landmark/bitrunning/safehouse_spawn,
 /turf/template_noop,
 /area/virtual_domain/safehouse)
@@ -171,6 +189,13 @@
 	},
 /turf/open/misc/asteroid/basalt/lava_land_surface/no_ruins,
 /area/lavaland/surface/outdoors/virtual_domain)
+=======
+/obj/modular_map_root/safehouse{
+	key = "lavaland_boss"
+	},
+/turf/template_noop,
+/area/virtual_domain/safehouse)
+>>>>>>> tg-pr-88929
 "O" = (
 /obj/structure/stone_tile{
 	dir = 8
@@ -189,10 +214,13 @@
 	},
 /turf/open/lava/smooth/lava_land_surface,
 /area/lavaland/surface/outdoors/virtual_domain)
+<<<<<<< HEAD
 "Q" = (
 /obj/effect/turf_decal/stripes/line,
 /turf/open/misc/asteroid/basalt/lava_land_surface/no_ruins,
 /area/lavaland/surface/outdoors/virtual_domain)
+=======
+>>>>>>> tg-pr-88929
 "S" = (
 /obj/structure/stone_tile/surrounding/cracked{
 	dir = 6
@@ -206,10 +234,13 @@
 	},
 /turf/open/misc/asteroid/basalt/lava_land_surface/no_ruins,
 /area/lavaland/surface/outdoors/virtual_domain)
+<<<<<<< HEAD
 "U" = (
 /obj/effect/turf_decal/stripes/corner,
 /turf/open/misc/asteroid/basalt/lava_land_surface/no_ruins,
 /area/lavaland/surface/outdoors/virtual_domain)
+=======
+>>>>>>> tg-pr-88929
 "W" = (
 /obj/structure/stone_tile/cracked{
 	dir = 8
@@ -236,6 +267,7 @@
 /area/lavaland/surface/outdoors/virtual_domain)
 
 (1,1,1) = {"
+<<<<<<< HEAD
 v
 v
 v
@@ -285,6 +317,57 @@ d
 "}
 (2,1,1) = {"
 v
+=======
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+"}
+(2,1,1) = {"
+d
+>>>>>>> tg-pr-88929
 s
 s
 s
@@ -328,11 +411,19 @@ s
 s
 s
 s
+<<<<<<< HEAD
 s
 v
 "}
 (3,1,1) = {"
 v
+=======
+D
+d
+"}
+(3,1,1) = {"
+d
+>>>>>>> tg-pr-88929
 s
 s
 s
@@ -377,10 +468,17 @@ s
 J
 J
 s
+<<<<<<< HEAD
 v
 "}
 (4,1,1) = {"
 v
+=======
+d
+"}
+(4,1,1) = {"
+d
+>>>>>>> tg-pr-88929
 s
 s
 J
@@ -425,10 +523,17 @@ J
 J
 J
 s
+<<<<<<< HEAD
 v
 "}
 (5,1,1) = {"
 v
+=======
+d
+"}
+(5,1,1) = {"
+d
+>>>>>>> tg-pr-88929
 s
 s
 J
@@ -473,10 +578,17 @@ J
 J
 s
 s
+<<<<<<< HEAD
 v
 "}
 (6,1,1) = {"
 v
+=======
+d
+"}
+(6,1,1) = {"
+d
+>>>>>>> tg-pr-88929
 s
 s
 J
@@ -521,10 +633,17 @@ J
 J
 s
 s
+<<<<<<< HEAD
 v
 "}
 (7,1,1) = {"
 v
+=======
+d
+"}
+(7,1,1) = {"
+d
+>>>>>>> tg-pr-88929
 s
 s
 J
@@ -569,10 +688,17 @@ J
 J
 J
 s
+<<<<<<< HEAD
 v
 "}
 (8,1,1) = {"
 v
+=======
+d
+"}
+(8,1,1) = {"
+d
+>>>>>>> tg-pr-88929
 s
 s
 J
@@ -617,10 +743,17 @@ J
 J
 s
 s
+<<<<<<< HEAD
 v
 "}
 (9,1,1) = {"
 v
+=======
+d
+"}
+(9,1,1) = {"
+d
+>>>>>>> tg-pr-88929
 s
 J
 J
@@ -665,10 +798,17 @@ a
 J
 J
 s
+<<<<<<< HEAD
 v
 "}
 (10,1,1) = {"
 v
+=======
+d
+"}
+(10,1,1) = {"
+d
+>>>>>>> tg-pr-88929
 s
 J
 J
@@ -713,10 +853,17 @@ a
 J
 J
 s
+<<<<<<< HEAD
 v
 "}
 (11,1,1) = {"
 v
+=======
+d
+"}
+(11,1,1) = {"
+d
+>>>>>>> tg-pr-88929
 s
 s
 J
@@ -761,10 +908,17 @@ a
 J
 J
 s
+<<<<<<< HEAD
 v
 "}
 (12,1,1) = {"
 v
+=======
+d
+"}
+(12,1,1) = {"
+d
+>>>>>>> tg-pr-88929
 s
 s
 J
@@ -809,10 +963,17 @@ J
 J
 J
 s
+<<<<<<< HEAD
 v
 "}
 (13,1,1) = {"
 v
+=======
+d
+"}
+(13,1,1) = {"
+d
+>>>>>>> tg-pr-88929
 s
 s
 J
@@ -857,10 +1018,17 @@ a
 J
 J
 s
+<<<<<<< HEAD
 v
 "}
 (14,1,1) = {"
 v
+=======
+d
+"}
+(14,1,1) = {"
+d
+>>>>>>> tg-pr-88929
 s
 s
 J
@@ -905,10 +1073,17 @@ a
 J
 J
 s
+<<<<<<< HEAD
 v
 "}
 (15,1,1) = {"
 v
+=======
+d
+"}
+(15,1,1) = {"
+d
+>>>>>>> tg-pr-88929
 s
 J
 J
@@ -953,10 +1128,17 @@ a
 J
 J
 s
+<<<<<<< HEAD
 v
 "}
 (16,1,1) = {"
 v
+=======
+d
+"}
+(16,1,1) = {"
+d
+>>>>>>> tg-pr-88929
 s
 J
 J
@@ -988,8 +1170,13 @@ a
 a
 a
 a
+<<<<<<< HEAD
 U
 N
+=======
+a
+a
+>>>>>>> tg-pr-88929
 c
 c
 c
@@ -1001,10 +1188,17 @@ a
 J
 J
 s
+<<<<<<< HEAD
 v
 "}
 (17,1,1) = {"
 v
+=======
+d
+"}
+(17,1,1) = {"
+d
+>>>>>>> tg-pr-88929
 s
 s
 J
@@ -1036,8 +1230,13 @@ a
 a
 a
 o
+<<<<<<< HEAD
 Q
 D
+=======
+a
+a
+>>>>>>> tg-pr-88929
 c
 c
 c
@@ -1049,10 +1248,17 @@ a
 J
 J
 s
+<<<<<<< HEAD
 v
 "}
 (18,1,1) = {"
 v
+=======
+d
+"}
+(18,1,1) = {"
+d
+>>>>>>> tg-pr-88929
 s
 s
 J
@@ -1084,8 +1290,13 @@ a
 a
 a
 a
+<<<<<<< HEAD
 Q
 D
+=======
+a
+a
+>>>>>>> tg-pr-88929
 c
 c
 c
@@ -1097,10 +1308,17 @@ J
 J
 s
 s
+<<<<<<< HEAD
 v
 "}
 (19,1,1) = {"
 v
+=======
+d
+"}
+(19,1,1) = {"
+d
+>>>>>>> tg-pr-88929
 s
 J
 J
@@ -1132,8 +1350,13 @@ a
 a
 a
 a
+<<<<<<< HEAD
 Q
 D
+=======
+a
+a
+>>>>>>> tg-pr-88929
 c
 c
 c
@@ -1145,10 +1368,17 @@ a
 J
 J
 s
+<<<<<<< HEAD
 v
 "}
 (20,1,1) = {"
 v
+=======
+d
+"}
+(20,1,1) = {"
+d
+>>>>>>> tg-pr-88929
 s
 J
 J
@@ -1180,8 +1410,13 @@ a
 a
 a
 a
+<<<<<<< HEAD
 M
 p
+=======
+a
+a
+>>>>>>> tg-pr-88929
 c
 c
 c
@@ -1193,10 +1428,17 @@ a
 J
 J
 s
+<<<<<<< HEAD
 v
 "}
 (21,1,1) = {"
 v
+=======
+d
+"}
+(21,1,1) = {"
+d
+>>>>>>> tg-pr-88929
 s
 s
 J
@@ -1241,10 +1483,17 @@ a
 J
 s
 s
+<<<<<<< HEAD
 v
 "}
 (22,1,1) = {"
 v
+=======
+d
+"}
+(22,1,1) = {"
+d
+>>>>>>> tg-pr-88929
 s
 s
 J
@@ -1289,10 +1538,17 @@ a
 J
 s
 s
+<<<<<<< HEAD
 v
 "}
 (23,1,1) = {"
 v
+=======
+d
+"}
+(23,1,1) = {"
+d
+>>>>>>> tg-pr-88929
 s
 J
 J
@@ -1337,10 +1593,17 @@ a
 J
 s
 s
+<<<<<<< HEAD
 v
 "}
 (24,1,1) = {"
 v
+=======
+d
+"}
+(24,1,1) = {"
+d
+>>>>>>> tg-pr-88929
 s
 J
 J
@@ -1385,10 +1648,17 @@ a
 J
 J
 s
+<<<<<<< HEAD
 v
 "}
 (25,1,1) = {"
 v
+=======
+d
+"}
+(25,1,1) = {"
+d
+>>>>>>> tg-pr-88929
 s
 s
 J
@@ -1433,10 +1703,17 @@ J
 J
 J
 s
+<<<<<<< HEAD
 v
 "}
 (26,1,1) = {"
 v
+=======
+d
+"}
+(26,1,1) = {"
+d
+>>>>>>> tg-pr-88929
 s
 s
 J
@@ -1481,10 +1758,17 @@ a
 J
 J
 s
+<<<<<<< HEAD
 v
 "}
 (27,1,1) = {"
 v
+=======
+d
+"}
+(27,1,1) = {"
+d
+>>>>>>> tg-pr-88929
 s
 s
 J
@@ -1529,10 +1813,17 @@ a
 J
 J
 s
+<<<<<<< HEAD
 v
 "}
 (28,1,1) = {"
 v
+=======
+d
+"}
+(28,1,1) = {"
+d
+>>>>>>> tg-pr-88929
 s
 J
 J
@@ -1577,10 +1868,17 @@ J
 J
 J
 s
+<<<<<<< HEAD
 v
 "}
 (29,1,1) = {"
 v
+=======
+d
+"}
+(29,1,1) = {"
+d
+>>>>>>> tg-pr-88929
 s
 J
 J
@@ -1625,10 +1923,17 @@ J
 J
 s
 s
+<<<<<<< HEAD
 v
 "}
 (30,1,1) = {"
 v
+=======
+d
+"}
+(30,1,1) = {"
+d
+>>>>>>> tg-pr-88929
 s
 s
 J
@@ -1673,10 +1978,17 @@ J
 J
 s
 s
+<<<<<<< HEAD
 v
 "}
 (31,1,1) = {"
 v
+=======
+d
+"}
+(31,1,1) = {"
+d
+>>>>>>> tg-pr-88929
 s
 s
 a
@@ -1721,10 +2033,17 @@ J
 J
 J
 s
+<<<<<<< HEAD
 v
 "}
 (32,1,1) = {"
 v
+=======
+d
+"}
+(32,1,1) = {"
+d
+>>>>>>> tg-pr-88929
 s
 s
 a
@@ -1769,10 +2088,17 @@ J
 J
 J
 s
+<<<<<<< HEAD
 v
 "}
 (33,1,1) = {"
 v
+=======
+d
+"}
+(33,1,1) = {"
+d
+>>>>>>> tg-pr-88929
 s
 s
 s
@@ -1817,10 +2143,17 @@ J
 J
 J
 s
+<<<<<<< HEAD
 v
 "}
 (34,1,1) = {"
 v
+=======
+d
+"}
+(34,1,1) = {"
+d
+>>>>>>> tg-pr-88929
 s
 s
 s
@@ -1865,6 +2198,7 @@ s
 s
 s
 s
+<<<<<<< HEAD
 v
 "}
 (35,1,1) = {"
@@ -1914,4 +2248,55 @@ v
 v
 v
 v
+=======
+d
+"}
+(35,1,1) = {"
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+d
+>>>>>>> tg-pr-88929
 "}

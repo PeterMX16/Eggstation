@@ -1,5 +1,6 @@
 /obj/structure/spider/eggcluster
 	name = "egg cluster"
+	icon = 'icons/effects/effects.dmi'
 	desc = "There's something alive in there, and sooner or later it's going to find its way out."
 	icon_state = "eggs"
 	/// Mob spawner handling the actual spawn of the spider
@@ -35,6 +36,10 @@
 				. += span_info("These eggs swell with unseen life. They are almost ready to burst.")
 			if(100 to INFINITY)
 				. += span_info("These eggs are plump, teeming with life. Any moment now...")
+
+/obj/structure/spider/eggcluster/abnormal
+	name = "abnormal egg cluster"
+	color = rgb(0, 148, 211)
 
 /obj/structure/spider/eggcluster/enriched
 	name = "enriched egg cluster"
@@ -86,7 +91,10 @@
 	)
 	/// Do we flash the byond window when this particular egg type is available?
 	var/flash_window = FALSE
+<<<<<<< HEAD
 	dont_be_a_shit = FALSE
+=======
+>>>>>>> tg-pr-88929
 
 /obj/effect/mob_spawn/ghost_role/spider/Initialize(mapload)
 	. = ..()
@@ -110,7 +118,12 @@
 		notify_ghosts(
 			"[src] is ready to hatch!",
 			source = src,
+<<<<<<< HEAD
 			action = NOTIFY_PLAY,
+=======
+			header = "Spider Infestation",
+			click_interact = TRUE,
+>>>>>>> tg-pr-88929
 			ignore_key = POLL_IGNORE_SPIDER,
 			notify_flags = notify_flags_to_pass,
 		)
@@ -143,6 +156,19 @@
 	QDEL_NULL(egg)
 	var/datum/antagonist/spider/spider_antag = new granted_datum(directive)
 	spawned_mob.mind.add_antag_datum(spider_antag)
+<<<<<<< HEAD
+=======
+
+/obj/effect/mob_spawn/ghost_role/spider/abnormal
+	name = "abnormal egg cluster"
+	color = rgb(0, 148, 211)
+	cluster_type = /obj/structure/spider/eggcluster/abnormal
+	potentialspawns = list(
+		/mob/living/basic/spider/growing/spiderling/tank,
+		/mob/living/basic/spider/growing/spiderling/viper,
+	)
+	flash_window = TRUE
+>>>>>>> tg-pr-88929
 
 /obj/effect/mob_spawn/ghost_role/spider/enriched
 	name = "enriched egg cluster"
@@ -151,7 +177,11 @@
 	cluster_type = /obj/structure/spider/eggcluster/enriched
 	potentialspawns = list(
 		/mob/living/basic/spider/growing/spiderling/tarantula,
+<<<<<<< HEAD
 		/mob/living/basic/spider/growing/spiderling/viper,
+=======
+		/mob/living/basic/spider/growing/spiderling/breacher,
+>>>>>>> tg-pr-88929
 		/mob/living/basic/spider/growing/spiderling/midwife,
 	)
 	flash_window = TRUE
@@ -168,8 +198,13 @@
 	potentialspawns = list(
 		/mob/living/basic/flesh_spider,
 	)
+<<<<<<< HEAD
 	granted_datum = /datum/antagonist/spider/flesh
 	flash_window = TRUE
+=======
+	flash_window = TRUE
+	granted_datum = /datum/antagonist/spider/flesh
+>>>>>>> tg-pr-88929
 
 /obj/effect/mob_spawn/ghost_role/spider/midwife
 	name = "midwife egg cluster"
@@ -178,7 +213,11 @@
 	directive = "Ensure the survival of the spider species and overtake whatever structure you find yourself in."
 	cluster_type = /obj/structure/spider/eggcluster/midwife
 	potentialspawns = list(
+<<<<<<< HEAD
 		/mob/living/basic/spider/giant/midwife, // We don't want the event to end instantly because of a 2 hp spiderling dying
+=======
+		/mob/living/basic/spider/growing/spiderling/midwife, // We don't want the event to end instantly because broodmothers got a bad spawn
+>>>>>>> tg-pr-88929
 	)
 	flash_window = TRUE
 
@@ -222,5 +261,9 @@
 		display_spiders[initial(spider.name)] = option
 	sort_list(display_spiders)
 
+<<<<<<< HEAD
 	var/chosen_spider = show_radial_menu(user, egg, display_spiders, radius = 38)
+=======
+	var/chosen_spider = show_radial_menu(user, egg, display_spiders, radius = 38, require_near = TRUE)
+>>>>>>> tg-pr-88929
 	return spider_list[chosen_spider]

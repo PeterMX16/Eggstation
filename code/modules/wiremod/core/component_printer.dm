@@ -2,7 +2,7 @@
 /obj/machinery/component_printer
 	name = "component printer"
 	desc = "Produces components for the creation of integrated circuits."
-	icon = 'icons/obj/wiremod_fab.dmi'
+	icon = 'icons/obj/machines/wiremod_fab.dmi'
 	icon_state = "fab-idle"
 	circuit = /obj/item/circuitboard/machine/component_printer
 
@@ -22,17 +22,27 @@
 
 /obj/machinery/component_printer/Initialize(mapload)
 	. = ..()
-	if(!CONFIG_GET(flag/no_default_techweb_link) && !techweb)
-		connect_techweb(SSresearch.science_tech)
-
 	materials = AddComponent(/datum/component/remote_materials, mapload)
+
+<<<<<<< HEAD
+	materials = AddComponent(/datum/component/remote_materials, mapload)
+=======
+/obj/machinery/component_printer/post_machine_initialize()
+	. = ..()
+	if(!CONFIG_GET(flag/no_default_techweb_link) && !techweb)
+		CONNECT_TO_RND_SERVER_ROUNDSTART(techweb, src)
+	if(techweb)
+		on_connected_techweb()
+>>>>>>> tg-pr-88929
 
 /obj/machinery/component_printer/proc/connect_techweb(datum/techweb/new_techweb)
 	if(techweb)
 		UnregisterSignal(techweb, list(COMSIG_TECHWEB_ADD_DESIGN, COMSIG_TECHWEB_REMOVE_DESIGN))
-
 	techweb = new_techweb
+	if(!isnull(techweb))
+		on_connected_techweb()
 
+/obj/machinery/component_printer/proc/on_connected_techweb()
 	for (var/researched_design_id in techweb.researched_designs)
 		var/datum/design/design = SSresearch.techweb_design_by_id(researched_design_id)
 		if (!(design.build_type & COMPONENT_PRINTER) || !ispath(design.build_path, /obj/item/circuit_component))
@@ -60,6 +70,19 @@
 		return
 	current_unlocked_designs -= added_design.build_path
 
+/obj/machinery/component_printer/base_item_interaction(mob/living/user, obj/item/tool, list/modifiers)
+	//to allow quick recycling of circuits
+	if(istype(tool, /obj/item/circuit_component))
+		var/amount_inserted = materials.insert_item(tool)
+
+		if(amount_inserted)
+			to_chat(user, span_notice("[tool] worth [amount_inserted / SHEET_MATERIAL_AMOUNT] sheets of material was consumed by [src]"))
+		else
+			to_chat(user, span_warning("[tool] was rejected by [src]"))
+
+		return amount_inserted > 0 ? ITEM_INTERACT_SUCCESS : ITEM_INTERACT_FAILURE
+
+	return ..()
 
 /obj/machinery/component_printer/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
@@ -86,9 +109,15 @@
 
 	efficiency_coeff = 0
 
+<<<<<<< HEAD
 	for(var/datum/stock_part/manipulator/manipulator in component_parts)
 		///we do -1 because normal manipulators rating of 1 gives us 1-1=0 i.e no decrement in cost
 		efficiency_coeff += manipulator.tier-1
+=======
+	for(var/datum/stock_part/servo/servo in component_parts)
+		///we do -1 because normal manipulators rating of 1 gives us 1-1=0 i.e no decrement in cost
+		efficiency_coeff += servo.tier-1
+>>>>>>> tg-pr-88929
 
 	///linear interpolation between full cost i.e 1 & 1/8th the cost i.e 0.125
 	///we do it in 6 steps because maximum rating of 2 manipulators is 8 but -1 gives us 6
@@ -156,6 +185,10 @@
 
 /obj/machinery/component_printer/ui_static_data(mob/user)
 	var/list/data = materials.mat_container.ui_static_data()
+<<<<<<< HEAD
+=======
+
+>>>>>>> tg-pr-88929
 	var/list/designs = list()
 
 	var/datum/asset/spritesheet_batched/research_designs/spritesheet = get_asset_datum(/datum/asset/spritesheet_batched/research_designs)
@@ -178,8 +211,7 @@
 			"cost" = cost,
 			"id" = researched_design_id,
 			"categories" = design.category,
-			"icon" = "[icon_size == size32x32 ? "" : "[icon_size] "][design.id]",
-			"constructionTime" = -1
+			"icon" = "[icon_size == size32x32 ? "" : "[icon_size] "][design.id]"
 		)
 
 	data["designs"] = designs
@@ -187,12 +219,31 @@
 	return data
 
 /obj/machinery/component_printer/attackby(obj/item/weapon, mob/living/user, params)
+<<<<<<< HEAD
 	if(istype(weapon, /obj/item/integrated_circuit) && !(user.istate & ISTATE_HARM))
 		var/obj/item/integrated_circuit/circuit = weapon
 		circuit.linked_component_printer = WEAKREF(src)
 		balloon_alert(user, "successfully linked to the integrated circuit")
 		return
 	return ..()
+=======
+	if (user.combat_mode)
+		return ..()
+
+	var/obj/item/integrated_circuit/circuit
+	if(istype(weapon, /obj/item/integrated_circuit))
+		circuit = weapon
+	else if (istype(weapon, /obj/item/circuit_component/module))
+		var/obj/item/circuit_component/module/module = weapon
+		circuit = module.internal_circuit
+	if (isnull(circuit))
+		return ..()
+
+	circuit.linked_component_printer = WEAKREF(src)
+	circuit.update_static_data_for_all_viewers()
+	balloon_alert(user, "successfully linked to the integrated circuit")
+
+>>>>>>> tg-pr-88929
 
 /obj/machinery/component_printer/crowbar_act(mob/living/user, obj/item/tool)
 	if(..())
@@ -215,7 +266,7 @@
 /obj/machinery/debug_component_printer
 	name = "debug component printer"
 	desc = "Produces components for the creation of integrated circuits."
-	icon = 'icons/obj/wiremod_fab.dmi'
+	icon = 'icons/obj/machines/wiremod_fab.dmi'
 	icon_state = "fab-idle"
 
 	/// All of the possible circuit designs stored by this debug printer
@@ -295,18 +346,19 @@
 /obj/machinery/module_duplicator
 	name = "module duplicator"
 	desc = "Allows you to duplicate module components so that you don't have to recreate them. Scan a module component over this machine to add it as an entry."
-	icon = 'icons/obj/wiremod_fab.dmi'
+	icon = 'icons/obj/machines/wiremod_fab.dmi'
 	icon_state = "module-fab-idle"
 	circuit = /obj/item/circuitboard/machine/module_duplicator
-
-	/// The internal material bus
-	var/datum/component/remote_materials/materials
-
 	density = TRUE
 
+	///The internal material bus
+	var/datum/component/remote_materials/materials
+	///List of designs scanned and saved
 	var/list/scanned_designs = list()
-
-	var/cost_per_component = 1000
+	///Constant material cost per component
+	var/cost_per_component = SHEET_MATERIAL_AMOUNT / 10
+	///Cost efficiency of this machine
+	var/efficiency_coeff = 1
 
 	var/efficiency_coeff = 1
 
@@ -329,6 +381,10 @@
 
 /obj/machinery/module_duplicator/RefreshParts()
 	. = ..()
+<<<<<<< HEAD
+=======
+
+>>>>>>> tg-pr-88929
 	if(materials)
 		var/total_storage = 0
 
@@ -339,13 +395,21 @@
 
 	efficiency_coeff = 0
 
-	for(var/datum/stock_part/manipulator/manipulator in component_parts)
+	for(var/datum/stock_part/servo/servo in component_parts)
 		///we do -1 because normal manipulators rating of 1 gives us 1-1=0 i.e no decrement in cost
+<<<<<<< HEAD
 		efficiency_coeff += manipulator.tier - 1
 
 	///linear interpolation between full cost i.e 1 & 1/8th the cost i.e 0.125
 	///we do it in 6 steps because maximum rating of 2 manipulators is 8 but -1 gives us 6
 	efficiency_coeff = 1.0 + ((0.125 - 1.0) * (efficiency_coeff/6))
+=======
+		efficiency_coeff += servo.tier - 1
+
+	///linear interpolation between full cost i.e 1 & 1/8th the cost i.e 0.125
+	///we do it in 6 steps because maximum rating of 2 manipulators is 8 but -1 gives us 6
+	efficiency_coeff = 1.0 + ((0.125 - 1.0) * (efficiency_coeff / 6))
+>>>>>>> tg-pr-88929
 
 	update_static_data_for_all_viewers()
 
@@ -470,6 +534,10 @@
 
 	var/index = 1
 	for (var/list/design as anything in scanned_designs)
+<<<<<<< HEAD
+=======
+
+>>>>>>> tg-pr-88929
 		var/list/cost = list()
 		var/list/materials = design["materials"]
 		for(var/datum/material/mat in materials)

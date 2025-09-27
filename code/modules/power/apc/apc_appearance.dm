@@ -18,11 +18,14 @@
 		set_light(l_outer_range = light_on_outer_range, l_inner_range = light_on_inner_range)
 		return
 
+<<<<<<< HEAD
 	if(update_state & UPSTATE_BLUESCREEN)
 		set_light_color(LIGHT_COLOR_BLUE)
 		set_light(l_outer_range = light_on_outer_range, l_inner_range = light_on_inner_range)
 		return
 
+=======
+>>>>>>> tg-pr-88929
 	set_light(0)
 
 /obj/machinery/power/apc/update_icon_state()
@@ -38,9 +41,6 @@
 		return ..()
 	if(update_state & UPSTATE_BROKE)
 		icon_state = "apc-b"
-		return ..()
-	if(update_state & UPSTATE_BLUESCREEN)
-		icon_state = "apcemag"
 		return ..()
 	if(update_state & UPSTATE_WIREEXP)
 		icon_state = "apcewires"
@@ -85,8 +85,6 @@
 		if(cell)
 			new_update_state |= UPSTATE_CELL_IN
 
-	else if((obj_flags & EMAGGED) || malfai)
-		new_update_state |= UPSTATE_BLUESCREEN
 	else if(panel_open)
 		new_update_state |= UPSTATE_WIREEXP
 

@@ -25,8 +25,13 @@
 
 /**
  * Gets all the dropdown options in the vv menu.
+<<<<<<< HEAD
  * When overriding, make sure to call . = ..() first and appent to the result, that way parent items are always at the top and child items are further down.
  * Add seperators by doing VV_DROPDOWN_OPTION("", "---")
+=======
+ * When overriding, make sure to call . = ..() first and append to the result, that way parent items are always at the top and child items are further down.
+ * Add separators by doing VV_DROPDOWN_OPTION("", "---")
+>>>>>>> tg-pr-88929
  */
 /datum/proc/vv_get_dropdown()
 	SHOULD_CALL_PARENT(TRUE)
@@ -46,7 +51,11 @@
 /**
  * This proc is only called if everything topic-wise is verified. The only verifications that should happen here is things like permission checks!
  * href_list is a reference, modifying it in these procs WILL change the rest of the proc in topic.dm of admin/view_variables!
+<<<<<<< HEAD
  * This proc is for "high level" actions like admin heal/set species/etc/etc. The low level debugging things should go in admin/view_variables/topic_basic.dm incase this runtimes.
+=======
+ * This proc is for "high level" actions like admin heal/set species/etc/etc. The low level debugging things should go in admin/view_variables/topic_basic.dm in case this runtimes.
+>>>>>>> tg-pr-88929
  */
 /datum/proc/vv_do_topic(list/href_list)
 	if(!usr || !usr.client || !usr.client.holder || !check_rights(NONE))

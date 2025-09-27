@@ -5,8 +5,15 @@
 	"map_file": "runtimestation.dmm",
 	"space_ruin_levels": 1,
 	"ignored_unit_tests": [
+<<<<<<< HEAD
 		"/datum/unit_test/required_map_items",
 		"/datum/unit_test/vendor_boards"
+=======
+		"/datum/unit_test/cargo_dep_order_locations",
+		"/datum/unit_test/job_roundstart_spawnpoints",
+		"/datum/unit_test/required_map_items",
+		"/datum/unit_test/spy_bounty"
+>>>>>>> tg-pr-88929
 	],
 	"shuttles": {
 		"cargo": "cargo_delta"

@@ -1,19 +1,28 @@
 SUBSYSTEM_DEF(polling)
 	name = "Polling"
+<<<<<<< HEAD
 	flags = SS_BACKGROUND | SS_NO_INIT | SS_HIBERNATE
 	wait = 1 SECONDS
 	runlevels = RUNLEVEL_GAME
+=======
+	flags = SS_BACKGROUND | SS_NO_INIT
+	wait = 1 SECONDS
+	runlevels = RUNLEVEL_GAME | RUNLEVEL_POSTGAME
+>>>>>>> tg-pr-88929
 	/// List of polls currently ongoing, to be checked on next fire()
 	var/list/datum/candidate_poll/currently_polling
 	/// Number of polls performed since the start
 	var/total_polls = 0
 
+<<<<<<< HEAD
 /datum/controller/subsystem/polling/PreInit()
 	. = ..()
 	hibernate_checks = list(
 		NAMEOF(src, currently_polling),
 	)
 
+=======
+>>>>>>> tg-pr-88929
 /datum/controller/subsystem/polling/fire()
 	if(!currently_polling) // if polls_active is TRUE then this shouldn't happen, but still..
 		currently_polling = list()
@@ -42,7 +51,11 @@ SUBSYSTEM_DEF(polling)
  * * chat_text_border_icon: Object or path to make an icon of to decorate the chat announcement.
  * * announce_chosen: Whether we should announce the chosen candidates in chat. This is ignored unless amount_to_pick is greater than 0.
  *
+<<<<<<< HEAD
  * Returns a list of all mobs who signed up for the poll.
+=======
+ * Returns a list of all mobs who signed up for the poll, OR, in the case that amount_to_pick is equal to 1 the singular mob/null if no available candidates.
+>>>>>>> tg-pr-88929
  */
 /datum/controller/subsystem/polling/proc/poll_candidates(
 	question,
@@ -60,9 +73,14 @@ SUBSYSTEM_DEF(polling)
 	amount_to_pick = 0,
 	chat_text_border_icon,
 	announce_chosen = TRUE,
+<<<<<<< HEAD
 	show_candidate_amount = TRUE,
 )
 	if(length(group) == 0)
+=======
+)
+	if(group.len == 0)
+>>>>>>> tg-pr-88929
 		return
 	if(role && !role_name_text)
 		role_name_text = role
@@ -79,11 +97,15 @@ SUBSYSTEM_DEF(polling)
 		jump_target = alert_pic
 
 	var/datum/candidate_poll/new_poll = new(role_name_text, question, poll_time, ignore_category, jump_target, custom_response_messages)
+<<<<<<< HEAD
 	new_poll.show_candidate_amount = show_candidate_amount
+=======
+>>>>>>> tg-pr-88929
 	LAZYADD(currently_polling, new_poll)
 
 	var/category = "[new_poll.poll_key]_poll_alert"
 
+<<<<<<< HEAD
 	var/image/surrounding_image
 	if(isnull(chat_text_border_icon) && !isnull(alert_pic))
 		chat_text_border_icon = alert_pic
@@ -100,6 +122,8 @@ SUBSYSTEM_DEF(polling)
 		else
 			surrounding_image = image(chat_text_border_icon)
 
+=======
+>>>>>>> tg-pr-88929
 	for(var/mob/candidate_mob as anything in group)
 		if(!candidate_mob.client)
 			continue
@@ -157,12 +181,17 @@ SUBSYSTEM_DEF(polling)
 		if(ispath(alert_pic, /atom) || isatom(alert_pic))
 			poll_image = new /mutable_appearance(alert_pic)
 			poll_image.pixel_z = 0
+<<<<<<< HEAD
 		else if(ispath(alert_pic, /datum/antagonist))
 			var/datum/antagonist/antagonist = new alert_pic
 			poll_image = antagonist.render_poll_preview() || image('icons/effects/effects.dmi', icon_state = "static", layer = FLOAT_LAYER)
 			QDEL_NULL(antagonist)
 		else if(isicon(alert_pic))
 			poll_image = image(alert_pic)
+=======
+		else if(!isnull(alert_pic))
+			poll_image = alert_pic
+>>>>>>> tg-pr-88929
 		else
 			poll_image = image('icons/effects/effects.dmi', icon_state = "static")
 
@@ -183,6 +212,7 @@ SUBSYSTEM_DEF(polling)
 			act_never = "[custom_link_style_start]<a href='byond://?src=[REF(poll_alert_button)];never=1'[custom_link_style_end]>\[Never For This Round\]</a>"
 
 		if(!duplicate_message_check(alert_poll)) //Only notify people once. They'll notice if there are multiple and we don't want to spam people.
+<<<<<<< HEAD
 			// monkestation start: volume mixer
 			var/volume = 70
 			var/sfx_volume = candidate_mob.client?.prefs?.channel_volume["[CHANNEL_SOUND_EFFECTS]"]
@@ -193,6 +223,18 @@ SUBSYSTEM_DEF(polling)
 			var/surrounding_icon
 			if(surrounding_image)
 				surrounding_icon = ma2html(surrounding_image, candidate_mob, extra_classes = "bigicon")
+=======
+			SEND_SOUND(candidate_mob, sound('sound/misc/prompt.ogg', volume = 70))
+			var/surrounding_icon
+			if(chat_text_border_icon)
+				var/image/surrounding_image
+				if(!ispath(chat_text_border_icon))
+					var/mutable_appearance/border_image = chat_text_border_icon
+					surrounding_image = border_image
+				else
+					surrounding_image = image(chat_text_border_icon)
+				surrounding_icon = icon2html(surrounding_image, candidate_mob, extra_classes = "bigicon")
+>>>>>>> tg-pr-88929
 			var/final_message =  boxed_message("<span style='text-align:center;display:block'>[surrounding_icon] <span style='font-size:1.2em'>[span_ooc(question)]</span> [surrounding_icon]\n[act_jump]      [act_signup]      [act_never]</span>")
 			to_chat(candidate_mob, final_message)
 
@@ -201,9 +243,21 @@ SUBSYSTEM_DEF(polling)
 
 	// Sleep until the time is up
 	UNTIL(new_poll.finished)
+<<<<<<< HEAD
 	if(!(amount_to_pick > 0))
 		return new_poll.signed_up
 	for(var/pick in 1 to amount_to_pick)
+=======
+	if(!amount_to_pick)
+		return new_poll.signed_up
+	if (!length(new_poll.signed_up))
+		return null
+	for(var/pick in 1 to amount_to_pick)
+		// There may be less people signed up than amount_to_pick
+		// pick_n_take returns the default return value of null if passed an empty list, so just break in that case rather than adding null to the list.
+		if(!length(new_poll.signed_up))
+			break
+>>>>>>> tg-pr-88929
 		new_poll.chosen_candidates += pick_n_take(new_poll.signed_up)
 	if(announce_chosen)
 		new_poll.announce_chosen(group)
@@ -227,9 +281,13 @@ SUBSYSTEM_DEF(polling)
 	amount_to_pick = 0,
 	chat_text_border_icon,
 	announce_chosen = TRUE,
+<<<<<<< HEAD
 	show_candidate_amount = TRUE,
 ) as /list
 	RETURN_TYPE(/list)
+=======
+)
+>>>>>>> tg-pr-88929
 	var/list/candidates = list()
 	if(!(GLOB.ghost_role_flags & GHOSTROLE_STATION_SENTIENCE))
 		return
@@ -241,7 +299,11 @@ SUBSYSTEM_DEF(polling)
 		candidates |= dude
 #endif
 
+<<<<<<< HEAD
 	return poll_candidates(question, role, check_jobban, poll_time, ignore_category, flashwindow, candidates, alert_pic, jump_target, role_name_text, custom_response_messages, start_signed_up, amount_to_pick, chat_text_border_icon, announce_chosen, show_candidate_amount)
+=======
+	return poll_candidates(question, role, check_jobban, poll_time, ignore_category, flashwindow, candidates, alert_pic, jump_target, role_name_text, custom_response_messages, start_signed_up, amount_to_pick, chat_text_border_icon, announce_chosen)
+>>>>>>> tg-pr-88929
 
 /datum/controller/subsystem/polling/proc/poll_ghosts_for_target(
 	question,
@@ -258,14 +320,22 @@ SUBSYSTEM_DEF(polling)
 	start_signed_up = FALSE,
 	chat_text_border_icon,
 	announce_chosen = TRUE,
+<<<<<<< HEAD
 	show_candidate_amount = TRUE,
 ) as /mob/dead/observer
 	RETURN_TYPE(/mob/dead/observer)
+=======
+)
+>>>>>>> tg-pr-88929
 	var/static/list/atom/movable/currently_polling_targets = list()
 	if(currently_polling_targets.Find(checked_target))
 		return
 	currently_polling_targets += checked_target
+<<<<<<< HEAD
 	var/mob/chosen_one = poll_ghost_candidates(question, role, check_jobban, poll_time, ignore_category, flashwindow, alert_pic, jump_target, role_name_text, custom_response_messages, start_signed_up, amount_to_pick = 1, chat_text_border_icon = chat_text_border_icon, announce_chosen = announce_chosen, show_candidate_amount = show_candidate_amount)
+=======
+	var/mob/chosen_one = poll_ghost_candidates(question, role, check_jobban, poll_time, ignore_category, flashwindow, alert_pic, jump_target, role_name_text, custom_response_messages, start_signed_up, amount_to_pick = 1, chat_text_border_icon = chat_text_border_icon, announce_chosen = announce_chosen)
+>>>>>>> tg-pr-88929
 	currently_polling_targets -= checked_target
 	if(!checked_target || QDELETED(checked_target) || !checked_target.loc)
 		return null
@@ -285,10 +355,15 @@ SUBSYSTEM_DEF(polling)
 	list/custom_response_messages,
 	start_signed_up = FALSE,
 	chat_text_border_icon,
+<<<<<<< HEAD
 	show_candidate_amount = TRUE,
 ) as /list
 	RETURN_TYPE(/list)
 	var/list/candidate_list = poll_ghost_candidates(question, role, check_jobban, poll_time, ignore_category, flashwindow, alert_pic, jump_target, role_name_text, custom_response_messages, start_signed_up, chat_text_border_icon = chat_text_border_icon, show_candidate_amount = show_candidate_amount)
+=======
+)
+	var/list/candidate_list = poll_ghost_candidates(question, role, check_jobban, poll_time, ignore_category, flashwindow, alert_pic, jump_target, role_name_text, custom_response_messages, start_signed_up, chat_text_border_icon = chat_text_border_icon)
+>>>>>>> tg-pr-88929
 	for(var/atom/movable/potential_target as anything in checked_targets)
 		if(QDELETED(potential_target) || !potential_target.loc)
 			checked_targets -= potential_target
@@ -296,7 +371,11 @@ SUBSYSTEM_DEF(polling)
 		return list()
 	return candidate_list
 
+<<<<<<< HEAD
 /datum/controller/subsystem/polling/proc/is_eligible(mob/potential_candidate, role, check_jobban, the_ignore_category) as num
+=======
+/datum/controller/subsystem/polling/proc/is_eligible(mob/potential_candidate, role, check_jobban, the_ignore_category)
+>>>>>>> tg-pr-88929
 	if(isnull(potential_candidate.key) || isnull(potential_candidate.client))
 		return FALSE
 	if(the_ignore_category)
@@ -310,7 +389,11 @@ SUBSYSTEM_DEF(polling)
 			return FALSE
 
 	if(check_jobban)
+<<<<<<< HEAD
 		if(is_banned_from(potential_candidate.ckey, list(check_jobban, ROLE_SYNDICATE)))
+=======
+		if(is_banned_from(potential_candidate.ckey, list(ROLE_SYNDICATE) + check_jobban))
+>>>>>>> tg-pr-88929
 			return FALSE
 
 	return TRUE
@@ -342,14 +425,22 @@ SUBSYSTEM_DEF(polling)
 	return ..()
 
 ///Is there a multiple of the given event type running right now?
+<<<<<<< HEAD
 /datum/controller/subsystem/polling/proc/duplicate_message_check(datum/candidate_poll/poll_to_check) as num
+=======
+/datum/controller/subsystem/polling/proc/duplicate_message_check(datum/candidate_poll/poll_to_check)
+>>>>>>> tg-pr-88929
 	for(var/datum/candidate_poll/running_poll as anything in currently_polling)
 		if((running_poll.poll_key == poll_to_check.poll_key && running_poll != poll_to_check) && running_poll.time_left() > 0)
 			return TRUE
 	return FALSE
 
+<<<<<<< HEAD
 /datum/controller/subsystem/polling/proc/get_next_poll_to_finish() as /datum/candidate_poll
 	RETURN_TYPE(/datum/candidate_poll)
+=======
+/datum/controller/subsystem/polling/proc/get_next_poll_to_finish()
+>>>>>>> tg-pr-88929
 	var/lowest_time_left = INFINITY
 	var/next_poll_to_finish
 	for(var/datum/candidate_poll/poll as anything in currently_polling)

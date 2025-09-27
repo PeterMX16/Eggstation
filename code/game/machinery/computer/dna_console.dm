@@ -1,5 +1,20 @@
-/// Base timeout for creating mutation activators and other injectors
-#define INJECTOR_TIMEOUT 100
+/// Base timeout for creating mutation activators
+#define MIN_ACTIVATOR_TIMEOUT 5 SECONDS
+/// Base cooldown multiplier for activator upgrades
+#define ACTIVATOR_COOLDOWN_MULTIPLIER 0.25
+/// Base timeout for creating mutation injectors
+#define MIN_INJECTOR_TIMEOUT 10 SECONDS
+/// Base cooldown multiplier for injecotr upgrades
+#define INJECTOR_COOLDOWN_MULTIPLIER 0.15
+
+/// Base timeout for creating advanced injectors
+#define MIN_ADVANCED_TIMEOUT 15 SECONDS
+/// Base cooldown multiplier for advanced injector upgrades
+#define ADVANCED_COOLDOWN_MULTIPLIER 0.1
+
+/// Used for other things like UI/UE/Initial CD
+#define MISC_INJECTOR_TIMEOUT 60 SECONDS
+
 /// Maximum number of genetic makeup storage slots in DNA Console
 #define NUMBER_OF_BUFFERS 3
 /// Timeout for DNA Scramble in DNA Consoles
@@ -60,8 +75,13 @@
 	icon_screen = "dna"
 	icon_keyboard = "med_key"
 	density = TRUE
+<<<<<<< HEAD
 	circuit = /obj/item/circuitboard/computer/dna_console
 
+=======
+	circuit = /obj/item/circuitboard/computer/scan_consolenew
+	interaction_flags_click = ALLOW_SILICON_REACH
+>>>>>>> tg-pr-88929
 	light_color = LIGHT_COLOR_BLUE
 	clicksound = null
 
@@ -305,6 +325,7 @@
 		stored_research = tool.buffer
 	return TRUE
 
+<<<<<<< HEAD
 /obj/machinery/computer/dna_console/AltClick(mob/user)
 	// Make sure the user can interact with the machine.
 	. = ..()
@@ -313,7 +334,11 @@
 	if(!user.can_perform_action(src, ALLOW_SILICON_REACH))
 		return
 
+=======
+/obj/machinery/computer/scan_consolenew/click_alt(mob/user)
+>>>>>>> tg-pr-88929
 	eject_disk(user)
+	return CLICK_ACTION_SUCCESS
 
 /obj/machinery/computer/dna_console/Initialize(mapload)
 	. = ..()
@@ -324,7 +349,7 @@
 	connect_to_scanner()
 
 	// Set appropriate ready timers and limits for machines functions
-	injector_ready = world.time + INJECTOR_TIMEOUT
+	injector_ready = world.time + MISC_INJECTOR_TIMEOUT
 	scramble_ready = world.time + SCRAMBLE_TIMEOUT
 	joker_ready = world.time + JOKER_TIMEOUT
 	COOLDOWN_START(src, enzyme_copy_timer, ENZYME_COPY_BASE_COOLDOWN)
@@ -332,10 +357,13 @@
 	// Set the default tgui state
 	set_default_state()
 
+/obj/machinery/computer/scan_consolenew/post_machine_initialize()
+	. = ..()
 	// Link machine with research techweb. Used for discovering and accessing
 	// already discovered mutations
 	if(!CONFIG_GET(flag/no_default_techweb_link) && !stored_research)
-		stored_research = SSresearch.science_tech
+		CONNECT_TO_RND_SERVER_ROUNDSTART(stored_research, src)
+
 
 /obj/machinery/computer/dna_console/add_context(atom/source, list/context, obj/item/held_item, mob/user)
 	if(!held_item)
@@ -496,7 +524,11 @@
 
 	return data
 
+<<<<<<< HEAD
 /obj/machinery/computer/dna_console/ui_act(action, list/params)
+=======
+/obj/machinery/computer/scan_consolenew/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
+>>>>>>> tg-pr-88929
 	var/static/list/gene_letters = list("A", "T", "C", "G");
 	var/static/gene_letter_count = length(gene_letters)
 
@@ -507,7 +539,6 @@
 	. = TRUE
 
 	add_fingerprint(usr)
-	usr.set_machine(src)
 
 	switch(action)
 		// Connect this DNA Console to a nearby DNA Scanner
@@ -539,7 +570,7 @@
 			// GUARD CHECK - Can we genetically modify the occupant? Includes scanner
 			//  operational guard checks.
 			// GUARD CHECK - Is scramble DNA actually ready?
-			if(!can_modify_occupant() || !(scramble_ready < world.time))
+			if(!can_modify_occupant() || !(scramble_ready < world.time) || HAS_TRAIT(scanner_occupant, TRAIT_NO_DNA_SCRAMBLE))
 				return
 
 			scanner_occupant.dna.remove_all_mutations()
@@ -782,7 +813,7 @@
 			var/datum/mutation/target_mutation = get_mut_by_ref(bref, search_flags)
 
 			// Prompt for modifier string
-			var/new_sequence_input = tgui_input_text(usr, "Enter a replacement sequence", "Inherent Gene Replacement", 32, encode = FALSE)
+			var/new_sequence_input = tgui_input_text(usr, "Enter a replacement sequence", "Inherent Gene Replacement", max_length = 32, encode = FALSE)
 			// Drop out if the string is the wrong length
 			if(length(new_sequence_input) != 32)
 				return
@@ -827,10 +858,10 @@
 				//should be a "sometimes" thing, not an "always" thing, but risky enough to force the need for precautions to isolate the subject
 				if(prob(60))
 					var/datum/disease/advance/random/random_disease = new /datum/disease/advance/random(2,2)
-					random_disease.try_infect(scanner_occupant, FALSE)
+					scanner_occupant.ContactContractDisease(random_disease)
 				else if (prob(30))
 					var/datum/disease/advance/random/random_disease = new /datum/disease/advance/random(3,4)
-					random_disease.try_infect(scanner_occupant, FALSE)
+					scanner_occupant.ContactContractDisease(random_disease)
 				//Instantiate list to hold resulting mutation_index
 				var/mutation_data[0]
 				//Start with the bad mutation, overwrite with the desired mutation if it passes the check
@@ -930,7 +961,11 @@
 				injector.research = TRUE
 				// If there's an operational connected scanner, we can use its upgrades
 				//  to improve our injector's genetic damage generation
+				var/cd_reduction_mult = 1 + ACTIVATOR_COOLDOWN_MULTIPLIER
+				var/base_cd_time = max(MIN_ACTIVATOR_TIMEOUT, abs(HM.instability) SECONDS)
+
 				if(scanner_operational())
+<<<<<<< HEAD
 					injector.damage_coeff = connected_scanner.damage_coeff * 4
 					injector_ready = world.time + INJECTOR_TIMEOUT * (1 - 0.1 * connected_scanner.precision_coeff)
 				else
@@ -938,13 +973,38 @@
 			else
 				injector.name = "[mutation.name] mutator"
 				injector.doitanyway = TRUE
+=======
+					I.damage_coeff = connected_scanner.damage_coeff*4
+					// T1: 1.25 - 0.25: 1: 100%
+					// T4: 1.25 - 1: 0.25 = 25%
+					// 25% reduction per tier
+					cd_reduction_mult -= ACTIVATOR_COOLDOWN_MULTIPLIER * (connected_scanner.precision_coeff)
+
+				injector_ready = world.time + (base_cd_time * cd_reduction_mult)
+			else
+				I.name = "[HM.name] mutator"
+				I.force_mutate = TRUE
+>>>>>>> tg-pr-88929
 				// If there's an operational connected scanner, we can use its upgrades
 				//  to improve our injector's genetic damage generation
+				var/cd_reduction_mult = 1 + INJECTOR_COOLDOWN_MULTIPLIER
+				var/base_cd_time = max(MIN_INJECTOR_TIMEOUT, abs(HM.instability) * 1 SECONDS)
+
 				if(scanner_operational())
+<<<<<<< HEAD
 					injector.damage_coeff = connected_scanner.damage_coeff
 					injector_ready = world.time + INJECTOR_TIMEOUT * 5 * (1 - 0.1 * connected_scanner.precision_coeff)
 				else
 					injector_ready = world.time + INJECTOR_TIMEOUT * 5
+=======
+					I.damage_coeff = connected_scanner.damage_coeff*4
+					// T1: 1.15 - 0.15: 1: 100%
+					// T4: 1.15 - 0.60: 0.55: 55%
+					// 15% reduction per tier
+					cd_reduction_mult -= (INJECTOR_COOLDOWN_MULTIPLIER * connected_scanner.precision_coeff)
+
+				injector_ready = world.time + (base_cd_time * cd_reduction_mult)
+>>>>>>> tg-pr-88929
 			if(connected_scanner)
 				connected_scanner.use_energy(connected_scanner.active_power_usage)
 			else
@@ -1445,7 +1505,7 @@
 					//  However, if this is the case, we can't make a complete injector and
 					//  this catches that edge case
 					if(!buffer_slot["name"] || !buffer_slot["UF"] || !buffer_slot["blood_type"])
-						to_chat(usr,"<span class='warning'>Genetic data corrupted, unable to create injector.</span>")
+						to_chat(usr,span_warning("Genetic data corrupted, unable to create injector."))
 						return
 
 					I = new /obj/item/dnainjector/timed(loc)
@@ -1474,7 +1534,7 @@
 			// If we successfully created an injector, don't forget to set the new
 			//  ready timer.
 			if(I)
-				injector_ready = world.time + INJECTOR_TIMEOUT
+				injector_ready = world.time + MISC_INJECTOR_TIMEOUT
 			if(connected_scanner)
 				connected_scanner.use_energy(connected_scanner.active_power_usage)
 			else
@@ -1662,6 +1722,7 @@
 
 			// Run through each mutation in our Advanced Injector and add them to a
 			//  new injector
+<<<<<<< HEAD
 			var/total_stability = 0
 			for(var/datum/mutation/mutation as anything in injector_selection[inj_name])
 				injector.add_mutations += mutation.make_copy()
@@ -1677,7 +1738,31 @@
 				injector_ready = world.time + INJECTOR_TIMEOUT * 8 * (1 - 0.1 * connected_scanner.precision_coeff)
 			else
 				injector_ready = world.time + INJECTOR_TIMEOUT * 8
+=======
+			var/total_stability
+			for(var/A in injector)
+				var/datum/mutation/human/HM = A
+				I.add_mutations += new HM.type(copymut=HM)
+				total_stability += HM.instability
 
+			// Force apply any mutations, this is functionality similar to mutators
+			I.force_mutate = TRUE
+			I.name = "Advanced [inj_name] injector"
+
+			// If there's an operational connected scanner, we can use its upgrades
+			//  to improve our injector's genetic damage generation
+			var/cd_reduction_mult = 1 + ADVANCED_COOLDOWN_MULTIPLIER
+			var/base_cd_time = max(MIN_ADVANCED_TIMEOUT, abs(total_stability) SECONDS)
+>>>>>>> tg-pr-88929
+
+			if(scanner_operational())
+				I.damage_coeff = connected_scanner.damage_coeff*4
+				// T1: 1.1 - 0.1: 1: 100%
+				// T4: 1.1 - 0.4: 0.7 = 70%
+				// 10% reduction per tier
+				cd_reduction_mult -= ADVANCED_COOLDOWN_MULTIPLIER * (connected_scanner.precision_coeff)
+
+			injector_ready = world.time + (base_cd_time * cd_reduction_mult)
 			return
 
 		// Adds a mutation to an advanced injector
@@ -1819,7 +1904,7 @@
 			//  However, if this is the case, we can't make a complete injector and
 			//  this catches that edge case
 			if(!buffer_slot["UF"])
-				to_chat(usr,"<span class='warning'>Genetic data corrupted, unable to apply genetic data.</span>")
+				to_chat(usr,span_warning("Genetic data corrupted, unable to apply genetic data."))
 				return FALSE
 			COOLDOWN_START(src, enzyme_copy_timer, ENZYME_COPY_BASE_COOLDOWN)
 			scanner_occupant.dna.unique_features = buffer_slot["UF"]
@@ -2430,11 +2515,20 @@
 	SIGNAL_HANDLER
 	set_connected_scanner(null)
 
+#undef MIN_ACTIVATOR_TIMEOUT
+#undef ACTIVATOR_COOLDOWN_MULTIPLIER
+#undef MIN_INJECTOR_TIMEOUT
+#undef INJECTOR_COOLDOWN_MULTIPLIER
+
+#undef MIN_ADVANCED_TIMEOUT
+#undef ADVANCED_COOLDOWN_MULTIPLIER
+
+#undef MISC_INJECTOR_TIMEOUT
+
 #undef GENETIC_DAMAGE_PULSE_UNIQUE_IDENTITY
 #undef GENETIC_DAMAGE_PULSE_UNIQUE_FEATURES
 
 #undef ENZYME_COPY_BASE_COOLDOWN
-#undef INJECTOR_TIMEOUT
 #undef NUMBER_OF_BUFFERS
 #undef SCRAMBLE_TIMEOUT
 #undef JOKER_TIMEOUT

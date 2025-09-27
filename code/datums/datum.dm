@@ -39,7 +39,11 @@
 	  */
 	var/list/_listen_lookup
 	/// Lazy associated list in the structure of `target -> list(signal -> proctype)` that are run when the datum receives that signal
+<<<<<<< HEAD
 	var/list/list/datum/callback/_signal_procs
+=======
+	var/list/list/_signal_procs
+>>>>>>> tg-pr-88929
 
 	/// Datum level flags
 	var/datum_flags = NONE
@@ -60,7 +64,10 @@
 	var/list/filter_data
 
 #ifdef REFERENCE_TRACKING
+<<<<<<< HEAD
 	var/running_find_references
+=======
+>>>>>>> tg-pr-88929
 	/// When was this datum last touched by a reftracker?
 	/// If this value doesn't match with the start of the search
 	/// We know this datum has never been seen before, and we should check it
@@ -94,7 +101,7 @@
  * Default implementation of clean-up code.
  *
  * This should be overridden to remove all references pointing to the object being destroyed, if
- * you do override it, make sure to call the parent and return it's return value by default
+ * you do override it, make sure to call the parent and return its return value by default
  *
  * Return an appropriate [QDEL_HINT][QDEL_HINT_QUEUE] to modify handling of your deletion;
  * in most cases this is [QDEL_HINT_QUEUE].
@@ -142,6 +149,10 @@
 
 	_clear_signal_refs()
 	//END: ECS SHIT
+
+	if(!(datum_flags & DF_STATIC_OBJECT))
+		DREAMLUAU_CLEAR_REF_USERDATA(vars) // vars ceases existing when src does, so we need to clear any lua refs to it that exist.
+		DREAMLUAU_CLEAR_REF_USERDATA(src)
 
 	return QDEL_HINT_QUEUE
 
@@ -326,12 +337,26 @@
 	if(update)
 		update_filters()
 
+///A version of add_filter that takes a list of filters to add rather than being individual, to limit calls to update_filters().
+/datum/proc/add_filters(list/list/filters)
+	LAZYINITLIST(filter_data)
+	for(var/list/individual_filter as anything in filters)
+		var/list/params = individual_filter["params"]
+		var/list/copied_parameters = params.Copy()
+		copied_parameters["priority"] = individual_filter["priority"]
+		filter_data[individual_filter["name"]] = copied_parameters
+	update_filters()
+
 /// Reapplies all the filters.
 /datum/proc/update_filters()
 	ASSERT(isatom(src) || isimage(src))
 	var/atom/atom_cast = src // filters only work with images or atoms.
 	atom_cast.filters = null
+<<<<<<< HEAD
 	//sortTim(filter_data, GLOBAL_PROC_REF(cmp_filter_data_priority), TRUE)
+=======
+	sortTim(filter_data, GLOBAL_PROC_REF(cmp_filter_data_priority), TRUE)
+>>>>>>> tg-pr-88929
 	for(var/filter_raw in filter_data)
 		var/list/data = filter_data[filter_raw]
 		var/list/arguments = data.Copy()
@@ -416,7 +441,11 @@
 			filter_data -= name
 			. = TRUE
 
+<<<<<<< HEAD
 	if(. && update)
+=======
+	if(.)
+>>>>>>> tg-pr-88929
 		update_filters()
 	return .
 
@@ -426,6 +455,14 @@
 	filter_data = null
 	atom_cast.filters = null
 
+<<<<<<< HEAD
+=======
+/// Calls qdel on itself, because signals dont allow callbacks
+/datum/proc/selfdelete()
+	SIGNAL_HANDLER
+	qdel(src)
+
+>>>>>>> tg-pr-88929
 /// Return text from this proc to provide extra context to hard deletes that happen to it
 /// Optional, you should use this for cases where replication is difficult and extra context is required
 /// Can be called more then once per object, use harddel_deets_dumped to avoid duplicate calls (I am so sorry)

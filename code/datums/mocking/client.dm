@@ -75,6 +75,22 @@
 	persistent_client = null
 	return ..()
 
+/datum/client_interface/New()
+	..()
+	var/static/mock_client_uid = 0
+	mock_client_uid++
+
+	src.key = "[key]_[mock_client_uid]"
+	ckey = ckey(key)
+
+#ifdef UNIT_TESTS // otherwise this shit can leak into production servers which is drather bad
+	GLOB.directory[ckey] = src
+#endif
+
+/datum/client_interface/Destroy(force)
+	GLOB.directory -= ckey
+	return ..()
+
 /datum/client_interface/proc/IsByondMember()
 	return FALSE
 
@@ -83,6 +99,7 @@
 
 /datum/client_interface/proc/update_ambience_pref()
 	return
+<<<<<<< HEAD
 
 /datum/client_interface/proc/get_award_status(achievement_type, mob/user, value = 1)
 	return FALSE
@@ -92,3 +109,5 @@
 
 /datum/client_interface/proc/is_afk(duration)
 	return FALSE
+=======
+>>>>>>> tg-pr-88929

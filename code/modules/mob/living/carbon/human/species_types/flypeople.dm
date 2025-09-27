@@ -4,18 +4,25 @@
 	id = SPECIES_FLYPERSON
 	inherent_biotypes = MOB_ORGANIC|MOB_HUMANOID|MOB_BUG
 	meat = /obj/item/food/meat/slab/human/mutant/fly
+<<<<<<< HEAD
 	mutanteyes = /obj/item/organ/internal/eyes/fly
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_PRIDE | MIRROR_MAGIC | RACE_SWAP | ERT_SPAWN | SLIME_EXTRACT
 	species_language_holder = /datum/language_holder/fly
 	payday_modifier = 0.75
+=======
+	mutanteyes = /obj/item/organ/eyes/fly
+	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_PRIDE | MIRROR_MAGIC | RACE_SWAP | ERT_SPAWN | SLIME_EXTRACT
+	species_language_holder = /datum/language_holder/fly
+	payday_modifier = 1.0
+>>>>>>> tg-pr-88929
 
-	mutanttongue = /obj/item/organ/internal/tongue/fly
-	mutantheart = /obj/item/organ/internal/heart/fly
-	mutantlungs = /obj/item/organ/internal/lungs/fly
-	mutantliver = /obj/item/organ/internal/liver/fly
-	mutantstomach = /obj/item/organ/internal/stomach/fly
-	mutantappendix = /obj/item/organ/internal/appendix/fly
-	mutant_organs = list(/obj/item/organ/internal/fly, /obj/item/organ/internal/fly/groin)
+	mutanttongue = /obj/item/organ/tongue/fly
+	mutantheart = /obj/item/organ/heart/fly
+	mutantlungs = /obj/item/organ/lungs/fly
+	mutantliver = /obj/item/organ/liver/fly
+	mutantstomach = /obj/item/organ/stomach/fly
+	mutantappendix = /obj/item/organ/appendix/fly
+	mutant_organs = list(/obj/item/organ/fly, /obj/item/organ/fly/groin)
 
 	bodypart_overrides = list(
 		BODY_ZONE_L_ARM = /obj/item/bodypart/arm/left/fly,
@@ -26,7 +33,11 @@
 		BODY_ZONE_CHEST = /obj/item/bodypart/chest/fly,
 	)
 
+<<<<<<< HEAD
 /datum/species/fly/on_species_gain(mob/living/carbon/human/human_who_gained_species, datum/species/old_species, pref_load)
+=======
+/datum/species/fly/on_species_gain(mob/living/carbon/human/human_who_gained_species, datum/species/old_species, pref_load, regenerate_icons)
+>>>>>>> tg-pr-88929
 	. = ..()
 	RegisterSignal(human_who_gained_species, COMSIG_MOB_APPLY_DAMAGE_MODIFIERS, PROC_REF(damage_weakness))
 
@@ -34,6 +45,7 @@
 	. = ..()
 	UnregisterSignal(C, COMSIG_MOB_APPLY_DAMAGE_MODIFIERS)
 
+<<<<<<< HEAD
 
 /datum/species/fly/handle_chemical(datum/reagent/chem, mob/living/carbon/human/affected, seconds_per_tick, times_fired)
 	. = ..()
@@ -42,11 +54,19 @@
 	if(chem.type == /datum/reagent/toxin/pestkiller)
 		affected.adjustToxLoss(3 * REM * seconds_per_tick)
 
+=======
+>>>>>>> tg-pr-88929
 /datum/species/fly/proc/damage_weakness(datum/source, list/damage_mods, damage_amount, damagetype, def_zone, sharpness, attack_direction, obj/item/attacking_item)
 	SIGNAL_HANDLER
 
 	if(istype(attacking_item, /obj/item/melee/flyswatter))
 		damage_mods += 30 // Yes, a 30x damage modifier
+<<<<<<< HEAD
+=======
+
+/datum/species/fly/get_physical_attributes()
+	return "These hideous creatures suffer from pesticide immensely, eat waste, and are incredibly vulnerable to bright lights. They do have wings though."
+>>>>>>> tg-pr-88929
 
 /datum/species/fly/get_species_description()
 	return "With no official documentation or knowledge of the origin of \

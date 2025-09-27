@@ -1,6 +1,7 @@
 /*Power cells are in code\modules\power\cell.dm
 
 If you create T5+ please take a pass at mech_fabricator.dm. The parts being good enough allows it to go into minus values and create materials out of thin air when printing stuff.*/
+<<<<<<< HEAD
 /obj/item/storage/part_replacer
 	name = "rapid part exchange device"
 	desc = "Special mechanical module made to store, sort, and apply standard machine parts."
@@ -240,16 +241,20 @@ If you create T5+ please take a pass at mech_fabricator.dm. The parts being good
 	 * even though stacks aren't stock parts, get_part_rating() is defined on the item level (see /obj/item/proc/get_part_rating()) and defaults to returning 0.
 	 */
 	return second_item.get_part_rating() - first_item.get_part_rating()
+=======
+>>>>>>> tg-pr-88929
 
 /obj/item/stock_parts
 	name = "stock part"
 	desc = "What?"
-	icon = 'icons/obj/stock_parts.dmi'
+	icon = 'icons/obj/devices/stock_parts.dmi'
 	w_class = WEIGHT_CLASS_SMALL
 	var/rating = 1
-	///Used when a base part has a different name to higher tiers of part. For example, machine frames want any manipulator and not just a micro-manipulator.
+	///Used when a base part has a different name to higher tiers of part. For example, machine frames want any servo and not just a micro-servo.
 	var/base_name
 	var/energy_rating = 1
+	///The generic category type that the stock part belongs to.  Generic objects that should not be instantiated should have the same type and abstract_type
+	var/abstract_type = /obj/item/stock_parts
 
 /obj/item/stock_parts/Initialize(mapload)
 	. = ..()
@@ -273,12 +278,21 @@ If you create T5+ please take a pass at mech_fabricator.dm. The parts being good
 	icon_state = "scan_module"
 	custom_materials = list(/datum/material/iron=SMALL_MATERIAL_AMOUNT*0.5, /datum/material/glass=SMALL_MATERIAL_AMOUNT*0.2)
 
+<<<<<<< HEAD
 /obj/item/stock_parts/manipulator
 	name = "micro-manipulator"
 	desc = "A tiny little manipulator used in the construction of certain devices."
 	icon_state = "micro_mani"
 	custom_materials = list(/datum/material/iron=SMALL_MATERIAL_AMOUNT*0.3)
 	base_name = "manipulator"
+=======
+/obj/item/stock_parts/servo
+	name = "micro-servo"
+	desc = "A tiny little servo motor used in the construction of certain devices."
+	icon_state = "micro_servo"
+	custom_materials = list(/datum/material/iron=SMALL_MATERIAL_AMOUNT*0.3)
+	base_name = "servo"
+>>>>>>> tg-pr-88929
 
 /obj/item/stock_parts/micro_laser
 	name = "micro-laser"
@@ -310,10 +324,10 @@ If you create T5+ please take a pass at mech_fabricator.dm. The parts being good
 	energy_rating = 3
 	custom_materials = list(/datum/material/iron=SMALL_MATERIAL_AMOUNT*0.5, /datum/material/glass=SMALL_MATERIAL_AMOUNT*0.2)
 
-/obj/item/stock_parts/manipulator/nano
-	name = "nano-manipulator"
-	desc = "A tiny little manipulator used in the construction of certain devices."
-	icon_state = "nano_mani"
+/obj/item/stock_parts/servo/nano
+	name = "nano-servo"
+	desc = "A tiny little servo motor used in the construction of certain devices."
+	icon_state = "nano_servo"
 	rating = 2
 	energy_rating = 3
 	custom_materials = list(/datum/material/iron=SMALL_MATERIAL_AMOUNT*0.3)
@@ -352,10 +366,10 @@ If you create T5+ please take a pass at mech_fabricator.dm. The parts being good
 	energy_rating = 5
 	custom_materials = list(/datum/material/iron=SMALL_MATERIAL_AMOUNT*0.5, /datum/material/glass=SMALL_MATERIAL_AMOUNT*0.2)
 
-/obj/item/stock_parts/manipulator/pico
-	name = "pico-manipulator"
-	desc = "A tiny little manipulator used in the construction of certain devices."
-	icon_state = "pico_mani"
+/obj/item/stock_parts/servo/pico
+	name = "pico-servo"
+	desc = "A tiny little servo motor used in the construction of certain devices."
+	icon_state = "pico_servo"
 	rating = 3
 	energy_rating = 5
 	custom_materials = list(/datum/material/iron=SMALL_MATERIAL_AMOUNT*0.3)
@@ -394,10 +408,10 @@ If you create T5+ please take a pass at mech_fabricator.dm. The parts being good
 	energy_rating = 10
 	custom_materials = list(/datum/material/iron=SMALL_MATERIAL_AMOUNT*0.5, /datum/material/glass=SMALL_MATERIAL_AMOUNT*0.2)
 
-/obj/item/stock_parts/manipulator/femto
-	name = "femto-manipulator"
-	desc = "A tiny little manipulator used in the construction of certain devices."
-	icon_state = "femto_mani"
+/obj/item/stock_parts/servo/femto
+	name = "femto-servo"
+	desc = "A tiny little servo motor used in the construction of certain devices."
+	icon_state = "femto_servo"
 	rating = 4
 	energy_rating = 10
 	custom_materials = list(/datum/material/iron=SMALL_MATERIAL_AMOUNT*0.3)
@@ -419,6 +433,11 @@ If you create T5+ please take a pass at mech_fabricator.dm. The parts being good
 	custom_materials = list(/datum/material/iron=SMALL_MATERIAL_AMOUNT*0.8)
 
 // Subspace stock parts
+
+/obj/item/stock_parts/subspace
+	name = "subspace stock part"
+	desc = "What?"
+	abstract_type = /obj/item/stock_parts/subspace
 
 /obj/item/stock_parts/subspace/ansible
 	name = "subspace ansible"
@@ -478,6 +497,6 @@ If you create T5+ please take a pass at mech_fabricator.dm. The parts being good
 
 /obj/item/research//Makes testing much less of a pain -Sieve
 	name = "research"
-	icon = 'icons/obj/stock_parts.dmi'
+	icon = 'icons/obj/devices/stock_parts.dmi'
 	icon_state = "capacitor"
 	desc = "A debug item for research."

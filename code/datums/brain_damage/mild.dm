@@ -3,6 +3,7 @@
 //Most of the old brain damage effects have been transferred to the dumbness trauma.
 
 /datum/brain_trauma/mild
+	abstract_type = /datum/brain_trauma/mild
 
 /datum/brain_trauma/mild/hallucinations
 	name = "Hallucinations"
@@ -15,12 +16,17 @@
 	if(owner.stat != CONSCIOUS || owner.IsSleeping() || owner.IsUnconscious())
 		return
 	if(HAS_TRAIT(owner, TRAIT_RDS_SUPPRESSED))
+		owner.remove_language(/datum/language/aphasia, source = LANGUAGE_APHASIA)
 		return
+	if(!HAS_TRAIT(owner, TRAIT_RDS_SUPPRESSED))
+		owner.grant_language(/datum/language/aphasia, source = LANGUAGE_APHASIA)
 
 	owner.adjust_hallucinations_up_to(10 SECONDS * seconds_per_tick, 100 SECONDS)
 
 /datum/brain_trauma/mild/hallucinations/on_lose()
 	owner.remove_status_effect(/datum/status_effect/hallucination)
+	if(!QDELING(owner))
+		owner.remove_language(/datum/language/aphasia, source = LANGUAGE_APHASIA)
 	return ..()
 
 /datum/brain_trauma/mild/stuttering
@@ -88,7 +94,7 @@
 	if(SPT_PROB(2.5, seconds_per_tick))
 		switch(rand(1,11))
 			if(1)
-				owner.vomit()
+				owner.vomit(VOMIT_CATEGORY_DEFAULT)
 			if(2,3)
 				owner.adjust_dizzy(20 SECONDS)
 			if(4,5)
@@ -117,7 +123,11 @@
 	return ..()
 
 /datum/brain_trauma/mild/healthy/on_life(seconds_per_tick, times_fired)
+<<<<<<< HEAD
 	owner.stamina.adjust(2.5 * seconds_per_tick) //no pain, no fatigue
+=======
+	owner.adjustStaminaLoss(-6 * seconds_per_tick) //no pain, no fatigue
+>>>>>>> tg-pr-88929
 
 /datum/brain_trauma/mild/healthy/on_lose()
 	owner.remove_status_effect(/datum/status_effect/grouped/screwy_hud/fake_healthy, type)
@@ -132,7 +142,7 @@
 
 /datum/brain_trauma/mild/muscle_weakness/on_life(seconds_per_tick, times_fired)
 	var/fall_chance = 1
-	if(owner.m_intent == MOVE_INTENT_RUN)
+	if(owner.move_intent == MOVE_INTENT_RUN)
 		fall_chance += 2
 	for(var/obj/item/cane/cane in owner.held_items) // crutches will lessen the chance of you falling.
 		fall_chance /= 2
@@ -180,8 +190,8 @@
 			to_chat(owner, span_warning("[pick("You have a coughing fit!", "You can't stop coughing!")]"))
 			owner.Immobilize(20)
 			owner.emote("cough")
-			addtimer(CALLBACK(owner, TYPE_PROC_REF(/mob/, emote), "cough"), 6)
-			addtimer(CALLBACK(owner, TYPE_PROC_REF(/mob/, emote), "cough"), 12)
+			addtimer(CALLBACK(owner, TYPE_PROC_REF(/mob/, emote), "cough"), 0.6 SECONDS)
+			addtimer(CALLBACK(owner, TYPE_PROC_REF(/mob/, emote), "cough"), 1.2 SECONDS)
 		owner.emote("cough")
 	..()
 
@@ -211,7 +221,11 @@
 				word = copytext_char(word, 1, suffix_foundon)
 			word = html_decode(word)
 
+<<<<<<< HEAD
 			if(GLOB.most_common_words[LOWER_TEXT(word)])
+=======
+			if(LOWER_TEXT(word) in common_words)
+>>>>>>> tg-pr-88929
 				new_message += word + suffix
 			else
 				if(prob(30) && length(message_split) > 2)
@@ -305,6 +319,7 @@
 	RegisterSignals(my_thing, list(COMSIG_ITEM_DROPPED, COMSIG_MOVABLE_MOVED), PROC_REF(clear_trait))
 	to_chat(owner, span_warning("You feel a need to keep [my_thing] close..."))
 	addtimer(CALLBACK(src, PROC_REF(relax), my_thing), rand(30 SECONDS, 3 MINUTES), TIMER_DELETE_ME)
+<<<<<<< HEAD
 	//MONKESTATION ADDITION START - Adds logging to possessive
 	owner.log_message(
 		"became possessive of [my_thing]",
@@ -312,6 +327,8 @@
 		color = "orange"
 	)
 	//MONKESTATION ADDITION END
+=======
+>>>>>>> tg-pr-88929
 
 /datum/brain_trauma/mild/possessive/proc/relax(obj/item/my_thing)
 	if(QDELETED(my_thing))
@@ -325,6 +342,7 @@
 
 	REMOVE_TRAIT(my_thing, TRAIT_NODROP, TRAUMA_TRAIT)
 	UnregisterSignal(my_thing, list(COMSIG_ITEM_DROPPED, COMSIG_MOVABLE_MOVED))
+<<<<<<< HEAD
 	//MONKESTATION ADDITION START - Adds logging to possessive
 	owner.log_message(
 		"is no longer possessive of [my_thing]",
@@ -347,3 +365,5 @@
 /datum/brain_trauma/mild/advert_force_speak/on_lose(silent)
 	src.owner.RemoveComponentSource(REF(src), /datum/component/advert_force_speak)
 	return ..()
+=======
+>>>>>>> tg-pr-88929

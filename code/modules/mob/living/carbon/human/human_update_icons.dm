@@ -68,7 +68,7 @@ There are several things that need to be remembered:
 		update_worn_id()
 		update_worn_glasses()
 		update_worn_gloves()
-		update_inv_ears()
+		update_worn_ears()
 		update_worn_shoes()
 		update_suit_storage()
 		update_worn_mask()
@@ -84,10 +84,14 @@ There are several things that need to be remembered:
 		//damage overlays
 		update_damage_overlays()
 
+/mob/living/carbon/human/update_obscured_slots(obscured_flags)
+	..()
+	sec_hud_set_security_status()
+
 /* --------------------------------------- */
 //vvvvvv UPDATE_INV PROCS vvvvvv
 
-/mob/living/carbon/human/update_worn_undersuit()
+/mob/living/carbon/human/update_worn_undersuit(update_obscured = TRUE)
 	remove_overlay(UNIFORM_LAYER)
 
 	if(client && hud_used)
@@ -98,7 +102,15 @@ There are several things that need to be remembered:
 		var/obj/item/clothing/under/uniform = w_uniform
 		update_hud_uniform(uniform)
 
+<<<<<<< HEAD
 		CHECK_SHOULDNT_RENDER(uniform, ITEM_SLOT_ICLOTHING) // monkestation edit: combine TRAIT_ALWAYS_RENDER + TRAIT_NO_WORN_ICON + obscure check into a single define
+=======
+		if(update_obscured)
+			update_obscured_slots(uniform.flags_inv)
+
+		if(check_obscured_slots(transparent_protection = TRUE) & ITEM_SLOT_ICLOTHING)
+			return
+>>>>>>> tg-pr-88929
 
 		var/target_overlay = uniform.icon_state
 		if(uniform.adjusted == ALT_STYLE)
@@ -106,15 +118,16 @@ There are several things that need to be remembered:
 
 		var/mutable_appearance/uniform_overlay
 		//This is how non-humanoid clothing works. You check if the mob has the right bodyflag, and the clothing has the corresponding clothing flag.
-		//handled_by_bodytype is used to track whether or not we successfully used an alternate sprite. It's set to TRUE to ease up on copy-paste.
+		//handled_by_bodyshape is used to track whether or not we successfully used an alternate sprite. It's set to TRUE to ease up on copy-paste.
 		//icon_file MUST be set to null by default, or it causes issues.
-		//handled_by_bodytype MUST be set to FALSE under the if(!icon_exists()) statement, or everything breaks.
-		//"override_file = handled_by_bodytype ? icon_file : null" MUST be added to the arguments of build_worn_icon()
+		//handled_by_bodyshape MUST be set to FALSE under the if(!icon_exists()) statement, or everything breaks.
+		//"override_file = handled_by_bodyshape ? icon_file : null" MUST be added to the arguments of build_worn_icon()
 		//Friendly reminder that icon_exists(file, state, scream = TRUE) is your friend when debugging this code.
-		var/handled_by_bodytype = TRUE
+		var/handled_by_bodyshape = TRUE
 		var/icon_file
 		var/woman
 		//BEGIN SPECIES HANDLING
+<<<<<<< HEAD
 		if((dna?.species.bodytype & BODYTYPE_DIGITIGRADE) && (uniform.supports_variations_flags & CLOTHING_DIGITIGRADE_VARIATION))
 			icon_file = uniform.worn_icon_digitigrade || DIGITIGRADE_UNIFORM_FILE
 			if(!(icon_exists(icon_file, RESOLVE_ICON_STATE(uniform)))) //if the digitigrade icon doesn't exist
@@ -123,11 +136,17 @@ There are several things that need to be remembered:
 					icon_file = species_icon_file
 		//Female sprites have lower priority than digitigrade sprites - MONKESTATION EDIT - ALL WOMEN DESERVE REPRESENTATION
 		if(dna.species.visual_gender & dna.species.sexes && (dna.species.bodytype & BODYTYPE_HUMANOID) && physique == FEMALE && !(uniform.female_sprite_flags & NO_FEMALE_UNIFORM)) //Agggggggghhhhh
+=======
+		if((bodyshape & BODYSHAPE_DIGITIGRADE) && (uniform.supports_variations_flags & CLOTHING_DIGITIGRADE_VARIATION))
+			icon_file = DIGITIGRADE_UNIFORM_FILE
+		//Female sprites have lower priority than digitigrade sprites
+		else if(dna.species.sexes && (bodyshape & BODYSHAPE_HUMANOID) && physique == FEMALE && !(uniform.female_sprite_flags & NO_FEMALE_UNIFORM)) //Agggggggghhhhh
+>>>>>>> tg-pr-88929
 			woman = TRUE
 
 		if(!icon_exists(icon_file, RESOLVE_ICON_STATE(uniform)))
 			icon_file = DEFAULT_UNIFORM_FILE
-			handled_by_bodytype = FALSE
+			handled_by_bodyshape = FALSE
 
 		//END SPECIES HANDLING
 		uniform_overlay = uniform.build_worn_icon(
@@ -136,17 +155,21 @@ There are several things that need to be remembered:
 			isinhands = FALSE,
 			female_uniform = woman ? uniform.female_sprite_flags : null,
 			override_state = target_overlay,
+<<<<<<< HEAD
 			override_file = handled_by_bodytype ? icon_file : null
+=======
+			override_file = handled_by_bodyshape ? icon_file : null,
+>>>>>>> tg-pr-88929
 		)
 
 		var/obj/item/bodypart/chest/my_chest = get_bodypart(BODY_ZONE_CHEST)
 		my_chest?.worn_uniform_offset?.apply_offset(uniform_overlay)
 		overlays_standing[UNIFORM_LAYER] = uniform_overlay
-		apply_overlay(UNIFORM_LAYER)
 
-	update_mutant_bodyparts()
+	apply_overlay(UNIFORM_LAYER)
+	check_body_shape(BODYSHAPE_DIGITIGRADE, ITEM_SLOT_ICLOTHING)
 
-/mob/living/carbon/human/update_worn_id()
+/mob/living/carbon/human/update_worn_id(update_obscured = TRUE)
 	remove_overlay(ID_LAYER)
 
 	if(client && hud_used)
@@ -158,6 +181,10 @@ There are several things that need to be remembered:
 	if(wear_id)
 		var/obj/item/worn_item = wear_id
 		update_hud_id(worn_item)
+
+		if(update_obscured)
+			update_obscured_slots(worn_item.flags_inv)
+
 		var/icon_file = 'icons/mob/clothing/id.dmi'
 
 		id_overlay = wear_id.build_worn_icon(default_layer = ID_LAYER, default_icon_file = icon_file)
@@ -172,7 +199,7 @@ There are several things that need to be remembered:
 	apply_overlay(ID_LAYER)
 
 
-/mob/living/carbon/human/update_worn_gloves()
+/mob/living/carbon/human/update_worn_gloves(update_obscured = TRUE)
 	remove_overlay(GLOVES_LAYER)
 
 	if(client && hud_used && hud_used.inv_slots[TOBITSHIFT(ITEM_SLOT_GLOVES) + 1])
@@ -183,8 +210,12 @@ There are several things that need to be remembered:
 	if(isnull(gloves))
 		if(blood_in_hands && num_hands > 0)
 			// When byond gives us filters that respect dirs we can just use an alpha mask for this but until then, two icons weeeee
+<<<<<<< HEAD
 			var/mutable_appearance/hands_combined = mutable_appearance(layer = -GLOVES_LAYER)
 			hands_combined.color = get_blood_dna_color()
+=======
+			var/mutable_appearance/hands_combined = mutable_appearance(layer = -GLOVES_LAYER, appearance_flags = KEEP_TOGETHER)
+>>>>>>> tg-pr-88929
 			if(has_left_hand(check_disabled = FALSE))
 				hands_combined.overlays += mutable_appearance('icons/effects/blood.dmi', "bloodyhands_left")
 			if(has_right_hand(check_disabled = FALSE))
@@ -198,6 +229,7 @@ There are several things that need to be remembered:
 		var/obj/item/worn_item = gloves
 		update_hud_gloves(worn_item)
 
+<<<<<<< HEAD
 		CHECK_SHOULDNT_RENDER(worn_item, ITEM_SLOT_GLOVES) // monkestation edit: combine TRAIT_ALWAYS_RENDER + TRAIT_NO_WORN_ICON + obscure check into a single define
 
 		var/icon_file = 'icons/mob/clothing/hands.dmi'
@@ -218,11 +250,45 @@ There are several things that need to be remembered:
 					feature_y_offset = glove_offset["y"]
 
 			gloves_overlay.pixel_y += feature_y_offset
+=======
+		if(update_obscured)
+			update_obscured_slots(worn_item.flags_inv)
+
+		if(check_obscured_slots(transparent_protection = TRUE) & ITEM_SLOT_GLOVES)
+			return
+
+		var/icon_file = 'icons/mob/clothing/hands.dmi'
+
+		var/mutable_appearance/gloves_overlay = gloves.build_worn_icon(default_layer = GLOVES_LAYER, default_icon_file = icon_file)
+
+		var/feature_y_offset = 0
+		//needs to be typed, hand_bodyparts can have nulls
+		for (var/obj/item/bodypart/arm/my_hand in hand_bodyparts)
+			var/list/glove_offset = my_hand.worn_glove_offset?.get_offset()
+			if (glove_offset && (!feature_y_offset || glove_offset["y"] > feature_y_offset))
+				feature_y_offset = glove_offset["y"]
+
+		gloves_overlay.pixel_y += feature_y_offset
+
+		// We dont have any >2 hands human species (and likely wont ever), so theres no point in splitting this because:
+		// It will only run if the left hand OR the right hand is missing, and it wont run if both are missing because you cant wear gloves with no arms
+		// (unless admins mess with this then its their fault)
+		if(num_hands < default_num_hands)
+			var/static/atom/movable/alpha_filter_target
+			if(isnull(alpha_filter_target))
+				alpha_filter_target = new(null)
+			alpha_filter_target.icon = 'icons/effects/effects.dmi'
+			alpha_filter_target.icon_state = "missing[!has_left_hand(check_disabled = FALSE) ? "l" : "r"]"
+			alpha_filter_target.render_target = "*MissGlove [REF(src)] [!has_left_hand(check_disabled = FALSE) ? "L" : "R"]"
+			gloves_overlay.add_overlay(alpha_filter_target)
+			gloves_overlay.filters += filter(type="alpha", render_source=alpha_filter_target.render_target, y=feature_y_offset, flags=MASK_INVERSE)
+
+>>>>>>> tg-pr-88929
 		overlays_standing[GLOVES_LAYER] = gloves_overlay
 	apply_overlay(GLOVES_LAYER)
 
 
-/mob/living/carbon/human/update_worn_glasses()
+/mob/living/carbon/human/update_worn_glasses(update_obscured = TRUE)
 	remove_overlay(GLASSES_LAYER)
 
 	var/obj/item/bodypart/head/my_head = get_bodypart(BODY_ZONE_HEAD)
@@ -237,6 +303,7 @@ There are several things that need to be remembered:
 		var/obj/item/worn_item = glasses
 		update_hud_glasses(worn_item)
 
+<<<<<<< HEAD
 		CHECK_SHOULDNT_RENDER(worn_item, ITEM_SLOT_EYES) // monkestation edit: combine TRAIT_ALWAYS_RENDER + TRAIT_NO_WORN_ICON + obscure check into a single define
 
 		var/icon_file = 'icons/mob/clothing/eyes.dmi'
@@ -251,11 +318,23 @@ There are several things that need to be remembered:
 		var/mutable_appearance/glasses_overlay = glasses.build_worn_icon(default_layer = GLASSES_LAYER, default_icon_file = icon_file, override_file = mutant_override ? icon_file : null)
 		if(!mutant_override)
 			my_head.worn_glasses_offset?.apply_offset(glasses_overlay)
+=======
+		if(update_obscured)
+			update_obscured_slots(worn_item.flags_inv)
+
+		if(check_obscured_slots(transparent_protection = TRUE) & ITEM_SLOT_EYES)
+			return
+
+		var/icon_file = 'icons/mob/clothing/eyes.dmi'
+
+		var/mutable_appearance/glasses_overlay = glasses.build_worn_icon(default_layer = GLASSES_LAYER, default_icon_file = icon_file)
+		my_head.worn_glasses_offset?.apply_offset(glasses_overlay)
+>>>>>>> tg-pr-88929
 		overlays_standing[GLASSES_LAYER] = glasses_overlay
 	apply_overlay(GLASSES_LAYER)
 
 
-/mob/living/carbon/human/update_inv_ears()
+/mob/living/carbon/human/update_worn_ears(update_obscured = TRUE)
 	remove_overlay(EARS_LAYER)
 
 	var/obj/item/bodypart/head/my_head = get_bodypart(BODY_ZONE_HEAD)
@@ -270,6 +349,7 @@ There are several things that need to be remembered:
 		var/obj/item/worn_item = ears
 		update_hud_ears(worn_item)
 
+<<<<<<< HEAD
 		CHECK_SHOULDNT_RENDER(worn_item, ITEM_SLOT_EARS) // monkestation edit: combine TRAIT_ALWAYS_RENDER + TRAIT_NO_WORN_ICON + obscure check into a single define
 
 		var/icon_file = 'icons/mob/clothing/ears.dmi'
@@ -284,10 +364,22 @@ There are several things that need to be remembered:
 		var/mutable_appearance/ears_overlay = ears.build_worn_icon(default_layer = EARS_LAYER, default_icon_file = icon_file, override_file = mutant_override ? icon_file : null)
 		if(!mutant_override)
 			my_head.worn_ears_offset?.apply_offset(ears_overlay)
+=======
+		if(update_obscured)
+			update_obscured_slots(worn_item.flags_inv)
+
+		if(check_obscured_slots(transparent_protection = TRUE) & ITEM_SLOT_EARS)
+			return
+
+		var/icon_file = 'icons/mob/clothing/ears.dmi'
+
+		var/mutable_appearance/ears_overlay = ears.build_worn_icon(default_layer = EARS_LAYER, default_icon_file = icon_file)
+		my_head.worn_ears_offset?.apply_offset(ears_overlay)
+>>>>>>> tg-pr-88929
 		overlays_standing[EARS_LAYER] = ears_overlay
 	apply_overlay(EARS_LAYER)
 
-/mob/living/carbon/human/update_worn_neck()
+/mob/living/carbon/human/update_worn_neck(update_obscured = TRUE)
 	remove_overlay(NECK_LAYER)
 
 	if(client && hud_used && hud_used.inv_slots[TOBITSHIFT(ITEM_SLOT_NECK) + 1])
@@ -298,6 +390,7 @@ There are several things that need to be remembered:
 		var/obj/item/worn_item = wear_neck
 		update_hud_neck(wear_neck)
 
+<<<<<<< HEAD
 		CHECK_SHOULDNT_RENDER(worn_item, ITEM_SLOT_NECK) // monkestation edit: combine TRAIT_ALWAYS_RENDER + TRAIT_NO_WORN_ICON + obscure check into a single define
 
 		var/icon_file = 'icons/mob/clothing/neck.dmi'
@@ -313,11 +406,24 @@ There are several things that need to be remembered:
 		if(!mutant_override)
 			var/obj/item/bodypart/chest/my_chest = get_bodypart(BODY_ZONE_CHEST)
 			my_chest?.worn_belt_offset?.apply_offset(neck_overlay)
+=======
+		if(update_obscured)
+			update_obscured_slots(worn_item.flags_inv)
+
+		if(check_obscured_slots(transparent_protection = TRUE) & ITEM_SLOT_NECK)
+			return
+
+		var/icon_file = 'icons/mob/clothing/neck.dmi'
+
+		var/mutable_appearance/neck_overlay = worn_item.build_worn_icon(default_layer = NECK_LAYER, default_icon_file = icon_file)
+		var/obj/item/bodypart/chest/my_chest = get_bodypart(BODY_ZONE_CHEST)
+		my_chest?.worn_belt_offset?.apply_offset(neck_overlay)
+>>>>>>> tg-pr-88929
 		overlays_standing[NECK_LAYER] = neck_overlay
 
 	apply_overlay(NECK_LAYER)
 
-/mob/living/carbon/human/update_worn_shoes()
+/mob/living/carbon/human/update_worn_shoes(update_obscured = TRUE)
 	remove_overlay(SHOES_LAYER)
 
 	if(num_legs < 2)
@@ -331,7 +437,15 @@ There are several things that need to be remembered:
 		var/obj/item/worn_item = shoes
 		update_hud_shoes(worn_item)
 
+<<<<<<< HEAD
 		CHECK_SHOULDNT_RENDER(worn_item, ITEM_SLOT_FEET) // monkestation edit: combine TRAIT_ALWAYS_RENDER + TRAIT_NO_WORN_ICON + obscure check into a single define
+=======
+		if(update_obscured)
+			update_obscured_slots(worn_item.flags_inv)
+
+		if(check_obscured_slots(transparent_protection = TRUE) & ITEM_SLOT_FEET)
+			return
+>>>>>>> tg-pr-88929
 
 		var/icon_file = DEFAULT_SHOES_FILE
 
@@ -359,6 +473,7 @@ There are several things that need to be remembered:
 		if(!shoes_overlay)
 			return
 
+<<<<<<< HEAD
 		if(!mutant_override)
 			var/feature_y_offset = 0
 			for (var/body_zone in list(BODY_ZONE_L_LEG, BODY_ZONE_R_LEG))
@@ -370,14 +485,24 @@ There are several things that need to be remembered:
 					feature_y_offset = foot_offset["y"]
 
 			shoes_overlay.pixel_y += feature_y_offset
+=======
+		var/feature_y_offset = 0
+		for (var/body_zone in list(BODY_ZONE_L_LEG, BODY_ZONE_R_LEG))
+			var/obj/item/bodypart/leg/my_leg = get_bodypart(body_zone)
+			if(isnull(my_leg))
+				continue
+			var/list/foot_offset = my_leg.worn_foot_offset?.get_offset()
+			if (foot_offset && foot_offset["y"] > feature_y_offset)
+				feature_y_offset = foot_offset["y"]
+
+		shoes_overlay.pixel_y += feature_y_offset
+>>>>>>> tg-pr-88929
 		overlays_standing[SHOES_LAYER] = shoes_overlay
 
 	apply_overlay(SHOES_LAYER)
+	check_body_shape(BODYSHAPE_DIGITIGRADE, ITEM_SLOT_FEET)
 
-	update_body_parts()
-
-
-/mob/living/carbon/human/update_suit_storage()
+/mob/living/carbon/human/update_suit_storage(update_obscured = TRUE)
 	remove_overlay(SUIT_STORE_LAYER)
 
 	if(client && hud_used)
@@ -388,7 +513,15 @@ There are several things that need to be remembered:
 		var/obj/item/worn_item = s_store
 		update_hud_s_store(worn_item)
 
+<<<<<<< HEAD
 		CHECK_SHOULDNT_RENDER(worn_item, ITEM_SLOT_SUITSTORE) // monkestation edit: combine TRAIT_ALWAYS_RENDER + TRAIT_NO_WORN_ICON + obscure check into a single define
+=======
+		if(update_obscured)
+			update_obscured_slots(worn_item.flags_inv)
+
+		if(check_obscured_slots(transparent_protection = TRUE) & ITEM_SLOT_SUITSTORE)
+			return
+>>>>>>> tg-pr-88929
 
 		var/mutable_appearance/s_store_overlay = worn_item.build_worn_icon(default_layer = SUIT_STORE_LAYER, default_icon_file = 'icons/mob/clothing/belt_mirror.dmi')
 		var/obj/item/bodypart/chest/my_chest = get_bodypart(BODY_ZONE_CHEST)
@@ -396,7 +529,7 @@ There are several things that need to be remembered:
 		overlays_standing[SUIT_STORE_LAYER] = s_store_overlay
 	apply_overlay(SUIT_STORE_LAYER)
 
-/mob/living/carbon/human/update_worn_head()
+/mob/living/carbon/human/update_worn_head(update_obscured = TRUE)
 	remove_overlay(HEAD_LAYER)
 	if(client && hud_used && hud_used.inv_slots[TOBITSHIFT(ITEM_SLOT_BACK) + 1])
 		var/atom/movable/screen/inventory/inv = hud_used.inv_slots[TOBITSHIFT(ITEM_SLOT_HEAD) + 1]
@@ -406,6 +539,7 @@ There are several things that need to be remembered:
 		var/obj/item/worn_item = head
 		update_hud_head(worn_item)
 
+<<<<<<< HEAD
 		CHECK_SHOULDNT_RENDER(worn_item, ITEM_SLOT_HEAD) // monkestation edit: combine TRAIT_ALWAYS_RENDER + TRAIT_NO_WORN_ICON + obscure check into a single define
 
 		var/icon_file = 'icons/mob/clothing/head/default.dmi'
@@ -431,12 +565,25 @@ There are several things that need to be remembered:
 		if(!mutant_override)
 			var/obj/item/bodypart/head/my_head = get_bodypart(BODY_ZONE_HEAD)
 			my_head?.worn_head_offset?.apply_offset(head_overlay)
+=======
+		if(update_obscured)
+			update_obscured_slots(worn_item.flags_inv)
+
+		if(check_obscured_slots(transparent_protection = TRUE) & ITEM_SLOT_HEAD)
+			return
+
+		var/icon_file = 'icons/mob/clothing/head/default.dmi'
+
+		var/mutable_appearance/head_overlay = head.build_worn_icon(default_layer = HEAD_LAYER, default_icon_file = icon_file)
+		var/obj/item/bodypart/head/my_head = get_bodypart(BODY_ZONE_HEAD)
+		my_head?.worn_head_offset?.apply_offset(head_overlay)
+>>>>>>> tg-pr-88929
 		overlays_standing[HEAD_LAYER] = head_overlay
 
-	update_mutant_bodyparts()
 	apply_overlay(HEAD_LAYER)
+	check_body_shape(BODYSHAPE_SNOUTED, ITEM_SLOT_HEAD)
 
-/mob/living/carbon/human/update_worn_belt()
+/mob/living/carbon/human/update_worn_belt(update_obscured = TRUE)
 	remove_overlay(BELT_LAYER)
 
 	if(client && hud_used)
@@ -447,6 +594,7 @@ There are several things that need to be remembered:
 		var/obj/item/worn_item = belt
 		update_hud_belt(worn_item)
 
+<<<<<<< HEAD
 		CHECK_SHOULDNT_RENDER(worn_item, ITEM_SLOT_BELT) // monkestation edit: combine TRAIT_ALWAYS_RENDER + TRAIT_NO_WORN_ICON + obscure check into a single define
 
 		var/icon_file = 'icons/mob/clothing/belt.dmi'
@@ -462,11 +610,24 @@ There are several things that need to be remembered:
 		if(!mutant_override)
 			var/obj/item/bodypart/chest/my_chest = get_bodypart(BODY_ZONE_CHEST)
 			my_chest?.worn_belt_offset?.apply_offset(belt_overlay)
+=======
+		if(update_obscured)
+			update_obscured_slots(worn_item.flags_inv)
+
+		if(check_obscured_slots(transparent_protection = TRUE) & ITEM_SLOT_BELT)
+			return
+
+		var/icon_file = 'icons/mob/clothing/belt.dmi'
+
+		var/mutable_appearance/belt_overlay = belt.build_worn_icon(default_layer = BELT_LAYER, default_icon_file = icon_file)
+		var/obj/item/bodypart/chest/my_chest = get_bodypart(BODY_ZONE_CHEST)
+		my_chest?.worn_belt_offset?.apply_offset(belt_overlay)
+>>>>>>> tg-pr-88929
 		overlays_standing[BELT_LAYER] = belt_overlay
 
 	apply_overlay(BELT_LAYER)
 
-/mob/living/carbon/human/update_worn_oversuit()
+/mob/living/carbon/human/update_worn_oversuit(update_obscured = TRUE)
 	remove_overlay(SUIT_LAYER)
 
 	if(client && hud_used)
@@ -476,8 +637,13 @@ There are several things that need to be remembered:
 	if(wear_suit)
 		var/obj/item/worn_item = wear_suit
 		update_hud_wear_suit(worn_item)
+
+		if(update_obscured)
+			update_obscured_slots(worn_item.flags_inv)
+
 		var/icon_file = DEFAULT_SUIT_FILE
 
+<<<<<<< HEAD
 		var/mutant_override = FALSE
 		if((dna?.species.bodytype & BODYTYPE_DIGITIGRADE) && (wear_suit.supports_variations_flags & CLOTHING_DIGITIGRADE_VARIATION))
 			icon_file = wear_suit.worn_icon_digitigrade || DIGITIGRADE_SUIT_FILE
@@ -498,12 +664,15 @@ There are several things that need to be remembered:
 		if(!mutant_override)
 			var/obj/item/bodypart/chest/my_chest = get_bodypart(BODY_ZONE_CHEST)
 			my_chest?.worn_suit_offset?.apply_offset(suit_overlay)
+=======
+		var/mutable_appearance/suit_overlay = wear_suit.build_worn_icon(default_layer = SUIT_LAYER, default_icon_file = icon_file)
+		var/obj/item/bodypart/chest/my_chest = get_bodypart(BODY_ZONE_CHEST)
+		my_chest?.worn_suit_offset?.apply_offset(suit_overlay)
+>>>>>>> tg-pr-88929
 		overlays_standing[SUIT_LAYER] = suit_overlay
-	update_body_parts()
-	update_mutant_bodyparts()
 
 	apply_overlay(SUIT_LAYER)
-
+	check_body_shape(BODYSHAPE_DIGITIGRADE, ITEM_SLOT_OCLOTHING)
 
 /mob/living/carbon/human/update_pockets()
 	if(client && hud_used)
@@ -526,7 +695,7 @@ There are several things that need to be remembered:
 				client.screen += r_store
 			update_observer_view(r_store)
 
-/mob/living/carbon/human/update_worn_mask()
+/mob/living/carbon/human/update_worn_mask(update_obscured = TRUE)
 	remove_overlay(FACEMASK_LAYER)
 
 	var/obj/item/bodypart/head/my_head = get_bodypart(BODY_ZONE_HEAD)
@@ -541,6 +710,7 @@ There are several things that need to be remembered:
 		var/obj/item/worn_item = wear_mask
 		update_hud_wear_mask(worn_item)
 
+<<<<<<< HEAD
 		CHECK_SHOULDNT_RENDER(worn_item, ITEM_SLOT_MASK) // monkestation edit: combine TRAIT_ALWAYS_RENDER + TRAIT_NO_WORN_ICON + obscure check into a single define
 
 		var/icon_file = 'icons/mob/clothing/mask.dmi'
@@ -563,12 +733,24 @@ There are several things that need to be remembered:
 		var/mutable_appearance/mask_overlay = wear_mask.build_worn_icon(default_layer = FACEMASK_LAYER, default_icon_file = icon_file, override_file = mutant_override ? icon_file : null)
 		if(!mutant_override)
 			my_head.worn_mask_offset?.apply_offset(mask_overlay)
+=======
+		if(update_obscured)
+			update_obscured_slots(worn_item.flags_inv)
+
+		if(check_obscured_slots(transparent_protection = TRUE) & ITEM_SLOT_MASK)
+			return
+
+		var/icon_file = 'icons/mob/clothing/mask.dmi'
+
+		var/mutable_appearance/mask_overlay = wear_mask.build_worn_icon(default_layer = FACEMASK_LAYER, default_icon_file = icon_file)
+		my_head.worn_mask_offset?.apply_offset(mask_overlay)
+>>>>>>> tg-pr-88929
 		overlays_standing[FACEMASK_LAYER] = mask_overlay
 
 	apply_overlay(FACEMASK_LAYER)
-	update_mutant_bodyparts() //e.g. upgate needed because mask now hides lizard snout
+	check_body_shape(BODYSHAPE_SNOUTED, ITEM_SLOT_MASK)
 
-/mob/living/carbon/human/update_worn_back()
+/mob/living/carbon/human/update_worn_back(update_obscured = TRUE)
 	remove_overlay(BACK_LAYER)
 
 	if(client && hud_used && hud_used.inv_slots[TOBITSHIFT(ITEM_SLOT_BACK) + 1])
@@ -579,6 +761,10 @@ There are several things that need to be remembered:
 		var/obj/item/worn_item = back
 		var/mutable_appearance/back_overlay
 		update_hud_back(worn_item)
+
+		if(update_obscured)
+			update_obscured_slots(worn_item.flags_inv)
+
 		var/icon_file = 'icons/mob/clothing/back.dmi'
 
 		var/mutant_override = FALSE
@@ -592,9 +778,14 @@ There are several things that need to be remembered:
 
 		if(!back_overlay)
 			return
+<<<<<<< HEAD
 		if(!mutant_override)
 			var/obj/item/bodypart/chest/my_chest = get_bodypart(BODY_ZONE_CHEST)
 			my_chest?.worn_back_offset?.apply_offset(back_overlay)
+=======
+		var/obj/item/bodypart/chest/my_chest = get_bodypart(BODY_ZONE_CHEST)
+		my_chest?.worn_back_offset?.apply_offset(back_overlay)
+>>>>>>> tg-pr-88929
 		overlays_standing[BACK_LAYER] = back_overlay
 	apply_overlay(BACK_LAYER)
 
@@ -621,7 +812,11 @@ There are several things that need to be remembered:
 			t_state = worn_item.icon_state
 
 		var/mutable_appearance/hand_overlay
+<<<<<<< HEAD
 		var/icon_file = held_index % 2 == 0 ? worn_item.righthand_file : worn_item.lefthand_file
+=======
+		var/icon_file = IS_RIGHT_INDEX(held_index) ? worn_item.righthand_file : worn_item.lefthand_file
+>>>>>>> tg-pr-88929
 		hand_overlay = worn_item.build_worn_icon(default_layer = HANDS_LAYER, default_icon_file = icon_file, isinhands = TRUE)
 		var/obj/item/bodypart/arm/held_in_hand = hand_bodyparts[held_index]
 		held_in_hand?.held_hand_offset?.apply_offset(hand_overlay)
@@ -629,12 +824,120 @@ There are several things that need to be remembered:
 		hands += hand_overlay
 	return hands
 
+<<<<<<< HEAD
 /proc/wear_female_version(t_color, icon, layer, type, greyscale_colors, flat)
 	var/index = "[t_color]-[greyscale_colors]"
 	var/icon/female_clothing_icon = GLOB.female_clothing_icons[index]
 	if(!female_clothing_icon) 	//Create standing/laying icons if they don't exist
 		generate_female_clothing(index, t_color, icon, type, flat)
 	return mutable_appearance(GLOB.female_clothing_icons[index], layer = -layer)
+=======
+/// Modifies a sprite slightly to conform to female body shapes
+/proc/wear_female_version(icon_state, icon, type, greyscale_colors)
+	var/index = "[icon_state]-[greyscale_colors]"
+	var/static/list/female_clothing_icons = list()
+	var/icon/female_clothing_icon = female_clothing_icons[index]
+	if(!female_clothing_icon) //Create standing/laying icons if they don't exist
+		var/female_icon_state = "female[type == FEMALE_UNIFORM_FULL ? "_full" : ((!type || type & FEMALE_UNIFORM_TOP_ONLY) ? "_top" : "")][type & FEMALE_UNIFORM_NO_BREASTS ? "_no_breasts" : ""]"
+		var/icon/female_cropping_mask = icon('icons/mob/clothing/under/masking_helpers.dmi', female_icon_state)
+		female_clothing_icon = icon(icon, icon_state)
+		female_clothing_icon.Blend(female_cropping_mask, ICON_MULTIPLY)
+		female_clothing_icon = fcopy_rsc(female_clothing_icon)
+		female_clothing_icons[index] = female_clothing_icon
+
+	return icon(female_clothing_icon)
+
+/// Modifies a sprite to conform to digitigrade body shapes
+/proc/wear_digi_version(icon/base_icon, obj/item/item, key, greyscale_colors)
+	ASSERT(istype(item), "wear_digi_version: no item passed")
+	ASSERT(istext(key), "wear_digi_version: no key passed")
+	if(isnull(greyscale_colors) || length(SSgreyscale.ParseColorString(greyscale_colors)) > 1)
+		greyscale_colors = item.get_general_color(base_icon)
+
+	var/index = "[key]-[item.type]-[greyscale_colors]"
+	var/static/list/digitigrade_clothing_cache = list()
+	var/icon/resulting_icon = digitigrade_clothing_cache[index]
+	if(!resulting_icon)
+		resulting_icon = item.generate_digitigrade_icons(base_icon, greyscale_colors)
+		if(!resulting_icon)
+			stack_trace("[item.type] is set to generate a masked digitigrade icon, but generate_digitigrade_icons was not implemented (or error'd).")
+			return base_icon
+		digitigrade_clothing_cache[index] = fcopy_rsc(resulting_icon)
+
+	return icon(resulting_icon)
+
+/// Modifies a sprite to replace the legs with a new version
+/proc/replace_icon_legs(icon/base_icon, icon/new_legs)
+	var/static/icon/leg_mask
+	if(!leg_mask)
+		leg_mask = icon('icons/mob/clothing/under/masking_helpers.dmi', "digi_leg_mask")
+
+	// cuts the legs off
+	base_icon.Blend(leg_mask, ICON_SUBTRACT)
+	// staples the new legs on
+	base_icon.Blend(new_legs, ICON_OVERLAY)
+	return base_icon
+
+/**
+ * Generates a digitigrade version of this item's worn icon
+ *
+ * Arguments:
+ * * base_icon: The icon to generate the digitigrade icon from
+ * * greyscale_colors: The greyscale colors to use for the digitigrade icon
+ *
+ * Returns an icon that is the digitigrade version of the item's worn icon
+ * Returns null if the item has no support for digitigrade variations via this method
+ */
+/obj/item/proc/generate_digitigrade_icons(icon/base_icon, greyscale_colors)
+	return null
+
+/**
+ * Get what color the item is on "average"
+ * Can be used to approximate what color this item is/should be
+ *
+ * Arguments:
+ * * base_icon: The icon to get the color from
+ */
+/obj/item/proc/get_general_color(icon/base_icon)
+	if(greyscale_colors && length(SSgreyscale.ParseColorString(greyscale_colors)) == 1)
+		return greyscale_colors
+	return color
+
+// These coordinates point to the middle of the left leg
+#define LEG_SAMPLE_X_LOWER 13
+#define LEG_SAMPLE_X_UPPER 14
+#define LEG_SAMPLE_Y_LOWER 8
+#define LEG_SAMPLE_Y_UPPER 9
+
+/obj/item/clothing/get_general_color(icon/base_icon)
+	if(slot_flags & (ITEM_SLOT_ICLOTHING|ITEM_SLOT_OCLOTHING))
+		var/pant_color
+		// approximates the color of the pants by sampling a few pixels in the middle of the left leg
+		for(var/x in LEG_SAMPLE_X_LOWER to LEG_SAMPLE_X_UPPER)
+			for(var/y in LEG_SAMPLE_Y_LOWER to LEG_SAMPLE_Y_UPPER)
+				var/xy_color = base_icon.GetPixel(x, y)
+				pant_color = pant_color ? BlendRGB(pant_color, xy_color, 0.5) : xy_color
+
+		return pant_color || "#1d1d1d" // black pants always look good
+
+	return ..()
+
+#undef LEG_SAMPLE_X_LOWER
+#undef LEG_SAMPLE_X_UPPER
+#undef LEG_SAMPLE_Y_LOWER
+#undef LEG_SAMPLE_Y_UPPER
+
+// Points to the tip of the left foot
+#define SHOE_SAMPLE_X 11
+#define SHOE_SAMPLE_Y 2
+
+/obj/item/clothing/shoes/get_general_color(icon/base_icon)
+	// just grabs the color of the middle of the left foot
+	return base_icon.GetPixel(SHOE_SAMPLE_X, SHOE_SAMPLE_Y) || "#1d1d1d"
+
+#undef SHOE_SAMPLE_X
+#undef SHOE_SAMPLE_Y
+>>>>>>> tg-pr-88929
 
 /mob/living/carbon/human/proc/get_overlays_copy(list/unwantedLayers)
 	var/list/out = new
@@ -768,6 +1071,7 @@ generate/load female uniform sprites matching all previously decided variables
 	var/file2use = override_file || (isinhands ? null : worn_icon) || default_icon_file
 	//Find a valid layer from variables+arguments
 	var/layer2use = alternate_worn_layer || default_layer
+<<<<<<< HEAD
 	//Find who's wearing it
 	var/mob/living/carbon/human/wearer = loc
 
@@ -777,6 +1081,33 @@ generate/load female uniform sprites matching all previously decided variables
 		standing = wear_female_version(t_state, file2use, layer2use, female_uniform, greyscale_colors, is_reptile) //should layer2use be in sync with the adjusted value below? needs testing - shiz
 	if(!standing)
 		standing = mutable_appearance(file2use, t_state, -layer2use)
+=======
+
+	var/mob/living/carbon/wearer = loc
+	var/is_digi = istype(wearer) && (wearer.bodyshape & BODYSHAPE_DIGITIGRADE) && !wearer.is_digitigrade_squished()
+
+	var/mutable_appearance/standing // this is the actual resulting MA
+	var/icon/building_icon // used to construct an icon across multiple procs before converting it to MA
+	if(female_uniform)
+		building_icon = wear_female_version(
+			icon_state = t_state,
+			icon = file2use,
+			type = female_uniform,
+			greyscale_colors = greyscale_colors,
+		)
+	if(!isinhands && is_digi && (supports_variations_flags & CLOTHING_DIGITIGRADE_MASK))
+		building_icon = wear_digi_version(
+			base_icon = building_icon || icon(file2use, t_state),
+			item = src,
+			key = "[t_state]-[file2use]-[female_uniform]",
+			greyscale_colors = greyscale_colors,
+		)
+	if(building_icon)
+		standing = mutable_appearance(building_icon, layer = -layer2use)
+
+	// no special handling done, default it
+	standing ||= mutable_appearance(file2use, t_state, layer = -layer2use)
+>>>>>>> tg-pr-88929
 
 	// MONKESTATION EDIT START
 	var/width = isinhands ? inhand_x_dimension : worn_x_dimension
@@ -788,6 +1119,7 @@ generate/load female uniform sprites matching all previously decided variables
 	//eg: ammo counters, primed grenade flashes, etc.
 	var/list/worn_overlays = worn_overlays(standing, isinhands, file2use)
 	if(length(worn_overlays))
+<<<<<<< HEAD
 		// MONKESTATION EDIT START
 		if (width != 32 || height != 32)
 			for (var/image/overlay in worn_overlays)
@@ -799,6 +1131,11 @@ generate/load female uniform sprites matching all previously decided variables
 	// MONKESTATION EDIT START
 	// standing = center_image(standing, isinhands ? inhand_x_dimension : worn_x_dimension, isinhands ? inhand_y_dimension : worn_y_dimension) - moved up
 	// MONKESTATION EDIT END
+=======
+		standing.overlays += worn_overlays
+
+	standing = center_image(standing, isinhands ? inhand_x_dimension : worn_x_dimension, isinhands ? inhand_y_dimension : worn_y_dimension)
+>>>>>>> tg-pr-88929
 
 	//Worn offsets
 	var/list/offsets = get_worn_offsets(isinhands)
@@ -806,7 +1143,7 @@ generate/load female uniform sprites matching all previously decided variables
 	standing.pixel_y += offsets[2]
 
 	standing.alpha = alpha
-	standing.color = color
+	standing = color_atom_overlay(standing)
 
 	return standing
 
@@ -862,6 +1199,7 @@ generate/load female uniform sprites matching all previously decided variables
 	my_head.update_limb(is_creating = update_limb_data)
 
 	add_overlay(my_head.get_limb_icon())
+<<<<<<< HEAD
 
 	/*
 	update_damage_overlays()
@@ -886,6 +1224,48 @@ generate/load female uniform sprites matching all previously decided variables
 	update_worn_head()
 	update_worn_mask()
 
+=======
+	update_worn_head()
+	update_worn_mask()
+
+/**
+ * Used to perform regular updates to the limbs of humans with special bodyshapes
+ *
+ * * check_shapes: The bodyshapes to check for.
+ * Any limbs or organs which share this shape, will be updated.
+ * * ignore_slots: The slots to ignore when updating the limbs.
+ * This is useful for things like digitigrade legs, where we can skip some slots that we're already updating.
+ *
+ * return an integer, the number of limbs updated
+ */
+/mob/living/carbon/human/proc/check_body_shape(check_shapes = BODYSHAPE_DIGITIGRADE|BODYSHAPE_SNOUTED, ignore_slots = NONE)
+	. = 0
+	if(!(bodyshape & check_shapes))
+		// optimization - none of our limbs or organs have the desired shape
+		return .
+
+	for(var/obj/item/bodypart/limb as anything in bodyparts)
+		var/checked_bodyshape = limb.bodyshape
+		// accounts for stuff like snouts
+		for(var/obj/item/organ/organ in limb)
+			checked_bodyshape |= organ.external_bodyshapes
+
+		// any limb needs to be updated, so stop here and do it
+		if(checked_bodyshape & check_shapes)
+			. = update_body_parts()
+			break
+
+	if(!.)
+		return
+	// hardcoding this here until bodypart updating is more sane
+	// we need to update clothing items that may have been affected by bodyshape updates
+	if(check_shapes & BODYSHAPE_DIGITIGRADE)
+		for(var/obj/item/thing as anything in get_equipped_items())
+			if(thing.slot_flags & ignore_slots)
+				continue
+			if(thing.supports_variations_flags & DIGITIGRADE_VARIATIONS)
+				thing.update_slot_icon()
+>>>>>>> tg-pr-88929
 
 // Hooks into human apply overlay so that we can modify all overlays applied through standing overlays to our height system.
 // Some of our overlays will be passed through a displacement filter to make our mob look taller or shorter.
@@ -923,6 +1303,10 @@ generate/load female uniform sprites matching all previously decided variables
  * higher up things (hats for example) need to be offset more due to the location of the filter displacement
  */
 /mob/living/carbon/human/proc/apply_height_offsets(image/appearance, upper_torso)
+<<<<<<< HEAD
+=======
+	var/height_to_use = num2text(get_mob_height())
+>>>>>>> tg-pr-88929
 	var/final_offset = 0
 	switch(upper_torso)
 		if(UPPER_BODY)
@@ -938,6 +1322,7 @@ generate/load female uniform sprites matching all previously decided variables
 /**
  * Applies a filter to an appearance according to mob height
  */
+<<<<<<< HEAD
 /mob/living/carbon/human/proc/apply_height_filters(image/appearance, only_apply_in_prefs = FALSE, parent_adjust_y=0)
 //MONKESTATION EDIT START
 	// Pick a displacement mask depending on the height of the icon, ?x48 icons are used for features which would otherwise get clipped when tall players use them
@@ -945,6 +1330,13 @@ generate/load female uniform sprites matching all previously decided variables
 	var/alist/dims = get_icon_dimensions(appearance.icon)
 	var/icon_width = dims["width"]
 	var/icon_height = dims["height"]
+=======
+/mob/living/carbon/human/proc/apply_height_filters(image/appearance)
+	var/static/icon/cut_torso_mask = icon('icons/effects/cut.dmi', "Cut1")
+	var/static/icon/cut_legs_mask = icon('icons/effects/cut.dmi', "Cut2")
+	var/static/icon/lenghten_torso_mask = icon('icons/effects/cut.dmi', "Cut3")
+	var/static/icon/lenghten_legs_mask = icon('icons/effects/cut.dmi', "Cut4")
+>>>>>>> tg-pr-88929
 
 	var/mask_icon = 'icons/effects/cut.dmi'
 	if(icon_width != 0 && icon_height != 0)
@@ -987,7 +1379,11 @@ generate/load female uniform sprites matching all previously decided variables
 		"Monkey_Legs",
 		"Monkey_Gnome_Cut_Torso",
 		"Monkey_Gnome_Cut_Legs",
+<<<<<<< HEAD
 	), update = FALSE) // note: the add_filter(s) calls after this will call update_filters on their own. so by not calling it here, we avoid calling it twice.
+=======
+	))
+>>>>>>> tg-pr-88929
 
 	switch(mob_height)
 		// Don't set this one directly, use TRAIT_DWARF
@@ -1018,6 +1414,7 @@ generate/load female uniform sprites matching all previously decided variables
 				),
 			))
 		// Don't set this one directly, use TRAIT_DWARF
+<<<<<<< HEAD
 		if(HUMAN_HEIGHT_DWARF)
 			appearance.add_filters(list(
 				list(
@@ -1031,22 +1428,87 @@ generate/load female uniform sprites matching all previously decided variables
 					"params" = displacement_map_filter(cut_legs_mask, x = 0, y = adjust_y, size = 3),
 				),
 			))
+=======
+		if(MONKEY_HEIGHT_DWARF)
+			appearance.add_filters(list(
+				list(
+					"name" = "Monkey_Gnome_Cut_Torso",
+					"priority" = 1,
+					"params" = displacement_map_filter(cut_torso_mask, x = 0, y = 0, size = 3),
+				),
+				list(
+					"name" = "Monkey_Gnome_Cut_Legs",
+					"priority" = 1,
+					"params" = displacement_map_filter(cut_legs_mask, x = 0, y = 0, size = 4),
+				),
+			))
+		if(MONKEY_HEIGHT_MEDIUM)
+			appearance.add_filters(list(
+				list(
+					"name" = "Monkey_Torso",
+					"priority" = 1,
+					"params" = displacement_map_filter(cut_torso_mask, x = 0, y = 0, size = 2),
+				),
+				list(
+					"name" = "Monkey_Legs",
+					"priority" = 1,
+					"params" = displacement_map_filter(cut_legs_mask, x = 0, y = 0, size = 4),
+				),
+			))
+		if(HUMAN_HEIGHT_DWARF) // tall monkeys and dwarves use the same value
+			if(ismonkey(src))
+				appearance.add_filters(list(
+					list(
+						"name" = "Monkey_Torso",
+						"priority" = 1,
+						"params" = displacement_map_filter(cut_torso_mask, x = 0, y = 0, size = 1),
+					),
+					list(
+						"name" = "Monkey_Legs",
+						"priority" = 1,
+						"params" = displacement_map_filter(cut_legs_mask, x = 0, y = 0, size = 1),
+					),
+				))
+			else
+				appearance.add_filters(list(
+					list(
+						"name" = "Gnome_Cut_Torso",
+						"priority" = 1,
+						"params" = displacement_map_filter(cut_torso_mask, x = 0, y = 0, size = 2),
+					),
+					list(
+						"name" = "Gnome_Cut_Legs",
+						"priority" = 1,
+						"params" = displacement_map_filter(cut_legs_mask, x = 0, y = 0, size = 3),
+					),
+				))
+		// Don't set this one directly, use TRAIT_DWARF
+>>>>>>> tg-pr-88929
 		if(HUMAN_HEIGHT_SHORTEST)
 			appearance.add_filters(list(
 				list(
 					"name" = "Cut_Torso",
 					"priority" = 1,
+<<<<<<< HEAD
 					"params" = displacement_map_filter(cut_torso_mask, x = 0, y = adjust_y, size = 1),
+=======
+					"params" = displacement_map_filter(cut_torso_mask, x = 0, y = 0, size = 1),
+>>>>>>> tg-pr-88929
 				),
 				list(
 					"name" = "Cut_Legs",
 					"priority" = 1,
+<<<<<<< HEAD
 					"params" = displacement_map_filter(cut_legs_mask, x = 0, y = adjust_y, size = 1),
+=======
+					"params" = displacement_map_filter(cut_legs_mask, x = 0, y = 0, size = 1),
+>>>>>>> tg-pr-88929
 				),
 			))
 		if(HUMAN_HEIGHT_SHORT)
 			appearance.add_filter("Cut_Legs", 1, displacement_map_filter(cut_legs_mask, x = 0, y = adjust_y, size = 1))
 		if(HUMAN_HEIGHT_TALL)
+<<<<<<< HEAD
 			appearance.add_filter("Lengthen_Legs", 1, displacement_map_filter(lengthen_legs_mask, x = 0, y = adjust_y, size = 1))
 		if(HUMAN_HEIGHT_TALLER)
 			appearance.add_filters(list(
@@ -1059,11 +1521,26 @@ generate/load female uniform sprites matching all previously decided variables
 					"name" = "Lengthen_Legs",
 					"priority" = 1,
 					"params" = displacement_map_filter(lengthen_legs_mask, x = 0, y = adjust_y, size = 1),
+=======
+			appearance.add_filter("Lenghten_Legs", 1, displacement_map_filter(lenghten_legs_mask, x = 0, y = 0, size = 1))
+		if(HUMAN_HEIGHT_TALLER)
+			appearance.add_filters(list(
+				list(
+					"name" = "Lenghten_Torso",
+					"priority" = 1,
+					"params" = displacement_map_filter(lenghten_torso_mask, x = 0, y = 0, size = 1),
+				),
+				list(
+					"name" = "Lenghten_Legs",
+					"priority" = 1,
+					"params" = displacement_map_filter(lenghten_legs_mask, x = 0, y = 0, size = 1),
+>>>>>>> tg-pr-88929
 				),
 			))
 		if(HUMAN_HEIGHT_TALLEST)
 			appearance.add_filters(list(
 				list(
+<<<<<<< HEAD
 					"name" = "Lengthen_Torso",
 					"priority" = 1,
 					"params" = displacement_map_filter(lengthen_torso_mask, x = 0, y = adjust_y, size = 1),
@@ -1085,12 +1562,28 @@ generate/load female uniform sprites matching all previously decided variables
 			// as we don't add any filters - we need to make sure to run update_filters ourselves, as we didn't update during our previous remove_filter, and any other case would've ran it at the end of add_filter(s)
 			if(should_update)
 				appearance.update_filters()
+=======
+					"name" = "Lenghten_Torso",
+					"priority" = 1,
+					"params" = displacement_map_filter(lenghten_torso_mask, x = 0, y = 0, size = 1),
+				),
+				list(
+					"name" = "Lenghten_Legs",
+					"priority" = 1,
+					"params" = displacement_map_filter(lenghten_legs_mask, x = 0, y = 0, size = 2),
+				),
+			))
+>>>>>>> tg-pr-88929
 
 	// Kinda gross but because many humans overlays do not use KEEP_TOGETHER we need to manually propogate the filter
 	// Otherwise overlays, such as worn overlays on icons, won't have the filter "applied", and the effect kinda breaks
 	if(!(appearance.appearance_flags & KEEP_TOGETHER))
 		for(var/image/overlay in list() + appearance.underlays + appearance.overlays)
+<<<<<<< HEAD
 			apply_height_filters(overlay, parent_adjust_y=adjust_y)
+=======
+			apply_height_filters(overlay)
+>>>>>>> tg-pr-88929
 
 	return appearance
 

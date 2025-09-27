@@ -4,7 +4,6 @@
  * Definitions for /mob/living/silicon/robot and its children, including AI shells.
  *
  */
-
 /mob/living/silicon/robot
 	name = "Cyborg"
 	real_name = "Cyborg"
@@ -16,6 +15,8 @@
 	designation = "Default" //used for displaying the prefix & getting the current model of cyborg
 	has_limbs = TRUE
 	hud_type = /datum/hud/robot
+	unique_name = TRUE
+	mouse_drop_zone = TRUE
 
 	///Represents the cyborg's model (engineering, medical, etc.)
 	var/obj/item/robot_model/model = null
@@ -43,7 +44,11 @@
 	///Used for deconstruction to remember what the borg was constructed out of.
 	var/obj/item/robot_suit/robot_suit = null
 	///If this is a path, this gets created as an object in Initialize.
+<<<<<<< HEAD
 	var/obj/item/stock_parts/power_store/cell/cell = /obj/item/stock_parts/power_store/cell/high
+=======
+	var/obj/item/stock_parts/power_store/cell = /obj/item/stock_parts/power_store/cell/high
+>>>>>>> tg-pr-88929
 
 	///If we've been forcibly disabled for a temporary amount of time.
 	COOLDOWN_DECLARE(disabled_time)
@@ -60,7 +65,12 @@
 	////Power consumption of the light per lamp_intensity.
 	var/lamp_power_consumption = BORG_LAMP_POWER_CONSUMPTION
 
+	// Overlay for borg eye lights
 	var/mutable_appearance/eye_lights
+	///Holds a reference to the timer taking care of blinking lights on dead cyborgs
+	var/eye_flash_timer = null
+	// Overlay for borg hat
+	var/mutable_appearance/hat_overlay
 
 
 	// Hud
@@ -106,8 +116,8 @@
 	var/lockcharge = FALSE
 	///Boolean of whether the borg was locked by its AI or nothing
 	var/ai_lockdown = FALSE
-	///Random serial number generated for each cyborg upon its initialization
-	var/ident = 0
+	///Timer that allows the borg to self-unlock after a set amount of time
+	var/lockdown_timer = null
 	var/locked = TRUE
 	req_one_access = list(ACCESS_ROBOTICS)
 
@@ -115,6 +125,10 @@
 	var/low_power_mode = FALSE
 	///So they can initialize sparks whenever/N
 	var/datum/effect_system/spark_spread/spark_system
+	///Smoke particle type for brute damage
+	var/smoke_particles
+	///Spark particle type for burn damage
+	var/spark_particles
 
 	///Jetpack-like effect.
 	var/ionpulse = FALSE
@@ -132,7 +146,7 @@
 
 	var/hasExpanded = FALSE
 	var/obj/item/hat
-	var/hat_offset = -3
+	var/hat_offset = list("north" = list(0, -3), "south" = list(0, -3), "east" = list(4, -3), "west" = list(-4, -3))
 
 	///What types of mobs are allowed to ride/buckle to this mob
 	var/static/list/can_ride_typecache = typecacheof(/mob/living/carbon/human)
@@ -232,7 +246,7 @@
 	icon_state = "synd_medical"
 	playstyle_string = "<span class='big bold'>You are a Syndicate medical cyborg!</span><br>\
 		<b>You are armed with powerful medical tools to aid you in your mission: help the operatives secure the nuclear authentication disk. \
-		Your hypospray will produce Restorative Nanites, a wonder-drug that will heal most types of bodily damages, including clone and brain damage. It also produces morphine for offense. \
+		Your hypospray will produce Restorative Nanites, a wonder-drug that will heal most types of bodily damages, including brain damage. It also produces morphine for offense. \
 		Your defibrillator paddles can revive operatives through their suits, or can be used on harm intent to shock enemies! \
 		Your energy saw functions as a circular saw, but can be activated to deal more damage, and your operative pinpointer will find and locate fellow nuclear operatives. \
 		<i>Help the operatives secure the disk at all costs!</i></b>"

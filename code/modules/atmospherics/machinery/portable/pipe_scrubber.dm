@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 #define PORTABLE_ATMOS_IGNORE_ATMOS_LIMIT 0
 
+=======
+>>>>>>> tg-pr-88929
 /obj/machinery/portable_atmospherics/pipe_scrubber
 	name = "pipe scrubber"
 	desc = "A machine for cleaning out pipes of lingering gases. It is a huge tank with a pump attached to it."
@@ -7,10 +10,15 @@
 	density = TRUE
 	max_integrity = 250
 	volume = 200
+<<<<<<< HEAD
 	///Secondary tank gas mixture
 	var/datum/gas_mixture/secondary_tank_contents
 	///Secondary tank volume
 	var/secondary_tank_volume = 2000
+=======
+	///The internal air tank obj of the mech
+	var/obj/machinery/portable_atmospherics/canister/internal_tank
+>>>>>>> tg-pr-88929
 	///Is the machine on?
 	var/on = FALSE
 	///What direction is the machine pumping to (into scrubber or out to the port)?
@@ -37,6 +45,7 @@
 
 /obj/machinery/portable_atmospherics/pipe_scrubber/Initialize(mapload)
 	. = ..()
+<<<<<<< HEAD
 	secondary_tank_contents = new
 	secondary_tank_contents.volume = secondary_tank_volume
 	secondary_tank_contents.temperature = T20C
@@ -47,16 +56,41 @@
 	my_turf.assume_air(secondary_tank_contents)
 	secondary_tank_contents = null
 	return ..()
+=======
+	internal_tank = new(src)
+	RegisterSignal(internal_tank, COMSIG_ATOM_BREAK, PROC_REF(deconstruct))
+	RegisterSignal(internal_tank, COMSIG_QDELETING, PROC_REF(deconstruct))
+
+/obj/machinery/portable_atmospherics/pipe_scrubber/atom_deconstruct(disassembled)
+	. = ..()
+	var/turf/my_turf = get_turf(src)
+	my_turf.assume_air(air_contents)
+	my_turf.assume_air(internal_tank.air_contents)
+	SSair.stop_processing_machine(internal_tank)
+	qdel(internal_tank)
+>>>>>>> tg-pr-88929
 
 /obj/machinery/portable_atmospherics/pipe_scrubber/return_analyzable_air()
 	return list(
 		air_contents,
+<<<<<<< HEAD
 		secondary_tank_contents
 	)
 
 /obj/machinery/portable_atmospherics/pipe_scrubber/AltClick(mob/living/user)
 	. = ..()
 	return
+=======
+		internal_tank.air_contents
+	)
+
+/obj/machinery/portable_atmospherics/pipe_scrubber/welder_act(mob/living/user, obj/item/tool)
+	internal_tank.welder_act(user, tool)
+	return ..()
+
+/obj/machinery/portable_atmospherics/pipe_scrubber/click_alt(mob/living/user)
+	return CLICK_ACTION_BLOCKING
+>>>>>>> tg-pr-88929
 
 /obj/machinery/portable_atmospherics/pipe_scrubber/replace_tank(mob/living/user, close_valve, obj/item/tank/new_tank)
 	return FALSE
@@ -68,6 +102,7 @@
 /obj/machinery/portable_atmospherics/pipe_scrubber/process_atmos()
 	if(take_atmos_damage())
 		excited = TRUE
+<<<<<<< HEAD
 
 	if(on)
 		excited = TRUE
@@ -107,6 +142,21 @@
 /// Scrub gasses from own air_contents into secondary_tank_contents
 /obj/machinery/portable_atmospherics/pipe_scrubber/proc/scrub()
 	if(secondary_tank_contents.return_pressure() >= PUMP_MAX_PRESSURE)
+=======
+		return ..()
+	if(!on)
+		return ..()
+	excited = TRUE
+	if(direction == PUMP_IN)
+		scrub(air_contents)
+	else
+		internal_tank.air_contents.pump_gas_to(air_contents, PUMP_MAX_PRESSURE)
+	return ..()
+
+/// Scrub gasses from own air_contents into internal_tank.air_contents
+/obj/machinery/portable_atmospherics/pipe_scrubber/proc/scrub()
+	if(internal_tank.air_contents.return_pressure() >= PUMP_MAX_PRESSURE)
+>>>>>>> tg-pr-88929
 		return
 
 	var/transfer_moles = min(1, volume_rate / air_contents.volume) * air_contents.total_moles()
@@ -123,7 +173,11 @@
 		filtering.gases[gas][MOLES] = 0
 	filtering.garbage_collect() // Now that the gasses are set to 0, clean up the mixture.
 
+<<<<<<< HEAD
 	secondary_tank_contents.merge(filtered) // Store filtered out gasses.
+=======
+	internal_tank.air_contents.merge(filtered) // Store filtered out gasses.
+>>>>>>> tg-pr-88929
 	air_contents.merge(filtering) // Returned the cleaned gas.
 
 /obj/machinery/portable_atmospherics/pipe_scrubber/ui_interact(mob/user, datum/tgui/ui)
@@ -137,7 +191,11 @@
 	data["on"] = on
 	data["direction"] = direction
 	data["connected"] = connected_port ? 1 : 0
+<<<<<<< HEAD
 	data["pressureTank"] = round(secondary_tank_contents.return_pressure() ? secondary_tank_contents.return_pressure() : 0)
+=======
+	data["pressureTank"] = round(internal_tank.air_contents.return_pressure() ? internal_tank.air_contents.return_pressure() : 0)
+>>>>>>> tg-pr-88929
 	data["pressurePump"] = round(air_contents.return_pressure() ? air_contents.return_pressure() : 0)
 	data["hasHypernobCrystal"] = nob_crystal_inserted
 	data["reactionSuppressionEnabled"] = suppress_reactions
@@ -152,7 +210,11 @@
 /obj/machinery/portable_atmospherics/pipe_scrubber/ui_static_data()
 	var/list/data = list()
 	data["pressureLimitPump"] = pressure_limit
+<<<<<<< HEAD
 	data["pressureLimitTank"] = pressure_limit
+=======
+	data["pressureLimitTank"] = internal_tank.pressure_limit
+>>>>>>> tg-pr-88929
 	return data
 
 /obj/machinery/portable_atmospherics/pipe_scrubber/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
@@ -164,6 +226,10 @@
 			on = !on
 			if(on)
 				SSair.start_processing_machine(src)
+<<<<<<< HEAD
+=======
+				SSair.start_processing_machine(internal_tank)
+>>>>>>> tg-pr-88929
 			. = TRUE
 		if("direction")
 			direction = !direction
@@ -172,6 +238,7 @@
 			scrubbing ^= gas_id2path(params["val"])
 			. = TRUE
 		if("reaction_suppression")
+<<<<<<< HEAD
 			if(!nob_crystal_inserted)
 				message_admins("[ADMIN_LOOKUPFLW(usr)] tried to toggle reaction suppression on a pipe scrubber without a noblium crystal inside, possible href exploit attempt.")
 				return
@@ -183,3 +250,23 @@
 	update_appearance()
 
 #undef PORTABLE_ATMOS_IGNORE_ATMOS_LIMIT
+=======
+			if(!internal_tank.nob_crystal_inserted)
+				message_admins("[ADMIN_LOOKUPFLW(usr)] tried to toggle reaction suppression on a pipe scrubber without a noblium crystal inside, possible href exploit attempt.")
+				return
+			internal_tank.suppress_reactions = !internal_tank.suppress_reactions
+			SSair.start_processing_machine(internal_tank)
+			message_admins("[ADMIN_LOOKUPFLW(usr)] turned [internal_tank.suppress_reactions ? "on" : "off"] the [internal_tank] reaction suppression.")
+			usr.investigate_log("turned [internal_tank.suppress_reactions ? "on" : "off"] the [internal_tank] reaction suppression.", INVESTIGATE_ATMOS)
+			. = TRUE
+	update_appearance()
+
+/obj/machinery/portable_atmospherics/pipe_scrubber/insert_nob_crystal()
+	. = ..()
+	internal_tank.nob_crystal_inserted = TRUE
+
+/obj/machinery/portable_atmospherics/pipe_scrubber/proc/toggle_reaction_suppression()
+	var/new_value = !suppress_reactions
+	suppress_reactions = new_value
+	internal_tank.suppress_reactions = new_value
+>>>>>>> tg-pr-88929

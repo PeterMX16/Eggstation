@@ -6,7 +6,7 @@
 	name = "Shuttle"
 	requires_power = FALSE
 	static_lighting = TRUE
-	has_gravity = STANDARD_GRAVITY
+	default_gravity = STANDARD_GRAVITY
 	always_unpowered = FALSE
 	// Loading the same shuttle map at a different time will produce distinct area instances.
 	area_flags = NONE
@@ -68,13 +68,15 @@
 
 /area/shuttle/hunter
 	name = "Hunter Shuttle"
-	static_lighting = FALSE
-	base_lighting_alpha = 255
 
 /area/shuttle/hunter/russian
 	name = "Russian Cargo Hauler"
 	requires_power = TRUE
-	static_lighting = TRUE
+
+/area/shuttle/hunter/mi13_foodtruck
+	name = "Perfectly Ordinary Food Truck"
+	requires_power = TRUE
+	ambience_index = AMBIENCE_DANGER
 
 ////////////////////////////White Ship////////////////////////////
 
@@ -121,7 +123,11 @@
 	if(SSshuttle.arrivals?.mode == SHUTTLE_CALL)
 		var/atom/movable/screen/splash/Spl = new(null, null, boarder.client, TRUE)
 		Spl.Fade(TRUE)
+<<<<<<< HEAD
 		boarder.playsound_local(get_turf(boarder), 'monkestation/sound/ai/duke/welcome/welcome2.ogg', 50) //MONKESTATION EDIT
+=======
+		boarder.playsound_local(get_turf(boarder), 'sound/announcer/ApproachingTG.ogg', 25)
+>>>>>>> tg-pr-88929
 	boarder.update_parallax_teleport()
 
 
@@ -254,7 +260,7 @@
 // ----------- Arena Shuttle
 /area/shuttle/shuttle_arena
 	name = "arena"
-	has_gravity = STANDARD_GRAVITY
+	default_gravity = STANDARD_GRAVITY
 	requires_power = FALSE
 
 /obj/effect/forcefield/arena_shuttle

@@ -1,6 +1,10 @@
 import { binaryInsertWith } from 'common/collections';
+<<<<<<< HEAD
 import { classes } from 'common/react';
 import { useBackend, useLocalState } from '../../backend';
+=======
+import { useState } from 'react';
+>>>>>>> tg-pr-88929
 import {
   Box,
   Button,
@@ -9,7 +13,14 @@ import {
   Section,
   Stack,
   Tooltip,
+<<<<<<< HEAD
 } from '../../components';
+=======
+} from 'tgui-core/components';
+import { classes } from 'tgui-core/react';
+
+import { useBackend } from '../../backend';
+>>>>>>> tg-pr-88929
 import { Antagonist, Category } from './antagonists/base';
 import { PreferencesMenuData } from './data';
 
@@ -23,9 +34,10 @@ const antagsByCategory = new Map<Category, Antagonist[]>();
 
 // This will break at priorities higher than 10, but that almost definitely
 // will not happen.
-const binaryInsertAntag = binaryInsertWith((antag: Antagonist) => {
-  return `${antag.priority}_${antag.name}`;
-});
+const binaryInsertAntag = (collection: Antagonist[], value: Antagonist) =>
+  binaryInsertWith(collection, value, (antag) => {
+    return `${antag.priority}_${antag.name}`;
+  });
 
 for (const antagKey of requireAntag.keys()) {
   const antag = requireAntag<{
@@ -46,8 +58,12 @@ const AntagSelection = (props: { antagonists: Antagonist[]; name: string }) => {
   const { act, data } = useBackend<PreferencesMenuData>();
   const className = 'PreferencesMenu__Antags__antagSelection';
 
+<<<<<<< HEAD
   const [predictedState, setPredictedState] = useLocalState(
     'AntagSelection_predictedState',
+=======
+  const [predictedState, setPredictedState] = useState(
+>>>>>>> tg-pr-88929
     new Set(data.selected_antags),
   );
 
@@ -123,10 +139,17 @@ const AntagSelection = (props: { antagonists: Antagonist[]; name: string }) => {
               <Stack align="center" vertical>
                 <Stack.Item
                   style={{
+<<<<<<< HEAD
                     'font-weight': 'bold',
                     'margin-top': 'auto',
                     'max-width': '100px',
                     'text-align': 'center',
+=======
+                    fontWeight: 'bold',
+                    marginTop: 'auto',
+                    maxWidth: '100px',
+                    textAlign: 'center',
+>>>>>>> tg-pr-88929
                   }}
                 >
                   {antagonist.name}

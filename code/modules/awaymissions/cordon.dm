@@ -49,10 +49,17 @@
 /turf/cordon/Bumped(atom/movable/bumped_atom)
 	. = ..()
 
+<<<<<<< HEAD
 	if(HAS_TRAIT(bumped_atom, TRAIT_FREE_HYPERSPACE_SOFTCORDON_MOVEMENT)) //we could feasibly reach the border, so just dont
 		dump_in_space(bumped_atom)
 
 /// Area used in conjuction with the cordon turf to create a fully functioning world border.
+=======
+	if(HAS_TRAIT(bumped_atom, TRAIT_FREE_HYPERSPACE_SOFTCORDON_MOVEMENT)) //we could feasibly reach the border, so just don't
+		dump_in_space(bumped_atom)
+
+/// Area used in conjunction with the cordon turf to create a fully functioning world border.
+>>>>>>> tg-pr-88929
 /area/misc/cordon
 	name = "CORDON"
 	icon_state = "cordon"

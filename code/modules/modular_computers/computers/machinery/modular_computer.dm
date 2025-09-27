@@ -4,7 +4,11 @@
 /obj/machinery/modular_computer
 	name = "modular computer"
 	desc = "You shouldn't see this. If you do, report it." //they should be examining the processor instead
+<<<<<<< HEAD
 	icon = 'icons/obj/modular_console.dmi'
+=======
+	icon = 'icons/obj/machines/modular_console.dmi'
+>>>>>>> tg-pr-88929
 	icon_state = "console"
 	idle_power_usage = BASE_MACHINE_IDLE_CONSUMPTION * 0.025
 	density = TRUE
@@ -40,15 +44,23 @@
 /obj/machinery/modular_computer/Initialize(mapload)
 	. = ..()
 	cpu = new(src)
+<<<<<<< HEAD
 	cpu.physical = src
 	cpu.screen_on = TRUE
 	update_appearance()
+=======
+	cpu.screen_on = TRUE
+	cpu.add_shell_component(SHELL_CAPACITY_LARGE, SHELL_FLAG_USB_PORT)
+	update_appearance()
+	register_context()
+>>>>>>> tg-pr-88929
 
 /obj/machinery/modular_computer/Destroy()
 	QDEL_NULL(cpu)
 	return ..()
 
 /obj/machinery/modular_computer/add_context(atom/source, list/context, obj/item/held_item, mob/user)
+<<<<<<< HEAD
 	. = NONE
 
 	if(isnull(held_item))
@@ -59,6 +71,12 @@
 		. |= cpu?.add_context(source, context, held_item, user)
 
 	return .
+=======
+	. = ..()
+	if(isnull(held_item))
+		context[SCREENTIP_CONTEXT_RMB] = "Toggle processor interaction"
+	return CONTEXTUAL_SCREENTIP_SET
+>>>>>>> tg-pr-88929
 
 /obj/machinery/modular_computer/attack_hand_secondary(mob/user, list/modifiers)
 	. = ..()
@@ -121,12 +139,11 @@
 	SIGNAL_HANDLER
 	return update_icon(updates)
 
-/obj/machinery/modular_computer/AltClick(mob/user)
-	. = ..()
-	if(!can_interact(user))
-		return
-	if(cpu)
-		cpu.AltClick(user)
+/obj/machinery/modular_computer/click_alt(mob/user)
+	if(CPU_INTERACTABLE(user) || !can_interact(user))
+		return NONE
+	cpu.click_alt(user)
+	return CLICK_ACTION_SUCCESS
 
 //ATTACK HAND IGNORING PARENT RETURN VALUE
 // On-click handling. Turns on the computer if it's off and opens the GUI.
@@ -143,7 +160,11 @@
 
 ///Try to recharge our internal cell if it isn't fully charged.
 /obj/machinery/modular_computer/process(seconds_per_tick)
+<<<<<<< HEAD
 	var/obj/item/stock_parts/power_store/cell/cell = get_cell()
+=======
+	var/obj/item/stock_parts/power_store/cell = get_cell()
+>>>>>>> tg-pr-88929
 	if(isnull(cell) || cell.percent() >= 100)
 		return
 	charge_cell(idle_power_usage * seconds_per_tick, cell)
@@ -161,6 +182,7 @@
 	return CPU_INTERACTABLE(user) ? cpu.welder_act(user, tool) : ..()
 
 /obj/machinery/modular_computer/item_interaction(mob/living/user, obj/item/tool, list/modifiers)
+<<<<<<< HEAD
 	return (CPU_INTERACTABLE(user) && !(user.istate & ISTATE_HARM)) ? cpu.item_interaction(user, tool, modifiers) : ..()
 
 /obj/machinery/modular_computer/item_interaction_secondary(mob/living/user, obj/item/tool, list/modifiers)
@@ -168,6 +190,12 @@
 
 /obj/machinery/modular_computer/attacked_by(obj/item/attacking_item, mob/living/user, list/modifiers, list/attack_modifiers)
 	return CPU_INTERACTABLE(user) ? cpu.attacked_by(attacking_item, user, modifiers, attack_modifiers) : ..()
+=======
+	return (CPU_INTERACTABLE(user) && !user.combat_mode) ? cpu.item_interaction(user, tool, modifiers) : ..()
+
+/obj/machinery/modular_computer/attacked_by(obj/item/attacking_item, mob/living/user)
+	return CPU_INTERACTABLE(user) ? cpu.attacked_by(attacking_item, user) : ..()
+>>>>>>> tg-pr-88929
 
 // Stronger explosions cause serious damage to internal components
 // Minor explosions are mostly mitigitated by casing.
@@ -196,6 +224,10 @@
 // "Burn" damage is equally strong against internal components and exterior casing
 // "Brute" damage mostly damages the casing.
 /obj/machinery/modular_computer/bullet_act(obj/projectile/proj)
+<<<<<<< HEAD
 	return cpu?.bullet_act(proj) || ..()
+=======
+	return cpu?.projectile_hit(proj) || ..()
+>>>>>>> tg-pr-88929
 
 #undef CPU_INTERACTABLE

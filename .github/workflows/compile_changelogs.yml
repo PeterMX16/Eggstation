@@ -25,13 +25,21 @@ jobs:
         if: steps.value_holder.outputs.ACTIONS_ENABLED
         uses: actions/setup-python@v5
         with:
+<<<<<<< HEAD
           python-version: "3.x"
+=======
+          python-version: '3.x'
+>>>>>>> tg-pr-88929
 
       - name: "Install deps"
         if: steps.value_holder.outputs.ACTIONS_ENABLED
         run: |
           python -m pip install --upgrade pip
           python -m pip install pyyaml
+<<<<<<< HEAD
+=======
+          sudo apt-get install  dos2unix
+>>>>>>> tg-pr-88929
 
       - name: "Checkout"
         if: steps.value_holder.outputs.ACTIONS_ENABLED
@@ -48,15 +56,24 @@ jobs:
       - name: Commit
         if: steps.value_holder.outputs.ACTIONS_ENABLED
         run: |
+<<<<<<< HEAD
           git config --local user.name "ChiefMonkengineer"
           git config --local user.email "219590222+ChiefMonkengineer@users.noreply.github.com"
+=======
+          git config --local user.name "tgstation-ci[bot]"
+          git config --local user.email "179393467+tgstation-ci[bot]@users.noreply.github.com"
+>>>>>>> tg-pr-88929
           git pull origin master
           git add html/changelogs
           git commit -m "Automatic changelog compile [ci skip]" -a || true
 
       - name: Generate App Token
         id: app-token-generation
+<<<<<<< HEAD
         uses: actions/create-github-app-token@v2
+=======
+        uses: actions/create-github-app-token@v1
+>>>>>>> tg-pr-88929
         if: env.APP_PRIVATE_KEY != '' && env.APP_ID != ''
         with:
           app-id: ${{ secrets.APP_ID }}

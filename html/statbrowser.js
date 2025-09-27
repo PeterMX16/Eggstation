@@ -35,8 +35,13 @@ var turfcontents = [];
 var turfname = "";
 var imageRetryDelay = 500;
 var imageRetryLimit = 50;
+<<<<<<< HEAD
 var menu = document.getElementById("menu");
 var statcontentdiv = document.getElementById("statcontent");
+=======
+var menu = document.getElementById('menu');
+var statcontentdiv = document.getElementById('statcontent');
+>>>>>>> tg-pr-88929
 var storedimages = [];
 var split_admin_tabs = false;
 
@@ -48,6 +53,7 @@ function run_after_focus(callback) {
 }
 
 function createStatusTab(name) {
+<<<<<<< HEAD
   if (name.indexOf(".") != -1) {
     var splitName = name.split(".");
     if (split_admin_tabs && splitName[0] === "Admin") name = splitName[1];
@@ -98,6 +104,64 @@ function sortVerbs() {
     }
     return 0;
   });
+=======
+	if (name.indexOf(".") != -1) {
+		var splitName = name.split(".");
+		if (split_admin_tabs && splitName[0] === "Admin")
+			name = splitName[1];
+		else
+			name = splitName[0];
+	}
+	if (document.getElementById(name) || name.trim() == "") {
+		return;
+	}
+	if (!verb_tabs.includes(name) && !permanent_tabs.includes(name)) {
+		return;
+	}
+	var button = document.createElement("DIV");
+	button.onclick = function () {
+		tab_change(name);
+		this.blur();
+		statcontentdiv.focus();
+	};
+	button.id = name;
+	button.textContent = name;
+	button.className = "button";
+	//ORDERING ALPHABETICALLY
+	button.style.order = name.charCodeAt(0);
+	if (name == "Status" || name == "MC") {
+		button.style.order = name == "Status" ? 1 : 2;
+	}
+	//END ORDERING
+	menu.appendChild(button);
+	SendTabToByond(name);
+}
+
+function removeStatusTab(name) {
+	if (!document.getElementById(name) || permanent_tabs.includes(name)) {
+		return;
+	}
+	for (var i = verb_tabs.length - 1; i >= 0; --i) {
+		if (verb_tabs[i] == name) {
+			verb_tabs.splice(i, 1);
+		}
+	}
+	menu.removeChild(document.getElementById(name));
+	TakeTabFromByond(name);
+}
+
+function sortVerbs() {
+	verbs.sort(function (a, b) {
+		var selector = a[0] == b[0] ? 1 : 0;
+		if (a[selector].toUpperCase() < b[selector].toUpperCase()) {
+			return 1;
+		}
+		else if (a[selector].toUpperCase() > b[selector].toUpperCase()) {
+			return -1;
+		}
+		return 0;
+	})
+>>>>>>> tg-pr-88929
 }
 
 function addPermanentTab(name) {
@@ -341,6 +405,7 @@ function draw_debug() {
   document.getElementById("statcontent").appendChild(table3);
 }
 function draw_status() {
+<<<<<<< HEAD
   if (!document.getElementById("Status")) {
     createStatusTab("Status");
     current_tab = "Status";
@@ -385,6 +450,26 @@ function draw_status() {
   if (verb_tabs.length == 0 || !verbs) {
     Byond.command("Fix-Stat-Panel");
   }
+=======
+	if (!document.getElementById("Status")) {
+		createStatusTab("Status");
+		current_tab = "Status";
+	}
+	statcontentdiv.textContent = '';
+	for (var i = 0; i < status_tab_parts.length; i++) {
+		if (status_tab_parts[i].trim() == "") {
+			document.getElementById("statcontent").appendChild(document.createElement("br"));
+		} else {
+			var div = document.createElement("div");
+			div.textContent = status_tab_parts[i];
+			div.className = "status-info";
+			document.getElementById("statcontent").appendChild(div);
+		}
+	}
+	if (verb_tabs.length == 0 || !verbs) {
+		Byond.command("Fix-Stat-Panel");
+	}
+>>>>>>> tg-pr-88929
 }
 
 function draw_mc() {
@@ -743,6 +828,7 @@ function draw_verbs(cat) {
 }
 
 function set_theme(which) {
+<<<<<<< HEAD
   if (which == "light") {
     document.body.className = "";
     document.documentElement.className = "light";
@@ -769,6 +855,34 @@ function set_tabs_style(style) {
     menu.classList.remove("menu-wrap");
     menu.classList.remove("tabs-classic");
   }
+=======
+	if (which == "light") {
+		document.body.className = "";
+		document.documentElement.className = 'light';
+		set_style_sheet("browserOutput_white");
+	} else if (which == "dark") {
+		document.body.className = "dark";
+		document.documentElement.className = 'dark';
+		set_style_sheet("browserOutput");
+	}
+>>>>>>> tg-pr-88929
+}
+
+function set_font_size(size) {
+	document.body.style.setProperty('font-size', size);
+}
+
+function set_tabs_style(style) {
+	if (style == "default") {
+		menu.classList.add('menu-wrap');
+		menu.classList.remove('tabs-classic');
+	} else if (style == "classic") {
+		menu.classList.add('menu-wrap');
+		menu.classList.add('tabs-classic');
+	} else if (style == "scrollable") {
+		menu.classList.remove('menu-wrap');
+		menu.classList.remove('tabs-classic');
+	}
 }
 
 function set_style_sheet(sheet) {

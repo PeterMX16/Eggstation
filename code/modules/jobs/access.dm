@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 
+=======
+>>>>>>> tg-pr-88929
 /**
  * Returns TRUE if this mob has sufficient access to use this object
  *
@@ -11,7 +14,11 @@
 	if(result_bitflags & COMPONENT_OBJ_DISALLOW) // override all other checks
 		return FALSE
 	if(isnull(accessor)) //likely a TK user.
+<<<<<<< HEAD
 		return check_access(null)
+=======
+		return FALSE
+>>>>>>> tg-pr-88929
 	if(isAdminGhostAI(accessor))
 		//Access can't stop the abuse
 		return TRUE
@@ -21,12 +28,19 @@
 		return TRUE
 	if(attempted_access & ACCESS_DISALLOWED)
 		return FALSE
+<<<<<<< HEAD
 	if(!QDELETED(accessor) && HAS_TRAIT(accessor, TRAIT_ALWAYS_NO_ACCESS))
 		return FALSE
 	//check if it doesn't require any access at all
 	if(check_access(null))
 		return TRUE
 	if(issilicon(accessor))
+=======
+	//check if it doesn't require any access at all
+	if(check_access(null))
+		return TRUE
+	if(HAS_SILICON_ACCESS(accessor))
+>>>>>>> tg-pr-88929
 		if(ispAI(accessor))
 			//MONKESTATION EDIT START: pAI has inherent maintenance access
 			// return FALSE //MONKESTATION EDIT ORIGINAL
@@ -40,9 +54,14 @@
 				return FALSE
 		return TRUE //AI can do whatever it wants
 	//If the mob is holding a valid ID, we let them in. get_active_held_item() is on the mob level, so no need to copypasta everywhere.
+<<<<<<< HEAD
 	else if(check_access(accessor.get_active_held_item()) && !istype(accessor.get_active_held_item(), /obj/item/card/id/fake_card))
 		return TRUE
 	//if they are carying a card that has access, that works
+=======
+	else if(check_access(accessor.get_active_held_item()) || check_access(accessor.get_inactive_held_item()))
+		return TRUE
+>>>>>>> tg-pr-88929
 	else if(ishuman(accessor))
 		var/mob/living/carbon/human/human_accessor = accessor
 		if(check_access(human_accessor.wear_id) && !istype(human_accessor.wear_id, /obj/item/card/id/fake_card))
@@ -61,9 +80,9 @@
 		var/mob/living/simple_animal/animal = accessor
 		if(check_access(animal.access_card))
 			return TRUE
-	else if(isbrain(accessor) && istype(accessor.loc, /obj/item/mmi))
-		var/obj/item/mmi/brain_mmi = accessor.loc
-		if(ismecha(brain_mmi.loc))
+	else if(isbrain(accessor))
+		var/obj/item/mmi/brain_mmi = get(accessor.loc, /obj/item/mmi)
+		if(brain_mmi && ismecha(brain_mmi.loc))
 			var/obj/vehicle/sealed/mecha/big_stompy_robot = brain_mmi.loc
 			return check_access_list(big_stompy_robot.accesses)
 	return FALSE
@@ -92,6 +111,7 @@
 
 /obj/item/proc/GetAccess()
 	return list()
+<<<<<<< HEAD
 
 /obj/item/proc/GetID() as /obj/item/card/id
 	RETURN_TYPE(/obj/item/card/id)
@@ -114,11 +134,13 @@
  */
 /obj/proc/check_access_ntnet(list/passkey)
 	return check_access_list(passkey)
+=======
+>>>>>>> tg-pr-88929
 
-/// Returns the SecHUD job icon state for whatever this object's ID card is, if it has one.
-/obj/item/proc/get_sechud_job_icon_state()
-	var/obj/item/card/id/id_card = GetID()
+/obj/item/proc/GetID()
+	return null
 
+<<<<<<< HEAD
 	return id_card?.get_trim_sechud_icon_state() || SECHUD_NO_ID
 
 /// Returns the gun permit icon if the ID's access contain weapon permit
@@ -130,3 +152,10 @@
 	if(ACCESS_WEAPONS in id_card.GetAccess())
 		return "hud_permit"
 	return "hudfan_no"
+=======
+/obj/item/proc/RemoveID()
+	return null
+
+/obj/item/proc/InsertID()
+	return FALSE
+>>>>>>> tg-pr-88929

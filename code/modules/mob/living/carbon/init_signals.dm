@@ -5,6 +5,11 @@
 	RegisterSignal(src, SIGNAL_ADDTRAIT(TRAIT_AGENDER), PROC_REF(on_agender_trait_gain))
 	RegisterSignal(src, SIGNAL_REMOVETRAIT(TRAIT_AGENDER), PROC_REF(on_agender_trait_loss))
 
+	//Traits that register add and remove
+	RegisterSignal(src, SIGNAL_ADDTRAIT(TRAIT_AGENDER), PROC_REF(on_agender_trait_gain))
+	RegisterSignal(src, SIGNAL_REMOVETRAIT(TRAIT_AGENDER), PROC_REF(on_agender_trait_loss))
+
+	//Traits that register add only
 	RegisterSignal(src, SIGNAL_ADDTRAIT(TRAIT_NOBREATH), PROC_REF(on_nobreath_trait_gain))
 	RegisterSignal(src, SIGNAL_ADDTRAIT(TRAIT_LIVERLESS_METABOLISM), PROC_REF(on_liverless_metabolism_trait_gain))
 	RegisterSignal(src, SIGNAL_ADDTRAIT(TRAIT_VIRUSIMMUNE), PROC_REF(on_virusimmune_trait_gain))
@@ -46,6 +51,8 @@
 /mob/living/carbon/proc/on_nobreath_trait_gain(datum/source)
 	SIGNAL_HANDLER
 
+	setOxyLoss(0, updating_health = TRUE, forced = TRUE)
+	losebreath = 0
 	failed_last_breath = FALSE
 
 	clear_alert(ALERT_TOO_MUCH_OXYGEN)
@@ -66,6 +73,7 @@
 	clear_mood_event("chemical_euphoria")
 	clear_mood_event("smell")
 	clear_mood_event("suffocation")
+
 /**
  * On gain of TRAIT_LIVERLESS_METABOLISM
  *
@@ -73,6 +81,7 @@
  */
 /mob/living/carbon/proc/on_liverless_metabolism_trait_gain(datum/source)
 	SIGNAL_HANDLER
+
 	for(var/addiction_type in subtypesof(/datum/addiction))
 		mind?.remove_addiction_points(addiction_type, MAX_ADDICTION_POINTS) //Remove the addiction!
 
@@ -87,7 +96,11 @@
 	SIGNAL_HANDLER
 
 	for(var/datum/disease/disease as anything in diseases)
+<<<<<<< HEAD
 		disease.cure(add_resistance = TRUE, target = src) // monkestation edit - virology bs
+=======
+		disease.cure(FALSE)
+>>>>>>> tg-pr-88929
 
 /**
  * On gain of TRAIT_TOXIMMUNE

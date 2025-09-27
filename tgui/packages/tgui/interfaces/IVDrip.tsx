@@ -1,5 +1,17 @@
-import { BooleanLike } from 'common/react';
+import {
+  Box,
+  Button,
+  LabeledList,
+  NoticeBox,
+  ProgressBar,
+  Section,
+  Slider,
+  Tooltip,
+} from 'tgui-core/components';
+import { BooleanLike } from 'tgui-core/react';
+
 import { useBackend } from '../backend';
+<<<<<<< HEAD
 import {
   Tooltip,
   Box,
@@ -10,6 +22,8 @@ import {
   LabeledList,
   Section,
 } from '../components';
+=======
+>>>>>>> tg-pr-88929
 import { Window } from '../layouts';
 
 type IVDripData = {
@@ -43,8 +57,6 @@ export const IVDrip = (props) => {
     canRemoveContainer,
     mode,
     canDraw,
-    injectFromPlumbing,
-    canAdjustTransfer,
     hasInternalStorage,
     transferRate,
     transferStep,
@@ -61,6 +73,7 @@ export const IVDrip = (props) => {
       <Window.Content>
         <Section fill>
           <LabeledList>
+<<<<<<< HEAD
             {mode === MODE.injecting && injectFromPlumbing ? ( // Plumbing drip injects with the rate from network
               <LabeledList.Item label="Flow Rate">
                 Controlled by the plumbing network
@@ -104,17 +117,54 @@ export const IVDrip = (props) => {
                     maxValue={maxTransferRate}
                     unit="units/sec."
                     onDrag={(e, value) =>
+=======
+            <LabeledList.Item
+              label="Flow Rate"
+              buttons={
+                <Box>
+                  <Button
+                    width={4}
+                    lineHeight={2}
+                    align="center"
+                    icon="angles-left"
+                    onClick={() =>
+>>>>>>> tg-pr-88929
                       act('changeRate', {
-                        rate: value,
+                        rate: minTransferRate,
                       })
                     }
                   />
-                </LabeledList.Item>
-              )
-            )}
+                  <Button
+                    width={4}
+                    lineHeight={2}
+                    align="center"
+                    icon="angles-right"
+                    onClick={() =>
+                      act('changeRate', {
+                        rate: maxTransferRate,
+                      })
+                    }
+                  />
+                </Box>
+              }
+            >
+              <Slider
+                step={transferStep}
+                my={1}
+                value={transferRate}
+                minValue={minTransferRate}
+                maxValue={maxTransferRate}
+                unit="units/sec."
+                onDrag={(e, value) =>
+                  act('changeRate', {
+                    rate: value,
+                  })
+                }
+              />
+            </LabeledList.Item>
             <LabeledList.Item
               label="Direction"
-              color={!mode && 'bad'}
+              color={!mode ? 'bad' : ''}
               buttons={
                 <Button
                   my={1}
@@ -154,7 +204,6 @@ export const IVDrip = (props) => {
                 }
               >
                 <ProgressBar
-                  py={0.3}
                   value={containerCurrentVolume}
                   minValue={0}
                   maxValue={containerMaxVolume}
@@ -162,7 +211,11 @@ export const IVDrip = (props) => {
                 >
                   <span
                     style={{
+<<<<<<< HEAD
                       'text-shadow': '1px 1px 0 black',
+=======
+                      textShadow: '1px 1px 0 black',
+>>>>>>> tg-pr-88929
                     }}
                   >
                     {`${containerCurrentVolume} of ${containerMaxVolume} units`}

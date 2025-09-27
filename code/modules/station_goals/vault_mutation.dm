@@ -114,9 +114,13 @@
 
 /datum/mutation/plasmocile/on_acquiring(mob/living/carbon/human/acquirer)
 	. = ..()
+<<<<<<< HEAD
 	if(!.)
 		return
 	var/obj/item/organ/internal/lungs/improved_lungs = acquirer.get_organ_slot(ORGAN_SLOT_LUNGS)
+=======
+	var/obj/item/organ/lungs/improved_lungs = acquirer.get_organ_slot(ORGAN_SLOT_LUNGS)
+>>>>>>> tg-pr-88929
 	ADD_TRAIT(owner, TRAIT_VIRUSIMMUNE, GENETIC_MUTATION)
 	if(improved_lungs)
 		apply_buff(improved_lungs)
@@ -125,7 +129,7 @@
 
 /datum/mutation/plasmocile/on_losing(mob/living/carbon/human/owner)
 	. = ..()
-	var/obj/item/organ/internal/lungs/improved_lungs = owner.get_organ_slot(ORGAN_SLOT_LUNGS)
+	var/obj/item/organ/lungs/improved_lungs = owner.get_organ_slot(ORGAN_SLOT_LUNGS)
 	REMOVE_TRAIT(owner, TRAIT_VIRUSIMMUNE, GENETIC_MUTATION)
 	UnregisterSignal(owner, COMSIG_CARBON_LOSE_ORGAN)
 	UnregisterSignal(owner, COMSIG_CARBON_GAIN_ORGAN)
@@ -135,20 +139,28 @@
 /datum/mutation/plasmocile/proc/remove_modification(mob/source, obj/item/organ/old_organ)
 	SIGNAL_HANDLER
 
-	if(istype(old_organ, /obj/item/organ/internal/lungs))
+	if(istype(old_organ, /obj/item/organ/lungs))
 		remove_buff(old_organ)
 
 /datum/mutation/plasmocile/proc/reapply_modification(mob/source, obj/item/organ/new_organ)
 	SIGNAL_HANDLER
 
-	if(istype(new_organ, /obj/item/organ/internal/lungs))
+	if(istype(new_organ, /obj/item/organ/lungs))
 		apply_buff(new_organ)
 
+<<<<<<< HEAD
 /datum/mutation/plasmocile/proc/apply_buff(obj/item/organ/internal/lungs/our_lungs)
 	our_lungs.plas_breath_dam_min *= 0
 	our_lungs.plas_breath_dam_max *= 0
 
 /datum/mutation/plasmocile/proc/remove_buff(obj/item/organ/internal/lungs/our_lungs)
+=======
+/datum/mutation/human/plasmocile/proc/apply_buff(obj/item/organ/lungs/our_lungs)
+	our_lungs.plas_breath_dam_min *= 0
+	our_lungs.plas_breath_dam_max *= 0
+
+/datum/mutation/human/plasmocile/proc/remove_buff(obj/item/organ/lungs/our_lungs)
+>>>>>>> tg-pr-88929
 	our_lungs.plas_breath_dam_min = initial(our_lungs.plas_breath_dam_min)
 	our_lungs.plas_breath_dam_max = initial(our_lungs.plas_breath_dam_max)
 

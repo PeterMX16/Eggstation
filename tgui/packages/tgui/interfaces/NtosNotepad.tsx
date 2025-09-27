@@ -4,12 +4,20 @@
  * @license MIT
  */
 
+import { Component, createRef, RefObject, useState } from 'react';
+import {
+  Box,
+  Dialog,
+  Divider,
+  MenuBar,
+  Section,
+  TextArea,
+} from 'tgui-core/components';
+
+import { useBackend } from '../backend';
 import { NtosWindow } from '../layouts';
-import { useBackend, useLocalState } from '../backend';
-import { Box, Section, TextArea, MenuBar, Divider } from '../components';
-import { Component, createRef, RefObject } from 'inferno';
+import { NTOSData } from '../layouts/NtosWindow';
 import { createLogger } from '../logging';
-import { Dialog, UnsavedChangesDialog } from '../components/Dialog';
 
 const logger = createLogger('NtosNotepad');
 
@@ -28,7 +36,7 @@ const PartiallyUnderlined = (props: PartiallyUnderlinedProps) => {
   return (
     <>
       {start}
-      <span style={{ 'text-decoration': 'underline' }}>{underlined}</span>
+      <span style={{ textDecoration: 'underline' }}>{underlined}</span>
       {end}
     </>
   );
@@ -71,11 +79,16 @@ const NtosNotepadMenuBar = (props: MenuBarProps) => {
     setWordWrap,
     aboutNotepadDialog,
   } = props;
+<<<<<<< HEAD
   const [openOnHover, setOpenOnHover] = useLocalState('openOnHover', false);
   const [openMenuBar, setOpenMenuBar] = useLocalState<string | null>(
     'openMenuBar',
     null,
   );
+=======
+  const [openOnHover, setOpenOnHover] = useState(false);
+  const [openMenuBar, setOpenMenuBar] = useState<string | null>(null);
+>>>>>>> tg-pr-88929
   const onMenuItemClick = (value) => {
     setOpenOnHover(false);
     setOpenMenuBar(null);
@@ -196,6 +209,9 @@ const StatusBar = (props: StatusBarProps) => {
   const { statuses } = props;
   return (
     <Box className="NtosNotepad__StatusBar">
+      <Box className="NtosNotepad__StatusBar__entry" minWidth="25rem">
+        Press shift-enter to insert new line
+      </Box>
       <Box className="NtosNotepad__StatusBar__entry" minWidth="15rem">
         Ln {statuses.line}, Col {statuses.column}
       </Box>
@@ -240,7 +256,7 @@ interface NotePadTextAreaProps {
   maintainFocus: boolean;
   text: string;
   wordWrap: boolean;
-  setText: (string) => void;
+  setText: (text: string) => void;
   setStatuses: (statuses: Statuses) => void;
 }
 
@@ -264,10 +280,7 @@ class NotePadTextArea extends Component<NotePadTextAreaProps> {
 
     if (this.props.maintainFocus) {
       this.innerRef.current.focus();
-      return false;
     }
-
-    return true;
   }
 
   // eslint-disable-next-line react/no-deprecated
@@ -307,12 +320,13 @@ class NotePadTextArea extends Component<NotePadTextAreaProps> {
 
     return (
       <TextArea
-        innerRef={this.innerRef}
+        ref={this.innerRef}
         onInput={(_, value) => setText(value)}
-        className={'NtosNotepad__textarea'}
-        scroll
+        className="NtosNotepad__textarea"
         nowrap={!wordWrap}
         value={text}
+        scrollbar
+        autoFocus
       />
     );
   }
@@ -320,11 +334,16 @@ class NotePadTextArea extends Component<NotePadTextAreaProps> {
 
 type AboutDialogProps = {
   close: () => void;
-  clientName: string;
 };
 
 const AboutDialog = (props: AboutDialogProps) => {
+<<<<<<< HEAD
   const { close, clientName } = props;
+=======
+  const { close } = props;
+  const { act, data } = useBackend<NTOSData>();
+  const { show_imprint, login } = data;
+>>>>>>> tg-pr-88929
   const paragraphStyle = { padding: '.5rem 1rem 0 2rem' };
   return (
     <Dialog title="About Notepad" onClose={close} width={'500px'}>
@@ -347,12 +366,22 @@ const AboutDialog = (props: AboutDialogProps) => {
           <span
             style={{
               padding: '3rem 1rem 0.5rem 2rem',
+<<<<<<< HEAD
               'max-width': '35rem',
+=======
+              maxWidth: '35rem',
+>>>>>>> tg-pr-88929
             }}
           >
             This product is licensed under the NT Corporation Terms to:
           </span>
+<<<<<<< HEAD
           <span style={{ padding: '0 1rem 0 4rem' }}>{clientName}</span>
+=======
+          <span style={{ padding: '0 1rem 0 4rem' }}>
+            {show_imprint ? login.IDName : 'Unknown'}
+          </span>
+>>>>>>> tg-pr-88929
         </Box>
       </div>
       <div className="Dialog__footer">
@@ -368,6 +397,7 @@ type NoteData = {
 type RetryActionType = (retrying?: boolean) => void;
 
 export const NtosNotepad = (props) => {
+<<<<<<< HEAD
   const { act, data, config } = useBackend<NoteData>();
   const { note } = data;
   const [documentName, setDocumentName] = useLocalState<string>(
@@ -397,6 +427,22 @@ export const NtosNotepad = (props) => {
     true,
   );
   const [wordWrap, setWordWrap] = useLocalState<boolean>('wordWrap', true);
+=======
+  const { act, data } = useBackend<NoteData>();
+  const { note } = data;
+  const [documentName, setDocumentName] = useState(DEFAULT_DOCUMENT_NAME);
+  const [originalText, setOriginalText] = useState(note);
+  const [text, setText] = useState<string>(note);
+  const [statuses, setStatuses] = useState<Statuses>({
+    line: 0,
+    column: 0,
+  });
+  const [activeDialog, setActiveDialog] = useState<Dialogs>(Dialogs.NONE);
+  const [retryAction, setRetryAction] = useState<RetryActionType | null>(null);
+  const [showStatusBar, setShowStatusBar] = useState<boolean>(true);
+  const [wordWrap, setWordWrap] = useState<boolean>(true);
+
+>>>>>>> tg-pr-88929
   const handleCloseDialog = () => setActiveDialog(Dialogs.NONE);
   const handleSave = (newDocumentName: string = documentName) => {
     logger.log(`Saving the document as ${newDocumentName}`);
@@ -489,15 +535,21 @@ export const NtosNotepad = (props) => {
         </Box>
       </NtosWindow.Content>
       {activeDialog === Dialogs.UNSAVED_CHANGES && (
-        <UnsavedChangesDialog
-          documentName={documentName}
-          onSave={handleSave}
-          onClose={handleCloseDialog}
-          onDiscard={noSave}
-        />
+        <Dialog title="Notepad" onClose={handleCloseDialog}>
+          <div className="Dialog__body">
+            Do you want to save changes to {documentName}?
+          </div>
+          <div className="Dialog__footer">
+            <Dialog.Button onClick={handleSave}>Save</Dialog.Button>
+            <Dialog.Button onClick={handleCloseDialog}>
+              Don&apos;t Save
+            </Dialog.Button>
+            <Dialog.Button onClick={handleCloseDialog}>Cancel</Dialog.Button>
+          </div>
+        </Dialog>
       )}
       {activeDialog === Dialogs.ABOUT && (
-        <AboutDialog close={handleCloseDialog} clientName={config.user.name} />
+        <AboutDialog close={handleCloseDialog} />
       )}
     </NtosWindow>
   );

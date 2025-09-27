@@ -11,7 +11,7 @@
 /obj/effect/landmark/singularity_act()
 	return
 
-/obj/effect/landmark/singularity_pull()
+/obj/effect/landmark/singularity_pull(atom/singularity, current_size)
 	return
 
 INITIALIZE_IMMEDIATE(/obj/effect/landmark)
@@ -36,8 +36,11 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 	var/required_jobtitle
 
 /obj/effect/landmark/start/proc/after_round_start()
+	// We'd like to keep these around for unit tests, so we can check that they exist.
+#if !defined(UNIT_TESTS) && !defined(MAP_TEST)
 	if(delete_after_roundstart)
 		qdel(src)
+#endif
 
 /obj/effect/landmark/start/Initialize(mapload)
 	. = ..()
@@ -160,6 +163,10 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 	name = "Medical Doctor"
 	icon_state = "Medical Doctor"
 
+/obj/effect/landmark/start/coroner
+	name = "Coroner"
+	icon_state = "Coroner"
+
 /obj/effect/landmark/start/paramedic
 	name = "Paramedic"
 	icon_state = "Paramedic"
@@ -188,9 +195,12 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 	name = "Chief Medical Officer"
 	icon_state = "Chief Medical Officer"
 
+<<<<<<< HEAD
 /obj/effect/landmark/start/virologist
 	name = "Pathologist"
 	icon_state = "Virologist"
+=======
+>>>>>>> tg-pr-88929
 
 /obj/effect/landmark/start/psychologist
 	name = "Psychologist"
@@ -286,6 +296,7 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 	GLOB.nukeop_leader_start += loc
 	return INITIALIZE_HINT_QDEL
 
+<<<<<<< HEAD
 /obj/effect/landmark/start/commando_nukeop
 	name = "commando nukeop"
 	icon = 'icons/effects/landmarks_static.dmi'
@@ -304,6 +315,16 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 /obj/effect/landmark/start/commando_nukeop_leader/Initialize(mapload)
 	..()
 	GLOB.commando_nukeop_leader_start += loc
+=======
+/obj/effect/landmark/start/nukeop_overwatch
+	name = "nukeop overwatch"
+	icon = 'icons/effects/landmarks_static.dmi'
+	icon_state = "snukeop_leader_spawn"
+
+/obj/effect/landmark/start/nukeop_overwatch/Initialize(mapload)
+	..()
+	GLOB.nukeop_overwatch_start += loc
+>>>>>>> tg-pr-88929
 	return INITIALIZE_HINT_QDEL
 
 // Must be immediate because players will
@@ -317,6 +338,11 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark/start/new_player)
 	..()
 	GLOB.newplayer_start += loc
 	return INITIALIZE_HINT_QDEL
+
+/obj/effect/landmark/start/pun_pun
+	name = JOB_PUN_PUN
+	icon = 'icons/mob/human/human.dmi'
+	icon_state = "monkey"
 
 /obj/effect/landmark/latejoin
 	name = "JoinLate"
@@ -490,7 +516,6 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark/start/new_player)
 /obj/effect/landmark/unit_test_top_right
 	name = "unit test zone top right"
 
-
 /obj/effect/landmark/start/hangover
 	name = "hangover spawn"
 	icon_state = "hangover_spawn"
@@ -511,7 +536,6 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark/start/new_player)
 	return ..()
 
 /obj/effect/landmark/start/hangover/LateInitialize()
-	. = ..()
 	if(HAS_TRAIT(SSstation, STATION_TRAIT_BIRTHDAY))
 		party_debris += new /obj/effect/decal/cleanable/confetti(get_turf(src)) //a birthday celebration can also be a hangover
 		var/list/bonus_confetti = GLOB.alldirs
@@ -572,12 +596,13 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark/start/new_player)
 	icon_state = "hangover_spawn_closet"
 
 /obj/effect/landmark/start/hangover/closet/JoinPlayerHere(mob/joining_mob, buckle)
-	make_hungover(joining_mob)
-	for(var/obj/structure/closet/closet in contents)
+	for(var/obj/structure/closet/closet in get_turf(src))
 		if(closet.opened)
 			continue
 		joining_mob.forceMove(closet)
+		make_hungover(joining_mob)
 		return
+
 	return ..() //Call parent as fallback
 
 //Landmark that creates destinations for the navigate verb to path to
@@ -591,7 +616,6 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark/start/new_player)
 	return INITIALIZE_HINT_LATELOAD
 
 /obj/effect/landmark/navigate_destination/LateInitialize()
-	. = ..()
 	if(!location)
 		var/obj/machinery/door/airlock/A = locate(/obj/machinery/door/airlock) in loc
 		location = A ? format_text(A.name) : get_area_name(src, format_text = TRUE)

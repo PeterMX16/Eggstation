@@ -4,21 +4,21 @@
 /mob/living/silicon/adjustToxLoss(amount, updating_health = TRUE, forced = FALSE, required_biotype) //immune to tox damage
 	return FALSE
 
-/mob/living/silicon/setToxLoss(amount, updating_health = TRUE, forced = FALSE)
-	return FALSE
-
-/mob/living/silicon/adjustCloneLoss(amount, updating_health = TRUE, forced = FALSE) //immune to clone damage
-	return FALSE
-
-/mob/living/silicon/setCloneLoss(amount, updating_health = TRUE, forced = FALSE)
+/mob/living/silicon/setToxLoss(amount, updating_health = TRUE, forced = FALSE, required_biotype)
 	return FALSE
 
 /mob/living/silicon/pre_stamina_change(diff as num, forced)//immune to stamina damage.
 	return FALSE
 
-/mob/living/silicon/setStaminaLoss(amount, updating_health = TRUE)
+/mob/living/silicon/setStaminaLoss(amount, updating_stamina = TRUE, forced = FALSE, required_biotype)
 	return FALSE
 
+<<<<<<< HEAD
+=======
+/mob/living/silicon/received_stamina_damage(current_level, amount_actual, amount)
+	return
+
+>>>>>>> tg-pr-88929
 /mob/living/silicon/adjustOrganLoss(slot, amount, maximum = 500, required_organ_flag) //immune to organ damage (no organs, duh)
 	return FALSE
 

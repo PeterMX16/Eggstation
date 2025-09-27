@@ -14,6 +14,7 @@
 	exit_delay = 1
 	enter_delay = 2
 	tube_construction = /obj/structure/c_transit_tube/station
+
 	var/open_status = STATION_TUBE_CLOSED
 	var/pod_moving = FALSE
 	var/cooldown_delay = 50
@@ -40,14 +41,9 @@
 				pod.update_appearance()
 				return
 
-
 //pod insertion
-/obj/structure/transit_tube/station/MouseDrop_T(obj/structure/c_transit_tube_pod/R, mob/user)
-	if(isliving(user))
-		var/mob/living/L = user
-		if(L.incapacitated())
-			return
-	if (!istype(R) || get_dist(user, src) > 1 || get_dist(src,R) > 1)
+/obj/structure/transit_tube/station/mouse_drop_receive(obj/structure/c_transit_tube_pod/R, mob/user, params)
+	if (!istype(R) || get_dist(user, src) > 1 || get_dist(src, R) > 1)
 		return
 	for(var/obj/structure/transit_tube_pod/pod in loc)
 		return //no fun allowed
@@ -153,7 +149,7 @@
 
 /obj/structure/transit_tube/station/pod_stopped(obj/structure/transit_tube_pod/pod, from_dir)
 	pod_moving = TRUE
-	addtimer(CALLBACK(src, PROC_REF(start_stopped), pod), 5)
+	addtimer(CALLBACK(src, PROC_REF(start_stopped), pod), 0.5 SECONDS)
 
 /obj/structure/transit_tube/station/proc/start_stopped(obj/structure/transit_tube_pod/pod)
 	if(QDELETED(pod))
@@ -182,7 +178,7 @@
 			tube_dirs = list(NORTH, SOUTH)
 		if(WEST)
 			tube_dirs = list(NORTH, SOUTH)
-	boarding_dir = turn(dir, 180)
+	boarding_dir = REVERSE_DIR(dir)
 
 
 /obj/structure/transit_tube/station/flipped
@@ -212,7 +208,7 @@
 			tube_dirs = list(SOUTH)
 		if(WEST)
 			tube_dirs = list(NORTH)
-	boarding_dir = turn(dir, 180)
+	boarding_dir = REVERSE_DIR(dir)
 
 /obj/structure/transit_tube/station/reverse/flipped
 	icon_state = "closed_terminus1"
@@ -255,7 +251,7 @@
 		return
 	var/obj/structure/transit_tube_pod/dispensed/pod = new(loc)
 	AM.visible_message(span_notice("[pod] forms around [AM]."), span_notice("[pod] materializes around you."))
-	playsound(src, 'sound/weapons/emitter2.ogg', 50, TRUE)
+	playsound(src, 'sound/items/weapons/emitter2.ogg', 50, TRUE)
 	pod.setDir(turn(src.dir, -90))
 	AM.forceMove(pod)
 	pod.update_appearance()
@@ -291,7 +287,7 @@
 			tube_dirs = list(SOUTH)
 		if(WEST)
 			tube_dirs = list(NORTH)
-	boarding_dir = turn(dir, 180)
+	boarding_dir = REVERSE_DIR(dir)
 
 /obj/structure/transit_tube/station/dispenser/reverse/flipped
 	icon_state = "open_terminusdispenser1"

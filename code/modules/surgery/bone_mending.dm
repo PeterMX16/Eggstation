@@ -19,13 +19,6 @@
 		/datum/surgery_step/repair_bone_hairline,
 	)
 
-/datum/surgery/repair_bone_hairline/can_start(mob/living/user, mob/living/carbon/target)
-	. = ..()
-	if(.)
-		var/obj/item/bodypart/targeted_bodypart = target.get_bodypart(user.zone_selected)
-		return(targeted_bodypart.get_wound_type(targetable_wound))
-
-
 ///// Repair Compound Fracture (Critical)
 ///// Repair Compound Fracture (Critical)
 /datum/surgery/repair_bone_compound
@@ -48,19 +41,13 @@
 		/datum/surgery_step/repair_bone_compound,
 	)
 
-/datum/surgery/repair_bone_compound/can_start(mob/living/user, mob/living/carbon/target)
-	. = ..()
-	if(.)
-		var/obj/item/bodypart/targeted_bodypart = target.get_bodypart(user.zone_selected)
-		return(targeted_bodypart.get_wound_type(targetable_wound))
-
 //SURGERY STEPS
 
 ///// Repair Hairline Fracture (Severe)
 /datum/surgery_step/repair_bone_hairline
 	name = "repair hairline fracture (bonesetter/bone gel/tape)"
 	implements = list(
-		/obj/item/bonesetter = 100,
+		TOOL_BONESET = 100,
 		/obj/item/stack/medical/bone_gel = 100,
 		/obj/item/stack/sticky_tape/surgical = 100,
 		/obj/item/stack/sticky_tape/super = 50,
@@ -72,13 +59,13 @@
 		display_results(
 			user,
 			target,
-			span_notice("You begin to repair the fracture in [target]'s [parse_zone(user.zone_selected)]..."),
-			span_notice("[user] begins to repair the fracture in [target]'s [parse_zone(user.zone_selected)] with [tool]."),
-			span_notice("[user] begins to repair the fracture in [target]'s [parse_zone(user.zone_selected)]."),
+			span_notice("You begin to repair the fracture in [target]'s [target.parse_zone_with_bodypart(user.zone_selected)]..."),
+			span_notice("[user] begins to repair the fracture in [target]'s [target.parse_zone_with_bodypart(user.zone_selected)] with [tool]."),
+			span_notice("[user] begins to repair the fracture in [target]'s [target.parse_zone_with_bodypart(user.zone_selected)]."),
 		)
-		display_pain(target, "Your [parse_zone(user.zone_selected)] aches with pain!")
+		display_pain(target, "Your [target.parse_zone_with_bodypart(user.zone_selected)] aches with pain!")
 	else
-		user.visible_message(span_notice("[user] looks for [target]'s [parse_zone(user.zone_selected)]."), span_notice("You look for [target]'s [parse_zone(user.zone_selected)]..."))
+		user.visible_message(span_notice("[user] looks for [target]'s [target.parse_zone_with_bodypart(user.zone_selected)]."), span_notice("You look for [target]'s [target.parse_zone_with_bodypart(user.zone_selected)]..."))
 
 /datum/surgery_step/repair_bone_hairline/success(mob/living/user, mob/living/carbon/target, target_zone, obj/item/tool, datum/surgery/surgery, default_display_results = FALSE)
 	if(surgery.operated_wound)
@@ -88,9 +75,9 @@
 		display_results(
 			user,
 			target,
-			span_notice("You successfully repair the fracture in [target]'s [parse_zone(target_zone)]."),
-			span_notice("[user] successfully repairs the fracture in [target]'s [parse_zone(target_zone)] with [tool]!"),
-			span_notice("[user] successfully repairs the fracture in [target]'s [parse_zone(target_zone)]!"),
+			span_notice("You successfully repair the fracture in [target]'s [target.parse_zone_with_bodypart(target_zone)]."),
+			span_notice("[user] successfully repairs the fracture in [target]'s [target.parse_zone_with_bodypart(target_zone)] with [tool]!"),
+			span_notice("[user] successfully repairs the fracture in [target]'s [target.parse_zone_with_bodypart(target_zone)]!"),
 		)
 		log_combat(user, target, "repaired a hairline fracture in", addition="COMBAT_MODE: [uppertext((user.istate & ISTATE_HARM))]")
 		qdel(surgery.operated_wound)
@@ -110,7 +97,7 @@
 /datum/surgery_step/reset_compound_fracture
 	name = "reset bone (bonesetter)"
 	implements = list(
-		/obj/item/bonesetter = 100,
+		TOOL_BONESET = 100,
 		/obj/item/stack/sticky_tape/surgical = 60,
 		/obj/item/stack/sticky_tape/super = 40,
 		/obj/item/stack/sticky_tape = 20)
@@ -121,13 +108,13 @@
 		display_results(
 			user,
 			target,
-			span_notice("You begin to reset the bone in [target]'s [parse_zone(user.zone_selected)]..."),
-			span_notice("[user] begins to reset the bone in [target]'s [parse_zone(user.zone_selected)] with [tool]."),
-			span_notice("[user] begins to reset the bone in [target]'s [parse_zone(user.zone_selected)]."),
+			span_notice("You begin to reset the bone in [target]'s [target.parse_zone_with_bodypart(user.zone_selected)]..."),
+			span_notice("[user] begins to reset the bone in [target]'s [target.parse_zone_with_bodypart(user.zone_selected)] with [tool]."),
+			span_notice("[user] begins to reset the bone in [target]'s [target.parse_zone_with_bodypart(user.zone_selected)]."),
 		)
-		display_pain(target, "The aching pain in your [parse_zone(user.zone_selected)] is overwhelming!")
+		display_pain(target, "The aching pain in your [target.parse_zone_with_bodypart(user.zone_selected)] is overwhelming!")
 	else
-		user.visible_message(span_notice("[user] looks for [target]'s [parse_zone(user.zone_selected)]."), span_notice("You look for [target]'s [parse_zone(user.zone_selected)]..."))
+		user.visible_message(span_notice("[user] looks for [target]'s [target.parse_zone_with_bodypart(user.zone_selected)]."), span_notice("You look for [target]'s [target.parse_zone_with_bodypart(user.zone_selected)]..."))
 
 /datum/surgery_step/reset_compound_fracture/success(mob/living/user, mob/living/carbon/target, target_zone, obj/item/tool, datum/surgery/surgery, default_display_results = FALSE)
 	if(surgery.operated_wound)
@@ -137,9 +124,9 @@
 		display_results(
 			user,
 			target,
-			span_notice("You successfully reset the bone in [target]'s [parse_zone(target_zone)]."),
-			span_notice("[user] successfully resets the bone in [target]'s [parse_zone(target_zone)] with [tool]!"),
-			span_notice("[user] successfully resets the bone in [target]'s [parse_zone(target_zone)]!"),
+			span_notice("You successfully reset the bone in [target]'s [target.parse_zone_with_bodypart(target_zone)]."),
+			span_notice("[user] successfully resets the bone in [target]'s [target.parse_zone_with_bodypart(target_zone)] with [tool]!"),
+			span_notice("[user] successfully resets the bone in [target]'s [target.parse_zone_with_bodypart(target_zone)]!"),
 		)
 		log_combat(user, target, "reset a compound fracture in", addition="COMBAT MODE: [uppertext((user.istate & ISTATE_HARM))]")
 	else
@@ -171,13 +158,13 @@
 		display_results(
 			user,
 			target,
-			span_notice("You begin to repair the fracture in [target]'s [parse_zone(user.zone_selected)]..."),
-			span_notice("[user] begins to repair the fracture in [target]'s [parse_zone(user.zone_selected)] with [tool]."),
-			span_notice("[user] begins to repair the fracture in [target]'s [parse_zone(user.zone_selected)]."),
+			span_notice("You begin to repair the fracture in [target]'s [target.parse_zone_with_bodypart(user.zone_selected)]..."),
+			span_notice("[user] begins to repair the fracture in [target]'s [target.parse_zone_with_bodypart(user.zone_selected)] with [tool]."),
+			span_notice("[user] begins to repair the fracture in [target]'s [target.parse_zone_with_bodypart(user.zone_selected)]."),
 		)
-		display_pain(target, "The aching pain in your [parse_zone(user.zone_selected)] is overwhelming!")
+		display_pain(target, "The aching pain in your [target.parse_zone_with_bodypart(user.zone_selected)] is overwhelming!")
 	else
-		user.visible_message(span_notice("[user] looks for [target]'s [parse_zone(user.zone_selected)]."), span_notice("You look for [target]'s [parse_zone(user.zone_selected)]..."))
+		user.visible_message(span_notice("[user] looks for [target]'s [target.parse_zone_with_bodypart(user.zone_selected)]."), span_notice("You look for [target]'s [target.parse_zone_with_bodypart(user.zone_selected)]..."))
 
 /datum/surgery_step/repair_bone_compound/success(mob/living/user, mob/living/carbon/target, target_zone, obj/item/tool, datum/surgery/surgery, default_display_results = FALSE)
 	if(surgery.operated_wound)
@@ -187,9 +174,9 @@
 		display_results(
 			user,
 			target,
-			span_notice("You successfully repair the fracture in [target]'s [parse_zone(target_zone)]."),
-			span_notice("[user] successfully repairs the fracture in [target]'s [parse_zone(target_zone)] with [tool]!"),
-			span_notice("[user] successfully repairs the fracture in [target]'s [parse_zone(target_zone)]!"),
+			span_notice("You successfully repair the fracture in [target]'s [target.parse_zone_with_bodypart(target_zone)]."),
+			span_notice("[user] successfully repairs the fracture in [target]'s [target.parse_zone_with_bodypart(target_zone)] with [tool]!"),
+			span_notice("[user] successfully repairs the fracture in [target]'s [target.parse_zone_with_bodypart(target_zone)]!"),
 		)
 		log_combat(user, target, "repaired a compound fracture in", addition="COMBAT MODE: [uppertext((user.istate & ISTATE_HARM))]")
 		qdel(surgery.operated_wound)
@@ -216,6 +203,7 @@
 		/datum/surgery_step/repair_skull
 	)
 
+<<<<<<< HEAD
 /datum/surgery/cranial_reconstruction/can_start(mob/living/user, mob/living/carbon/target)
 	. = ..()
 	if(!.)
@@ -224,6 +212,8 @@
 	var/obj/item/bodypart/targeted_bodypart = target.get_bodypart(user.zone_selected)
 	return !isnull(targeted_bodypart.get_wound_type(targetable_wound))
 
+=======
+>>>>>>> tg-pr-88929
 /datum/surgery_step/clamp_bleeders/discard_skull_debris
 	name = "discard skull debris (hemostat)"
 	implements = list(
@@ -232,15 +222,25 @@
 		TOOL_SCREWDRIVER = 40,
 	)
 	time = 2.4 SECONDS
+<<<<<<< HEAD
 	preop_sound = 'sound/surgery/hemostat1.ogg'
+=======
+	preop_sound = 'sound/items/handling/surgery/hemostat1.ogg'
+>>>>>>> tg-pr-88929
 
 /datum/surgery_step/clamp_bleeders/discard_skull_debris/preop(mob/user, mob/living/carbon/target, target_zone, obj/item/tool, datum/surgery/surgery)
 	display_results(
 		user,
 		target,
+<<<<<<< HEAD
 		span_notice("You begin to discard the smaller skull debris in [target]'s [parse_zone(target_zone)]..."),
 		span_notice("[user] begins to discard the smaller skull debris in [target]'s [parse_zone(target_zone)]..."),
 		span_notice("[user] begins to poke around in [target]'s [parse_zone(target_zone)]..."),
+=======
+		span_notice("You begin to discard the smaller skull debris in [target]'s [target.parse_zone_with_bodypart(target_zone)]..."),
+		span_notice("[user] begins to discard the smaller skull debris in [target]'s [target.parse_zone_with_bodypart(target_zone)]..."),
+		span_notice("[user] begins to poke around in [target]'s [target.parse_zone_with_bodypart(target_zone)]..."),
+>>>>>>> tg-pr-88929
 	)
 
 	display_pain(target, "Your brain feels like it's getting stabbed by little shards of glass!")

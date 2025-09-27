@@ -1,5 +1,6 @@
+import { Box, Section, Table, Tooltip } from 'tgui-core/components';
+
 import { useBackend } from '../backend';
-import { Box, Section, Table, Tooltip } from '../components';
 import { Window } from '../layouts';
 import type { InfernoNode } from 'inferno';
 
@@ -34,7 +35,11 @@ const addColorModifier = (
   content: string,
   regex: RegExp,
   color: string,
+<<<<<<< HEAD
 ): InfernoNode | null => {
+=======
+): JSX.Element | null => {
+>>>>>>> tg-pr-88929
   const match = content.match(regex);
 
   if (match) {

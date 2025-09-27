@@ -33,8 +33,13 @@
 	)
 	initial_language_holder = /datum/language_holder/syndicate
 	refill_canister = /obj/item/vending_refill/donksnackvendor
+<<<<<<< HEAD
 	default_price = PAYCHECK_CREW
 	extra_price = PAYCHECK_CREW * 2
+=======
+	default_price = PAYCHECK_CREW * 1.4
+	extra_price = PAYCHECK_CREW * 5
+>>>>>>> tg-pr-88929
 	payment_department = NO_FREEBIES
 
 /obj/item/vending_refill/donksnackvendor

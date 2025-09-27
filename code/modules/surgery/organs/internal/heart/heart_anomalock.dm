@@ -3,10 +3,19 @@
  */
 #define DOAFTER_IMPLANTING_HEART "implanting"
 
+<<<<<<< HEAD
 /obj/item/organ/internal/heart/cybernetic/anomalock
 	name = "Voltaic Combat Cyberheart"
 	desc = "A cutting-edge cyberheart, originally designed for Nanotrasen killsquad usage but later declassified for normal research. Voltaic technology allows the heart to keep the body upright in dire circumstances, alongside redirecting anomalous flux energy to fully shield the user from shocks and electro-magnetic pulses. Requires a refined Flux core as a power source."
 	icon_state = "anomalock_heart"
+=======
+/obj/item/organ/heart/cybernetic/anomalock
+	name = "voltaic combat cyberheart"
+	desc = "A cutting-edge cyberheart, originally designed for Nanotrasen killsquad usage but later declassified for normal research. Voltaic technology allows the heart to keep the body upright in dire circumstances, alongside redirecting anomalous flux energy to fully shield the user from shocks and electro-magnetic pulses. Requires a refined Flux core as a power source."
+	icon_state = "anomalock_heart"
+	bleed_prevention = TRUE
+	toxification_probability = 0
+>>>>>>> tg-pr-88929
 
 	COOLDOWN_DECLARE(survival_cooldown)
 	///Cooldown for the activation of the organ
@@ -26,26 +35,50 @@
 	///If the core is removable once socketed.
 	var/core_removable = TRUE
 
+<<<<<<< HEAD
 /obj/item/organ/internal/heart/cybernetic/anomalock/Insert(mob/living/carbon/organ_owner, special, drop_if_replaced)
+=======
+/obj/item/organ/heart/cybernetic/anomalock/Destroy()
+	QDEL_NULL(core)
+	return ..()
+
+/obj/item/organ/heart/cybernetic/anomalock/on_mob_insert(mob/living/carbon/organ_owner, special, movement_flags)
+>>>>>>> tg-pr-88929
 	. = ..()
 	if(!core)
 		return
 	add_lightning_overlay(30 SECONDS)
 	playsound(organ_owner, 'sound/items/eshield_recharge.ogg', 40)
 	organ_owner.AddElement(/datum/element/empprotection, EMP_PROTECT_SELF|EMP_PROTECT_CONTENTS)
+<<<<<<< HEAD
 	RegisterSignal(organ_owner, SIGNAL_ADDTRAIT(TRAIT_CRITICAL_CONDITION), PROC_REF(activate_survival))
 	RegisterSignal(organ_owner, COMSIG_ATOM_EMP_ACT, PROC_REF(on_emp_act))
 
 /obj/item/organ/internal/heart/cybernetic/anomalock/Remove(mob/living/carbon/organ_owner, special)
+=======
+	organ_owner.apply_status_effect(/datum/status_effect/stabilized/yellow, src)
+	RegisterSignal(organ_owner, SIGNAL_ADDTRAIT(TRAIT_CRITICAL_CONDITION), PROC_REF(activate_survival))
+	RegisterSignal(organ_owner, COMSIG_ATOM_EMP_ACT, PROC_REF(on_emp_act))
+
+/obj/item/organ/heart/cybernetic/anomalock/on_mob_remove(mob/living/carbon/organ_owner, special, movement_flags)
+>>>>>>> tg-pr-88929
 	. = ..()
 	if(!core)
 		return
 	UnregisterSignal(organ_owner, SIGNAL_ADDTRAIT(TRAIT_CRITICAL_CONDITION))
 	organ_owner.RemoveElement(/datum/element/empprotection, EMP_PROTECT_SELF|EMP_PROTECT_CONTENTS)
+<<<<<<< HEAD
 	tesla_zap(source = organ_owner, zap_range = 20, power = 2.5e5) // MONKE EDIT: No cutoff
 	qdel(src)
 
 /obj/item/organ/internal/heart/cybernetic/anomalock/attack(mob/living/target_mob, mob/living/user, params)
+=======
+	organ_owner.remove_status_effect(/datum/status_effect/stabilized/yellow)
+	tesla_zap(source = organ_owner, zap_range = 20, power = 2.5e5, cutoff = 1e3)
+	qdel(src)
+
+/obj/item/organ/heart/cybernetic/anomalock/attack(mob/living/target_mob, mob/living/user, params)
+>>>>>>> tg-pr-88929
 	if(target_mob != user || !istype(target_mob) || !core)
 		return ..()
 
@@ -55,18 +88,30 @@
 	to_chat(user, span_userdanger("Black cyberveins tear your skin apart, pulling the heart into your ribcage. This feels unwise.."))
 	if(!do_after(user, 5 SECONDS, interaction_key = DOAFTER_IMPLANTING_HEART))
 		return ..()
+<<<<<<< HEAD
 	playsound(target_mob, 'sound/weapons/slice.ogg', 100, TRUE)
+=======
+	playsound(target_mob, 'sound/items/weapons/slice.ogg', 100, TRUE)
+>>>>>>> tg-pr-88929
 	user.temporarilyRemoveItemFromInventory(src, TRUE)
 	Insert(user)
 	user.apply_damage(100, BRUTE, BODY_ZONE_CHEST)
 	user.emote("scream")
 	return TRUE
 
+<<<<<<< HEAD
 /obj/item/organ/internal/heart/cybernetic/anomalock/proc/on_emp_act(severity)
 	SIGNAL_HANDLER
 	add_lightning_overlay(10 SECONDS)
 
 /obj/item/organ/internal/heart/cybernetic/anomalock/proc/add_lightning_overlay(time_to_last = 10 SECONDS)
+=======
+/obj/item/organ/heart/cybernetic/anomalock/proc/on_emp_act(severity)
+	SIGNAL_HANDLER
+	add_lightning_overlay(10 SECONDS)
+
+/obj/item/organ/heart/cybernetic/anomalock/proc/add_lightning_overlay(time_to_last = 10 SECONDS)
+>>>>>>> tg-pr-88929
 	if(lightning_overlay)
 		lightning_timer = addtimer(CALLBACK(src, PROC_REF(clear_lightning_overlay)), time_to_last, (TIMER_UNIQUE|TIMER_OVERRIDE))
 		return
@@ -74,11 +119,19 @@
 	owner.add_overlay(lightning_overlay)
 	lightning_timer = addtimer(CALLBACK(src, PROC_REF(clear_lightning_overlay)), time_to_last, (TIMER_UNIQUE|TIMER_OVERRIDE))
 
+<<<<<<< HEAD
 /obj/item/organ/internal/heart/cybernetic/anomalock/proc/clear_lightning_overlay()
 	owner.cut_overlay(lightning_overlay)
 	lightning_overlay = null
 
 /obj/item/organ/internal/heart/cybernetic/anomalock/attack_self(mob/user, modifiers)
+=======
+/obj/item/organ/heart/cybernetic/anomalock/proc/clear_lightning_overlay()
+	owner.cut_overlay(lightning_overlay)
+	lightning_overlay = null
+
+/obj/item/organ/heart/cybernetic/anomalock/attack_self(mob/user, modifiers)
+>>>>>>> tg-pr-88929
 	. = ..()
 	if(.)
 		return
@@ -86,6 +139,7 @@
 	if(core)
 		return attack(user, user, modifiers)
 
+<<<<<<< HEAD
 /obj/item/organ/internal/heart/cybernetic/anomalock/on_life(seconds_per_tick, times_fired)
 	. = ..()
 	if(!core)
@@ -113,6 +167,17 @@
 
 ///Does a few things to try to help you live whatever you may be going through
 /obj/item/organ/internal/heart/cybernetic/anomalock/proc/activate_survival(mob/living/carbon/organ_owner)
+=======
+/obj/item/organ/heart/cybernetic/anomalock/on_life(seconds_per_tick, times_fired)
+	. = ..()
+	if(owner.blood_volume <= BLOOD_VOLUME_NORMAL)
+		owner.blood_volume += 5 * seconds_per_tick
+	if(owner.health <= owner.crit_threshold)
+		activate_survival(owner)
+
+///Does a few things to try to help you live whatever you may be going through
+/obj/item/organ/heart/cybernetic/anomalock/proc/activate_survival(mob/living/carbon/organ_owner)
+>>>>>>> tg-pr-88929
 	if(!COOLDOWN_FINISHED(src, survival_cooldown))
 		return
 
@@ -122,15 +187,26 @@
 	addtimer(CALLBACK(src, PROC_REF(notify_cooldown), organ_owner), COOLDOWN_TIMELEFT(src, survival_cooldown))
 
 ///Alerts our owner that the organ is ready to do its thing again
+<<<<<<< HEAD
 /obj/item/organ/internal/heart/cybernetic/anomalock/proc/notify_cooldown(mob/living/carbon/organ_owner)
+=======
+/obj/item/organ/heart/cybernetic/anomalock/proc/notify_cooldown(mob/living/carbon/organ_owner)
+>>>>>>> tg-pr-88929
 	balloon_alert(organ_owner, "your heart strenghtens")
 	playsound(organ_owner, 'sound/items/eshield_recharge.ogg', 40)
 
 ///Returns the mob we are implanted in so that the electricity effect doesn't runtime
+<<<<<<< HEAD
 /obj/item/organ/internal/heart/cybernetic/anomalock/proc/get_held_mob()
 	return owner
 
 /obj/item/organ/internal/heart/cybernetic/anomalock/item_interaction(mob/living/user, obj/item/tool, list/modifiers)
+=======
+/obj/item/organ/heart/cybernetic/anomalock/proc/get_held_mob()
+	return owner
+
+/obj/item/organ/heart/cybernetic/anomalock/item_interaction(mob/living/user, obj/item/tool, list/modifiers)
+>>>>>>> tg-pr-88929
 	if(!istype(tool, required_anomaly))
 		return NONE
 	if(core)
@@ -145,7 +221,11 @@
 	update_icon_state()
 	return ITEM_INTERACT_SUCCESS
 
+<<<<<<< HEAD
 /obj/item/organ/internal/heart/cybernetic/anomalock/screwdriver_act(mob/living/user, obj/item/tool)
+=======
+/obj/item/organ/heart/cybernetic/anomalock/screwdriver_act(mob/living/user, obj/item/tool)
+>>>>>>> tg-pr-88929
 	. = ..()
 	if(!core)
 		balloon_alert(user, "no core!")
@@ -165,11 +245,19 @@
 	remove_organ_trait(TRAIT_SHOCKIMMUNE)
 	update_icon_state()
 
+<<<<<<< HEAD
 /obj/item/organ/internal/heart/cybernetic/anomalock/update_icon_state()
 	. = ..()
 	icon_state = initial(icon_state) + (core ? "-core" : "")
 
 /obj/item/organ/internal/heart/cybernetic/anomalock/prebuilt/Initialize(mapload)
+=======
+/obj/item/organ/heart/cybernetic/anomalock/update_icon_state()
+	. = ..()
+	icon_state = initial(icon_state) + (core ? "-core" : "")
+
+/obj/item/organ/heart/cybernetic/anomalock/prebuilt/Initialize(mapload)
+>>>>>>> tg-pr-88929
 	. = ..()
 	core = new /obj/item/assembly/signaler/anomaly/flux(src)
 	update_icon_state()
@@ -195,14 +283,27 @@
 	owner.reagents.add_reagent(/datum/reagent/medicine/coagulant, 5)
 	owner.add_filter("emp_shield", 2, outline_filter(1, "#639BFF"))
 	to_chat(owner, span_revendanger("You feel a burst of energy! It's do or die!"))
+<<<<<<< HEAD
 	owner.add_traits(list(TRAIT_NOSOFTCRIT, TRAIT_NOHARDCRIT, TRAIT_ANALGESIA), REF(src))
+=======
+	if(iscarbon(owner))
+		var/mob/living/carbon/carbon_owner = owner
+		carbon_owner.gain_trauma(/datum/brain_trauma/special/tenacity, TRAUMA_RESILIENCE_ABSOLUTE)
+>>>>>>> tg-pr-88929
 
 /datum/status_effect/voltaic_overdrive/on_remove()
 	. = ..()
 	owner.remove_movespeed_mod_immunities(type, /datum/movespeed_modifier/damage_slowdown)
 	owner.remove_filter("emp_shield")
 	owner.balloon_alert(owner, "your heart weakens")
+<<<<<<< HEAD
 	owner.remove_traits(list(TRAIT_NOSOFTCRIT, TRAIT_NOHARDCRIT, TRAIT_ANALGESIA), REF(src))
+=======
+	if(iscarbon(owner))
+		var/mob/living/carbon/carbon_owner = owner
+		carbon_owner.cure_trauma_type(/datum/brain_trauma/special/tenacity, TRAUMA_RESILIENCE_ABSOLUTE)
+
+>>>>>>> tg-pr-88929
 
 /atom/movable/screen/alert/status_effect/anomalock_active
 	name = "voltaic overdrive"

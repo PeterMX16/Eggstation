@@ -67,7 +67,11 @@
 	msg += "</tr></table>"
 
 	msg += "<b>Total Players: [length(Lines)]</b>"
+<<<<<<< HEAD
 	to_chat(src, fieldset_block(span_bold("Current Players"), span_infoplain(msg), "boxed_message"), type = MESSAGE_TYPE_OOC)
+=======
+	to_chat(src, span_infoplain("[msg]"))
+>>>>>>> tg-pr-88929
 
 /client/verb/adminwho()
 	set category = "Admin"
@@ -75,6 +79,7 @@
 
 	var/list/lines = list()
 	var/payload_string = generate_adminwho_string()
+<<<<<<< HEAD
 	var/header = (payload_string == NO_ADMINS_ONLINE_MESSAGE) ? "No Admins Currently Online" : "Current Admins"
 
 	lines += payload_string
@@ -121,6 +126,42 @@
 			okay = !okay
 		if(!okay)
 			continue
+=======
+	var/header
+
+	if(payload_string == NO_ADMINS_ONLINE_MESSAGE)
+		header = "No Admins Currently Online"
+	else
+		header = "Current Admins:"
+
+	lines += span_bold(header)
+	lines += payload_string
+
+	var/finalized_string = boxed_message(jointext(lines, "\n"))
+	to_chat(src, finalized_string)
+
+/// Proc that generates the applicable string to dispatch to the client for adminwho.
+/client/proc/generate_adminwho_string()
+	var/list/list_of_admins = get_list_of_admins()
+	if(isnull(list_of_admins))
+		return NO_ADMINS_ONLINE_MESSAGE
+
+	var/list/message_strings = list()
+	if(isnull(holder))
+		message_strings += get_general_adminwho_information(list_of_admins)
+		message_strings += NO_ADMINS_ONLINE_MESSAGE
+	else
+		message_strings += get_sensitive_adminwho_information(list_of_admins)
+
+	return jointext(message_strings, "\n")
+
+/// Proc that returns a list of cliented admins. Remember that this list can contain nulls!
+/// Also, will return null if we don't have any admins.
+/proc/get_list_of_admins()
+	var/returnable_list = list()
+
+	for(var/client/admin in GLOB.admins)
+>>>>>>> tg-pr-88929
 		returnable_list += admin
 
 	if(length(returnable_list) == 0)
@@ -146,6 +187,7 @@
 
 	return returnable_list
 
+<<<<<<< HEAD
 /// Proc that gathers adminwho information for a general player, but only returns "adminless" admins, usually coders/debuggers and such.
 /proc/get_codermonkey_adminwho_information(list/checkable_admins)
 	var/returnable_list = list()
@@ -158,6 +200,8 @@
 
 	return returnable_list
 
+=======
+>>>>>>> tg-pr-88929
 /// Proc that gathers adminwho information for admins, which will contain information on if the admin is AFK, readied to join, etc. Only arg is a list of clients to use.
 /// Will return a list of strings.
 /proc/get_sensitive_adminwho_information(list/checkable_admins)

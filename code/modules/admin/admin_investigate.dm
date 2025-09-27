@@ -12,7 +12,11 @@
 
 	WRITE_FILE(F, "[time_stamp(format = "YYYY-MM-DD hh:mm:ss")] [REF(src)] ([x],[y],[z]) || [source] [message]<br>")
 
+<<<<<<< HEAD
 ADMIN_VERB(investigate_show, R_NONE, FALSE, "Investigate", "Browse various detailed logs.", ADMIN_CATEGORY_GAME)
+=======
+ADMIN_VERB(investigate_show, R_NONE, "Investigate", "Browse various detailed logs.", ADMIN_CATEGORY_GAME)
+>>>>>>> tg-pr-88929
 	var/static/list/investigates = list(
 		INVESTIGATE_ACCESSCHANGES,
 		INVESTIGATE_ATMOS,
@@ -63,7 +67,11 @@ ADMIN_VERB(investigate_show, R_NONE, FALSE, "Investigate", "Browse various detai
 	if(!fexists(F))
 		to_chat(user, span_danger("No [selected] logfile was found."), confidential = TRUE)
 		return
+<<<<<<< HEAD
 
 	var/datum/browser/browser = new(user, "investigate[selected]", "Investigation of [selected]", 800, 300)
 	browser.set_content(file2text(F))
 	browser.open()
+=======
+	user << browse(F,"window=investigate[selected];size=800x300")
+>>>>>>> tg-pr-88929

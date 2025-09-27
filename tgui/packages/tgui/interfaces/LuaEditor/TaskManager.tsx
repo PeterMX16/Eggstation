@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { useBackend } from '../../backend';
 import { Button, LabeledList, Section, Stack } from '../../components';
 import { CallInfo, LuaEditorData, LuaEditorModal } from './types';
@@ -5,6 +6,17 @@ import { CallInfo, LuaEditorData, LuaEditorModal } from './types';
 type TaskManagerProps = {
   setToCall: (newValue: CallInfo | undefined) => void;
   setModal: (newValue: LuaEditorModal) => void;
+=======
+import { Dispatch, SetStateAction } from 'react';
+import { Button, LabeledList, Section, Stack } from 'tgui-core/components';
+
+import { useBackend } from '../../backend';
+import { CallInfo, LuaEditorData, LuaEditorModal } from './types';
+
+type TaskManagerProps = {
+  setToCall: Dispatch<SetStateAction<CallInfo>>;
+  setModal: Dispatch<SetStateAction<LuaEditorModal>>;
+>>>>>>> tg-pr-88929
 };
 
 export const TaskManager = (props: TaskManagerProps) => {

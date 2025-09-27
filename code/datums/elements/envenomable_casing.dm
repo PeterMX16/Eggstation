@@ -39,7 +39,11 @@
 		return ITEM_INTERACT_BLOCKING
 	var/amount_applied = min(venom_applied.volume, amount_allowed)
 
+<<<<<<< HEAD
 	casing.loaded_projectile.AddComponent(/datum/element/venomous, venom_applied.type, amount_applied)
+=======
+	casing.loaded_projectile.AddElement(/datum/element/venomous, venom_applied.type, amount_applied)
+>>>>>>> tg-pr-88929
 	to_chat(user, span_notice("You coat [casing] in [venom_applied]."))
 	venom_container.reagents.remove_reagent(venom_applied.type, amount_applied)
 	///stops further poison application

@@ -7,5 +7,8 @@
 	key = "colossus"
 	map_name = "colossus"
 	reward_points = BITRUNNER_REWARD_HIGH
+<<<<<<< HEAD
 	safehouse_path = /datum/map_template/safehouse/lavaland_boss
 
+=======
+>>>>>>> tg-pr-88929

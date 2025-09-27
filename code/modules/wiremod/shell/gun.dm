@@ -6,7 +6,7 @@
 /obj/item/gun/energy/wiremod_gun
 	name = "circuit gun"
 	desc = "A gun that fires projectiles able to control circuitry. It can recharge using power from an attached circuit."
-	icon = 'icons/obj/wiremod.dmi'
+	icon = 'icons/obj/science/circuits.dmi'
 	icon_state = "setup_gun"
 	ammo_type = list(/obj/item/ammo_casing/energy/wiremod_gun)
 	cell_type = /obj/item/stock_parts/power_store/cell/emproof/wiremod_gun
@@ -21,7 +21,7 @@
 	projectile_type = /obj/projectile/energy/wiremod_gun
 	harmful = FALSE
 	select_name = "circuit"
-	fire_sound = 'sound/weapons/blaster.ogg'
+	fire_sound = 'sound/items/weapons/blaster.ogg'
 
 /obj/projectile/energy/wiremod_gun
 	name = "scanning beam"
@@ -30,7 +30,11 @@
 	range = 7
 
 /obj/item/stock_parts/power_store/cell/emproof/wiremod_gun
+<<<<<<< HEAD
 	maxcharge = 100
+=======
+	maxcharge = 0.1 * STANDARD_CELL_CHARGE
+>>>>>>> tg-pr-88929
 
 /obj/item/gun/energy/wiremod_gun/Initialize(mapload)
 	. = ..()
@@ -82,6 +86,12 @@
 	if(!parent?.cell)
 		return
 	var/obj/item/gun/energy/fired_gun = source
+<<<<<<< HEAD
 	var/totransfer = min(100 KILO JOULES, parent.cell.charge)
 	var/transferred = fired_gun.cell.give(totransfer)
 	parent.cell.use(transferred)
+=======
+	var/transferred = fired_gun.cell.give(min(0.1 * STANDARD_CELL_CHARGE, parent.cell.charge))
+	if(transferred)
+		parent.cell.use(transferred, force = TRUE)
+>>>>>>> tg-pr-88929

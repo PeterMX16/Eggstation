@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* #define MOOD_CATEGORY_PHOTOPHOBIA "photophobia" - monkestation disabled for now
+=======
+#define MOOD_CATEGORY_PHOTOPHOBIA "photophobia"
+>>>>>>> tg-pr-88929
 
 /datum/quirk/photophobia
 	name = "Photophobia"
@@ -27,22 +31,38 @@
 		COMSIG_CARBON_LOSE_ORGAN,
 		COMSIG_MOVABLE_MOVED,))
 	quirk_holder.clear_mood_event(MOOD_CATEGORY_PHOTOPHOBIA)
+<<<<<<< HEAD
 	var/obj/item/organ/internal/eyes/normal_eyes = quirk_holder.get_organ_slot(ORGAN_SLOT_EYES)
 	if(istype(normal_eyes))
 		normal_eyes.flash_protect = initial(normal_eyes.flash_protect)
 
 /datum/quirk/photophobia/proc/check_eyes(obj/item/organ/internal/eyes/sensitive_eyes)
+=======
+	var/obj/item/organ/eyes/normal_eyes = quirk_holder.get_organ_slot(ORGAN_SLOT_EYES)
+	if(istype(normal_eyes))
+		normal_eyes.flash_protect = initial(normal_eyes.flash_protect)
+
+/datum/quirk/photophobia/proc/check_eyes(datum/source, obj/item/organ/eyes/sensitive_eyes)
+>>>>>>> tg-pr-88929
 	SIGNAL_HANDLER
 	if(!istype(sensitive_eyes))
 		return
 	update_eyes(sensitive_eyes)
 
+<<<<<<< HEAD
 /datum/quirk/photophobia/proc/update_eyes(obj/item/organ/internal/eyes/target_eyes)
+=======
+/datum/quirk/photophobia/proc/update_eyes(obj/item/organ/eyes/target_eyes)
+>>>>>>> tg-pr-88929
 	if(!istype(target_eyes))
 		return
 	target_eyes.flash_protect = max(target_eyes.flash_protect - 1, FLASH_PROTECTION_HYPER_SENSITIVE)
 
+<<<<<<< HEAD
 /datum/quirk/photophobia/proc/restore_eyes(obj/item/organ/internal/eyes/normal_eyes)
+=======
+/datum/quirk/photophobia/proc/restore_eyes(datum/source, obj/item/organ/eyes/normal_eyes)
+>>>>>>> tg-pr-88929
 	SIGNAL_HANDLER
 	if(!istype(normal_eyes))
 		return
@@ -73,4 +93,7 @@
 	quirk_holder.add_mood_event(MOOD_CATEGORY_PHOTOPHOBIA, /datum/mood_event/photophobia)
 
 	#undef MOOD_CATEGORY_PHOTOPHOBIA
+<<<<<<< HEAD
  */
+=======
+>>>>>>> tg-pr-88929

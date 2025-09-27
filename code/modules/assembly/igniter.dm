@@ -67,7 +67,12 @@
 	var/turf/location = get_turf(loc)
 	if(location)
 		var/datum/gas_mixture/enviro = location.return_air()
+<<<<<<< HEAD
 		enviro.temperature = clamp(min(T20C, enviro.temperature*0.85),MIN_FREEZE_TEMP,MAX_FREEZE_TEMP)
+=======
+		enviro.temperature = clamp(min(ROOM_TEMP, enviro.temperature*0.85),MIN_FREEZE_TEMP,MAX_FREEZE_TEMP)
+		location.air_update_turf(FALSE, FALSE)
+>>>>>>> tg-pr-88929
 	sparks.start()
 
 #undef EXPOSED_VOLUME

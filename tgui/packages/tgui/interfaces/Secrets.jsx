@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 import { toFixed } from 'common/math';
 import { useBackend, useLocalState } from '../backend';
+=======
+import { useState } from 'react';
+>>>>>>> tg-pr-88929
 import {
   Button,
   Flex,
@@ -8,7 +12,14 @@ import {
   RoundGauge,
   Section,
   Stack,
+<<<<<<< HEAD
 } from '../components';
+=======
+} from 'tgui-core/components';
+import { toFixed } from 'tgui-core/math';
+
+import { useBackend } from '../backend';
+>>>>>>> tg-pr-88929
 import { Window } from '../layouts';
 
 const TAB2NAME = [
@@ -299,13 +310,20 @@ const FunTab = (props) => {
             />
           </Stack.Item>
           <Stack.Item>
-            <NoticeBox
-              mb={0.0}
+            <Button
+              icon="plus"
+              lineHeight={lineHeightNormal}
               width={buttonWidthNormal}
+<<<<<<< HEAD
               height={lineHeightNormal}
             >
               Your admin button here, coder!
             </NoticeBox>
+=======
+              content="Mass Heal everyone"
+              onClick={() => act('mass_heal')}
+            />
+>>>>>>> tg-pr-88929
           </Stack.Item>
         </Stack>
       </Stack.Item>
@@ -352,8 +370,14 @@ const FunTab = (props) => {
             />
           </Stack.Item>
           <Stack.Item>
+<<<<<<< HEAD
             <NoticeBox
               mb={0.0}
+=======
+            <Button
+              icon="robot"
+              lineHeight={lineHeightNormal}
+>>>>>>> tg-pr-88929
               width={buttonWidthNormal}
               height={lineHeightNormal}
             >
@@ -423,13 +447,20 @@ const FunTab = (props) => {
             />
           </Stack.Item>
           <Stack.Item>
-            <NoticeBox
-              mb={-0.5}
+            <Button
+              icon="house"
+              lineHeight={lineHeightNormal}
               width={buttonWidthNormal}
+<<<<<<< HEAD
               height={lineHeightNormal}
             >
               Your admin button here, coder!
             </NoticeBox>
+=======
+              content="Send Shuttle Back"
+              onClick={() => act('send_shuttle_back')}
+            />
+>>>>>>> tg-pr-88929
           </Stack.Item>
         </Stack>
       </Stack.Item>
@@ -605,8 +636,13 @@ const FunForYouTab = (props) => {
 export const Secrets = (props) => {
   const { act, data } = useBackend();
   const { is_debugger, is_funmin } = data;
+<<<<<<< HEAD
   const [tabIndex, setTabIndex] = useLocalState('tab-index', 2);
+=======
+  const [tabIndex, setTabIndex] = useState(2);
+>>>>>>> tg-pr-88929
   const TabComponent = TAB2NAME[tabIndex - 1].component();
+
   return (
     <Window title="Secrets Panel" width={500} height={488} theme="admin">
       <Window.Content>

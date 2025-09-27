@@ -6,6 +6,10 @@
 	anchored = TRUE
 	move_resist = INFINITY
 
+<<<<<<< HEAD
+=======
+	layer = ABOVE_OPEN_TURF_LAYER
+>>>>>>> tg-pr-88929
 	plane = FLOOR_PLANE //one with the floor
 
 MAPPING_DIRECTIONAL_HELPERS(/obj/structure/fake_stairs, 0)

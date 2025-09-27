@@ -11,43 +11,6 @@
 		return null
 	return format_text ? format_text(checked_area.name) : checked_area.name
 
-/** toggle_organ_decay
- * inputs: first_object (object to start with)
- * outputs:
- * description: A pseudo-recursive loop based off of the recursive mob check, this check looks for any organs held
- *  within 'first_object', toggling their frozen flag. This check excludes items held within other safe organ
- *  storage units, so that only the lowest level of container dictates whether we do or don't decompose
- */
-/proc/toggle_organ_decay(atom/first_object)
-
-	var/list/processing_list = list(first_object)
-	var/list/processed_list = list()
-	var/index = 1
-	var/obj/item/organ/found_organ
-
-	while(index <= length(processing_list))
-
-		var/atom/object_to_check = processing_list[index]
-
-		if(isorgan(object_to_check))
-			found_organ = object_to_check
-			found_organ.organ_flags ^= ORGAN_FROZEN
-
-		else if(iscarbon(object_to_check))
-			var/mob/living/carbon/mob_to_check = object_to_check
-			for(var/organ in mob_to_check.organs)
-				found_organ = organ
-				found_organ.organ_flags ^= ORGAN_FROZEN
-
-		for(var/atom/contained_to_check in object_to_check) //objects held within other objects are added to the processing list, unless that object is something that can hold organs safely
-			if(!processed_list[contained_to_check] && !istype(contained_to_check, /obj/structure/closet/crate/freezer) && !istype(contained_to_check, /obj/structure/closet/secure_closet/freezer))
-				processing_list+= contained_to_check
-
-		index++
-		processed_list[object_to_check] = object_to_check
-
-	return
-
 ///Tries to move an atom to an adjacent turf, return TRUE if successful
 /proc/try_move_adjacent(atom/movable/atom_to_move, trydir)
 	var/turf/atom_turf = get_turf(atom_to_move)
@@ -112,8 +75,8 @@
 	return !player_mind || !player_mind.current || !player_mind.current.client || player_mind.current.client.is_afk()
 
 ///Return an object with a new maptext (not currently in use)
-/proc/screen_text(obj/object_to_change, maptext = "", screen_loc = "CENTER-7,CENTER-7", maptext_height = 480, maptext_width = 480)
-	if(!isobj(object_to_change))
+/proc/screen_text(atom/movable/object_to_change, maptext = "", screen_loc = "CENTER-7,CENTER-7", maptext_height = 480, maptext_width = 480)
+	if(!istype(object_to_change))
 		object_to_change = new /atom/movable/screen/text()
 	object_to_change.maptext = MAPTEXT(maptext)
 	object_to_change.maptext_height = maptext_height
@@ -217,7 +180,7 @@
 
 	//First we spawn a dude.
 	var/mob/living/carbon/human/new_character = new//The mob being spawned.
-	SSjob.SendToLateJoin(new_character)
+	SSjob.send_to_late_join(new_character)
 
 	ghost_player.client.prefs.safe_transfer_prefs_to(new_character)
 	new_character.dna.update_dna_identity()
@@ -241,25 +204,37 @@
 		return
 	winset(flashed_client, "mainwindow", "flash=5")
 
-///Recursively checks if an item is inside a given type, even through layers of storage. Returns the atom if it finds it.
+///Recursively checks if an item is inside a given type/atom, even through layers of storage. Returns the atom if it finds it.
 /proc/recursive_loc_check(atom/movable/target, type)
-	var/atom/atom_to_find = target
-	if(istype(atom_to_find, type))
-		return atom_to_find
+	var/atom/atom_to_find = null
 
-	while(!istype(atom_to_find.loc, type))
-		if(!atom_to_find.loc)
-			return
-		atom_to_find = atom_to_find.loc
+	if(ispath(type))
+		atom_to_find = target
+		if(istype(atom_to_find, type))
+			return atom_to_find
 
-	return atom_to_find.loc
+		while(!istype(atom_to_find, type))
+			if(!atom_to_find.loc)
+				return
+			atom_to_find = atom_to_find.loc
+	else if(isatom(type))
+		atom_to_find = target
+		if(atom_to_find == type)
+			return atom_to_find
+
+		while(atom_to_find != type)
+			if(!atom_to_find.loc)
+				return
+			atom_to_find = atom_to_find.loc
+
+	return atom_to_find
 
 ///Send a message in common radio when a player arrives
 /proc/announce_arrival(mob/living/carbon/human/character, rank)
 	if(!SSticker.IsRoundInProgress() || QDELETED(character))
 		return
 	var/area/player_area = get_area(character)
-	deadchat_broadcast("<span class='game'> has arrived at the station at <span class='name'>[player_area.name]</span>.</span>", "<span class='game'><span class='name'>[character.real_name]</span> ([rank])</span>", follow_target = character, message_type=DEADCHAT_ARRIVALRATTLE)
+	deadchat_broadcast(span_game(" has arrived at the station at [span_name(player_area.name)]."), span_game("[span_name(character.real_name)] ([rank])"), follow_target = character, message_type=DEADCHAT_ARRIVALRATTLE)
 	if(!character.mind)
 		return
 	if(!GLOB.announcement_systems.len)
@@ -309,9 +284,38 @@
 
 	return pick(possible_loc)
 
+///Checks to see if `atom/source` is behind `atom/target`
+/proc/check_behind(atom/source, atom/target)
+	// Let's see if source is behind target
+	// "Behind" is defined as 3 tiles directly to the back of the target
+	// x . .
+	// x > .
+	// x . .
+
+	// No tactical spinning allowed
+	if(HAS_TRAIT(target, TRAIT_SPINNING))
+		return TRUE
+
+	// We'll take "same tile" as "behind" for ease
+	if(target.loc == source.loc)
+		return TRUE
+
+	// We'll also assume lying down is behind, as mob directions when lying are unclear
+	if(isliving(target))
+		var/mob/living/living_target = target
+		if(living_target.body_position == LYING_DOWN)
+			return TRUE
+
+	// Exceptions aside, let's actually check if they're, yknow, behind
+	var/dir_target_to_source = get_dir(target, source)
+	if(target.dir & REVERSE_DIR(dir_target_to_source))
+		return TRUE
+
+	return FALSE
+
 ///Disable power in the station APCs
 /proc/power_fail(duration_min, duration_max)
-	for(var/obj/machinery/power/apc/current_apc as anything in GLOB.apcs_list)
+	for(var/obj/machinery/power/apc/current_apc as anything in SSmachines.get_machines_by_type_and_subtypes(/obj/machinery/power/apc))
 		if(!current_apc.cell || !SSmapping.level_trait(current_apc.z, ZTRAIT_STATION))
 			continue
 		var/area/apc_area = current_apc.area
@@ -344,4 +348,8 @@
 		message = html_encode(message)
 	else
 		message = copytext(message, 2)
+<<<<<<< HEAD
 	to_chat(target, custom_boxed_message("purple_box", span_purple("<b>[source]: </b>[message]")))
+=======
+	to_chat(target, custom_boxed_message("purple_box", span_purple("<span class='oocplain'><b>[source]: </b>[message]</span>")))
+>>>>>>> tg-pr-88929

@@ -8,7 +8,11 @@
 	tastes = list("bread" = 10)
 	foodtypes = GRAIN
 	eat_time = 3 SECONDS
+<<<<<<< HEAD
 	food_buffs = STATUS_EFFECT_FOOD_STAM_MEDIUM
+=======
+	crafting_complexity = FOOD_COMPLEXITY_2
+>>>>>>> tg-pr-88929
 	/// type is spawned 5 at a time and replaces this bread loaf when processed by cutting tool
 	var/obj/item/food/breadslice/slice_type
 	/// so that the yield can change if it isnt 5
@@ -33,7 +37,11 @@
 	food_flags = FOOD_FINGER_FOOD
 	eat_time = 0.5 SECONDS
 	w_class = WEIGHT_CLASS_SMALL
+<<<<<<< HEAD
 	food_buffs = STATUS_EFFECT_FOOD_STAM_TINY
+=======
+	crafting_complexity = FOOD_COMPLEXITY_2
+>>>>>>> tg-pr-88929
 
 /obj/item/food/breadslice/Initialize(mapload)
 	. = ..()
@@ -48,16 +56,12 @@
 	foodtypes = GRAIN
 	w_class = WEIGHT_CLASS_SMALL
 	venue_value = FOOD_PRICE_CHEAP
-	burns_in_oven = TRUE
 	slice_type = /obj/item/food/breadslice/plain
+	crafting_complexity = FOOD_COMPLEXITY_1
 
 /obj/item/food/bread/plain/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/customizable_reagent_holder, /obj/item/food/bread/empty, CUSTOM_INGREDIENT_ICON_FILL, max_ingredients = 8)
-
-// special subtype we use for the "Bread" Admin Smite (or the breadify proc)
-/obj/item/food/bread/plain/smite
-	desc = "If you hold it up to your ear, you can hear the screams of the damned."
 
 /obj/item/food/breadslice/plain
 	name = "bread slice"
@@ -67,6 +71,7 @@
 	food_reagents = list(/datum/reagent/consumable/nutriment = 2)
 	venue_value = FOOD_PRICE_TRASH
 	decomp_type = /obj/item/food/breadslice/moldy
+	crafting_complexity = FOOD_COMPLEXITY_1
 
 /obj/item/food/breadslice/plain/Initialize(mapload)
 	. = ..()
@@ -86,6 +91,7 @@
 	tastes = list("decaying fungus" = 1)
 	foodtypes = GROSS
 	preserved_food = TRUE
+	crafting_complexity = FOOD_COMPLEXITY_2
 
 /obj/item/food/breadslice/moldy/bacteria
 	name = "bacteria-rich moldy 'bread' slice"
@@ -109,6 +115,7 @@
 	foodtypes = GRAIN | MEAT
 	venue_value = FOOD_PRICE_CHEAP
 	slice_type = /obj/item/food/breadslice/meat
+	crafting_complexity = FOOD_COMPLEXITY_3
 
 /obj/item/food/breadslice/meat
 	name = "meatbread slice"
@@ -121,6 +128,7 @@
 	)
 	tastes = list("bread" = 1, "meat" = 1)
 	foodtypes = GRAIN | MEAT
+	crafting_complexity = FOOD_COMPLEXITY_3
 
 /obj/item/food/bread/sausage
 	name = "sausagebread loaf"
@@ -134,6 +142,7 @@
 	tastes = list("bread" = 10, "meat" = 10)
 	foodtypes = GRAIN | MEAT
 	slice_type = /obj/item/food/breadslice/sausage
+	crafting_complexity = FOOD_COMPLEXITY_3
 
 /obj/item/food/breadslice/sausage
 	name = "sausagebread slice"
@@ -146,6 +155,7 @@
 	)
 	tastes = list("bread" = 10, "meat" = 10)
 	foodtypes = GRAIN | MEAT
+	crafting_complexity = FOOD_COMPLEXITY_3
 
 /obj/item/food/bread/xenomeat
 	name = "xenomeatbread loaf"
@@ -159,6 +169,7 @@
 	tastes = list("bread" = 10, "acid" = 10)
 	foodtypes = GRAIN | MEAT
 	slice_type = /obj/item/food/breadslice/xenomeat
+	crafting_complexity = FOOD_COMPLEXITY_3
 
 /obj/item/food/breadslice/xenomeat
 	name = "xenomeatbread slice"
@@ -171,6 +182,7 @@
 	)
 	tastes = list("bread" = 10, "acid" = 10)
 	foodtypes = GRAIN | MEAT
+	crafting_complexity = FOOD_COMPLEXITY_3
 
 /obj/item/food/bread/spidermeat
 	name = "spider meat loaf"
@@ -185,6 +197,7 @@
 	tastes = list("bread" = 10, "cobwebs" = 5)
 	foodtypes = GRAIN | MEAT | TOXIC
 	slice_type = /obj/item/food/breadslice/spidermeat
+	crafting_complexity = FOOD_COMPLEXITY_3
 
 /obj/item/food/breadslice/spidermeat
 	name = "spider meat bread slice"
@@ -198,6 +211,7 @@
 	)
 	tastes = list("bread" = 10, "cobwebs" = 5)
 	foodtypes = GRAIN | MEAT | TOXIC
+	crafting_complexity = FOOD_COMPLEXITY_3
 
 /obj/item/food/bread/banana
 	name = "banana-nut bread"
@@ -210,7 +224,11 @@
 	tastes = list("bread" = 10) // bananjuice will also flavour
 	foodtypes = GRAIN | FRUIT
 	slice_type = /obj/item/food/breadslice/banana
+<<<<<<< HEAD
 	food_buffs = STATUS_EFFECT_STAM_REGEN_MEDIUM
+=======
+	crafting_complexity = FOOD_COMPLEXITY_3
+>>>>>>> tg-pr-88929
 
 /obj/item/food/breadslice/banana
 	name = "banana-nut bread slice"
@@ -222,7 +240,11 @@
 	)
 	tastes = list("bread" = 10)
 	foodtypes = GRAIN | FRUIT
+<<<<<<< HEAD
 	food_buffs = STATUS_EFFECT_STAM_REGEN_SMALL
+=======
+	crafting_complexity = FOOD_COMPLEXITY_3
+>>>>>>> tg-pr-88929
 
 /obj/item/food/bread/tofu
 	name = "Tofubread"
@@ -237,6 +259,7 @@
 	foodtypes = GRAIN | VEGETABLES
 	venue_value = FOOD_PRICE_TRASH
 	slice_type = /obj/item/food/breadslice/tofu
+	crafting_complexity = FOOD_COMPLEXITY_3
 
 /obj/item/food/breadslice/tofu
 	name = "tofubread slice"
@@ -249,6 +272,7 @@
 	)
 	tastes = list("bread" = 10, "tofu" = 10)
 	foodtypes = GRAIN | VEGETABLES
+	crafting_complexity = FOOD_COMPLEXITY_3
 
 /obj/item/food/bread/creamcheese
 	name = "cream cheese bread"
@@ -290,7 +314,11 @@
 	tastes = list("bread" = 10, "silence" = 10)
 	foodtypes = GRAIN | FRUIT
 	slice_type = /obj/item/food/breadslice/mimana
+<<<<<<< HEAD
 	food_buffs = STATUS_EFFECT_FOOD_HEALTH_MEDIUM
+=======
+	crafting_complexity = FOOD_COMPLEXITY_3
+>>>>>>> tg-pr-88929
 
 /obj/item/food/breadslice/mimana
 	name = "mimana bread slice"
@@ -304,7 +332,11 @@
 	)
 	tastes = list("bread" = 10, "silence" = 10)
 	foodtypes = GRAIN | FRUIT
+<<<<<<< HEAD
 	food_buffs = STATUS_EFFECT_FOOD_HEALTH_TINY
+=======
+	crafting_complexity = FOOD_COMPLEXITY_3
+>>>>>>> tg-pr-88929
 
 /obj/item/food/bread/empty
 	name = "bread"
@@ -342,6 +374,7 @@
 	tastes = list("bread" = 1)
 	foodtypes = GRAIN
 	venue_value = FOOD_PRICE_CHEAP
+	crafting_complexity = FOOD_COMPLEXITY_2
 	/// whether this is in fake swordplay mode or not
 	var/fake_swordplay = FALSE
 
@@ -351,18 +384,18 @@
 
 /obj/item/food/baguette/add_context(atom/source, list/context, obj/item/held_item, mob/user)
 	. = ..()
-	if (HAS_TRAIT(user, TRAIT_MIMING) && held_item == src)
+	if(HAS_MIND_TRAIT(user, TRAIT_MIMING) && held_item == src)
 		context[SCREENTIP_CONTEXT_LMB] = "Toggle Swordplay"
 		return CONTEXTUAL_SCREENTIP_SET
 
 /obj/item/food/baguette/examine(mob/user)
 	. = ..()
-	if(HAS_TRAIT(user, TRAIT_MIMING))
+	if(HAS_MIND_TRAIT(user, TRAIT_MIMING))
 		. += span_notice("You can wield this like a sword by using it in your hand.")
 
 /obj/item/food/baguette/attack_self(mob/user, modifiers)
 	. = ..()
-	if(!HAS_TRAIT(user, TRAIT_MIMING))
+	if(!HAS_MIND_TRAIT(user, TRAIT_MIMING))
 		return
 	if(fake_swordplay)
 		end_swordplay(user)
@@ -377,7 +410,7 @@
 	ADD_TRAIT(src, TRAIT_CUSTOM_TAP_SOUND, SWORDPLAY_TRAIT)
 	attack_verb_continuous = list("slashes", "cuts")
 	attack_verb_simple = list("slash", "cut")
-	hitsound = 'sound/weapons/rapierhit.ogg'
+	hitsound = 'sound/items/weapons/rapierhit.ogg'
 	fake_swordplay = TRUE
 
 	RegisterSignal(src, COMSIG_ITEM_EQUIPPED, PROC_REF(on_sword_equipped))
@@ -411,8 +444,13 @@
 
 /// Deadly bread used by a mime
 /obj/item/food/baguette/combat
+<<<<<<< HEAD
 	block_sound = 'sound/weapons/parry.ogg'
+=======
+	block_sound = 'sound/items/weapons/parry.ogg'
+>>>>>>> tg-pr-88929
 	sharpness = SHARP_EDGED
+	icon_angle = -45
 	/// Force when wielded as a sword by a mime
 	var/active_force = 20
 	/// Block chance when wielded as a sword by a mime
@@ -443,7 +481,11 @@
 	tastes = list("bread" = 1, "garlic" = 1, "butter" = 1)
 	foodtypes = GRAIN
 	venue_value = FOOD_PRICE_NORMAL
+<<<<<<< HEAD
 	food_buffs = STATUS_EFFECT_FOOD_HEALTH_TINY
+=======
+	crafting_complexity = FOOD_COMPLEXITY_2
+>>>>>>> tg-pr-88929
 
 /obj/item/food/butterbiscuit
 	name = "butter biscuit"
@@ -458,7 +500,11 @@
 	foodtypes = GRAIN | BREAKFAST
 	w_class = WEIGHT_CLASS_SMALL
 	venue_value = FOOD_PRICE_CHEAP
+<<<<<<< HEAD
 	food_buffs = STATUS_EFFECT_FOOD_HEALTH_TINY
+=======
+	crafting_complexity = FOOD_COMPLEXITY_2
+>>>>>>> tg-pr-88929
 
 /obj/item/food/butterdog
 	name = "butterdog"
@@ -473,6 +519,8 @@
 	tastes = list("butter" = 1, "exotic butter" = 1)
 	foodtypes = GRAIN | DAIRY
 	w_class = WEIGHT_CLASS_SMALL
+	crafting_complexity = FOOD_COMPLEXITY_2
+	custom_price = PAYCHECK_CREW
 
 /obj/item/food/butterdog/Initialize(mapload)
 	. = ..()
@@ -490,6 +538,7 @@
 	tastes = list("raw egg" = 2, "soaked bread" = 1)
 	foodtypes = GRAIN | RAW | BREAKFAST
 	w_class = WEIGHT_CLASS_SMALL
+	crafting_complexity = FOOD_COMPLEXITY_2
 
 /obj/item/food/raw_frenchtoast/make_grillable()
 	AddComponent(/datum/component/grillable, /obj/item/food/frenchtoast, rand(20 SECONDS, 30 SECONDS), TRUE)
@@ -506,7 +555,7 @@
 	tastes = list("french toast" = 1, "syrup" = 1, "golden deliciousness" = 1)
 	foodtypes = GRAIN | BREAKFAST
 	w_class = WEIGHT_CLASS_SMALL
-	burns_on_grill = TRUE
+	crafting_complexity = FOOD_COMPLEXITY_2
 
 /obj/item/food/raw_breadstick
 	name = "raw breadstick"
@@ -520,6 +569,7 @@
 	tastes = list("raw dough" = 1)
 	foodtypes = GRAIN | DAIRY
 	w_class = WEIGHT_CLASS_SMALL
+	crafting_complexity = FOOD_COMPLEXITY_1
 
 /obj/item/food/raw_breadstick/make_bakeable()
 	AddComponent(/datum/component/bakeable, /obj/item/food/breadstick, rand(15 SECONDS, 20 SECONDS), TRUE, TRUE)
@@ -536,7 +586,7 @@
 	tastes = list("fluffy bread" = 1, "butter" = 2)
 	foodtypes = GRAIN | DAIRY
 	w_class = WEIGHT_CLASS_SMALL
-	burns_in_oven = TRUE
+	crafting_complexity = FOOD_COMPLEXITY_2
 
 /obj/item/food/raw_croissant
 	name = "raw croissant"
@@ -547,6 +597,7 @@
 	tastes = list("raw dough" = 1)
 	foodtypes = GRAIN | DAIRY
 	w_class = WEIGHT_CLASS_SMALL
+	crafting_complexity = FOOD_COMPLEXITY_1
 
 /obj/item/food/raw_croissant/make_bakeable()
 	AddComponent(/datum/component/bakeable, /obj/item/food/croissant, rand(15 SECONDS, 20 SECONDS), TRUE, TRUE)
@@ -560,7 +611,7 @@
 	tastes = list("fluffy bread" = 1, "butter" = 2)
 	foodtypes = GRAIN | DAIRY | BREAKFAST
 	w_class = WEIGHT_CLASS_SMALL
-	burns_in_oven = TRUE
+	crafting_complexity = FOOD_COMPLEXITY_2
 
 // Enhanced weaponised bread
 /obj/item/food/croissant/throwing

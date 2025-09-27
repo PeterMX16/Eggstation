@@ -481,5 +481,9 @@
 
 	. = list2params(.)
 
+<<<<<<< HEAD
 ADMIN_VERB(panel_sticky_ban, R_BAN, FALSE, "Sticky Ban Panel", "List and manage sticky bans.", ADMIN_CATEGORY_MAIN)
+=======
+ADMIN_VERB(panel_sticky_ban, R_BAN, "Sticky Ban Panel", "List and manage sticky bans.", ADMIN_CATEGORY_MAIN)
+>>>>>>> tg-pr-88929
 	user.holder.stickyban_show()

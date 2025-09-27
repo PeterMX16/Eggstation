@@ -1,10 +1,11 @@
 /obj/item/boxcutter
 	name = "boxcutter"
 	desc = "A tool for cutting boxes, or throats."
-	icon = 'icons/obj/boxcutter.dmi'
+	icon = 'icons/obj/tools.dmi'
 	icon_state = "boxcutter"
 	inhand_icon_state = "boxcutter"
 	base_icon_state = "boxcutter"
+	icon_angle = -90
 	lefthand_file = 'icons/mob/inhands/equipment/boxcutter_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/boxcutter_righthand.dmi'
 	inhand_icon_state = null
@@ -13,7 +14,13 @@
 	w_class = WEIGHT_CLASS_SMALL
 	resistance_flags = FIRE_PROOF
 	force = 0
+	/// Used on Initialize, how much time to cut cable restraints and zipties.
+	var/snap_time_weak_handcuffs = 0 SECONDS
+	/// Used on Initialize, how much time to cut real handcuffs. Null means it can't.
+	var/snap_time_strong_handcuffs = null
+	/// Starts open if true
 	var/start_extended = FALSE
+<<<<<<< HEAD
 	/// Whether or not the boxcutter has been readied
 	var/on = FALSE
 	var/on_sound = 'sound/items/boxcutter_activate.ogg'
@@ -21,10 +28,15 @@
 	var/snap_time_weak_handcuffs = 0 SECONDS
 	/// Used on Initialize, how much time to cut real handcuffs. Null means it can't.
 	var/snap_time_strong_handcuffs = null
+=======
+
+/obj/item/boxcutter/get_all_tool_behaviours()
+	return list(TOOL_KNIFE)
+>>>>>>> tg-pr-88929
 
 /obj/item/boxcutter/Initialize(mapload)
 	. = ..()
-	AddElement(/datum/element/update_icon_updates_onmob, ITEM_SLOT_HANDS)
+	AddElement(/datum/element/update_icon_updates_onmob)
 	AddComponent(/datum/component/butchering, \
 		speed = 7 SECONDS, \
 		effectiveness = 100, \
@@ -32,11 +44,15 @@
 
 	AddComponent( \
 		/datum/component/transforming, \
+<<<<<<< HEAD
+=======
+		start_transformed = start_extended, \
+>>>>>>> tg-pr-88929
 		force_on = 10, \
 		throwforce_on = 4, \
 		throw_speed_on = throw_speed, \
 		sharpness_on = SHARP_EDGED, \
-		hitsound_on = 'sound/weapons/bladeslice.ogg', \
+		hitsound_on = 'sound/items/weapons/bladeslice.ogg', \
 		w_class_on = WEIGHT_CLASS_NORMAL, \
 		attack_verb_continuous_on = list("cuts", "stabs", "slashes"), \
 		attack_verb_simple_on = list("cut", "stab", "slash"), \
@@ -54,3 +70,9 @@
 	else
 		RemoveElement(/datum/element/cuffsnapping, snap_time_weak_handcuffs, snap_time_strong_handcuffs)
 	return COMPONENT_NO_DEFAULT_MESSAGE
+<<<<<<< HEAD
+=======
+
+/obj/item/boxcutter/extended
+	start_extended = TRUE
+>>>>>>> tg-pr-88929

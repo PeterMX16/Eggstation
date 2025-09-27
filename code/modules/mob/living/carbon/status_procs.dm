@@ -5,6 +5,7 @@
 /mob/living/carbon/IsParalyzed(include_stamcrit = TRUE)
 	return ..() || (include_stamcrit && HAS_TRAIT_FROM(src, TRAIT_INCAPACITATED, STAMINA))
 
+<<<<<<< HEAD
 /mob/living/proc/stamina_stun()
 	return
 
@@ -46,6 +47,10 @@
 
 /mob/living/carbon/adjust_disgust(amount)
 	disgust = clamp(disgust+amount, 0, DISGUST_LEVEL_MAXEDOUT)
+=======
+/mob/living/carbon/adjust_disgust(amount, max = DISGUST_LEVEL_MAXEDOUT)
+	disgust = clamp(disgust + amount, 0, max)
+>>>>>>> tg-pr-88929
 
 /mob/living/carbon/set_disgust(amount)
 	disgust = clamp(amount, 0, DISGUST_LEVEL_MAXEDOUT)
@@ -55,6 +60,7 @@
 
 /mob/living/carbon/proc/get_traumas(ignore_flags = NONE)
 	. = list()
+<<<<<<< HEAD
 	var/obj/item/organ/internal/brain/brain = get_organ_slot(ORGAN_SLOT_BRAIN)
 	for(var/datum/brain_trauma/trauma as anything in brain?.traumas)
 		if(!(trauma.trauma_flags & ignore_flags))
@@ -67,12 +73,27 @@
 /mob/living/carbon/proc/gain_trauma(datum/brain_trauma/trauma, resilience, ...)
 	var/obj/item/organ/internal/brain/brain = get_organ_slot(ORGAN_SLOT_BRAIN)
 	if(brain)
+=======
+	var/obj/item/organ/brain/B = get_organ_slot(ORGAN_SLOT_BRAIN)
+	if(B)
+		. = B.traumas
+
+/mob/living/carbon/proc/has_trauma_type(brain_trauma_type, resilience)
+	var/obj/item/organ/brain/B = get_organ_slot(ORGAN_SLOT_BRAIN)
+	if(B)
+		. = B.has_trauma_type(brain_trauma_type, resilience)
+
+/mob/living/carbon/proc/gain_trauma(datum/brain_trauma/trauma, resilience, ...)
+	var/obj/item/organ/brain/B = get_organ_slot(ORGAN_SLOT_BRAIN)
+	if(B)
+>>>>>>> tg-pr-88929
 		var/list/arguments = list()
 		if(args.len > 2)
 			arguments = args.Copy(3)
 		return brain.brain_gain_trauma(trauma, resilience, arguments)
 
 /mob/living/carbon/proc/gain_trauma_type(brain_trauma_type = /datum/brain_trauma, resilience)
+<<<<<<< HEAD
 	var/obj/item/organ/internal/brain/brain = get_organ_slot(ORGAN_SLOT_BRAIN)
 	return brain?.gain_trauma_type(brain_trauma_type, resilience)
 
@@ -83,3 +104,18 @@
 /mob/living/carbon/proc/cure_all_traumas(resilience, ignore_flags = NONE)
 	var/obj/item/organ/internal/brain/brain = get_organ_slot(ORGAN_SLOT_BRAIN)
 	return brain?.cure_all_traumas(resilience, ignore_flags)
+=======
+	var/obj/item/organ/brain/B = get_organ_slot(ORGAN_SLOT_BRAIN)
+	if(B)
+		. = B.gain_trauma_type(brain_trauma_type, resilience)
+
+/mob/living/carbon/proc/cure_trauma_type(brain_trauma_type = /datum/brain_trauma, resilience)
+	var/obj/item/organ/brain/B = get_organ_slot(ORGAN_SLOT_BRAIN)
+	if(B)
+		. = B.cure_trauma_type(brain_trauma_type, resilience)
+
+/mob/living/carbon/proc/cure_all_traumas(resilience)
+	var/obj/item/organ/brain/B = get_organ_slot(ORGAN_SLOT_BRAIN)
+	if(B)
+		. = B.cure_all_traumas(resilience)
+>>>>>>> tg-pr-88929

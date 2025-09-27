@@ -1,5 +1,6 @@
 /datum/wound/blunt
 	name = "Blunt Wound"
+<<<<<<< HEAD
 	undiagnosed_name = "Painful Bruising"
 	sound_effect = 'sound/effects/wounds/crack1.ogg'
 
@@ -9,3 +10,6 @@
 		limb.remove_gauze(limb.drop_location())
 
 	return ..()
+=======
+	sound_effect = 'sound/effects/wounds/crack1.ogg'
+>>>>>>> tg-pr-88929

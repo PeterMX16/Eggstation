@@ -29,9 +29,10 @@
 	/// The icon to show in the preferences menu.
 	/// This references a tgui icon, so it can be FontAwesome or a tgfont (with a tg- prefix).
 	var/icon
-	/// A list of items people can receive from mail who have this quirk enabled
+	/// A lazylist of items people can receive from mail who have this quirk enabled
 	/// The base weight for the each quirk's mail goodies list to be selected is 5
 	/// then the item selected is determined by pick(selected_quirk.mail_goodies)
+<<<<<<< HEAD
 	var/list/mail_goodies = list() //Monkestation Edit BLOOD_DATUM: Why? this is already a list all this does is mess confuse us.
 	/// The maximum stat below which this quirk can process (if it has QUIRK_PROCESSES), and above which it stops.
 	var/maximum_process_stat = HARD_CRIT
@@ -47,6 +48,9 @@
 	. = ..()
 	for(var/trait in no_process_traits)
 		LAZYADD(process_update_signals, list(SIGNAL_ADDTRAIT(trait), SIGNAL_REMOVETRAIT(trait)))
+=======
+	var/list/mail_goodies
+>>>>>>> tg-pr-88929
 
 /datum/quirk/Destroy()
 	if(quirk_holder)
@@ -117,9 +121,13 @@
 	if(!quirk_holder)
 		CRASH("Attempted to remove quirk from the current holder when it has no current holder.")
 
+<<<<<<< HEAD
 	UnregisterSignal(quirk_holder, list(COMSIG_MOB_STATCHANGE, COMSIG_MOB_LOGIN, COMSIG_QDELETING))
 	if(process_update_signals)
 		UnregisterSignal(quirk_holder, process_update_signals)
+=======
+	UnregisterSignal(quirk_holder, list(COMSIG_MOB_LOGIN, COMSIG_QDELETING))
+>>>>>>> tg-pr-88929
 
 	quirk_holder.quirks -= src
 
@@ -224,13 +232,17 @@
  * * default_location - If the item isn't possible to equip in a valid slot, this is a description of where the item was spawned.
  * * notify_player - If TRUE, adds strings to where_items_spawned list to be output to the player in [/datum/quirk/item_quirk/post_add()]
  */
-/datum/quirk/item_quirk/proc/give_item_to_holder(quirk_item, list/valid_slots, flavour_text = null, default_location = "at your feet", notify_player = TRUE)
+/datum/quirk/item_quirk/proc/give_item_to_holder(obj/item/quirk_item, list/valid_slots, flavour_text = null, default_location = "at your feet", notify_player = TRUE)
 	if(ispath(quirk_item))
 		quirk_item = new quirk_item(get_turf(quirk_holder))
 
 	var/mob/living/carbon/human/human_holder = quirk_holder
 
+<<<<<<< HEAD
 	var/where = human_holder.equip_in_one_of_slots(quirk_item, valid_slots, qdel_on_fail = FALSE, move_equipped = TRUE) || default_location //MONKESTATION EDIT - Added 'move_equipped = TRUE'
+=======
+	var/where = human_holder.equip_in_one_of_slots(quirk_item, valid_slots, qdel_on_fail = FALSE, indirect_action = TRUE) || default_location
+>>>>>>> tg-pr-88929
 
 	if(where == LOCATION_BACKPACK)
 		open_backpack = TRUE
@@ -261,7 +273,11 @@
 /mob/living/proc/get_quirk_string(medical = FALSE, category = CAT_QUIRK_ALL, from_scan = FALSE)
 	var/list/dat = list()
 	for(var/datum/quirk/candidate as anything in quirks)
+<<<<<<< HEAD
 		if((from_scan && (candidate.quirk_flags & QUIRK_HIDE_FROM_SCAN)) || (medical && !candidate.medical_record_text))
+=======
+		if(from_scan & candidate.quirk_flags & QUIRK_HIDE_FROM_SCAN)
+>>>>>>> tg-pr-88929
 			continue
 		switch(category)
 			if(CAT_QUIRK_MAJOR_DISABILITY)
@@ -275,7 +291,11 @@
 					continue
 		dat += medical ? candidate.medical_record_text : candidate.name
 
+<<<<<<< HEAD
 	if(!length(dat))
+=======
+	if(!dat.len)
+>>>>>>> tg-pr-88929
 		return medical ? "No issues have been declared." : "None"
 	return medical ?  dat.Join("<br>") : dat.Join(", ")
 

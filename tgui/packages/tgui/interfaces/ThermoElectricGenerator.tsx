@@ -1,5 +1,11 @@
+<<<<<<< HEAD
 import { useBackend } from '../backend';
 import { Box, Chart, Divider, Section } from '../components';
+=======
+import { Box, Divider, Section } from 'tgui-core/components';
+
+import { useBackend } from '../backend';
+>>>>>>> tg-pr-88929
 import { Window } from '../layouts';
 
 type Data = {
@@ -7,7 +13,10 @@ type Data = {
   last_power_output: string | null;
   cold_data: CirculatorData[];
   hot_data: CirculatorData[];
+<<<<<<< HEAD
   past_power_info;
+=======
+>>>>>>> tg-pr-88929
 };
 
 type CirculatorData = {
@@ -24,11 +33,15 @@ export const ThermoElectricGenerator = (props) => {
     last_power_output,
     cold_data = [],
     hot_data = [],
+<<<<<<< HEAD
     past_power_info,
   } = data;
   const powerHistory = past_power_info.map((value, i) => [i, value]);
   const powerMax = Math.max(...past_power_info);
 
+=======
+  } = data;
+>>>>>>> tg-pr-88929
   if (error_message) {
     return (
       <Window width={320} height={100}>
@@ -39,6 +52,7 @@ export const ThermoElectricGenerator = (props) => {
     );
   }
   return (
+<<<<<<< HEAD
     <Window width={350} height={280}>
       <Window.Content>
         <Box>
@@ -51,6 +65,10 @@ export const ThermoElectricGenerator = (props) => {
             fillColor="rgba(0, 181, 173, 0.25)"
           />
         </Box>
+=======
+    <Window width={350} height={195}>
+      <Window.Content>
+>>>>>>> tg-pr-88929
         <Section>
           <Box>
             <Box>Last Output: {last_power_output}</Box>

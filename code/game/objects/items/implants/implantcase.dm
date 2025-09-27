@@ -19,6 +19,18 @@
 	var/imp_type
 
 
+/obj/item/implantcase/Initialize(mapload)
+	. = ..()
+	if(imp_type)
+		imp = new imp_type(src)
+	update_appearance()
+	if(imp)
+		reagents = imp.reagents
+
+/obj/item/implantcase/Destroy(force)
+	QDEL_NULL(imp)
+	return ..()
+
 /obj/item/implantcase/update_icon_state()
 	icon_state = "implantcase-[imp ? imp.implant_color : 0]"
 	return ..()
@@ -31,6 +43,7 @@
 		if((user.get_active_held_item() != used_item) || !user.can_perform_action(src))
 			return
 		if(new_name)
+			playsound(src, SFX_WRITING_PEN, 50, TRUE, SHORT_RANGE_SOUND_EXTRARANGE, SOUND_FALLOFF_EXPONENT + 3, ignore_walls = FALSE)
 			name = "implant case - '[new_name]'"
 		else
 			name = "implant case"
@@ -54,14 +67,6 @@
 			used_implanter.update_appearance()
 	else
 		return ..()
-
-/obj/item/implantcase/Initialize(mapload)
-	. = ..()
-	if(imp_type)
-		imp = new imp_type(src)
-	update_appearance()
-	if(imp)
-		reagents = imp.reagents
 
 
 ///An implant case that spawns with a tracking implant, as well as an appropriate name and description.

@@ -11,6 +11,11 @@
 	var/list/faction
 	/// List of weak references to things we have already created
 	var/list/spawned_things = list()
+<<<<<<< HEAD
+=======
+	/// Callback to a proc that is called when a mob is spawned. Primarily used for sentient spawners.
+	var/datum/callback/spawn_callback
+>>>>>>> tg-pr-88929
 	/// How many mobs can we spawn maximum each time we try to spawn? (1 - max)
 	var/max_spawn_per_attempt
 	/// Distance from the spawner to spawn mobs
@@ -19,7 +24,11 @@
 	var/spawn_distance_exclude
 	COOLDOWN_DECLARE(spawn_delay)
 
+<<<<<<< HEAD
 /datum/component/spawner/Initialize(spawn_types = list(), spawn_time = 30 SECONDS, max_spawned = 5, max_spawn_per_attempt = 1 , faction = list(FACTION_MINING), spawn_text = null, spawn_distance = 1, spawn_distance_exclude = 0)
+=======
+/datum/component/spawner/Initialize(spawn_types = list(), spawn_time = 30 SECONDS, max_spawned = 5, max_spawn_per_attempt = 1 , faction = list(FACTION_MINING), spawn_text = null, datum/callback/spawn_callback = null, spawn_distance = 1, spawn_distance_exclude = 0, initial_spawn_delay = 0 SECONDS)
+>>>>>>> tg-pr-88929
 	if (!islist(spawn_types))
 		CRASH("invalid spawn_types to spawn specified for spawner component!")
 	src.spawn_time = spawn_time
@@ -27,6 +36,7 @@
 	src.faction = faction
 	src.spawn_text = spawn_text
 	src.max_spawned = max_spawned
+<<<<<<< HEAD
 	src.max_spawn_per_attempt = max_spawn_per_attempt
 	src.spawn_distance = spawn_distance
 	src.spawn_distance_exclude = spawn_distance_exclude
@@ -34,6 +44,18 @@
 	RegisterSignal(parent, COMSIG_QDELETING, PROC_REF(stop_spawning))
 	RegisterSignal(parent, COMSIG_SPAWNER_START_SPAWNING, PROC_REF(start_spawning))
 	RegisterSignal(parent, COMSIG_SPAWNER_STOP_SPAWNING, PROC_REF(stop_spawning))
+=======
+	src.spawn_callback = spawn_callback
+	src.max_spawn_per_attempt = max_spawn_per_attempt
+	src.spawn_distance = spawn_distance
+	src.spawn_distance_exclude = spawn_distance_exclude
+	// If set, doesn't instantly spawn a creature when the spawner component is applied.
+	if(initial_spawn_delay)
+		COOLDOWN_START(src, spawn_delay, spawn_time)
+
+	RegisterSignal(parent, COMSIG_QDELETING, PROC_REF(stop_spawning))
+	RegisterSignal(parent, COMSIG_VENT_WAVE_CONCLUDED, PROC_REF(stop_spawning))
+>>>>>>> tg-pr-88929
 	START_PROCESSING((spawn_time < 2 SECONDS ? SSfastprocess : SSprocessing), src)
 
 /datum/component/spawner/process()
@@ -95,10 +117,20 @@
 
 		SEND_SIGNAL(src, COMSIG_SPAWNER_SPAWNED, created)
 		RegisterSignal(created, COMSIG_QDELETING, PROC_REF(on_deleted))
+<<<<<<< HEAD
 		after_mob_spawn(created)
 
 	if (spawn_text)
 		spawner.visible_message(span_danger("A creature [spawn_text] [spawner]."))
+=======
+		spawn_callback?.Invoke(created)
+
+
+	if (spawn_text)
+		spawner.visible_message(span_danger("A creature [spawn_text] [spawner]."))
+
+
+>>>>>>> tg-pr-88929
 
 /// Remove weakrefs to atoms which have been killed or deleted without us picking it up somehow
 /datum/component/spawner/proc/validate_references()
@@ -125,6 +157,9 @@
 		return
 	spawned_things -= WEAKREF(source)
 	UnregisterSignal(source, list(COMSIG_QDELETING, COMSIG_MOB_STATCHANGE))
+<<<<<<< HEAD
 
 /datum/component/spawner/proc/after_mob_spawn(mob/living/basic/created)
 	return
+=======
+>>>>>>> tg-pr-88929

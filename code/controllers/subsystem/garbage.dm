@@ -211,6 +211,7 @@ SUBSYSTEM_DEF(garbage)
 		switch (level)
 			if (GC_QUEUE_CHECK)
 				#ifdef REFERENCE_TRACKING
+<<<<<<< HEAD
 				#ifdef FAST_REFERENCE_TRACKING
 				var/skip = GLOB.reftracker_skip_typecache[D.type]
 				#else
@@ -230,16 +231,38 @@ SUBSYSTEM_DEF(garbage)
 					#endif //ifdef GC_FAILURE_HARD_LOOKUP
 					reference_find_on_fail -= text_ref(D)
 				#endif //ifdef REFERENCE_TRACKING
+=======
+				// Decides how many refs to look for (potentially)
+				// Based off the remaining and the ones we can account for
+				var/remaining_refs = refcount(D) - REFS_WE_EXPECT
+				if(reference_find_on_fail[text_ref(D)])
+					INVOKE_ASYNC(D, TYPE_PROC_REF(/datum,find_references), remaining_refs)
+					ref_searching = TRUE
+				#ifdef GC_FAILURE_HARD_LOOKUP
+				else
+					INVOKE_ASYNC(D, TYPE_PROC_REF(/datum,find_references), remaining_refs)
+					ref_searching = TRUE
+				#endif
+				reference_find_on_fail -= text_ref(D)
+				#endif
+>>>>>>> tg-pr-88929
 				var/type = D.type
 				var/datum/qdel_item/I = items[type]
 
 				var/detail = D.dump_harddel_info()
 				var/message = "## TESTING: GC: -- [text_ref(D)] | [type] was unable to be GC'd --"
 				message = "[message] (ref count of [refcount(D)])"
+<<<<<<< HEAD
 				if(detail)
 					message = "[message] | [detail]"
 					LAZYADD(I.extra_details, detail)
+=======
+>>>>>>> tg-pr-88929
 				log_world(message)
+
+				var/detail = D.dump_harddel_info()
+				if(detail)
+					LAZYADD(I.extra_details, detail)
 
 				#ifdef TESTING
 				for(var/c in GLOB.admins) //Using testing() here would fill the logs with ADMIN_VV garbage
@@ -364,6 +387,7 @@ SUBSYSTEM_DEF(garbage)
 /datum/qdel_item/New(mytype)
 	name = "[mytype]"
 
+<<<<<<< HEAD
 /proc/non_datum_qdel(to_delete)
 	var/found_type = "unable to determine type"
 	var/delable = FALSE
@@ -383,17 +407,24 @@ SUBSYSTEM_DEF(garbage)
 
 	CRASH("Bad qdel ([found_type])")
 
+=======
+>>>>>>> tg-pr-88929
 /// Should be treated as a replacement for the 'del' keyword.
 ///
 /// Datums passed to this will be given a chance to clean up references to allow the GC to collect them.
 /proc/qdel(datum/to_delete, force = FALSE)
 	if(!istype(to_delete))
+<<<<<<< HEAD
 		if(isnull(to_delete))
 			return
 #ifndef DISABLE_DREAMLUAU
 		DREAMLUAU_CLEAR_REF_USERDATA(to_delete)
 #endif
 		non_datum_qdel(to_delete)
+=======
+		DREAMLUAU_CLEAR_REF_USERDATA(to_delete)
+		del(to_delete)
+>>>>>>> tg-pr-88929
 		return
 
 	var/datum/qdel_item/trash = SSgarbage.items[to_delete.type]
@@ -428,9 +459,12 @@ SUBSYSTEM_DEF(garbage)
 			SSgarbage.Queue(to_delete)
 		if (QDEL_HINT_IWILLGC)
 			to_delete.gc_destroyed = world.time
+<<<<<<< HEAD
 #ifndef DISABLE_DEMOS
 			SSdemo.mark_destroyed(to_delete) // monkestation edit: replays
 #endif
+=======
+>>>>>>> tg-pr-88929
 			return
 		if (QDEL_HINT_LETMELIVE) //qdel should let the object live after calling destory.
 			if(!force)
@@ -450,6 +484,7 @@ SUBSYSTEM_DEF(garbage)
 
 			SSgarbage.Queue(to_delete)
 		if (QDEL_HINT_HARDDEL) //qdel should assume this object won't gc, and queue a hard delete
+<<<<<<< HEAD
 #ifndef DISABLE_DEMOS
 			SSdemo.mark_destroyed(to_delete) // monkestation edit: replays
 #endif
@@ -462,6 +497,14 @@ SUBSYSTEM_DEF(garbage)
 		#ifdef REFERENCE_TRACKING
 		if (QDEL_HINT_FINDREFERENCE) //qdel will, if REFERENCE_TRACKING is enabled, display all references to this object, then queue the object for deletion.
 			SSgarbage.HardDelete(to_delete, override = TRUE) // Need to override enable_hard_deletes, stuff like /client uses this
+=======
+			SSgarbage.Queue(to_delete, GC_QUEUE_HARDDELETE)
+		if (QDEL_HINT_HARDDEL_NOW) //qdel should assume this object won't gc, and hard del it post haste.
+			SSgarbage.HardDelete(to_delete)
+		#ifdef REFERENCE_TRACKING
+		if (QDEL_HINT_FINDREFERENCE) //qdel will, if REFERENCE_TRACKING is enabled, display all references to this object, then queue the object for deletion.
+			SSgarbage.Queue(to_delete)
+>>>>>>> tg-pr-88929
 			INVOKE_ASYNC(to_delete, TYPE_PROC_REF(/datum, find_references))
 		if (QDEL_HINT_IFFAIL_FINDREFERENCE) //qdel will, if REFERENCE_TRACKING is enabled and the object fails to collect, display all references to this object.
 			SSgarbage.Queue(to_delete)
@@ -474,9 +517,12 @@ SUBSYSTEM_DEF(garbage)
 			#endif
 			trash.no_hint++
 			SSgarbage.Queue(to_delete)
+<<<<<<< HEAD
 #ifndef DISABLE_DEMOS
 	// monkestation start: replays
 	if(to_delete)
 		SSdemo?.mark_destroyed(to_delete)
 	// monkestation end: replays
 #endif
+=======
+>>>>>>> tg-pr-88929

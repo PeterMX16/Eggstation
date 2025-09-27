@@ -3,7 +3,7 @@
 /**
  * Uplinks
  *
- * All /obj/item(s) have a hidden_uplink var. By default it's null. Give the item one with 'new(src') (it must be in it's contents). Then add 'uses.'
+ * All /obj/item(s) have a hidden_uplink var. By default it's null. Give the item one with 'new(src') (it must be in its contents). Then add 'uses.'
  * Use whatever conditionals you want to check that the user has an uplink, and then call interact() on their uplink.
  * You might also want the uplink menu to open if active. Check if the uplink is 'active' and then interact() with it.
 **/
@@ -113,6 +113,7 @@
 	new /obj/effect/decal/cleanable/ash(get_turf(uplink_item))
 	qdel(uplink_item)
 
+<<<<<<< HEAD
 /// Adds telecrystals to the uplink. It is bad practice to use this outside of the component itself.
 /datum/component/uplink/proc/add_telecrystals(telecrystals_added)
 	set_telecrystals(uplink_handler.telecrystals + telecrystals_added)
@@ -122,6 +123,8 @@
 	uplink_handler.telecrystals = new_telecrystal_amount
 	uplink_handler.on_update()
 
+=======
+>>>>>>> tg-pr-88929
 /datum/component/uplink/InheritComponent(datum/component/uplink/uplink)
 	lockable |= uplink.lockable
 	active |= uplink.active
@@ -135,7 +138,7 @@
 	if(!silent)
 		to_chat(user, span_notice("You slot [telecrystals] into [parent] and charge its internal uplink."))
 	var/amt = telecrystals.amount
-	uplink_handler.telecrystals += amt
+	uplink_handler.add_telecrystals(amt)
 	telecrystals.use(amt)
 	log_uplink("[key_name(user)] loaded [amt] telecrystals into [parent]'s uplink")
 
@@ -200,7 +203,8 @@
 	data["current_progression_scaling"] = SStraitor.current_progression_scaling
 
 	data["maximum_potential_objectives"] = uplink_handler.maximum_potential_objectives
-	if(uplink_handler.has_objectives)
+
+	if(uplink_handler.primary_objectives)
 		var/list/primary_objectives = list()
 		for(var/datum/objective/task as anything in uplink_handler.primary_objectives)
 			var/list/task_data = list()
@@ -210,7 +214,9 @@
 				task_data["task_name"] = "DIRECTIVE [uppertext(GLOB.phonetic_alphabet[length(primary_objectives) + 1])]"
 			task_data["task_text"] = task.explanation_text
 			primary_objectives += list(task_data)
+		data["primary_objectives"] = primary_objectives
 
+	if(uplink_handler.has_objectives)
 		var/list/potential_objectives = list()
 		for(var/index in 1 to uplink_handler.potential_objectives.len)
 			var/datum/traitor_objective/objective = uplink_handler.potential_objectives[index]
@@ -225,7 +231,7 @@
 			objective_data["id"] = index
 			active_objectives += list(objective_data)
 
-		data["primary_objectives"] = primary_objectives
+
 		data["potential_objectives"] = potential_objectives
 		data["active_objectives"] = active_objectives
 		data["completed_final_objective"] = uplink_handler.final_objective
@@ -234,9 +240,14 @@
 	var/list/extra_purchasable_stock = list()
 	var/list/extra_purchasable = list()
 	for(var/datum/uplink_item/item as anything in uplink_handler.extra_purchasable)
+<<<<<<< HEAD
 		if(item in stock_list)
 			extra_purchasable_stock[REF(item)] = stock_list[item]
 			stock_list -= item
+=======
+		if(item.stock_key in stock_list)
+			extra_purchasable_stock[REF(item)] = stock_list[item.stock_key]
+>>>>>>> tg-pr-88929
 		var/atom/actual_item = item.item
 		extra_purchasable += list(list(
 			"id" = item.type,
@@ -264,6 +275,7 @@
 	data["shop_locked"] = uplink_handler.shop_locked
 	data["purchased_items"] = length(uplink_handler.purchase_log?.purchase_log)
 	data["can_renegotiate"] = user.mind == uplink_handler.owner && uplink_handler.can_replace_objectives?.Invoke() == TRUE
+<<<<<<< HEAD
 //monkestation edit start
 	data["locked_entries"] = uplink_handler.locked_entries
 	data["is_contractor"] = (uplink_handler.uplink_flag == UPLINK_CONTRACTORS)
@@ -280,6 +292,8 @@
 	data["contractor_items"] = contractor_items
 	data["contractor_rep"] = uplink_handler.contractor_rep
 //monkestation edit end
+=======
+>>>>>>> tg-pr-88929
 	return data
 
 /datum/component/uplink/ui_static_data(mob/user)
@@ -423,14 +437,15 @@
 /datum/component/uplink/proc/new_ringtone(datum/source, mob/living/user, new_ring_text)
 	SIGNAL_HANDLER
 
-	if(trim(lowertext(new_ring_text)) != trim(lowertext(unlock_code)))
-		if(trim(lowertext(new_ring_text)) == trim(lowertext(failsafe_code)))
+	if(trim(LOWER_TEXT(new_ring_text)) != trim(LOWER_TEXT(unlock_code)))
+		if(trim(LOWER_TEXT(new_ring_text)) == trim(LOWER_TEXT(failsafe_code)))
 			failsafe(user)
 			return COMPONENT_STOP_RINGTONE_CHANGE
 		return
 	locked = FALSE
-	interact(null, user)
-	to_chat(user, span_hear("The computer softly beeps."))
+	if(ismob(user))
+		interact(null, user)
+		to_chat(user, span_hear("The computer softly beeps."))
 	return COMPONENT_STOP_RINGTONE_CHANGE
 
 /datum/component/uplink/proc/check_detonate()
@@ -459,8 +474,8 @@
 	if(channel != RADIO_CHANNEL_UPLINK)
 		return
 
-	if(!findtext(lowertext(message), lowertext(unlock_code)))
-		if(failsafe_code && findtext(lowertext(message), lowertext(failsafe_code)))
+	if(!findtext(LOWER_TEXT(message), LOWER_TEXT(unlock_code)))
+		if(failsafe_code && findtext(LOWER_TEXT(message), LOWER_TEXT(failsafe_code)))
 			failsafe(user)  // no point returning cannot radio, youre probably ded
 		return
 	locked = FALSE
@@ -536,14 +551,22 @@
 	locked = FALSE
 	replacement_uplink.balloon_alert_to_viewers("beep", vision_distance = COMBAT_MESSAGE_RANGE)
 
-/datum/component/uplink/proc/failsafe(mob/living/carbon/user)
+/datum/component/uplink/proc/failsafe(atom/source)
 	if(!parent)
 		return
 	var/turf/T = get_turf(parent)
 	if(!T)
 		return
-	message_admins("[ADMIN_LOOKUPFLW(user)] has triggered an uplink failsafe explosion at [AREACOORD(T)] The owner of the uplink was [ADMIN_LOOKUPFLW(owner)].")
-	user.log_message("triggered an uplink failsafe explosion. Uplink owner: [key_name(owner)].", LOG_ATTACK)
+	var/user_deets = "an uplink failsafe explosion has been triggered"
+	if(ismob(source))
+		user_deets = "[ADMIN_LOOKUPFLW(source)] has triggered an uplink failsafe explosion"
+		source.log_message("triggered an uplink failsafe explosion. Uplink owner: [key_name(owner)].", LOG_ATTACK)
+	else if(istype(source, /obj/item/circuit_component))
+		var/obj/item/circuit_component/circuit = source
+		user_deets = "[circuit.parent.get_creator_admin()] has triggered an uplink failsafe explosion"
+	else
+		source?.log_message("somehow triggered an uplink failsafe explosion. Uplink owner: [key_name(owner)].", LOG_ATTACK)
+	message_admins("[user_deets] at [AREACOORD(T)] The owner of the uplink was [ADMIN_LOOKUPFLW(owner)].")
 
 	explosion(parent, devastation_range = 1, heavy_impact_range = 2, light_impact_range = 3)
 	qdel(parent) //Alternatively could brick the uplink.

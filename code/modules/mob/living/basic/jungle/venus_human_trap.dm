@@ -139,16 +139,25 @@
 	obj_damage = 60
 	melee_damage_lower = 10
 	melee_damage_upper = 20
+<<<<<<< HEAD
 	bodytemp_cold_damage_limit = 100
 	istate = ISTATE_HARM|ISTATE_BLOCKING
+=======
+	minimum_survivable_temperature = 100
+	combat_mode = TRUE
+>>>>>>> tg-pr-88929
 	basic_mob_flags = DEL_ON_DEATH
 	death_message = "collapses into bits of plant matter."
-	attacked_sound = 'sound/creatures/venus_trap_hurt.ogg'
-	death_sound = 'sound/creatures/venus_trap_death.ogg'
-	attack_sound = 'sound/creatures/venus_trap_hit.ogg'
+	attacked_sound = 'sound/mobs/non-humanoids/venus_trap/venus_trap_hurt.ogg'
+	death_sound = 'sound/mobs/non-humanoids/venus_trap/venus_trap_death.ogg'
+	attack_sound = 'sound/mobs/non-humanoids/venus_trap/venus_trap_hit.ogg'
 	unsuitable_heat_damage = 5 // heat damage is different from cold damage since coldmos is significantly more common than plasmafires
 	unsuitable_cold_damage = 2 // they now do take cold damage, but this should be sufficiently small that it does not cause major issues
+<<<<<<< HEAD
 	habitable_atmos = list("min_oxy" = 0, "max_oxy" = 0, "min_plas" = 0, "max_plas" = 0, "min_co2" = 0, "max_co2" = 0, "min_n2" = 0, "max_n2" = 0)
+=======
+	habitable_atmos = null
+>>>>>>> tg-pr-88929
 	unsuitable_atmos_damage = 0
 	/// copied over from the code from eyeballs (the mob) to make it easier for venus human traps to see in kudzu that doesn't have the transparency mutation
 	sight = SEE_SELF|SEE_MOBS|SEE_OBJS|SEE_TURFS
@@ -178,7 +187,11 @@
 	grant_actions_by_list(innate_actions)
 
 /mob/living/basic/venus_human_trap/RangedAttack(atom/victim)
+<<<<<<< HEAD
 	if(!(istate & ISTATE_HARM))
+=======
+	if(!combat_mode)
+>>>>>>> tg-pr-88929
 		return
 	var/datum/action/cooldown/mob_cooldown/tangle_ability = ai_controller.blackboard[BB_TARGETED_ACTION]
 	if(!istype(tangle_ability))
@@ -216,15 +229,30 @@
 	QDEL_LIST(vines)
 	return ..()
 
+<<<<<<< HEAD
 /datum/action/cooldown/mob_cooldown/projectile_attack/vine_tangle/Activate(atom/target_atom)
 	if(isturf(target_atom) || istype(target_atom, /obj/structure/spacevine))
+=======
+/datum/action/cooldown/mob_cooldown/projectile_attack/vine_tangle/Activate(atom/movable/target_atom)
+	if(!ismovable(target_atom) || istype(target_atom, /obj/structure/spacevine))
+		return
+	if(target_atom.anchored)
+		owner.balloon_alert(owner, "can't pull!")
+>>>>>>> tg-pr-88929
 		return
 	if(get_dist(owner, target_atom) > vine_grab_distance)
 		owner.balloon_alert(owner, "too far!")
 		return
+<<<<<<< HEAD
 	for(var/turf/blockage in get_line(owner, target_atom))
 		if(blockage.is_blocked_turf(exclude_mobs = TRUE))
 			owner.balloon_alert(owner, "something's in the way!")
+=======
+	var/list/target_turfs = get_line(owner, target_atom) - list(get_turf(owner), get_turf(target_atom))
+	for(var/turf/blockage in target_turfs)
+		if(blockage.is_blocked_turf(exclude_mobs = TRUE))
+			owner.balloon_alert(owner, "path blocked!")
+>>>>>>> tg-pr-88929
 			return
 
 	var/datum/beam/new_vine = owner.Beam(target_atom, icon_state = "vine", time = vine_duration * (ismob(target_atom) ? 1 : 2), beam_type = /obj/effect/ebeam/vine, emissive = FALSE)

@@ -8,6 +8,7 @@
 	/// If FALSE, we will protect the first person in the freezer from an explosion / nuclear blast.
 	var/jones = FALSE
 	paint_jobs = null
+<<<<<<< HEAD
 
 /obj/structure/closet/secure_closet/freezer/before_open(mob/living/user, force)
 	. = ..()
@@ -20,25 +21,51 @@
 /obj/structure/closet/secure_closet/freezer/after_close(mob/living/user)
 	. = ..()
 	toggle_organ_decay(src)
+=======
+	sealed = TRUE
+>>>>>>> tg-pr-88929
 
-/obj/structure/closet/secure_closet/freezer/Destroy()
-	toggle_organ_decay(src)
-	return ..()
+	/// The rate at which the internal air mixture cools
+	var/cooling_rate_per_second = 4
+	/// Minimum temperature of the internal air mixture
+	var/minimum_temperature = T0C - 60
 
+<<<<<<< HEAD
 /obj/structure/closet/secure_closet/freezer/Initialize(mapload)
 	. = ..()
 	toggle_organ_decay(src)
+=======
+/obj/structure/closet/secure_closet/freezer/process_internal_air(seconds_per_tick)
+	if(opened)
+		var/datum/gas_mixture/current_exposed_air = loc.return_air()
+		if(!current_exposed_air)
+			return
+		// The internal air won't cool down the external air when the freezer is opened.
+		internal_air.temperature = max(current_exposed_air.temperature, internal_air.temperature)
+		return ..()
+	else
+		if(internal_air.temperature <= minimum_temperature)
+			return
+		var/temperature_decrease_this_tick = min(cooling_rate_per_second * seconds_per_tick, internal_air.temperature - minimum_temperature)
+		internal_air.temperature -= temperature_decrease_this_tick
+>>>>>>> tg-pr-88929
 
 /obj/structure/closet/secure_closet/freezer/ex_act()
 	if(jones)
 		return ..()
 	jones = TRUE
 	flags_1 &= ~PREVENT_CONTENTS_EXPLOSION_1
+	return FALSE
 
+<<<<<<< HEAD
 /obj/structure/closet/secure_closet/freezer/deconstruct(disassembled)
 	if (!(flags_1 & NODECONSTRUCT_1))
 		new /obj/item/assembly/igniter/condenser(drop_location())
 	. = ..()
+=======
+/obj/structure/closet/secure_closet/freezer/atom_deconstruct(disassembled)
+	new /obj/item/assembly/igniter/condenser(drop_location())
+>>>>>>> tg-pr-88929
 
 /obj/structure/closet/secure_closet/freezer/empty
 	name = "freezer"
@@ -58,10 +85,13 @@
 	new /obj/item/reagent_containers/condiment/rice(src)
 	new /obj/item/reagent_containers/condiment/sugar(src)
 
+/obj/structure/closet/secure_closet/freezer/kitchen/all_access
+	req_access = null
+
 /obj/structure/closet/secure_closet/freezer/kitchen/maintenance
 	name = "maintenance refrigerator"
 	desc = "This refrigerator looks quite dusty, is there anything edible still inside?"
-	req_access = list()
+	req_access = null
 
 /obj/structure/closet/secure_closet/freezer/kitchen/maintenance/PopulateContents()
 	..()
@@ -72,7 +102,7 @@
 		new /obj/item/storage/fancy/egg_box(src)
 
 /obj/structure/closet/secure_closet/freezer/kitchen/mining
-	req_access = list()
+	req_access = null
 
 /obj/structure/closet/secure_closet/freezer/meat
 	name = "meat fridge"
@@ -85,7 +115,11 @@
 
 /obj/structure/closet/secure_closet/freezer/meat/open
 	locked = FALSE
+<<<<<<< HEAD
 	req_access = list()
+=======
+	req_access = null
+>>>>>>> tg-pr-88929
 
 /obj/structure/closet/secure_closet/freezer/meat/all_access
 	req_access = null
@@ -109,6 +143,9 @@
 		new /obj/item/reagent_containers/condiment/soymilk(src)
 	for(var/i in 1 to 2)
 		new /obj/item/storage/fancy/egg_box(src)
+
+/obj/structure/closet/secure_closet/freezer/fridge/all_access
+	req_access = null
 
 /obj/structure/closet/secure_closet/freezer/fridge/open
 	req_access = null

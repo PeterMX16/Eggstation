@@ -1,0 +1,31 @@
+{
+	"pda": [
+		{
+			"type": "icon_state",
+			"icon_state": "pda_base",
+			"blend_mode": "overlay",
+			"color_ids": [1]
+		},
+		{
+			"type": "icon_state",
+			"icon_state": "pda_buttons",
+			"blend_mode": "overlay",
+			"color_ids": [2]
+		},
+		{
+			"type": "icon_state",
+			"icon_state": "pda_stripe_double",
+			"blend_mode": "overlay",
+<<<<<<< HEAD:code/datums/greyscale/json_configs/heck_helmet_worn.json
+			"color_ids": [3]
+=======
+			"color_ids": [ 3 ]
+		},
+		{
+			"type": "icon_state",
+			"icon_state": "pda_screen_borders",
+			"blend_mode": "overlay"
+>>>>>>> tg-pr-88929:code/datums/greyscale/json_configs/pda_stripe_double.json
+		}
+	]
+}

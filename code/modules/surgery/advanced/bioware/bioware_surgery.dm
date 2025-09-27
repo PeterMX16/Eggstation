@@ -1,6 +1,9 @@
 /datum/surgery/advanced/bioware
 	name = "Enhancement surgery"
+<<<<<<< HEAD
 	requires_bodypart_type = NONE // monkestation edit: allow robotic bodyparts to get bioware surgeries
+=======
+>>>>>>> tg-pr-88929
 	/// What status effect is gained when the surgery is successful?
 	/// Used to check against other bioware types to prevent stacking.
 	var/status_effect_gained = /datum/status_effect/bioware

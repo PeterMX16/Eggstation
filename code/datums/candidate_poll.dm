@@ -28,10 +28,14 @@
 		POLL_RESPONSE_TOO_LATE_TO_UNREGISTER = "It's too late to unregister yourself, selection has already begun!",
 		POLL_RESPONSE_UNREGISTERED = "You have been unregistered as a candidate for %ROLE%. You can sign up again before the poll ends.",
 	)
+<<<<<<< HEAD
 	/// Chosen candidates.
 	var/list/chosen_candidates = list()
 	/// Whether to show trhe amount who've signed up or not.
 	var/show_candidate_amount = TRUE
+=======
+	var/list/chosen_candidates = list()
+>>>>>>> tg-pr-88929
 
 /datum/candidate_poll/New(
 	polled_role,
@@ -77,7 +81,11 @@
 	if(time_left() <= 0)
 		if(!silent)
 			to_chat(candidate, span_danger("Sorry, you were too late for the consideration!"))
+<<<<<<< HEAD
 			SEND_SOUND(candidate, 'sound/machines/buzz-sigh.ogg')
+=======
+			SEND_SOUND(candidate, 'sound/machines/buzz/buzz-sigh.ogg')
+>>>>>>> tg-pr-88929
 		return FALSE
 
 	signed_up += candidate
@@ -116,7 +124,13 @@
 	return TRUE
 
 /datum/candidate_poll/proc/do_never_for_this_round(mob/candidate)
+<<<<<<< HEAD
 	LAZYADDASSOCLIST(GLOB.poll_ignore, ignoring_category, candidate.ckey)
+=======
+	var/list/ignore_list = GLOB.poll_ignore[ignoring_category]
+	if(!ignore_list)
+		GLOB.poll_ignore[ignoring_category] = list()
+>>>>>>> tg-pr-88929
 	GLOB.poll_ignore[ignoring_category] += candidate.ckey
 	to_chat(candidate, span_danger("Choice registered: Never for this round."))
 	remove_candidate(candidate, silent = TRUE)

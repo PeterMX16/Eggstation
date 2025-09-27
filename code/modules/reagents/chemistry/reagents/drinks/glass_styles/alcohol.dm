@@ -95,6 +95,10 @@
 	name = "glass of amaretto"
 	desc = "A sweet and syrupy looking drink."
 	icon_state = "amarettoglass"
+<<<<<<< HEAD
+=======
+
+>>>>>>> tg-pr-88929
 /datum/glass_style/drinking_glass/cognac
 	required_drink_type = /datum/reagent/consumable/ethanol/cognac
 	name = "glass of cognac"
@@ -107,8 +111,13 @@
 	desc = "It's as strong as it smells."
 	icon_state = "absinthe"
 
+<<<<<<< HEAD
 /datum/glass_style/drinking_glass/hooch
 	required_drink_type = /datum/reagent/consumable/ethanol/hooch
+=======
+/datum/glass_style/drinking_glass/ale
+	required_drink_type = /datum/reagent/consumable/ethanol/ale
+>>>>>>> tg-pr-88929
 	name = "glass of ale"
 	desc = "A freezing pint of delicious Ale."
 	icon_state = "aleglass"
@@ -155,7 +164,10 @@
 	required_drink_type = /datum/reagent/consumable/ethanol/pruno
 	name = "glass of pruno"
 	desc = "Fermented prison wine made from fruit, sugar, and despair. Security loves to confiscate this, which is the only kind thing Security has ever done."
+<<<<<<< HEAD
 	icon_state = "glass_orange"
+=======
+>>>>>>> tg-pr-88929
 
 /datum/glass_style/drinking_glass/navy_rum
 	required_drink_type = /datum/reagent/consumable/ethanol/navy_rum
@@ -187,7 +199,10 @@
 	name = "glass of yūyake"
 	desc = "It's the saccharine essence of the 70s in a glass... the 1970s, that is!"
 	icon = 'icons/obj/drinks/drinks.dmi'
+<<<<<<< HEAD
 	icon_state = "glass_red"
+=======
+>>>>>>> tg-pr-88929
 
 /datum/glass_style/drinking_glass/shochu
 	required_drink_type = /datum/reagent/consumable/ethanol/shochu
@@ -255,7 +270,10 @@
 	required_drink_type = /datum/reagent/consumable/ethanol/hooch
 	name = "Hooch"
 	desc = "You've really hit rock bottom now... your liver packed its bags and left last night."
+<<<<<<< HEAD
 	icon_state = "glass_brown2"
+=======
+>>>>>>> tg-pr-88929
 
 /datum/glass_style/shot_glass/goldschlager
 	required_drink_type = /datum/reagent/consumable/ethanol/goldschlager

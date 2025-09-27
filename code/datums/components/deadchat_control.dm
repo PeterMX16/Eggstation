@@ -42,8 +42,12 @@
 	notify_ghosts(
 		"[parent] is now deadchat controllable!",
 		source = parent,
+<<<<<<< HEAD
 		action = NOTIFY_ORBIT,
 		header = "Something Interesting!",
+=======
+		header = "Ghost Possession!",
+>>>>>>> tg-pr-88929
 	)
 	if(!ismob(parent) && !SSpoints_of_interest.is_valid_poi(parent))
 		SSpoints_of_interest.make_point_of_interest(parent)
@@ -62,7 +66,7 @@
 /datum/component/deadchat_control/proc/deadchat_react(mob/source, message)
 	SIGNAL_HANDLER
 
-	message = lowertext(message)
+	message = LOWER_TEXT(message)
 
 	if(!inputs[message])
 		return
@@ -163,7 +167,7 @@
  */
 /datum/component/deadchat_control/proc/waive_automute(mob/speaker, client/client, message, mute_type)
 	SIGNAL_HANDLER
-	if(mute_type == MUTE_DEADCHAT && inputs[lowertext(message)])
+	if(mute_type == MUTE_DEADCHAT && inputs[LOWER_TEXT(message)])
 		return WAIVE_AUTOMUTE_CHECK
 	return NONE
 
@@ -196,7 +200,7 @@
 	if(!isobserver(user))
 		return
 
-	examine_list += span_notice("[A.p_theyre(TRUE)] currently under deadchat control using the [(deadchat_mode & DEMOCRACY_MODE) ? "democracy" : "anarchy"] ruleset!")
+	examine_list += span_notice("[A.p_Theyre()] currently under deadchat control using the [(deadchat_mode & DEMOCRACY_MODE) ? "democracy" : "anarchy"] ruleset!")
 
 	if(deadchat_mode & DEMOCRACY_MODE)
 		examine_list += span_notice("Type a command into chat to vote on an action. This happens once every [input_cooldown * 0.1] second\s.")

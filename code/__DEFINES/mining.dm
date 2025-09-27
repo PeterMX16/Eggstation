@@ -5,10 +5,18 @@
 #define BOULDER_SIZE_MEDIUM 10
 /// Durability of a small size boulder from a small size vent.
 #define BOULDER_SIZE_SMALL 5
+<<<<<<< HEAD
 /// How many boulders can a single ore vent have on it's tile before it stops producing more?
 #define MAX_BOULDERS_PER_VENT 10
 /// Time multiplier
 #define INATE_BOULDER_SPEED_MULTIPLIER 3
+=======
+/// How many boulders can a single ore vent have on its tile before it stops producing more?
+#define MAX_BOULDERS_PER_VENT 10
+/// Time multiplier
+#define INATE_BOULDER_SPEED_MULTIPLIER 3
+
+>>>>>>> tg-pr-88929
 // Vent type
 /// Large vents, giving large boulders.
 #define LARGE_VENT_TYPE "large"
@@ -17,6 +25,17 @@
 /// Small vents, giving small boulders.
 #define SMALL_VENT_TYPE "small"
 
+<<<<<<< HEAD
+=======
+// Timers for the ore vents to perform wave defense.
+/// Duration for wave defense for a small vent.
+#define WAVE_DURATION_SMALL 60 SECONDS
+/// Duration for wave defense for a medium vent.
+#define WAVE_DURATION_MEDIUM 90 SECONDS
+/// Duration for wave defense for a large vent.
+#define WAVE_DURATION_LARGE 150 SECONDS
+
+>>>>>>> tg-pr-88929
 /// Proximity to a vent that a wall ore needs to be for 5 ore to be mined.
 #define VENT_PROX_VERY_HIGH 3
 /// Proximity to a vent that a wall ore needs to be for 4 ore to be mined.
@@ -39,6 +58,20 @@
 /// The chance of ore spawning in a wall that is VENT_PROX_FAR tiles to a vent.
 #define VENT_CHANCE_FAR 1
 
+<<<<<<< HEAD
+=======
+/// The amount of ore that is mined from a wall that is VENT_PROX_VERY_HIGH tiles to a vent.
+#define ORE_WALL_VERY_HIGH 5
+/// The amount of ore that is mined from a wall that is VENT_PROX_HIGH tiles to a vent.
+#define ORE_WALL_HIGH 4
+/// The amount of ore that is mined from a wall that is VENT_PROX_MEDIUM tiles to a vent.
+#define ORE_WALL_MEDIUM 3
+/// The amount of ore that is mined from a wall that is VENT_PROX_LOW tiles to a vent.
+#define ORE_WALL_LOW 2
+/// The amount of ore that is mined from a wall that is VENT_PROX_FAR tiles to a vent.
+#define ORE_WALL_FAR 1
+
+>>>>>>> tg-pr-88929
 /// The number of points a miner gets for discovering a vent, multiplied by BOULDER_SIZE when completing a wave defense minus the discovery bonus.
 #define MINER_POINT_MULTIPLIER 100
 /// The multiplier that gets applied for automatically generated mining points.

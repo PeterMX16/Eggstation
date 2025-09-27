@@ -6,7 +6,7 @@
 	var/list/stored_access
 	var/update_id_name = FALSE //If the name of the human is same as the name on the id they're wearing we'll update provided id when equipping
 
-/datum/outfit/varedit/pre_equip(mob/living/carbon/human/equipping_mob, visualsOnly)
+/datum/outfit/varedit/pre_equip(mob/living/carbon/human/equipping_mob, visuals_only)
 	equipping_mob.delete_equipment() //Applying VV to wrong objects is not reccomended.
 	return ..()
 
@@ -118,10 +118,18 @@
 				result["RHAND"] = vedits
 	outfit.vv_values = result
 	//Copy backpack contents if exist.
+<<<<<<< HEAD
 	var/obj/item/backpack = astype(get_item_by_slot(ITEM_SLOT_BACK))
 	if(backpack?.atom_storage)
 		var/list/typecounts = list()
 		for(var/obj/item/backpack_item in backpack.atom_storage.return_inv(FALSE))
+=======
+	var/obj/item/backpack = get_item_by_slot(ITEM_SLOT_BACK)
+	if(istype(backpack) && backpack.atom_storage)
+		var/list/bp_stuff = backpack.atom_storage.return_inv(recursive = FALSE)
+		var/list/typecounts = list()
+		for(var/obj/item/backpack_item in bp_stuff)
+>>>>>>> tg-pr-88929
 			if(typecounts[backpack_item.type])
 				typecounts[backpack_item.type] += 1
 			else
@@ -138,7 +146,7 @@
 	GLOB.custom_outfits += outfit
 	to_chat(usr,"Outfit registered, use select equipment to equip it.")
 
-/datum/outfit/varedit/post_equip(mob/living/carbon/human/human, visualsOnly)
+/datum/outfit/varedit/post_equip(mob/living/carbon/human/human, visuals_only)
 	. = ..()
 	//Apply VV
 	for(var/slot in vv_values)

@@ -7,11 +7,16 @@
 	icon_state = "mook"
 	icon_living = "mook"
 	icon_dead = "mook_dead"
+<<<<<<< HEAD
 	mob_biotypes = MOB_ORGANIC|MOB_HUMANOID|MOB_MINING
+=======
+	mob_biotypes = MOB_ORGANIC|MOB_HUMANOID
+>>>>>>> tg-pr-88929
 	gender = FEMALE
 	maxHealth = 150
 	faction = list(FACTION_MINING, FACTION_NEUTRAL)
 	health = 150
+<<<<<<< HEAD
 	move_resist = MOVE_FORCE_OVERPOWERING
 	melee_damage_lower = 8
 	melee_damage_upper = 8
@@ -22,6 +27,16 @@
 	ai_controller = /datum/ai_controller/basic_controller/mook/support
 	speed = 5
 
+=======
+	move_resist = MOVE_FORCE_VERY_STRONG
+	melee_damage_lower = 8
+	melee_damage_upper = 8
+	attack_sound = 'sound/items/weapons/rapierhit.ogg'
+	attack_vis_effect = ATTACK_EFFECT_SLASH
+	death_sound = 'sound/mobs/non-humanoids/mook/mook_death.ogg'
+	ai_controller = /datum/ai_controller/basic_controller/mook/support
+	speed = 5
+>>>>>>> tg-pr-88929
 	pixel_x = -16
 	base_pixel_x = -16
 	pixel_y = -16
@@ -43,22 +58,39 @@
 	var/list/pet_commands = list(
 		/datum/pet_command/idle,
 		/datum/pet_command/free,
+<<<<<<< HEAD
 		/datum/pet_command/point_targeting/attack,
 		/datum/pet_command/point_targeting/fetch,
+=======
+		/datum/pet_command/attack,
+		/datum/pet_command/fetch,
+>>>>>>> tg-pr-88929
 	)
 
 /mob/living/basic/mining/mook/Initialize(mapload)
 	. = ..()
+<<<<<<< HEAD
 	AddComponent(/datum/component/ai_retaliate_advanced, CALLBACK(src, PROC_REF(attack_intruder)))
 	var/datum/action/cooldown/mob_cooldown/mook_ability/mook_jump/jump = new(src)
 	jump.Grant(src)
 	ai_controller.set_blackboard_key(BB_MOOK_JUMP_ABILITY, jump)
+=======
+	AddElement(\
+		/datum/element/change_force_on_death,\
+		move_resist = MOVE_RESIST_DEFAULT,\
+	)
+	AddComponent(/datum/component/ai_retaliate_advanced, CALLBACK(src, PROC_REF(attack_intruder)))
+	grant_actions_by_list(get_innate_abilities())
+>>>>>>> tg-pr-88929
 
 	ore_overlay = mutable_appearance(icon, "mook_ore_overlay")
 
 	AddComponent(/datum/component/ai_listen_to_weather)
 	AddElement(/datum/element/wall_tearer, allow_reinforced = FALSE)
+<<<<<<< HEAD
 	RegisterSignal(src, COMSIG_HOSTILE_PRE_ATTACKINGTARGET, PROC_REF(pre_attack))
+=======
+>>>>>>> tg-pr-88929
 	RegisterSignal(src, COMSIG_KB_MOB_DROPITEM_DOWN, PROC_REF(drop_ore))
 
 	if(is_healer)
@@ -66,6 +98,16 @@
 
 	AddComponent(/datum/component/obeys_commands, pet_commands)
 
+<<<<<<< HEAD
+=======
+/// Returns a list of actions and blackboard keys to pass into `grant_actions_by_list`.
+/mob/living/basic/mining/mook/proc/get_innate_abilities()
+	var/static/list/innate_abilities = list(
+		/datum/action/cooldown/mob_cooldown/mook_ability/mook_jump = BB_MOOK_JUMP_ABILITY,
+	)
+	return innate_abilities
+
+>>>>>>> tg-pr-88929
 /mob/living/basic/mining/mook/proc/grant_healer_abilities()
 	AddComponent(\
 		/datum/component/healing_touch,\
@@ -89,27 +131,46 @@
 	held_ore = null
 	update_appearance(UPDATE_OVERLAYS)
 
+<<<<<<< HEAD
 /mob/living/basic/mining/mook/proc/pre_attack(mob/living/attacker, atom/target)
 	SIGNAL_HANDLER
 
+=======
+/mob/living/basic/mining/mook/early_melee_attack(atom/target, list/modifiers, ignore_cooldown)
+	. = ..()
+	if(!.)
+		return FALSE
+>>>>>>> tg-pr-88929
 	return attack_sequence(target)
 
 /mob/living/basic/mining/mook/proc/attack_sequence(atom/target)
 	if(istype(target, /obj/item/stack/ore) && isnull(held_ore))
 		var/obj/item/ore_target = target
 		ore_target.forceMove(src)
+<<<<<<< HEAD
 		return COMPONENT_HOSTILE_NO_ATTACK
+=======
+		return FALSE
+>>>>>>> tg-pr-88929
 
 	if(istype(target, /obj/structure/ore_container/material_stand))
 		if(held_ore)
 			held_ore.forceMove(target)
+<<<<<<< HEAD
 		return COMPONENT_HOSTILE_NO_ATTACK
+=======
+		return FALSE
+>>>>>>> tg-pr-88929
 
 	if(istype(target, /obj/structure/bonfire))
 		var/obj/structure/bonfire/fire_target = target
 		if(!fire_target.burning)
 			fire_target.start_burning()
+<<<<<<< HEAD
 		return COMPONENT_HOSTILE_NO_ATTACK
+=======
+		return FALSE
+>>>>>>> tg-pr-88929
 
 /mob/living/basic/mining/mook/proc/change_combatant_state(state)
 	attack_state = state
@@ -154,6 +215,12 @@
 /mob/living/basic/mining/mook/CanAllowThrough(atom/movable/mover, border_dir)
 	. = ..()
 
+<<<<<<< HEAD
+=======
+	if(.)
+		return TRUE
+
+>>>>>>> tg-pr-88929
 	if(!istype(mover, /mob/living/basic/mining/mook))
 		return FALSE
 
@@ -193,9 +260,24 @@
 	neutral_stance = mutable_appearance(icon, "mook_axe_overlay")
 	attack_stance = mutable_appearance(icon, "axe_strike_overlay")
 	update_appearance()
+<<<<<<< HEAD
 	var/datum/action/cooldown/mob_cooldown/mook_ability/mook_leap/leap = new(src)
 	leap.Grant(src)
 	ai_controller.set_blackboard_key(BB_MOOK_LEAP_ABILITY, leap)
+=======
+
+/mob/living/basic/mining/mook/worker/get_innate_abilities()
+	var/static/list/worker_innate_abilites = null
+
+	if(isnull(worker_innate_abilites))
+		worker_innate_abilites = list()
+		worker_innate_abilites += ..()
+		worker_innate_abilites += list(
+			/datum/action/cooldown/mob_cooldown/mook_ability/mook_leap = BB_MOOK_LEAP_ABILITY,
+		)
+
+	return worker_innate_abilites
+>>>>>>> tg-pr-88929
 
 /mob/living/basic/mining/mook/worker/attack_sequence(atom/target)
 	. = ..()
@@ -224,8 +306,13 @@
 	melee_damage_lower = 10
 	melee_damage_upper = 10
 	gender = MALE
+<<<<<<< HEAD
 	attack_sound = 'sound/weapons/stringsmash.ogg'
 	death_sound = 'sound/voice/mook_death.ogg'
+=======
+	attack_sound = 'sound/items/weapons/stringsmash.ogg'
+	death_sound = 'sound/mobs/non-humanoids/mook/mook_death.ogg'
+>>>>>>> tg-pr-88929
 	ai_controller = /datum/ai_controller/basic_controller/mook/bard
 	///our guitar
 	var/obj/item/instrument/guitar/held_guitar
@@ -238,11 +325,14 @@
 	ai_controller.set_blackboard_key(BB_SONG_INSTRUMENT, held_guitar)
 	update_appearance()
 
+<<<<<<< HEAD
 //Monkestation edit: Removes a harddel
 /mob/living/basic/mining/mook/worker/bard/Destroy()
 	QDEL_NULL(held_guitar)
 	return ..()
 
+=======
+>>>>>>> tg-pr-88929
 /mob/living/basic/mining/mook/worker/tribal_chief
 	name = "tribal chief"
 	desc = "Acknowledge him!"

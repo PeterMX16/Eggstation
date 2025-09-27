@@ -16,31 +16,57 @@
 		return ELEMENT_INCOMPATIBLE
 	src.pry_time = pry_time
 	src.interaction_key = interaction_key
+<<<<<<< HEAD
 	RegisterSignals(target, list(COMSIG_LIVING_UNARMED_ATTACK, COMSIG_HUMAN_MELEE_UNARMED_ATTACK), PROC_REF(on_attack))
 
 /datum/element/door_pryer/Detach(datum/source)
 	. = ..()
 	UnregisterSignal(source, list(COMSIG_LIVING_UNARMED_ATTACK, COMSIG_HUMAN_MELEE_UNARMED_ATTACK))
+=======
+	RegisterSignal(target, COMSIG_LIVING_UNARMED_ATTACK, PROC_REF(on_attack))
+
+/datum/element/door_pryer/Detach(datum/source)
+	. = ..()
+	UnregisterSignal(source, COMSIG_LIVING_UNARMED_ATTACK)
+>>>>>>> tg-pr-88929
 
 /// If we're targeting an airlock, open it
 /datum/element/door_pryer/proc/on_attack(mob/living/basic/attacker, atom/target, proximity_flag)
 	SIGNAL_HANDLER
+<<<<<<< HEAD
 	if(!istype(target, /obj/machinery/door/airlock))
 		return
 	var/obj/machinery/door/airlock/airlock_target = target
 	if (!airlock_target.density)
 		return // It's already open numbnuts
+=======
+	if(!proximity_flag || !istype(target, /obj/machinery/door/airlock))
+		return NONE
+	var/obj/machinery/door/airlock/airlock_target = target
+	if (!airlock_target.density)
+		return NONE // It's already open numbnuts
+>>>>>>> tg-pr-88929
 
 	if(DOING_INTERACTION_WITH_TARGET(attacker, target) || (!isnull(interaction_key) && DOING_INTERACTION(attacker, interaction_key)))
 		attacker.balloon_alert(attacker, "busy!")
 		return COMPONENT_CANCEL_ATTACK_CHAIN
 
+<<<<<<< HEAD
 	if (airlock_target.locked || airlock_target.welded || airlock_target.seal)
 		if (!(attacker.istate & ISTATE_HARM))
 			airlock_target.balloon_alert(attacker, "it's sealed!")
 			return COMPONENT_CANCEL_ATTACK_CHAIN
 		return // Attack the door
 
+=======
+	if (attacker.combat_mode)
+		return // Attack the door
+
+	if (airlock_target.locked || airlock_target.welded || airlock_target.seal)
+		airlock_target.balloon_alert(attacker, "it's sealed!")
+		return COMPONENT_CANCEL_ATTACK_CHAIN
+
+>>>>>>> tg-pr-88929
 	INVOKE_ASYNC(src, PROC_REF(open_door), attacker, airlock_target)
 	return COMPONENT_CANCEL_ATTACK_CHAIN
 
@@ -59,7 +85,11 @@
 		message = span_warning("[attacker] starts forcing the [airlock_target] open!"),
 		blind_message = span_hear("You hear a metal screeching sound."),
 	)
+<<<<<<< HEAD
 	playsound(airlock_target, 'sound/machines/airlock_alien_prying.ogg', 100, TRUE)
+=======
+	playsound(airlock_target, 'sound/machines/airlock/airlock_alien_prying.ogg', 100, TRUE)
+>>>>>>> tg-pr-88929
 	airlock_target.balloon_alert(attacker, "prying...")
 	if(!do_after(attacker, pry_time, airlock_target))
 		airlock_target.balloon_alert(attacker, "interrupted!")

@@ -1,17 +1,12 @@
-/*
-	The equivalent of the server, for PDA and request console messages.
-	Without it, PDA and request console messages cannot be transmitted.
-	PDAs require the rest of the telecomms setup, but request consoles only
-	require the message server.
-*/
-
 // A decorational representation of SSblackbox, usually placed alongside the message server. Also contains a traitor theft item.
 /obj/machinery/blackbox_recorder
-	icon = 'icons/obj/stationobjs.dmi'
-	icon_state = "blackbox"
 	name = "Blackbox Recorder"
+	icon = 'icons/obj/machines/telecomms.dmi'
+	icon_state = "blackbox"
 	density = TRUE
 	armor_type = /datum/armor/machinery_blackbox_recorder
+	/// The object that's stored in the machine, which is to say, the blackbox itself.
+	/// When it hasn't already been stolen, of course.
 	var/obj/item/stored
 
 /datum/armor/machinery_blackbox_recorder
@@ -39,7 +34,11 @@
 		to_chat(user, span_warning("It seems that the blackbox is missing..."))
 		return
 
+<<<<<<< HEAD
 /obj/machinery/blackbox_recorder/attackby(obj/item/attacking_item, mob/user, list/modifiers, list/attack_modifiers)
+=======
+/obj/machinery/blackbox_recorder/attackby(obj/item/attacking_item, mob/living/user, params)
+>>>>>>> tg-pr-88929
 	if(istype(attacking_item, /obj/item/blackbox))
 		if(HAS_TRAIT(attacking_item, TRAIT_NODROP) || !user.transferItemToLoc(attacking_item, src))
 			to_chat(user, span_warning("[attacking_item] is stuck to your hand!"))
@@ -65,7 +64,7 @@
 /obj/item/blackbox
 	name = "\proper the blackbox"
 	desc = "A strange relic, capable of recording data on extradimensional vertices. It lives inside the blackbox recorder for safe keeping."
-	icon = 'icons/obj/stationobjs.dmi'
+	icon = 'icons/obj/machines/telecomms.dmi'
 	icon_state = "blackcube"
 	inhand_icon_state = "blackcube"
 	lefthand_file = 'icons/mob/inhands/items_lefthand.dmi'
@@ -73,21 +72,36 @@
 	w_class = WEIGHT_CLASS_BULKY
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | ACID_PROOF
 
-#define MESSAGE_SERVER_FUNCTIONING_MESSAGE "This is an automated message. The messaging system is functioning correctly."
 
-// The message server itself.
+/**
+ * The equivalent of the server, for PDA and request console messages.
+ * Without it, PDA and request console messages cannot be transmitted.
+ * PDAs require the rest of the telecomms setup, but request consoles only
+ * require the message server.
+ */
 /obj/machinery/telecomms/message_server
-	icon_state = "message_server"
 	name = "Messaging Server"
 	desc = "A machine that processes and routes PDA and request console messages."
+	icon_state = "message_server"
 	telecomms_type = /obj/machinery/telecomms/message_server
 	density = TRUE
 	circuit = /obj/item/circuitboard/machine/telecomms/message_server
 
+	/// A list of all the PDA messages that were intercepted and processed by
+	/// this messaging server.
 	var/list/datum/data_tablet_msg/pda_msgs = list()
+	/// A list of all the Request Console messages that were intercepted and
+	/// processed by this messaging server.
 	var/list/datum/data_rc_msg/rc_msgs = list()
+	/// The password of this messaging server.
 	var/decryptkey = "password"
-	var/calibrating = 15 MINUTES //Init reads this and adds world.time, then becomes 0 when that time has passed and the machine works
+	/// Init reads this and adds world.time, then becomes 0 when that time has
+	/// passed and the machine works.
+	/// Basically, if it's not 0, it's calibrating and therefore non-functional.
+	var/calibrating = 15 MINUTES
+
+
+#define MESSAGE_SERVER_FUNCTIONING_MESSAGE "This is an automated message. The messaging system is functioning correctly."
 
 /obj/machinery/telecomms/message_server/Initialize(mapload)
 	. = ..()
@@ -115,6 +129,8 @@
 		calibrating = 0
 		pda_msgs += new /datum/data_tablet_msg("System Administrator", "system", MESSAGE_SERVER_FUNCTIONING_MESSAGE)
 
+#undef MESSAGE_SERVER_FUNCTIONING_MESSAGE
+
 /obj/machinery/telecomms/message_server/receive_information(datum/signal/subspace/messaging/signal, obj/machinery/telecomms/machine_from)
 	// can't log non-message signals
 	if(!istype(signal) || !signal.data["message"] || !on || calibrating)
@@ -126,8 +142,13 @@
 		var/datum/data_tablet_msg/log_message = new(PDAsignal.format_target(), PDAsignal.format_sender(), PDAsignal.format_message(), PDAsignal.format_photo_path())
 		pda_msgs += log_message
 	else if(istype(signal, /datum/signal/subspace/messaging/rc))
+<<<<<<< HEAD
 		var/datum/data_rc_msg/msg = new(signal.data["rec_dpt"], signal.data["send_dpt"], signal.data["message"], signal.data["stamped"], signal.data["verified"], signal.data["priority"])
 		if(signal.data["send_dpt"]) // don't log messages not from a department but allow them to work
+=======
+		var/datum/data_rc_msg/msg = new(signal.data["receiving_department"], signal.data["sender_department"], signal.data["message"], signal.data["stamped"], signal.data["verified"], signal.data["priority"])
+		if(signal.data["sender_department"]) // don't log messages not from a department but allow them to work
+>>>>>>> tg-pr-88929
 			rc_msgs += msg
 	signal.data["reject"] = FALSE
 
@@ -173,8 +194,13 @@ GLOBAL_VAR(preset_station_message_server_key)
 /datum/signal/subspace/messaging/New(init_source, init_data)
 	source = init_source
 	data = init_data
+<<<<<<< HEAD
 	var/turf/T = get_turf(source)
 	levels = SSmapping.get_connected_levels(T)
+=======
+	var/turf/origin_turf = get_turf(source)
+	levels = SSmapping.get_connected_levels(origin_turf)
+>>>>>>> tg-pr-88929
 	if(!("reject" in data))
 		data["reject"] = TRUE
 
@@ -185,6 +211,7 @@ GLOBAL_VAR(preset_station_message_server_key)
 	return copy
 
 // Tablet message signal datum
+<<<<<<< HEAD
 /datum/signal/subspace/messaging/tablet_message/proc/format_target()
 	if (data["everyone"])
 		return "Everyone"
@@ -199,6 +226,28 @@ GLOBAL_VAR(preset_station_message_server_key)
 /datum/signal/subspace/messaging/tablet_message/proc/format_message()
 	return data["message"]
 
+=======
+/// Returns a string representing the target of this message, formatted properly.
+/datum/signal/subspace/messaging/tablet_message/proc/format_target()
+	if (data["everyone"])
+		return "Everyone"
+
+	var/datum/computer_file/program/messenger/target_app = data["targets"][1]
+	var/obj/item/modular_computer/target = target_app.computer
+	return STRINGIFY_PDA_TARGET(target.saved_identification, target.saved_job)
+
+/// Returns a string representing the sender of this message, formatted properly.
+/datum/signal/subspace/messaging/tablet_message/proc/format_sender()
+	var/display_name = get_messenger_name(locate(data["ref"]))
+	return display_name ? display_name : STRINGIFY_PDA_TARGET(data["fakename"], data["fakejob"])
+
+/// Returns the formatted message contained in this message. Use this to apply
+/// any processing to it if it needs to be formatted in a specific way.
+/datum/signal/subspace/messaging/tablet_message/proc/format_message()
+	return data["message"]
+
+/// Returns the formatted photo path contained in this message, if there's one.
+>>>>>>> tg-pr-88929
 /datum/signal/subspace/messaging/tablet_message/proc/format_photo_path()
 	return data["photo"]
 
@@ -214,13 +263,25 @@ GLOBAL_VAR(preset_station_message_server_key)
 		if(ckey(console.department) == recipient_department || (data["ore_update"] && console.receive_ore_updates))
 			console.create_message(data)
 
-// Log datums stored by the message server.
+/// Log datums stored by the message server.
 /datum/data_tablet_msg
+	/// Who sent the message.
 	var/sender = "Unspecified"
+	/// Who was targeted by the message.
 	var/recipient = "Unspecified"
+<<<<<<< HEAD
 	var/message = "Blank"  // transferred message
 	var/picture_asset_key  // attached photo path
 	var/automated = FALSE // automated message
+=======
+	/// The transfered message.
+	var/message = "Blank"
+	/// The attached photo path, if any.
+	var/picture_asset_key
+	/// Whether or not it's an automated message. Defaults to `FALSE`.
+	var/automated = FALSE
+
+>>>>>>> tg-pr-88929
 
 /datum/data_tablet_msg/New(param_rec, param_sender, param_message, param_photo)
 	if(param_rec)
@@ -231,20 +292,36 @@ GLOBAL_VAR(preset_station_message_server_key)
 		message = param_message
 	if(param_photo)
 		picture_asset_key = param_photo
+<<<<<<< HEAD
+=======
+
+
+#define REQUEST_PRIORITY_NORMAL "Normal"
+#define REQUEST_PRIORITY_HIGH "High"
+#define REQUEST_PRIORITY_EXTREME "Extreme"
+#define REQUEST_PRIORITY_UNDETERMINED "Undetermined"
+
+>>>>>>> tg-pr-88929
 
 /datum/data_rc_msg
-	var/rec_dpt = "Unspecified"  // receiving department
-	var/send_dpt = "Unspecified"  // sending department
+	/// The department that sent the request.
+	var/sender_department = "Unspecified"
+	/// The department that was targeted by the request.
+	var/receiving_department = "Unspecified"
+	/// The message of the request.
 	var/message = "Blank"
+	/// The stamp that authenticated this message, if any.
 	var/stamp = "Unstamped"
+	/// The ID that authenticated this message, if any.
 	var/id_auth = "Unauthenticated"
-	var/priority = "Normal"
+	/// The priority of this request.
+	var/priority = REQUEST_PRIORITY_NORMAL
 
 /datum/data_rc_msg/New(param_rec, param_sender, param_message, param_stamp, param_id_auth, param_priority)
 	if(param_rec)
-		rec_dpt = param_rec
+		receiving_department = param_rec
 	if(param_sender)
-		send_dpt = param_sender
+		sender_department = param_sender
 	if(param_message)
 		message = param_message
 	if(param_stamp)
@@ -254,19 +331,15 @@ GLOBAL_VAR(preset_station_message_server_key)
 	if(param_priority)
 		switch(param_priority)
 			if(REQ_NORMAL_MESSAGE_PRIORITY)
-				priority = "Normal"
+				priority = REQUEST_PRIORITY_NORMAL
 			if(REQ_HIGH_MESSAGE_PRIORITY)
-				priority = "High"
+				priority = REQUEST_PRIORITY_HIGH
 			if(REQ_EXTREME_MESSAGE_PRIORITY)
-				priority = "Extreme"
+				priority = REQUEST_PRIORITY_EXTREME
 			else
-				priority = "Undetermined"
+				priority = REQUEST_PRIORITY_UNDETERMINED
 
-#undef MESSAGE_SERVER_FUNCTIONING_MESSAGE
-
-/obj/machinery/telecomms/message_server/preset
-	id = "Messaging Server"
-	network = "tcommsat"
-	autolinkers = list("messaging")
-	decryptkey = null //random
-	calibrating = 0
+#undef REQUEST_PRIORITY_NORMAL
+#undef REQUEST_PRIORITY_HIGH
+#undef REQUEST_PRIORITY_EXTREME
+#undef REQUEST_PRIORITY_UNDETERMINED

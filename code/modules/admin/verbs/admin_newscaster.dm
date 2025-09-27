@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 ADMIN_VERB(access_news_network, R_ADMIN, FALSE, "Access Newscaster Network", "Allows you to view, add, and edit news feeds.", ADMIN_CATEGORY_EVENTS)
+=======
+ADMIN_VERB(access_news_network, R_ADMIN, "Access Newscaster Network", "Allows you to view, add, and edit news feeds.", ADMIN_CATEGORY_EVENTS)
+>>>>>>> tg-pr-88929
 	var/datum/newspanel/new_newspanel = new
 	new_newspanel.ui_interact(user.mob)
 
@@ -67,14 +71,15 @@ ADMIN_VERB(access_news_network, R_ADMIN, FALSE, "Access Newscaster Network", "Al
 	data["crime_description"] = crime_description
 	var/list/wanted_info = list()
 	if(GLOB.news_network.wanted_issue)
-		if(GLOB.news_network.wanted_issue.img)
+		var/has_wanted_issue = !isnull(GLOB.news_network.wanted_issue.img)
+		if(has_wanted_issue)
 			user << browse_rsc(GLOB.news_network.wanted_issue.img, "wanted_photo.png")
 		wanted_info = list(list(
 			"active" = GLOB.news_network.wanted_issue.active,
 			"criminal" = GLOB.news_network.wanted_issue.criminal,
 			"crime" = GLOB.news_network.wanted_issue.body,
 			"author" = GLOB.news_network.wanted_issue.scanned_user,
-			"image" = "wanted_photo.png"
+			"image" = (has_wanted_issue ? "wanted_photo.png" : null)
 		))
 
 	//Code breaking down the channels that have been made on-station thus far. ha
@@ -127,7 +132,7 @@ ADMIN_VERB(access_news_network, R_ADMIN, FALSE, "Access Newscaster Network", "Al
 		data["channelLocked"] = current_channel.locked
 		data["channelCensored"] = current_channel.censored
 
-	//We send all the information about all channels and all messages in existance.
+	//We send all the information about all channels and all messages in existence.
 	data["channels"] = channel_list
 	data["messages"] = message_list
 	data["wanted"] = wanted_info
@@ -233,14 +238,14 @@ ADMIN_VERB(access_news_network, R_ADMIN, FALSE, "Access Newscaster Network", "Al
 			return TRUE
 
 		if("setCriminalName")
-			var/temp_name = tgui_input_text(usr, "Write the Criminal's Name", "Warrent Alert Handler", "John Doe", MAX_NAME_LEN, multiline = FALSE)
+			var/temp_name = tgui_input_text(usr, "Write the Criminal's Name", "Warrent Alert Handler", "John Doe", max_length = MAX_NAME_LEN, multiline = FALSE)
 			if(!temp_name)
 				return TRUE
 			criminal_name = temp_name
 			return TRUE
 
 		if("setCrimeData")
-			var/temp_desc = tgui_input_text(usr, "Write the Criminal's Crimes", "Warrent Alert Handler", "Unknown", MAX_BROADCAST_LEN, multiline = TRUE)
+			var/temp_desc = tgui_input_text(usr, "Write the Criminal's Crimes", "Warrent Alert Handler", "Unknown", max_length = MAX_BROADCAST_LEN, multiline = TRUE)
 			if(!temp_desc)
 				return TRUE
 			crime_description = temp_desc
@@ -293,7 +298,7 @@ ADMIN_VERB(access_news_network, R_ADMIN, FALSE, "Access Newscaster Network", "Al
 		return TRUE
 	var/choice = tgui_alert(usr, "Please confirm feed channel creation","Network Channel Handler", list("Confirm","Cancel"))
 	if(choice == "Confirm")
-		GLOB.news_network.create_feed_channel(channel_name, "Centcom Offical", channel_desc, locked = channel_locked)
+		GLOB.news_network.create_feed_channel(channel_name, "Centcom Official", channel_desc, locked = channel_locked)
 		SSblackbox.record_feedback("text", "newscaster_channels", 1, "[channel_name]")
 	creating_channel = FALSE
 
@@ -305,10 +310,11 @@ ADMIN_VERB(access_news_network, R_ADMIN, FALSE, "Access Newscaster Network", "Al
 		creating_comment = FALSE
 		return TRUE
 	var/datum/feed_comment/new_feed_comment = new /datum/feed_comment
-	new_feed_comment.author = "Centcom Offical"
+	new_feed_comment.author = "Centcom Official"
 	new_feed_comment.body = comment_text
 	new_feed_comment.time_stamp = station_time_timestamp()
 	current_message.comments += new_feed_comment
+	GLOB.news_network.last_action ++
 	usr.log_message("(as an admin) commented on message [current_message.return_body(-1)] -- [current_message.body]", LOG_COMMENT)
 	creating_comment = FALSE
 
@@ -337,7 +343,7 @@ ADMIN_VERB(access_news_network, R_ADMIN, FALSE, "Access Newscaster Network", "Al
 		if(channel_name == potential_channel.channel_ID)
 			current_channel = potential_channel
 			break
-	var/temp_message = tgui_input_text(usr, "Write your Feed story", "Network Channel Handler", feed_channel_message, multiline = TRUE)
+	var/temp_message = tgui_input_text(usr, "Write your Feed story", "Network Channel Handler", feed_channel_message, max_length = MAX_BROADCAST_LEN, multiline = TRUE)
 	if(length(temp_message) <= 1)
 		return TRUE
 	if(temp_message)

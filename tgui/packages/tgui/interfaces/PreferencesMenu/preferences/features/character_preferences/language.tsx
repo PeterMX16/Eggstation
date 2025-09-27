@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import {
   CheckboxInput,
   FeatureChoiced,
@@ -21,5 +22,12 @@ export const language_speakable: FeatureToggle = {
 export const language_skill: FeatureChoiced = {
   name: 'Language Skill',
   description: 'The percentage of the language you can understand.',
+=======
+import { FeatureChoiced } from '../base';
+import { FeatureDropdownInput } from '../dropdowns';
+
+export const language: FeatureChoiced = {
+  name: 'Language',
+>>>>>>> tg-pr-88929
   component: FeatureDropdownInput,
 };

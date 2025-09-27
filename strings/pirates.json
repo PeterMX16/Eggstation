@@ -156,7 +156,25 @@
 		"Diabetes Rusher",
 		"Schistosome Vector"
 	],
+<<<<<<< HEAD
 	"grey_names": [
+=======
+	"interdyne_names":[
+		"Pharmaceutics Biocraft",
+		"Angel Dust",
+		"Black Acid",
+		"Crystal Meth Rocks",
+		"Alpha Product Tester",
+		"Beta Unblocker",
+		"Spaceaids Commander",
+		"Polonium Vessel",
+		"Chemo Therastar",
+		"Lymphocraft",
+		"Diabetes Rusher",
+		"Schistosome Vector"
+	],
+	"grey_names":[
+>>>>>>> tg-pr-88929
 		"The Space Toolbox",
 		"ISV Maintenance",
 		"S.S. Istant",
@@ -171,7 +189,11 @@
 		"The monochrome crash",
 		"Maintrastosphere Omega"
 	],
+<<<<<<< HEAD
 	"irs_names": [
+=======
+	"irs_names":[
+>>>>>>> tg-pr-88929
 		"Iron Shell Agency",
 		"Auroran Federal Tax Bureau",
 		"TerraGov Internal Revenue Service",
@@ -183,7 +205,11 @@
 		"Sindrian Revenue Authority",
 		"Space IRS"
 	],
+<<<<<<< HEAD
 	"psyker_names": [
+=======
+	"psyker_names":[
+>>>>>>> tg-pr-88929
 		"Big Gulchergut for Gore",
 		"Blowkaine",
 		"Brainframe",
@@ -217,7 +243,11 @@
 		"Ultra Violence",
 		"Where We're Going"
 	],
+<<<<<<< HEAD
 	"geode_names": [
+=======
+	"geode_names":[
+>>>>>>> tg-pr-88929
 		"Gamma Knife",
 		"Planet B",
 		"Crumbling Castle",
@@ -235,5 +265,25 @@
 		"Mass of Fermenting Dregs",
 		"Bloody Valentine",
 		"Wild Nothing"
+<<<<<<< HEAD
+=======
+	],
+	"medieval_names":[
+		"Head Reaper",
+		"The Lords Judgement",
+		"The Judgement",
+		"Peasant Smiter",
+		"Wicked Ravager",
+		"Sheep Reaver",
+		"Never-ending Crusade",
+		"Locus Invicta",
+		"Memento Morieris",
+		"God Conqueror",
+		"Omnium Contra Omnes",
+		"Aries Duo",
+		"Dark Ages Bringer",
+		"Merciless Barricade",
+		"Murder Mcmurderface"
+>>>>>>> tg-pr-88929
 	]
 }

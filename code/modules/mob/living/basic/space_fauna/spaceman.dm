@@ -13,7 +13,11 @@
 	response_disarm_simple = "gently push aside"
 	response_harm_continuous = "punches"
 	response_harm_simple = "punch"
+<<<<<<< HEAD
 	istate = ISTATE_HARM|ISTATE_BLOCKING
+=======
+	combat_mode = TRUE
+>>>>>>> tg-pr-88929
 	maxHealth = 100
 	health = 100
 	speed = 0
@@ -21,7 +25,11 @@
 	melee_damage_upper = 10
 	attack_verb_continuous = "hits"
 	attack_verb_simple = "hit"
+<<<<<<< HEAD
 	attack_sound = 'sound/weapons/punch1.ogg'
+=======
+	attack_sound = 'sound/items/weapons/punch1.ogg'
+>>>>>>> tg-pr-88929
 	obj_damage = 0
 	environment_smash = ENVIRONMENT_SMASH_NONE
 	ai_controller = /datum/ai_controller/basic_controller/spaceman

@@ -11,6 +11,10 @@
 #define MAGIC_TRAIT "magic"
 #define TRAUMA_TRAIT "trauma"
 #define FLIGHTPOTION_TRAIT "flightpotion"
+<<<<<<< HEAD
+=======
+#define SLIME_POTION_TRAIT "slime_potion"
+>>>>>>> tg-pr-88929
 /// Trait inherited by experimental surgeries
 #define EXPERIMENTAL_SURGERY_TRAIT "experimental_surgery"
 #define DISEASE_TRAIT "disease"
@@ -33,7 +37,11 @@
 #define CHANGELING_TRAIT "changeling"
 #define CULT_TRAIT "cult"
 #define LICH_TRAIT "lich"
+<<<<<<< HEAD
 #define BINGLE_PIT_TRAIT "bingle_pit"
+=======
+
+>>>>>>> tg-pr-88929
 #define VENDING_MACHINE_TRAIT "vending_machine"
 
 ///A trait given by a held item
@@ -47,7 +55,12 @@
 
 /// Trait given by an Action datum
 #define ACTION_TRAIT "action"
+<<<<<<< HEAD
 
+=======
+///A trait given by someone blocking.
+#define BLOCKING_TRAIT "blocking"
+>>>>>>> tg-pr-88929
 #define CLOTHING_TRAIT "clothing"
 #define HELMET_TRAIT "helmet"
 /// inherited from the mask
@@ -98,8 +111,11 @@
 #define SWORDPLAY_TRAIT "swordplay"
 /// Trait given by being recruited as a nuclear operative
 #define NUKE_OP_MINION_TRAIT "nuke-op-minion"
+<<<<<<< HEAD
 /// Trait given by joining as a crewmember
 #define CREW_JOIN_TRAIT "crew_join_trait"
+=======
+>>>>>>> tg-pr-88929
 
 /// Trait given to you by shapeshifting
 #define SHAPESHIFT_TRAIT "shapeshift_trait"
@@ -124,6 +140,10 @@
 #define MEGAFAUNA_TRAIT "megafauna"
 #define CLOWN_NUKE_TRAIT "clown-nuke"
 #define STICKY_MOUSTACHE_TRAIT "sticky-moustache"
+<<<<<<< HEAD
+=======
+#define CHAINSAW_FRENZY_TRAIT "chainsaw-frenzy"
+>>>>>>> tg-pr-88929
 #define CHRONO_GUN_TRAIT "chrono-gun"
 #define REVERSE_BEAR_TRAP_TRAIT "reverse-bear-trap"
 #define CURSED_MASK_TRAIT "cursed-mask"
@@ -164,7 +184,10 @@
 #define STICKY_NODROP "sticky-nodrop"
 #define SKILLCHIP_TRAIT "skillchip"
 #define SKILL_TRAIT "skill"
+<<<<<<< HEAD
 #define BUSY_FLOORBOT_TRAIT "busy-floorbot"
+=======
+>>>>>>> tg-pr-88929
 #define PULLED_WHILE_SOFTCRIT_TRAIT "pulled-while-softcrit"
 #define LOCKED_BORG_TRAIT "locked-borg"
 /// trait associated to not having locomotion appendages nor the ability to fly or float
@@ -196,16 +219,32 @@
 /// Trait given by a fulton extraction pack
 #define FULTON_PACK_TRAIT "fulton-pack"
 
+<<<<<<< HEAD
+=======
+/// Trait from mob/living/update_transform()
+#define UPDATE_TRANSFORM_TRAIT "update_transform"
+
+>>>>>>> tg-pr-88929
 /// Trait granted by the berserker hood.
 #define BERSERK_TRAIT "berserk_trait"
 /// Trait granted by [/obj/item/rod_of_asclepius]
 #define HIPPOCRATIC_OATH_TRAIT "hippocratic_oath"
+<<<<<<< HEAD
+=======
+/// Trait granted by [/datum/status_effect/blooddrunk]
+#define BLOODDRUNK_TRAIT "blooddrunk"
+>>>>>>> tg-pr-88929
 /// Trait granted by lipstick
 #define LIPSTICK_TRAIT "lipstick_trait"
 /// Self-explainatory.
 #define BEAUTY_ELEMENT_TRAIT "beauty_element"
 #define MOOD_DATUM_TRAIT "mood_datum"
 #define DRONE_SHY_TRAIT "drone_shy"
+<<<<<<< HEAD
+=======
+/// Trait given by stabilized light pink extracts
+#define STABILIZED_LIGHT_PINK_EXTRACT_TRAIT "stabilized_light_pink"
+>>>>>>> tg-pr-88929
 /// Trait given by adamantine extracts
 #define ADAMANTINE_EXTRACT_TRAIT "adamantine_extract"
 /// Given by the multiple_lives component to the previous body of the mob upon death.
@@ -224,6 +263,10 @@
 #define SPEED_TRAIT "speed_trait"
 /// Trait given to mobs that have been autopsied
 #define AUTOPSY_TRAIT "autopsy_trait"
+<<<<<<< HEAD
+=======
+#define EYE_SCARRING_TRAIT "eye_scarring_trait"
+>>>>>>> tg-pr-88929
 
 ///From the market_crash event
 #define MARKET_CRASH_EVENT_TRAIT "crashed_market_event"
@@ -264,7 +307,11 @@
 
 /**
 * Trait granted by [/mob/living/carbon/Initialize] and
+<<<<<<< HEAD
 * granted/removed by [/obj/item/organ/internal/tongue]
+=======
+* granted/removed by [/obj/item/organ/tongue]
+>>>>>>> tg-pr-88929
 * Used for ensuring that carbons without tongues cannot taste anything
 * so it is added in Initialize, and then removed when a tongue is inserted
 * and readded when a tongue is removed.
@@ -290,5 +337,28 @@
 /// Trait when a drink was renamed by a shaker
 #define SHAKER_LABEL_TRAIT "shaker_trait"
 
+<<<<<<< HEAD
 /// Trait added by style component
 #define STYLE_TRAIT "style"
+=======
+/// Trait given by a jetpack
+#define JETPACK_TRAIT "jetpack_trait"
+
+/// Trait added by style component
+#define STYLE_TRAIT "style"
+
+/// Trait added by a xenobio console
+#define XENOBIO_CONSOLE_TRAIT "xenobio_console_trait"
+
+/// Trait from an engraving
+#define ENGRAVED_TRAIT "engraved"
+
+/// From the aquarium component
+#define AQUARIUM_TRAIT "aquarium"
+
+/// Trait aquired from being painted a certain color
+#define ATOM_COLOR_TRAIT "atom_color"
+
+/// Permanent trait from an overdose effect
+#define OVERDOSE_TRAIT "overdose"
+>>>>>>> tg-pr-88929

@@ -41,7 +41,7 @@
 	id = "heart"
 	build_type = LIMBGROWER
 	reagents_list = list(/datum/reagent/medicine/c2/synthflesh = 30)
-	build_path = /obj/item/organ/internal/heart
+	build_path = /obj/item/organ/heart
 	category = list(SPECIES_HUMAN, RND_CATEGORY_INITIAL)
 
 /datum/design/lungs
@@ -49,7 +49,7 @@
 	id = "lungs"
 	build_type = LIMBGROWER
 	reagents_list = list(/datum/reagent/medicine/c2/synthflesh = 20)
-	build_path = /obj/item/organ/internal/lungs
+	build_path = /obj/item/organ/lungs
 	category = list(SPECIES_HUMAN, RND_CATEGORY_INITIAL)
 
 /datum/design/liver
@@ -57,7 +57,7 @@
 	id = "liver"
 	build_type = LIMBGROWER
 	reagents_list = list(/datum/reagent/medicine/c2/synthflesh = 20)
-	build_path = /obj/item/organ/internal/liver
+	build_path = /obj/item/organ/liver
 	category = list(SPECIES_HUMAN, RND_CATEGORY_INITIAL)
 
 /datum/design/stomach
@@ -65,7 +65,7 @@
 	id = "stomach"
 	build_type = LIMBGROWER
 	reagents_list = list(/datum/reagent/medicine/c2/synthflesh = 15)
-	build_path = /obj/item/organ/internal/stomach
+	build_path = /obj/item/organ/stomach
 	category = list(SPECIES_HUMAN, RND_CATEGORY_INITIAL)
 
 /datum/design/appendix
@@ -73,7 +73,7 @@
 	id = "appendix"
 	build_type = LIMBGROWER
 	reagents_list = list(/datum/reagent/medicine/c2/synthflesh = 5) //why would you need this
-	build_path = /obj/item/organ/internal/appendix
+	build_path = /obj/item/organ/appendix
 	category = list(SPECIES_HUMAN, RND_CATEGORY_INITIAL)
 
 /datum/design/eyes
@@ -81,7 +81,7 @@
 	id = "eyes"
 	build_type = LIMBGROWER
 	reagents_list = list(/datum/reagent/medicine/c2/synthflesh = 10)
-	build_path = /obj/item/organ/internal/eyes
+	build_path = /obj/item/organ/eyes
 	category = list(SPECIES_HUMAN, RND_CATEGORY_INITIAL)
 
 /datum/design/ears
@@ -89,7 +89,7 @@
 	id = "ears"
 	build_type = LIMBGROWER
 	reagents_list = list(/datum/reagent/medicine/c2/synthflesh = 10)
-	build_path = /obj/item/organ/internal/ears
+	build_path = /obj/item/organ/ears
 	category = list(SPECIES_HUMAN, RND_CATEGORY_INITIAL)
 
 /datum/design/tongue
@@ -97,7 +97,7 @@
 	id = "tongue"
 	build_type = LIMBGROWER
 	reagents_list = list(/datum/reagent/medicine/c2/synthflesh = 10)
-	build_path = /obj/item/organ/internal/tongue
+	build_path = /obj/item/organ/tongue
 	category = list(SPECIES_HUMAN, RND_CATEGORY_INITIAL)
 
 // Grows a fake lizard tail - not usable in lizard wine and other similar recipes.
@@ -106,7 +106,7 @@
 	id = "liztail"
 	build_type = LIMBGROWER
 	reagents_list = list(/datum/reagent/medicine/c2/synthflesh = 20)
-	build_path = /obj/item/organ/external/tail/lizard/fake
+	build_path = /obj/item/organ/tail/lizard/fake
 	category = list(SPECIES_LIZARD)
 
 /datum/design/lizard_tongue
@@ -114,7 +114,7 @@
 	id = "liztongue"
 	build_type = LIMBGROWER
 	reagents_list = list(/datum/reagent/medicine/c2/synthflesh = 20)
-	build_path = /obj/item/organ/internal/tongue/lizard
+	build_path = /obj/item/organ/tongue/lizard
 	category = list(SPECIES_LIZARD)
 
 /datum/design/monkey_tail
@@ -122,7 +122,7 @@
 	id = "monkeytail"
 	build_type = LIMBGROWER
 	reagents_list = list(/datum/reagent/medicine/c2/synthflesh = 20)
-	build_path = /obj/item/organ/external/tail/monkey
+	build_path = /obj/item/organ/tail/monkey
 	category = list(RND_CATEGORY_LIMBS_OTHER, RND_CATEGORY_INITIAL)
 
 /datum/design/cat_tail
@@ -130,23 +130,33 @@
 	id = "cattail"
 	build_type = LIMBGROWER
 	reagents_list = list(/datum/reagent/medicine/c2/synthflesh = 20)
+<<<<<<< HEAD
 	build_path = /obj/item/organ/external/tail/cat
 	category = list(RND_CATEGORY_LIMBS_OTHER, RND_CATEGORY_INITIAL) // Monkestation Edit:
+=======
+	build_path = /obj/item/organ/tail/cat
+	category = list(SPECIES_HUMAN)
+>>>>>>> tg-pr-88929
 
 /datum/design/cat_ears
 	name = "Cat Ears"
 	id = "catears"
 	build_type = LIMBGROWER
 	reagents_list = list(/datum/reagent/medicine/c2/synthflesh = 10)
+<<<<<<< HEAD
 	build_path = /obj/item/organ/internal/ears/cat
 	category = list(RND_CATEGORY_LIMBS_OTHER, RND_CATEGORY_INITIAL) // Monkestation Edit:
+=======
+	build_path = /obj/item/organ/ears/cat
+	category = list(SPECIES_HUMAN)
+>>>>>>> tg-pr-88929
 
 /datum/design/plasmaman_lungs
 	name = "Plasma Filter"
 	id = "plasmamanlungs"
 	build_type = LIMBGROWER
 	reagents_list = list(/datum/reagent/medicine/c2/synthflesh = 10, /datum/reagent/toxin/plasma = 20)
-	build_path = /obj/item/organ/internal/lungs/plasmaman
+	build_path = /obj/item/organ/lungs/plasmaman
 	category = list(SPECIES_PLASMAMAN)
 
 /datum/design/plasmaman_tongue
@@ -154,7 +164,7 @@
 	id = "plasmamantongue"
 	build_type = LIMBGROWER
 	reagents_list = list(/datum/reagent/medicine/c2/synthflesh = 10, /datum/reagent/toxin/plasma = 20)
-	build_path = /obj/item/organ/internal/tongue/bone/plasmaman
+	build_path = /obj/item/organ/tongue/bone/plasmaman
 	category = list(SPECIES_PLASMAMAN)
 
 /datum/design/plasmaman_liver
@@ -162,7 +172,11 @@
 	id = "plasmamanliver"
 	build_type = LIMBGROWER
 	reagents_list = list(/datum/reagent/medicine/c2/synthflesh = 10, /datum/reagent/toxin/plasma = 20)
+<<<<<<< HEAD
 	build_path = /obj/item/organ/internal/liver/bone/plasmaman
+=======
+	build_path = /obj/item/organ/liver/bone/plasmaman
+>>>>>>> tg-pr-88929
 	category = list(SPECIES_PLASMAMAN)
 
 /datum/design/plasmaman_stomach
@@ -170,31 +184,46 @@
 	id = "plasmamanstomach"
 	build_type = LIMBGROWER
 	reagents_list = list(/datum/reagent/medicine/c2/synthflesh = 10, /datum/reagent/toxin/plasma = 20)
-	build_path = /obj/item/organ/internal/stomach/bone/plasmaman
+	build_path = /obj/item/organ/stomach/bone/plasmaman
 	category = list(SPECIES_PLASMAMAN)
 
 /datum/design/ethereal_stomach
 	name = "Biological Battery"
 	id = "etherealstomach"
 	build_type = LIMBGROWER
+<<<<<<< HEAD
 	reagents_list = list(/datum/reagent/medicine/c2/synthflesh = 10, /datum/reagent/consumable/liquidelectricity = 20)
 	build_path = /obj/item/organ/internal/stomach/ethereal
+=======
+	reagents_list = list(/datum/reagent/medicine/c2/synthflesh = 10, /datum/reagent/consumable/liquidelectricity/enriched = 20)
+	build_path = /obj/item/organ/stomach/ethereal
+>>>>>>> tg-pr-88929
 	category = list(SPECIES_ETHEREAL)
 
 /datum/design/ethereal_tongue
 	name = "Electrical Discharger"
 	id = "etherealtongue"
 	build_type = LIMBGROWER
+<<<<<<< HEAD
 	reagents_list = list(/datum/reagent/medicine/c2/synthflesh = 10, /datum/reagent/consumable/liquidelectricity = 20)
 	build_path = /obj/item/organ/internal/tongue/ethereal
+=======
+	reagents_list = list(/datum/reagent/medicine/c2/synthflesh = 10, /datum/reagent/consumable/liquidelectricity/enriched = 20)
+	build_path = /obj/item/organ/tongue/ethereal
+>>>>>>> tg-pr-88929
 	category = list(SPECIES_ETHEREAL)
 
 /datum/design/ethereal_lungs
 	name = "Aeration Reticulum"
 	id = "ethereallungs"
 	build_type = LIMBGROWER
+<<<<<<< HEAD
 	reagents_list = list(/datum/reagent/medicine/c2/synthflesh = 10, /datum/reagent/consumable/liquidelectricity = 20)
 	build_path = /obj/item/organ/internal/lungs/ethereal
+=======
+	reagents_list = list(/datum/reagent/medicine/c2/synthflesh = 10, /datum/reagent/consumable/liquidelectricity/enriched = 20)
+	build_path = /obj/item/organ/lungs/ethereal
+>>>>>>> tg-pr-88929
 	category = list(SPECIES_ETHEREAL)
 
 // Intentionally not growable by normal means - for balance conerns.
@@ -202,8 +231,13 @@
 	name = "Crystal Core"
 	id = "etherealheart"
 	build_type = LIMBGROWER
+<<<<<<< HEAD
 	reagents_list = list(/datum/reagent/medicine/c2/synthflesh = 10, /datum/reagent/consumable/liquidelectricity = 20)
 	build_path = /obj/item/organ/internal/heart/ethereal
+=======
+	reagents_list = list(/datum/reagent/medicine/c2/synthflesh = 10, /datum/reagent/consumable/liquidelectricity/enriched = 20)
+	build_path = /obj/item/organ/heart/ethereal
+>>>>>>> tg-pr-88929
 	category = list(SPECIES_ETHEREAL)
 
 /datum/design/armblade
@@ -232,7 +266,11 @@
 	name = "Limb Design Disk"
 	desc = "Contains designs for various limbs."
 	id = "limbdesign_parent"
+<<<<<<< HEAD
 	build_type = PROTOLATHE | AWAY_LATHE
+=======
+	build_type = PROTOLATHE
+>>>>>>> tg-pr-88929
 	materials = list(/datum/material/iron =SMALL_MATERIAL_AMOUNT * 3, /datum/material/glass =SMALL_MATERIAL_AMOUNT)
 	build_path = /obj/item/disk/design_disk/limbs
 	category = list(

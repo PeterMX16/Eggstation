@@ -75,7 +75,11 @@ window "mainwindow"
 		is-default = true
 		saved-params = "pos;size;is-minimized;is-maximized"
 		statusbar = false
+<<<<<<< HEAD
 		icon = 'icons\\ui_icons\\common\\ss13_32.png'
+=======
+		icon = 'icons\\ui\\common\\tg_32.png'
+>>>>>>> tg-pr-88929
 		macro = "default"
 		menu = "menu"
 	elem "split"
@@ -106,6 +110,10 @@ window "mainwindow"
 		saved-params = ""
 	elem "commandbar_spy"
 		type = BROWSER
+<<<<<<< HEAD
+=======
+		is-default = false
+>>>>>>> tg-pr-88929
 		pos = 0,0
 		size = 200x200
 		anchor1 = -1,-1
@@ -130,11 +138,19 @@ window "mapwindow"
 		anchor1 = 0,0
 		anchor2 = 100,100
 		font-family = "Grand9K Pixel"
+<<<<<<< HEAD
 		font-size = 6
 		is-default = true
 		right-click = true
 		saved-params = "zoom;letterbox;zoom-mode"
 		style = "img.icon { width: auto; height: auto } .center { text-align: center; } .maptext { font-family: 'Grand9K Pixel'; font-size: 6pt; -dm-text-outline: 1px black; color: white; line-height: 1.0; } .command_headset { font-weight: bold; } .context { font-family: 'Pixellari'; font-size: 12pt; -dm-text-outline: 1px black; }  .subcontext { font-family: 'TinyUnicode'; font-size: 12pt; line-height: 0.75; } .small { font-family: 'Spess Font'; font-size: 6pt; line-height: 1.4; } .big { font-family: 'Pixellari'; font-size: 12pt; } .reallybig { font-size: 12pt; } .extremelybig { font-size: 12pt; } .greentext { color: #00FF00; font-size: 6pt; } .redtext { color: #FF0000; font-size: 6pt; } .clown { color: #FF69BF; font-weight: bold; } .his_grace { color: #15D512; } .hypnophrase { color: #0d0d0d; font-weight: bold; } .yell { font-weight: bold; } .italics { font-family: 'Spess Font'; font-size: 6pt; line-height: 1.4; }"
+=======
+		font-size = 6pt
+		is-default = true
+		right-click = true
+		saved-params = "zoom;letterbox;zoom-mode"
+		style = ".center { text-align: center; } .maptext { font-family: 'Grand9K Pixel'; font-size: 6pt; -dm-text-outline: 1px black; color: white; line-height: 1.0; } .command_headset { font-weight: bold; } .context { font-family: 'Pixellari'; font-size: 12pt; -dm-text-outline: 1px black; }  .subcontext { font-family: 'TinyUnicode'; font-size: 12pt; line-height: 0.75; } .small { font-family: 'Spess Font'; font-size: 6pt; line-height: 1.4; } .big { font-family: 'Pixellari'; font-size: 12pt; } .reallybig { font-size: 12pt; } .extremelybig { font-size: 12pt; } .greentext { color: #00FF00; font-size: 6pt; } .redtext { color: #FF0000; font-size: 6pt; } .clown { color: #FF69BF; font-weight: bold; } .his_grace { color: #15D512; } .hypnophrase { color: #0d0d0d; font-weight: bold; } .yell { font-weight: bold; } .italics { font-family: 'Spess Font'; font-size: 6pt; line-height: 1.4; }"
+>>>>>>> tg-pr-88929
 	elem "status_bar"
 		type = LABEL
 		pos = 0,464
@@ -272,11 +288,78 @@ window "infowindow"
 		left = "statwindow"
 		right = "outputwindow"
 		is-vert = false
+<<<<<<< HEAD
+=======
+	elem "changelog"
+		type = BUTTON
+		pos = 0,5
+		size = 87x20
+		anchor1 = 0,0
+		anchor2 = 15,0
+		saved-params = "is-checked"
+		text = "Changelog"
+		command = "changelog"
+	elem "rules"
+		type = BUTTON
+		pos = 92,5
+		size = 87x20
+		anchor1 = 15,0
+		anchor2 = 29,0
+		saved-params = "is-checked"
+		text = "Rules"
+		command = "rules"
+	elem "wiki"
+		type = BUTTON
+		pos = 184,5
+		size = 87x20
+		anchor1 = 29,0
+		anchor2 = 43,0
+		saved-params = "is-checked"
+		text = "Wiki"
+		command = "wiki"
+	elem "forum"
+		type = BUTTON
+		pos = 276,5
+		size = 87x20
+		anchor1 = 43,0
+		anchor2 = 57,0
+		saved-params = "is-checked"
+		text = "Forum"
+		command = "forum"
+	elem "github"
+		type = BUTTON
+		pos = 368,5
+		size = 87x20
+		anchor1 = 57,0
+		anchor2 = 71,0
+		saved-params = "is-checked"
+		text = "Github"
+		command = "github"
+	elem "report-issue"
+		type = BUTTON
+		pos = 460,5
+		size = 87x20
+		anchor1 = 71,0
+		anchor2 = 85,0
+		saved-params = "is-checked"
+		text = "Report Issue"
+		command = "report-issue"
+	elem "fullscreen-toggle"
+		type = BUTTON
+		pos = 552,5
+		size = 88x20
+		anchor1 = 85,0
+		anchor2 = 100,0
+		saved-params = "is-checked"
+		text = "Fullscreen"
+		command = "fullscreen"
+>>>>>>> tg-pr-88929
 
 window "outputwindow"
 	elem "outputwindow"
 		type = MAIN
 		pos = 0,0
+<<<<<<< HEAD
 		size = 640x475
 		anchor1 = -1,-1
 		anchor2 = -1,-1
@@ -351,6 +434,9 @@ window "inputwindow"
 		type = MAIN
 		pos = 575,0
 		size = 520x25
+=======
+		size = 640x480
+>>>>>>> tg-pr-88929
 		anchor1 = -1,-1
 		anchor2 = -1,-1
 		background-color = none
@@ -401,6 +487,7 @@ window "inputbuttons"
 		command = ".winset \"mebutton.is-checked=true ? input.command=\"!me \\\"\" : input.command=\"\"mebutton.is-checked=true ? saybutton.is-checked=false\"\"mebutton.is-checked=true ? oocbutton.is-checked=false\""
 		is-flat = true
 		button-type = pushbox
+<<<<<<< HEAD
 	elem "oocbutton"
 		type = BUTTON
 		pos = 80,0
@@ -422,6 +509,26 @@ window "output_legacy"
 		size = 640x456
 		anchor1 = -1,-1
 		anchor2 = -1,-1
+=======
+	elem "legacy_output_selector"
+		type = CHILD
+		pos = 0,0
+		size = 640x456
+		anchor1 = 0,0
+		anchor2 = 100,100
+		saved-params = "splitter"
+		left = "output_legacy"
+		is-vert = false
+
+window "output_legacy"
+	elem "output_legacy"
+		type = MAIN
+		pos = 0,0
+		size = 640x456
+		anchor1 = -1,-1
+		anchor2 = -1,-1
+		background-color = none
+>>>>>>> tg-pr-88929
 		saved-params = "pos;size;is-minimized;is-maximized"
 		is-pane = true
 	elem "output"
@@ -440,6 +547,10 @@ window "output_browser"
 		size = 640x456
 		anchor1 = -1,-1
 		anchor2 = -1,-1
+<<<<<<< HEAD
+=======
+		background-color = none
+>>>>>>> tg-pr-88929
 		saved-params = "pos;size;is-minimized;is-maximized"
 		is-pane = true
 	elem "browseroutput"
@@ -448,6 +559,10 @@ window "output_browser"
 		size = 640x456
 		anchor1 = 0,0
 		anchor2 = 100,100
+<<<<<<< HEAD
+=======
+		background-color = none
+>>>>>>> tg-pr-88929
 		saved-params = ""
 
 window "popupwindow"

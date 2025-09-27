@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ///Datum for basic mobs to define what they can attack.GET_TARGETING_STRATEGY\((/[^,]*)\),
 ///Global, just like ai_behaviors
 /datum/targeting_strategy
@@ -14,6 +15,8 @@
 		target_hiding_location = target_loc
 	return target_hiding_location
 
+=======
+>>>>>>> tg-pr-88929
 /datum/targeting_strategy/basic
 	/// When we do our basic faction check, do we look for exact faction matches?
 	var/check_factions_exactly = FALSE
@@ -33,6 +36,7 @@
 	if(isturf(the_target) || isnull(the_target)) // bail out on invalids
 		return FALSE
 
+<<<<<<< HEAD
 	var/atom/target_loc = the_target.loc
 	var/atom/mob_loc = living_mob.loc
 
@@ -58,6 +62,21 @@
 			return FALSE // you can't bite anything that's incorporeal
 		if(HAS_TRAIT(the_target, TRAIT_GODMODE))
 			return FALSE // target is in godmode, ignore it
+=======
+	if(isobj(the_target.loc))
+		var/obj/container = the_target.loc
+		if(container.resistance_flags & INDESTRUCTIBLE)
+			return FALSE
+
+	if(ismob(the_target)) //Target is in godmode, ignore it.
+		if(living_mob.loc == the_target)
+			return FALSE // We've either been eaten or are shapeshifted, let's assume the latter because we're still alive
+		if(HAS_TRAIT(the_target, TRAIT_GODMODE))
+			return FALSE
+
+	if (vision_range && get_dist(living_mob, the_target) > vision_range)
+		return FALSE
+>>>>>>> tg-pr-88929
 
 	if(!ignore_sight && !can_see(living_mob, the_target, vision_range)) //Target has moved behind cover and we have lost line of sight to it
 		return FALSE
@@ -65,10 +84,16 @@
 	if(living_mob.see_invisible < the_target.invisibility) //Target's invisible to us, forget it
 		return FALSE
 
+<<<<<<< HEAD
 	if(!isturf(mob_loc))
 		return FALSE
 
 	if(isturf(target_loc) && living_mob.z != the_target.z) // z check will always fail if target is in a mech or pawn is shapeshifted or jaunting
+=======
+	if(!isturf(living_mob.loc))
+		return FALSE
+	if(isturf(the_target.loc) && living_mob.z != the_target.z) // z check will always fail if target is in a mech or pawn is shapeshifted or jaunting
+>>>>>>> tg-pr-88929
 		return FALSE
 
 	if(isliving(the_target)) //Targeting vs living mobs
@@ -116,6 +141,24 @@
 		// trust fall exercise
 		return TRUE
 
+<<<<<<< HEAD
+=======
+/datum/targeting_strategy/basic/require_traits
+
+/datum/targeting_strategy/basic/require_traits/can_attack(mob/living/living_mob, atom/the_target, vision_range)
+	. = ..()
+	if (!.)
+		return FALSE
+	var/list/required_traits = living_mob.ai_controller.blackboard[BB_TARGET_ONLY_WITH_TRAITS]
+	if (!length(required_traits))
+		return TRUE
+
+	for (var/trait as anything in required_traits)
+		if (HAS_TRAIT(the_target, trait))
+			return TRUE
+	return FALSE
+
+>>>>>>> tg-pr-88929
 /// Subtype which searches for mobs of a size relative to ours
 /datum/targeting_strategy/basic/of_size
 	/// If true, we will return mobs which are smaller than us. If false, larger.
@@ -144,8 +187,25 @@
 	find_smaller = FALSE
 	inclusive = FALSE
 
+<<<<<<< HEAD
+=======
+
+/datum/targeting_strategy/basic/of_size/smaller
+	inclusive = FALSE
+
+>>>>>>> tg-pr-88929
 /// Makes the mob only attack their own faction. Useful mostly if their attacks do something helpful (e.g. healing touch).
 /datum/targeting_strategy/basic/same_faction
 
 /datum/targeting_strategy/basic/same_faction/faction_check(mob/living/living_mob, mob/living/the_target)
 	return !..() // inverts logic to ONLY target mobs that share a faction
+<<<<<<< HEAD
+=======
+
+/datum/targeting_strategy/basic/allow_turfs
+
+/datum/targeting_strategy/basic/allow_turfs/can_attack(mob/living/living_mob, atom/the_target, vision_range)
+	if(isturf(the_target))
+		return TRUE
+	return ..()
+>>>>>>> tg-pr-88929

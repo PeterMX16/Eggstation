@@ -21,7 +21,10 @@ GLOBAL_LIST_INIT(circuit_dupe_whitelisted_types, list(
 		var/variable_name = variable["name"]
 		var/datum/circuit_variable/variable_datum = new /datum/circuit_variable(variable_name, variable["datatype"])
 		circuit_variables[variable_name] = variable_datum
-		if(variable["is_list"])
+		if(variable["is_assoc_list"])
+			assoc_list_variables[variable_name] = variable_datum
+			variable_datum.set_value(list())
+		else if(variable["is_list"])
 			list_variables[variable_name] = variable_datum
 			variable_datum.set_value(list())
 		else
@@ -191,10 +194,10 @@ GLOBAL_LIST_INIT(circuit_dupe_whitelisted_types, list(
 		var/datum/circuit_variable/variable = circuit_variables[variable_identifier]
 		new_data["name"] = variable.name
 		new_data["datatype"] = variable.datatype
-		if(variable_identifier in list_variables)
+		if(variable_identifier in assoc_list_variables)
+			new_data["is_assoc_list"] = TRUE
+		else if(variable_identifier in list_variables)
 			new_data["is_list"] = TRUE
-		else
-			new_data["is_list"] = FALSE
 		variables += list(new_data)
 	general_data["variables"] = variables
 
@@ -217,16 +220,26 @@ GLOBAL_LIST_INIT(circuit_dupe_whitelisted_types, list(
 	rel_x = component_data["rel_x"]
 	rel_y = component_data["rel_y"]
 
+<<<<<<< HEAD
 ADMIN_VERB(load_circuit, R_VAREDIT, FALSE, "Load Circuit", "Loads a circuit from a file or direct input.", ADMIN_CATEGORY_FUN)
+=======
+ADMIN_VERB(load_circuit, R_VAREDIT, "Load Circuit", "Loads a circuit from a file or direct input.", ADMIN_CATEGORY_FUN)
+>>>>>>> tg-pr-88929
 	var/list/errors = list()
 
 	var/option = alert(user, "Load by file or direct input?", "Load by file or string", "File", "Direct Input")
 	var/txt
 	switch(option)
 		if("File")
+<<<<<<< HEAD
 			txt = file2text(input(user, "Input File") as null | file)
 		if("Direct Input")
 			txt = input(user, "Input JSON", "Input JSON") as text | null
+=======
+			txt = file2text(input(user, "Input File") as null|file)
+		if("Direct Input")
+			txt = input(user, "Input JSON", "Input JSON") as text|null
+>>>>>>> tg-pr-88929
 
 	if(!txt)
 		return

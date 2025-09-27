@@ -69,8 +69,12 @@
 	else if(href_list["gamemode_panel"])
 		if(!check_rights(R_ADMIN))
 			return
+<<<<<<< HEAD
 		//SSticker.mode.admin_panel()
 		SSgamemode.admin_panel(usr) //monkestation addition
+=======
+		SSdynamic.admin_panel()
+>>>>>>> tg-pr-88929
 
 	else if(href_list["call_shuttle"])
 		if(!check_rights(R_ADMIN))
@@ -210,7 +214,12 @@
 						item.post_equip_item(newmob.client.prefs, newmob)
 				// MONKESTATION EDIT END
 			if("monkey")
-				M.change_mob_type( /mob/living/carbon/human/species/monkey , null, null, delmob )
+				if(ishuman(M))
+					var/mob/living/carbon/human/H = M
+					H.dna.add_mutation(/datum/mutation/human/race, MUT_NORMAL)
+					H.dna.activate_mutation(/datum/mutation/human/race)
+				else
+					M.change_mob_type( /mob/living/carbon/human/species/monkey , null, null, delmob )
 			if("robot")
 				M.change_mob_type( /mob/living/silicon/robot , null, null, delmob )
 
@@ -382,19 +391,6 @@
 		var/target = href_list["showmessageckeylinkless"]
 		browse_messages(target_ckey = target, linkless = 1)
 
-	else if(href_list["messageread"])
-		if(!isnum(href_list["message_id"]))
-			return
-		var/rounded_message_id = round(href_list["message_id"], 1)
-		var/datum/db_query/query_message_read = SSdbcore.NewQuery(
-			"UPDATE [format_table_name("messages")] SET type = 'message sent' WHERE targetckey = :player_key AND id = :id",
-			list("id" = rounded_message_id, "player_key" = usr.ckey)
-		)
-		if(!query_message_read.warn_execute())
-			qdel(query_message_read)
-			return
-		qdel(query_message_read)
-
 	else if(href_list["messageedits"])
 		if(!check_rights(R_ADMIN))
 			return
@@ -421,7 +417,7 @@
 	else if(href_list["f_dynamic_roundstart"])
 		if(!check_rights(R_ADMIN))
 			return
-		if(SSticker?.mode)
+		if(SSticker.HasRoundStarted())
 			return tgui_alert(usr, "The game has already started.")
 		var/roundstart_rules = list()
 		for (var/rule in subtypesof(/datum/dynamic_ruleset/roundstart))
@@ -451,11 +447,44 @@
 		log_admin("[key_name(usr)] removed [rule] from the forced roundstart rulesets.")
 		message_admins("[key_name(usr)] removed [rule] from the forced roundstart rulesets.", 1)
 
+	else if (href_list["f_dynamic_ruleset_manage"])
+		if(!check_rights(R_ADMIN))
+			return
+		dynamic_ruleset_manager(usr)
+	else if (href_list["f_dynamic_ruleset_force_all_on"])
+		if(!check_rights(R_ADMIN))
+			return
+		force_all_rulesets(usr, RULESET_FORCE_ENABLED)
+	else if (href_list["f_dynamic_ruleset_force_all_off"])
+		if(!check_rights(R_ADMIN))
+			return
+		force_all_rulesets(usr, RULESET_FORCE_DISABLED)
+	else if (href_list["f_dynamic_ruleset_force_all_reset"])
+		if(!check_rights(R_ADMIN))
+			return
+		force_all_rulesets(usr, RULESET_NOT_FORCED)
+	else if (href_list["f_dynamic_ruleset_force_on"])
+		if(!check_rights(R_ADMIN))
+			return
+		set_dynamic_ruleset_forced(usr, locate(href_list["f_dynamic_ruleset_force_on"]), RULESET_FORCE_ENABLED)
+	else if (href_list["f_dynamic_ruleset_force_off"])
+		if(!check_rights(R_ADMIN))
+			return
+		set_dynamic_ruleset_forced(usr, locate(href_list["f_dynamic_ruleset_force_off"]), RULESET_FORCE_DISABLED)
+	else if (href_list["f_dynamic_ruleset_force_reset"])
+		if(!check_rights(R_ADMIN))
+			return
+		set_dynamic_ruleset_forced(usr, locate(href_list["f_dynamic_ruleset_force_reset"]), RULESET_NOT_FORCED)
+	else if (href_list["f_inspect_ruleset"])
+		if(!check_rights(R_ADMIN))
+			return
+		usr.client.debug_variables(locate(href_list["f_inspect_ruleset"]))
+
 	else if (href_list["f_dynamic_options"])
 		if(!check_rights(R_ADMIN))
 			return
 
-		if(SSticker?.mode)
+		if(SSticker.HasRoundStarted())
 			return tgui_alert(usr, "The game has already started.")
 
 		dynamic_mode_options(usr)
@@ -489,7 +518,7 @@
 		if(!check_rights(R_ADMIN))
 			return
 
-		if(SSticker?.mode)
+		if(SSticker.HasRoundStarted())
 			return tgui_alert(usr, "The game has already started.")
 
 		var/new_value = input(usr, "Enter the forced threat level for dynamic mode.", "Forced threat level") as num
@@ -673,7 +702,7 @@
 
 		if(ishuman(L))
 			var/mob/living/carbon/human/observer = L
-			observer.equip_to_slot_or_del(new /obj/item/clothing/under/suit/black(observer), ITEM_SLOT_ICLOTHING)
+			observer.equip_to_slot_or_del(new /obj/item/clothing/under/costume/buttondown/slacks/service(observer), ITEM_SLOT_ICLOTHING)
 			observer.equip_to_slot_or_del(new /obj/item/clothing/neck/tie/black/tied(observer), ITEM_SLOT_NECK)
 			observer.equip_to_slot_or_del(new /obj/item/clothing/shoes/sneakers/black(observer), ITEM_SLOT_FEET)
 		L.Unconscious(100)
@@ -724,11 +753,15 @@
 		return SSadmin_verbs.dynamic_invoke_verb(usr, /datum/admin_verb/cmd_admin_robotize, locate(href_list["makerobot"]))
 
 	else if(href_list["adminplayeropts"])
+<<<<<<< HEAD
 
 		var/mob/selected_mob = locate(href_list["adminplayeropts"])
 		usr.client.VUAP_selected_mob = selected_mob
 		usr.client.selectedPlayerCkey = selected_mob.ckey
 		return SSadmin_verbs.dynamic_invoke_verb(usr, /datum/admin_verb/vuap_personal, selected_mob)
+=======
+		return SSadmin_verbs.dynamic_invoke_verb(usr, /datum/admin_verb/show_player_panel, locate(href_list["adminplayeropts"]))
+>>>>>>> tg-pr-88929
 
 	else if(href_list["ppbyckey"])
 		var/target_ckey = href_list["ppbyckey"]
@@ -743,6 +776,7 @@
 			return
 
 		to_chat(usr, span_notice("Jumping to [target_ckey]'s new mob: [target_mob]!"))
+<<<<<<< HEAD
 
 		usr.client.VUAP_selected_mob = target_mob
 		usr.client.selectedPlayerCkey = target_mob.ckey
@@ -750,6 +784,9 @@
 
 	else if(href_list["adminopendemo"])
 		usr.client << link("http://viewer.monkestation.com/?roundid=[GLOB.round_id]&password=[CONFIG_GET(string/replay_password)]#[world.time]") //opens current round at current time
+=======
+		return SSadmin_verbs.dynamic_invoke_verb(usr, /datum/admin_verb/show_player_panel, target_mob)
+>>>>>>> tg-pr-88929
 
 	else if(href_list["adminplayerobservefollow"])
 		if(!isobserver(usr) && !check_rights(R_ADMIN))
@@ -836,7 +873,11 @@
 					status = "<font color='red'><b>Dead</b></font>"
 			health_description = "Status: [status]"
 			health_description += "<br>Brute: [lifer.getBruteLoss()] - Burn: [lifer.getFireLoss()] - Toxin: [lifer.getToxLoss()] - Suffocation: [lifer.getOxyLoss()]"
+<<<<<<< HEAD
 			health_description += "<br>Clone: [lifer.getCloneLoss()] - Brain: [lifer.get_organ_loss(ORGAN_SLOT_BRAIN)] - Stamina: [lifer.stamina.loss]"
+=======
+			health_description += "<br>Brain: [lifer.get_organ_loss(ORGAN_SLOT_BRAIN)] - Stamina: [lifer.getStaminaLoss()]"
+>>>>>>> tg-pr-88929
 		else
 			health_description = "This mob type has no health to speak of."
 
@@ -859,8 +900,11 @@
 		exportable_text += ADMIN_FULLMONTY_NONAME(subject)
 
 		to_chat(src.owner, boxed_message(exportable_text), confidential = TRUE)
+<<<<<<< HEAD
 		*/
 		// MONKESTATION END
+=======
+>>>>>>> tg-pr-88929
 
 	else if(href_list["addjobslot"])
 		if(!check_rights(R_ADMIN))
@@ -885,14 +929,13 @@
 
 		for(var/datum/job/job as anything in SSjob.joinable_occupations)
 			if(job.title == Add)
-				var/newtime = null
-				newtime = input(usr, "How many jebs do you want?", "Add wanted posters", "[newtime]") as num|null
-				if(!newtime)
-					to_chat(src.owner, "Setting to amount of positions filled for the job", confidential = TRUE)
-					job.total_positions = job.current_positions
-					log_job_debug("[key_name(usr)] set the job cap for [job.title] to [job.total_positions]")
+				var/newslots = null
+				newslots = input(usr, "How many job slots do you want?", "Add job slots", "[newslots]") as num|null
+				if(!isnull(newslots))
+					to_chat(src.owner, "Job slots for [job.title] set to [newslots]" , confidential = TRUE)
+					job.total_positions = newslots
+					log_job_debug("[key_name(usr)] set the job cap for [job.title] to [newslots]")
 					break
-				job.total_positions = newtime
 
 		src.manage_free_slots()
 
@@ -1071,6 +1114,10 @@
 				D.traitor_panel()
 		else
 			SSadmin_verbs.dynamic_invoke_verb(usr, /datum/admin_verb/show_traitor_panel, M)
+<<<<<<< HEAD
+=======
+		return
+>>>>>>> tg-pr-88929
 
 	else if(href_list["skill"])
 		if(!check_rights(R_ADMIN))
@@ -1091,6 +1138,10 @@
 			to_chat(usr, "This can only be used on instances of type /mob and /mind", confidential = TRUE)
 			return
 		SSadmin_verbs.dynamic_invoke_verb(usr, /datum/admin_verb/show_skill_panel, target_mind)
+<<<<<<< HEAD
+=======
+		return
+>>>>>>> tg-pr-88929
 
 	else if(href_list["borgpanel"])
 		return SSadmin_verbs.dynamic_invoke_verb(usr, /datum/admin_verb/borg_panel, locate(href_list["borgpanel"]))
@@ -1103,6 +1154,15 @@
 			to_chat(usr, "This can only be used on instances on mindless mobs", confidential = TRUE)
 			return
 		M.mind_initialize()
+
+	else if(href_list["player_ticket_history"])
+		if(!check_rights(R_ADMIN))
+			return
+		var/target_ckey = href_list["player_ticket_history"]
+		GLOB.player_ticket_history.cache_history_for_ckey(target_ckey)
+		GLOB.player_ticket_history.user_selections[usr.ckey] = target_ckey
+		GLOB.player_ticket_history.ui_interact(usr)
+		return
 
 	else if(href_list["create_object"])
 		if(!check_rights(R_SPAWN))
@@ -1242,16 +1302,16 @@
 			new /obj/effect/pod_landingzone(target, pod)
 
 		if (number == 1)
-			log_admin("[key_name(usr)] created a [english_list(paths)]")
+			log_admin("[key_name(usr)] created an instance of [english_list(paths)]")
 			for(var/path in paths)
 				if(ispath(path, /mob))
-					message_admins("[key_name_admin(usr)] created a [english_list(paths)]")
+					message_admins("[key_name_admin(usr)] created an instance of [english_list(paths)]")
 					break
 		else
-			log_admin("[key_name(usr)] created [number]ea [english_list(paths)]")
+			log_admin("[key_name(usr)] created [number] instances of [english_list(paths)]")
 			for(var/path in paths)
 				if(ispath(path, /mob))
-					message_admins("[key_name_admin(usr)] created [number]ea [english_list(paths)]")
+					message_admins("[key_name_admin(usr)] created [number] instances of [english_list(paths)]")
 					break
 		return
 
@@ -1280,7 +1340,7 @@
 		if(!check_rights(R_ADMIN))
 			return
 		var/code = random_nukecode()
-		for(var/obj/machinery/nuclearbomb/selfdestruct/SD in GLOB.nuke_list)
+		for(var/obj/machinery/nuclearbomb/selfdestruct/SD as anything in SSmachines.get_machines_by_type_and_subtypes(/obj/machinery/nuclearbomb/selfdestruct))
 			SD.r_code = code
 		message_admins("[key_name_admin(usr)] has set the self-destruct \
 			code to \"[code]\".")
@@ -1303,7 +1363,6 @@
 				return
 			G.report_message = description
 		message_admins("[key_name(usr)] created \"[G.name]\" station goal.")
-		GLOB.station_goals += G
 		modify_goals()
 
 	else if(href_list["change_lag_switch"])
@@ -1657,6 +1716,10 @@
 		var/obj/item/nuclear_challenge/button = locate(href_list["force_war"])
 		button.force_war()
 
+	else if(href_list["give_reinforcement"])
+		var/datum/team/nuclear/nuketeam = locate(href_list["give_reinforcement"]) in GLOB.antagonist_teams
+		nuketeam.admin_spawn_reinforcement(usr)
+
 	else if (href_list["interview"])
 		if(!check_rights(R_ADMIN))
 			return
@@ -1723,18 +1786,31 @@
 		if(!paper_to_show)
 			return
 		paper_to_show.ui_interact(usr)
+
+	else if (href_list["print_fax"])
+		if(!check_rights(R_ADMIN))
+			return
+
+		for(var/obj/machinery/fax/admin/FAX as anything in SSmachines.get_machines_by_type_and_subtypes(/obj/machinery/fax/admin))
+			if(FAX.fax_id != href_list["destination"])
+				continue
+			FAX.receive(locate(href_list["print_fax"]), href_list["sender_name"])
+			return
+
 	else if(href_list["play_internet"])
 		if(!check_rights(R_SOUND))
 			return
 
+		var/credit = href_list["credit"]
 		var/link_url = href_list["play_internet"]
 		if(!link_url)
 			return
 
-		web_sound(usr, link_url)
+		web_sound(usr, link_url, credit)
 
 	else if(href_list["debug_z_levels"])
 		return SSadmin_verbs.dynamic_invoke_verb(usr, /datum/admin_verb/debug_z_levels)
+<<<<<<< HEAD
 
 //monkestation edit start
 	else if(href_list["approve_antag_token"])
@@ -1802,3 +1878,5 @@
 		log_admin("[user_client]'s [token_holder.queued_token_event.event_name] event token has been rejected by [owner].")
 		token_holder.reject_token_event()
 //monkestation edit end
+=======
+>>>>>>> tg-pr-88929

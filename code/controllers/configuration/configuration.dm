@@ -102,6 +102,12 @@
 	LoadChatFilter()
 	if(CONFIG_GET(flag/load_jobs_from_txt))
 		validate_job_config()
+<<<<<<< HEAD
+=======
+		if(SSjob.initialized) // in case we're reloading from disk after initialization, wanna make sure the changes update in the ongoing shift
+			SSjob.load_jobs_from_config()
+
+>>>>>>> tg-pr-88929
 	if(CONFIG_GET(flag/usewhitelist))
 		load_whitelist()
 
@@ -166,6 +172,7 @@
 	if(IsAdminAdvancedProcCall())
 		return
 
+<<<<<<< HEAD
 	var/list/separate_levels = splittext(filename, "/")
 	// allows for inheriting our folder from the thing that included us
 	var/subfolder = ""
@@ -185,6 +192,8 @@
 			subfolder = "[parsed_folder_bits.Join("/")]/"
 		filename = "[subfolder][actual_filename]"
 
+=======
+>>>>>>> tg-pr-88929
 	var/filename_to_test = world.system_type == MS_WINDOWS ? LOWER_TEXT(filename) : filename
 	if(filename_to_test in stack)
 		log_config_error("Warning: Config recursion detected ([english_list(stack)]), breaking!")
@@ -212,10 +221,10 @@
 		var/value = null
 
 		if(pos)
-			entry = lowertext(copytext(L, 1, pos))
+			entry = LOWER_TEXT(copytext(L, 1, pos))
 			value = copytext(L, pos + length(L[pos]))
 		else
-			entry = lowertext(L)
+			entry = LOWER_TEXT(L)
 
 		if(!entry)
 			continue
@@ -230,7 +239,7 @@
 
 		// Reset directive, used for setting a config value back to defaults. Useful for string list config types
 		if (entry == "$reset")
-			var/datum/config_entry/resetee = _entries[lowertext(value)]
+			var/datum/config_entry/resetee = _entries[LOWER_TEXT(value)]
 			if (!value || !resetee)
 				log_config_error("Warning: invalid $reset directive: [value]")
 				continue
@@ -384,10 +393,10 @@ Example config:
 		var/data = null
 
 		if(pos)
-			command = lowertext(copytext(t, 1, pos))
+			command = LOWER_TEXT(copytext(t, 1, pos))
 			data = copytext(t, pos + length(t[pos]))
 		else
-			command = lowertext(t)
+			command = LOWER_TEXT(t)
 
 		if(!command)
 			continue
@@ -496,7 +505,7 @@ Example config:
 	var/list/formatted_banned_words = list()
 
 	for (var/banned_word in banned_words)
-		formatted_banned_words[lowertext(banned_word)] = banned_words[banned_word]
+		formatted_banned_words[LOWER_TEXT(banned_word)] = banned_words[banned_word]
 	return formatted_banned_words
 
 /datum/controller/configuration/proc/compile_filter_regex(list/banned_words, list/regex_expressions)
@@ -535,7 +544,7 @@ Example config:
 
 	if(!fexists(file(config_toml)))
 		SSjob.legacy_mode = TRUE
-		message += "jobconfig.toml not found, falling back to legacy mode (using jobs.txt). To surpress this warning, generate a jobconfig.toml by running the verb 'Generate Job Configuration' in the Server tab.\n\
+		message += "jobconfig.toml not found, falling back to legacy mode (using jobs.txt). To suppress this warning, generate a jobconfig.toml by running the verb 'Generate Job Configuration' in the Server tab.\n\
 			From there, you can then add it to the /config folder of your server to have it take effect for future rounds."
 
 		if(!fexists(file(config_txt)))

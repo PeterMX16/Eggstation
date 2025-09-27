@@ -5,20 +5,39 @@
 /turf/open/floor/plating{
 	initial_gas_mix = "TEMP=2.7"
 	},
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "bs" = (
 /obj/effect/turf_decal/sand,
 /turf/open/floor/iron/airless,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+"bs" = (
+/obj/effect/turf_decal/sand,
+/turf/open/floor/iron/airless,
+/area/ruin/space/virtual_domain)
+>>>>>>> tg-pr-88929
 "bF" = (
 /obj/effect/turf_decal/sand/plating,
 /turf/open/floor/plating{
 	initial_gas_mix = "TEMP=2.7"
 	},
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "cz" = (
 /turf/open/misc/asteroid/airless,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/ruin/space/virtual_domain)
+"bJ" = (
+/turf/closed/wall/rust,
+/area/virtual_domain)
+"cz" = (
+/obj/effect/baseturf_helper/virtual_domain,
+/turf/open/misc/asteroid/airless,
+/area/ruin/space/virtual_domain)
+>>>>>>> tg-pr-88929
 "cL" = (
 /obj/structure/table/reinforced,
 /obj/item/reagent_containers/cup/glass/drinkingglass{
@@ -31,39 +50,66 @@
 	pixel_y = 8
 	},
 /turf/open/floor/iron/vaporwave,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "df" = (
 /obj/effect/turf_decal/sand,
 /turf/open/floor/iron/airless{
 	icon_state = "stairs-l"
 	},
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/ruin/space/virtual_domain)
+>>>>>>> tg-pr-88929
 "eF" = (
 /turf/closed/indestructible/binary,
 /area/space)
 "fx" = (
 /obj/item/statuebust,
 /turf/open/floor/iron/vaporwave,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "fQ" = (
 /obj/structure/flora/tree/palm,
 /turf/open/floor/holofloor/beach,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+"fQ" = (
+/obj/structure/flora/tree/palm,
+/turf/open/floor/holofloor/beach,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "gM" = (
 /obj/structure/table/reinforced,
 /obj/item/clothing/glasses/sunglasses/big{
 	name = "aesthetic sunglasses"
 	},
 /turf/open/floor/iron/vaporwave,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "hN" = (
 /turf/open/floor/holofloor/beach,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+"hN" = (
+/turf/open/floor/holofloor/beach,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "il" = (
 /obj/effect/turf_decal/sand,
 /obj/effect/turf_decal/sand,
 /turf/open/floor/iron/airless,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/ruin/space/virtual_domain)
+>>>>>>> tg-pr-88929
 "iP" = (
 /obj/machinery/suit_storage_unit/standard_unit,
 /turf/template_noop,
@@ -72,7 +118,11 @@
 /obj/structure/window/spawner/directional/east,
 /obj/structure/closet/crate/secure/bitrunning/encrypted,
 /turf/open/floor/iron/vaporwave,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "ku" = (
 /turf/template_noop,
 /area/virtual_domain/safehouse)
@@ -81,6 +131,7 @@
 /turf/open/floor/iron/airless{
 	icon_state = "stairs-r"
 	},
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "ll" = (
 /obj/structure/sign/poster/contraband/clown/directional/north,
@@ -89,6 +140,17 @@
 "lu" = (
 /turf/closed/wall/rust,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/ruin/space/virtual_domain)
+"ll" = (
+/obj/structure/sign/poster/contraband/clown/directional/north,
+/turf/open/floor/iron/vaporwave,
+/area/virtual_domain)
+"lu" = (
+/obj/effect/baseturf_helper/virtual_domain,
+/turf/closed/wall/rust,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "lB" = (
 /obj/item/tank/internals/emergency_oxygen,
 /obj/item/tank/internals/emergency_oxygen,
@@ -99,15 +161,26 @@
 /obj/structure/table/reinforced,
 /obj/machinery/chem_dispenser/drinks/beer/fullupgrade,
 /turf/open/floor/iron/vaporwave,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "qm" = (
 /obj/structure/flora/tree/palm,
 /obj/machinery/light/directional/west,
 /turf/open/floor/holofloor/beach,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "qu" = (
 /turf/open/floor/holofloor/beach/water,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+"qu" = (
+/turf/open/floor/holofloor/beach/water,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "rn" = (
 /obj/structure/statue/sandstone/venus{
 	anchored = 1;
@@ -117,6 +190,7 @@
 /turf/open/floor/plating{
 	initial_gas_mix = "TEMP=2.7"
 	},
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "xb" = (
 /obj/structure/chair/stool/directional/west,
@@ -133,12 +207,27 @@
 /obj/structure/lattice,
 /turf/open/space/basic,
 /area/space)
+=======
+/area/ruin/space/virtual_domain)
+"xb" = (
+/obj/structure/chair/stool/directional/west,
+/turf/open/floor/iron/vaporwave,
+/area/virtual_domain)
+"xp" = (
+/obj/structure/table/reinforced,
+/turf/open/floor/iron/vaporwave,
+/area/virtual_domain)
+"xK" = (
+/turf/closed/wall,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "AX" = (
 /obj/effect/turf_decal/stripes/asteroid/line,
 /obj/effect/turf_decal/sand/plating,
 /turf/open/floor/plating{
 	initial_gas_mix = "TEMP=2.7"
 	},
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "Cq" = (
 /obj/item/instrument/eguitar,
@@ -151,48 +240,89 @@
 /obj/structure/window/spawner/directional/east,
 /turf/open/floor/iron/vaporwave,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/ruin/space/virtual_domain)
+"Cq" = (
+/obj/item/instrument/eguitar,
+/turf/open/floor/holofloor/beach,
+/area/virtual_domain)
+"CR" = (
+/turf/open/floor/iron/vaporwave,
+/area/virtual_domain)
+"Dk" = (
+/obj/structure/window/spawner/directional/east,
+/turf/open/floor/iron/vaporwave,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Es" = (
 /obj/structure/chair/comfy/black{
 	dir = 4
 	},
 /turf/open/floor/iron/vaporwave,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "Fd" = (
 /obj/effect/baseturf_helper/virtual_domain,
 /turf/closed/wall/rust,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Hf" = (
 /obj/effect/turf_decal/sand,
 /turf/open/floor/iron/airless{
 	icon_state = "recharge_floor_asteroid"
 	},
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "HA" = (
 /turf/open/floor/holofloor/beach/coast_t,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/ruin/space/virtual_domain)
+"HA" = (
+/turf/open/floor/holofloor/beach/coast,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "HV" = (
 /obj/structure/chair/comfy/black{
 	dir = 4
 	},
 /obj/machinery/light/small/directional/north,
 /turf/open/floor/iron/vaporwave,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "Jr" = (
 /obj/structure/window/spawner/directional/west,
 /turf/open/floor/iron/vaporwave,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+"Jr" = (
+/obj/structure/window/spawner/directional/west,
+/turf/open/floor/iron/vaporwave,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "KO" = (
 /obj/structure/chair/comfy/black{
 	dir = 8
 	},
 /turf/open/floor/iron/vaporwave,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "KY" = (
 /obj/effect/turf_decal/sand,
 /turf/open/floor/iron/airless{
 	icon_state = "stairs-m"
 	},
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/ruin/space/virtual_domain)
+>>>>>>> tg-pr-88929
 "LG" = (
 /obj/effect/baseturf_helper/virtual_domain,
 /turf/template_noop,
@@ -200,18 +330,27 @@
 "LJ" = (
 /obj/structure/lattice,
 /turf/open/misc/asteroid/airless,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/ruin/space/virtual_domain)
+>>>>>>> tg-pr-88929
 "LP" = (
 /obj/structure/flora/tree/palm,
 /obj/machinery/light/directional/east,
 /turf/open/floor/holofloor/beach,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Nz" = (
 /obj/structure/window/spawner/directional/east,
 /obj/structure/table/reinforced,
 /obj/item/storage/fancy/cigarettes/cigars/havana,
 /obj/effect/spawner/random/entertainment/lighter,
 /turf/open/floor/iron/vaporwave,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "NT" = (
 /turf/open/space/basic,
@@ -222,6 +361,24 @@
 /area/ruin/space/has_grav/powered/virtual_domain)
 "Uy" = (
 /obj/effect/landmark/bitrunning/safehouse_spawn,
+=======
+/area/virtual_domain)
+"NT" = (
+/obj/effect/baseturf_helper/virtual_domain,
+/turf/open/space/basic,
+/area/space/virtual_domain)
+"Pv" = (
+/turf/open/space/basic,
+/area/space/virtual_domain)
+"Qh" = (
+/obj/structure/closet/crate/bin,
+/turf/open/misc/asteroid/airless,
+/area/ruin/space/virtual_domain)
+"Uy" = (
+/obj/modular_map_root/safehouse{
+	key = "shuttle_space"
+	},
+>>>>>>> tg-pr-88929
 /turf/template_noop,
 /area/virtual_domain/safehouse)
 "UE" = (
@@ -230,6 +387,7 @@
 /turf/open/floor/plating{
 	initial_gas_mix = "TEMP=2.7"
 	},
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "UV" = (
 /obj/structure/lattice,
@@ -239,11 +397,29 @@
 /obj/structure/flora/tree/palm,
 /turf/open/misc/asteroid/airless,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/ruin/space/virtual_domain)
+"UV" = (
+/obj/structure/lattice,
+/turf/open/floor/plating/airless,
+/area/ruin/space/virtual_domain)
+"Vc" = (
+/obj/structure/flora/tree/palm,
+/turf/open/misc/asteroid/airless,
+/area/ruin/space/virtual_domain)
+"Vp" = (
+/turf/open/misc/asteroid/airless,
+/area/ruin/space/virtual_domain)
+>>>>>>> tg-pr-88929
 "XJ" = (
 /obj/structure/fans/tiny,
 /obj/machinery/door/airlock/hatch,
 /turf/open/floor/pod/dark,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "Yo" = (
 /obj/structure/statue/sandstone/venus{
 	anchored = 1;
@@ -254,16 +430,28 @@
 /turf/open/floor/plating{
 	initial_gas_mix = "TEMP=2.7"
 	},
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "YE" = (
 /mob/living/basic/butterfly,
 /turf/open/floor/iron/vaporwave,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/ruin/space/virtual_domain)
+"YE" = (
+/mob/living/basic/butterfly,
+/turf/open/floor/iron/vaporwave,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "ZI" = (
 /obj/effect/spawner/random/structure/musician/piano/random_piano,
 /obj/structure/window/spawner/directional/west,
 /turf/open/floor/iron/vaporwave,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 
 (1,1,1) = {"
 eF
@@ -297,6 +485,7 @@ eF
 "}
 (2,1,1) = {"
 eF
+<<<<<<< HEAD
 NT
 NT
 NT
@@ -322,11 +511,39 @@ NT
 NT
 NT
 NT
+=======
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+>>>>>>> tg-pr-88929
 NT
 eF
 "}
 (3,1,1) = {"
 eF
+<<<<<<< HEAD
 NT
 NT
 NT
@@ -353,10 +570,39 @@ NT
 NT
 NT
 NT
+=======
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+>>>>>>> tg-pr-88929
 eF
 "}
 (4,1,1) = {"
 eF
+<<<<<<< HEAD
 NT
 NT
 NT
@@ -383,10 +629,39 @@ NT
 NT
 NT
 NT
+=======
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+>>>>>>> tg-pr-88929
 eF
 "}
 (5,1,1) = {"
 eF
+<<<<<<< HEAD
 NT
 NT
 NT
@@ -413,10 +688,39 @@ NT
 NT
 NT
 NT
+=======
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Vp
+LJ
+Vp
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+>>>>>>> tg-pr-88929
 eF
 "}
 (6,1,1) = {"
 eF
+<<<<<<< HEAD
 NT
 NT
 NT
@@ -443,10 +747,39 @@ NT
 NT
 NT
 NT
+=======
+Pv
+Pv
+Pv
+Pv
+Pv
+Vp
+Vp
+LJ
+Vp
+Vp
+LJ
+Vp
+Vp
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+>>>>>>> tg-pr-88929
 eF
 "}
 (7,1,1) = {"
 eF
+<<<<<<< HEAD
 NT
 NT
 NT
@@ -473,10 +806,39 @@ NT
 NT
 NT
 NT
+=======
+Pv
+Pv
+Pv
+Pv
+Vp
+Vp
+Vp
+UV
+LJ
+Vp
+UV
+Vp
+Vp
+Vp
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+>>>>>>> tg-pr-88929
 eF
 "}
 (8,1,1) = {"
 eF
+<<<<<<< HEAD
 NT
 NT
 NT
@@ -503,13 +865,47 @@ NT
 NT
 NT
 NT
+=======
+Pv
+Pv
+Pv
+Pv
+Vp
+xK
+xK
+bJ
+bJ
+bJ
+xK
+lu
+UE
+Vp
+Vp
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+>>>>>>> tg-pr-88929
 eF
 "}
 (9,1,1) = {"
 eF
+<<<<<<< HEAD
 NT
 NT
 NT
+=======
+Pv
+Pv
+Pv
+>>>>>>> tg-pr-88929
 LJ
 Qh
 xK
@@ -520,6 +916,7 @@ HA
 qu
 xK
 aA
+<<<<<<< HEAD
 cz
 cz
 NT
@@ -533,16 +930,40 @@ NT
 NT
 NT
 NT
+=======
+Vp
+Vp
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+>>>>>>> tg-pr-88929
 eF
 "}
 (10,1,1) = {"
 eF
+<<<<<<< HEAD
 NT
 NT
 NT
 LJ
 UV
 lu
+=======
+Pv
+Pv
+Pv
+LJ
+UV
+bJ
+>>>>>>> tg-pr-88929
 ZI
 Jr
 Jr
@@ -551,27 +972,47 @@ Jr
 xK
 bF
 Vc
+<<<<<<< HEAD
 cz
 cz
 NT
 NT
 NT
+=======
+Vp
+cz
+Pv
+Pv
+Pv
+>>>>>>> tg-pr-88929
 ku
 ku
 ku
 ku
 ku
 Uy
+<<<<<<< HEAD
 NT
+=======
+Pv
+>>>>>>> tg-pr-88929
 eF
 "}
 (11,1,1) = {"
 eF
+<<<<<<< HEAD
 NT
 NT
 NT
 cz
 cz
+=======
+Pv
+Pv
+Pv
+Vp
+Vp
+>>>>>>> tg-pr-88929
 xK
 xb
 CR
@@ -582,26 +1023,45 @@ xK
 Yo
 il
 UE
+<<<<<<< HEAD
 cz
 NT
 NT
 NT
+=======
+Vp
+Pv
+Pv
+Pv
+>>>>>>> tg-pr-88929
 ku
 iP
 iP
 iP
 ku
 ku
+<<<<<<< HEAD
 NT
+=======
+Pv
+>>>>>>> tg-pr-88929
 eF
 "}
 (12,1,1) = {"
 eF
+<<<<<<< HEAD
 NT
 NT
 NT
 cz
 cz
+=======
+Pv
+Pv
+Pv
+Vp
+Vp
+>>>>>>> tg-pr-88929
 xK
 ll
 CR
@@ -612,25 +1072,43 @@ xK
 Hf
 df
 il
+<<<<<<< HEAD
 cz
 NT
 NT
 NT
+=======
+Vp
+Pv
+Pv
+Pv
+>>>>>>> tg-pr-88929
 ku
 ku
 ku
 ku
 ku
 ku
+<<<<<<< HEAD
 NT
+=======
+Pv
+>>>>>>> tg-pr-88929
 eF
 "}
 (13,1,1) = {"
 eF
+<<<<<<< HEAD
 NT
 NT
 NT
 cz
+=======
+Pv
+Pv
+Pv
+Vp
+>>>>>>> tg-pr-88929
 LJ
 xK
 HV
@@ -643,26 +1121,45 @@ bs
 KY
 bs
 il
+<<<<<<< HEAD
 NT
 NT
 NT
+=======
+Pv
+Pv
+Pv
+>>>>>>> tg-pr-88929
 ku
 ku
 ku
 ku
 ku
 ku
+<<<<<<< HEAD
 NT
+=======
+Pv
+>>>>>>> tg-pr-88929
 eF
 "}
 (14,1,1) = {"
 eF
+<<<<<<< HEAD
 NT
 NT
 NT
 cz
 LJ
 lu
+=======
+Pv
+Pv
+Pv
+Vp
+LJ
+bJ
+>>>>>>> tg-pr-88929
 xp
 gM
 CR
@@ -673,53 +1170,92 @@ Hf
 kF
 bs
 il
+<<<<<<< HEAD
 NT
 NT
 NT
+=======
+Pv
+Pv
+Pv
+>>>>>>> tg-pr-88929
 ku
 ku
 ku
 ku
 ku
 ku
+<<<<<<< HEAD
 NT
+=======
+Pv
+>>>>>>> tg-pr-88929
 eF
 "}
 (15,1,1) = {"
 eF
+<<<<<<< HEAD
 NT
 NT
 NT
 cz
 LJ
 lu
+=======
+Pv
+Pv
+Pv
+Vp
+LJ
+bJ
+>>>>>>> tg-pr-88929
 KO
 KO
 CR
 YE
 lI
+<<<<<<< HEAD
 lu
+=======
+bJ
+>>>>>>> tg-pr-88929
 rn
 il
 UE
 UE
+<<<<<<< HEAD
 NT
 NT
 NT
+=======
+Pv
+Pv
+Pv
+>>>>>>> tg-pr-88929
 ku
 ku
 ku
 ku
 lB
 ku
+<<<<<<< HEAD
 NT
+=======
+Pv
+>>>>>>> tg-pr-88929
 eF
 "}
 (16,1,1) = {"
 eF
+<<<<<<< HEAD
 NT
 NT
 NT
+=======
+Pv
+Pv
+Pv
+>>>>>>> tg-pr-88929
 LJ
 UV
 xK
@@ -731,33 +1267,55 @@ Nz
 xK
 AX
 Vc
+<<<<<<< HEAD
 cz
 cz
 NT
 NT
 NT
+=======
+Vp
+Vp
+Pv
+Pv
+Pv
+>>>>>>> tg-pr-88929
 ku
 ku
 ku
 ku
 ku
 LG
+<<<<<<< HEAD
 NT
+=======
+Pv
+>>>>>>> tg-pr-88929
 eF
 "}
 (17,1,1) = {"
 eF
+<<<<<<< HEAD
 NT
 NT
 NT
 cz
 cz
 lu
+=======
+Pv
+Pv
+Pv
+Vp
+Vp
+bJ
+>>>>>>> tg-pr-88929
 fQ
 Cq
 LP
 HA
 qu
+<<<<<<< HEAD
 lu
 aA
 cz
@@ -773,10 +1331,28 @@ NT
 NT
 NT
 NT
+=======
+bJ
+aA
+Vp
+Vp
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+>>>>>>> tg-pr-88929
 eF
 "}
 (18,1,1) = {"
 eF
+<<<<<<< HEAD
 NT
 NT
 NT
@@ -803,10 +1379,39 @@ NT
 NT
 NT
 NT
+=======
+Pv
+Pv
+Pv
+Vp
+Vp
+xK
+xK
+bJ
+xK
+bJ
+bJ
+bJ
+UE
+Vp
+Vp
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+>>>>>>> tg-pr-88929
 eF
 "}
 (19,1,1) = {"
 eF
+<<<<<<< HEAD
 NT
 NT
 NT
@@ -814,10 +1419,20 @@ NT
 cz
 cz
 cz
+=======
+Pv
+Pv
+Pv
+Pv
+Vp
+Vp
+Vp
+>>>>>>> tg-pr-88929
 UV
 LJ
 Qh
 UV
+<<<<<<< HEAD
 cz
 cz
 cz
@@ -833,10 +1448,28 @@ NT
 NT
 NT
 NT
+=======
+Vp
+Vp
+Vp
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+>>>>>>> tg-pr-88929
 eF
 "}
 (20,1,1) = {"
 eF
+<<<<<<< HEAD
 NT
 NT
 NT
@@ -863,10 +1496,39 @@ NT
 NT
 NT
 NT
+=======
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Vp
+LJ
+Vp
+Vp
+LJ
+Vp
+Vp
+Vp
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+>>>>>>> tg-pr-88929
 eF
 "}
 (21,1,1) = {"
 eF
+<<<<<<< HEAD
 NT
 NT
 NT
@@ -893,10 +1555,39 @@ NT
 NT
 NT
 NT
+=======
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+LJ
+Vp
+Vp
+Vp
+Vp
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+>>>>>>> tg-pr-88929
 eF
 "}
 (22,1,1) = {"
 eF
+<<<<<<< HEAD
 NT
 NT
 NT
@@ -923,10 +1614,39 @@ NT
 NT
 NT
 NT
+=======
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+>>>>>>> tg-pr-88929
 eF
 "}
 (23,1,1) = {"
 eF
+<<<<<<< HEAD
 NT
 NT
 NT
@@ -953,10 +1673,39 @@ NT
 NT
 NT
 NT
+=======
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+>>>>>>> tg-pr-88929
 eF
 "}
 (24,1,1) = {"
 eF
+<<<<<<< HEAD
 NT
 NT
 NT
@@ -983,6 +1732,34 @@ NT
 NT
 NT
 NT
+=======
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+Pv
+>>>>>>> tg-pr-88929
 eF
 "}
 (25,1,1) = {"

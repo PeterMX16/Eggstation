@@ -21,12 +21,17 @@
 
 /mob/living/carbon/proc/dream()
 	set waitfor = FALSE
+<<<<<<< HEAD
 	var/datum/dream/chosen_dream
 
 	if (IS_HERETIC(src) && !("mansus_dream_fatigue" in src.mob_mood.mood_events) && GLOB.reality_smash_track.smashes.len)
 		chosen_dream = new /datum/dream/heretic(pick(GLOB.reality_smash_track.smashes))
 	else
 		chosen_dream = pick_weight(GLOB.dreams)
+=======
+
+	var/datum/dream/chosen_dream = pick_weight(GLOB.dreams)
+>>>>>>> tg-pr-88929
 
 	ADD_TRAIT(src, TRAIT_DREAMING, DREAMING_SOURCE)
 	dream_sequence(chosen_dream.GenerateDream(src), chosen_dream)
@@ -187,6 +192,7 @@ GLOBAL_LIST_INIT(dreams, populate_dream_list())
 /datum/dream/hear_something/proc/StopSound(mob/living/carbon/dreamer)
 	SEND_SOUND(dreamer, sound(channel=reserved_sound_channel))
 
+<<<<<<< HEAD
 /// Heretics can see dreams about random machinery from the perspective of a random unused influence
 /datum/dream/heretic
 	sleep_until_finished = TRUE
@@ -259,4 +265,6 @@ GLOBAL_LIST_INIT(dreams, populate_dream_list())
 	mood_change = -2
 	timeout = 5 MINUTES
 
+=======
+>>>>>>> tg-pr-88929
 #undef DREAMING_SOURCE

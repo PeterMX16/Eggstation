@@ -4,8 +4,6 @@
 	desc = "A bluespace anchor for chemicals. Does not require power. Use a multitool linked to a Chemical Recipient on this machine to start teleporting reagents."
 	icon_state = "beacon"
 	density = FALSE
-	///category for plumbing RCD
-	category="Distribution"
 
 	///whoever we teleport our chems to
 	var/obj/machinery/plumbing/receiver/target = null
@@ -24,7 +22,11 @@
 
 	set_teleport_target(M.buffer)
 
+<<<<<<< HEAD
 	to_chat(user, span_green("You successfully link [src] to the [M.buffer]."))
+=======
+	to_chat(user, span_green("You succesfully link [src] to the [M.buffer]."))
+>>>>>>> tg-pr-88929
 	return ITEM_INTERACT_SUCCESS
 
 ///Lose our previous target and make our previous target lose us. Seperate proc because I feel like I'll need this again
@@ -42,7 +44,7 @@
 ///Transfer reagents and display a flashing icon
 /obj/machinery/plumbing/sender/proc/teleport_chemicals(obj/machinery/plumbing/receiver/R, amount)
 	flick(initial(icon_state) + "_flash", src)
-	reagents.trans_to(R, amount, round_robin = TRUE)
+	reagents.trans_to(R, amount)
 
 ///A bluespace output pipe for plumbing. Supports multiple recipients. Must be constructed with a circuit board
 /obj/machinery/plumbing/receiver
@@ -70,7 +72,7 @@
 	return ITEM_INTERACT_SUCCESS
 
 /obj/machinery/plumbing/receiver/process(seconds_per_tick)
-	if(machine_stat & NOPOWER || panel_open)
+	if(!is_operational || panel_open)
 		return
 
 	if(senders.len)

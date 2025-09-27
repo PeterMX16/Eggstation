@@ -2,10 +2,14 @@
 	page_holder.give_screen_object(
 		new /atom/movable/screen/escape_menu/home_button(
 			null,
+<<<<<<< HEAD
 			/* hud_owner = */ null,
+=======
+			/* hud_owner = */ src,
+>>>>>>> tg-pr-88929
 			src,
 			"Resume",
-			/* offset = */ 0,
+			/* offset = */ 1,
 			CALLBACK(src, PROC_REF(home_resume)),
 		)
 	)
@@ -14,9 +18,26 @@
 		new /atom/movable/screen/escape_menu/home_button(
 			null,
 			/* hud_owner = */ null,
+<<<<<<< HEAD
 			src,
 			"Game Settings",
 			/* offset = */ 1,
+=======
+			src,
+			"Character",
+			/* offset = */ 2,
+			CALLBACK(src, PROC_REF(home_open_character_settings)),
+		)
+	)
+
+	page_holder.give_screen_object(
+		new /atom/movable/screen/escape_menu/home_button(
+			null,
+			/* hud_owner = */ null,
+			src,
+			"Settings",
+			/* offset = */ 3,
+>>>>>>> tg-pr-88929
 			CALLBACK(src, PROC_REF(home_open_game_settings)),
 		)
 	)
@@ -66,20 +87,34 @@
 	page_holder.give_screen_object(
 		new /atom/movable/screen/escape_menu/home_button/admin_help(
 			null,
+<<<<<<< HEAD
 			/* hud_owner = */ null,
 			src,
 			"Admin Help",
 			/* offset = */ 6,
+=======
+			/* hud_owner = */ src,
+			src,
+			"Admin Help",
+			/* offset = */ 4,
+>>>>>>> tg-pr-88929
 		)
 	)
 
 	page_holder.give_screen_object(
 		new /atom/movable/screen/escape_menu/home_button/leave_body(
 			null,
+<<<<<<< HEAD
 			/* hud_owner = */ null,
 			src,
 			"Leave Body",
 			/* offset = */ 7,
+=======
+			/* hud_owner = */ src,
+			src,
+			"Leave Body",
+			/* offset = */ 5,
+>>>>>>> tg-pr-88929
 			CALLBACK(src, PROC_REF(open_leave_body)),
 		)
 	)
@@ -87,6 +122,7 @@
 /datum/escape_menu/proc/home_resume()
 	qdel(src)
 
+<<<<<<< HEAD
 /datum/escape_menu/proc/start_redeem()
 	client?.redeem_code()
 
@@ -116,6 +152,18 @@
 	preferences.current_window = PREFERENCE_TAB_CHARACTER_PREFERENCES
 	preferences.update_static_data(usr)
 	preferences.ui_interact(usr)
+=======
+/datum/escape_menu/proc/home_open_character_settings()
+	client?.prefs.current_window = PREFERENCE_TAB_CHARACTER_PREFERENCES
+	client?.prefs.update_static_data(client?.mob)
+	client?.prefs.ui_interact(client?.mob)
+	qdel(src)
+
+/datum/escape_menu/proc/home_open_game_settings()
+	client?.prefs.current_window = PREFERENCE_TAB_GAME_PREFERENCES
+	client?.prefs.update_static_data(client?.mob)
+	client?.prefs.ui_interact(client?.mob)
+>>>>>>> tg-pr-88929
 	qdel(src)
 
 /atom/movable/screen/escape_menu/home_button

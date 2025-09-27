@@ -3,7 +3,6 @@
 /obj/machinery/vending/syndichem
 	name = "\improper SyndiChem"
 	desc = "A vending machine full of grenades and grenade accessories. Sponsored by Donk Co."
-	req_access = list(ACCESS_SYNDICATE)
 	products = list(/obj/item/stack/cable_coil = 5,
 					/obj/item/assembly/igniter = 20,
 					/obj/item/assembly/prox_sensor = 5,
@@ -30,13 +29,24 @@
 
 /obj/structure/closet/crate/secure/freezer/commsagent/PopulateContents()
 	. = ..() //Contains a variety of less exotic tongues (And tongue accessories) for the comms agent to mess with.
+<<<<<<< HEAD
 	new /obj/item/autosurgeon/syndicate/polyglot_voicebox(src)
+=======
+	new /obj/item/organ/tongue(src)
+	new /obj/item/organ/tongue/lizard(src)
+	new /obj/item/organ/tongue/fly(src)
+	new /obj/item/organ/tongue/zombie(src)
+	new /obj/item/organ/tongue/bone(src)
+	new /obj/item/organ/tongue/robot(src) //DANGER! CRYSTAL HYPERSTRUCTURE-
+	new /obj/item/organ/tongue/ethereal(src)
+	new /obj/item/autosurgeon/syndicate/commsagent(src)
+>>>>>>> tg-pr-88929
 	new /obj/item/book/granter/sign_language(src)
 	new	/obj/item/clothing/gloves/radio(src)
 
 /obj/machinery/power/supermatter_crystal/shard/syndicate
 	name = "syndicate supermatter shard"
-	desc = "Your benefactors conveinently neglected to mention it's already assembled."
+	desc = "Your benefactors conveniently neglected to mention it's already assembled."
 	anchored = TRUE
 	radio_key = /obj/item/encryptionkey/syndicate
 	emergency_channel = "Syndicate"

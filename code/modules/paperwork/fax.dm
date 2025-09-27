@@ -1,11 +1,13 @@
 GLOBAL_VAR_INIT(nt_fax_department, pick("NT HR Department", "NT Legal Department", "NT Complaint Department", "NT Customer Relations", "Nanotrasen Tech Support", "NT Internal Affairs Dept"))
+GLOBAL_VAR_INIT(fax_autoprinting, FALSE)
 
 /obj/machinery/fax
 	name = "Fax Machine"
 	desc = "Bluespace technologies on the application of bureaucracy."
-	icon = 'icons/obj/fax.dmi'
+	icon = 'icons/obj/machines/fax.dmi'
 	icon_state = "fax"
 	density = TRUE
+	anchored_tabletop_offset = 6
 	power_channel = AREA_USAGE_EQUIP
 	max_integrity = 100
 	pass_flags = PASSTABLE
@@ -34,22 +36,16 @@ GLOBAL_VAR_INIT(nt_fax_department, pick("NT HR Department", "NT Legal Department
 	var/recieve_notifies_admins = FALSE
 	/// List of types which should always be allowed to be faxed
 	var/static/list/allowed_types = list(
+		/obj/item/canvas,
 		/obj/item/paper,
 		/obj/item/photo,
-		/obj/item/tcgcard
+		/obj/item/tcgcard,
 	)
 	/// List of types which should be allowed to be faxed if hacked
 	var/static/list/exotic_types = list(
-		/obj/item/food/pizzaslice,
-		/obj/item/food/root_flatbread,
-		/obj/item/food/pizza/flatbread,
-		/obj/item/food/breadslice,
-		/obj/item/food/salami,
-		/obj/item/throwing_star,
-		/obj/item/stack/spacecash,
-		/obj/item/holochip,
 		/obj/item/card,
 		/obj/item/folder/biscuit,
+<<<<<<< HEAD
 		//MONKESTATION EDIT START, also edits icons/obj/fax.dmi
 		/obj/item/gun, // remote robbery, https://www.youtube.com/watch?v=xtHaplmap7I
 		/obj/item/restraints/handcuffs,
@@ -59,12 +55,55 @@ GLOBAL_VAR_INIT(nt_fax_department, pick("NT HR Department", "NT Legal Department
 		/obj/item/food/griddle_toast,
 		/obj/item/food/cakeslice
 		//MONKESTATION EDIT END
+=======
+		/obj/item/food/breadslice,
+		/obj/item/food/chapslice,
+		/obj/item/food/cookie,
+		/obj/item/food/grilled_chapslice,
+		/obj/item/food/pizza/flatbread,
+		/obj/item/food/pizzaslice,
+		/obj/item/food/root_flatbread,
+		/obj/item/food/salami,
+		/obj/item/holochip,
+		/obj/item/stack/spacecash,
+		/obj/item/throwing_star,
+>>>>>>> tg-pr-88929
 	)
 	/// List with a fake-networks(not a fax actually), for request manager.
 	var/list/special_networks = list(
 		nanotrasen = list(fax_name = "NT HR Department", fax_id = "central_command", color = "teal", emag_needed = FALSE),
 		syndicate = list(fax_name = "Sabotage Department", fax_id = "syndicate", color = "red", emag_needed = TRUE),
 	)
+
+/obj/machinery/fax/auto_name
+	name = "Auto-naming Fax Machine"
+
+/obj/machinery/fax/auto_name/Initialize(mapload)
+	var/area/current_area = get_area(src)
+	name = "[current_area.name]'s Fax Machine"
+	fax_name = "[current_area.name]"
+	return ..()
+
+/obj/machinery/fax/admin/syndicate
+	name = "Syndicate Fax Machine"
+
+/obj/machinery/fax/admin/syndicate/Initialize(mapload)
+	fax_name = "[special_networks["syndicate"]["fax_name"]]"
+	fax_id = special_networks["syndicate"]["fax_id"]
+	syndicate_network = TRUE
+	return ..()
+
+/obj/machinery/fax/admin
+	name = "CentCom Fax Machine"
+
+/obj/machinery/fax/admin/Initialize(mapload)
+	if (!fax_name)
+		fax_name = "[GLOB.nt_fax_department]"
+	if(!fax_id)
+		fax_id = special_networks["nanotrasen"]["fax_id"]
+	name = "[fax_name] Fax Machine"
+	visible_to_network = FALSE
+	return ..()
 
 /obj/machinery/fax/Initialize(mapload)
 	. = ..()
@@ -78,7 +117,6 @@ GLOBAL_VAR_INIT(nt_fax_department, pick("NT HR Department", "NT Legal Department
 
 /obj/machinery/fax/Destroy()
 	QDEL_NULL(loaded_item_ref)
-	QDEL_NULL(wires)
 	return ..()
 
 /obj/machinery/fax/update_overlays()
@@ -121,7 +159,11 @@ GLOBAL_VAR_INIT(nt_fax_department, pick("NT HR Department", "NT Legal Department
 		return FALSE
 	if (!(obj_flags & EMAGGED))
 		obj_flags |= EMAGGED
+<<<<<<< HEAD
 		playsound(src, 'sound/creatures/dog/growl2.ogg', 50, FALSE)
+=======
+		playsound(src, 'sound/mobs/non-humanoids/dog/growl2.ogg', 50, FALSE)
+>>>>>>> tg-pr-88929
 		balloon_alert(user, "migrated to syndienet 2.0")
 		to_chat(user, span_warning("An image appears on [src] screen for a moment with Ian in the cap of a Syndicate officer."))
 		return TRUE
@@ -147,7 +189,7 @@ GLOBAL_VAR_INIT(nt_fax_department, pick("NT HR Department", "NT Legal Department
 /obj/machinery/fax/multitool_act(mob/living/user, obj/item/I)
 	if (panel_open)
 		return
-	var/new_fax_name = tgui_input_text(user, "Enter a new name for the fax machine.", "New Fax Name", , 128)
+	var/new_fax_name = tgui_input_text(user, "Enter a new name for the fax machine.", "New Fax Name", max_length = 128)
 	if (!new_fax_name)
 		return ITEM_INTERACT_SUCCESS
 	if (new_fax_name != fax_name)
@@ -184,7 +226,7 @@ GLOBAL_VAR_INIT(nt_fax_department, pick("NT HR Department", "NT Legal Department
 		var/obj/item/reagent_containers/spray/clean_spray = item
 		if(!clean_spray.reagents.has_reagent(/datum/reagent/space_cleaner, clean_spray.amount_per_transfer_from_this))
 			return FALSE
-		clean_spray.reagents.remove_reagent(/datum/reagent/space_cleaner, clean_spray.amount_per_transfer_from_this, 1)
+		clean_spray.reagents.remove_reagent(/datum/reagent/space_cleaner, clean_spray.amount_per_transfer_from_this)
 		playsound(loc, 'sound/effects/spray3.ogg', 50, TRUE, MEDIUM_RANGE_SOUND_EXTRARANGE)
 		user.visible_message(span_notice("[user] cleans \the [src]."), span_notice("You clean \the [src]."))
 		jammed = FALSE
@@ -254,6 +296,8 @@ GLOBAL_VAR_INIT(nt_fax_department, pick("NT HR Department", "NT Legal Department
 	data["fax_history"] = fax_history
 	var/list/special_networks_data = list()
 	for(var/key in special_networks)
+		if(special_networks[key]["fax_id"] == fax_id)
+			continue
 		special_networks_data += list(special_networks[key])
 	data["special_faxes"] = special_networks_data
 	return data
@@ -300,11 +344,22 @@ GLOBAL_VAR_INIT(nt_fax_department, pick("NT HR Department", "NT Legal Department
 
 			history_add("Send", params["name"])
 
-			GLOB.requests.fax_request(usr.client, "sent a fax message from [fax_name]/[fax_id] to [params["name"]]", fax_paper)
-			to_chat(GLOB.admins, span_adminnotice("[icon2html(src.icon, GLOB.admins)]<b><font color=green>FAX REQUEST: </font>[ADMIN_FULLMONTY(usr)]:</b> [span_linkify("sent a fax message from [fax_name]/[fax_id][ADMIN_FLW(src)] to [html_encode(params["name"])]")] [ADMIN_SHOW_PAPER(fax_paper)]"), confidential = TRUE)
+			GLOB.requests.fax_request(usr.client, "sent a fax message from [fax_name]/[fax_id] to [params["name"]]", list("paper" = fax_paper, "destination_id" = params["id"], "sender_name" = fax_name))
+			to_chat(GLOB.admins,
+				span_adminnotice("[icon2html(src.icon, GLOB.admins)]<b><font color=green>FAX REQUEST: </font>[ADMIN_FULLMONTY(usr)]:</b> [span_linkify("sent a fax message from [fax_name]/[fax_id][ADMIN_FLW(src)] to [html_encode(params["name"])]")] [ADMIN_SHOW_PAPER(fax_paper)] [ADMIN_PRINT_FAX(fax_paper, fax_name, params["id"])]"),
+				type = MESSAGE_TYPE_PRAYER,
+				confidential = TRUE)
 			for(var/client/staff as anything in GLOB.admins)
 				if(staff?.prefs.read_preference(/datum/preference/toggle/comms_notification))
 					SEND_SOUND(staff, sound('sound/misc/server-ready.ogg'))
+
+			if(GLOB.fax_autoprinting)
+				for(var/obj/machinery/fax/admin/FAX as anything in SSmachines.get_machines_by_type_and_subtypes(/obj/machinery/fax/admin))
+					if(FAX.fax_id != params["id"])
+						continue
+					FAX.receive(fax_paper, fax_name)
+					break
+
 			log_fax(fax_paper, params["id"], params["name"])
 			loaded_item_ref = null
 			update_appearance()
@@ -344,7 +399,7 @@ GLOBAL_VAR_INIT(nt_fax_department, pick("NT HR Department", "NT Legal Department
 		if (FAX.jammed)
 			do_sparks(5, TRUE, src)
 			balloon_alert(usr, "destination port jammed")
-			playsound(src, 'sound/machines/scanbuzz.ogg', 25, TRUE, SHORT_RANGE_SOUND_EXTRARANGE)
+			playsound(src, 'sound/machines/scanner/scanbuzz.ogg', 25, TRUE, SHORT_RANGE_SOUND_EXTRARANGE)
 			return FALSE
 		FAX.receive(loaded, fax_name)
 		history_add("Send", FAX.fax_name)
@@ -542,6 +597,7 @@ GLOBAL_VAR_INIT(nt_fax_department, pick("NT HR Department", "NT Legal Department
 
 	return .
 
+<<<<<<< HEAD
 //Monkestation edit start
 /// Admin Fax subtype
 /obj/machinery/fax/messageadmins
@@ -549,3 +605,31 @@ GLOBAL_VAR_INIT(nt_fax_department, pick("NT HR Department", "NT Legal Department
 	recieve_notifies_admins = TRUE
 
 //Monkestation edit end
+=======
+/// Sends a fax to a fax machine in an area! fax_area is a type, where all subtypes are also queried. If multiple machines, one is randomly picked
+/// If force is TRUE, we send a droppod with a fax machine and fax the message to that fax machine
+/proc/send_fax_to_area(obj/item/fax_item, area_type, sender, force = FALSE, force_pod_type)
+	var/list/fax_machines = SSmachines.get_machines_by_type_and_subtypes(/obj/machinery/fax)
+	var/list/valid_fax_machines = list()
+
+	for(var/obj/machinery/fax as anything in fax_machines) //get valid fax machines
+		var/area/fax_area = get_area(fax)
+		if(istype(fax_area, area_type))
+			valid_fax_machines += fax
+
+	// Pick a fax machine and send the fax
+	if(valid_fax_machines.len)
+		var/obj/machinery/fax/target_fax = pick(valid_fax_machines)
+		target_fax.receive(fax_item, sender)
+
+	else if(force) //no fax machines but we really gotte send? SEND A FAX MACHINE
+		var/obj/machinery/fax/new_fax_machine = new()
+		if(!send_supply_pod_to_area(new_fax_machine, area_type, force_pod_type))
+			stack_trace("Attempted to forcibly send a fax to [area_type], however the area does not exist or has no valid dropoff spot for a fax machine")
+			return FALSE
+		addtimer(CALLBACK(new_fax_machine, TYPE_PROC_REF(/obj/machinery/fax, receive), fax_item, sender), 10 SECONDS)
+
+	else
+		return FALSE
+	return TRUE
+>>>>>>> tg-pr-88929

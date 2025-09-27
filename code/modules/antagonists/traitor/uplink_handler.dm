@@ -52,6 +52,11 @@
 	var/datum/callback/can_replace_objectives
 	/// Callback which performs that operation
 	var/datum/callback/replace_objectives
+<<<<<<< HEAD
+=======
+	///Reference to a contractor hub that the infiltrator can run, if they purchase it.
+	var/datum/contractor_hub/contractor_hub
+>>>>>>> tg-pr-88929
 
 /datum/uplink_handler/New()
 	. = ..()
@@ -69,6 +74,8 @@
 
 /// Checks for uplink flags as well as items restricted to roles and species
 /datum/uplink_handler/proc/check_if_restricted(datum/uplink_item/to_purchase)
+	if(!to_purchase.can_be_bought(src))
+		return FALSE
 	if((to_purchase in extra_purchasable))
 		return TRUE
 	if(!(to_purchase.purchasable_from & uplink_flag))
@@ -100,8 +107,13 @@
 		return FALSE
 
 	var/current_stock = item_stock[to_purchase.stock_key]
+<<<<<<< HEAD
 	var/stock = current_stock != null? current_stock : INFINITY
 	if(telecrystals < to_purchase.cost || stock <= 0)
+=======
+	var/stock = current_stock != null ? current_stock : INFINITY
+	if(telecrystals < to_purchase.cost || stock <= 0 || not_enough_reputation(to_purchase))
+>>>>>>> tg-pr-88929
 		return FALSE
 
 	return TRUE
@@ -130,17 +142,27 @@
 		return FALSE
 
 	telecrystals -= amount
+<<<<<<< HEAD
 	var/tcs = new /obj/item/stack/telecrystal(user.drop_location(), amount)
+=======
+	var/tcs = new /obj/item/stack/telecrystal(get_turf(user), amount)
+>>>>>>> tg-pr-88929
 	user.put_in_hands(tcs)
 
 	log_uplink("[key_name(user)] purchased [amount] raw telecrystals from [source]'s uplink")
 	on_update()
 	return TRUE
 
+<<<<<<< HEAD
 /** Generates objectives for this uplink handler
  * forced_types - an assoc list of objective types that when passed will always be generated first if possible to generate, value is how many of that type to generate
  */
 /datum/uplink_handler/proc/generate_objectives(list/forced_types = list()) //monkestation edit: adds forced_types
+=======
+
+/// Generates objectives for this uplink handler
+/datum/uplink_handler/proc/generate_objectives()
+>>>>>>> tg-pr-88929
 	var/potential_objectives_left = maximum_potential_objectives - (length(potential_objectives) + length(active_objectives))
 	var/list/objectives = SStraitor.category_handler.get_possible_objectives(progression_points, uplink_flag) //monkestation edit: adds uplink_flag
 	if(!length(objectives))
@@ -262,7 +284,7 @@
 	if(!(to_take in potential_objectives))
 		return
 
-	user.playsound_local(get_turf(user), 'sound/traitor/objective_taken.ogg', vol = 100, vary = FALSE, channel = CHANNEL_TRAITOR)
+	user.playsound_local(get_turf(user), 'sound/music/antag/traitor/objective_taken.ogg', vol = 100, vary = FALSE, channel = CHANNEL_TRAITOR)
 	to_take.on_objective_taken(user)
 	to_take.objective_state = OBJECTIVE_STATE_ACTIVE
 	potential_objectives -= to_take
@@ -276,3 +298,12 @@
 		return
 
 	to_act_on.ui_perform_action(user, action)
+
+///Helper to add telecrystals to the uplink handler, calling set_telecrystals.
+/datum/uplink_handler/proc/add_telecrystals(amount)
+	set_telecrystals(telecrystals + amount)
+
+///Sets how many telecrystals the uplink handler has, then updates the UI for any players watching.
+/datum/uplink_handler/proc/set_telecrystals(amount)
+	telecrystals = amount
+	on_update()

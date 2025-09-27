@@ -157,4 +157,7 @@ SUBSYSTEM_DEF(lua)
 			continue
 		state.log_result(json_data)
 	return
+<<<<<<< HEAD
 #endif
+=======
+>>>>>>> tg-pr-88929

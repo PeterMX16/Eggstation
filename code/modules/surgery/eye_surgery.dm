@@ -21,10 +21,14 @@
 	time = 64
 
 /datum/surgery/eye_surgery/can_start(mob/user, mob/living/carbon/target)
+<<<<<<< HEAD
 	var/obj/item/organ/internal/eyes/target_eyes = target.get_organ_slot(ORGAN_SLOT_EYES)
 	if(target_eyes?.damage > 0) // monkestation edit: eye surgery is repeatable so only give the option if damaged.
 		return TRUE
 	return FALSE
+=======
+	return target.get_organ_slot(ORGAN_SLOT_EYES) && ..()
+>>>>>>> tg-pr-88929
 
 /datum/surgery_step/fix_eyes/preop(mob/user, mob/living/carbon/target, target_zone, obj/item/tool, datum/surgery/surgery)
 	display_results(
@@ -37,7 +41,7 @@
 	display_pain(target, "You feel a stabbing pain in your eyes!")
 
 /datum/surgery_step/fix_eyes/success(mob/user, mob/living/carbon/target, target_zone, obj/item/tool, datum/surgery/surgery, default_display_results = FALSE)
-	var/obj/item/organ/internal/eyes/target_eyes = target.get_organ_slot(ORGAN_SLOT_EYES)
+	var/obj/item/organ/eyes/target_eyes = target.get_organ_slot(ORGAN_SLOT_EYES)
 	user.visible_message(span_notice("[user] successfully fixes [target]'s eyes!"), span_notice("You succeed in fixing [target]'s eyes."))
 	display_results(
 		user,
@@ -53,7 +57,7 @@
 	return ..()
 
 /datum/surgery_step/fix_eyes/failure(mob/user, mob/living/carbon/target, target_zone, obj/item/tool, datum/surgery/surgery)
-	if(target.get_organ_by_type(/obj/item/organ/internal/brain))
+	if(target.get_organ_by_type(/obj/item/organ/brain))
 		display_results(
 			user,
 			target,

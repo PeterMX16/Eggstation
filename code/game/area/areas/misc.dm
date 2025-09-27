@@ -5,14 +5,19 @@
 	requires_power = TRUE
 	always_unpowered = TRUE
 	static_lighting = FALSE
+<<<<<<< HEAD
 
 	//base_lighting_alpha = 255
 	//base_lighting_color = "#FFFFFF"
 
+=======
+	base_lighting_alpha = 255
+	base_lighting_color = COLOR_STARLIGHT
+>>>>>>> tg-pr-88929
 	power_light = FALSE
 	power_equip = FALSE
 	power_environ = FALSE
-	area_flags = UNIQUE_AREA
+	area_flags = UNIQUE_AREA|NO_GRAVITY
 	outdoors = TRUE
 	ambience_index = AMBIENCE_SPACE
 	flags_1 = CAN_BE_DIRTY_1
@@ -28,22 +33,36 @@
 
 /area/space/nearstation
 	icon_state = "space_near"
-	area_flags = UNIQUE_AREA | AREA_USES_STARLIGHT
 	static_lighting = TRUE
+<<<<<<< HEAD
+=======
+	base_lighting_alpha = 0
+	base_lighting_color = null
+
+>>>>>>> tg-pr-88929
 /area/misc/start
 	name = "start area"
 	icon_state = "start"
 	requires_power = FALSE
 	static_lighting = FALSE
 	base_lighting_alpha = 255
+<<<<<<< HEAD
 	has_gravity = STANDARD_GRAVITY
+=======
+	default_gravity = STANDARD_GRAVITY
+>>>>>>> tg-pr-88929
 	ambient_buzz = null
 
 /area/misc/testroom
 	requires_power = FALSE
-	has_gravity = STANDARD_GRAVITY
+	default_gravity = STANDARD_GRAVITY
 	// Mobs should be able to see inside the testroom
 	static_lighting = FALSE
 	base_lighting_alpha = 255
 	name = "Test Room"
 	icon_state = "test_room"
+
+/area/misc/testroom/gateway_room
+	name = "Gateway Room"
+	icon = 'icons/area/areas_station.dmi'
+	icon_state = "gateway"

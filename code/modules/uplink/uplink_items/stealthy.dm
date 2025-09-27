@@ -4,6 +4,7 @@
 
 /datum/uplink_item/stealthy_weapons
 	category = /datum/uplink_category/stealthy
+	uplink_item_flags = SYNDIE_ILLEGAL_TECH
 
 
 /datum/uplink_item/stealthy_weapons/dart_pistol
@@ -13,7 +14,7 @@
 	item = /obj/item/gun/syringe/syndicate
 	cost = 4
 	surplus = 50
-	purchasable_from = ~(UPLINK_NUKE_OPS | UPLINK_CLOWN_OPS)
+	purchasable_from = ~UPLINK_ALL_SYNDIE_OPS
 
 /datum/uplink_item/stealthy_weapons/dehy_carp
 	name = "Dehydrated Space Carp"
@@ -32,7 +33,11 @@
 	name = "Syndie Lipstick"
 	desc = "Stylish way to kiss to death, isn't it syndiekisser?"
 	item = /obj/item/lipstick/syndie
+<<<<<<< HEAD
 	cost = 12
+=======
+	cost = 6
+>>>>>>> tg-pr-88929
 
 /datum/uplink_item/stealthy_weapons/traitor_chem_bottle
 	name = "Poison Kit"
@@ -71,10 +76,14 @@
 	desc = "This box contains a guide on how to craft masterful works of origami, allowing you to transform normal pieces of paper into \
 			perfectly aerodynamic (and potentially lethal) paper airplanes."
 	item = /obj/item/storage/box/syndie_kit/origami_bundle
-	progression_minimum = 10 MINUTES
 	cost = 4
+<<<<<<< HEAD
 	surplus = 50 //monkestation edit: from 0 to 50
 	purchasable_from = ~UPLINK_NUKE_OPS //clown ops intentionally left in, because that seems like some s-tier shenanigans.
+=======
+	surplus = 0
+	purchasable_from = ~UPLINK_SERIOUS_OPS //clown ops intentionally left in, because that seems like some s-tier shenanigans.
+>>>>>>> tg-pr-88929
 
 
 /datum/uplink_item/stealthy_weapons/martialarts
@@ -83,9 +92,15 @@
 			and gain the ability to swat bullets from the air, but you will also refuse to use dishonorable ranged weaponry."
 	item = /obj/item/book/granter/martial/carp
 	progression_minimum = 30 MINUTES
+<<<<<<< HEAD
 	cost = 12 //monke edit
 	surplus = 30 //monkestation edit: from 0 to 30
 	purchasable_from = ~(UPLINK_NUKE_OPS | UPLINK_CLOWN_OPS)
+=======
+	cost = 17
+	surplus = 0
+	purchasable_from = ~UPLINK_ALL_SYNDIE_OPS
+>>>>>>> tg-pr-88929
 
 /datum/uplink_item/stealthy_weapons/crossbow
 	name = "Miniature Energy Crossbow"
@@ -98,7 +113,11 @@
 	item = /obj/item/gun/energy/recharge/ebow
 	cost = 10
 	surplus = 50
+<<<<<<< HEAD
 	purchasable_from = ~(UPLINK_NUKE_OPS | UPLINK_CLOWN_OPS)
+=======
+	purchasable_from = ~UPLINK_ALL_SYNDIE_OPS
+>>>>>>> tg-pr-88929
 
 /datum/uplink_item/stealthy_weapons/contrabaton
 	name = "Contractor Baton"
@@ -106,6 +125,7 @@
 	These shocks are capable of affecting the inner circuitry of most robots as well, applying a short stun. \
 	Has the added benefit of affecting the vocal cords of your victim, causing them to slur as if inebriated."
 	item = /obj/item/melee/baton/telescopic/contractor_baton
+<<<<<<< HEAD
 	cost = 12
 	surplus = 50
 	purchasable_from = ~(UPLINK_NUKE_OPS | UPLINK_CLOWN_OPS)
@@ -118,3 +138,9 @@
 	item = /obj/item/book/granter/martial/carp/true
 	lock_other_purchases = TRUE
 	purchasable_from = ~(UPLINK_CLOWN_OPS | UPLINK_NUKE_OPS)
+=======
+	cost = 7
+	surplus = 50
+	limited_stock = 1
+	purchasable_from = UPLINK_TRAITORS | UPLINK_SPY
+>>>>>>> tg-pr-88929

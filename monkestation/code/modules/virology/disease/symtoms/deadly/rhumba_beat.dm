@@ -1,11 +1,24 @@
 
 /datum/symptom/rhumba_beat
 	name = "The Rhumba Beat"
+<<<<<<< HEAD:monkestation/code/modules/virology/disease/symtoms/deadly/rhumba_beat.dm
 	desc = "Chick Chicky Boom!"
 	max_multiplier = 5
 	stage = 4
 	badness = EFFECT_DANGER_DEADLY
 	severity = 5
+=======
+	max_stages = 5
+	spread_text = "On contact"
+	spread_flags = DISEASE_SPREAD_BLOOD | DISEASE_SPREAD_CONTACT_SKIN | DISEASE_SPREAD_CONTACT_FLUIDS
+	cure_text = "Chick Chicky Boom!"
+	cures = list("plasma")
+	agent = "Unknown"
+	viable_mobtypes = list(/mob/living/carbon/human)
+	spreading_modifier = 1
+	severity = DISEASE_SEVERITY_BIOHAZARD
+	bypasses_immunity = TRUE
+>>>>>>> tg-pr-88929:code/datums/diseases/rhumba_beat.dm
 
 /datum/symptom/rhumba_beat/activate(mob/living/carbon/affected_mob)
 	if(ismouse(affected_mob))
@@ -15,9 +28,15 @@
 
 	switch(round(multiplier))
 		if(2)
+<<<<<<< HEAD:monkestation/code/modules/virology/disease/symtoms/deadly/rhumba_beat.dm
 			if(prob(26))
 				affected_mob.take_overall_damage(burn = 5)
 			if(prob(0.5))
+=======
+			if(SPT_PROB(26, seconds_per_tick))
+				affected_mob.adjustFireLoss(5)
+			if(SPT_PROB(0.5, seconds_per_tick))
+>>>>>>> tg-pr-88929:code/datums/diseases/rhumba_beat.dm
 				to_chat(affected_mob, span_danger("You feel strange..."))
 		if(3)
 			if(prob(2.5))

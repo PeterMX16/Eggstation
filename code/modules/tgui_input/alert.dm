@@ -80,7 +80,11 @@
 /datum/tgui_alert/Destroy(force)
 	SStgui.close_uis(src)
 	state = null
+<<<<<<< HEAD
 	buttons?.Cut()
+=======
+	QDEL_NULL(buttons)
+>>>>>>> tg-pr-88929
 	return ..()
 
 /**

@@ -17,7 +17,11 @@
 	/// Type of projectile to fire
 	var/projectile_type = /obj/projectile/temp/watcher
 	/// Sound the projectile we fire makes
+<<<<<<< HEAD
 	var/projectile_sound = 'sound/weapons/pierce.ogg'
+=======
+	var/projectile_sound = 'sound/items/weapons/pierce.ogg'
+>>>>>>> tg-pr-88929
 	/// Time to watch for
 	var/overwatch_duration = 3 SECONDS
 
@@ -45,6 +49,10 @@
 	living_owner.face_atom(target)
 	living_owner.Stun(overwatch_duration, ignore_canstun = TRUE)
 	target.apply_status_effect(/datum/status_effect/overwatch, overwatch_duration, owner, projectile_type, projectile_sound)
+<<<<<<< HEAD
+=======
+	owner.visible_message(span_warning("[owner]'s eye locks on to [target]!"))
+>>>>>>> tg-pr-88929
 	StartCooldown()
 	return TRUE
 
@@ -75,7 +83,11 @@
 		COMSIG_MOB_ITEM_ATTACK,
 		COMSIG_MOB_THROW,
 		COMSIG_MOB_USED_MECH_EQUIPMENT,
+<<<<<<< HEAD
 		COMSIG_MOB_USED_MECH_MELEE,
+=======
+		COMSIG_MOB_USED_CLICK_MECH_MELEE,
+>>>>>>> tg-pr-88929
 		COMSIG_MOVABLE_MOVED,
 	)
 

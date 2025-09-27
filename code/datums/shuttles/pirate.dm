@@ -29,3 +29,10 @@
 /datum/map_template/shuttle/pirate/geode
 	suffix = "geode"
 	name = "pirate ship (Lustrous Geode)"
+<<<<<<< HEAD
+=======
+
+/datum/map_template/shuttle/pirate/medieval
+	suffix = "medieval"
+	name = "pirate ship (Siege Pod)"
+>>>>>>> tg-pr-88929

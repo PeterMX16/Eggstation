@@ -1,3 +1,21 @@
+<<<<<<< HEAD
+=======
+
+/datum/bounty/item/science/relic
+	name = "E.X.P.E.R.I-MENTORially Discovered Devices"
+	description = "Psst, hey. Don't tell the assistants, but we're undercutting them on the value of those 'strange objects' they've been finding. Fish one up and send us a discovered one by using the E.X.P.E.R.I-MENTOR."
+	reward = CARGO_CRATE_VALUE * 8
+	wanted_types = list(/obj/item/relic = TRUE)
+
+/datum/bounty/item/science/relic/applies_to(obj/O)
+	if(!..())
+		return FALSE
+	var/obj/item/relic/experiment = O
+	if(experiment.activated)
+		return TRUE
+	return
+
+>>>>>>> tg-pr-88929
 /datum/bounty/item/science/bepis_disc
 	name = "Reformatted Tech Disk"
 	description = "It turns out the diskettes the BEPIS prints experimental nodes on are extremely space-efficient. Send us one of your spares when you're done with it."
@@ -40,7 +58,7 @@
 //******Modular Computer Bounties******
 /datum/bounty/item/science/ntnet
 	name = "Modular Tablets"
-	description = "Turns out that NTNet wasn't actually a fad afterall, who knew. Send some fully functional PDAs to help get us up to speed on the latest technology."
+	description = "Turns out that NTNet wasn't actually a fad after all, who knew. Send some fully functional PDAs to help get us up to speed on the latest technology."
 	reward = CARGO_CRATE_VALUE * 6
 	required_count = 4
 	wanted_types = list(/obj/item/modular_computer/pda = TRUE)
@@ -82,7 +100,7 @@
 //******Anomaly Cores******
 /datum/bounty/item/science/ref_anomaly
 	name = "Refined Bluespace Core"
-	description = "We need a bluespace core to fit in a Phazon. Ship us one, please."
+	description = "We need a bluespace core to assemble a bag of holding. Ship us one, please."
 	reward = CARGO_CRATE_VALUE * 20
 	wanted_types = list(/obj/item/assembly/signaler/anomaly/bluespace = TRUE)
 

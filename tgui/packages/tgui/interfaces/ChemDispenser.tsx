@@ -1,16 +1,31 @@
+<<<<<<< HEAD
 import { toTitleCase } from 'common/string';
 import { useBackend, useLocalState } from '../backend';
 import {
   AnimatedNumber,
+=======
+import { useState } from 'react';
+import {
+>>>>>>> tg-pr-88929
   Box,
   Button,
   Icon,
   LabeledList,
   ProgressBar,
   Section,
+<<<<<<< HEAD
 } from '../components';
 import { Window } from '../layouts';
 import { BooleanLike } from 'common/react';
+=======
+} from 'tgui-core/components';
+import { BooleanLike } from 'tgui-core/react';
+import { toTitleCase } from 'tgui-core/string';
+
+import { useBackend } from '../backend';
+import { Window } from '../layouts';
+import { Beaker, BeakerDisplay } from './common/BeakerDisplay';
+>>>>>>> tg-pr-88929
 
 type DispensableReagent = {
   title: string;
@@ -38,6 +53,7 @@ type Data = {
   beaker: TransferableBeaker;
 };
 
+<<<<<<< HEAD
 export type BeakerReagent = {
   name: string;
   volume: number;
@@ -105,11 +121,17 @@ export const BeakerDisplay = (props: BeakerProps) => {
   );
 };
 
+=======
+>>>>>>> tg-pr-88929
 export const ChemDispenser = (props) => {
   const { act, data } = useBackend<Data>();
   const recording = !!data.recordingRecipe;
   const { recipeReagents = [], recipes = [], beaker } = data;
+<<<<<<< HEAD
   const [showPhCol, setShowPhCol] = useLocalState('has_col', false);
+=======
+  const [showPhCol, setShowPhCol] = useState(false);
+>>>>>>> tg-pr-88929
 
   const beakerTransferAmounts = beaker ? beaker.transferAmounts : [];
   const recordedContents =
@@ -255,7 +277,11 @@ export const ChemDispenser = (props) => {
                 textColor={showPhCol ? chemical.pHCol : chemical.color}
                 width="129.5px"
                 lineHeight={1.75}
+<<<<<<< HEAD
                 tooltip={`pH: ${chemical.pH}`}
+=======
+                tooltip={'pH: ' + chemical.pH}
+>>>>>>> tg-pr-88929
                 style={{
                   textShadow: '1px 1px 0 black',
                 }}
@@ -271,6 +297,10 @@ export const ChemDispenser = (props) => {
                 <span
                   style={{
                     color: 'white',
+<<<<<<< HEAD
+=======
+                    textShadow: 'none',
+>>>>>>> tg-pr-88929
                   }}
                 >
                   {chemical.title}

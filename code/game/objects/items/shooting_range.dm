@@ -1,7 +1,7 @@
 /obj/item/target
 	name = "shooting target"
 	desc = "A shooting target."
-	icon = 'icons/obj/objects.dmi'
+	icon = 'icons/obj/structures.dmi'
 	icon_state = "target_h"
 	density = FALSE
 	max_integrity = 1800
@@ -32,6 +32,10 @@
 	if(isnull(always_leave_marks))
 		always_leave_marks = typecacheof(list(
 			/obj/projectile/beam/practice,
+<<<<<<< HEAD
+=======
+			/obj/projectile/beam/laser/carbine/practice,
+>>>>>>> tg-pr-88929
 		))
 
 	var/is_invalid_damage = hitting_projectile.damage_type != BRUTE && hitting_projectile.damage_type != BURN
@@ -81,6 +85,10 @@
 	desc = "A shooting target that looks like a useless clown."
 	max_integrity = 2000
 
+<<<<<<< HEAD
 /obj/item/target/clown/bullet_act(obj/projectile/P)
+=======
+/obj/item/target/clown/bullet_act(obj/projectile/proj)
+>>>>>>> tg-pr-88929
 	. = ..()
 	playsound(src, 'sound/items/bikehorn.ogg', 50, TRUE)

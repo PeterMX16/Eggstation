@@ -134,11 +134,11 @@ If that fails, search the object's typepath, and look and see if anything is hol
 BYOND currently doesn't have the capability to give us information about where a hard delete is. Fortunately we can search for most all of then ourselves.
 The procs to perform this search are hidden behind compile time defines, since they'd be way too risky to expose to admin button pressing
 
-If you're having issues solving a harddel and want to perform this check yourself, go to `_compile_options.dm` and uncomment `TESTING`, `REFERENCE_TRACKING`, and `GC_FAILURE_HARD_LOOKUP`
+If you're having issues solving a harddel and want to perform this check yourself, go to `_compile_options.dm` and uncomment `REFERENCE_TRACKING_STANDARD`.
 
-You can read more about what each of these do in that file, but the long and short of it is if something would hard delete our code will search for the reference (This will look like your game crashing, just hold out) and print information about anything it finds to the runtime log, which you can find inside the round folder inside `/data/logs/year/month/day`
+You can read more about what each of these do in that file, but the long and short of it is if something would hard delete our code will search for the reference (This will look like your game crashing, just hold out) and print information about anything it finds to [log_dir]/harddels.log, which you can find inside the round folder inside `/data/logs/year/month/day`
 
-It'll tell you what object is holding the ref if it's in an object, or what pattern of list transversal was required to find the ref if it's hiding in a list of some sort
+It'll tell you what object is holding the ref if it's in an object, or what pattern of list transversal was required to find the ref if it's hiding in a list of some sort, alongside the references remaining.
 
 ## Techniques For Fixing Hard Deletes
 

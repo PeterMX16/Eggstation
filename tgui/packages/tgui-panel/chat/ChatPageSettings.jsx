@@ -4,7 +4,11 @@
  * @license MIT
  */
 
+<<<<<<< HEAD
 import { useDispatch, useSelector } from 'common/redux';
+=======
+import { useDispatch, useSelector } from 'tgui/backend';
+>>>>>>> tg-pr-88929
 import {
   Button,
   Collapsible,
@@ -12,7 +16,11 @@ import {
   Input,
   Section,
   Stack,
+<<<<<<< HEAD
 } from 'tgui/components';
+=======
+} from 'tgui-core/components';
+>>>>>>> tg-pr-88929
 
 import {
   moveChatPageLeft,
@@ -24,9 +32,15 @@ import {
 import { MESSAGE_TYPES } from './constants';
 import { selectCurrentChatPage } from './selectors';
 
+<<<<<<< HEAD
 export const ChatPageSettings = (props, context) => {
   const page = useSelector(context, selectCurrentChatPage);
   const dispatch = useDispatch(context);
+=======
+export const ChatPageSettings = (props) => {
+  const page = useSelector(selectCurrentChatPage);
+  const dispatch = useDispatch();
+>>>>>>> tg-pr-88929
   return (
     <Section>
       <Stack align="center">
@@ -78,7 +92,10 @@ export const ChatPageSettings = (props, context) => {
         )}
         <Stack.Item>
           <Button.Checkbox
+<<<<<<< HEAD
             content={'Mute'}
+=======
+>>>>>>> tg-pr-88929
             checked={page.hideUnreadCount}
             icon={page.hideUnreadCount ? 'bell-slash' : 'bell'}
             tooltip="Disables unread counter"
@@ -90,7 +107,13 @@ export const ChatPageSettings = (props, context) => {
                 }),
               )
             }
+<<<<<<< HEAD
           />
+=======
+          >
+            Mute
+          </Button.Checkbox>
+>>>>>>> tg-pr-88929
         </Stack.Item>
         {!page.isMain && (
           <Stack.Item>

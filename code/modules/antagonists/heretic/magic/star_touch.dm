@@ -1,7 +1,8 @@
 /datum/action/cooldown/spell/touch/star_touch
 	name = "Star Touch"
-	desc = "Marks someone with a star mark or puts someone with a star mark to sleep for 4 seconds, removing the star mark. \
-		You and your target are linked with a cosmic ray, burning them for up to a minute, or \
+	desc = "Manifests cosmic fields on tiles next to you while marking the victim with a star mark \
+		or consuming an already present star mark to put them to sleep for 4 seconds. \
+		They will then be linked to you with a cosmic ray, burning them for up to a minute, or \
 		until they can escape your sight. Star Touch can also remove Cosmic Runes, or teleport you \
 		to your Star Gazer when used on yourself."
 	background_icon_state = "bg_heretic"
@@ -9,7 +10,7 @@
 	button_icon = 'icons/mob/actions/actions_ecult.dmi'
 	button_icon_state = "star_touch"
 
-	sound = 'sound/items/welder.ogg'
+	sound = 'sound/items/tools/welder.ogg'
 	school = SCHOOL_FORBIDDEN
 	cooldown_time = 15 SECONDS
 	invocation = "ST'R 'N'RG'!"
@@ -50,7 +51,11 @@
 	var/list/target_turfs = list(get_turf(owner))
 	var/range = ascended ? 2 : 1
 	var/list/directions = list(turn(owner.dir, 90), turn(owner.dir, 270))
+<<<<<<< HEAD
 	for (var/direction in directions)
+=======
+	for (var/direction as anything in directions)
+>>>>>>> tg-pr-88929
 		for (var/i in 1 to range)
 			target_turfs += get_ranged_target_turf(owner, direction, i)
 	return target_turfs
@@ -89,11 +94,11 @@
 /obj/item/melee/touch_attack/star_touch/proc/after_clear_rune(obj/effect/target, mob/living/user)
 	new /obj/effect/temp_visual/cosmic_rune_fade(get_turf(target))
 	var/datum/action/cooldown/spell/touch/star_touch/star_touch_spell = spell_which_made_us?.resolve()
-	star_touch_spell?.spell_feedback()
+	star_touch_spell?.spell_feedback(user)
 	remove_hand_with_no_refund(user)
 
 /obj/item/melee/touch_attack/star_touch/ignition_effect(atom/to_light, mob/user)
-	. = span_notice("[user] effortlessly snaps [user.p_their()] fingers near [to_light], igniting it with cosmic energies. Fucking badass!")
+	. = span_rose("[user] effortlessly snaps [user.p_their()] fingers near [to_light], igniting it with cosmic energies. Fucking badass!")
 	remove_hand_with_no_refund(user)
 
 /obj/item/melee/touch_attack/star_touch/attack_self(mob/living/user)
@@ -108,8 +113,8 @@
 		get_turf(star_gazer_mob),
 		no_effects = TRUE,
 		channel = TELEPORT_CHANNEL_MAGIC,
-		asoundin = 'sound/magic/cosmic_energy.ogg',
-		asoundout = 'sound/magic/cosmic_energy.ogg',
+		asoundin = 'sound/effects/magic/cosmic_energy.ogg',
+		asoundout = 'sound/effects/magic/cosmic_energy.ogg',
 	)
 	remove_hand_with_no_refund(user)
 
@@ -146,7 +151,11 @@
 		active = FALSE
 	return ..()
 
+<<<<<<< HEAD
 /datum/status_effect/cosmic_beam/tick(seconds_between_ticks, times_fired)
+=======
+/datum/status_effect/cosmic_beam/tick(seconds_between_ticks)
+>>>>>>> tg-pr-88929
 	if(!current_target)
 		lose_target()
 		return
@@ -202,49 +211,25 @@
 	if(current_target)
 		on_beam_hit(current_target)
 
-/// Checks if the beam is going through an invalid turf
-/datum/status_effect/cosmic_beam/proc/los_check(atom/movable/user, mob/target)
-	var/turf/user_turf = user.loc
-	if(!istype(user_turf))
-		return FALSE
-	var/obj/dummy = new(user_turf)
-	dummy.pass_flags |= PASSTABLE|PASSGLASS|PASSGRILLE //Grille/Glass so it can be used through common windows
-	var/turf/previous_step = user_turf
-	var/first_step = TRUE
-	for(var/turf/next_step as anything in (get_line(user_turf, target) - user_turf))
-		if(first_step)
-			for(var/obj/blocker in user_turf)
-				if(!blocker.density || !(blocker.flags_1 & ON_BORDER_1))
-					continue
-				if(blocker.CanPass(dummy, get_dir(user_turf, next_step)))
-					continue
-				return FALSE // Could not leave the first turf.
-			first_step = FALSE
-		if(next_step.density)
-			qdel(dummy)
-			return FALSE
-		for(var/atom/movable/movable as anything in next_step)
-			if(!movable.CanPass(dummy, get_dir(next_step, previous_step)))
-				qdel(dummy)
-				return FALSE
-		previous_step = next_step
-	qdel(dummy)
-	return TRUE
-
 /// What to add when the beam connects to a target
 /datum/status_effect/cosmic_beam/proc/on_beam_hit(mob/living/target)
 	if(!istype(target, /mob/living/basic/heretic_summon/star_gazer))
 		target.AddElement(/datum/element/effect_trail, /obj/effect/forcefield/cosmic_field/fast)
+<<<<<<< HEAD
 	return
+=======
+>>>>>>> tg-pr-88929
 
 /// What to process when the beam is connected to a target
 /datum/status_effect/cosmic_beam/proc/on_beam_tick(mob/living/target)
-	target.adjustFireLoss(3)
-	target.adjustCloneLoss(1)
-	return
+	if(target.adjustFireLoss(3, updating_health = FALSE))
+		target.updatehealth()
 
 /// What to remove when the beam disconnects from a target
 /datum/status_effect/cosmic_beam/proc/on_beam_release(mob/living/target)
 	if(!istype(target, /mob/living/basic/heretic_summon/star_gazer))
 		target.RemoveElement(/datum/element/effect_trail, /obj/effect/forcefield/cosmic_field/fast)
+<<<<<<< HEAD
 	return
+=======
+>>>>>>> tg-pr-88929

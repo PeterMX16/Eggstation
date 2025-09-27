@@ -106,8 +106,13 @@
 		"auto_pressurize_on_seal" = auto_pressurize_on_seal,
 		"port_connected" = internal_tank?.connected_port ? TRUE : FALSE,
 		"tank_release_pressure" = round(internal_tank.release_pressure),
+<<<<<<< HEAD
 		"tank_release_pressure_min" = internal_tank.can_min_release_pressure,
 		"tank_release_pressure_max" = internal_tank.can_max_release_pressure,
+=======
+		"tank_release_pressure_min" = CAN_MIN_RELEASE_PRESSURE,
+		"tank_release_pressure_max" = CAN_MAX_RELEASE_PRESSURE,
+>>>>>>> tg-pr-88929
 		"tank_pump_active" = tank_pump_active,
 		"tank_pump_direction" = tank_pump_direction,
 		"tank_pump_pressure" = round(tank_pump_pressure),
@@ -121,7 +126,11 @@
 	switch(action)
 		if("set_cabin_pressure")
 			var/new_pressure = text2num(params["new_pressure"])
+<<<<<<< HEAD
 			internal_tank.release_pressure = clamp(round(new_pressure), internal_tank.can_min_release_pressure, internal_tank.can_max_release_pressure)
+=======
+			internal_tank.release_pressure = clamp(round(new_pressure), CAN_MIN_RELEASE_PRESSURE, CAN_MAX_RELEASE_PRESSURE)
+>>>>>>> tg-pr-88929
 			return TRUE
 		if("toggle_port")
 			if(internal_tank.connected_port)

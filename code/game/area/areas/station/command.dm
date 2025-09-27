@@ -2,7 +2,11 @@
 	name = "Command"
 	icon_state = "command"
 	ambientsounds = list(
+<<<<<<< HEAD
 		'sound/ambience/signal.ogg',
+=======
+		'sound/ambience/misc/signal.ogg',
+>>>>>>> tg-pr-88929
 		)
 	airlock_wires = /datum/wires/airlock/command
 	sound_environment = SOUND_AREA_STANDARD_STATION
@@ -31,6 +35,14 @@
 	icon_state = "command"
 	sound_environment = SOUND_AREA_WOODFLOOR
 
+<<<<<<< HEAD
+=======
+/area/station/command/emergency_closet
+	name = "\improper Corporate Emergency Closet"
+	icon_state = "command"
+	sound_environment = SOUND_AREA_SMALL_ENCLOSED
+
+>>>>>>> tg-pr-88929
 /*
 * Command Head Areas
 */

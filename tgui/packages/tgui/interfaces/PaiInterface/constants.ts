@@ -23,6 +23,23 @@ export enum HOST_SCAN {
   Master,
 }
 
+<<<<<<< HEAD
+=======
+export const ICON_MAP = {
+  angry: 'angry',
+  cat: 'cat',
+  'extremely-happy': 'grin-beam',
+  face: 'grin-alt',
+  happy: 'smile',
+  laugh: 'grin-tears',
+  null: 'meh',
+  off: 'meh-blank',
+  sad: 'sad-cry',
+  sunglasses: 'sun',
+  what: 'frown-open',
+} as const;
+
+>>>>>>> tg-pr-88929
 export enum PHOTO_MODE {
   Camera,
   Printer,

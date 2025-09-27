@@ -1,7 +1,7 @@
 /obj/item/holosign_creator
 	name = "holographic sign projector"
 	desc = "A handy-dandy holographic projector that displays a janitorial sign."
-	icon = 'icons/obj/device.dmi'
+	icon = 'icons/obj/devices/tool.dmi'
 	icon_state = "signmaker"
 	inhand_icon_state = "electronic"
 	worn_icon_state = "electronic"
@@ -15,7 +15,9 @@
 	item_flags = NOBLUDGEON
 	var/list/signs
 	var/max_signs = 10
-	var/creation_time = 0 //time to create a holosign in deciseconds.
+	//time to create a holosign in deciseconds.
+	var/creation_time = 0
+	//holosign image that is projected
 	var/holosign_type = /obj/structure/holosign/wetsign
 	var/holocreator_busy = FALSE //to prevent placing multiple holo barriers at once
 	/// List of special things we can project holofans under/through.
@@ -27,9 +29,15 @@
 /obj/item/holosign_creator/Initialize(mapload)
 	. = ..()
 	AddElement(/datum/element/openspace_item_click_handler)
+	RegisterSignal(src, COMSIG_OBJ_PAINTED, TYPE_PROC_REF(/obj/item/holosign_creator, on_color_change))
 
+<<<<<<< HEAD
 /obj/item/holosign_creator/handle_openspace_click(turf/target, mob/user, click_parameters)
 	interact_with_atom(target, user, click_parameters)
+=======
+/obj/item/holosign_creator/handle_openspace_click(turf/target, mob/user, list/modifiers)
+	interact_with_atom(target, user, modifiers)
+>>>>>>> tg-pr-88929
 
 /obj/item/holosign_creator/examine(mob/user)
 	. = ..()
@@ -37,6 +45,14 @@
 		return
 	. += span_notice("It is currently maintaining <b>[length(signs)]/[max_signs]</b> projections.")
 
+<<<<<<< HEAD
+=======
+/obj/item/holosign_creator/check_allowed_items(atom/target, not_inside, target_self)
+	if(HAS_TRAIT(target, TRAIT_COMBAT_MODE_SKIP_INTERACTION))
+		return FALSE
+	return ..()
+
+>>>>>>> tg-pr-88929
 /obj/item/holosign_creator/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
 	if(!check_allowed_items(interacting_with, not_inside = TRUE))
 		return NONE
@@ -46,7 +62,11 @@
 
 	if(target_holosign)
 		return ITEM_INTERACT_BLOCKING
+<<<<<<< HEAD
 	if(target_turf.is_blocked_turf(TRUE, ignore_atoms = projectable_through, type_list = TRUE)) //can't put holograms on a tile that has dense stuff
+=======
+	if(target_turf.is_blocked_turf(TRUE)) //can't put holograms on a tile that has dense stuff
+>>>>>>> tg-pr-88929
 		return ITEM_INTERACT_BLOCKING
 	if(holocreator_busy)
 		balloon_alert(user, "busy making a hologram!")
@@ -65,7 +85,11 @@
 		holocreator_busy = FALSE
 		if(LAZYLEN(signs) >= max_signs)
 			return ITEM_INTERACT_BLOCKING
+<<<<<<< HEAD
 		if(target_turf.is_blocked_turf(TRUE, ignore_atoms = projectable_through, type_list = TRUE)) //don't try to sneak dense stuff on our tile during the wait.
+=======
+		if(target_turf.is_blocked_turf(TRUE)) //don't try to sneak dense stuff on our tile during the wait.
+>>>>>>> tg-pr-88929
 			return ITEM_INTERACT_BLOCKING
 
 	target_holosign = create_holosign(interacting_with, user)
@@ -92,12 +116,28 @@
 	if(LAZYLEN(signs))
 		for(var/obj/structure/holosign/hologram as anything in signs)
 			qdel(hologram)
+<<<<<<< HEAD
+=======
+
+/obj/item/holosign_creator/proc/on_color_change(obj/item/holosign_creator, mob/user, obj/item/toy/crayon/spraycan/spraycan, is_dark_color)
+	SIGNAL_HANDLER
+	if(!spraycan.actually_paints)
+		return
+
+	if(LAZYLEN(signs))
+		for(var/obj/structure/holosign/hologram as anything in signs)
+			hologram.color = color
+>>>>>>> tg-pr-88929
 
 /obj/item/holosign_creator/janibarrier
 	name = "custodial holobarrier projector"
 	desc = "A holographic projector that creates hard light wet floor barriers."
 	holosign_type = /obj/structure/holosign/barrier/wetsign
+<<<<<<< HEAD
 	creation_time = 2 SECONDS
+=======
+	creation_time = 1 SECONDS
+>>>>>>> tg-pr-88929
 	max_signs = 12
 
 /obj/item/holosign_creator/security
@@ -144,8 +184,13 @@
 	desc = "A holographic projector that creates holographic engineering barriers. You can remotely open barriers with it."
 	icon_state = "signmaker_engi"
 	holosign_type = /obj/structure/holosign/barrier/engineering
+<<<<<<< HEAD
 	creation_time = 2 SECONDS
 	max_signs = 6
+=======
+	creation_time = 1 SECONDS
+	max_signs = 12
+>>>>>>> tg-pr-88929
 
 /obj/item/holosign_creator/atmos
 	name = "ATMOS holofan projector"
@@ -154,6 +199,7 @@
 	holosign_type = /obj/structure/holosign/barrier/atmos
 	creation_time = 0
 	max_signs = 6
+<<<<<<< HEAD
 	projectable_through = list(
 		/obj/machinery/door,
 		/obj/structure/mineral_door,
@@ -161,6 +207,8 @@
 		/obj/structure/grille,
 		/obj/structure/window_sill,
 	)
+=======
+>>>>>>> tg-pr-88929
 	/// Clearview holograms don't catch clicks and are more transparent
 	var/clearview = FALSE
 	/// Timer for auto-turning off clearview
@@ -170,6 +218,7 @@
 	. = ..()
 	register_context()
 
+<<<<<<< HEAD
 /obj/item/holosign_creator/atmos/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
 	. = ..()
 	if(!(. & ITEM_INTERACT_SUCCESS))
@@ -177,6 +226,8 @@
 	var/obj/machinery/door/firedoor/firelock = locate() in get_turf(interacting_with)
 	firelock?.open()
 
+=======
+>>>>>>> tg-pr-88929
 /obj/item/holosign_creator/atmos/add_context(atom/source, list/context, obj/item/held_item, mob/user)
 	. = ..()
 	if(LAZYLEN(signs))
@@ -217,8 +268,13 @@
 	desc = "A holographic projector that creates PENLITE holobarriers. Useful during quarantines since they halt those with malicious diseases."
 	icon_state = "signmaker_med"
 	holosign_type = /obj/structure/holosign/barrier/medical
+<<<<<<< HEAD
 	creation_time = 3 SECONDS
 	max_signs = 3
+=======
+	creation_time = 1 SECONDS
+	max_signs = 6
+>>>>>>> tg-pr-88929
 
 /obj/item/holosign_creator/cyborg
 	name = "Energy Barrier Projector"
@@ -226,28 +282,28 @@
 	creation_time = 1.5 SECONDS
 	max_signs = 9
 	holosign_type = /obj/structure/holosign/barrier/cyborg
-	var/shock = 0
+	var/shock = FALSE
 
 /obj/item/holosign_creator/cyborg/attack_self(mob/user)
 	if(iscyborg(user))
-		var/mob/living/silicon/robot/R = user
+		var/mob/living/silicon/robot/borg = user
 
 		if(shock)
 			to_chat(user, span_notice("You clear all active holograms, and reset your projector to normal."))
 			holosign_type = /obj/structure/holosign/barrier/cyborg
-			creation_time = 5
-			for(var/sign in signs)
-				qdel(sign)
-			shock = 0
+			creation_time = 0.5 SECONDS
+			for(var/obj/structure/holosign/hologram as anything in signs)
+				qdel(hologram)
+			shock = FALSE
 			return
-		if(R.emagged && !shock)
+		if(borg.emagged && !shock)
 			to_chat(user, span_warning("You clear all active holograms, and overload your energy projector!"))
 			holosign_type = /obj/structure/holosign/barrier/cyborg/hacked
-			creation_time = 30
-			for(var/sign in signs)
-				qdel(sign)
-			shock = 1
+			creation_time = 3 SECONDS
+			for(var/obj/structure/holosign/hologram as anything in signs)
+				qdel(hologram)
+			shock = TRUE
 			return
-	for(var/sign in signs)
-		qdel(sign)
+	for(var/obj/structure/holosign/hologram as anything in signs)
+		qdel(hologram)
 	balloon_alert(user, "holograms cleared")

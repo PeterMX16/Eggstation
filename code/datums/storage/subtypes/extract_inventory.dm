@@ -4,16 +4,22 @@
 	insert_preposition = "in"
 	attack_hand_interact = FALSE
 	quickdraw = FALSE
-	locked = TRUE
-	rustle_sound = FALSE
+	locked = STORAGE_FULLY_LOCKED
+	do_rustle = FALSE
 	silent = TRUE
 	// Snowflake so you can feed it
 	insert_on_attack = FALSE
 
-/datum/storage/extract_inventory/New()
+/datum/storage/extract_inventory/New(
+	atom/parent,
+	max_slots,
+	max_specific_storage,
+	max_total_storage,
+)
 	. = ..()
 	set_holdable(/obj/item/food/monkeycube)
 
+<<<<<<< HEAD
 	if(!istype(parent, /obj/item/slimecross/reproductive))
 		stack_trace("storage subtype extract_inventory incompatible with [parent]")
 		qdel(src)
@@ -27,6 +33,21 @@
 	var/obj/item/slimecross/reproductive/slime_parent = parent
 	if(!istype(slime_parent))
 		return
+=======
+	var/obj/item/slimecross/reproductive/parent_slime = parent
+	if(!istype(parent_slime, /obj/item/slimecross/reproductive))
+		stack_trace("storage subtype ([type]) incompatible with [parent_slime] ([parent_slime.type])")
+		qdel(src)
+
+/datum/storage/extract_inventory/proc/processCubes(mob/user)
+	var/obj/item/slimecross/reproductive/parentSlimeExtract = parent
+	if(real_location.contents.len >= max_slots)
+		QDEL_LIST(parentSlimeExtract.contents)
+		createExtracts(user)
+
+/datum/storage/extract_inventory/proc/createExtracts(mob/user)
+	var/obj/item/slimecross/reproductive/parentSlimeExtract = parent
+>>>>>>> tg-pr-88929
 
 	var/cores = rand(1,4)
 	playsound(slime_parent, 'sound/effects/splat.ogg', 40, TRUE)

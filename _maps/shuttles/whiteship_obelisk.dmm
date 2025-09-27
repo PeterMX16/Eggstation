@@ -5,6 +5,35 @@
 "bs" = (
 /turf/closed/wall/mineral/titanium,
 /area/shuttle/abandoned/engine)
+"bD" = (
+/obj/machinery/computer/shuttle/white_ship/bridge{
+	dir = 4
+	},
+/obj/effect/decal/cleanable/dirt,
+/obj/structure/cable,
+/obj/effect/turf_decal/tile/dark_blue/half{
+	dir = 8
+	},
+/turf/open/floor/mineral/titanium,
+/area/shuttle/abandoned/bridge)
+"bV" = (
+/obj/machinery/door/airlock/command{
+	name = "Bridge"
+	},
+/obj/effect/decal/cleanable/dirt,
+/obj/effect/mapping_helpers/airlock/cutaiwire,
+/obj/structure/cable,
+/obj/effect/decal/cleanable/blood/tracks{
+	dir = 8
+	},
+/obj/effect/spawner/random/structure/barricade{
+	spawn_loot_chance = 20
+	},
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden{
+	dir = 4
+	},
+/turf/open/floor/mineral/titanium,
+/area/shuttle/abandoned/bridge)
 "bY" = (
 /obj/structure/cable,
 /obj/effect/decal/cleanable/blood/gibs/core,
@@ -35,6 +64,7 @@
 	},
 /turf/open/floor/mineral/titanium/tiled/yellow,
 /area/shuttle/abandoned)
+<<<<<<< HEAD
 "cw" = (
 /obj/machinery/door/airlock/command{
 	name = "Bridge"
@@ -53,6 +83,8 @@
 	},
 /turf/open/floor/mineral/titanium,
 /area/shuttle/abandoned/bridge)
+=======
+>>>>>>> tg-pr-88929
 "cV" = (
 /turf/closed/wall/mineral/titanium,
 /area/shuttle/abandoned/bridge)
@@ -76,16 +108,19 @@
 	},
 /turf/open/floor/mineral/titanium/white,
 /area/shuttle/abandoned/crew)
-"fe" = (
-/obj/machinery/computer/camera_advanced/shuttle_docker/whiteship{
-	dir = 4;
-	view_range = 14;
-	x_offset = -3;
-	y_offset = -3
-	},
+"eo" = (
 /obj/effect/decal/cleanable/dirt,
+/obj/machinery/computer/monitor{
+	dir = 4
+	},
+<<<<<<< HEAD
+/obj/effect/decal/cleanable/dirt,
+=======
+/obj/structure/cable,
+/obj/machinery/light_switch/directional/north,
+>>>>>>> tg-pr-88929
 /obj/effect/turf_decal/tile/dark_blue/anticorner{
-	dir = 8
+	dir = 1
 	},
 /turf/open/floor/mineral/titanium,
 /area/shuttle/abandoned/bridge)
@@ -113,10 +148,14 @@
 "gw" = (
 /obj/structure/cable,
 /mob/living/basic/construct/proteon/hostile,
+<<<<<<< HEAD
 /obj/effect/decal/cleanable/crayon{
 	icon_state = "rune4";
 	paint_colour = "#DC143C"
 	},
+=======
+/obj/effect/decal/cleanable/crayon/rune4,
+>>>>>>> tg-pr-88929
 /obj/effect/decal/cleanable/glass,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden{
 	dir = 4
@@ -187,6 +226,7 @@
 /obj/structure/cable,
 /turf/open/floor/iron/large,
 /area/shuttle/abandoned/crew)
+<<<<<<< HEAD
 "kE" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/airalarm/directional/south,
@@ -198,6 +238,8 @@
 /obj/effect/turf_decal/tile/dark_blue/half,
 /turf/open/floor/mineral/titanium,
 /area/shuttle/abandoned/bridge)
+=======
+>>>>>>> tg-pr-88929
 "lP" = (
 /obj/structure/cable,
 /obj/effect/decal/cleanable/blood/gibs/up,
@@ -210,13 +252,11 @@
 /obj/machinery/power/shuttle_engine/propulsion/left{
 	dir = 4
 	},
-/turf/open/floor/plating,
+/turf/open/floor/plating/airless,
 /area/shuttle/abandoned/engine)
 "mQ" = (
 /obj/structure/cable,
-/obj/effect/decal/cleanable/crayon{
-	icon_state = "rune2"
-	},
+/obj/effect/decal/cleanable/crayon/rune2,
 /obj/effect/mob_spawn/corpse/human/damaged,
 /obj/machinery/button/door/directional/west{
 	name = "Bolt Control";
@@ -232,11 +272,28 @@
 	},
 /turf/open/floor/mineral/titanium/white,
 /area/shuttle/abandoned/crew)
-"ne" = (
-/obj/effect/decal/cleanable/crayon{
-	icon_state = "rune4";
-	paint_colour = "#DC143C"
+"mX" = (
+/obj/machinery/power/apc/auto_name/directional/north,
+/obj/effect/decal/cleanable/dirt,
+/obj/structure/cable,
+/obj/structure/table,
+/obj/machinery/button/door{
+	id = "whiteship_bridgewindows";
+	name = "Bridge Window Blastdoor Controls";
+	pixel_y = -1
 	},
+/obj/machinery/button/door{
+	id = "whiteship_windows";
+	name = "Exterior Window Blastdoor Control";
+	pixel_y = 8
+	},
+/obj/effect/turf_decal/tile/dark_blue/half{
+	dir = 1
+	},
+/turf/open/floor/mineral/titanium,
+/area/shuttle/abandoned/bridge)
+"ne" = (
+/obj/effect/decal/cleanable/crayon/rune4,
 /obj/effect/decal/cleanable/blood/old,
 /obj/machinery/atmospherics/components/unary/vent_pump/on{
 	dir = 4
@@ -255,6 +312,7 @@
 /obj/machinery/light/small/directional/north,
 /turf/open/floor/iron/large,
 /area/shuttle/abandoned)
+<<<<<<< HEAD
 "nG" = (
 /obj/machinery/power/apc/auto_name/directional/north,
 /obj/effect/decal/cleanable/dirt,
@@ -276,13 +334,28 @@
 	},
 /turf/open/floor/mineral/titanium,
 /area/shuttle/abandoned/bridge)
+=======
+>>>>>>> tg-pr-88929
 "nQ" = (
 /obj/machinery/power/shuttle_engine/heater{
 	dir = 4
 	},
 /obj/structure/window/reinforced/spawner/directional/west,
-/turf/open/floor/plating,
+/turf/open/floor/plating/airless,
 /area/shuttle/abandoned/engine)
+"ot" = (
+/obj/machinery/computer/camera_advanced/shuttle_docker/whiteship{
+	dir = 4;
+	view_range = 14;
+	x_offset = -2;
+	y_offset = -7
+	},
+/obj/effect/decal/cleanable/dirt,
+/obj/effect/turf_decal/tile/dark_blue/anticorner{
+	dir = 8
+	},
+/turf/open/floor/mineral/titanium,
+/area/shuttle/abandoned/bridge)
 "oU" = (
 /obj/structure/table/wood,
 /obj/machinery/chem_dispenser/drinks{
@@ -295,6 +368,20 @@
 /obj/machinery/light/small/directional/south,
 /turf/open/floor/iron/large,
 /area/shuttle/abandoned/bar)
+"oY" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/effect/decal/cleanable/crayon/rune4,
+/obj/effect/turf_decal/tile/dark_blue/half,
+/turf/open/floor/mineral/titanium,
+/area/shuttle/abandoned/bridge)
+"pI" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/machinery/atmospherics/components/unary/vent_pump/on,
+/obj/effect/turf_decal/tile/dark_blue/half{
+	dir = 1
+	},
+/turf/open/floor/mineral/titanium,
+/area/shuttle/abandoned/bridge)
 "qh" = (
 /obj/structure/cable,
 /obj/effect/decal/cleanable/blood/footprints{
@@ -327,6 +414,7 @@
 "rf" = (
 /turf/closed/wall/mineral/titanium,
 /area/shuttle/abandoned/crew)
+<<<<<<< HEAD
 "rV" = (
 /obj/machinery/computer/shuttle/white_ship/bridge{
 	dir = 4
@@ -334,8 +422,20 @@
 /obj/effect/decal/cleanable/dirt,
 /obj/structure/cable,
 /obj/effect/turf_decal/tile/dark_blue/half{
+=======
+"sd" = (
+/obj/machinery/light/floor,
+/obj/structure/chair/comfy/shuttle{
+>>>>>>> tg-pr-88929
 	dir = 8
 	},
+/obj/effect/decal/cleanable/dirt,
+/obj/effect/decal/cleanable/ash,
+/obj/effect/mob_spawn/corpse/human/damaged,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden{
+	dir = 4
+	},
+/obj/structure/cable,
 /turf/open/floor/mineral/titanium,
 /area/shuttle/abandoned/bridge)
 "sm" = (
@@ -355,6 +455,18 @@
 	},
 /turf/open/floor/iron/large,
 /area/shuttle/abandoned)
+"uk" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/structure/cable,
+/obj/effect/decal/cleanable/blood/tracks{
+	dir = 8
+	},
+/obj/effect/decal/cleanable/ash,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden{
+	dir = 4
+	},
+/turf/open/floor/mineral/titanium,
+/area/shuttle/abandoned/bridge)
 "us" = (
 /obj/structure/cable,
 /obj/effect/decal/cleanable/blood/splatter,
@@ -396,10 +508,14 @@
 "yo" = (
 /obj/structure/cable,
 /mob/living/basic/construct/proteon/hostile,
+<<<<<<< HEAD
 /obj/effect/decal/cleanable/crayon{
 	icon_state = "rune4";
 	paint_colour = "#DC143C"
 	},
+=======
+/obj/effect/decal/cleanable/crayon/rune4,
+>>>>>>> tg-pr-88929
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden{
 	dir = 4
 	},
@@ -409,8 +525,9 @@
 /obj/effect/turf_decal/stripes{
 	dir = 4
 	},
-/turf/open/floor/plating,
+/turf/open/floor/plating/airless,
 /area/shuttle/abandoned/engine)
+<<<<<<< HEAD
 "yY" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/structure/cable,
@@ -423,6 +540,8 @@
 	},
 /turf/open/floor/mineral/titanium,
 /area/shuttle/abandoned/bridge)
+=======
+>>>>>>> tg-pr-88929
 "zj" = (
 /obj/structure/cable,
 /obj/structure/sign/warning/no_smoking{
@@ -451,6 +570,7 @@
 	},
 /turf/open/floor/mineral/titanium,
 /area/shuttle/abandoned/bridge)
+<<<<<<< HEAD
 "Br" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/atmospherics/components/unary/vent_pump/on,
@@ -459,6 +579,8 @@
 	},
 /turf/open/floor/mineral/titanium,
 /area/shuttle/abandoned/bridge)
+=======
+>>>>>>> tg-pr-88929
 "Bw" = (
 /obj/machinery/light/small/directional/west,
 /obj/structure/tank_dispenser/oxygen,
@@ -473,10 +595,7 @@
 /turf/open/floor/plating,
 /area/shuttle/abandoned/crew)
 "Cv" = (
-/obj/effect/decal/cleanable/crayon{
-	icon_state = "rune4";
-	paint_colour = "#DC143C"
-	},
+/obj/effect/decal/cleanable/crayon/rune4,
 /turf/open/floor/mineral/titanium/white,
 /area/shuttle/abandoned)
 "CX" = (
@@ -529,6 +648,16 @@
 	},
 /turf/open/floor/mineral/titanium/white,
 /area/shuttle/abandoned/crew)
+"FO" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/machinery/airalarm/directional/south,
+/obj/effect/mapping_helpers/airalarm/all_access,
+/obj/structure/table,
+/obj/effect/spawner/random/entertainment/money_medium,
+/obj/effect/spawner/random/entertainment/cigar,
+/obj/effect/turf_decal/tile/dark_blue/half,
+/turf/open/floor/mineral/titanium,
+/area/shuttle/abandoned/bridge)
 "Gl" = (
 /obj/machinery/power/smes/engineering,
 /obj/structure/cable,
@@ -557,7 +686,7 @@
 /area/shuttle/abandoned)
 "Hd" = (
 /obj/structure/cable,
-/obj/machinery/door/window,
+/obj/machinery/door/window/left/directional/south,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden{
 	dir = 4
 	},
@@ -566,10 +695,14 @@
 "HU" = (
 /obj/structure/cable,
 /mob/living/basic/construct/juggernaut/hostile,
+<<<<<<< HEAD
 /obj/effect/decal/cleanable/crayon{
 	icon_state = "rune4";
 	paint_colour = "#DC143C"
 	},
+=======
+/obj/effect/decal/cleanable/crayon/rune4,
+>>>>>>> tg-pr-88929
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden{
 	dir = 4
 	},
@@ -592,9 +725,7 @@
 /area/shuttle/abandoned/crew)
 "JN" = (
 /obj/structure/cable,
-/obj/machinery/door/window{
-	dir = 1
-	},
+/obj/machinery/door/window/left/directional/north,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden{
 	dir = 4
 	},
@@ -639,6 +770,7 @@
 	},
 /turf/open/floor/mineral/titanium/purple,
 /area/shuttle/abandoned/bar)
+<<<<<<< HEAD
 "Lt" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/decal/cleanable/crayon{
@@ -661,6 +793,8 @@
 /obj/structure/cable,
 /turf/open/floor/mineral/titanium,
 /area/shuttle/abandoned/bridge)
+=======
+>>>>>>> tg-pr-88929
 "MD" = (
 /obj/item/mop,
 /obj/item/reagent_containers/cup/bucket,
@@ -710,7 +844,7 @@
 /obj/machinery/power/shuttle_engine/propulsion/right{
 	dir = 4
 	},
-/turf/open/floor/plating,
+/turf/open/floor/plating/airless,
 /area/shuttle/abandoned/engine)
 "PR" = (
 /obj/structure/table/wood,
@@ -730,7 +864,7 @@
 /area/shuttle/abandoned/engine)
 "Qo" = (
 /obj/structure/table,
-/obj/machinery/door/window,
+/obj/machinery/door/window/left/directional/south,
 /obj/structure/window/reinforced/spawner/directional/east,
 /obj/item/storage/medkit/brute,
 /obj/item/storage/medkit/fire{
@@ -743,9 +877,7 @@
 /turf/open/floor/mineral/titanium/white,
 /area/shuttle/abandoned/medbay)
 "Qp" = (
-/obj/machinery/vending/medical{
-	req_access = null
-	},
+/obj/machinery/vending/medical,
 /turf/open/floor/mineral/titanium/white,
 /area/shuttle/abandoned/medbay)
 "RG" = (
@@ -759,6 +891,7 @@
 /obj/machinery/light/small/broken/directional/south,
 /turf/open/floor/mineral/titanium/purple,
 /area/shuttle/abandoned/bar)
+<<<<<<< HEAD
 "RU" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/computer/monitor{
@@ -771,6 +904,8 @@
 	},
 /turf/open/floor/mineral/titanium,
 /area/shuttle/abandoned/bridge)
+=======
+>>>>>>> tg-pr-88929
 "Sb" = (
 /obj/effect/decal/cleanable/blood/old,
 /turf/open/floor/mineral/titanium/white,
@@ -783,10 +918,14 @@
 "SE" = (
 /obj/structure/cable,
 /mob/living/basic/construct/proteon/hostile,
+<<<<<<< HEAD
 /obj/effect/decal/cleanable/crayon{
 	icon_state = "rune4";
 	paint_colour = "#DC143C"
 	},
+=======
+/obj/effect/decal/cleanable/crayon/rune4,
+>>>>>>> tg-pr-88929
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden{
 	dir = 4
 	},
@@ -1013,9 +1152,9 @@ SW
 KS
 NG
 cV
-RU
-rV
-fe
+eo
+bD
+ot
 cV
 jC
 qh
@@ -1030,9 +1169,9 @@ CX
 SE
 oU
 WX
-Br
-Mt
-Lt
+pI
+sd
+oY
 Bl
 Sb
 qh
@@ -1047,9 +1186,9 @@ Wb
 qO
 RG
 cV
-nG
-yY
-kE
+mX
+uk
+FO
 cV
 VX
 YA
@@ -1065,7 +1204,7 @@ fF
 VI
 cV
 cV
-cw
+bV
 cV
 cV
 rf

@@ -1,7 +1,16 @@
+<<<<<<< HEAD
 import { Box, Button, Icon, Input, Section, Table } from '../components';
 import { BooleanLike } from 'common/react';
 import { createSearch } from 'common/string';
 import { useBackend, useLocalState } from '../backend';
+=======
+import { useState } from 'react';
+import { Box, Button, Icon, Input, Section, Table } from 'tgui-core/components';
+import { BooleanLike } from 'tgui-core/react';
+import { createSearch } from 'tgui-core/string';
+
+import { useBackend } from '../backend';
+>>>>>>> tg-pr-88929
 import { COLORS } from '../constants';
 import { Window } from '../layouts';
 
@@ -50,7 +59,11 @@ const jobToColor = (jobId: number) => {
   if (jobId >= 60 && jobId < 200) {
     return COLORS.department.service;
   }
+<<<<<<< HEAD
   if (jobId >= 200 && jobId < 240) {
+=======
+  if (jobId >= 200 && jobId < 230) {
+>>>>>>> tg-pr-88929
     return COLORS.department.centcom;
   }
   return COLORS.department.other;
@@ -131,6 +144,10 @@ type CrewSensor = {
   brutedam: number;
   area: string | undefined;
   health: number;
+<<<<<<< HEAD
+=======
+  can_track: BooleanLike;
+>>>>>>> tg-pr-88929
   ref: string;
 };
 
@@ -143,12 +160,18 @@ const CrewTable = () => {
   const { data } = useBackend<CrewConsoleData>();
   const { sensors } = data;
 
+<<<<<<< HEAD
   const [sortAsc, setSortAsc] = useLocalState<boolean>('sortAsc', true);
   const [searchQuery, setSearchQuery] = useLocalState<string>(
     'searchQuery',
     '',
   );
   const [sortBy, setSortBy] = useLocalState<string>('sortBy', SORT_OPTIONS[0]);
+=======
+  const [sortAsc, setSortAsc] = useState(true);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [sortBy, setSortBy] = useState(SORT_OPTIONS[0]);
+>>>>>>> tg-pr-88929
 
   const cycleSortBy = () => {
     let idx = SORT_OPTIONS.indexOf(sortBy) + 1;
@@ -235,6 +258,10 @@ const CrewTableEntry = (props: CrewTableEntryProps) => {
     burndam,
     brutedam,
     area,
+<<<<<<< HEAD
+=======
+    can_track,
+>>>>>>> tg-pr-88929
   } = sensor_data;
 
   return (
@@ -289,6 +316,10 @@ const CrewTableEntry = (props: CrewTableEntryProps) => {
       {!!link_allowed && (
         <Table.Cell collapsing>
           <Button
+<<<<<<< HEAD
+=======
+            disabled={!can_track}
+>>>>>>> tg-pr-88929
             onClick={() =>
               act('select_person', {
                 name: name,

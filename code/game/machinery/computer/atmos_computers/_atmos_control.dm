@@ -19,7 +19,11 @@
 	/// Whether we are allowed to reconnect.
 	var/reconnecting = TRUE
 
+<<<<<<< HEAD
 	/// Was this computer multitooled before. If so copy the list connected_sensors as it now mantain's it's own sensors independent of the map loaded one's
+=======
+	/// Was this computer multitooled before. If so copy the list connected_sensors as it now maintain's its own sensors independent of the map loaded one's
+>>>>>>> tg-pr-88929
 	var/was_multi_tooled = FALSE
 
 	/// list of all sensors[key is chamber id, value is id of air sensor linked to this chamber] monitered by this computer
@@ -96,7 +100,11 @@
 		if(!was_multi_tooled)
 			connected_sensors = connected_sensors.Copy()
 			was_multi_tooled = TRUE
+<<<<<<< HEAD
 		//register the sensor's unique ID with it's assositated chamber
+=======
+		//register the sensor's unique ID with its assositated chamber
+>>>>>>> tg-pr-88929
 		connected_sensors[sensor.chamber_id] = sensor.id_tag
 		user.balloon_alert(user, "sensor connected to [src]")
 		return ITEM_INTERACT_SUCCESS

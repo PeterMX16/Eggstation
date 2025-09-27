@@ -4,7 +4,7 @@
 /datum/looping_sound
 	/// (list or soundfile) Since this can be either a list or a single soundfile you can have random sounds. May contain further lists but must contain a soundfile at the end. In a list, path must have also be assigned a value or it will be assigned 0 and not play.
 	var/mid_sounds
-	/// The length of time to wait between playing mid_sounds.
+	/// The length of time to wait between playing mid_sounds. WARNING: Continuously looping sounds like the microwave, grav gen and fan sounds don't work very well with this, just don't set this if you are doing a continuous loop of machinery.
 	var/mid_length
 	/// Amount of time to add/take away from the mid length, randomly
 	var/mid_length_vary = 0
@@ -53,8 +53,14 @@
 	var/loop_started = FALSE
 	/// If we're using cut_mid, this is the list we cut from
 	var/list/cut_list
+<<<<<<< HEAD
 	/// The index of the current song we're playing in the mid_sounds list, only used if in_order is used
 	var/audio_index = 1
+=======
+	///The index of the current song we're playing in the mid_sounds list, only used if in_order is used
+	///This is immediately set to 1, so we start the index at 0
+	var/audio_index = 0
+>>>>>>> tg-pr-88929
 
 	// Args
 	/// Do we skip the starting sounds?
@@ -154,6 +160,7 @@
 	// monkestation edit: volume mixer
 	var/actual_channel = channel || SSsounds.random_available_channel()
 	if(direct)
+<<<<<<< HEAD
 		var/mob/mob_parent = parent
 		if(!istype(mob_parent)) // no point in playing directly to something that can't even hear sound anyways
 			return
@@ -171,6 +178,11 @@
 			mixer_channel = actual_channel
 		)
 	// monkestation end
+=======
+		sound_to_play.channel = sound_channel || SSsounds.random_available_channel()
+		sound_to_play.volume = volume_override || volume //Use volume as fallback if theres no override
+		SEND_SOUND(parent, sound_to_play)
+>>>>>>> tg-pr-88929
 	else
 		playsound(
 			parent,

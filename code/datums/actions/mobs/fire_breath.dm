@@ -1,13 +1,17 @@
 /datum/action/cooldown/mob_cooldown/fire_breath
 	name = "Fire Breath"
-	button_icon = 'icons/obj/wizard.dmi'
+	button_icon = 'icons/effects/magic.dmi'
 	button_icon_state = "fireball"
 	desc = "Breathe a line of flames towards the target."
 	cooldown_time = 3 SECONDS
 	/// The range of the fire
 	var/fire_range = 15
 	/// The sound played when you use this ability
+<<<<<<< HEAD
 	var/fire_sound = 'sound/magic/fireball.ogg'
+=======
+	var/fire_sound = 'sound/effects/magic/fireball.ogg'
+>>>>>>> tg-pr-88929
 	/// Time to wait between spawning each fire turf
 	var/fire_delay = 1.5 DECISECONDS
 	/// How hot is our fire
@@ -18,6 +22,7 @@
 	var/fire_damage = 20
 	/// How much damage to mechs take when engulfed?
 	var/mech_damage = 45
+<<<<<<< HEAD
 
 /datum/action/cooldown/mob_cooldown/fire_breath/Grant(mob/granted_to)
 	. = ..()
@@ -26,6 +31,8 @@
 /datum/action/cooldown/mob_cooldown/fire_breath/Remove(mob/removed_from)
 	UnregisterSignal(removed_from, list(COMSIG_MOB_EQUIPPED_ITEM, COMSIG_ITEM_POST_UNEQUIP))
 	return ..()
+=======
+>>>>>>> tg-pr-88929
 
 /datum/action/cooldown/mob_cooldown/fire_breath/Activate(atom/target_atom)
 	disable_cooldown_actions()
@@ -34,6 +41,7 @@
 	enable_cooldown_actions()
 	return TRUE
 
+<<<<<<< HEAD
 /datum/action/cooldown/mob_cooldown/fire_breath/IsAvailable(feedback = FALSE)
 	. = ..()
 	if(!.)
@@ -43,6 +51,8 @@
 			owner.balloon_alert(owner, "mouth covered!")
 		return FALSE
 
+=======
+>>>>>>> tg-pr-88929
 /// Apply our specific fire breathing shape, in proc form so we can override it in subtypes
 /datum/action/cooldown/mob_cooldown/fire_breath/proc/attack_sequence(atom/target)
 	playsound(owner.loc, fire_sound, 200, TRUE)
@@ -50,7 +60,11 @@
 
 /// Breathe fire in a line towards the target, optionally rotated at an offset from the target
 /datum/action/cooldown/mob_cooldown/fire_breath/proc/fire_line(atom/target, offset)
+<<<<<<< HEAD
 	if (isnull(target) || HAS_TRAIT_FROM(owner, TRAIT_UNDENSE, SWOOPING_TRAIT))
+=======
+	if (isnull(target))
+>>>>>>> tg-pr-88929
 		return
 	var/turf/target_turf = get_ranged_target_turf_direct(owner, target, fire_range, offset)
 	var/list/turfs = get_line(owner, target_turf) - get_turf(owner)
@@ -63,7 +77,11 @@
 	// Guys we have already hit, no double dipping
 	var/list/hit_list = list(owner) // also don't burn ourselves
 	for(var/turf/target_turf in burn_turfs)
+<<<<<<< HEAD
 		if (target_turf.is_blocked_turf(exclude_mobs = TRUE) || HAS_TRAIT_FROM(owner, TRAIT_UNDENSE, SWOOPING_TRAIT))
+=======
+		if (target_turf.is_blocked_turf(exclude_mobs = TRUE))
+>>>>>>> tg-pr-88929
 			return
 		burn_turf(target_turf, hit_list, owner)
 		sleep(fire_delay)
@@ -85,7 +103,10 @@
 		hit_list |= robotron
 		robotron.take_damage(mech_damage, BURN, FIRE)
 
+<<<<<<< HEAD
 	QDEL_IN(fire_hotspot, 2.5 SECONDS)
+=======
+>>>>>>> tg-pr-88929
 	return fire_hotspot
 
 /// Do something unpleasant to someone we set on fire
@@ -109,7 +130,11 @@
 /datum/action/cooldown/mob_cooldown/fire_breath/mass_fire
 	name = "Mass Fire"
 	button_icon = 'icons/effects/fire.dmi'
+<<<<<<< HEAD
 	button_icon_state = "1"
+=======
+	button_icon_state = "light"
+>>>>>>> tg-pr-88929
 	desc = "Breathe flames in all directions."
 	cooldown_time = 10.5 SECONDS
 	click_to_activate = FALSE
@@ -127,20 +152,30 @@
 /datum/action/cooldown/mob_cooldown/fire_breath/mass_fire/attack_sequence(atom/target)
 	var/queued_spins = 0
 	for (var/i in 1 to total_spins)
+<<<<<<< HEAD
 		if(HAS_TRAIT_FROM(owner, TRAIT_UNDENSE, SWOOPING_TRAIT))
 			return
+=======
+>>>>>>> tg-pr-88929
 		var/delay = queued_spins * breath_delay
 		queued_spins++
 		addtimer(CALLBACK(src, PROC_REF(fire_spin), target, queued_spins), delay)
 
 /// Breathe fire in a circle, with a slight angle offset based on which of our several circles it is
 /datum/action/cooldown/mob_cooldown/fire_breath/mass_fire/proc/fire_spin(target, spin_count)
+<<<<<<< HEAD
 	if (QDELETED(owner) || owner.stat == DEAD || HAS_TRAIT_FROM(owner, TRAIT_UNDENSE, SWOOPING_TRAIT))
+=======
+	if (QDELETED(owner) || owner.stat == DEAD)
+>>>>>>> tg-pr-88929
 		return // Too dead to spin
 	playsound(owner.loc, fire_sound, 200, TRUE)
 	var/angle_increment = 360 / sectors
 	var/additional_offset = spin_count * angle_increment / 2
 	for (var/i in 1 to sectors)
+<<<<<<< HEAD
 		if(HAS_TRAIT_FROM(owner, TRAIT_UNDENSE, SWOOPING_TRAIT))
 			return
+=======
+>>>>>>> tg-pr-88929
 		fire_line(target, (angle_increment * i) + (additional_offset))

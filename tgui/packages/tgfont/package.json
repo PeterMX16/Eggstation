@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
 	"private": true,
 	"name": "tgfont",
 	"version": "1.0.0",
@@ -8,4 +9,15 @@
 	"dependencies": {
 		"fantasticon": "^1.2.2"
 	}
+=======
+  "private": true,
+  "name": "tgfont",
+  "version": "1.0.0",
+  "scripts": {
+    "tgfont:build": "node mkdist.cjs && fantasticon --config config.cjs"
+  },
+  "dependencies": {
+    "fantasticon": "^1.2.3"
+  }
+>>>>>>> tg-pr-88929
 }

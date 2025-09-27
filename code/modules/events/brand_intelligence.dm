@@ -36,8 +36,8 @@
 /datum/round_event/brand_intelligence/setup()
 	// MONKE EDIT: fully overridden in <monkestation/code/modules/events/brand_intelligence.dm>
 	//select our origin machine (which will also be the type of vending machine affected.)
-	for(var/obj/machinery/vending/vendor in GLOB.machines)
-		if(!is_station_level(vendor.z))
+	for(var/obj/machinery/vending/vendor as anything in SSmachines.get_machines_by_type_and_subtypes(/obj/machinery/vending))
+		if(!vendor.onstation)
 			continue
 		if(!vendor.density)
 			continue
@@ -51,7 +51,11 @@
 	setup = TRUE //MONKESTATION ADDITION
 
 /datum/round_event/brand_intelligence/announce(fake)
-	priority_announce("Rampant brand intelligence has been detected aboard [station_name()]. Please inspect any [origin_machine] brand vendors for aggressive marketing tactics, and reboot them if necessary.", "Machine Learning Alert")
+	var/machine_name = initial(origin_machine.name)
+	if(fake)
+		var/obj/machinery/vending/prototype = pick(subtypesof(/obj/machinery/vending))
+		machine_name = initial(prototype.name)
+	priority_announce("Rampant brand intelligence has been detected aboard [station_name()]. Please inspect any [machine_name] brand vendors for aggressive marketing tactics, and reboot them if necessary.", "Machine Learning Alert")
 
 /datum/round_event/brand_intelligence/start()
 	origin_machine.shut_up = FALSE
@@ -59,7 +63,7 @@
 	announce_to_ghosts(origin_machine)
 
 /datum/round_event/brand_intelligence/tick()
-	if(!origin_machine || QDELETED(origin_machine) || origin_machine.shut_up || origin_machine.wires.is_all_cut()) //if the original vending machine is missing or has it's voice switch flipped
+	if(!origin_machine || QDELETED(origin_machine) || origin_machine.shut_up || origin_machine.wires.is_all_cut()) //if the original vending machine is missing or has its voice switch flipped
 		for(var/obj/machinery/vending/saved in infected_machines)
 			saved.shoot_inventory = FALSE
 		if(origin_machine)

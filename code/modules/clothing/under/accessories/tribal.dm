@@ -12,7 +12,11 @@
 	attachment_slot = GROIN
 
 /obj/item/clothing/accessory/skilt
+<<<<<<< HEAD
 	name = "Sinew Skirt"
+=======
+	name = "sinew skirt"
+>>>>>>> tg-pr-88929
 	desc = "For the last time. IT'S A KILT not a skirt."
 	icon_state = "skilt"
 	minimize_when_attached = FALSE

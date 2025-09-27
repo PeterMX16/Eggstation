@@ -8,13 +8,15 @@
 	inhand_icon_state = "shotgun"
 	inhand_x_dimension = 64
 	inhand_y_dimension = 64
-	fire_sound = 'sound/weapons/gun/shotgun/shot.ogg'
+	fire_sound = 'sound/items/weapons/gun/shotgun/shot.ogg'
 	fire_sound_volume = 90
-	rack_sound = 'sound/weapons/gun/shotgun/rack.ogg'
-	load_sound = 'sound/weapons/gun/shotgun/insert_shell.ogg'
+	rack_sound = 'sound/items/weapons/gun/shotgun/rack.ogg'
+	load_sound = 'sound/items/weapons/gun/shotgun/insert_shell.ogg'
+	drop_sound = 'sound/items/handling/gun/ballistics/shotgun/shotgun_drop1.ogg'
+	pickup_sound = 'sound/items/handling/gun/ballistics/shotgun/shotgun_pickup1.ogg'
 	w_class = WEIGHT_CLASS_BULKY
 	force = 10
-	flags_1 = CONDUCT_1
+	obj_flags = CONDUCTS_ELECTRICITY
 	slot_flags = ITEM_SLOT_BACK
 	accepted_magazine_type = /obj/item/ammo_box/magazine/internal/shot
 	semi_auto = FALSE
@@ -24,6 +26,7 @@
 	cartridge_wording = "shell"
 	tac_reloads = FALSE
 	weapon_weight = WEAPON_HEAVY
+	misfire_probability_cap = 35 // Even if the misfire probability and increment are both zero, we've some shots that may do that.
 
 	pb_knockback = 2
 	gun_flags = GUN_SMOKE_PARTICLES
@@ -136,7 +139,11 @@
 	desc = "A semi automatic shotgun with tactical furniture and a six-shell capacity underneath."
 	icon_state = "cshotgun"
 	inhand_icon_state = "shotgun_combat"
+<<<<<<< HEAD
 	fire_delay = 8
+=======
+	fire_delay = 5
+>>>>>>> tg-pr-88929
 	accepted_magazine_type = /obj/item/ammo_box/magazine/internal/shot/com
 	w_class = WEIGHT_CLASS_HUGE
 	pbk_gentle = TRUE
@@ -153,6 +160,13 @@
 	w_class = WEIGHT_CLASS_BULKY
 
 
+/obj/item/gun/ballistic/shotgun/automatic/combat/compact
+	name = "compact shotgun"
+	desc = "A compact version of the semi automatic combat shotgun. For close encounters."
+	icon_state = "cshotgunc"
+	accepted_magazine_type = /obj/item/ammo_box/magazine/internal/shot/com/compact
+	w_class = WEIGHT_CLASS_BULKY
+
 //Dual Feed Shotgun
 
 /obj/item/gun/ballistic/shotgun/automatic/dual_tube
@@ -167,8 +181,13 @@
 	worn_icon_state = "cshotgun"
 	w_class = WEIGHT_CLASS_HUGE
 	semi_auto = TRUE
+<<<<<<< HEAD
 	projectile_damage_multiplier = 1.2
 	accepted_magazine_type = /obj/item/ammo_box/magazine/internal/shot/tube
+=======
+	accepted_magazine_type = /obj/item/ammo_box/magazine/internal/shot/tube
+	interaction_flags_click = NEED_DEXTERITY|NEED_HANDS|ALLOW_RESTING
+>>>>>>> tg-pr-88929
 	/// If defined, the secondary tube is this type, if you want different shell loads
 	var/alt_accepted_magazine_type
 	/// If TRUE, we're drawing from the alternate_magazine
@@ -181,14 +200,23 @@
 	desc = "An advanced shotgun with two separate magazine tubes. This one shows signs of bounty hunting customization, meaning it likely has a dual rubber shot/fire slug load."
 	//alt_accepted_magazine_type = /obj/item/ammo_box/magazine/internal/shot/tube/fire   monkestation edit
 
+/obj/item/gun/ballistic/shotgun/automatic/dual_tube/deadly
+	spawn_magazine_type = /obj/item/ammo_box/magazine/internal/shot/tube/buckshot
+	alt_mag_type = /obj/item/ammo_box/magazine/internal/shot/tube/slug
+
 /obj/item/gun/ballistic/shotgun/automatic/dual_tube/examine(mob/user)
 	. = ..()
 	. += span_notice("Alt-click to pump it.")
 
 /obj/item/gun/ballistic/shotgun/automatic/dual_tube/Initialize(mapload)
 	. = ..()
+<<<<<<< HEAD
 	alt_accepted_magazine_type = alt_accepted_magazine_type || accepted_magazine_type
 	alternate_magazine = new alt_accepted_magazine_type(src)
+=======
+	alt_mag_type = alt_mag_type || spawn_magazine_type
+	alternate_magazine = new alt_mag_type(src)
+>>>>>>> tg-pr-88929
 
 /obj/item/gun/ballistic/shotgun/automatic/dual_tube/Destroy()
 	QDEL_NULL(alternate_magazine)
@@ -211,10 +239,9 @@
 	else
 		balloon_alert(user, "switched to tube A")
 
-/obj/item/gun/ballistic/shotgun/automatic/dual_tube/AltClick(mob/living/user)
-	if(!user.can_perform_action(src, NEED_DEXTERITY|NEED_HANDS))
-		return
+/obj/item/gun/ballistic/shotgun/automatic/dual_tube/click_alt(mob/living/user)
 	rack()
+	return CLICK_ACTION_SUCCESS
 
 /obj/item/gun/ballistic/shotgun/automatic/dual_tube/give_manufacturer_examine()
 	AddElement(/datum/element/manufacturer_examine, COMPANY_NANOTRASEN)
@@ -223,22 +250,26 @@
 
 /obj/item/gun/ballistic/shotgun/bulldog
 	name = "\improper Bulldog Shotgun"
-	desc = "A semi-auto, mag-fed shotgun for combat in narrow corridors, nicknamed 'Bulldog' by boarding parties. Compatible only with specialized 8-round drum magazines. Can have a secondary magazine attached to quickly swap between ammo types, or just to keep shooting."
+	desc = "A 2-round burst fire, mag-fed shotgun for combat in narrow corridors, \
+		nicknamed 'Bulldog' by boarding parties. Compatible only with specialized 8-round drum magazines. \
+		Can have a secondary magazine attached to quickly swap between ammo types, or just to keep shooting."
 	icon_state = "bulldog"
-	inhand_icon_state = "bulldog"
-	worn_icon_state = "cshotgun"
 	lefthand_file = 'icons/mob/inhands/weapons/guns_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/weapons/guns_righthand.dmi'
+	inhand_icon_state = "bulldog"
+	worn_icon = 'icons/mob/clothing/back.dmi'
+	worn_icon_state = "bulldog"
 	inhand_x_dimension = 32
 	inhand_y_dimension = 32
+	projectile_damage_multiplier = 1.2
 	weapon_weight = WEAPON_MEDIUM
 	accepted_magazine_type = /obj/item/ammo_box/magazine/m12g
 	can_suppress = FALSE
-	burst_size = 1
-	fire_delay = 0
+	burst_size = 2
+	fire_delay = 1
 	pin = /obj/item/firing_pin/implant/pindicate
-	fire_sound = 'sound/weapons/gun/shotgun/shot_alt.ogg'
-	actions_types = list()
+	fire_sound = 'sound/items/weapons/gun/shotgun/shot_alt.ogg'
+	actions_types = list(/datum/action/item_action/toggle_firemode)
 	mag_display = TRUE
 	empty_indicator = TRUE
 	empty_alarm = TRUE
@@ -247,17 +278,26 @@
 	semi_auto = TRUE
 	internal_magazine = FALSE
 	tac_reloads = TRUE
+<<<<<<< HEAD
 	projectile_damage_multiplier = 1.2
 	casing_ejector = TRUE
 	///the type of secondary magazine for the bulldog
+=======
+	burst_fire_selection = TRUE
+	/// The type of secondary magazine for the bulldog
+>>>>>>> tg-pr-88929
 	var/secondary_magazine_type
-	///the secondary magazine
+	/// The secondary magazine
 	var/obj/item/ammo_box/magazine/secondary_magazine
 	pbk_gentle = FALSE
 
 /obj/item/gun/ballistic/shotgun/bulldog/Initialize(mapload)
 	. = ..()
+<<<<<<< HEAD
 	secondary_magazine_type = secondary_magazine_type || accepted_magazine_type
+=======
+	secondary_magazine_type = secondary_magazine_type || spawn_magazine_type
+>>>>>>> tg-pr-88929
 	secondary_magazine = new secondary_magazine_type(src)
 	update_appearance(UPDATE_OVERLAYS)
 
@@ -284,10 +324,12 @@
 		. += "[icon_state]_secondary_mag_[initial(secondary_magazine.icon_state)]"
 		if(!secondary_magazine.ammo_count())
 			. += "[icon_state]_secondary_mag_empty"
-	else
-		. += "[icon_state]_no_secondary_mag"
 
+<<<<<<< HEAD
 /obj/item/gun/ballistic/shotgun/bulldog/handle_chamber(mob/living/user, empty_chamber = TRUE, from_firing = TRUE, chamber_next_round = TRUE)
+=======
+/obj/item/gun/ballistic/shotgun/bulldog/handle_chamber(empty_chamber = TRUE, from_firing = TRUE, chamber_next_round = TRUE)
+>>>>>>> tg-pr-88929
 	if(!secondary_magazine)
 		return ..()
 	var/secondary_shells_left = LAZYLEN(secondary_magazine.stored_ammo)
@@ -323,7 +365,7 @@
 	update_appearance()
 	return ITEM_INTERACT_SUCCESS
 
-/obj/item/gun/ballistic/shotgun/bulldog/alt_click_secondary(mob/user)
+/obj/item/gun/ballistic/shotgun/bulldog/click_alt_secondary(mob/user)
 	if(secondary_magazine)
 		var/obj/item/ammo_box/magazine/old_mag = secondary_magazine
 		secondary_magazine = null
@@ -331,7 +373,6 @@
 		old_mag.update_appearance()
 		update_appearance(UPDATE_OVERLAYS)
 		playsound(src, load_empty_sound, load_sound_volume, load_sound_vary)
-	return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
 /obj/item/gun/ballistic/shotgun/bulldog/proc/toggle_magazine()
 	var/rechamber = FALSE
@@ -369,7 +410,7 @@
 	w_class = WEIGHT_CLASS_BULKY
 	weapon_weight = WEAPON_MEDIUM
 	force = 10
-	flags_1 = CONDUCT_1
+	obj_flags = CONDUCTS_ELECTRICITY
 	slot_flags = ITEM_SLOT_BACK
 	accepted_magazine_type = /obj/item/ammo_box/magazine/internal/shot/dual
 	sawn_desc = "Omar's coming!"
@@ -387,11 +428,6 @@
 	can_be_sawn_off = TRUE
 	pb_knockback = 3 // it's a super shotgun!
 	pbk_gentle = FALSE
-
-/obj/item/gun/ballistic/shotgun/doublebarrel/AltClick(mob/user)
-	. = ..()
-	if(unique_reskin && !current_skin && user.can_perform_action(src, NEED_DEXTERITY))
-		reskin_obj(user)
 
 /obj/item/gun/ballistic/shotgun/doublebarrel/sawoff(mob/user)
 	. = ..()
@@ -422,12 +458,12 @@
 	accepted_magazine_type = /obj/item/ammo_box/magazine/internal/shot/bounty
 	weapon_weight = WEAPON_MEDIUM
 	semi_auto = TRUE
-	flags_1 = CONDUCT_1
+	obj_flags = CONDUCTS_ELECTRICITY
 	force = 18 //it has a hook on it
 	sharpness = SHARP_POINTY //it does in fact, have a hook on it
 	attack_verb_continuous = list("slashes", "hooks", "stabs")
 	attack_verb_simple = list("slash", "hook", "stab")
-	hitsound = 'sound/weapons/bladeslice.ogg'
+	hitsound = 'sound/items/weapons/bladeslice.ogg'
 	//our hook gun!
 	var/obj/item/gun/magic/hook/bounty/hook
 
@@ -448,6 +484,7 @@
 		return hook.try_fire_gun(target, user, params)
 	return ..()
 
+<<<<<<< HEAD
 // A shotgun, but tis a revolver (Blueshift again)
 // Woe, buckshot be upon ye
 
@@ -606,3 +643,45 @@
 	attack_verb_simple = list("cleave", "chop", "cut", "swipe", "slash")
 	pb_knockback = 0 //you may have your point blank, but you dont get a fling    Why tf are they worried about this when half the mining guns instantly kill you
 
+=======
+///An underpowered shotgun given to Pun Pun when the station job trait roll.
+/obj/item/gun/ballistic/shotgun/monkey
+	name = "\improper Barback's Shot"
+	desc = "A chimp-sized, single-shot and break-action shotgun with an unpractical stock."
+	icon_state = "chimp_shottie"
+	inhand_icon_state = "shotgun"
+	lefthand_file = 'icons/mob/inhands/weapons/guns_lefthand.dmi'
+	righthand_file = 'icons/mob/inhands/weapons/guns_righthand.dmi'
+	inhand_x_dimension = 32
+	inhand_y_dimension = 32
+	force = 8
+	obj_flags = CONDUCTS_ELECTRICITY
+	slot_flags = NONE
+	accepted_magazine_type = /obj/item/ammo_box/magazine/internal/shot/single
+	obj_flags = UNIQUE_RENAME
+	w_class = WEIGHT_CLASS_NORMAL
+	weapon_weight = WEAPON_MEDIUM
+	semi_auto = TRUE
+	bolt_type = BOLT_TYPE_NO_BOLT
+	spread = 10
+	projectile_damage_multiplier = 0.5
+	projectile_wound_bonus = -25
+	recoil = 1
+	pin = /obj/item/firing_pin/monkey
+	pb_knockback = 1
+
+/obj/item/gun/ballistic/shotgun/musket
+	name = "\improper Donk Co. Musket"
+	icon = 'icons/obj/weapons/guns/ballistic.dmi'
+	icon_state = "donk_musket"
+	inhand_icon_state = "donk_musket"
+	worn_icon_state = "donk_musket"
+	desc = "A large-bore boltloading firearm with a classy wooden frame. Cheap, accurate, and easy to maintain. Reload and rack after every shot."
+	semi_auto = TRUE
+	alternative_caliber = CALIBER_50BMG
+	casing_ejector = TRUE
+	bolt_type = BOLT_TYPE_LOCKING
+	bolt_wording = "bolt"
+	internal_magazine = TRUE
+	accepted_magazine_type = /obj/item/ammo_box/magazine/internal/shot/single/musket
+>>>>>>> tg-pr-88929

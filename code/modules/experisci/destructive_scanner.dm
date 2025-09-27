@@ -6,18 +6,14 @@
 /obj/machinery/destructive_scanner
 	name = "Experimental Destructive Scanner"
 	desc = "A much larger version of the hand-held scanner, a charred label warns about its destructive capabilities."
-	icon = 'icons/obj/machines/experisci.dmi'
+	icon = 'icons/obj/machines/destructive_scanner.dmi'
 	icon_state = "tube_open"
 	circuit = /obj/item/circuitboard/machine/destructive_scanner
 	layer = MOB_LAYER
 	var/scanning = FALSE
 
-/obj/machinery/destructive_scanner/Initialize(mapload)
-	..()
-	return INITIALIZE_HINT_LATELOAD
-
 // Late load to ensure the component initialization occurs after the machines are initialized
-/obj/machinery/destructive_scanner/LateInitialize()
+/obj/machinery/destructive_scanner/post_machine_initialize()
 	. = ..()
 
 	var/static/list/destructive_signals = list(
@@ -37,7 +33,7 @@
 	var/aggressive = FALSE
 	for(var/mob/living/living_mob in pickup_zone)
 		if(!(obj_flags & EMAGGED) && ishuman(living_mob)) //Can only kill humans when emagged.
-			playsound(src, 'sound/machines/buzz-sigh.ogg', 25)
+			playsound(src, 'sound/machines/buzz/buzz-sigh.ogg', 25)
 			say("Cannot scan with humans inside.")
 			return
 		aggressive = TRUE
@@ -50,6 +46,8 @@
 		return
 	var/atom/pickup_zone = drop_location()
 	for(var/atom/movable/to_pickup in pickup_zone)
+		if(to_pickup == src)
+			continue
 		to_pickup.forceMove(src)
 	flick("tube_down", src)
 	scanning = TRUE
@@ -89,7 +87,7 @@
 		if(isliving(movable_atom))
 			var/mob/living/fucked_up_thing = movable_atom
 			fucked_up_thing.investigate_log("has been gibbed by [src].", INVESTIGATE_DEATHS)
-			fucked_up_thing.gib()
+			fucked_up_thing.gib(DROP_ALL_REMAINS)
 
 	SEND_SIGNAL(src, COMSIG_MACHINERY_DESTRUCTIVE_SCAN, scanned_atoms)
 

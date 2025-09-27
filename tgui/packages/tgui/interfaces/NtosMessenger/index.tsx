@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import {
   Box,
   Button,
@@ -17,10 +18,37 @@ import { NtosWindow } from '../../layouts';
 import { NtChat, NtMessenger, NtPicture } from './types';
 import { ChatScreen } from './ChatScreen';
 import { sortBy } from 'common/collections';
+=======
+import { sortBy } from 'common/collections';
+import { useState } from 'react';
+import {
+  Box,
+  Button,
+  Dimmer,
+  Divider,
+  Icon,
+  Input,
+  NoticeBox,
+  Section,
+  Stack,
+  TextArea,
+} from 'tgui-core/components';
+import { BooleanLike } from 'tgui-core/react';
+import { createSearch } from 'tgui-core/string';
+
+import { useBackend } from '../../backend';
+import { NtosWindow } from '../../layouts';
+import { ChatScreen } from './ChatScreen';
+import { NtChat, NtMessenger, NtPicture } from './types';
+>>>>>>> tg-pr-88929
 
 type NtosMessengerData = {
   can_spam: BooleanLike;
   is_silicon: BooleanLike;
+<<<<<<< HEAD
+=======
+  remote_silicon: BooleanLike;
+>>>>>>> tg-pr-88929
   owner?: NtMessenger;
   saved_chats: Record<string, NtChat>;
   messengers: Record<string, NtMessenger>;
@@ -40,6 +68,10 @@ export const NtosMessenger = (props) => {
   const { data } = useBackend<NtosMessengerData>();
   const {
     is_silicon,
+<<<<<<< HEAD
+=======
+    remote_silicon,
+>>>>>>> tg-pr-88929
     saved_chats,
     stored_photos,
     selected_photo_path,
@@ -48,8 +80,15 @@ export const NtosMessenger = (props) => {
     sending_virus,
   } = data;
 
+<<<<<<< HEAD
   let content: Element;
   if (open_chat !== null) {
+=======
+  let content: JSX.Element;
+  if (remote_silicon) {
+    content = <AccessDeniedScreen />;
+  } else if (open_chat !== null) {
+>>>>>>> tg-pr-88929
     const openChat = saved_chats[open_chat];
     const temporaryRecipient = messengers[open_chat];
 
@@ -81,6 +120,44 @@ export const NtosMessenger = (props) => {
   );
 };
 
+<<<<<<< HEAD
+=======
+const AccessDeniedScreen = (props: any) => {
+  const { act, data } = useBackend<NtosMessengerData>();
+
+  return (
+    <Stack fill vertical>
+      <Stack.Item>
+        <Section>
+          <Stack vertical textAlign="center">
+            <Box bold>
+              <Icon name="address-card" />
+              SpaceMessenger V6.5.3
+            </Box>
+          </Stack>
+        </Section>
+      </Stack.Item>
+      <NoticeBox
+        color="white"
+        position="relative"
+        top="30%"
+        fontSize="30px"
+        textAlign="center"
+      >
+        ERROR: CONNECTION REFUSED
+      </NoticeBox>
+      <Stack vertical position="relative" top="35%" textAlign="left">
+        <Section>
+          <Box>Message from host:</Box>
+          <Box>- Remote access of this application has been restricted.</Box>
+          <Box>- Contact your Administrator for further assistance.</Box>
+        </Section>
+      </Stack>
+    </Stack>
+  );
+};
+
+>>>>>>> tg-pr-88929
 const ContactsScreen = (props: any) => {
   const { act, data } = useBackend<NtosMessengerData>();
   const {
@@ -97,9 +174,16 @@ const ContactsScreen = (props: any) => {
     sending_virus,
   } = data;
 
+<<<<<<< HEAD
   const [searchUser, setSearchUser] = useLocalState('searchUser', '');
 
   const sortByUnreads = sortBy<NtChat>((chat) => chat.unread_messages);
+=======
+  const [searchUser, setSearchUser] = useState('');
+
+  const sortByUnreads = (array: NtChat[]) =>
+    sortBy(array, (chat) => chat.unread_messages);
+>>>>>>> tg-pr-88929
 
   const searchChatByName = createSearch(
     searchUser,
@@ -213,7 +297,11 @@ const ContactsScreen = (props: any) => {
               width="220px"
               placeholder="Search by name or job..."
               value={searchUser}
+<<<<<<< HEAD
               onInput={(_: any, value: string) => setSearchUser(value)}
+=======
+              onInput={(_, value) => setSearchUser(value)}
+>>>>>>> tg-pr-88929
             />
           </Stack>
         </Section>
@@ -298,7 +386,11 @@ const SendToAllSection = (props) => {
   const { data, act } = useBackend<NtosMessengerData>();
   const { on_spam_cooldown } = data;
 
+<<<<<<< HEAD
   const [message, setmessage] = useLocalState('everyoneMessage', '');
+=======
+  const [message, setmessage] = useState('');
+>>>>>>> tg-pr-88929
 
   return (
     <>
@@ -329,7 +421,11 @@ const SendToAllSection = (props) => {
           height={6}
           value={message}
           placeholder="Send message to everyone..."
+<<<<<<< HEAD
           onInput={(_: any, v: string) => setmessage(v)}
+=======
+          onChange={(event, value: string) => setmessage(value)}
+>>>>>>> tg-pr-88929
         />
       </Section>
     </>

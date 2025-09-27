@@ -5,7 +5,11 @@
 
 /datum/ai_controller/basic_controller/gutlunch/gutlunch_warrior
 	blackboard = list(
+<<<<<<< HEAD
 		BB_TARGETING_STRATEGY =  /datum/targeting_strategy/basic,
+=======
+		BB_TARGETING_STRATEGY = /datum/targeting_strategy/basic,
+>>>>>>> tg-pr-88929
 		BB_PET_TARGETING_STRATEGY = /datum/targeting_strategy/basic/not_friends,
 		BB_BABIES_PARTNER_TYPES = list(/mob/living/basic/mining/gutlunch/milk),
 		BB_BABIES_CHILD_TYPES = list(/mob/living/basic/mining/gutlunch/grub),
@@ -44,12 +48,18 @@
 			continue
 		living_pawn.befriend(potential_friend)
 		to_chat(potential_friend, span_nicegreen("[living_pawn] looks at you with endearing eyes!"))
+<<<<<<< HEAD
 		finish_action(controller, TRUE)
 		return
 
 	finish_action(controller, FALSE)
 	return
 
+=======
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_SUCCEEDED
+
+	return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
+>>>>>>> tg-pr-88929
 
 
 /datum/ai_controller/basic_controller/gutlunch/gutlunch_baby
@@ -76,9 +86,15 @@
 ///consume food!
 /datum/ai_planning_subtree/find_and_hunt_target/food_trough
 	target_key = BB_TROUGH_TARGET
+<<<<<<< HEAD
 	hunting_behavior = /datum/ai_behavior/hunt_target/unarmed_attack_target/food_trough
 	finding_behavior = /datum/ai_behavior/find_hunt_target/food_trough
 	hunt_targets = list(/obj/structure/ore_container/gutlunch_trough)
+=======
+	hunting_behavior = /datum/ai_behavior/hunt_target/interact_with_target/food_trough
+	finding_behavior = /datum/ai_behavior/find_hunt_target/food_trough
+	hunt_targets = list(/obj/structure/ore_container/food_trough/gutlunch_trough)
+>>>>>>> tg-pr-88929
 	hunt_chance = 75
 	hunt_range = 9
 
@@ -99,6 +115,7 @@
 
 	return can_see(source, target, radius)
 
+<<<<<<< HEAD
 /datum/ai_behavior/hunt_target/unarmed_attack_target/food_trough
 	always_reset_target = TRUE
 	switch_combat_mode = TRUE
@@ -109,6 +126,19 @@
 	speech_commands = list("mine", "smash")
 
 /datum/pet_command/mine_walls/try_activate_command(mob/living/commander)
+=======
+/datum/ai_behavior/hunt_target/interact_with_target/food_trough
+	always_reset_target = TRUE
+	behavior_combat_mode = FALSE
+
+/datum/pet_command/mine_walls
+	command_name = "Mine"
+	radial_icon_state = "mine"
+	command_desc = "Command your pet to mine down walls."
+	speech_commands = list("mine", "smash")
+
+/datum/pet_command/mine_walls/try_activate_command(mob/living/commander, radial_command)
+>>>>>>> tg-pr-88929
 	var/mob/living/parent = weak_parent.resolve()
 	if(isnull(parent))
 		return
@@ -124,6 +154,7 @@
 		return SUBTREE_RETURN_FINISH_PLANNING
 	controller.queue_behavior(/datum/ai_behavior/find_mineral_wall, BB_CURRENT_PET_TARGET)
 
+<<<<<<< HEAD
 //pet commands
 /datum/pet_command/point_targeting/breed/gutlunch
 
@@ -131,6 +162,18 @@
 	if(GLOB.gutlunch_count >= MAXIMUM_GUTLUNCH_POP)
 		parent.balloon_alert_to_viewers("can't reproduce anymore!")
 		return
+=======
+/datum/pet_command/mine_walls/retrieve_command_text(atom/living_pet, atom/target)
+	return "signals [living_pet] to start mining!"
+
+//pet commands
+/datum/pet_command/breed/gutlunch
+
+/datum/pet_command/breed/gutlunch/set_command_target(mob/living/parent, atom/target)
+	if(GLOB.gutlunch_count >= MAXIMUM_GUTLUNCH_POP)
+		parent.balloon_alert_to_viewers("can't reproduce anymore!")
+		return FALSE
+>>>>>>> tg-pr-88929
 	return ..()
 
 #undef MAXIMUM_GUTLUNCH_POP

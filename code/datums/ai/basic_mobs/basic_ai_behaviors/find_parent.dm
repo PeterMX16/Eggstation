@@ -3,16 +3,23 @@
 	var/look_range = 7
 
 /datum/ai_behavior/find_mom/perform(seconds_per_tick, datum/ai_controller/controller, mom_key, ignore_mom_key, found_mom)
+<<<<<<< HEAD
 	. = ..()
 
+=======
+>>>>>>> tg-pr-88929
 	var/mob/living_pawn = controller.pawn
 	var/list/mom_types = controller.blackboard[mom_key]
 	var/list/all_moms = list()
 	var/list/ignore_types = controller.blackboard[ignore_mom_key]
 
 	if(!length(mom_types))
+<<<<<<< HEAD
 		finish_action(controller, FALSE)
 		return
+=======
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
+>>>>>>> tg-pr-88929
 
 	for(var/mob/mother in oview(look_range, living_pawn))
 		if(!is_type_in_list(mother, mom_types))
@@ -22,6 +29,7 @@
 		all_moms += mother
 
 	if(length(all_moms))
+<<<<<<< HEAD
 		var/mob/mom = pick(all_moms)
 		controller.set_blackboard_key(found_mom, mom)
 		if(isbasicmob(mom))
@@ -29,3 +37,8 @@
 		finish_action(controller, TRUE)
 		return
 	finish_action(controller, FALSE)
+=======
+		controller.set_blackboard_key(found_mom, pick(all_moms))
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_SUCCEEDED
+	return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
+>>>>>>> tg-pr-88929

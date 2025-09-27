@@ -1,4 +1,14 @@
+import {
+  Box,
+  Button,
+  LabeledList,
+  NoticeBox,
+  Section,
+  Tabs,
+} from 'tgui-core/components';
+
 import { useBackend, useSharedState } from '../backend';
+<<<<<<< HEAD
 import {
   Box,
   Button,
@@ -7,12 +17,15 @@ import {
   Section,
   Tabs,
 } from '../components';
+=======
+>>>>>>> tg-pr-88929
 import { Window } from '../layouts';
 
 export const RoboticsControlConsole = (props) => {
   const { act, data } = useBackend();
   const [tab, setTab] = useSharedState('tab', 1);
   const { can_hack, can_detonate, cyborgs = [], drones = [] } = data;
+
   return (
     <Window width={500} height={460}>
       <Window.Content scrollable>

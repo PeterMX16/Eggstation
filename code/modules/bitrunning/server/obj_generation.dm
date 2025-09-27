@@ -1,25 +1,80 @@
+<<<<<<< HEAD
 /// Generates a new avatar for the bitrunner.
 /obj/machinery/quantum_server/proc/generate_avatar(obj/structure/hololadder/wayout, datum/outfit/netsuit)
 	var/mob/living/carbon/human/avatar = new(wayout.loc)
+=======
+/// Attempts to spawn a crate twice based on the list of available locations
+/obj/machinery/quantum_server/proc/attempt_spawn_cache(list/possible_turfs)
+	if(!length(possible_turfs))
+		return TRUE
+
+	shuffle_inplace(possible_turfs)
+	var/turf/chosen_turf = validate_turf(pick(possible_turfs))
+
+	if(isnull(chosen_turf))
+		possible_turfs.Remove(chosen_turf)
+		chosen_turf = validate_turf(pick(possible_turfs))
+		if(isnull(chosen_turf))
+			CRASH("vdom: after two attempts, could not find a valid turf for cache")
+
+	new /obj/structure/closet/crate/secure/bitrunning/encrypted(chosen_turf)
+	return TRUE
+
+
+/// Attempts to spawn a lootbox
+/obj/machinery/quantum_server/proc/attempt_spawn_curiosity(list/possible_turfs)
+	if(!length(possible_turfs)) // Out of turfs to place a curiosity
+		return FALSE
+
+	if(generated_domain.secondary_loot_generated >= assoc_value_sum(generated_domain.secondary_loot)) // Out of curiosities to place
+		return FALSE
+
+	shuffle_inplace(possible_turfs)
+	var/turf/chosen_turf = validate_turf(pick(possible_turfs))
+
+	if(isnull(chosen_turf))
+		possible_turfs.Remove(chosen_turf)
+		chosen_turf = validate_turf(pick(possible_turfs))
+		if(isnull(chosen_turf))
+			CRASH("vdom: after two attempts, could not find a valid turf for curiosity")
+
+	new /obj/item/storage/lockbox/bitrunning/encrypted(chosen_turf)
+	return chosen_turf
+
+
+/// Generates a new avatar for the bitrunner.
+/obj/machinery/quantum_server/proc/generate_avatar(turf/destination, datum/outfit/netsuit)
+	var/mob/living/carbon/human/avatar = new(destination)
+>>>>>>> tg-pr-88929
 
 	var/outfit_path = generated_domain.forced_outfit || netsuit
 	var/datum/outfit/to_wear = new outfit_path()
 
 	to_wear.belt = /obj/item/bitrunning_host_monitor
+<<<<<<< HEAD
+=======
+	to_wear.ears = null
+>>>>>>> tg-pr-88929
 	to_wear.glasses = null
 	to_wear.gloves = null
 	to_wear.l_pocket = null
 	to_wear.r_pocket = null
 	to_wear.suit = null
 	to_wear.suit_store = null
+<<<<<<< HEAD
 	to_wear.ears = null //monkestation addition
 
 	avatar.equipOutfit(to_wear, visualsOnly = TRUE)
+=======
+
+	avatar.equipOutfit(to_wear, visuals_only = TRUE)
+>>>>>>> tg-pr-88929
 
 	var/obj/item/clothing/under/jumpsuit = avatar.w_uniform
 	if(istype(jumpsuit))
 		jumpsuit.set_armor(/datum/armor/clothing_under)
 
+<<<<<<< HEAD
 	var/obj/item/clothing/head/hat = avatar.get_clothing_on_part(avatar.get_bodypart(BODY_ZONE_HEAD))
 
 	if(istype(hat))
@@ -32,6 +87,15 @@
 	thing = avatar.get_inactive_held_item()
 	if(!isnull(thing))
 		qdel(thing)
+=======
+	var/obj/item/clothing/head/hat = locate() in avatar.get_equipped_items()
+	if(istype(hat))
+		hat.set_armor(/datum/armor/none)
+
+	if(!generated_domain.forced_outfit)
+		for(var/obj/thing in avatar.held_items)
+			qdel(thing)
+>>>>>>> tg-pr-88929
 
 	var/obj/item/storage/backpack/bag = avatar.back
 	if(istype(bag))
@@ -45,16 +109,33 @@
 
 	var/obj/item/card/id/outfit_id = avatar.wear_id
 	if(outfit_id)
+<<<<<<< HEAD
 		outfit_id.assignment = "Bit Avatar"
 		outfit_id.registered_name = avatar.real_name
 
+=======
+>>>>>>> tg-pr-88929
 		outfit_id.registered_account = new()
 		outfit_id.registered_account.replaceable = FALSE
 
 		SSid_access.apply_trim_to_card(outfit_id, /datum/id_trim/bit_avatar)
 
+<<<<<<< HEAD
 	return avatar
 
+=======
+	avatar.AddComponent( \
+		/datum/component/simple_bodycam, \
+		camera_name = "bitrunner bodycam", \
+		c_tag = "Avatar [avatar.real_name]", \
+		network = BITRUNNER_CAMERA_NET, \
+		emp_proof = TRUE, \
+	)
+
+	return avatar
+
+
+>>>>>>> tg-pr-88929
 /// Loads in any mob segments of the map
 /obj/machinery/quantum_server/proc/load_mob_segments()
 	if(!length(generated_domain.mob_modules))
@@ -86,6 +167,7 @@
 
 	return TRUE
 
+<<<<<<< HEAD
 /// Generates a new hololadder for the bitrunner. Effectively a respawn attempt.
 /obj/machinery/quantum_server/proc/generate_hololadder()
 	if(!length(exit_turfs))
@@ -110,6 +192,8 @@
 	retries_spent += 1
 
 	return wayout
+=======
+>>>>>>> tg-pr-88929
 
 /// Scans over neo's contents for bitrunning tech disks. Loads the items or abilities onto the avatar.
 /obj/machinery/quantum_server/proc/stock_gear(mob/living/carbon/human/avatar, mob/living/carbon/human/neo, datum/lazy_template/virtual_domain/generated_domain)
@@ -142,6 +226,14 @@
 				continue
 
 			var/datum/action/our_action = new ability_disk.granted_action()
+<<<<<<< HEAD
+=======
+
+			if(locate(our_action.type) in avatar.actions)
+				failed = TRUE
+				continue
+
+>>>>>>> tg-pr-88929
 			our_action.Grant(avatar)
 			continue
 
@@ -155,4 +247,16 @@
 			avatar.put_in_hands(new item_disk.granted_item())
 
 	if(failed)
+<<<<<<< HEAD
 		to_chat(neo, span_warning("One of your disks failed to load. You must activate them to make a selection."))
+=======
+		to_chat(neo, span_warning("One of your disks failed to load. Check for duplicate or inactive disks."))
+
+	var/obj/item/organ/brain/neo_brain = neo.get_organ_slot(ORGAN_SLOT_BRAIN)
+	for(var/obj/item/skillchip/skill_chip as anything in neo_brain?.skillchips)
+		if(!skill_chip.active)
+			continue
+		var/obj/item/skillchip/clone_chip = new skill_chip.type
+		avatar.implant_skillchip(clone_chip, force = TRUE)
+		clone_chip.try_activate_skillchip(silent = TRUE, force = TRUE)
+>>>>>>> tg-pr-88929

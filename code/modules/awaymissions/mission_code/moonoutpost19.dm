@@ -3,7 +3,11 @@
 /obj/structure/fluff/minepost
 	name = "wooden post"
 	desc = "A sturdy space-wood post, capable of holding up a mineshaft."
+<<<<<<< HEAD
 	icon = 'icons/obj/fluff.dmi'
+=======
+	icon = 'icons/obj/fluff/general.dmi'
+>>>>>>> tg-pr-88929
 	icon_state = "minepost"
 	density = FALSE
 
@@ -15,6 +19,10 @@
 /area/awaymission/moonoutpost19/arrivals
 	name = "MO19 Arrivals"
 	icon_state = "awaycontent2"
+
+/area/awaymission/moonoutpost19/arrivals/shed
+	name = "MO19 Arrivals Shed"
+	icon_state = "awaycontent9"
 
 /area/awaymission/moonoutpost19/research
 	name = "MO19 Research"
@@ -30,7 +38,7 @@
 	power_environ = FALSE
 	power_equip = FALSE
 	power_light = FALSE
-	ambientsounds = list('sound/ambience/ambimine.ogg')
+	ambientsounds = list('sound/ambience/ruin/ambimine.ogg')
 	icon_state = "awaycontent5"
 	outdoors = TRUE
 
@@ -52,7 +60,11 @@
 	power_environ = FALSE
 	power_equip = FALSE
 	power_light = FALSE
+<<<<<<< HEAD
 	ambientsounds = list('sound/ambience/ambimine.ogg')
+=======
+	ambientsounds = list('sound/ambience/ruin/ambimine.ogg')
+>>>>>>> tg-pr-88929
 	icon_state = "awaycontent8"
 
 //Fluff objects/structures.

@@ -1,7 +1,8 @@
 import { binaryInsertWith, sortBy } from 'common/collections';
-import { InfernoNode } from 'inferno';
+import { ReactNode } from 'react';
+import { Box, Flex, Tooltip } from 'tgui-core/components';
+
 import { useBackend } from '../../backend';
-import { Box, Flex, Tooltip } from '../../components';
 import { PreferencesMenuData } from './data';
 import features from './preferences/features';
 import { FeatureValueInput } from './preferences/features/base';
@@ -9,14 +10,22 @@ import { TabbedMenu } from './TabbedMenu';
 
 type PreferenceChild = {
   name: string;
-  children: InfernoNode;
+  children: ReactNode;
 };
 
+<<<<<<< HEAD
 const binaryInsertPreference = binaryInsertWith<PreferenceChild>(
   (child) => child.name,
 );
+=======
+const binaryInsertPreference = (
+  collection: PreferenceChild[],
+  value: PreferenceChild,
+) => binaryInsertWith(collection, value, (child) => child.name);
+>>>>>>> tg-pr-88929
 
-const sortByName = sortBy<[string, PreferenceChild[]]>(([name]) => name);
+const sortByName = (array: [string, PreferenceChild[]][]) =>
+  sortBy(array, ([name]) => name);
 
 export const GamePreferencesPage = (props) => {
   const { act, data } = useBackend<PreferencesMenuData>();
@@ -28,14 +37,18 @@ export const GamePreferencesPage = (props) => {
   )) {
     const feature = features[featureId];
 
-    let nameInner: InfernoNode = feature?.name || featureId;
+    let nameInner: ReactNode = feature?.name || featureId;
 
     if (feature?.description) {
       nameInner = (
         <Box
           as="span"
           style={{
+<<<<<<< HEAD
             'border-bottom': '2px dotted rgba(255, 255, 255, 0.8)',
+=======
+            borderBottom: '2px dotted rgba(255, 255, 255, 0.8)',
+>>>>>>> tg-pr-88929
           }}
         >
           {nameInner}
@@ -43,7 +56,7 @@ export const GamePreferencesPage = (props) => {
       );
     }
 
-    let name: InfernoNode = (
+    let name: ReactNode = (
       <Flex.Item grow={1} pr={2} basis={0} ml={2}>
         {nameInner}
       </Flex.Item>
@@ -91,7 +104,11 @@ export const GamePreferencesPage = (props) => {
     );
   }
 
+<<<<<<< HEAD
   const gamePreferenceEntries: [string, InfernoNode][] = sortByName(
+=======
+  const gamePreferenceEntries: [string, ReactNode][] = sortByName(
+>>>>>>> tg-pr-88929
     Object.entries(gamePreferences),
   ).map(([category, preferences]) => {
     return [category, preferences.map((entry) => entry.children)];

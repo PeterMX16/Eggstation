@@ -52,16 +52,16 @@
 		/datum/reagent/medicine/syndicate_nanites\
 	)
 #define BASE_SERVICE_REAGENTS list(/datum/reagent/consumable/applejuice, /datum/reagent/consumable/banana,\
-		/datum/reagent/consumable/coffee, /datum/reagent/consumable/cream, /datum/reagent/consumable/dr_gibb,\
-		/datum/reagent/consumable/grenadine, /datum/reagent/consumable/ice, /datum/reagent/consumable/lemonjuice,\
-		/datum/reagent/consumable/lemon_lime, /datum/reagent/consumable/limejuice, /datum/reagent/consumable/menthol,\
-		/datum/reagent/consumable/milk, /datum/reagent/consumable/nothing, /datum/reagent/consumable/orangejuice,\
-		/datum/reagent/consumable/peachjuice, /datum/reagent/consumable/pineapplejuice,\
-		/datum/reagent/consumable/pwr_game, /datum/reagent/consumable/shamblers, /datum/reagent/consumable/sodawater,\
-		/datum/reagent/consumable/sol_dry, /datum/reagent/consumable/soymilk, /datum/reagent/consumable/space_cola,\
-		/datum/reagent/consumable/spacemountainwind, /datum/reagent/consumable/space_up, /datum/reagent/consumable/sugar,\
+		/datum/reagent/consumable/berryjuice, /datum/reagent/consumable/cherryjelly, /datum/reagent/consumable/coffee,\
+		/datum/reagent/consumable/cream, /datum/reagent/consumable/dr_gibb, /datum/reagent/consumable/grenadine,\
+		/datum/reagent/consumable/ice, /datum/reagent/consumable/lemon_lime, /datum/reagent/consumable/limejuice,\
+		/datum/reagent/consumable/lemonjuice, /datum/reagent/consumable/menthol, /datum/reagent/consumable/nothing,\
+		/datum/reagent/consumable/milk, /datum/reagent/consumable/orangejuice, /datum/reagent/consumable/peachjuice,\
+		/datum/reagent/consumable/pineapplejuice, /datum/reagent/consumable/pwr_game, /datum/reagent/consumable/shamblers,\
+		/datum/reagent/consumable/sodawater, /datum/reagent/consumable/sol_dry, /datum/reagent/consumable/soymilk,\
+		/datum/reagent/consumable/space_cola, /datum/reagent/consumable/spacemountainwind, /datum/reagent/consumable/space_up,\
 		/datum/reagent/consumable/tea, /datum/reagent/consumable/tomatojuice, /datum/reagent/consumable/tonic,\
-		/datum/reagent/water,\
+		/datum/reagent/consumable/vinegar, /datum/reagent/water,\
 		/datum/reagent/consumable/ethanol/ale, /datum/reagent/consumable/ethanol/applejack, /datum/reagent/consumable/ethanol/beer,\
 		/datum/reagent/consumable/ethanol/champagne, /datum/reagent/consumable/ethanol/cognac, /datum/reagent/consumable/ethanol/creme_de_coconut,\
 		/datum/reagent/consumable/ethanol/creme_de_cacao, /datum/reagent/consumable/ethanol/creme_de_menthe, /datum/reagent/consumable/ethanol/gin,\
@@ -69,9 +69,26 @@
 		/datum/reagent/consumable/ethanol/tequila, /datum/reagent/consumable/ethanol/triple_sec, /datum/reagent/consumable/ethanol/vermouth,\
 		/datum/reagent/consumable/ethanol/vodka, /datum/reagent/consumable/ethanol/whiskey, /datum/reagent/consumable/ethanol/wine,\
 	)
+#define EXPANDED_SERVICE_REAGENTS list(\
+	/datum/reagent/consumable/blackpepper,\
+	/datum/reagent/consumable/coco,\
+	/datum/reagent/consumable/cornmeal,\
+	/datum/reagent/consumable/nutriment/fat/oil,\
+	/datum/reagent/consumable/corn_starch,\
+	/datum/reagent/consumable/eggwhite,\
+	/datum/reagent/consumable/eggyolk,\
+	/datum/reagent/consumable/flour,\
+	/datum/reagent/consumable/rice,\
+	/datum/reagent/consumable/sugar,\
+	/datum/reagent/consumable/salt,\
+	/datum/reagent/consumable/vanilla,\
+)
 #define HACKED_SERVICE_REAGENTS list(\
+		/datum/reagent/blood,\
+		/datum/reagent/toxin/carpotoxin,\
 		/datum/reagent/toxin/fakebeer,\
 		/datum/reagent/consumable/ethanol/fernet,\
+<<<<<<< HEAD
 	)
 #define CENTCOM_SERVICE_REAGENTS list(\
 		/datum/reagent/consumable/icetea, /datum/reagent/consumable/melon_soda, /datum/reagent/consumable/bogril,\
@@ -79,6 +96,12 @@
 		/datum/reagent/consumable/ethanol/hcider, /datum/reagent/consumable/ethanol/beer/maltliquor, /datum/reagent/consumable/ethanol/navy_rum,\
 		/datum/reagent/consumable/ethanol/rice_beer, /datum/reagent/consumable/ethanol/yuyake, /datum/reagent/consumable/ethanol/wine_voltaic\
 	)
+=======
+)
+
+#define REAGENT_CONTAINER_INTERNAL "internal_beaker"
+#define REAGENT_CONTAINER_BEVAPPARATUS "beverage_apparatus"
+>>>>>>> tg-pr-88929
 
 ///Borg Hypospray
 /obj/item/reagent_containers/borghypo
@@ -98,7 +121,7 @@
 	 */
 	var/max_volume_per_reagent = 30
 	/// Cell cost for charging a reagent
-	var/charge_cost = 50
+	var/charge_cost = 0.05 * STANDARD_CELL_CHARGE
 	/// Counts up to the next time we charge
 	var/charge_timer = 0
 	/// Time it takes for shots to recharge (in seconds)
@@ -180,11 +203,11 @@
 		to_chat(user, span_notice("You inject [injectee] with the injector ([selected_reagent.name])."))
 
 		if(injectee.reagents)
-			hypospray_injector.trans_to(injectee, amount_per_transfer_from_this, transfered_by = user, methods = INJECT)
+			hypospray_injector.trans_to(injectee, amount_per_transfer_from_this, transferred_by = user, methods = INJECT)
 			balloon_alert(user, "[amount_per_transfer_from_this] unit\s injected")
 			log_combat(user, injectee, "injected", src, "(CHEMICALS: [selected_reagent])")
 	else
-		balloon_alert(user, "[parse_zone(user.zone_selected)] is blocked!")
+		balloon_alert(user, "[injectee.parse_zone_with_bodypart(user.zone_selected)] is blocked!")
 
 /obj/item/reagent_containers/borghypo/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
@@ -221,7 +244,6 @@
 		if(reagent.name == action)
 			selected_reagent = reagent
 			. = TRUE
-
 			var/mob/living/silicon/robot/cyborg = loc
 			if(istype(loc, /obj/item/robot_model))
 				var/obj/item/robot_model/container_model = loc
@@ -235,11 +257,9 @@
 	. += "Currently loaded: [selected_reagent ? "[selected_reagent]. [selected_reagent.description]" : "nothing."]"
 	. += span_notice("<i>Alt+Click</i> to change transfer amount. Currently set to [amount_per_transfer_from_this]u.")
 
-/obj/item/reagent_containers/borghypo/AltClick(mob/living/user)
-	. = ..()
-	if(user.stat == DEAD || user != loc)
-		return //IF YOU CAN HEAR ME SET MY TRANSFER AMOUNT TO 1
+/obj/item/reagent_containers/borghypo/click_alt(mob/living/user)
 	change_transfer_amount(user)
+	return CLICK_ACTION_SUCCESS
 
 /// Default Medborg Hypospray
 /obj/item/reagent_containers/borghypo/medical
@@ -268,6 +288,7 @@
 	icon_state = "borghypo_s"
 	tgui_theme = "syndicate"
 	default_reagent_types = HACKED_MEDICAL_REAGENTS
+	expanded_reagent_types = null
 
 /// Peacekeeper hypospray
 /obj/item/reagent_containers/borghypo/peace
@@ -299,7 +320,7 @@
 		Also metabolizes potassium iodide for radiation poisoning, inacusiate for ear damage and morphine for offense."
 	icon_state = "borghypo_s"
 	tgui_theme = "syndicate"
-	charge_cost = 20
+	charge_cost = 0.02 * STANDARD_CELL_CHARGE
 	recharge_time = 2
 	default_reagent_types = BASE_SYNDICATE_REAGENTS
 	bypass_protection = TRUE
@@ -310,12 +331,14 @@
 	desc = "An advanced drink synthesizer and mixer."
 	icon = 'icons/obj/drinks/bottles.dmi'
 	icon_state = "shaker"
-	possible_transfer_amounts = list(5,10,20)
+	possible_transfer_amounts = list(5,10,20,1)
 	// Lots of reagents all regenerating at once, so the charge cost is lower. They also regenerate faster.
-	charge_cost = 20
+	charge_cost = 0.02 * STANDARD_CELL_CHARGE
 	recharge_time = 3
 	dispensed_temperature = WATER_MATTERSTATE_CHANGE_TEMP //Water stays wet, ice stays ice
 	default_reagent_types = BASE_SERVICE_REAGENTS
+	expanded_reagent_types = EXPANDED_SERVICE_REAGENTS
+	var/reagent_search_container = REAGENT_CONTAINER_BEVAPPARATUS
 
 /obj/item/reagent_containers/borghypo/borgshaker/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
@@ -323,10 +346,30 @@
 		ui = new(user, src, "BorgShaker", name)
 		ui.open()
 
+/obj/item/reagent_containers/borghypo/borgshaker/ui_act(action, params)
+	. = ..()
+	if(.)
+		return
+	var/mob/living/silicon/robot/user = usr
+	switch(action)
+		if("reaction_lookup")
+			if(!iscyborg(usr))
+				return
+			if (reagent_search_container == REAGENT_CONTAINER_BEVAPPARATUS)
+				var/obj/item/borg/apparatus/beaker/service/beverage_apparatus = (locate() in user.model.modules) || (locate() in user.held_items)
+				if (!isnull(beverage_apparatus) && !isnull(beverage_apparatus.stored))
+					beverage_apparatus.stored.reagents.ui_interact(user)
+			else if (reagent_search_container == REAGENT_CONTAINER_INTERNAL)
+				var/obj/item/reagent_containers/cup/beaker/large/internal_beaker = (locate() in user.model.modules) || (locate() in user.held_items)
+				if (!isnull(internal_beaker))
+					internal_beaker.reagents.ui_interact(user)
+		if ("set_preferred_container")
+			reagent_search_container = params["value"]
+	return TRUE
+
 /obj/item/reagent_containers/borghypo/borgshaker/ui_data(mob/user)
 	var/list/drink_reagents = list()
 	var/list/alcohol_reagents = list()
-
 	for(var/datum/reagent/reagent in stored_reagents.reagent_list)
 		// Split the reagents into alcoholic/non-alcoholic
 		if(istype(reagent, /datum/reagent/consumable/ethanol))
@@ -346,6 +389,17 @@
 	data["sodas"] = drink_reagents
 	data["alcohols"] = alcohol_reagents
 	data["selectedReagent"] = selected_reagent?.name
+	data["reagentSearchContainer"] = reagent_search_container
+
+	if(iscyborg(user))
+		var/mob/living/silicon/robot/cyborg = user
+		var/obj/item/borg/apparatus/beaker/service/beverage_apparatus = (locate() in cyborg.model.modules) || (locate() in cyborg.held_items)
+
+		if (isnull(beverage_apparatus))
+			to_chat(user, span_warning("This unit has no beverage apparatus. This shouldn't be possible. Delete yourself, NOW!"))
+			data["apparatusHasItem"] = FALSE
+		else
+			data["apparatusHasItem"] = !isnull(beverage_apparatus.stored)
 	return data
 
 /obj/item/reagent_containers/borghypo/borgshaker/attack(mob/M, mob/user)
@@ -370,7 +424,11 @@
 	stored_reagents.remove_reagent(selected_reagent.type, amount_per_transfer_from_this)
 	shaker.add_reagent(selected_reagent.type, amount_per_transfer_from_this, reagtemp = dispensed_temperature, no_react = TRUE)
 
+<<<<<<< HEAD
 	shaker.trans_to(interacting_with, amount_per_transfer_from_this, transfered_by = user)
+=======
+	shaker.trans_to(interacting_with, amount_per_transfer_from_this, transferred_by = user)
+>>>>>>> tg-pr-88929
 	balloon_alert(user, "[amount_per_transfer_from_this] unit\s poured")
 	return ITEM_INTERACT_SUCCESS
 
@@ -382,10 +440,17 @@
 	icon_state = "flour"
 	possible_transfer_amounts = list(5,10,20,1)
 	// Lots of reagents all regenerating at once, so the charge cost is lower. They also regenerate faster.
+<<<<<<< HEAD
 	charge_cost = 40 //Costs double the power of the borgshaker due to synthesizing solids
 	recharge_time = 6 //Double the recharge time too, for the same reason.
 	dispensed_temperature = WATER_MATTERSTATE_CHANGE_TEMP
 	default_reagent_types = HACKED_SERVICE_REAGENTS
+=======
+	charge_cost = 0.04 * STANDARD_CELL_CHARGE //Costs double the power of the borgshaker due to synthesizing solids
+	recharge_time = 6 //Double the recharge time too, for the same reason.
+	dispensed_temperature = WATER_MATTERSTATE_CHANGE_TEMP
+	default_reagent_types = EXPANDED_SERVICE_REAGENTS
+>>>>>>> tg-pr-88929
 
 /obj/item/reagent_containers/borghypo/condiment_synthesizer/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
@@ -431,7 +496,11 @@
 	var/datum/reagents/shaker = new()
 	stored_reagents.remove_reagent(selected_reagent.type, amount_per_transfer_from_this)
 	shaker.add_reagent(selected_reagent.type, amount_per_transfer_from_this, reagtemp = dispensed_temperature, no_react = TRUE)
+<<<<<<< HEAD
 	shaker.trans_to(interacting_with, amount_per_transfer_from_this, transfered_by = user)
+=======
+	shaker.trans_to(interacting_with, amount_per_transfer_from_this, transferred_by = user)
+>>>>>>> tg-pr-88929
 	balloon_alert(user, "[amount_per_transfer_from_this] unit\s poured")
 	return ITEM_INTERACT_SUCCESS
 
@@ -444,6 +513,7 @@
 	dispensed_temperature = WATER_MATTERSTATE_CHANGE_TEMP
 	default_reagent_types = HACKED_SERVICE_REAGENTS
 
+<<<<<<< HEAD
 /obj/item/reagent_containers/borghypo/borgshaker/centcom
 	max_volume_per_reagent = 50
 	charge_cost = 5
@@ -453,6 +523,10 @@
 	default_reagent_types += CENTCOM_SERVICE_REAGENTS
 	. = ..()
 
+=======
+#undef REAGENT_CONTAINER_INTERNAL
+#undef REAGENT_CONTAINER_BEVAPPARATUS
+>>>>>>> tg-pr-88929
 #undef BASE_MEDICAL_REAGENTS
 #undef EXPANDED_MEDICAL_REAGENTS
 #undef HACKED_MEDICAL_REAGENTS
@@ -462,4 +536,5 @@
 #undef HACKED_CLOWN_REAGENTS
 #undef BASE_SYNDICATE_REAGENTS
 #undef BASE_SERVICE_REAGENTS
+#undef EXPANDED_SERVICE_REAGENTS
 #undef HACKED_SERVICE_REAGENTS

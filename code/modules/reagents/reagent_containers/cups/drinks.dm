@@ -5,7 +5,7 @@
 	name = "drink"
 	desc = "yummy"
 	icon = 'icons/obj/drinks/drinks.dmi'
-	icon_state = null
+	icon_state = "glass_empty"
 	possible_transfer_amounts = list(5,10,15,20,25,30,50)
 	resistance_flags = NONE
 
@@ -15,7 +15,8 @@
 /obj/item/reagent_containers/cup/glass/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum, do_splash = TRUE)
 	. = ..()
 	if(!.) //if the bottle wasn't caught
-		smash(hit_atom, throwingdatum?.thrower, TRUE)
+		var/mob/thrower = throwingdatum?.get_thrower()
+		smash(hit_atom, thrower, TRUE)
 
 /obj/item/reagent_containers/cup/glass/proc/smash(atom/target, mob/thrower, ranged = FALSE, break_top = FALSE)
 	if(!isGlass)
@@ -30,11 +31,11 @@
 	qdel(src)
 	target.Bumped(B)
 
-/obj/item/reagent_containers/cup/glass/bullet_act(obj/projectile/P)
+/obj/item/reagent_containers/cup/glass/bullet_act(obj/projectile/proj)
 	. = ..()
 	if(QDELETED(src))
 		return
-	if(P.damage > 0 && P.damage_type == BRUTE)
+	if(proj.damage > 0 && proj.damage_type == BRUTE)
 		var/atom/T = get_turf(src)
 		smash(T)
 
@@ -49,9 +50,13 @@
 	throwforce = 1
 	amount_per_transfer_from_this = 5
 	custom_materials = list(/datum/material/iron=SMALL_MATERIAL_AMOUNT)
+<<<<<<< HEAD
 	possible_transfer_amounts = list(5)
+=======
+	has_variable_transfer_amount = FALSE
+>>>>>>> tg-pr-88929
 	volume = 5
-	flags_1 = CONDUCT_1
+	obj_flags = CONDUCTS_ELECTRICITY
 	spillable = TRUE
 	resistance_flags = FIRE_PROOF
 	isGlass = FALSE
@@ -121,10 +126,10 @@
 	. += span_notice("Alt-click to toggle cup lid.")
 	return
 
-/obj/item/reagent_containers/cup/glass/coffee/AltClick(mob/user)
+/obj/item/reagent_containers/cup/glass/coffee/click_alt(mob/user)
 	lid_open = !lid_open
 	update_icon_state()
-	return ..()
+	return CLICK_ACTION_SUCCESS
 
 /obj/item/reagent_containers/cup/glass/coffee/update_icon_state()
 	if(lid_open)
@@ -234,6 +239,7 @@
 	var/mutable_appearance/cap_overlay
 	var/flip_chance = 10
 	custom_price = PAYCHECK_LOWER * 0.8
+	reagent_container_liquid_sound = SFX_PLASTIC_BOTTLE_LIQUID_SLOSH
 
 /obj/item/reagent_containers/cup/glass/waterbottle/Initialize(mapload)
 	cap_overlay = mutable_appearance(cap_icon, cap_icon_state)
@@ -256,11 +262,10 @@
 	else
 		. += span_notice("The cap has been taken off. Alt-click to put a cap on.")
 
-/obj/item/reagent_containers/cup/glass/waterbottle/AltClick(mob/user)
-	. = ..()
+/obj/item/reagent_containers/cup/glass/waterbottle/click_alt(mob/user)
 	if(cap_lost)
 		to_chat(user, span_warning("The cap seems to be missing! Where did it go?"))
-		return
+		return CLICK_ACTION_BLOCKING
 
 	var/fumbled = HAS_TRAIT(user, TRAIT_CLUMSY) && prob(5)
 	if(cap_on || fumbled)
@@ -272,12 +277,14 @@
 			cap_lost = TRUE
 		else
 			to_chat(user, span_notice("You remove the cap from [src]."))
-			playsound(loc, 'sound/effects/can_open1.ogg', 50, TRUE)
+			playsound(loc, 'sound/items/handling/reagent_containers/plastic_bottle/bottle_cap_open.ogg', 50, TRUE)
 	else
 		cap_on = TRUE
 		spillable = FALSE
 		to_chat(user, span_notice("You put the cap on [src]."))
+		playsound(loc, 'sound/items/handling/reagent_containers/plastic_bottle/bottle_cap_close.ogg', 50, TRUE)
 	update_appearance()
+	return CLICK_ACTION_SUCCESS
 
 /obj/item/reagent_containers/cup/glass/waterbottle/is_refillable()
 	if(cap_on)
@@ -300,7 +307,11 @@
 	return ..()
 
 /obj/item/reagent_containers/cup/glass/waterbottle/interact_with_atom(atom/target, mob/living/user, list/modifiers)
+<<<<<<< HEAD
 	if(cap_on && (target.is_refillable() || target.is_drainable() || (reagents.total_volume && !(user.istate & ISTATE_HARM))))
+=======
+	if(cap_on && (target.is_refillable() || target.is_drainable() || (reagents.total_volume && !user.combat_mode)))
+>>>>>>> tg-pr-88929
 		to_chat(user, span_warning("You must remove the cap before you can do that!"))
 		return ITEM_INTERACT_BLOCKING
 
@@ -321,10 +332,10 @@
 		return
 	if(prob(flip_chance)) // landed upright
 		src.visible_message(span_notice("[src] lands upright!"))
-		if(throwingdatum.thrower)
-			var/mob/living/living_thrower = throwingdatum.thrower
-			living_thrower.add_mood_event("bottle_flip", /datum/mood_event/bottle_flip)
-	else // landed on it's side
+		var/mob/living/thrower = throwingdatum?.get_thrower()
+		if(thrower)
+			thrower.add_mood_event("bottle_flip", /datum/mood_event/bottle_flip)
+	else // landed on its side
 		animate(src, transform = matrix(prob(50)? 90 : -90, MATRIX_ROTATE), time = 3, loop = 0)
 
 /obj/item/reagent_containers/cup/glass/waterbottle/pickup(mob/user)
@@ -451,6 +462,10 @@
 	amount_per_transfer_from_this = 10
 	volume = 100
 	isGlass = FALSE
+<<<<<<< HEAD
+=======
+	interaction_flags_click = NEED_HANDS|FORBID_TELEKINESIS_REACH
+>>>>>>> tg-pr-88929
 	/// Whether or not poured drinks should use custom names and descriptions
 	var/using_custom_drinks = FALSE
 	/// Name custom drinks will have
@@ -462,8 +477,8 @@
 	. = ..()
 	register_context()
 	if(prob(10))
-		name = "\improper NanoTrasen 20th Anniversary Shaker"
-		desc += " It has an emblazoned NanoTrasen logo on it."
+		name = "\improper Nanotrasen 20th Anniversary Shaker"
+		desc += " It has an emblazoned Nanotrasen logo on it."
 		icon_state = "shaker_n"
 
 /obj/item/reagent_containers/cup/glass/shaker/add_context(atom/source, list/context, obj/item/held_item, mob/user)
@@ -478,34 +493,56 @@
 		. += span_notice("Drinks poured from this shaker will have the following name: [custom_drink_name]")
 		. += span_notice("Drinks poured from this shaker will have the following description: [custom_drink_desc]")
 
+<<<<<<< HEAD
 /obj/item/reagent_containers/cup/glass/shaker/AltClick(mob/user)
 	. = ..()
 	if(!user.can_perform_action(src, NEED_HANDS|FORBID_TELEKINESIS_REACH))
 		return
 
+=======
+/obj/item/reagent_containers/cup/glass/shaker/click_alt(mob/user)
+>>>>>>> tg-pr-88929
 	if(using_custom_drinks)
 		using_custom_drinks = FALSE
 		disable_custom_drinks()
 		balloon_alert(user, "custom drinks disabled")
+<<<<<<< HEAD
 		return
+=======
+		return CLICK_ACTION_BLOCKING
+>>>>>>> tg-pr-88929
 
 	var/new_name = reject_bad_text(tgui_input_text(user, "Drink name", "Set drink name", custom_drink_name, 45, FALSE), 64)
 	if(!new_name)
 		balloon_alert(user, "invalid drink name!")
 		using_custom_drinks = FALSE
+<<<<<<< HEAD
 		return
 
 	if(!user.can_perform_action(src, NEED_HANDS|FORBID_TELEKINESIS_REACH))
 		return
+=======
+		return CLICK_ACTION_BLOCKING
+
+	if(!user.can_perform_action(src, NEED_HANDS|FORBID_TELEKINESIS_REACH))
+		return CLICK_ACTION_BLOCKING
+>>>>>>> tg-pr-88929
 
 	var/new_desc = reject_bad_text(tgui_input_text(user, "Drink description", "Set drink description", custom_drink_desc, 64, TRUE), 128)
 	if(!new_desc)
 		balloon_alert(user, "invalid drink description!")
 		using_custom_drinks = FALSE
+<<<<<<< HEAD
 		return
 
 	if(!user.can_perform_action(src, NEED_HANDS|FORBID_TELEKINESIS_REACH))
 		return
+=======
+		return CLICK_ACTION_BLOCKING
+
+	if(!user.can_perform_action(src, NEED_HANDS|FORBID_TELEKINESIS_REACH))
+		return CLICK_ACTION_BLOCKING
+>>>>>>> tg-pr-88929
 
 	using_custom_drinks = TRUE
 	custom_drink_name = new_name
@@ -513,6 +550,10 @@
 
 	enable_custom_drinks()
 	balloon_alert(user, "now pouring custom drinks")
+<<<<<<< HEAD
+=======
+	return CLICK_ACTION_SUCCESS
+>>>>>>> tg-pr-88929
 
 /obj/item/reagent_containers/cup/glass/shaker/proc/enable_custom_drinks()
 	RegisterSignal(src, COMSIG_REAGENTS_CUP_TRANSFER_TO, PROC_REF(handle_transfer))

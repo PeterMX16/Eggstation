@@ -1,16 +1,23 @@
 //Chaplain Suit Subtypes
 //If any new staple chaplain items get added, put them in these lists
 /obj/item/clothing/suit/chaplainsuit
+<<<<<<< HEAD
 	allowed = list(/obj/item/book/bible, /obj/item/nullrod, /obj/item/reagent_containers/cup/glass/bottle/holywater, /obj/item/storage/fancy/candle_box, /obj/item/flashlight/flare/candle, /obj/item/tank/internals/emergency_oxygen, /obj/item/tank/internals/plasmaman)
+=======
+	allowed = null
+>>>>>>> tg-pr-88929
 	icon = 'icons/obj/clothing/suits/chaplain.dmi'
 	worn_icon = 'icons/mob/clothing/suits/chaplain.dmi'
+
+/obj/item/clothing/suit/chaplainsuit/Initialize(mapload)
+	. = ..()
+	allowed = GLOB.chaplain_suit_allowed
 
 /obj/item/clothing/suit/chaplainsuit/armor
 	body_parts_covered = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
 
 
 	armor_type = /datum/armor/chaplainsuit_armor
-	clothing_flags = BLOCKS_SHOVE_KNOCKDOWN
 	strip_delay = 80
 	equip_delay_other = 60
 
@@ -24,7 +31,15 @@
 	wound = 20
 
 /obj/item/clothing/suit/hooded/chaplainsuit
+<<<<<<< HEAD
 	allowed = list(/obj/item/book/bible, /obj/item/nullrod, /obj/item/reagent_containers/cup/glass/bottle/holywater, /obj/item/storage/fancy/candle_box, /obj/item/flashlight/flare/candle, /obj/item/tank/internals/emergency_oxygen, /obj/item/tank/internals/plasmaman)
+=======
+	allowed = null
+
+/obj/item/clothing/suit/hooded/chaplainsuit/Initialize(mapload)
+	. = ..()
+	allowed = GLOB.chaplain_suit_allowed
+>>>>>>> tg-pr-88929
 
 //Suits
 /obj/item/clothing/suit/chaplainsuit/holidaypriest
@@ -33,7 +48,7 @@
 	icon_state = "holidaypriest"
 	inhand_icon_state = "w_suit"
 	body_parts_covered = CHEST|GROIN|LEGS|ARMS
-	flags_inv = HIDEJUMPSUIT
+	flags_inv = HIDEJUMPSUIT|HIDEBELT
 
 /obj/item/clothing/suit/chaplainsuit/nun
 	name = "nun robe"
@@ -41,7 +56,15 @@
 	icon_state = "nun"
 	inhand_icon_state = "nun"
 	body_parts_covered = CHEST|GROIN|LEGS|ARMS|HANDS
-	flags_inv = HIDEJUMPSUIT
+	flags_inv = HIDEJUMPSUIT|HIDEBELT
+
+/obj/item/clothing/suit/chaplainsuit/habit
+	name = "religious tunic"
+	desc = "No nunsene clothing."
+	icon_state = "habit"
+	alternate_worn_layer = GLOVES_LAYER // since the sleeves cover a part of the hands, this way it looks better while retaining glove overlay correctly.
+	body_parts_covered = CHEST|GROIN|LEGS|ARMS|HANDS
+	flags_inv = HIDEJUMPSUIT|HIDEBELT
 
 /obj/item/clothing/suit/chaplainsuit/bishoprobe
 	name = "bishop's robes"
@@ -49,7 +72,7 @@
 	icon_state = "bishoprobe"
 	inhand_icon_state = "bishoprobe"
 	body_parts_covered = CHEST|GROIN|LEGS|ARMS
-	flags_inv = HIDEJUMPSUIT
+	flags_inv = HIDEJUMPSUIT|HIDEBELT
 
 /obj/item/clothing/suit/chaplainsuit/armor/studentuni
 	name = "student robe"
@@ -91,7 +114,7 @@
 	icon_state = "monkrobeeast"
 	inhand_icon_state = null
 	body_parts_covered = GROIN|LEGS
-	flags_inv = HIDEJUMPSUIT
+	flags_inv = HIDEJUMPSUIT|HIDEBELT
 
 /obj/item/clothing/suit/chaplainsuit/whiterobe
 	name = "white robe"
@@ -99,7 +122,7 @@
 	icon_state = "whiterobe"
 	inhand_icon_state = null
 	body_parts_covered = CHEST|GROIN|LEGS|ARMS
-	flags_inv = HIDEJUMPSUIT
+	flags_inv = HIDEJUMPSUIT|HIDEBELT
 
 /obj/item/clothing/suit/chaplainsuit/clownpriest
 	name = "Robes of the Honkmother"
@@ -107,7 +130,7 @@
 	icon_state = "clownpriest"
 	inhand_icon_state = "clownpriest"
 	body_parts_covered = CHEST|GROIN|LEGS|ARMS
-	flags_inv = HIDEJUMPSUIT
+	flags_inv = HIDEJUMPSUIT|HIDEBELT
 	allowed = list(/obj/item/megaphone/clown, /obj/item/soap, /obj/item/food/pie/cream, /obj/item/bikehorn, /obj/item/bikehorn/golden, /obj/item/bikehorn/airhorn, /obj/item/instrument/bikehorn, /obj/item/reagent_containers/cup/soda_cans/canned_laughter, /obj/item/toy/crayon, /obj/item/toy/crayon/spraycan, /obj/item/toy/crayon/spraycan/lubecan, /obj/item/grown/bananapeel, /obj/item/food/grown/banana)
 
 /obj/item/clothing/head/helmet/chaplain/clock
@@ -134,9 +157,15 @@
 	desc = "It sounds like hissing steam, ticking cogs, gone silent, It looks like a dead machine, trying to tick with life."
 	icon_state = "clockwork_cuirass"
 	inhand_icon_state = null
+<<<<<<< HEAD
 	allowed = list(/obj/item/book/bible, /obj/item/nullrod, /obj/item/reagent_containers/cup/glass/bottle/holywater, /obj/item/storage/fancy/candle_box, /obj/item/flashlight/flare/candle, /obj/item/tank/internals/emergency_oxygen, /obj/item/tank/internals/plasmaman)
+=======
+>>>>>>> tg-pr-88929
 	slowdown = 0
-	clothing_flags = NONE
+
+/obj/item/clothing/suit/chaplainsuit/armor/clock/Initialize(mapload)
+	. = ..()
+	AddComponent(/datum/component/item_equipped_movement_rustle, SFX_PLATE_ARMOR_RUSTLE, 8)
 
 /obj/item/clothing/head/helmet/chaplain
 	name = "crusader helmet"
@@ -164,9 +193,15 @@
 	desc = "God wills it!"
 	icon_state = "knight_templar"
 	inhand_icon_state = null
+<<<<<<< HEAD
 	allowed = list(/obj/item/book/bible, /obj/item/nullrod, /obj/item/reagent_containers/cup/glass/bottle/holywater, /obj/item/storage/fancy/candle_box, /obj/item/flashlight/flare/candle, /obj/item/tank/internals/emergency_oxygen, /obj/item/tank/internals/plasmaman)
+=======
+>>>>>>> tg-pr-88929
 	slowdown = 0
-	clothing_flags = NONE
+
+/obj/item/clothing/suit/chaplainsuit/armor/templar/Initialize(mapload)
+	. = ..()
+	AddComponent(/datum/component/item_equipped_movement_rustle, SFX_PLATE_ARMOR_RUSTLE, 8)
 
 /obj/item/clothing/head/helmet/chaplain/cage
 	name = "cage"
@@ -187,6 +222,10 @@
 	desc = "Defend the treasure..."
 	icon_state = "knight_ancient"
 	inhand_icon_state = null
+
+/obj/item/clothing/suit/chaplainsuit/armor/ancient/Initialize(mapload)
+	. = ..()
+	AddComponent(/datum/component/item_equipped_movement_rustle, SFX_PLATE_ARMOR_RUSTLE, 8)
 
 /obj/item/clothing/head/helmet/chaplain/witchunter_hat
 	name = "witchunter hat"
@@ -211,13 +250,18 @@
 	inhand_icon_state = null
 
 /obj/item/clothing/suit/chaplainsuit/armor/crusader
-	name = "Crusader's Armour"
+	name = "crusader's armour"
 	desc = "Armour that's comprised of metal and cloth."
 	icon_state = "crusader"
 	w_class = WEIGHT_CLASS_BULKY
 	slowdown = 2.0 //gotta pretend we're balanced.
 	body_parts_covered = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
 	armor_type = /datum/armor/armor_crusader
+
+/obj/item/clothing/suit/chaplainsuit/armor/crusader/Initialize(mapload)
+	. = ..()
+	AddComponent(/datum/component/item_equipped_movement_rustle, SFX_PLATE_ARMOR_RUSTLE, 8)
+
 
 /datum/armor/armor_crusader
 	melee = 50
@@ -242,8 +286,16 @@
 	worn_icon = 'icons/mob/clothing/suits/chaplain.dmi'
 	inhand_icon_state = null
 	body_parts_covered = CHEST|GROIN|LEGS|ARMS
+<<<<<<< HEAD
 	allowed = list(/obj/item/book/bible, /obj/item/nullrod, /obj/item/reagent_containers/cup/glass/bottle/holywater, /obj/item/storage/fancy/candle_box, /obj/item/flashlight/flare/candle, /obj/item/tank/internals/emergency_oxygen, /obj/item/tank/internals/plasmaman)
+=======
+	allowed = null
+>>>>>>> tg-pr-88929
 	hoodtype = /obj/item/clothing/head/hooded/chaplain_hood
+
+/obj/item/clothing/suit/hooded/chaplain_hoodie/Initialize(mapload)
+	. = ..()
+	allowed = GLOB.chaplain_suit_allowed
 
 /obj/item/clothing/head/hooded/chaplain_hood
 	name = "follower hood"
@@ -272,6 +324,7 @@
 	icon_state = "shrinehand"
 	inhand_icon_state = "shrinehand"
 	body_parts_covered = CHEST|GROIN|LEGS|ARMS
+<<<<<<< HEAD
 	flags_inv = HIDEJUMPSUIT
 
 /obj/item/clothing/suit/chaplainsuit/technotao
@@ -280,3 +333,6 @@
 	icon_state = "technotao"
 	body_parts_covered = CHEST|GROIN|LEGS|ARMS
 	flags_inv = HIDEJUMPSUIT
+=======
+	flags_inv = HIDEJUMPSUIT|HIDEBELT
+>>>>>>> tg-pr-88929

@@ -48,6 +48,7 @@
 	name = "My Watchlist Status is Not Important"
 	desc = "You may be under the impression that violent video games are a harmless pastime, but the security and medical personnel swarming your location with batons and knockout gas look like they disagree."
 	database_id = MEDAL_GAMER
+	icon_state = "live_sec_reaction"
 
 /datum/award/achievement/misc/vendor_squish
 	name = "I Was a Teenage Anarchist"
@@ -68,11 +69,16 @@
 	name = "One Lean, Mean, Cleaning Machine"
 	desc = "How does it feel to know that your workplace values a mop bucket on wheels more than you?" // i can do better than this give me time
 	database_id = MEDAL_CLEANBOSS
+	icon_state = "cleanboss"
 
 /datum/award/achievement/misc/rule8
 	name = "Rule 3"
 	desc = "Call an admin this is ILLEGAL!!"
+<<<<<<< HEAD
 	database_id = MEDAL_RULE8 //blame tg lmao
+=======
+	database_id = MEDAL_RULE8
+>>>>>>> tg-pr-88929
 	icon_state = "rule8"
 
 /datum/award/achievement/misc/speed_round
@@ -135,6 +141,15 @@
 	database_id = MEDAL_COSMOS_ASCENSION
 	icon_state = "cosmicascend"
 
+<<<<<<< HEAD
+=======
+/datum/award/achievement/misc/lock_ascension
+	name = "Secrets of the Locked Labyrinth"
+	desc = "You managed to open a gate into the mansus."
+	database_id = MEDAL_LOCK_ASCENSION
+	icon_state = "lockascend"
+
+>>>>>>> tg-pr-88929
 /datum/award/achievement/misc/moon_ascension
 	name = "The Last Act"
 	desc = "You managed to become the ringleader and slay the lie."
@@ -146,12 +161,15 @@
 	desc = "Made a big impression on the station with your phenomenal cosmic power."
 	database_id = MEDAL_ARCHMAGE
 	icon_state = "archmage"
+<<<<<<< HEAD
 
 /datum/award/achievement/misc/knock_ascension
 	name = "Secrets behind the Spider Door"
 	desc = "You managed to open a gate into the mansus."
 	database_id = MEDAL_KNOCK_ASCENSION
 	icon_state = "knockascend"
+=======
+>>>>>>> tg-pr-88929
 
 /datum/award/achievement/misc/toolbox_soul
 	name = "SOUL'd Out"
@@ -207,14 +225,49 @@
 	database_id = MEDAL_HEALTHY
 	icon_state = "picofhealth"
 
+<<<<<<< HEAD
+=======
+/datum/award/achievement/misc/gods_wrath
+	name = "God's Wrath"
+	desc = "Did you think you could get away with defiling the word of God?"
+	database_id = MEDAL_GODS_WRATH
+	icon_state = "godswrath"
+
+/datum/award/achievement/misc/earthquake_victim
+	name = "A Nasty Fall"
+	desc = "...And the earth opened its mouth and swallowed them and their station- all the HOP's men and all their possessions."
+	database_id = MEDAL_EARTHQUAKE_VICTIM
+	icon_state = "earthquake"
+
+>>>>>>> tg-pr-88929
 /datum/award/achievement/misc/debt_extinguished
 	name = "Outdebted"
 	desc = "I've paid my dues, shift after shift... I've done my sentence but commited no griff..."
 	database_id = MEDAL_DEBT_EXTINGUISHED
 	icon_state = "outdebted"
 
+<<<<<<< HEAD
 /datum/award/achievement/misc/gods_wrath
 	name = "God's Wrath"
 	desc = "Did you think you could get away with defiling the word of God?"
 	database_id = MEDAL_GODS_WRATH
 	icon_state = "godswrath"
+=======
+/datum/award/achievement/misc/sisyphus
+	name = "Ordeal of Sisyphus"
+	desc = "Successfully carry a boulder from Lavaland all the way to Centcom, without ever dropping it. We must imagine you're happy to unlock this."
+	database_id = MEDAL_SISYPHUS
+	icon_state = "sisyphus"
+
+/datum/award/achievement/misc/cigarettes
+	name = "Unhealthy Snacks"
+	desc = "You were curious to taste it. And then another. You must have more!"
+	database_id = MEDAL_CIGARETTES
+	icon_state = "cigarettes"
+
+/datum/award/achievement/misc/sharkdragon
+	name = "You're What You Eat"
+	desc = "Nutritionists often recommend a balanced and varied diet. However that clearly isn't the case for some creatures."
+	database_id = MEDAL_SHARKDRAGON
+	icon_state = "dragon_plus_fish"
+>>>>>>> tg-pr-88929

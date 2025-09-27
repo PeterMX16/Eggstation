@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { BooleanLike } from 'common/react';
+=======
+import { BooleanLike } from 'tgui-core/react';
+>>>>>>> tg-pr-88929
 
 export type SubsystemData = {
   can_fire: BooleanLike;
@@ -11,7 +15,11 @@ export type SubsystemData = {
   name: string;
   next_fire: number;
   ref: string;
+<<<<<<< HEAD
   overtime: number;
+=======
+  tick_overrun: number;
+>>>>>>> tg-pr-88929
   tick_usage: number;
   usage_per_tick: number;
 };

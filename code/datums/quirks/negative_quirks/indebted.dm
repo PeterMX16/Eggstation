@@ -2,7 +2,11 @@
 	name = "Indebted"
 	desc = "Bad life decisions, medical bills, student loans, whatever it may be, you've incurred quite the debt. A portion of all you receive will go towards extinguishing it."
 	icon = FA_ICON_DOLLAR
+<<<<<<< HEAD
 	quirk_flags = QUIRK_HUMAN_ONLY | QUIRK_HIDE_FROM_SCAN
+=======
+	quirk_flags = QUIRK_HUMAN_ONLY|QUIRK_HIDE_FROM_SCAN
+>>>>>>> tg-pr-88929
 	value = -2
 	medical_record_text = "Alas, the patient struggled to scrape together enough money to pay the checkup bill."
 	hardcore_value = 2
@@ -30,7 +34,11 @@
 		quirk_holder.client.give_award(/datum/award/achievement/misc/debt_extinguished, quirk_holder)
 	podspawn(list(
 		"target" = get_turf(quirk_holder),
+<<<<<<< HEAD
 		"style" = STYLE_BLUESPACE,
+=======
+		"style" = /datum/pod_style/advanced,
+>>>>>>> tg-pr-88929
 		"spawn" = /obj/item/clothing/accessory/debt_payer_pin,
 	))
 

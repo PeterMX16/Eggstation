@@ -60,14 +60,19 @@
 	desc = "A dark colored uniform worn by CentCom's conscripted military forces."
 	icon_state = "military"
 	inhand_icon_state = "bl_suit"
+<<<<<<< HEAD
 	armor_type = /datum/armor/centcom_military
 	can_adjust = FALSE //monkestation edit
+=======
+	can_adjust = FALSE
+	armor_type = /datum/armor/clothing_under/centcom_military
+>>>>>>> tg-pr-88929
 
-/datum/armor/centcom_military
+/datum/armor/clothing_under/centcom_military
 	melee = 10
-	bio = 10
 	fire = 50
 	acid = 40
+	wound = 10
 
 /obj/item/clothing/under/rank/centcom/military/eng
 	name = "tactical engineering uniform"

@@ -1,5 +1,17 @@
-import { InfernoNode } from 'inferno';
+import { ReactNode, useState } from 'react';
+import {
+  Box,
+  Button,
+  Flex,
+  Input,
+  LabeledList,
+  Section,
+  Stack,
+  Tooltip,
+} from 'tgui-core/components';
+
 import { useBackend, useLocalState } from '../../backend';
+<<<<<<< HEAD
 import {
   Box,
   Button,
@@ -10,6 +22,8 @@ import {
   Stack,
   Tooltip,
 } from '../../components';
+=======
+>>>>>>> tg-pr-88929
 
 /**
  * This describes something that influences a particular reaction
@@ -46,7 +60,11 @@ type Gas = {
 };
 
 const GasSearchBar = (props: {
+<<<<<<< HEAD
   title: InfernoNode;
+=======
+  title: ReactNode;
+>>>>>>> tg-pr-88929
   onChange: (inputValue: string) => void;
   activeInput: boolean;
   setActiveInput: (toggle: boolean) => void;
@@ -81,11 +99,15 @@ const GasHandbook = (props) => {
   const [activeReactionId, setActiveReactionId] = useLocalState(
     'activeReactionId',
     '',
+<<<<<<< HEAD
   );
   const [gasActiveInput, setGasActiveInput] = useLocalState(
     'gasActiveInput',
     false,
+=======
+>>>>>>> tg-pr-88929
   );
+  const [gasActiveInput, setGasActiveInput] = useState(false);
   const relevantGas = gasInfo.find((gas) => gas.id === activeGasId);
   return (
     <Section
@@ -134,11 +156,15 @@ const ReactionHandbook = (props) => {
   const [activeReactionId, setActiveReactionId] = useLocalState(
     'activeReactionId',
     '',
+<<<<<<< HEAD
   );
   const [reactionActiveInput, setReactionActiveInput] = useLocalState(
     'reactionActiveInput',
     false,
+=======
+>>>>>>> tg-pr-88929
   );
+  const [reactionActiveInput, setReactionActiveInput] = useState(false);
   const relevantReaction = reactionInfo?.find(
     (reaction) => reaction.id === activeReactionId,
   );
@@ -181,7 +207,11 @@ const ReactionHandbook = (props) => {
                     <Tooltip content={factor.tooltip} position="top">
                       <Flex>
                         <Flex.Item
+<<<<<<< HEAD
                           style={{ 'border-bottom': 'dotted 2px' }}
+=======
+                          style={{ borderBottom: 'dotted 2px' }}
+>>>>>>> tg-pr-88929
                           shrink
                         >
                           {factor.factor_name + ':'}

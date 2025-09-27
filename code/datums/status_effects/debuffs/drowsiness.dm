@@ -34,7 +34,7 @@
 
 	// Resting helps against drowsiness
 	// While resting, we lose 4 seconds of duration (2 additional ticks) per tick
-	if(owner.resting && remove_duration(2 * initial(tick_interval)))
+	if(owner.resting && remove_duration(2 * seconds_between_ticks))
 		return
 
 	owner.set_eye_blur_if_lower(4 SECONDS)

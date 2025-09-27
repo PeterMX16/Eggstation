@@ -50,11 +50,23 @@
 	if(buckler != blackboard[BB_HOSTILE_FRIEND])
 		return COMPONENT_BLOCK_BUCKLE
 
-/datum/ai_controller/hostile_friend/able_to_run()
+/datum/ai_controller/hostile_friend/on_stat_changed(mob/living/source, new_stat)
+	. = ..()
+	update_able_to_run()
+
+/datum/ai_controller/hostile_friend/setup_able_to_run()
+	. = ..()
+	RegisterSignal(pawn, COMSIG_MOB_INCAPACITATE_CHANGED, PROC_REF(update_able_to_run))
+
+/datum/ai_controller/hostile_friend/clear_able_to_run()
+	UnregisterSignal(pawn, list(COMSIG_MOB_INCAPACITATE_CHANGED, COMSIG_MOB_STATCHANGE))
+	return ..()
+
+/datum/ai_controller/hostile_friend/get_able_to_run()
 	var/mob/living/living_pawn = pawn
 
 	if(IS_DEAD_OR_INCAP(living_pawn))
-		return FALSE
+		return AI_UNABLE_TO_RUN
 	return ..()
 
 /datum/ai_controller/hostile_friend/get_access()
@@ -74,17 +86,25 @@
 	if(old_friend)
 		unfriend(old_friend)
 
-	if(in_range(pawn, new_friend))
+	if(pawn.Adjacent(pawn, new_friend))
 		new_friend.visible_message("<b>[pawn]</b> looks at [new_friend] in a friendly manner!", span_notice("[pawn] looks at you in a friendly manner!"))
 	set_blackboard_key(BB_HOSTILE_FRIEND, new_friend)
+<<<<<<< HEAD
 	RegisterSignal(new_friend, COMSIG_MOB_POINTED, PROC_REF(check_point))
+=======
+	RegisterSignal(new_friend, COMSIG_MOVABLE_POINTED, PROC_REF(check_point))
+>>>>>>> tg-pr-88929
 	RegisterSignal(new_friend, COMSIG_MOB_SAY, PROC_REF(check_verbal_command))
 
 /// Someone is being mean to us, take them off our friends (add actual enemies behavior later)
 /datum/ai_controller/hostile_friend/proc/unfriend()
 	var/mob/living/old_friend = blackboard[BB_HOSTILE_FRIEND]
 	if(old_friend)
+<<<<<<< HEAD
 		UnregisterSignal(old_friend, list(COMSIG_MOB_POINTED, COMSIG_MOB_SAY))
+=======
+		UnregisterSignal(old_friend, list(COMSIG_MOVABLE_POINTED, COMSIG_MOB_SAY))
+>>>>>>> tg-pr-88929
 	clear_blackboard_key(BB_HOSTILE_FRIEND)
 
 /// Someone is looking at us, if we're currently carrying something then show what it is, and include a message if they're our friend
@@ -96,7 +116,11 @@
 
 	var/mob/living/living_pawn = pawn
 	if(!IS_DEAD_OR_INCAP(living_pawn))
+<<<<<<< HEAD
 		examine_text += span_notice("[pawn.p_they(TRUE)] seem[pawn.p_s()] happy to see you!")
+=======
+		examine_text += span_notice("[pawn.p_They()] seem[pawn.p_s()] happy to see you!")
+>>>>>>> tg-pr-88929
 
 // next section is regarding commands
 
@@ -106,10 +130,15 @@
 
 	if(!COOLDOWN_FINISHED(src, command_cooldown))
 		return
+<<<<<<< HEAD
 	if(!istype(clicker) || blackboard[BB_HOSTILE_FRIEND] != clicker)
+=======
+	if(!istype(clicker) || blackboard[BB_HOSTILE_FRIEND] != clicker || !clicker.can_perform_action(source))
+>>>>>>> tg-pr-88929
 		return
-	. = COMPONENT_CANCEL_CLICK_ALT
+
 	INVOKE_ASYNC(src, PROC_REF(command_radial), clicker)
+	return CLICK_ACTION_BLOCKING
 
 /// Show the command radial menu
 /datum/ai_controller/hostile_friend/proc/command_radial(mob/living/clicker)
@@ -128,7 +157,7 @@
 /datum/ai_controller/hostile_friend/proc/check_menu(mob/user)
 	if(!istype(user))
 		CRASH("A non-mob is trying to issue an order to [pawn].")
-	if(user.incapacitated() || !can_see(user, pawn))
+	if(user.incapacitated || !can_see(user, pawn))
 		return FALSE
 	return TRUE
 
@@ -189,7 +218,7 @@
 			set_blackboard_key(BB_HOSTILE_ORDER_MODE, HOSTILE_COMMAND_ATTACK)
 
 /// Someone we like is pointing at something, see if it's something we might want to interact with (like if they might want us to fetch something for them)
-/datum/ai_controller/hostile_friend/proc/check_point(mob/pointing_friend, atom/movable/pointed_movable)
+/datum/ai_controller/hostile_friend/proc/check_point(mob/pointing_friend, atom/movable/pointed_movable, obj/effect/temp_visual/point/point)
 	SIGNAL_HANDLER
 
 	var/mob/living/simple_animal/hostile/living_pawn = pawn

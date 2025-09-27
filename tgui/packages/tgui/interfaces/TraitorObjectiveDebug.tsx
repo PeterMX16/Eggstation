@@ -1,8 +1,13 @@
-import { useBackend, useLocalState } from '../backend';
-import { Box, LabeledList, Stack, Tabs, Tooltip } from '../components';
+import { useState } from 'react';
+import { Box, LabeledList, Stack, Tabs, Tooltip } from 'tgui-core/components';
+
+import { useBackend } from '../backend';
 import { Window } from '../layouts';
 import { getDangerLevel } from './Uplink/calculateDangerLevel';
+<<<<<<< HEAD
 import type { InfernoNode } from 'inferno';
+=======
+>>>>>>> tg-pr-88929
 
 type Objective = {
   name: string;
@@ -150,7 +155,7 @@ export const TraitorObjectiveDebug = (props) => {
           backgroundColor="green"
           height="5px"
           style={{
-            'z-index': 5,
+            zIndex: '5',
           }}
         />
         <Box
@@ -158,7 +163,11 @@ export const TraitorObjectiveDebug = (props) => {
           top={0}
           left={1}
           style={{
+<<<<<<< HEAD
             'z-index': 5,
+=======
+            zIndex: '5',
+>>>>>>> tg-pr-88929
           }}
         >
           {/* Time in minutes of this threshold */}
@@ -168,6 +177,7 @@ export const TraitorObjectiveDebug = (props) => {
     );
   }
   let objectivesToRender: Objective[] = [];
+<<<<<<< HEAD
   const [currentTab, setCurrentTab] = useLocalState('currentTab', 'All');
   const [sortingFunc, setSortingFunc] = useLocalState(
     'sortingFunc',
@@ -178,6 +188,12 @@ export const TraitorObjectiveDebug = (props) => {
     'sortDirection',
     true,
   );
+=======
+  const [currentTab, setCurrentTab] = useState('All');
+  const [sortingFunc, setSortingFunc] = useState(sortingOptions[0].name);
+  // true = ascending, false = descending
+  const [sortDirection, setSortingDirection] = useState(true);
+>>>>>>> tg-pr-88929
 
   let actualSortingFunc;
   for (let index = 0; index < sortingOptions.length; index++) {
@@ -211,7 +227,7 @@ export const TraitorObjectiveDebug = (props) => {
               <Tabs width="100%" fluid textAlign="center">
                 {sortingOptions.map((value) => (
                   <Tabs.Tab
-                    key={value.sort}
+                    key={value.name}
                     selected={value.name === sortingFunc}
                     onClick={() => setSortingFunc(value.name)}
                   >
@@ -260,7 +276,6 @@ export const TraitorObjectiveDebug = (props) => {
         <Box
           position="absolute"
           width="100%"
-          fill
           backgroundColor="black"
           left={0}
           top="100px"
@@ -377,8 +392,13 @@ const ObjectiveBox = (props: ObjectiveBoxProps) => {
       <Stack vertical width="100%">
         <Stack.Item
           style={{
+<<<<<<< HEAD
             'text-overflow': 'ellipsis',
             'white-space': 'nowrap',
+=======
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+>>>>>>> tg-pr-88929
             overflow: 'hidden',
           }}
         >
@@ -406,7 +426,11 @@ const ObjectiveBox = (props: ObjectiveBoxProps) => {
               (objective.progression_reward[1] / sizeLimit) * window.innerWidth
             }px`}
             style={{
+<<<<<<< HEAD
               'white-space': 'nowrap',
+=======
+              whiteSpace: 'nowrap',
+>>>>>>> tg-pr-88929
             }}
           >
             {objective.progression_reward[0] / 600}
@@ -421,7 +445,11 @@ const ObjectiveBox = (props: ObjectiveBoxProps) => {
             backgroundColor="red"
             width={`${objective.telecrystal_reward[1] * 10}px`}
             style={{
+<<<<<<< HEAD
               'white-space': 'nowrap',
+=======
+              whiteSpace: 'nowrap',
+>>>>>>> tg-pr-88929
             }}
           >
             {objective.telecrystal_reward[0]}

@@ -3,7 +3,11 @@
 	desc = "Thanks to your poor posture, backpacks and other bags never sit right on your back. More evenly weighted objects are fine, though."
 	icon = FA_ICON_HIKING
 	value = -8
+<<<<<<< HEAD
 	quirk_flags = QUIRK_HUMAN_ONLY | QUIRK_MOODLET_BASED
+=======
+	quirk_flags = QUIRK_HUMAN_ONLY|QUIRK_MOODLET_BASED
+>>>>>>> tg-pr-88929
 	gain_text = span_danger("Your back REALLY hurts!")
 	lose_text = span_notice("Your back feels better.")
 	medical_record_text = "Patient scans indicate severe and chronic back pain."
@@ -34,9 +38,12 @@
 
 	if(!(slot & ITEM_SLOT_BACK) || !istype(equipped_item, /obj/item/storage/backpack))
 		return
+<<<<<<< HEAD
 	var/obj/item/storage/backpack/equipped_backpack = equipped_item
 	if(equipped_backpack.shoulder_carry)
 		return
+=======
+>>>>>>> tg-pr-88929
 
 	quirk_holder.add_mood_event("back_pain", /datum/mood_event/back_pain)
 	RegisterSignal(equipped_item, COMSIG_ITEM_POST_UNEQUIP, PROC_REF(on_unequipped_backpack))

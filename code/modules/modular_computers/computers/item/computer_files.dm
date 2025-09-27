@@ -39,7 +39,11 @@
 	stored_files.Remove(file_removing)
 	used_capacity -= file_removing.size
 	SEND_SIGNAL(src, COMSIG_MODULAR_COMPUTER_FILE_DELETE, file_removing)
+<<<<<<< HEAD
 	SEND_SIGNAL(file_removing, COMSIG_COMPUTER_FILE_DELETE)
+=======
+	SEND_SIGNAL(file_removing, COMSIG_COMPUTER_FILE_DELETE, src)
+>>>>>>> tg-pr-88929
 	qdel(file_removing)
 	return TRUE
 

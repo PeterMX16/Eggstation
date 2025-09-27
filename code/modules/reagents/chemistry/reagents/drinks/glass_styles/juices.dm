@@ -4,7 +4,10 @@
 	required_drink_type = /datum/reagent/consumable/orangejuice
 	name = "glass of orange juice"
 	desc = "Vitamins! Yay!"
+<<<<<<< HEAD
 	icon_state = "glass_orange"
+=======
+>>>>>>> tg-pr-88929
 	drink_type = FRUIT | BREAKFAST
 
 /datum/glass_style/has_foodtype/juicebox/orangejuice
@@ -62,13 +65,19 @@
 	required_drink_type = /datum/reagent/consumable/tomatojuice
 	name = "glass of tomato juice"
 	desc = "Are you sure this is tomato juice?"
+<<<<<<< HEAD
 	icon_state = "glass_red"
+=======
+>>>>>>> tg-pr-88929
 
 /datum/glass_style/drinking_glass/limejuice
 	required_drink_type = /datum/reagent/consumable/limejuice
 	name = "glass of lime juice"
 	desc = "A glass of sweet-sour lime juice."
+<<<<<<< HEAD
 	icon_state = "glass_green"
+=======
+>>>>>>> tg-pr-88929
 
 /datum/glass_style/drinking_glass/carrotjuice
 	required_drink_type = /datum/reagent/consumable/carrotjuice
@@ -80,19 +89,28 @@
 	required_drink_type = /datum/reagent/consumable/berryjuice
 	name = "glass of berry juice"
 	desc = "Berry juice. Or maybe it's jam. Who cares?"
+<<<<<<< HEAD
 	icon_state = "berryjuice"
+=======
+>>>>>>> tg-pr-88929
 
 /datum/glass_style/drinking_glass/poisonberryjuice
 	required_drink_type = /datum/reagent/consumable/poisonberryjuice
 	name = "glass of berry juice"
 	desc = "Berry juice. Or maybe it's poison. Who cares?"
+<<<<<<< HEAD
 	icon_state = "poisonberryjuice"
+=======
+>>>>>>> tg-pr-88929
 
 /datum/glass_style/drinking_glass/watermelonjuice
 	required_drink_type = /datum/reagent/consumable/watermelonjuice
 	name = "glass of watermelon juice"
 	desc = "A glass of watermelon juice."
+<<<<<<< HEAD
 	icon_state = "glass_red"
+=======
+>>>>>>> tg-pr-88929
 
 /datum/glass_style/drinking_glass/lemonjuice
 	required_drink_type = /datum/reagent/consumable/lemonjuice
@@ -116,43 +134,64 @@
 	required_drink_type = /datum/reagent/consumable/potato_juice
 	name = "glass of potato juice"
 	desc = "Bleh..."
+<<<<<<< HEAD
 	icon_state = "glass_brown"
+=======
+>>>>>>> tg-pr-88929
 
 /datum/glass_style/drinking_glass/bungojuice
 	required_drink_type = /datum/reagent/consumable/bungojuice
 	name = "glass of bungo juice"
 	desc = "Exotic! You feel like you are on vacation already."
+<<<<<<< HEAD
 	icon_state = "glass_yellow"
+=======
+>>>>>>> tg-pr-88929
 
 /datum/glass_style/drinking_glass/prunomix
 	required_drink_type = /datum/reagent/consumable/prunomix
 	name = "glass of pruno mixture"
 	desc = "Fruit, sugar, yeast, and water pulped together into a pungent slurry."
+<<<<<<< HEAD
 	icon_state = "glass_orange"
+=======
+>>>>>>> tg-pr-88929
 
 /datum/glass_style/drinking_glass/aloejuice
 	required_drink_type = /datum/reagent/consumable/aloejuice
 	name = "glass of aloe juice"
 	desc = "A healthy and refreshing juice."
+<<<<<<< HEAD
 	icon_state = "glass_yellow"
+=======
+>>>>>>> tg-pr-88929
 
 /datum/glass_style/drinking_glass/toechtauese_juice
 	required_drink_type = /datum/reagent/consumable/toechtauese_juice
 	name = "glass of töchtaüse juice"
 	desc = "Raw, unadulterated töchtaüse juice. One swig will fill you with regrets."
+<<<<<<< HEAD
 	icon_state = "toechtauese_syrup"
+=======
+>>>>>>> tg-pr-88929
 
 /datum/glass_style/drinking_glass/toechtauese_syrup
 	required_drink_type = /datum/reagent/consumable/toechtauese_syrup
 	name = "glass of töchtaüse syrup"
 	desc = "Not for drinking on its own."
+<<<<<<< HEAD
 	icon_state = "toechtauese_syrup"
+=======
+>>>>>>> tg-pr-88929
 
 /datum/glass_style/drinking_glass/cucumberjuice
 	required_drink_type = /datum/reagent/consumable/cucumberjuice
 	name = "glass of cucumber juice"
 	desc = "A glass of cucumber juice."
+<<<<<<< HEAD
 	icon_state = "glass_cucumber"
+=======
+>>>>>>> tg-pr-88929
 
 
 // Effectively misc
@@ -161,7 +200,10 @@
 	required_drink_type = /datum/reagent/consumable/menthol
 	name = "glass of menthol"
 	desc = "Tastes naturally minty, and imparts a very mild numbing sensation."
+<<<<<<< HEAD
 	icon_state = "glass_green"
+=======
+>>>>>>> tg-pr-88929
 
 /datum/glass_style/drinking_glass/grenadine
 	required_drink_type = /datum/reagent/consumable/grenadine

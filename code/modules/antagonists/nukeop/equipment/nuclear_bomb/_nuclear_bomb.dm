@@ -62,7 +62,6 @@ GLOBAL_VAR(station_nuke_source)
 /obj/machinery/nuclearbomb/Initialize(mapload)
 	. = ..()
 	countdown = new(src)
-	GLOB.nuke_list += src
 	core = new /obj/item/nuke_core(src)
 	STOP_PROCESSING(SSobj, core)
 	update_appearance()
@@ -75,7 +74,6 @@ GLOBAL_VAR(station_nuke_source)
 	if(!exploded)
 		// If we're not exploding, set the alert level back to normal
 		toggle_nuke_safety()
-	GLOB.nuke_list -= src
 	QDEL_NULL(countdown)
 	QDEL_NULL(core)
 	return ..()
@@ -106,6 +104,10 @@ GLOBAL_VAR(station_nuke_source)
 			. += span_danger("There are [get_time_left()] seconds until detonation.")
 		if(NUKE_ON_EXPLODING)
 			. += span_bolddanger("It is in the process of exploding. Perhaps reviewing your affairs is in order.")
+<<<<<<< HEAD
+=======
+
+>>>>>>> tg-pr-88929
 
 /// Checks if the disk inserted is a real nuke disk or not.
 /obj/machinery/nuclearbomb/proc/disk_check(obj/item/disk/nuclear/inserted_disk)
@@ -125,7 +127,7 @@ GLOBAL_VAR(station_nuke_source)
 		if(!user.transferItemToLoc(weapon, src))
 			return TRUE
 		update_ui_mode()
-		playsound(src, 'sound/machines/terminal_insert_disc.ogg', 50, FALSE)
+		playsound(src, 'sound/machines/terminal/terminal_insert_disc.ogg', 50, FALSE)
 		add_fingerprint(user)
 		return TRUE
 
@@ -144,7 +146,7 @@ GLOBAL_VAR(station_nuke_source)
 				if(!weapon.tool_start_check(user, amount = 1))
 					return TRUE
 				to_chat(user, span_notice("You start cutting [src]'s inner plate..."))
-				if(weapon.use_tool(src, user, 8 SECONDS, volume=100, amount=1))
+				if(weapon.use_tool(src, user, 8 SECONDS, volume=100))
 					to_chat(user, span_notice("You cut [src]'s inner plate."))
 					deconstruction_state = NUKESTATE_WELDED
 					update_appearance()
@@ -154,7 +156,7 @@ GLOBAL_VAR(station_nuke_source)
 			if(istype(weapon, /obj/item/nuke_core_container))
 				var/obj/item/nuke_core_container/core_box = weapon
 				to_chat(user, span_notice("You start loading the plutonium core into [core_box]..."))
-				if(do_after(user, 5 SECONDS, target=src))
+				if(do_after(user, 5 SECONDS, target = src, hidden = TRUE))
 					if(core_box.load(core, user))
 						to_chat(user, span_notice("You load the plutonium core into [core_box]."))
 						deconstruction_state = NUKESTATE_CORE_REMOVED
@@ -371,7 +373,7 @@ GLOBAL_VAR(station_nuke_source)
 	switch(action)
 		if("eject_disk")
 			if(auth && auth.loc == src)
-				playsound(src, 'sound/machines/terminal_insert_disc.ogg', 50, FALSE)
+				playsound(src, 'sound/machines/terminal/terminal_insert_disc.ogg', 50, FALSE)
 				playsound(src, 'sound/machines/nuke/general_beep.ogg', 50, FALSE)
 				auth.forceMove(get_turf(src))
 				auth = null
@@ -379,7 +381,7 @@ GLOBAL_VAR(station_nuke_source)
 			else
 				var/obj/item/I = usr.is_holding_item_of_type(/obj/item/disk/nuclear)
 				if(I && disk_check(I) && usr.transferItemToLoc(I, src))
-					playsound(src, 'sound/machines/terminal_insert_disc.ogg', 50, FALSE)
+					playsound(src, 'sound/machines/terminal/terminal_insert_disc.ogg', 50, FALSE)
 					playsound(src, 'sound/machines/nuke/general_beep.ogg', 50, FALSE)
 					. = TRUE
 			update_ui_mode()
@@ -459,6 +461,7 @@ GLOBAL_VAR(station_nuke_source)
 	// We're safe now, so stop any ongoing timers
 	if(safety)
 		if(timing)
+			timing = FALSE
 			disarm_nuke()
 			timing = FALSE
 
@@ -498,8 +501,11 @@ GLOBAL_VAR(station_nuke_source)
 		"A nuclear device has been armed in [get_area_name(src)]!",
 		source = src,
 		header = "Nuke Armed",
+<<<<<<< HEAD
 		action = NOTIFY_ORBIT,
 		notify_flags = NOTIFY_CATEGORY_DEFAULT,
+=======
+>>>>>>> tg-pr-88929
 	)
 	update_appearance()
 
@@ -558,11 +564,15 @@ GLOBAL_VAR(station_nuke_source)
 	yes_code = FALSE
 	safety = TRUE
 	update_appearance()
-	sound_to_playing_players('sound/machines/alarm.ogg')
+	sound_to_playing_players('sound/announcer/alarm/nuke_alarm.ogg', 70)
 
 	SEND_GLOBAL_SIGNAL(COMSIG_GLOB_NUKE_DEVICE_DETONATING, src)
 
+<<<<<<< HEAD
 	if(SSticker?.mode)
+=======
+	if(SSticker.HasRoundStarted())
+>>>>>>> tg-pr-88929
 		SSticker.roundend_check_paused = TRUE
 	addtimer(CALLBACK(src, PROC_REF(actually_explode)), 10 SECONDS)
 	return TRUE
@@ -619,12 +629,20 @@ GLOBAL_VAR(station_nuke_source)
 /obj/machinery/nuclearbomb/proc/really_actually_explode(detonation_status)
 	var/cinematic = get_cinematic_type(detonation_status)
 	if(!isnull(cinematic))
+<<<<<<< HEAD
 		play_cinematic(cinematic, world)
+=======
+		play_cinematic(cinematic, world, CALLBACK(SSticker, TYPE_PROC_REF(/datum/controller/subsystem/ticker, station_explosion_detonation), src))
+>>>>>>> tg-pr-88929
 
 	var/drop_level = TRUE
 	switch(detonation_status)
 		if(DETONATION_HIT_STATION)
+<<<<<<< HEAD
 			nuke_effects(SSmapping.levels_by_trait(ZTRAIT_STATION) - SSmapping.levels_by_trait(ZTRAIT_FORCED_SAFETY)) // monkesation edit: allow escaping nuke by going to safe z-levels
+=======
+			nuke_effects(SSmapping.levels_by_trait(ZTRAIT_STATION))
+>>>>>>> tg-pr-88929
 			drop_level = FALSE
 
 		if(DETONATION_HIT_SYNDIE_BASE)
@@ -650,7 +668,10 @@ GLOBAL_VAR(station_nuke_source)
 
 	if(drop_level)
 		SSsecurity_level.set_level(SEC_LEVEL_RED)
+<<<<<<< HEAD
 	qdel(src)
+=======
+>>>>>>> tg-pr-88929
 	return TRUE
 
 /// Cause nuke effects to the passed z-levels.
@@ -676,7 +697,7 @@ GLOBAL_VAR(station_nuke_source)
 	if(istype(gibbed.loc, /obj/structure/closet/secure_closet/freezer))
 		var/obj/structure/closet/secure_closet/freezer/freezer = gibbed.loc
 		if(!freezer.jones)
-			to_chat(gibbed, span_boldannounce("You hold onto [freezer] as [source] goes off. \
+			to_chat(gibbed, span_bolddanger("You hold onto [freezer] as [source] goes off. \
 				Luckily, as [freezer] is lead-lined, you survive."))
 			freezer.jones = TRUE
 			return FALSE
@@ -686,7 +707,7 @@ GLOBAL_VAR(station_nuke_source)
 
 	to_chat(gibbed, span_userdanger("You are shredded to atoms by [source]!"))
 	gibbed.investigate_log("has been gibbed by a nuclear blast.", INVESTIGATE_DEATHS)
-	gibbed.gib()
+	gibbed.gib(DROP_ALL_REMAINS)
 	return TRUE
 
 /**

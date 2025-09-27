@@ -1,0 +1,50 @@
+/**
+ * @file
+ * @copyright 2020 Aleksej Komarov
+ * @license MIT
+ */
+
+export const SETTINGS_TABS = [
+  {
+    id: 'general',
+    name: 'General',
+  },
+
+  {
+    id: 'textHighlight',
+    name: 'Text Highlights',
+  },
+  {
+    id: 'chatPage',
+    name: 'Chat Tabs',
+  },
+  {
+    id: 'statPanel',
+    name: 'Stat Panel',
+  },
+<<<<<<< HEAD:tgui/packages/tgui-panel/settings/constants.js
+  {
+    id: 'experimental',
+    name: 'Experimental',
+  },
+=======
+>>>>>>> tg-pr-88929:tgui/packages/tgui-panel/settings/constants.ts
+];
+
+export const FONTS_DISABLED = 'Default';
+
+export const FONTS = [
+  FONTS_DISABLED,
+  'Verdana',
+  'Arial',
+  'Arial Black',
+  'Comic Sans MS',
+  'Impact',
+  'Lucida Sans Unicode',
+  'Tahoma',
+  'Trebuchet MS',
+  'Courier New',
+  'Lucida Console',
+];
+
+export const WARN_AFTER_HIGHLIGHT_AMT = 10;

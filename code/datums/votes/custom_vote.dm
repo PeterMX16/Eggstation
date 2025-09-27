@@ -67,7 +67,10 @@
 			to_chat(vote_creator, span_boldwarning("Unknown winner method. Contact a coder."))
 			return FALSE
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> tg-pr-88929
 	var/display_stats = tgui_alert(
 		vote_creator,
 		"Should voting statistics be public?",
@@ -104,9 +107,5 @@
 /datum/vote/custom_vote/initiate_vote(initiator, duration)
 	. = ..()
 	. += "\n[override_question]"
-
-// There are no winners or losers for custom votes
-/datum/vote/custom_vote/get_winner_text(list/all_winners, real_winner, list/non_voters)
-	return "[span_bold("Did not vote:")] [length(non_voters)]"
 
 #undef MAX_CUSTOM_VOTE_OPTIONS

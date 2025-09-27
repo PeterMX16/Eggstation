@@ -1,11 +1,16 @@
 //MAP CONVERTED BY dmm2tgm.py THIS HEADER COMMENT PREVENTS RECONVERSION, DO NOT REMOVE
 "a" = (
 /turf/closed/indestructible/binary,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "b" = (
 /obj/item/pizzabox/bomb/armed,
 /obj/structure/rack,
 /turf/open/indestructible/dark,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "c" = (
 /obj/structure/sign/warning/directional/west,
@@ -23,6 +28,30 @@
 /obj/structure/sign/warning/directional/east,
 /turf/open/lava/smooth,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+"c" = (
+/obj/structure/sign/warning/directional/west,
+/turf/open/chasm,
+/area/virtual_domain)
+"e" = (
+/obj/effect/mob_spawn/corpse/human/cyber_police,
+/obj/effect/landmark/bitrunning/cache_spawn,
+/turf/open/indestructible/dark,
+/area/virtual_domain)
+"f" = (
+/obj/effect/baseturf_helper/virtual_domain,
+/turf/open/indestructible/dark,
+/area/virtual_domain/protected_space)
+"h" = (
+/obj/structure/rack,
+/turf/open/indestructible/dark,
+/area/virtual_domain/protected_space)
+"i" = (
+/obj/structure/sign/warning/directional/east,
+/turf/open/chasm,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "o" = (
 /turf/template_noop,
 /area/template_noop)
@@ -38,7 +67,11 @@
 	pixel_y = 1
 	},
 /turf/open/indestructible/dark,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "r" = (
 /obj/effect/baseturf_helper/virtual_domain,
 /turf/template_noop,
@@ -50,15 +83,24 @@
 /obj/effect/mapping_helpers/airlock/locked,
 /obj/machinery/door/airlock/abductor,
 /turf/open/indestructible/dark,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "A" = (
 /obj/effect/spawner/random/trash/caution_sign,
 /turf/open/indestructible/dark,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+"A" = (
+/obj/effect/spawner/random/trash/caution_sign,
+/turf/open/indestructible/dark,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "B" = (
 /obj/machinery/door/airlock/abductor,
 /obj/effect/mapping_helpers/airlock/abandoned,
 /turf/open/indestructible/dark,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "F" = (
 /obj/structure/mystery_box/guns,
@@ -109,6 +151,64 @@
 "Y" = (
 /turf/open/indestructible/dark,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+"D" = (
+/turf/open/indestructible/dark,
+/area/virtual_domain/protected_space)
+"F" = (
+/obj/structure/mystery_box/guns,
+/turf/open/indestructible/dark,
+/area/virtual_domain/protected_space)
+"J" = (
+/obj/machinery/door/airlock/abductor,
+/turf/open/indestructible/dark,
+/area/virtual_domain/protected_space)
+"K" = (
+/obj/effect/baseturf_helper/virtual_domain,
+/turf/closed/indestructible/binary,
+/area/virtual_domain/fullbright)
+"M" = (
+/obj/effect/mob_spawn/corpse/human/zombie,
+/turf/open/indestructible/dark,
+/area/virtual_domain)
+"O" = (
+/obj/modular_map_root/safehouse{
+	key = "bathroom"
+	},
+/turf/template_noop,
+/area/virtual_domain/safehouse)
+"Q" = (
+/turf/open/chasm,
+/area/virtual_domain)
+"R" = (
+/obj/effect/mine/explosive/light,
+/turf/open/indestructible/dark,
+/area/virtual_domain)
+"T" = (
+/obj/machinery/door/airlock/abductor,
+/turf/open/indestructible/dark,
+/area/virtual_domain)
+"U" = (
+/obj/effect/landmark/bitrunning/cache_spawn,
+/turf/open/indestructible/dark,
+/area/virtual_domain)
+"V" = (
+/obj/structure/sign/warning/directional/east,
+/turf/open/indestructible/dark,
+/area/virtual_domain)
+"W" = (
+/obj/effect/mob_spawn/corpse/human/cyber_police,
+/turf/open/indestructible/dark,
+/area/virtual_domain)
+"X" = (
+/mob/living/simple_animal/hostile/zombie,
+/turf/open/indestructible/dark,
+/area/virtual_domain)
+"Y" = (
+/turf/open/indestructible/dark,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 
 (1,1,1) = {"
 o
@@ -119,8 +219,11 @@ o
 o
 o
 o
+<<<<<<< HEAD
 o
 o
+=======
+>>>>>>> tg-pr-88929
 a
 a
 a
@@ -138,7 +241,10 @@ o
 o
 o
 o
+<<<<<<< HEAD
 o
+=======
+>>>>>>> tg-pr-88929
 "}
 (2,1,1) = {"
 o
@@ -147,8 +253,11 @@ o
 o
 o
 o
+<<<<<<< HEAD
 o
 o
+=======
+>>>>>>> tg-pr-88929
 a
 a
 a
@@ -157,7 +266,11 @@ Y
 Y
 Y
 Y
+<<<<<<< HEAD
 Y
+=======
+U
+>>>>>>> tg-pr-88929
 a
 a
 o
@@ -168,11 +281,16 @@ o
 o
 o
 o
+<<<<<<< HEAD
 o
 "}
 (3,1,1) = {"
 o
 o
+=======
+"}
+(3,1,1) = {"
+>>>>>>> tg-pr-88929
 a
 a
 a
@@ -198,6 +316,7 @@ o
 o
 o
 o
+<<<<<<< HEAD
 o
 "}
 (4,1,1) = {"
@@ -205,6 +324,12 @@ o
 o
 a
 W
+=======
+"}
+(4,1,1) = {"
+a
+e
+>>>>>>> tg-pr-88929
 X
 Y
 B
@@ -228,11 +353,16 @@ o
 o
 o
 o
+<<<<<<< HEAD
 o
 "}
 (5,1,1) = {"
 o
 o
+=======
+"}
+(5,1,1) = {"
+>>>>>>> tg-pr-88929
 a
 b
 b
@@ -258,11 +388,16 @@ o
 o
 o
 o
+<<<<<<< HEAD
 o
 "}
 (6,1,1) = {"
 o
 o
+=======
+"}
+(6,1,1) = {"
+>>>>>>> tg-pr-88929
 a
 a
 a
@@ -288,11 +423,16 @@ o
 o
 o
 o
+<<<<<<< HEAD
 o
 "}
 (7,1,1) = {"
 o
 o
+=======
+"}
+(7,1,1) = {"
+>>>>>>> tg-pr-88929
 a
 a
 a
@@ -318,11 +458,16 @@ o
 o
 o
 o
+<<<<<<< HEAD
 o
 "}
 (8,1,1) = {"
 o
 o
+=======
+"}
+(8,1,1) = {"
+>>>>>>> tg-pr-88929
 a
 a
 X
@@ -348,11 +493,16 @@ o
 o
 o
 o
+<<<<<<< HEAD
 o
 "}
 (9,1,1) = {"
 o
 o
+=======
+"}
+(9,1,1) = {"
+>>>>>>> tg-pr-88929
 a
 a
 W
@@ -378,11 +528,16 @@ o
 o
 o
 o
+<<<<<<< HEAD
 o
 "}
 (10,1,1) = {"
 o
 o
+=======
+"}
+(10,1,1) = {"
+>>>>>>> tg-pr-88929
 a
 a
 Y
@@ -408,11 +563,16 @@ o
 o
 o
 o
+<<<<<<< HEAD
 o
 "}
 (11,1,1) = {"
 o
 o
+=======
+"}
+(11,1,1) = {"
+>>>>>>> tg-pr-88929
 a
 Y
 Y
@@ -438,11 +598,16 @@ o
 o
 o
 o
+<<<<<<< HEAD
 o
 "}
 (12,1,1) = {"
 o
 o
+=======
+"}
+(12,1,1) = {"
+>>>>>>> tg-pr-88929
 a
 Y
 Y
@@ -468,11 +633,16 @@ o
 o
 o
 o
+<<<<<<< HEAD
 o
 "}
 (13,1,1) = {"
 o
 o
+=======
+"}
+(13,1,1) = {"
+>>>>>>> tg-pr-88929
 a
 Y
 Y
@@ -498,11 +668,16 @@ o
 o
 o
 o
+<<<<<<< HEAD
 o
 "}
 (14,1,1) = {"
 o
 o
+=======
+"}
+(14,1,1) = {"
+>>>>>>> tg-pr-88929
 a
 Y
 Y
@@ -528,11 +703,16 @@ o
 o
 o
 o
+<<<<<<< HEAD
 o
 "}
 (15,1,1) = {"
 o
 o
+=======
+"}
+(15,1,1) = {"
+>>>>>>> tg-pr-88929
 a
 Y
 R
@@ -558,11 +738,16 @@ o
 o
 o
 o
+<<<<<<< HEAD
 o
 "}
 (16,1,1) = {"
 o
 o
+=======
+"}
+(16,1,1) = {"
+>>>>>>> tg-pr-88929
 a
 Y
 Y
@@ -588,11 +773,16 @@ a
 a
 a
 a
+<<<<<<< HEAD
 o
 "}
 (17,1,1) = {"
 o
 o
+=======
+"}
+(17,1,1) = {"
+>>>>>>> tg-pr-88929
 a
 Y
 V
@@ -609,8 +799,13 @@ Y
 Y
 a
 h
+<<<<<<< HEAD
 H
 H
+=======
+D
+f
+>>>>>>> tg-pr-88929
 t
 t
 t
@@ -618,6 +813,7 @@ t
 t
 O
 a
+<<<<<<< HEAD
 o
 "}
 (18,1,1) = {"
@@ -625,6 +821,12 @@ o
 o
 a
 Y
+=======
+"}
+(18,1,1) = {"
+a
+U
+>>>>>>> tg-pr-88929
 a
 Q
 a
@@ -639,8 +841,13 @@ Y
 Y
 a
 F
+<<<<<<< HEAD
 H
 H
+=======
+D
+D
+>>>>>>> tg-pr-88929
 t
 t
 t
@@ -648,11 +855,16 @@ t
 t
 t
 a
+<<<<<<< HEAD
 o
 "}
 (19,1,1) = {"
 o
 o
+=======
+"}
+(19,1,1) = {"
+>>>>>>> tg-pr-88929
 a
 Q
 Q
@@ -668,9 +880,15 @@ Y
 Y
 Y
 a
+<<<<<<< HEAD
 H
 H
 H
+=======
+D
+D
+D
+>>>>>>> tg-pr-88929
 t
 t
 t
@@ -678,17 +896,26 @@ t
 t
 t
 a
+<<<<<<< HEAD
 o
 "}
 (20,1,1) = {"
 o
 o
+=======
+"}
+(20,1,1) = {"
+>>>>>>> tg-pr-88929
 a
 Q
 Q
 Q
 a
+<<<<<<< HEAD
 Y
+=======
+U
+>>>>>>> tg-pr-88929
 Y
 Y
 a
@@ -697,10 +924,17 @@ Y
 Y
 Y
 Y
+<<<<<<< HEAD
 e
 H
 H
 H
+=======
+J
+D
+D
+D
+>>>>>>> tg-pr-88929
 t
 t
 t
@@ -708,11 +942,16 @@ t
 t
 t
 a
+<<<<<<< HEAD
 o
 "}
 (21,1,1) = {"
 o
 o
+=======
+"}
+(21,1,1) = {"
+>>>>>>> tg-pr-88929
 a
 a
 Q
@@ -728,9 +967,15 @@ R
 Y
 Y
 a
+<<<<<<< HEAD
 H
 H
 H
+=======
+D
+D
+D
+>>>>>>> tg-pr-88929
 t
 t
 t
@@ -738,11 +983,16 @@ t
 t
 t
 a
+<<<<<<< HEAD
 o
 "}
 (22,1,1) = {"
 o
 o
+=======
+"}
+(22,1,1) = {"
+>>>>>>> tg-pr-88929
 a
 a
 Q
@@ -759,8 +1009,13 @@ Y
 Y
 a
 F
+<<<<<<< HEAD
 H
 H
+=======
+D
+D
+>>>>>>> tg-pr-88929
 t
 t
 t
@@ -768,11 +1023,16 @@ t
 t
 t
 a
+<<<<<<< HEAD
 o
 "}
 (23,1,1) = {"
 o
 o
+=======
+"}
+(23,1,1) = {"
+>>>>>>> tg-pr-88929
 a
 a
 Q
@@ -789,8 +1049,13 @@ Y
 Y
 a
 h
+<<<<<<< HEAD
 H
 H
+=======
+D
+D
+>>>>>>> tg-pr-88929
 t
 t
 t
@@ -798,11 +1063,16 @@ t
 t
 r
 a
+<<<<<<< HEAD
 o
 "}
 (24,1,1) = {"
 o
 o
+=======
+"}
+(24,1,1) = {"
+>>>>>>> tg-pr-88929
 a
 a
 Q
@@ -828,11 +1098,16 @@ a
 a
 a
 a
+<<<<<<< HEAD
 o
 "}
 (25,1,1) = {"
 o
 o
+=======
+"}
+(25,1,1) = {"
+>>>>>>> tg-pr-88929
 a
 c
 Q
@@ -858,11 +1133,16 @@ o
 o
 o
 o
+<<<<<<< HEAD
 o
 "}
 (26,1,1) = {"
 o
 o
+=======
+"}
+(26,1,1) = {"
+>>>>>>> tg-pr-88929
 a
 Q
 Q
@@ -888,11 +1168,16 @@ o
 o
 o
 o
+<<<<<<< HEAD
 o
 "}
 (27,1,1) = {"
 o
 o
+=======
+"}
+(27,1,1) = {"
+>>>>>>> tg-pr-88929
 a
 Y
 Y
@@ -918,11 +1203,16 @@ o
 o
 o
 o
+<<<<<<< HEAD
 o
 "}
 (28,1,1) = {"
 o
 o
+=======
+"}
+(28,1,1) = {"
+>>>>>>> tg-pr-88929
 a
 Y
 X
@@ -948,11 +1238,16 @@ o
 o
 o
 o
+<<<<<<< HEAD
 o
 "}
 (29,1,1) = {"
 o
 o
+=======
+"}
+(29,1,1) = {"
+>>>>>>> tg-pr-88929
 a
 Y
 a
@@ -978,11 +1273,16 @@ o
 o
 o
 o
+<<<<<<< HEAD
 o
 "}
 (30,1,1) = {"
 o
 o
+=======
+"}
+(30,1,1) = {"
+>>>>>>> tg-pr-88929
 a
 Y
 Y
@@ -1008,11 +1308,16 @@ o
 o
 o
 o
+<<<<<<< HEAD
 o
 "}
 (31,1,1) = {"
 o
 o
+=======
+"}
+(31,1,1) = {"
+>>>>>>> tg-pr-88929
 a
 Y
 Y
@@ -1038,11 +1343,16 @@ o
 o
 o
 o
+<<<<<<< HEAD
 o
 "}
 (32,1,1) = {"
 o
 o
+=======
+"}
+(32,1,1) = {"
+>>>>>>> tg-pr-88929
 a
 Y
 Y
@@ -1068,11 +1378,16 @@ o
 o
 o
 o
+<<<<<<< HEAD
 o
 "}
 (33,1,1) = {"
 o
 o
+=======
+"}
+(33,1,1) = {"
+>>>>>>> tg-pr-88929
 a
 a
 R
@@ -1098,12 +1413,18 @@ o
 o
 o
 o
+<<<<<<< HEAD
 o
 "}
 (34,1,1) = {"
 o
 o
 o
+=======
+"}
+(34,1,1) = {"
+o
+>>>>>>> tg-pr-88929
 a
 Y
 Y
@@ -1117,7 +1438,11 @@ a
 a
 Y
 M
+<<<<<<< HEAD
 Y
+=======
+U
+>>>>>>> tg-pr-88929
 W
 i
 Q
@@ -1128,6 +1453,7 @@ o
 o
 o
 o
+<<<<<<< HEAD
 o
 "}
 (35,1,1) = {"
@@ -1136,6 +1462,13 @@ o
 o
 a
 Y
+=======
+"}
+(35,1,1) = {"
+o
+a
+U
+>>>>>>> tg-pr-88929
 Y
 Y
 Y
@@ -1158,12 +1491,18 @@ o
 o
 o
 o
+<<<<<<< HEAD
 o
 "}
 (36,1,1) = {"
 o
 o
 o
+=======
+"}
+(36,1,1) = {"
+o
+>>>>>>> tg-pr-88929
 a
 a
 a
@@ -1188,6 +1527,7 @@ o
 o
 o
 o
+<<<<<<< HEAD
 o
 "}
 (37,1,1) = {"
@@ -1219,4 +1559,6 @@ o
 o
 o
 o
+=======
+>>>>>>> tg-pr-88929
 "}

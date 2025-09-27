@@ -55,13 +55,6 @@
 
 // Wires for the airlock are located in the datum folder, inside the wires datum folder.
 
-#define AIRLOCK_CLOSED 1
-#define AIRLOCK_CLOSING 2
-#define AIRLOCK_OPEN 3
-#define AIRLOCK_OPENING 4
-#define AIRLOCK_DENY 5
-#define AIRLOCK_EMAG 6
-
 #define AIRLOCK_FRAME_CLOSED "closed"
 #define AIRLOCK_FRAME_CLOSING "closing"
 #define AIRLOCK_FRAME_OPEN "open"
@@ -102,6 +95,7 @@
 	smoothing_groups = SMOOTH_GROUP_AIRLOCK
 
 	interaction_flags_machine = INTERACT_MACHINE_WIRES_IF_OPEN | INTERACT_MACHINE_ALLOW_SILICON | INTERACT_MACHINE_OPEN_SILICON | INTERACT_MACHINE_OPEN
+	interaction_flags_click = ALLOW_SILICON_REACH
 	blocks_emissive = EMISSIVE_BLOCK_NONE // Custom emissive blocker. We don't want the normal behavior.
 
 	///The type of door frame to drop during deconstruction
@@ -134,18 +128,26 @@
 	var/obj/item/note
 	/// The seal on the airlock
 	var/obj/item/seal
-	var/detonated = FALSE
 	var/abandoned = FALSE
 	/// Controls if the door closes quickly or not. FALSE = the door autocloses in 1.5 seconds, TRUE = 8 seconds - see autoclose_in()
 	var/normalspeed = TRUE
 	var/cutAiWire = FALSE
 	var/autoname = FALSE
+<<<<<<< HEAD
 	var/doorOpen = 'sound/machines/airlock.ogg'
 	var/doorClose = 'sound/machines/airlockclose.ogg'
 	var/doorDeni = 'sound/machines/deniedbeep.ogg' // i'm thinkin' Deni's
 	var/boltUp = 'sound/machines/boltsup.ogg'
 	var/boltDown = 'sound/machines/boltsdown.ogg'
 	var/noPower = 'sound/machines/doorclick.ogg'
+=======
+	var/doorOpen = 'sound/machines/airlock/airlock.ogg'
+	var/doorClose = 'sound/machines/airlock/airlockclose.ogg'
+	var/doorDeni = 'sound/machines/beep/deniedbeep.ogg' // i'm thinkin' Deni's
+	var/boltUp = 'sound/machines/airlock/boltsup.ogg'
+	var/boltDown = 'sound/machines/airlock/boltsdown.ogg'
+	var/noPower = 'sound/machines/airlock/doorclick.ogg'
+>>>>>>> tg-pr-88929
 	/// What airlock assembly mineral plating was applied to
 	var/previous_airlock = /obj/structure/door_assembly
 	/// Material of inner filling; if its an airlock with glass, this should be set to "glass"
@@ -175,6 +177,10 @@
 
 /obj/machinery/door/airlock/Initialize(mapload)
 	. = ..()
+<<<<<<< HEAD
+=======
+
+>>>>>>> tg-pr-88929
 	set_wires(get_wires())
 	if(glass)
 		airlock_material = "glass"
@@ -193,19 +199,32 @@
 
 	diag_hud_set_electrified()
 
-	RegisterSignal(src, COMSIG_MACHINERY_BROKEN, PROC_REF(on_break))
-
 	// Click on the floor to close airlocks
 	AddComponent(/datum/component/redirect_attack_hand_from_turf)
 
-	return INITIALIZE_HINT_LATELOAD
+	AddElement(/datum/element/nav_computer_icon, 'icons/effects/nav_computer_indicators.dmi', "airlock", TRUE)
+
+	RegisterSignal(src, COMSIG_MACHINERY_BROKEN, PROC_REF(on_break))
+
+	RegisterSignal(SSdcs, COMSIG_GLOB_GREY_TIDE, PROC_REF(grey_tide))
+
+/obj/machinery/door/airlock/proc/grey_tide(datum/source, list/grey_tide_areas)
+	SIGNAL_HANDLER
+
+	if(!is_station_level(z) || critical_machine)
+		return //Skip doors in critical positions, such as the SM chamber.
+
+	for(var/area_type in grey_tide_areas)
+		if(!istype(get_area(src), area_type))
+			continue
+		INVOKE_ASYNC(src, PROC_REF(prison_open)) //Sleep gets called further down in open(), so we have to invoke async
 
 /obj/machinery/door/airlock/connect_to_shuttle(mapload, obj/docking_port/mobile/port, obj/docking_port/stationary/dock)
 	if(id_tag)
 		id_tag = "[port.shuttle_id]_[id_tag]"
 
 /obj/machinery/door/airlock/proc/update_other_id()
-	for(var/obj/machinery/door/airlock/Airlock in GLOB.airlocks)
+	for(var/obj/machinery/door/airlock/Airlock as anything in SSmachines.get_machines_by_type_and_subtypes(/obj/machinery/door/airlock))
 		if(Airlock.closeOtherId == closeOtherId && Airlock != src)
 			if(!(Airlock in close_others))
 				close_others += Airlock
@@ -292,7 +311,6 @@
 	qdel(src)
 
 /obj/machinery/door/airlock/Destroy()
-	QDEL_NULL(wires)
 	QDEL_NULL(electronics)
 	if (cyclelinkedairlock)
 		if (cyclelinkedairlock.cyclelinkedairlock == src)
@@ -303,20 +321,24 @@
 		for(var/obj/machinery/door/airlock/otherlock as anything in close_others)
 			otherlock.close_others -= src
 		close_others.Cut()
+<<<<<<< HEAD
 	if(id_tag)
 		for(var/obj/machinery/door_buttons/D as anything in SSmachines.get_machines_by_type_and_subtypes(/obj/machinery/door_buttons))
 			D.removeMe(src)
+=======
+>>>>>>> tg-pr-88929
 	QDEL_NULL(note)
 	QDEL_NULL(seal)
 	for(var/datum/atom_hud/data/diagnostic/diag_hud in GLOB.huds)
 		diag_hud.remove_atom_from_hud(src)
 	return ..()
 
-/obj/machinery/door/airlock/handle_atom_del(atom/A)
-	if(A == note)
+/obj/machinery/door/airlock/Exited(atom/movable/gone, direction)
+	. = ..()
+	if(gone == note)
 		note = null
 		update_appearance()
-	if(A == seal)
+	if(gone == seal)
 		seal = null
 		update_appearance()
 
@@ -556,7 +578,7 @@
 	else
 		. += get_airlock_overlay("fill_[frame_state]", icon, src, em_block = TRUE)
 
-	if(lights && hasPower())
+	if(lights && hasPower() && light_state)
 		. += get_airlock_overlay("lights_[light_state]", overlays_file, src, em_block = FALSE)
 
 	if(panel_open)
@@ -604,23 +626,56 @@
 			. += floorlight
 */ //monkestation end
 
-/obj/machinery/door/airlock/do_animate(animation)
+/obj/machinery/door/airlock/run_animation(animation)
 	switch(animation)
-		if("opening")
+		if(DOOR_OPENING_ANIMATION)
 			update_icon(ALL, AIRLOCK_OPENING)
-		if("closing")
+		if(DOOR_OPENING_ANIMATION)
 			update_icon(ALL, AIRLOCK_CLOSING)
-		if("deny")
+		if(DOOR_DENY_ANIMATION)
 			if(!machine_stat)
 				update_icon(ALL, AIRLOCK_DENY)
+<<<<<<< HEAD
 				playsound(src,doorDeni,50,FALSE,3, mixer_channel = CHANNEL_MACHINERY)
 				addtimer(CALLBACK(src, TYPE_PROC_REF(/atom, update_icon), ALL, AIRLOCK_CLOSED), AIRLOCK_DENY_ANIMATION_TIME)
+=======
+				playsound(src,doorDeni,50,FALSE,3)
+				addtimer(CALLBACK(src, PROC_REF(handle_deny_end)), AIRLOCK_DENY_ANIMATION_TIME)
+
+/obj/machinery/door/airlock/proc/handle_deny_end()
+	if(airlock_state == AIRLOCK_DENY)
+		update_icon(ALL, AIRLOCK_CLOSED)
+
+/obj/machinery/door/airlock/animation_length(animation)
+	switch(animation)
+		if(DOOR_OPENING_ANIMATION)
+			return 0.6 SECONDS
+		if(DOOR_CLOSING_ANIMATION)
+			return 0.6 SECONDS
+
+/obj/machinery/door/airlock/animation_segment_delay(animation)
+	switch(animation)
+		if(AIRLOCK_OPENING_TRANSPARENT)
+			return 0.1 SECONDS
+		if(AIRLOCK_OPENING_PASSABLE)
+			return 0.5 SECONDS
+		if(AIRLOCK_OPENING_FINISHED)
+			return 0.6 SECONDS
+		if(AIRLOCK_CLOSING_UNPASSABLE)
+			return 0.2 SECONDS
+		if(AIRLOCK_CLOSING_OPAQUE)
+			return 0.5 SECONDS
+		if(AIRLOCK_CLOSING_FINISHED)
+			return 0.6 SECONDS
+>>>>>>> tg-pr-88929
 
 /obj/machinery/door/airlock/examine(mob/user)
 	. = ..()
 	if(closeOtherId)
 		. += span_warning("This airlock cycles on ID: [sanitize(closeOtherId)].")
-	else if(!closeOtherId)
+	else if(cyclelinkedairlock)
+		. += span_warning("This airlock cycles with: [cyclelinkedairlock.name].")
+	else
 		. += span_warning("This airlock does not cycle.")
 	if(obj_flags & EMAGGED)
 		. += span_warning("Its access panel is smoking slightly.")
@@ -684,8 +739,9 @@
 
 	switch (held_item?.tool_behaviour)
 		if (TOOL_SCREWDRIVER)
-			context[SCREENTIP_CONTEXT_LMB] = panel_open ? "Close panel" : "Open panel"
-			return CONTEXTUAL_SCREENTIP_SET
+			if(has_access_panel)
+				context[SCREENTIP_CONTEXT_LMB] = panel_open ? "Close panel" : "Open panel"
+				return CONTEXTUAL_SCREENTIP_SET
 		if (TOOL_CROWBAR)
 			if (panel_open)
 				if (security_level == AIRLOCK_SECURITY_PLASTEEL_O_S || security_level == AIRLOCK_SECURITY_PLASTEEL_I_S)
@@ -728,9 +784,6 @@
 //			to_chat(user, span_warning("Airlock AI control has been blocked with a firewall. Unable to hack."))
 	if(obj_flags & EMAGGED)
 		to_chat(user, span_warning("Unable to interface: Airlock is unresponsive."))
-		return
-	if(detonated)
-		to_chat(user, span_warning("Unable to interface. Airlock control panel damaged."))
 		return
 
 	ui_interact(user)
@@ -803,7 +856,7 @@
 	. = ..()
 	if(.)
 		return
-	if(!(issilicon(user) || isAdminGhostAI(user)))
+	if(!HAS_SILICON_ACCESS(user))
 		if(isElectrified() && shock(user, 100))
 			return
 
@@ -841,7 +894,7 @@
 		set_electrified(MACHINE_ELECTRIFIED_PERMANENT)
 
 /obj/machinery/door/airlock/screwdriver_act(mob/living/user, obj/item/tool)
-	if(panel_open && detonated)
+	if(!has_access_panel)
 		to_chat(user, span_warning("[src] has no maintenance panel!"))
 		return ITEM_INTERACT_SUCCESS
 	toggle_panel_open()
@@ -956,12 +1009,20 @@
 		else
 			return ITEM_INTERACT_SUCCESS
 
+<<<<<<< HEAD
 	if(!tool.tool_start_check(user, amount=2))
+=======
+	if(!tool.tool_start_check(user, amount=1))
+>>>>>>> tg-pr-88929
 		return ITEM_INTERACT_SUCCESS
 
 	to_chat(user, span_notice("You begin cutting the [layer_flavor]..."))
 
+<<<<<<< HEAD
 	if(!tool.use_tool(src, user, 4 SECONDS, volume=50, amount=2))
+=======
+	if(!tool.use_tool(src, user, 4 SECONDS, volume=50))
+>>>>>>> tg-pr-88929
 		return ITEM_INTERACT_SUCCESS
 
 	if(!panel_open || security_level != starting_level)
@@ -1000,8 +1061,8 @@
 	return TRUE
 
 /obj/machinery/door/airlock/attackby(obj/item/C, mob/user, params)
-	if(!issilicon(user) && !isAdminGhostAI(user))
-		if(isElectrified() && (C.flags_1 & CONDUCT_1) && shock(user, 75))
+	if(!HAS_SILICON_ACCESS(user))
+		if(isElectrified() && (C.obj_flags & CONDUCTS_ELECTRICITY) && shock(user, 75))
 			return
 	add_fingerprint(user)
 	if(istype(C, /obj/item/slasher_machette))
@@ -1044,7 +1105,11 @@
 			to_chat(user, span_warning("[src] has already been sealed!"))
 			return
 		user.visible_message(span_notice("[user] begins sealing [src]."), span_notice("You begin sealing [src]."))
+<<<<<<< HEAD
 		playsound(src, 'sound/items/jaws_pry.ogg', 30, TRUE, mixer_channel = CHANNEL_SOUND_EFFECTS)
+=======
+		playsound(src, 'sound/items/tools/jaws_pry.ogg', 30, TRUE)
+>>>>>>> tg-pr-88929
 		if(!do_after(user, airlockseal.seal_time, target = src))
 			return
 		if(!density)
@@ -1056,7 +1121,11 @@
 		if(!user.transferItemToLoc(airlockseal, src))
 			to_chat(user, span_warning("For some reason, you can't attach [airlockseal]!"))
 			return
+<<<<<<< HEAD
 		playsound(src, 'sound/machines/airlockforced.ogg', 30, TRUE, mixer_channel = CHANNEL_SOUND_EFFECTS)
+=======
+		playsound(src, 'sound/machines/airlock/airlockforced.ogg', 30, TRUE)
+>>>>>>> tg-pr-88929
 		user.visible_message(span_notice("[user] finishes sealing [src]."), span_notice("You finish sealing [src]."))
 		seal = airlockseal
 		modify_max_integrity(max_integrity * AIRLOCK_SEAL_MULTIPLIER)
@@ -1157,7 +1226,7 @@
 			return
 
 		if(atom_integrity < max_integrity)
-			if(!W.tool_start_check(user, amount=0))
+			if(!W.tool_start_check(user, amount=1))
 				return
 			user.visible_message(span_notice("[user] begins welding the airlock."), \
 							span_notice("You begin repairing the airlock..."), \
@@ -1172,7 +1241,7 @@
 			to_chat(user, span_notice("The airlock doesn't need repairing."))
 
 /obj/machinery/door/airlock/try_to_weld_secondary(obj/item/weldingtool/tool, mob/user)
-	if(!tool.tool_start_check(user, amount=0))
+	if(!tool.tool_start_check(user, amount=1))
 		return
 	user.visible_message(span_notice("[user] begins [welded ? "unwelding":"welding"] the airlock."), \
 		span_notice("You begin [welded ? "unwelding":"welding"] the airlock..."), \
@@ -1204,12 +1273,20 @@
 		to_chat(user, span_warning("You don't have the dexterity to remove the seal!"))
 		return TRUE
 	user.visible_message(span_notice("[user] begins removing the seal from [src]."), span_notice("You begin removing [src]'s pneumatic seal."))
+<<<<<<< HEAD
 	playsound(src, 'sound/machines/airlockforced.ogg', 30, TRUE, mixer_channel = CHANNEL_SOUND_EFFECTS)
+=======
+	playsound(src, 'sound/machines/airlock/airlockforced.ogg', 30, TRUE)
+>>>>>>> tg-pr-88929
 	if(!do_after(user, airlockseal.unseal_time, target = src))
 		return TRUE
 	if(!seal)
 		return TRUE
+<<<<<<< HEAD
 	playsound(src, 'sound/items/jaws_pry.ogg', 30, TRUE, mixer_channel = CHANNEL_SOUND_EFFECTS)
+=======
+	playsound(src, 'sound/items/tools/jaws_pry.ogg', 30, TRUE)
+>>>>>>> tg-pr-88929
 	airlockseal.forceMove(get_turf(user))
 	user.visible_message(span_notice("[user] finishes removing the seal from [src]."), span_notice("You finish removing [src]'s pneumatic seal."))
 	seal = null
@@ -1242,13 +1319,15 @@
 
 	return TRUE
 
-/obj/machinery/door/airlock/try_to_crowbar(obj/item/I, mob/living/user, forced = FALSE)
-	if(I?.tool_behaviour == TOOL_CROWBAR && should_try_removing_electronics() && !operating)
+/obj/machinery/door/airlock/try_to_crowbar(obj/item/tool, mob/living/user, forced = FALSE)
+	if(!isnull(tool) && tool.tool_behaviour == TOOL_CROWBAR && should_try_removing_electronics() && !operating)
 		user.visible_message(span_notice("[user] removes the electronics from the airlock assembly."), \
 			span_notice("You start to remove electronics from the airlock assembly..."))
-		if(I.use_tool(src, user, 40, volume=100))
+
+		if(tool.use_tool(src, user, 40, volume = 100))
 			deconstruct(TRUE, user)
 			return
+
 	if(seal)
 		to_chat(user, span_warning("Remove the seal first!"))
 		return
@@ -1258,15 +1337,12 @@
 	if(welded)
 		to_chat(user, span_warning("It's welded, it won't budge!"))
 		return
-	if(hasPower())
-		if(forced)
-			var/check_electrified = isElectrified() //setting this so we can check if the mob got shocked during the do_after below
-			if(check_electrified && shock(user,100))
-				return //it's like sticking a fork in a power socket
 
-			if(!density)//already open
-				return
+	if(!hasPower())
+		if(operating)
+			return
 
+<<<<<<< HEAD
 			if(!prying_so_hard)
 				var/time_to_open = 50
 				playsound(src, 'sound/machines/airlock_alien_prying.ogg', 100, TRUE, mixer_channel = CHANNEL_SOUND_EFFECTS) //is it aliens or just the CE being a dick?
@@ -1293,6 +1369,46 @@
 			return FALSE
 		//MONKESTATION EDIT END
 		INVOKE_ASYNC(src, density ? PROC_REF(open) : PROC_REF(close), BYPASS_DOOR_CHECKS)
+=======
+		if(istype(tool, /obj/item/fireaxe) && !HAS_TRAIT(tool, TRAIT_WIELDED)) //being fireaxe'd
+			to_chat(user, span_warning("You need to be wielding [tool] to do that!"))
+			return
+
+		INVOKE_ASYNC(src, density ? PROC_REF(open) : PROC_REF(close), BYPASS_DOOR_CHECKS)
+		return
+
+	if(!forced)
+		to_chat(user, span_warning("The airlock's motors resist your efforts to force it!"))
+		return
+
+	var/check_electrified = isElectrified() //setting this so we can check if the mob got shocked during the do_after below
+	if(check_electrified && shock(user,100))
+		return //it's like sticking a fork in a power socket
+
+	if(!density)//already open
+		return
+
+	if(prying_so_hard)
+		return
+
+	var/time_to_open = 5 SECONDS
+	playsound(src, 'sound/machines/airlock/airlock_alien_prying.ogg', 100, TRUE) //is it aliens or just the CE being a dick?
+	prying_so_hard = TRUE
+
+	if(!tool.use_tool(src, user, time_to_open, volume = 100))
+		prying_so_hard = FALSE
+		return
+
+	prying_so_hard = FALSE
+
+	if(check_electrified && shock(user, 100))
+		return
+
+	open(BYPASS_DOOR_CHECKS)
+	take_damage(25, BRUTE, 0, 0) // Enough to sometimes spark
+	if(density && !open(BYPASS_DOOR_CHECKS))
+		to_chat(user, span_warning("Despite your attempts, [src] refuses to open."))
+>>>>>>> tg-pr-88929
 
 /obj/machinery/door/airlock/open(forced = DEFAULT_DOOR_CHECKS)
 	if(cycle_pump && !operating && !welded && !seal && locked && density)
@@ -1333,14 +1449,21 @@
 	SEND_SIGNAL(src, COMSIG_AIRLOCK_OPEN, forced)
 	operating = TRUE
 	update_icon(ALL, AIRLOCK_OPENING, TRUE)
-	sleep(0.1 SECONDS)
+	var/transparent_delay = animation_segment_delay(AIRLOCK_OPENING_TRANSPARENT)
+	sleep(transparent_delay)
 	set_opacity(0)
+	if(multi_tile)
+		filler.set_opacity(FALSE)
 	update_freelook_sight()
-	sleep(0.4 SECONDS)
+	var/passable_delay = animation_segment_delay(AIRLOCK_OPENING_PASSABLE) - transparent_delay
+	sleep(passable_delay)
 	set_density(FALSE)
+	if(multi_tile)
+		filler.set_density(FALSE)
 	flags_1 &= ~PREVENT_CLICK_UNDER_1
 	air_update_turf(TRUE, FALSE)
-	sleep(0.1 SECONDS)
+	var/open_delay = animation_segment_delay(AIRLOCK_OPENING_FINISHED) - transparent_delay - passable_delay
+	sleep(open_delay)
 	layer = OPEN_DOOR_LAYER
 	update_icon(ALL, AIRLOCK_OPEN, TRUE)
 	operating = FALSE
@@ -1356,8 +1479,13 @@
 		if(DEFAULT_DOOR_CHECKS) // Regular behavior.
 			if(!hasPower() || wires.is_cut(WIRE_OPEN) || (obj_flags & EMAGGED))
 				return FALSE
+<<<<<<< HEAD
 			use_energy(50)
 			playsound(src, doorOpen, 30, TRUE, mixer_channel = CHANNEL_MACHINERY)
+=======
+			use_energy(50 JOULES)
+			playsound(src, doorOpen, 30, TRUE)
+>>>>>>> tg-pr-88929
 			return TRUE
 
 		if(FORCING_DOOR_CHECKS) // Only one check.
@@ -1368,7 +1496,11 @@
 			return TRUE
 
 		if(BYPASS_DOOR_CHECKS) // No power usage, special sound, get it open.
+<<<<<<< HEAD
 			playsound(src, 'sound/machines/airlockforced.ogg', 30, TRUE, mixer_channel = CHANNEL_SOUND_EFFECTS)
+=======
+			playsound(src, 'sound/machines/airlock/airlockforced.ogg', 30, TRUE)
+>>>>>>> tg-pr-88929
 			return TRUE
 
 		else
@@ -1388,10 +1520,11 @@
 
 	var/dangerous_close = !safe || force_crush
 	if(!dangerous_close)
-		for(var/atom/movable/M in get_turf(src))
-			if(M.density && M != src) //something is blocking the door
-				autoclose_in(DOOR_CLOSE_WAIT)
-				return FALSE
+		for(var/turf/checked_turf in locs)
+			for(var/atom/movable/blocking in checked_turf)
+				if(blocking.density && blocking != src)
+					autoclose_in(DOOR_CLOSE_WAIT)
+					return FALSE
 
 	if(!try_to_force_door_shut(forced))
 		return FALSE
@@ -1421,20 +1554,29 @@
 	layer = CLOSED_DOOR_LAYER
 	if(air_tight)
 		set_density(TRUE)
+		if(multi_tile)
+			filler.set_density(TRUE)
 		flags_1 |= PREVENT_CLICK_UNDER_1
 		air_update_turf(TRUE, TRUE)
-	sleep(0.1 SECONDS)
+	var/unpassable_delay = animation_segment_delay(AIRLOCK_CLOSING_UNPASSABLE)
+	sleep(unpassable_delay)
 	if(!air_tight)
 		set_density(TRUE)
+		if(multi_tile)
+			filler.set_density(TRUE)
 		flags_1 |= PREVENT_CLICK_UNDER_1
 		air_update_turf(TRUE, TRUE)
-	sleep(0.4 SECONDS)
+	var/opaque_delay = animation_segment_delay(AIRLOCK_CLOSING_OPAQUE) - unpassable_delay
+	sleep(opaque_delay)
 	if(dangerous_close)
 		crush()
 	if(visible && !glass)
-		set_opacity(1)
+		set_opacity(TRUE)
+		if(multi_tile)
+			filler.set_opacity(TRUE)
 	update_freelook_sight()
-	sleep(0.1 SECONDS)
+	var/close_delay = animation_segment_delay(AIRLOCK_CLOSING_FINISHED) - unpassable_delay - opaque_delay
+	sleep(close_delay)
 	update_icon(ALL, AIRLOCK_CLOSED, 1)
 	operating = FALSE
 	delayed_close_requested = FALSE
@@ -1447,12 +1589,21 @@
 		if(DEFAULT_DOOR_CHECKS to FORCING_DOOR_CHECKS)
 			if(obj_flags & EMAGGED)
 				return FALSE
+<<<<<<< HEAD
 			use_energy(50)
 			playsound(src, doorClose, 30, TRUE, mixer_channel = CHANNEL_MACHINERY)
 			return TRUE
 
 		if(BYPASS_DOOR_CHECKS)
 			playsound(src, 'sound/machines/airlockforced.ogg', 30, TRUE, mixer_channel = CHANNEL_SOUND_EFFECTS)
+=======
+			use_energy(50 JOULES)
+			playsound(src, doorClose, 30, TRUE)
+			return TRUE
+
+		if(BYPASS_DOOR_CHECKS)
+			playsound(src, 'sound/machines/airlock/airlockforced.ogg', 30, TRUE)
+>>>>>>> tg-pr-88929
 			return TRUE
 
 		else
@@ -1464,9 +1615,10 @@
 /obj/machinery/door/airlock/proc/prison_open()
 	if((obj_flags & EMAGGED) || is_probably_external_airlock()) // monkestation edit: STOP SPACING ENGI
 		return
-	locked = FALSE
+	if(locked)
+		unbolt()
 	open()
-	locked = TRUE
+	bolt()
 	return
 
 // gets called when a player uses an airlock painter on this airlock
@@ -1489,7 +1641,12 @@
 
 	// applies the user-chosen airlock's icon, overlays and assemblytype to the src airlock
 	painter.use_paint(user)
-	icon = initial(airlock.icon)
+	if(initial(airlock.greyscale_config))
+		greyscale_config = initial(airlock.greyscale_config)
+		greyscale_colors = initial(airlock.greyscale_colors)
+		update_greyscale()
+	else
+		icon = initial(airlock.icon)
 	overlays_file = initial(airlock.overlays_file)
 	assemblytype = initial(airlock.assemblytype)
 	update_appearance()
@@ -1528,9 +1685,14 @@
 		return
 	if(!density) //Already open
 		return ..()
+	if(user.combat_mode)
+		return ..()
 	if(locked || welded || seal) //Extremely generic, as aliens only understand the basics of how airlocks work.
+<<<<<<< HEAD
 		if((user.istate & ISTATE_HARM))
 			return ..()
+=======
+>>>>>>> tg-pr-88929
 		to_chat(user, span_warning("[src] refuses to budge!"))
 		return
 	add_fingerprint(user)
@@ -1540,7 +1702,11 @@
 	var/time_to_open = 5 //half a second
 	if(hasPower())
 		time_to_open = 5 SECONDS //Powered airlocks take longer to open, and are loud.
+<<<<<<< HEAD
 		playsound(src, 'sound/machines/airlock_alien_prying.ogg', 100, TRUE, mixer_channel = CHANNEL_SOUND_EFFECTS)
+=======
+		playsound(src, 'sound/machines/airlock/airlock_alien_prying.ogg', 100, TRUE)
+>>>>>>> tg-pr-88929
 
 
 	if(do_after(user, time_to_open, src))
@@ -1549,7 +1715,7 @@
 
 /obj/machinery/door/airlock/hostile_lockdown(mob/origin)
 	// Must be powered and have working AI wire.
-	if(canAIControl(src) && !machine_stat)
+	if(canAIControl(origin) && !machine_stat)
 		locked = FALSE //For airlocks that were bolted open.
 		safe = FALSE //DOOR CRUSH
 		close()
@@ -1561,7 +1727,7 @@
 
 /obj/machinery/door/airlock/disable_lockdown()
 	// Must be powered and have working AI wire.
-	if(canAIControl(src) && !machine_stat)
+	if(canAIControl() && !machine_stat)
 		unbolt()
 		set_electrified(MACHINE_NOT_ELECTRIFIED)
 		open()
@@ -1597,13 +1763,13 @@
 				message = "unshocked"
 			else
 				message = "temp shocked for [secondsElectrified] seconds"
-		LAZYADD(shockedby, text("\[[time_stamp()]\] [key_name(user)] - ([uppertext(message)])"))
+		LAZYADD(shockedby, "\[[time_stamp()]\] [key_name(user)] - ([uppertext(message)])")
 		log_combat(user, src, message)
 		add_hiddenprint(user)
 
 /obj/machinery/door/airlock/take_damage(damage_amount, damage_type = BRUTE, damage_flag = 0, sound_effect = 1, attack_dir)
 	if((damage_amount >= atom_integrity) && (damage_flag == BOMB))
-		flags_1 |= NODECONSTRUCT_1  //If an explosive took us out, don't drop the assembly
+		obj_flags |= NO_DEBRIS_AFTER_DECONSTRUCTION  //If an explosive took us out, don't drop the assembly
 	. = ..()
 	if(atom_integrity < (0.75 * max_integrity))
 		update_appearance()
@@ -1617,39 +1783,35 @@
 	assembly.previous_assembly = previous_airlock
 	assembly.update_name()
 	assembly.update_appearance()
+	assembly.dir = dir
 
-/obj/machinery/door/airlock/deconstruct(disassembled = TRUE, mob/user)
-	if(!(flags_1 & NODECONSTRUCT_1))
-		var/obj/structure/door_assembly/A
-		if(assemblytype)
-			A = new assemblytype(loc)
+/obj/machinery/door/airlock/on_deconstruction(disassembled)
+	var/obj/structure/door_assembly/A
+	if(assemblytype)
+		A = new assemblytype(loc)
+	else
+		A = new /obj/structure/door_assembly(loc)
+		//If you come across a null assemblytype, it will produce the default assembly instead of disintegrating.
+	prepare_deconstruction_assembly(A)
+
+	if(!disassembled)
+		A?.update_integrity(A.max_integrity * 0.5)
+
+	else if(!(obj_flags & EMAGGED))
+		var/obj/item/electronics/airlock/ae
+		if(!electronics)
+			ae = new/obj/item/electronics/airlock(loc)
+			if(closeOtherId)
+				ae.passed_cycle_id = closeOtherId
+			if(length(req_one_access))
+				ae.one_access = 1
+				ae.accesses = req_one_access
+			else if(length(req_access))
+				ae.accesses = req_access
 		else
-			A = new /obj/structure/door_assembly(loc)
-			//If you come across a null assemblytype, it will produce the default assembly instead of disintegrating.
-		prepare_deconstruction_assembly(A)
-
-		if(!disassembled)
-			A?.update_integrity(A.max_integrity * 0.5)
-		else if(obj_flags & EMAGGED)
-			if(user)
-				to_chat(user, span_warning("You discard the damaged electronics."))
-		else
-			if(user)
-				to_chat(user, span_notice("You remove the airlock electronics."))
-
-			var/obj/item/electronics/airlock/ae
-			if(!electronics)
-				ae = new/obj/item/electronics/airlock(loc)
-				if(length(req_one_access))
-					ae.one_access = 1
-					ae.accesses = req_one_access
-				else
-					ae.accesses = req_access
-			else
-				ae = electronics
-				electronics = null
-				ae.forceMove(drop_location())
-	qdel(src)
+			ae = electronics
+			electronics = null
+			ae.forceMove(drop_location())
 
 /obj/machinery/door/airlock/rcd_vals(mob/user, obj/item/construction/rcd/the_rcd)
 	switch(the_rcd.mode)
@@ -1660,13 +1822,16 @@
 			if(security_level != AIRLOCK_SECURITY_NONE)
 				to_chat(user, span_notice("[src]'s reinforcement needs to be removed first."))
 				return FALSE
+<<<<<<< HEAD
 			return list("mode" = RCD_DECONSTRUCT, "delay" = 5 SECONDS, "cost" = 32)
+=======
+			return list("delay" = 5 SECONDS, "cost" = 32)
+>>>>>>> tg-pr-88929
 	return FALSE
 
-/obj/machinery/door/airlock/rcd_act(mob/user, obj/item/construction/rcd/the_rcd, passed_mode)
-	switch(passed_mode)
+/obj/machinery/door/airlock/rcd_act(mob/user, obj/item/construction/rcd/the_rcd, list/rcd_data)
+	switch(rcd_data["[RCD_DESIGN_MODE]"])
 		if(RCD_DECONSTRUCT)
-			to_chat(user, span_notice("You deconstruct the airlock."))
 			qdel(src)
 			return TRUE
 	return FALSE
@@ -1701,9 +1866,15 @@
 
 	var/list/power = list()
 	power["main"] = remaining_main_outage() ? 0 : 2 // boolean
+<<<<<<< HEAD
 	power["main_timeleft"] = remaining_main_outage()
 	power["backup"] = remaining_backup_outage() ? 0 : 2 // boolean
 	power["backup_timeleft"] = remaining_backup_outage()
+=======
+	power["main_timeleft"] = round(remaining_main_outage() / 10)
+	power["backup"] = remaining_backup_outage() ? 0 : 2 // boolean
+	power["backup_timeleft"] = round(remaining_backup_outage() / 10)
+>>>>>>> tg-pr-88929
 	data["power"] = power
 
 	data["shock"] = secondsElectrified == MACHINE_NOT_ELECTRIFIED ? 2 : 0
@@ -1741,14 +1912,22 @@
 		return
 	switch(action)
 		if("disrupt-main")
+<<<<<<< HEAD
 			if(remaining_main_outage())
+=======
+			if(!main_power_timer)
+>>>>>>> tg-pr-88929
 				loseMainPower()
 				update_appearance()
 			else
 				to_chat(usr, span_warning("Main power is already offline."))
 			. = TRUE
 		if("disrupt-backup")
+<<<<<<< HEAD
 			if(remaining_backup_outage())
+=======
+			if(!backup_power_timer)
+>>>>>>> tg-pr-88929
 				loseBackupPower()
 				update_appearance()
 			else
@@ -1787,7 +1966,7 @@
 			. = TRUE
 
 /obj/machinery/door/airlock/proc/user_allowed(mob/user)
-	return (issilicon(user) && canAIControl(user)) || isAdminGhostAI(user)
+	return (HAS_SILICON_ACCESS(user) && canAIControl(user)) || isAdminGhostAI(user)
 
 /obj/machinery/door/airlock/proc/shock_restore(mob/user)
 	if(!user_allowed(user))
@@ -1868,12 +2047,733 @@
 	var/area/source_area = get_area(src)
 	return source_area?.airlock_wires ? new source_area.airlock_wires(src) : new /datum/wires/airlock(src)
 
-#undef AIRLOCK_CLOSED
-#undef AIRLOCK_CLOSING
-#undef AIRLOCK_OPEN
-#undef AIRLOCK_OPENING
-#undef AIRLOCK_DENY
-#undef AIRLOCK_EMAG
+/obj/structure/fluff/airlock_filler/Destroy(force)
+	filled_airlock = null
+	return ..()
+
+/**
+ * Create a ref to our parent airlock and listen for a QDEL, which we will al
+ */
+/obj/structure/fluff/airlock_filler/proc/pair_airlock(obj/machinery/door/parent_airlock)
+	if(isnull(parent_airlock))
+		stack_trace("Attempted to pair an airlock filler with no parent airlock specified!")
+		return
+
+	filled_airlock = parent_airlock
+	RegisterSignal(filled_airlock, COMSIG_QDELETING, PROC_REF(no_airlock))
+
+/**
+ * Multi-tile airlocks pair with a filler panel, if one goes so does the other.
+ */
+/obj/structure/fluff/airlock_filler/proc/no_airlock()
+	SIGNAL_HANDLER
+
+	qdel(src)
+
+/**
+ * Multi-tile airlocks (using a filler panel) have special handling for movables with PASSGLASS
+ */
+/obj/structure/fluff/airlock_filler/CanAllowThrough(atom/movable/mover, turf/target)
+	. = ..()
+	if(.)
+		return
+
+	if(istype(mover) && (mover.pass_flags & PASSGLASS))
+		return !opacity
+
+/obj/structure/fluff/airlock_filler/can_be_pulled(user, force)
+	return FALSE
+
+/obj/structure/fluff/airlock_filler/singularity_act()
+	return
+
+/obj/structure/fluff/airlock_filler/singularity_pull(atom/singularity, current_size)
+	return
+
+/obj/machinery/door/airlock/proc/set_cycle_pump(obj/machinery/atmospherics/components/unary/airlock_pump/pump)
+	RegisterSignal(pump, COMSIG_QDELETING, PROC_REF(unset_cycle_pump))
+	cycle_pump = pump
+
+/obj/machinery/door/airlock/proc/unset_cycle_pump()
+	SIGNAL_HANDLER
+	if(locked)
+		unbolt()
+		say("Link broken, unbolting.")
+	cycle_pump = null
+
+// Station Airlocks Regular
+
+/obj/machinery/door/airlock/command
+	name = "command airlock"
+	icon = 'icons/obj/doors/airlocks/station/command.dmi'
+	assemblytype = /obj/structure/door_assembly/door_assembly_com
+	normal_integrity = 450
+
+/obj/machinery/door/airlock/security
+	name = "security airlock"
+	icon = 'icons/obj/doors/airlocks/station/security.dmi'
+	var/id = null
+	assemblytype = /obj/structure/door_assembly/door_assembly_sec
+	normal_integrity = 450
+
+/obj/machinery/door/airlock/engineering
+	name = "engineering airlock"
+	icon = 'icons/obj/doors/airlocks/station/engineering.dmi'
+	assemblytype = /obj/structure/door_assembly/door_assembly_eng
+
+/obj/machinery/door/airlock/medical
+	name = "medical airlock"
+	icon = 'icons/obj/doors/airlocks/station/medical.dmi'
+	assemblytype = /obj/structure/door_assembly/door_assembly_med
+
+/obj/machinery/door/airlock/hydroponics	//Hydroponics front doors!
+	name = "hydroponics airlock"
+	icon = 'icons/obj/doors/airlocks/station/hydroponics.dmi'
+	assemblytype = /obj/structure/door_assembly/door_assembly_hydro
+
+/obj/machinery/door/airlock/maintenance
+	name = "maintenance access"
+	icon = 'icons/obj/doors/airlocks/station/maintenance.dmi'
+	assemblytype = /obj/structure/door_assembly/door_assembly_mai
+	normal_integrity = 250
+
+/obj/machinery/door/airlock/maintenance/external
+	name = "external airlock access"
+	icon = 'icons/obj/doors/airlocks/station/maintenanceexternal.dmi'
+	assemblytype = /obj/structure/door_assembly/door_assembly_extmai
+
+/obj/machinery/door/airlock/mining
+	name = "mining airlock"
+	icon = 'icons/obj/doors/airlocks/station/mining.dmi'
+	assemblytype = /obj/structure/door_assembly/door_assembly_min
+
+/obj/machinery/door/airlock/atmos
+	name = "atmospherics airlock"
+	icon = 'icons/obj/doors/airlocks/station/atmos.dmi'
+	assemblytype = /obj/structure/door_assembly/door_assembly_atmo
+
+/obj/machinery/door/airlock/research
+	name = "research airlock"
+	icon = 'icons/obj/doors/airlocks/station/research.dmi'
+	assemblytype = /obj/structure/door_assembly/door_assembly_research
+
+/obj/machinery/door/airlock/freezer
+	name = "freezer airlock"
+	icon = 'icons/obj/doors/airlocks/station/freezer.dmi'
+	assemblytype = /obj/structure/door_assembly/door_assembly_fre
+
+/obj/machinery/door/airlock/science
+	name = "science airlock"
+	icon = 'icons/obj/doors/airlocks/station/science.dmi'
+	assemblytype = /obj/structure/door_assembly/door_assembly_science
+
+/obj/machinery/door/airlock/virology
+	name = "virology airlock"
+	icon = 'icons/obj/doors/airlocks/station/virology.dmi'
+	assemblytype = /obj/structure/door_assembly/door_assembly_viro
+
+// Station Airlocks Glass
+
+/obj/machinery/door/airlock/glass
+	name = "glass airlock"
+	opacity = FALSE
+	glass = TRUE
+
+/obj/machinery/door/airlock/glass/incinerator
+	autoclose = FALSE
+	heat_proof = TRUE
+	req_access = list(ACCESS_SYNDICATE)
+
+/obj/machinery/door/airlock/glass/incinerator/syndicatelava_interior
+	name = "Turbine Interior Airlock"
+	id_tag = INCINERATOR_SYNDICATELAVA_AIRLOCK_INTERIOR
+
+/obj/machinery/door/airlock/glass/incinerator/syndicatelava_exterior
+	name = "Turbine Exterior Airlock"
+	id_tag = INCINERATOR_SYNDICATELAVA_AIRLOCK_EXTERIOR
+
+/obj/machinery/door/airlock/command/glass
+	name = "command glass airlock"
+	opacity = FALSE
+	glass = TRUE
+	normal_integrity = 400
+
+/obj/machinery/door/airlock/engineering/glass
+	name = "engineering glass airlock"
+	opacity = FALSE
+	glass = TRUE
+
+/obj/machinery/door/airlock/engineering/glass/critical
+	critical_machine = TRUE //stops greytide virus from opening & bolting doors in critical positions, such as the SM chamber.
+
+/obj/machinery/door/airlock/security/glass
+	name = "security glass airlock"
+	opacity = FALSE
+	glass = TRUE
+	normal_integrity = 400
+
+/obj/machinery/door/airlock/medical/glass
+	name = "medical glass airlock"
+	opacity = FALSE
+	glass = TRUE
+
+/obj/machinery/door/airlock/hydroponics/glass //Uses same icon as medical/glass, maybe update it with its own unique icon one day?
+	name = "hydroponics glass airlock"
+	opacity = FALSE
+	glass = TRUE
+
+/obj/machinery/door/airlock/research/glass
+	name = "research glass airlock"
+	opacity = FALSE
+	glass = TRUE
+
+/obj/machinery/door/airlock/research/glass/incinerator
+	autoclose = FALSE
+	heat_proof = TRUE
+
+/obj/machinery/door/airlock/research/glass/incinerator/ordmix_interior
+	name = "Mixing Room Interior Airlock"
+	id_tag = INCINERATOR_ORDMIX_AIRLOCK_INTERIOR
+
+/obj/machinery/door/airlock/research/glass/incinerator/ordmix_exterior
+	name = "Mixing Room Exterior Airlock"
+	id_tag = INCINERATOR_ORDMIX_AIRLOCK_EXTERIOR
+
+/obj/machinery/door/airlock/mining/glass
+	name = "mining glass airlock"
+	opacity = FALSE
+	glass = TRUE
+
+/obj/machinery/door/airlock/atmos/glass
+	name = "atmospheric glass airlock"
+	opacity = FALSE
+	glass = TRUE
+
+/obj/machinery/door/airlock/atmos/glass/critical
+	critical_machine = TRUE //stops greytide virus from opening & bolting doors in critical positions, such as the SM chamber.
+
+/obj/machinery/door/airlock/science/glass
+	name = "science glass airlock"
+	opacity = FALSE
+	glass = TRUE
+
+/obj/machinery/door/airlock/virology/glass
+	name = "virology glass airlock"
+	opacity = FALSE
+	glass = TRUE
+
+/obj/machinery/door/airlock/maintenance/glass
+	name = "maintenance glass airlock"
+	opacity = FALSE
+	glass = TRUE
+
+/obj/machinery/door/airlock/maintenance/external/glass
+	name = "maintenance external glass airlock"
+	opacity = FALSE
+	glass = TRUE
+	normal_integrity = 200
+
+// Station Airlocks Mineral
+
+/obj/machinery/door/airlock/gold
+	name = "gold airlock"
+	icon = 'icons/obj/doors/airlocks/station/gold.dmi'
+	assemblytype = /obj/structure/door_assembly/door_assembly_gold
+
+/obj/machinery/door/airlock/gold/discoinferno
+	heat_proof = TRUE
+	resistance_flags = FIRE_PROOF
+	armor_type = /datum/armor/discoinferno_airlock
+
+/datum/armor/discoinferno_airlock
+	melee = 30
+	bullet = 30
+	laser = 20
+	energy = 20
+	bomb = 10
+	fire = 100
+	acid = 100
+
+/obj/machinery/door/airlock/gold/glass
+	opacity = FALSE
+	glass = TRUE
+
+/obj/machinery/door/airlock/silver
+	name = "silver airlock"
+	icon = 'icons/obj/doors/airlocks/station/silver.dmi'
+	assemblytype = /obj/structure/door_assembly/door_assembly_silver
+
+/obj/machinery/door/airlock/silver/glass
+	opacity = FALSE
+	glass = TRUE
+
+/obj/machinery/door/airlock/diamond
+	name = "diamond airlock"
+	icon = 'icons/obj/doors/airlocks/station/diamond.dmi'
+	assemblytype = /obj/structure/door_assembly/door_assembly_diamond
+	normal_integrity = 1000
+	explosion_block = 2
+
+/obj/machinery/door/airlock/diamond/glass
+	normal_integrity = 950
+	opacity = FALSE
+	glass = TRUE
+
+/obj/machinery/door/airlock/uranium
+	name = "uranium airlock"
+	icon = 'icons/obj/doors/airlocks/station/uranium.dmi'
+	assemblytype = /obj/structure/door_assembly/door_assembly_uranium
+	var/last_event = 0
+	//Is this airlock actually radioactive?
+	var/actually_radioactive = TRUE
+
+/obj/machinery/door/airlock/uranium/process()
+	if(actually_radioactive && world.time > last_event+20)
+		if(prob(50))
+			radiate()
+		last_event = world.time
+
+/obj/machinery/door/airlock/uranium/proc/radiate()
+	radiation_pulse(
+		src,
+		max_range = 2,
+		threshold = RAD_LIGHT_INSULATION,
+		chance = URANIUM_IRRADIATION_CHANCE,
+		minimum_exposure_time = URANIUM_RADIATION_MINIMUM_EXPOSURE_TIME,
+	)
+
+/obj/machinery/door/airlock/uranium/glass
+	opacity = FALSE
+	glass = TRUE
+
+/obj/machinery/door/airlock/uranium/safe
+	actually_radioactive = FALSE
+
+/obj/machinery/door/airlock/uranium/glass/safe
+	actually_radioactive = FALSE
+
+/obj/machinery/door/airlock/plasma
+	name = "plasma airlock"
+	desc = "No way this can end badly."
+	icon = 'icons/obj/doors/airlocks/station/plasma.dmi'
+	assemblytype = /obj/structure/door_assembly/door_assembly_plasma
+	material_flags = MATERIAL_EFFECTS
+	material_modifier = 0.25
+
+/obj/machinery/door/airlock/plasma/Initialize(mapload)
+	custom_materials = custom_materials ? custom_materials : list(/datum/material/plasma = SHEET_MATERIAL_AMOUNT * 10)
+	. = ..()
+
+/obj/machinery/door/airlock/plasma/block_superconductivity() //we don't stop the heat~
+	return 0
+
+/obj/machinery/door/airlock/plasma/glass
+	opacity = FALSE
+	glass = TRUE
+
+/obj/machinery/door/airlock/bananium
+	name = "bananium airlock"
+	desc = "Honkhonkhonk"
+	icon = 'icons/obj/doors/airlocks/station/bananium.dmi'
+	assemblytype = /obj/structure/door_assembly/door_assembly_bananium
+	doorOpen = 'sound/items/bikehorn.ogg'
+
+/obj/machinery/door/airlock/bananium/glass
+	opacity = FALSE
+	glass = TRUE
+
+/obj/machinery/door/airlock/sandstone
+	name = "sandstone airlock"
+	icon = 'icons/obj/doors/airlocks/station/sandstone.dmi'
+	assemblytype = /obj/structure/door_assembly/door_assembly_sandstone
+
+/obj/machinery/door/airlock/sandstone/glass
+	opacity = FALSE
+	glass = TRUE
+
+/obj/machinery/door/airlock/wood
+	name = "wooden airlock"
+	icon = 'icons/obj/doors/airlocks/station/wood.dmi'
+	assemblytype = /obj/structure/door_assembly/door_assembly_wood
+
+/obj/machinery/door/airlock/wood/glass
+	opacity = FALSE
+	glass = TRUE
+
+/obj/machinery/door/airlock/titanium
+	name = "shuttle airlock"
+	assemblytype = /obj/structure/door_assembly/door_assembly_titanium
+	icon = 'icons/obj/doors/airlocks/shuttle/shuttle.dmi'
+	overlays_file = 'icons/obj/doors/airlocks/shuttle/overlays.dmi'
+	normal_integrity = 400
+
+/obj/machinery/door/airlock/titanium/glass
+	normal_integrity = 350
+	opacity = FALSE
+	glass = TRUE
+
+/obj/machinery/door/airlock/bronze
+	name = "bronze airlock"
+	icon = 'icons/obj/doors/airlocks/clockwork/pinion_airlock.dmi'
+	overlays_file = 'icons/obj/doors/airlocks/clockwork/overlays.dmi'
+	assemblytype = /obj/structure/door_assembly/door_assembly_bronze
+
+/obj/machinery/door/airlock/bronze/seethru
+	assemblytype = /obj/structure/door_assembly/door_assembly_bronze/seethru
+	opacity = FALSE
+	glass = TRUE
+
+
+// Public Airlocks
+
+/obj/machinery/door/airlock/public
+	name = "public airlock"
+	icon = 'icons/obj/doors/airlocks/public/glass.dmi'
+	overlays_file = 'icons/obj/doors/airlocks/public/overlays.dmi'
+	assemblytype = /obj/structure/door_assembly/door_assembly_public
+
+/obj/machinery/door/airlock/public/glass
+	name = "public glass airlock"
+	opacity = FALSE
+	glass = TRUE
+
+/obj/machinery/door/airlock/public/glass/incinerator
+	autoclose = FALSE
+	heat_proof = TRUE
+
+/obj/machinery/door/airlock/public/glass/incinerator/atmos_interior
+	name = "Turbine Interior Airlock"
+	id_tag = INCINERATOR_ATMOS_AIRLOCK_INTERIOR
+
+/obj/machinery/door/airlock/public/glass/incinerator/atmos_exterior
+	name = "Turbine Exterior Airlock"
+	id_tag = INCINERATOR_ATMOS_AIRLOCK_EXTERIOR
+
+// External Airlocks
+
+/obj/machinery/door/airlock/external
+	name = "external airlock"
+	icon = 'icons/obj/doors/airlocks/external/external.dmi'
+	overlays_file = 'icons/obj/doors/airlocks/external/overlays.dmi'
+	note_overlay_file = 'icons/obj/doors/airlocks/external/overlays.dmi'
+	assemblytype = /obj/structure/door_assembly/door_assembly_ext
+
+	/// Whether or not the airlock can be opened without access from a certain direction while powered, or with bare hands from any direction while unpowered OR pressurized.
+	var/space_dir = null
+
+/obj/machinery/door/airlock/external/Initialize(mapload, ...)
+	// default setting is for mapping only, let overrides work
+	if(!mapload)
+		req_access = null
+
+	return ..()
+
+/obj/machinery/door/airlock/external/post_machine_initialize()
+	. = ..()
+	if(space_dir)
+		unres_sides |= space_dir
+
+/obj/machinery/door/airlock/external/examine(mob/user)
+	. = ..()
+	if(space_dir)
+		. += span_notice("It has labels indicating that it has an emergency mechanism to open from the [dir2text(space_dir)] side with <b>just your hands</b> even if there's no power.")
+
+/obj/machinery/door/airlock/external/cyclelinkairlock()
+	. = ..()
+	var/obj/machinery/door/airlock/external/cycle_linked_external_airlock = cyclelinkedairlock
+	if(istype(cycle_linked_external_airlock))
+		cycle_linked_external_airlock.space_dir |= space_dir
+		space_dir |= cycle_linked_external_airlock.space_dir
+
+/obj/machinery/door/airlock/external/try_safety_unlock(mob/user)
+	if(space_dir && density)
+		if(!hasPower())
+			to_chat(user, span_notice("You begin unlocking the airlock safety mechanism..."))
+			if(do_after(user, 15 SECONDS, target = src))
+				try_to_crowbar(null, user, TRUE)
+				return TRUE
+		else
+			// always open from the space side
+			// get_dir(src, user) & space_dir, checked in unresricted_sides
+			var/should_safety_open = shuttledocked || cyclelinkedairlock?.shuttledocked || is_safe_turf(get_step(src, space_dir), TRUE, FALSE)
+			return try_to_activate_door(user, should_safety_open)
+
+	return ..()
+
+// Access free external airlocks
+/obj/machinery/door/airlock/external/ruin
+
+/obj/machinery/door/airlock/external/glass
+	name = "external glass airlock"
+	opacity = FALSE
+	glass = TRUE
+
+/obj/machinery/door/airlock/external/glass/ruin
+
+// CentCom Airlocks
+
+/obj/machinery/door/airlock/centcom //Use grunge as a station side version, as these have special effects related to them via phobias and such.
+	icon = 'icons/obj/doors/airlocks/centcom/centcom.dmi'
+	overlays_file = 'icons/obj/doors/airlocks/centcom/overlays.dmi'
+	assemblytype = /obj/structure/door_assembly/door_assembly_centcom
+	normal_integrity = 1000
+	security_level = 6
+	explosion_block = 2
+
+/obj/machinery/door/airlock/grunge
+	icon = 'icons/obj/doors/airlocks/centcom/centcom.dmi'
+	overlays_file = 'icons/obj/doors/airlocks/centcom/overlays.dmi'
+	assemblytype = /obj/structure/door_assembly/door_assembly_grunge
+
+
+// Vault Airlocks
+
+/obj/machinery/door/airlock/vault
+	name = "vault door"
+	icon = 'icons/obj/doors/airlocks/vault/vault.dmi'
+	overlays_file = 'icons/obj/doors/airlocks/vault/overlays.dmi'
+	assemblytype = /obj/structure/door_assembly/door_assembly_vault
+	explosion_block = 2
+	normal_integrity = 400 // reverse engieneerd: 400 * 1.5 (sec lvl 6) = 600 = original
+	security_level = 6
+
+
+// Hatch Airlocks
+
+/obj/machinery/door/airlock/hatch
+	name = "airtight hatch"
+	icon = 'icons/obj/doors/airlocks/hatch/centcom.dmi'
+	overlays_file = 'icons/obj/doors/airlocks/hatch/overlays.dmi'
+	note_overlay_file = 'icons/obj/doors/airlocks/hatch/overlays.dmi'
+	assemblytype = /obj/structure/door_assembly/door_assembly_hatch
+
+/obj/machinery/door/airlock/maintenance_hatch
+	name = "maintenance hatch"
+	icon = 'icons/obj/doors/airlocks/hatch/maintenance.dmi'
+	overlays_file = 'icons/obj/doors/airlocks/hatch/overlays.dmi'
+	note_overlay_file = 'icons/obj/doors/airlocks/hatch/overlays.dmi'
+	assemblytype = /obj/structure/door_assembly/door_assembly_mhatch
+
+// High Security Airlocks
+
+/obj/machinery/door/airlock/highsecurity
+	name = "high tech security airlock"
+	icon = 'icons/obj/doors/airlocks/highsec/highsec.dmi'
+	overlays_file = 'icons/obj/doors/airlocks/highsec/overlays.dmi'
+	assemblytype = /obj/structure/door_assembly/door_assembly_highsecurity
+	explosion_block = 2
+	normal_integrity = 500
+	security_level = 1
+	damage_deflection = 30
+
+// Shuttle Airlocks
+
+/obj/machinery/door/airlock/shuttle
+	name = "shuttle airlock"
+	icon = 'icons/obj/doors/airlocks/shuttle/shuttle.dmi'
+	overlays_file = 'icons/obj/doors/airlocks/shuttle/overlays.dmi'
+	assemblytype = /obj/structure/door_assembly/door_assembly_shuttle
+
+/obj/machinery/door/airlock/shuttle/glass
+	opacity = FALSE
+	glass = TRUE
+
+/obj/machinery/door/airlock/abductor
+	name = "alien airlock"
+	desc = "With humanity's current technological level, it could take years to hack this advanced airlock... or maybe we should give a screwdriver a try?"
+	icon = 'icons/obj/doors/airlocks/abductor/abductor_airlock.dmi'
+	overlays_file = 'icons/obj/doors/airlocks/abductor/overlays.dmi'
+	assemblytype = /obj/structure/door_assembly/door_assembly_abductor
+	note_overlay_file = 'icons/obj/doors/airlocks/external/overlays.dmi'
+	damage_deflection = 30
+	explosion_block = 3
+	hackProof = TRUE
+	aiControlDisabled = AI_WIRE_DISABLED
+	normal_integrity = 700
+	security_level = 1
+
+// Cult Airlocks
+
+/obj/machinery/door/airlock/cult
+	name = "cult airlock"
+	icon = 'icons/obj/doors/airlocks/cult/runed/cult.dmi'
+	overlays_file = 'icons/obj/doors/airlocks/cult/runed/overlays.dmi'
+	assemblytype = /obj/structure/door_assembly/door_assembly_cult
+	hackProof = TRUE
+	aiControlDisabled = AI_WIRE_DISABLED
+	req_access = list(ACCESS_BLOODCULT)
+	damage_deflection = 10
+	var/openingoverlaytype = /obj/effect/temp_visual/cult/door
+	var/friendly = FALSE
+	var/stealthy = FALSE
+
+/obj/machinery/door/airlock/cult/Initialize(mapload)
+	. = ..()
+	new openingoverlaytype(loc)
+	AddElement(/datum/element/empprotection, EMP_PROTECT_ALL)
+
+/obj/machinery/door/airlock/cult/canAIControl(mob/user)
+	return (IS_CULTIST(user) && !isAllPowerCut())
+
+/obj/machinery/door/airlock/cult/on_break()
+	set_panel_open(TRUE)
+
+/obj/machinery/door/airlock/cult/isElectrified()
+	return FALSE
+
+/obj/machinery/door/airlock/cult/hasPower()
+	return TRUE
+
+/obj/machinery/door/airlock/cult/allowed(mob/living/L)
+	if(!density)
+		return TRUE
+	if(friendly || IS_CULTIST(L) || isshade(L) || isconstruct(L))
+		if(!stealthy)
+			new openingoverlaytype(loc)
+		return TRUE
+	else
+		if(!stealthy)
+			new /obj/effect/temp_visual/cult/sac(loc)
+			var/atom/throwtarget
+			throwtarget = get_edge_target_turf(src, get_dir(src, get_step_away(L, src)))
+			SEND_SOUND(L, sound(SFX_HALLUCINATION_TURN_AROUND,0,1,50))
+			flash_color(L, flash_color=COLOR_CULT_RED, flash_time=20)
+			L.Paralyze(40)
+			L.throw_at(throwtarget, 5, 1)
+		return FALSE
+
+/obj/machinery/door/airlock/cult/proc/conceal()
+	icon = 'icons/obj/doors/airlocks/station/maintenance.dmi'
+	overlays_file = 'icons/obj/doors/airlocks/station/overlays.dmi'
+	name = "Airlock"
+	desc = "It opens and closes."
+	stealthy = TRUE
+	update_appearance()
+
+/obj/machinery/door/airlock/cult/proc/reveal()
+	icon = initial(icon)
+	overlays_file = initial(overlays_file)
+	name = initial(name)
+	desc = initial(desc)
+	stealthy = initial(stealthy)
+	update_appearance()
+
+/obj/machinery/door/airlock/cult/narsie_act()
+	return
+
+/obj/machinery/door/airlock/cult/friendly
+	friendly = TRUE
+
+/obj/machinery/door/airlock/cult/glass
+	glass = TRUE
+	opacity = FALSE
+
+/obj/machinery/door/airlock/cult/glass/friendly
+	friendly = TRUE
+
+/obj/machinery/door/airlock/cult/unruned
+	icon = 'icons/obj/doors/airlocks/cult/unruned/cult.dmi'
+	overlays_file = 'icons/obj/doors/airlocks/cult/unruned/overlays.dmi'
+	assemblytype = /obj/structure/door_assembly/door_assembly_cult/unruned
+	openingoverlaytype = /obj/effect/temp_visual/cult/door/unruned
+
+/obj/machinery/door/airlock/cult/unruned/friendly
+	friendly = TRUE
+
+/obj/machinery/door/airlock/cult/unruned/glass
+	glass = TRUE
+	opacity = FALSE
+
+/obj/machinery/door/airlock/cult/unruned/glass/friendly
+	friendly = TRUE
+
+/obj/machinery/door/airlock/cult/weak
+	name = "brittle cult airlock"
+	desc = "An airlock hastily corrupted by blood magic, it is unusually brittle in this state."
+	normal_integrity = 150
+	damage_deflection = 5
+	armor_type = /datum/armor/none
+
+// Material Airlocks
+
+/obj/machinery/door/airlock/material
+	name = "Airlock"
+	material_flags = MATERIAL_EFFECTS | MATERIAL_ADD_PREFIX | MATERIAL_GREYSCALE | MATERIAL_AFFECT_STATISTICS
+	greyscale_config = /datum/greyscale_config/material_airlock
+	assemblytype = /obj/structure/door_assembly/door_assembly_material
+
+/obj/machinery/door/airlock/material/close(forced, force_crush)
+	. = ..()
+	if(!.)
+		return
+	for(var/datum/material/mat in custom_materials)
+		if(mat.alpha < 255)
+			set_opacity(FALSE)
+			break
+
+/obj/machinery/door/airlock/material/prepare_deconstruction_assembly(obj/structure/door_assembly/assembly)
+	assembly.set_custom_materials(custom_materials)
+	..()
+
+/obj/machinery/door/airlock/material/glass
+	opacity = FALSE
+	glass = TRUE
+
+// Multi-tile (Large) Airlocks
+
+/obj/machinery/door/airlock/multi_tile
+	icon = 'icons/obj/doors/airlocks/multi_tile/public/glass.dmi'
+	overlays_file = 'icons/obj/doors/airlocks/multi_tile/public/overlays.dmi'
+	assemblytype = /obj/structure/door_assembly/multi_tile/door_assembly_public
+	multi_tile = TRUE
+	opacity = FALSE
+	glass = TRUE
+
+/obj/machinery/door/airlock/multi_tile/setDir(newdir)
+	. = ..()
+	set_bounds()
+
+/obj/structure/fluff/airlock_filler
+	name = "airlock fluff"
+	desc = "You shouldn't be able to see this fluff!"
+	icon = null
+	icon_state = null
+	density = TRUE
+	opacity = TRUE
+	anchored = TRUE
+	invisibility = INVISIBILITY_MAXIMUM
+	can_atmos_pass = ATMOS_PASS_DENSITY
+	/// The door/airlock this fluff panel is attached to
+	var/obj/machinery/door/filled_airlock
+
+/obj/machinery/door/airlock/multi_tile/public/glass
+
+/obj/machinery/door/airlock/multi_tile/narsie_act()
+	return
+
+/*
+ * Subtype used in unit tests to ensure instant airlock opening/closing.
+ *
+ * Pretty much just excises everything that would delay the process or is un-needed
+ * for the sake of the test (sleeps, icon animations).
+*/
+/obj/machinery/door/airlock/instant
+
+// set_density on both open and close procs has a check and return builtin.
+
+/obj/machinery/door/airlock/instant/open(forced = DEFAULT_DOOR_CHECKS)
+	operating = TRUE
+	SEND_SIGNAL(src, COMSIG_AIRLOCK_OPEN, forced)
+	set_density(FALSE)
+	operating = FALSE
+	return TRUE
+
+/obj/machinery/door/airlock/instant/close(forced = DEFAULT_DOOR_CHECKS, force_crush = FALSE)
+	operating = TRUE
+	SEND_SIGNAL(src, COMSIG_AIRLOCK_CLOSE, forced)
+	set_density(TRUE)
+	operating = FALSE
+	return TRUE
 
 #undef AIRLOCK_SECURITY_NONE
 #undef AIRLOCK_SECURITY_IRON

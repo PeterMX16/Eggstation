@@ -27,7 +27,13 @@
 /datum/ai_behavior/basic_melee_attack/opportunistic/perform(seconds_per_tick, datum/ai_controller/controller, target_key, targeting_strategy_key, hiding_location_key)
 	var/atom/movable/atom_pawn = controller.pawn
 	if(!atom_pawn.CanReach(controller.blackboard[target_key]))
+<<<<<<< HEAD
 		finish_action(controller, TRUE, target_key) // Don't clear target
 		return FALSE
 	. = ..()
 	finish_action(controller, TRUE, target_key) // Try doing something else
+=======
+		return AI_BEHAVIOR_INSTANT | AI_BEHAVIOR_SUCCEEDED
+	. = ..()
+	return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_SUCCEEDED
+>>>>>>> tg-pr-88929

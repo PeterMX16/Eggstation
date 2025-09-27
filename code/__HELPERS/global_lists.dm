@@ -2,6 +2,7 @@
 /////Initial Building/////
 //////////////////////////
 
+<<<<<<< HEAD
 /proc/init_sprite_accessories()
 	///roundstart hair
 	init_sprite_accessory_subtypes(/datum/sprite_accessory/hair, GLOB.roundstart_hairstyles_list, GLOB.hairstyles_male_list, GLOB.hairstyles_female_list, roundstart = TRUE)
@@ -68,6 +69,8 @@
 		GLOB.species_list[S.id] = spath
 	sort_list(GLOB.species_list, GLOBAL_PROC_REF(cmp_typepaths_asc))
 
+=======
+>>>>>>> tg-pr-88929
 /// Inits GLOB.surgeries
 /proc/init_surgeries()
 	var/surgeries = list()
@@ -76,6 +79,7 @@
 	sort_list(surgeries, GLOBAL_PROC_REF(cmp_typepaths_asc))
 	return surgeries
 
+<<<<<<< HEAD
 /// Hair Gradients - Initialise all /datum/sprite_accessory/hair_gradient into an list indexed by gradient-style name
 /proc/init_hair_gradients()
 	for(var/path in subtypesof(/datum/sprite_accessory/gradient))
@@ -91,6 +95,11 @@
 	init_sprite_accessories()
 	init_species_list()
 	init_hair_gradients()
+=======
+/// Legacy procs that really should be replaced with proper _INIT macros
+/proc/make_datum_reference_lists()
+	// I tried to eliminate this proc but I couldn't untangle their init-order interdependencies -Dominion/Cyberboss
+>>>>>>> tg-pr-88929
 	init_keybindings()
 	GLOB.emote_list = init_emote_list() // WHY DOES THIS NEED TO GO HERE? IT JUST INITS DATUMS
 	init_crafting_recipes()
@@ -247,7 +256,7 @@
 // Wall mounted machinery which are visually on the wall.
 GLOBAL_LIST_INIT(WALLITEMS_INTERIOR, typecacheof(list(
 	/obj/item/radio/intercom,
-	/obj/item/storage/secure/safe,
+	/obj/structure/secure_safe,
 	/obj/machinery/airalarm,
 	/obj/machinery/bluespace_vendor,
 	/obj/machinery/button,
@@ -256,7 +265,7 @@ GLOBAL_LIST_INIT(WALLITEMS_INTERIOR, typecacheof(list(
 	/obj/machinery/defibrillator_mount,
 	/obj/machinery/firealarm,
 	/obj/machinery/flasher,
-	/obj/machinery/keycard_auth,
+	/obj/machinery/keycard_auth/wall_mounted,
 	/obj/machinery/light_switch,
 	/obj/machinery/newscaster,
 	/obj/machinery/power/apc,
@@ -266,6 +275,7 @@ GLOBAL_LIST_INIT(WALLITEMS_INTERIOR, typecacheof(list(
 	/obj/machinery/turretid,
 	/obj/machinery/barsign,
 	/obj/structure/extinguisher_cabinet,
+	/obj/structure/fish_mount,
 	/obj/structure/fireaxecabinet,
 	/obj/structure/mirror,
 	/obj/structure/noticeboard,
@@ -283,6 +293,12 @@ GLOBAL_LIST_INIT(WALLITEMS_INTERIOR, typecacheof(list(
 GLOBAL_LIST_INIT(WALLITEMS_EXTERIOR, typecacheof(list(
 	/obj/machinery/camera,
 	/obj/machinery/light,
-	/obj/structure/camera_assembly,
 	/obj/structure/light_construct,
+)))
+
+/// A static typecache of all the money-based items that can be actively used as currency.
+GLOBAL_LIST_INIT(allowed_money, typecacheof(list(
+	/obj/item/coin,
+	/obj/item/holochip,
+	/obj/item/stack/spacecash,
 )))

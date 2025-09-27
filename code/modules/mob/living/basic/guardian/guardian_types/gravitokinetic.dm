@@ -3,7 +3,11 @@
 	guardian_type = GUARDIAN_GRAVITOKINETIC
 	melee_damage_lower = 15
 	melee_damage_upper = 15
+<<<<<<< HEAD
 	damage_coeff = list(BRUTE = 0.75, BURN = 0.75, TOX = 0.75, CLONE = 0.75, STAMINA = 0, OXY = 0.75)
+=======
+	damage_coeff = list(BRUTE = 0.75, BURN = 0.75, TOX = 0.75, STAMINA = 0, OXY = 0.75)
+>>>>>>> tg-pr-88929
 	playstyle_string = span_holoparasite("As a <b>gravitokinetic</b> type, you can right-click to make the gravity on the ground stronger, and punching applies this effect to a target.")
 	creator_name = "Gravitokinetic"
 	creator_desc = "Attacks will apply crushing gravity to the target. Can target the ground as well to slow targets advancing on you, but you are not immune to your own such effects."
@@ -57,7 +61,11 @@
 	return TRUE
 
 /mob/living/basic/guardian/gravitokinetic/UnarmedAttack(atom/attack_target, proximity_flag, list/modifiers)
+<<<<<<< HEAD
 	if (LAZYACCESS(modifiers, RIGHT_CLICK) && proximity_flag && !gravity_targets[attack_target])
+=======
+	if (LAZYACCESS(modifiers, RIGHT_CLICK) && proximity_flag && !gravity_targets[attack_target] && can_unarmed_attack())
+>>>>>>> tg-pr-88929
 		slam_turf(attack_target)
 		return
 	return ..()

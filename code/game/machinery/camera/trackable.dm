@@ -172,7 +172,11 @@
  *  tracked_mob_name - The person being tracked.
  */
 /datum/trackable/proc/track_name(mob/living/tracker, tracked_mob_name)
+<<<<<<< HEAD
 	if(!istext(tracked_mob_name) || QDELETED(tracker) || tracker.stat == DEAD)
+=======
+	if(!tracker || tracker.stat == DEAD)
+>>>>>>> tg-pr-88929
 		return
 
 	find_trackable_mobs() //this is in case the tracked mob is newly/no-longer in camera field of view.
@@ -192,7 +196,11 @@
  *  tracked - The person being tracked.
  */
 /datum/trackable/proc/track_mob(mob/living/tracker, mob/living/tracked)
+<<<<<<< HEAD
 	if(QDELETED(tracker) || QDELETED(tracked) || tracker.stat == DEAD)
+=======
+	if(!tracker || tracker.stat == DEAD)
+>>>>>>> tg-pr-88929
 		return
 	// Need to make sure the tracked mob is in our list
 	track_name(tracker, tracked.name)

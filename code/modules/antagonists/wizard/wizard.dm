@@ -15,6 +15,10 @@ GLOBAL_LIST_EMPTY(wizard_spellbook_purchases_by_key)
 	can_assign_self_objectives = TRUE
 	default_custom_objective = "Demonstrate your incredible and destructive magical powers."
 	hardcore_random_bonus = TRUE
+<<<<<<< HEAD
+=======
+
+>>>>>>> tg-pr-88929
 	var/give_objectives = TRUE
 	var/strip = TRUE //strip before equipping
 	var/allow_rename = TRUE
@@ -25,6 +29,10 @@ GLOBAL_LIST_EMPTY(wizard_spellbook_purchases_by_key)
 	show_to_ghosts = TRUE
 	/// This mob's Grand Ritual ability
 	var/datum/action/cooldown/grand_ritual/ritual
+	/// Perks that wizard learn
+	var/list/perks = list()
+	/// Button that hide perks hud.
+	var/atom/movable/screen/perk/more/compact_button
 
 /datum/antagonist/wizard/antag_token(datum/mind/hosts_mind, mob/spender)
 	if(isobserver(spender))
@@ -85,6 +93,7 @@ GLOBAL_LIST_EMPTY(wizard_spellbook_purchases_by_key)
 		CRASH("Wizard datum with no owner.")
 	assign_ritual()
 	equip_wizard()
+	owner.current.add_quirk(/datum/quirk/introvert)
 	if(give_objectives)
 		create_objectives()
 	if(move_to_lair)
@@ -93,6 +102,13 @@ GLOBAL_LIST_EMPTY(wizard_spellbook_purchases_by_key)
 	if(allow_rename)
 		rename_wizard()
 	ADD_TRAIT(owner, TRAIT_MAGICALLY_GIFTED, REF(src))
+<<<<<<< HEAD
+=======
+
+/datum/antagonist/wizard/Destroy()
+	QDEL_NULL(ritual)
+	return ..()
+>>>>>>> tg-pr-88929
 
 /datum/antagonist/wizard/create_team(datum/team/wizard/new_team)
 	if(!new_team)
@@ -115,14 +131,18 @@ GLOBAL_LIST_EMPTY(wizard_spellbook_purchases_by_key)
 
 /// Initialises the grand ritual action for this mob
 /datum/antagonist/wizard/proc/assign_ritual()
+<<<<<<< HEAD
 	ritual = new(owner) //monkestation edit: adds directly to owner instead of owner.current
+=======
+	ritual = new(src)
+>>>>>>> tg-pr-88929
 	RegisterSignal(ritual, COMSIG_GRAND_RITUAL_FINAL_COMPLETE, PROC_REF(on_ritual_complete))
 
 /datum/antagonist/wizard/proc/send_to_lair()
 	if(!owner.current)
 		return
 	if(!GLOB.wizardstart.len)
-		SSjob.SendToLateJoin(owner.current)
+		SSjob.send_to_late_join(owner.current)
 		to_chat(owner, "HOT INSERTION, GO GO GO")
 	owner.current.forceMove(pick(GLOB.wizardstart))
 
@@ -441,10 +461,10 @@ GLOBAL_LIST_EMPTY(wizard_spellbook_purchases_by_key)
 /datum/team/wizard/roundend_report()
 	var/list/parts = list()
 
-	parts += "<span class='header'>Wizards/witches of [master_wizard.owner.name] team were:</span>"
+	parts += span_header("Wizards/witches of [master_wizard.owner.name] team were:")
 	parts += master_wizard.roundend_report()
 	parts += " "
-	parts += "<span class='header'>[master_wizard.owner.name] apprentices and minions were:</span>"
+	parts += span_header("[master_wizard.owner.name] apprentices and minions were:")
 	parts += printplayerlist(members - master_wizard.owner)
 
 	return "<div class='panel redborder'>[parts.Join("<br>")]</div>"

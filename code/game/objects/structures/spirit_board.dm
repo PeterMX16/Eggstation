@@ -1,7 +1,7 @@
 /obj/structure/spirit_board
 	name = "spirit board"
 	desc = "A wooden board with letters etched into it, used in seances."
-	icon = 'icons/obj/objects.dmi'
+	icon = 'icons/obj/structures.dmi'
 	icon_state = "spirit_board"
 	resistance_flags = FLAMMABLE
 	density = TRUE
@@ -56,7 +56,15 @@
 
 	if(virgin)
 		virgin = FALSE
+<<<<<<< HEAD
 		notify_ghosts("Someone has begun playing with \a [src] in [get_area(src)]!", source = src, header = "Spirit board")
+=======
+		notify_ghosts(
+			"Someone has begun playing with \a [src] in [get_area(src)]!",
+			source = src,
+			header = "Spirit board",
+		)
+>>>>>>> tg-pr-88929
 
 	var/new_planchette = tgui_input_list(ghost, "Choose the letter.", "Seance!", ghosty_options)
 	if(isnull(new_planchette))

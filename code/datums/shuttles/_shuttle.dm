@@ -14,7 +14,11 @@
 	var/description
 	/// The recommended occupancy limit for the shuttle (count chairs, beds, and benches then round to 5)
 	var/occupancy_limit
+<<<<<<< HEAD
 	/// Description of the prerequisition that has to be achieved for the shuttle to be purchased
+=======
+	/// Description of the prerequisite that has to be achieved for the shuttle to be purchased
+>>>>>>> tg-pr-88929
 	var/prerequisites
 	/// Shuttle warnings and hazards to the admin who spawns the shuttle
 	var/admin_notes
@@ -40,7 +44,11 @@
 	. = ..()
 
 /datum/map_template/shuttle/preload_size(path, cache)
+<<<<<<< HEAD
 	. = ..(path, TRUE) // Done this way because we still want to know if someone actualy wanted to cache the map
+=======
+	. = ..(path, TRUE) // Done this way because we still want to know if someone actually wanted to cache the map
+>>>>>>> tg-pr-88929
 	if(!cached_map)
 		return
 

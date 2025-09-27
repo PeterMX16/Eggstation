@@ -9,6 +9,18 @@
 	ammo_x_offset = 3
 	dual_wield_spread = 60
 
+/obj/item/gun/energy/e_gun/Initialize(mapload)
+	. = ..()
+	// Only actual eguns can be converted
+	if(type != /obj/item/gun/energy/e_gun)
+		return
+	var/static/list/slapcraft_recipe_list = list(/datum/crafting_recipe/advancedegun, /datum/crafting_recipe/tempgun, /datum/crafting_recipe/beam_rifle)
+
+	AddElement(
+		/datum/element/slapcrafting,\
+		slapcraft_recipes = slapcraft_recipe_list,\
+	)
+
 /obj/item/gun/energy/e_gun/add_seclight_point()
 	AddComponent(/datum/component/seclite_attachable, \
 		light_overlay_icon = 'icons/obj/weapons/guns/flashlights.dmi', \
@@ -81,7 +93,7 @@
 
 /obj/item/gun/energy/e_gun/dragnet
 	name = "\improper DRAGnet"
-	desc = "The \"Dynamic Rapid-Apprehension of the Guilty\" net is a revolution in law enforcement technology."
+	desc = "The \"Dynamic Rapid-Apprehension of the Guilty\" net is a revolution in law enforcement technology. Can by synced with a DRAGnet beacon to set a teleport destination for snare rounds."
 	icon_state = "dragnet"
 	inhand_icon_state = "dragnet"
 	lefthand_file = 'icons/mob/inhands/weapons/guns_lefthand.dmi'
@@ -92,6 +104,7 @@
 	ammo_x_offset = 1
 	///A dragnet beacon set to be the teleport destination for snare teleport rounds.
 	var/obj/item/dragnet_beacon/linked_beacon
+<<<<<<< HEAD
 
 /obj/item/gun/energy/e_gun/dragnet/attackby(mob/living/user, obj/item/tool, list/modifiers)
 	if(istype(tool, /obj/item/dragnet_beacon))
@@ -126,16 +139,48 @@
 /obj/item/gun/energy/e_gun/dragnet/Destroy() //just so the beacon updates it's apperance
 	handle_beacon_disable()
 	return ..()
+=======
+>>>>>>> tg-pr-88929
 
 /obj/item/gun/energy/e_gun/dragnet/add_seclight_point()
 	return
 
+<<<<<<< HEAD
 //MONKESTATION EDIT START: unused and causes a runtime
 // /obj/item/gun/energy/e_gun/dragnet/snare
 // 	name = "Energy Snare Launcher"
 // 	desc = "Fires an energy snare that slows the target down."
 // 	ammo_type = list(/obj/item/ammo_casing/energy/trap)
 //MONKESTATION EDIT STOP
+=======
+/obj/item/gun/energy/e_gun/dragnet/item_interaction(mob/living/user, obj/item/tool, list/modifiers)
+	if(istype(tool, /obj/item/dragnet_beacon))
+		link_beacon(user, tool)
+
+///Sets the linked_beacon var on the dragnet, which becomes the snare round's teleport destination.
+/obj/item/gun/energy/e_gun/dragnet/proc/link_beacon(mob/living/user, obj/item/dragnet_beacon/our_beacon)
+	if(linked_beacon)
+		if(our_beacon == linked_beacon)
+			balloon_alert(user, "already synced!")
+			return
+		else
+			UnregisterSignal(linked_beacon, COMSIG_QDELETING) //You're getting overridden dude.
+
+	linked_beacon = our_beacon
+	balloon_alert(user, "beacon synced")
+	RegisterSignal(our_beacon, COMSIG_QDELETING, PROC_REF(handle_beacon_disable))
+
+///Handles clearing the linked_beacon reference in the event that it is deleted.
+/obj/item/gun/energy/e_gun/dragnet/proc/handle_beacon_disable(datum/source)
+	SIGNAL_HANDLER
+	visible_message(span_warning("A light on the [src] flashes, indicating that it is no longer linked with a DRAGnet beacon!"))
+	linked_beacon = null
+
+/obj/item/gun/energy/e_gun/dragnet/snare
+	name = "Energy Snare Launcher"
+	desc = "Fires an energy snare that slows the target down."
+	ammo_type = list(/obj/item/ammo_casing/energy/trap)
+>>>>>>> tg-pr-88929
 
 /obj/item/gun/energy/e_gun/turret
 	name = "hybrid turret gun"
@@ -144,7 +189,7 @@
 	inhand_icon_state = "turretlaser"
 	slot_flags = null
 	w_class = WEIGHT_CLASS_HUGE
-	ammo_type = list(/obj/item/ammo_casing/energy/electrode, /obj/item/ammo_casing/energy/laser)
+	ammo_type = list(/obj/item/ammo_casing/energy/electrode/ai_turrets, /obj/item/ammo_casing/energy/laser)
 	weapon_weight = WEAPON_HEAVY
 	trigger_guard = TRIGGER_GUARD_NONE
 	ammo_x_offset = 2

@@ -5,7 +5,11 @@
 		if(!istype(ending_human) || !ending_human.mind?.original_character_slot_index || !ending_human.client?.prefs.read_preference(/datum/preference/toggle/persistent_scars))
 			continue
 
+<<<<<<< HEAD
 		var/mob/living/carbon/human/original_human = ending_human.mind.original_character?.resolve()
+=======
+		var/mob/living/carbon/human/original_human = ending_human.mind.original_character.resolve()
+>>>>>>> tg-pr-88929
 
 		if(!original_human)
 			continue

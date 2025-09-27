@@ -1,11 +1,12 @@
-import { Button, Stack, Box } from '../../components';
-import { Component, createRef } from 'inferno';
-import { Port } from './Port';
+import { Component, createRef } from 'react';
+import { Box, Button, Stack } from 'tgui-core/components';
+
 import { noop } from './constants';
+import { Port } from './Port';
 
 export class DisplayComponent extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.ref = createRef();
   }
 
@@ -36,8 +37,13 @@ export class DisplayComponent extends Component {
     return false;
   }
 
+<<<<<<< HEAD
   render(props) {
     const { component, fixedSize, ...rest } = props;
+=======
+  render() {
+    const { component, fixedSize, ...rest } = this.props;
+>>>>>>> tg-pr-88929
     return (
       <Box {...rest}>
         <div ref={this.ref}>

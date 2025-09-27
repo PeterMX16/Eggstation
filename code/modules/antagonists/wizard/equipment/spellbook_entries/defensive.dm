@@ -54,8 +54,8 @@
 		no matter the circumstances. Be wary - with each revival, your body will become weaker, and \
 		it will become easier for others to find your item of power."
 	spell_type =  /datum/action/cooldown/spell/lichdom
-	category = "Defensive"
-	no_coexistance_typecache = list(/datum/action/cooldown/spell/splattercasting)
+	category = SPELLBOOK_CATEGORY_DEFENSIVE
+	no_coexistence_typecache = list(/datum/action/cooldown/spell/splattercasting, /datum/spellbook_entry/perks/wormborn)
 
 /datum/spellbook_entry/chuunibyou
 	name = "Chuuni Invocations"
@@ -120,7 +120,10 @@
 		Wands have a limited number of charges, so be conservative with their use. Comes in a handy belt."
 	item_path = /obj/item/storage/belt/wands/full
 	category = SPELLBOOK_CATEGORY_DEFENSIVE
+<<<<<<< HEAD
 	cost = 3 //monkestation edit
+=======
+>>>>>>> tg-pr-88929
 
 /datum/spellbook_entry/item/wands/try_equip_item(mob/living/carbon/human/user, obj/item/to_equip)
 	var/was_equipped = user.equip_to_slot_if_possible(to_equip, ITEM_SLOT_BELT, disable_warning = TRUE)

@@ -3,6 +3,7 @@
 	"scannable_directory": "code/modules/unit_tests/",
 	"subdirectories": false,
 	"excluded_files": [
+<<<<<<< HEAD
 		"find_reference_sanity.dm",
 		"organs.dm",
 		"modify_fantasy_variable.dm",
@@ -17,6 +18,9 @@
 		"outfit_sanity.dm",
 		"monkey_business.dm",
 		"rev_conversion.dm"
+=======
+		"find_reference_sanity.dm"
+>>>>>>> tg-pr-88929
 	],
 	"forbidden_includes": []
 }

@@ -6,7 +6,6 @@
 #define MAX_STACK_PICKUP 30
 
 /datum/storage/rped
-	allow_quick_empty = TRUE
 	allow_quick_gather = TRUE
 	max_slots = 50
 	max_total_storage = 100
@@ -14,7 +13,7 @@
 	numerical_stacking = TRUE
 
 	/**
-	 * as of now only these stack components are required to build machines like[thermomaachine,crystallizer,electrolyzer]
+	 * as of now only these stack components are required to build machines like[thermomachine,crystallizer,electrolyzer]
 	 * so we limit the rped to pick up only these stack types so players dont cheat and use this as a general storage medium
 	 */
 	var/static/list/allowed_material_types = list(
@@ -29,19 +28,31 @@
 	 */
 	var/static/list/allowed_bluespace_types = list(
 		/obj/item/stack/ore/bluespace_crystal,
-		/obj/item/stack/ore/bluespace_crystal/refined,
-		/obj/item/stack/ore/bluespace_crystal/artificial,
 		/obj/item/stack/sheet/bluespace_crystal,
 	)
 
+<<<<<<< HEAD
 /datum/storage/rped/New(atom/parent, max_slots, max_specific_storage, max_total_storage, numerical_stacking, allow_quick_gather, allow_quick_empty, collection_mode, attack_hand_interact)
 	. = ..()
 	RegisterSignal(parent, COMSIG_ITEM_ATTACK_SELF, PROC_REF(mass_empty), TRUE)
 
+=======
+>>>>>>> tg-pr-88929
 /datum/storage/rped/can_insert(obj/item/to_insert, mob/user, messages = TRUE, force = FALSE)
-	. = ..()
+	//only stock parts permited
+	if(to_insert.get_part_rating())
+		return ..()
 
-	//we check how much of glass,plasteel & cable the user can insert
+	//some exceptions to non stock parts
+	var/static/list/obj/item/exceptions = list(
+		/obj/item/stack,
+		/obj/item/circuitboard/machine,
+		/obj/item/circuitboard/computer,
+	)
+
+	return is_type_in_list(to_insert, exceptions) ? ..() : FALSE
+
+/datum/storage/rped/attempt_insert(obj/item/to_insert, mob/user, override, force, messages)
 	if(isstack(to_insert))
 		//user tried to insert invalid stacktype
 		if(!is_type_in_list(to_insert, allowed_material_types) && !is_type_in_list(to_insert, allowed_bluespace_types))
@@ -51,34 +62,49 @@
 		var/present_amount = 0
 
 		//we try to count & limit how much the user can insert of each type to prevent them from using it as an normal storage medium
+<<<<<<< HEAD
 		for(var/obj/item/stack/stack_content in real_location.contents)
+=======
+		for(var/obj/item/stack/stack_content in real_location)
+>>>>>>> tg-pr-88929
 			//is user trying to insert any of these listed bluespace stuff
-			if(is_type_in_list(to_insert,allowed_bluespace_types))
+			if(is_type_in_list(to_insert, allowed_bluespace_types))
 				//if yes count total bluespace stuff is the RPED and then compare the total amount to the value the user is trying to insert
-				if(is_type_in_list(stack_content,allowed_bluespace_types))
+				if(is_type_in_list(stack_content, allowed_bluespace_types))
 					present_amount += stack_content.amount
+
 			//count other normal stack stuff
-			else if(istype(to_insert,stack_content.type))
+			else if(the_stack.merge_type == stack_content.merge_type)
 				present_amount = stack_content.amount
 				break
 
+		var/available = MAX_STACK_PICKUP - present_amount
+
 		//no more storage for this specific stack type
-		if(MAX_STACK_PICKUP - present_amount == 0)
+		if(!available)
 			return FALSE
 
-		//we want the user to insert the exact stack amount which is available so we dont have to bother subtracting & leaving left overs for the user
-		var/available = MAX_STACK_PICKUP-present_amount
-		if(available - the_stack.amount < 0)
-			return FALSE
+		var/obj/item/stack/target = the_stack
+		if(the_stack.amount > available) //take in only a portion of the stack that can fit in our quota
+			target = fast_split_stack(the_stack, available)
+			target.copy_evidences(the_stack)
 
-	else if(istype(to_insert, /obj/item/circuitboard/machine) || istype(to_insert, /obj/item/circuitboard/computer))
-		return TRUE
+		. = ..(target, user, override, force, messages)
+		if(!. && target != the_stack) //in case of failure merge back the split amount into the original
+			the_stack.add(target.amount)
+			qdel(target)
 
+<<<<<<< HEAD
 	//check normal insertion of other stock parts
 	else if(!to_insert.get_part_rating())
 		return FALSE
 
 	return .
+=======
+		return
+
+	return ..()
+>>>>>>> tg-pr-88929
 
 /datum/storage/rped/mass_empty(datum/source, mob/user)
 	var/list/obj/item/parts_list = list()
@@ -101,5 +127,14 @@
 			continue
 		part.pixel_x = part.base_pixel_x + rand(-8, 8)
 		part.pixel_y = part.base_pixel_y + rand(-8, 8)
+<<<<<<< HEAD
+=======
+
+///bluespace variant
+/datum/storage/rped/bluespace
+	max_slots = 400
+	max_total_storage = 800
+	max_specific_storage = WEIGHT_CLASS_GIGANTIC
+>>>>>>> tg-pr-88929
 
 #undef MAX_STACK_PICKUP

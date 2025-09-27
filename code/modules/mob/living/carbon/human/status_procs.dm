@@ -34,6 +34,7 @@
 	. = ..()
 	if(.)
 		update_body_parts()
+<<<<<<< HEAD
 
 /mob/living/carbon/human/become_husk(source)
 	if(HAS_TRAIT(src, TRAIT_NO_HUSK)) //skeletons shouldn't be husks.
@@ -42,3 +43,5 @@
 	. = ..()
 	if(.)
 		update_body_parts()
+=======
+>>>>>>> tg-pr-88929

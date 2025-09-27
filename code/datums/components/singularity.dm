@@ -288,7 +288,11 @@
 			if (STAGE_ONE)
 				steps = 1
 			if (STAGE_TWO)
+<<<<<<< HEAD
 				steps = 2//Now THIS is right
+=======
+				steps = 2
+>>>>>>> tg-pr-88929
 			if (STAGE_THREE)
 				steps = 3
 			if (STAGE_FOUR)

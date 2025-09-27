@@ -90,6 +90,16 @@
 
 	RegisterSignal(parent, COMSIG_LIVING_UNARMED_ATTACK, PROC_REF(try_healing)) // Players
 	RegisterSignal(parent, COMSIG_HOSTILE_PRE_ATTACKINGTARGET, PROC_REF(try_healing)) // NPCs
+	var/mob/living/living_parent = parent
+	living_parent.ai_controller?.set_blackboard_key(BB_BASIC_MOB_HEALER, TRUE)
+
+// Let's populate this list as we actually use it, this thing has too many args
+/datum/component/healing_touch/InheritComponent(
+	datum/component/new_component,
+	i_am_original,
+	heal_color,
+)
+	src.heal_color = heal_color
 
 // Let's populate this list as we actually use it, this thing has too many args
 /datum/component/healing_touch/InheritComponent(
@@ -100,6 +110,8 @@
 	src.heal_color = heal_color
 
 /datum/component/healing_touch/UnregisterFromParent()
+	var/mob/living/living_parent = parent
+	living_parent.ai_controller?.set_blackboard_key(BB_BASIC_MOB_HEALER, FALSE)
 	UnregisterSignal(parent, list(COMSIG_LIVING_UNARMED_ATTACK, COMSIG_HOSTILE_PRE_ATTACKINGTARGET))
 	return ..()
 
@@ -160,11 +172,15 @@
 /datum/component/healing_touch/proc/has_healable_damage(mob/living/target)
 	if (!isnull(valid_biotypes) && !(valid_biotypes & target.mob_biotypes))
 		return FALSE
+<<<<<<< HEAD
 	if  (target.stamina.loss > 0 && heal_stamina)
 		return TRUE
 	if (target.getOxyLoss() > 0 && heal_oxy)
 		return TRUE
 	if (target.getToxLoss() > 0 && heal_tox)
+=======
+	if (target.getStaminaLoss() > 0 && heal_stamina)
+>>>>>>> tg-pr-88929
 		return TRUE
 	if (target.getOxyLoss() > 0 && heal_oxy)
 		return TRUE
@@ -201,6 +217,7 @@
 		updating_health = FALSE,
 	)
 	healed += target.adjustOxyLoss(-heal_oxy, updating_health = FALSE, required_biotype = valid_biotypes)
+<<<<<<< HEAD
 	healed += target.adjustToxLoss(-heal_tox, updating_health = FALSE, forced = TRUE, required_biotype = valid_biotypes)
 	//MONKESTATION REMOVAL START
 	// While removing this could cause some issues, keeping it seems to cause more than it would
@@ -217,6 +234,11 @@
 		return
 	*/
 	//MONKESTATION REMOVAL END
+=======
+	healed += target.adjustToxLoss(-heal_tox, updating_health = FALSE, required_biotype = valid_biotypes)
+	if (healed <= 0)
+		return
+>>>>>>> tg-pr-88929
 
 	target.updatehealth()
 	new /obj/effect/temp_visual/heal(get_turf(target), heal_color)

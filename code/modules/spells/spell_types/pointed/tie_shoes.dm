@@ -46,7 +46,11 @@
 	return isliving(cast_on)
 
 // We need to override this, as trying to change next_use_time in cast() will just result in it being overridden.
+<<<<<<< HEAD
 /datum/action/cooldown/spell/touch/before_cast(atom/cast_on)
+=======
+/datum/action/cooldown/spell/pointed/untie_shoes/before_cast(atom/cast_on)
+>>>>>>> tg-pr-88929
 	return ..() | SPELL_NO_IMMEDIATE_COOLDOWN
 
 /datum/action/cooldown/spell/pointed/untie_shoes/cast(mob/living/carbon/cast_on)
@@ -63,7 +67,11 @@
 			cast_on.balloon_alert_to_viewers("magically tied!")
 		else
 			cast_on.balloon_alert(owner, "magically tied!")
+<<<<<<< HEAD
 		playsound(cast_on, 'sound/magic/summonitems_generic.ogg', 50, TRUE)
+=======
+		playsound(cast_on, 'sound/effects/magic/summonitems_generic.ogg', 50, TRUE)
+>>>>>>> tg-pr-88929
 		return TRUE
 
 	var/shoe_to_cast = /obj/item/clothing/shoes/sneakers/random
@@ -86,7 +94,11 @@
 			return FALSE
 
 		if(invocation_type != INVOCATION_NONE)
+<<<<<<< HEAD
 			playsound(cast_on, 'sound/magic/summonitems_generic.ogg', 50, TRUE)
+=======
+			playsound(cast_on, 'sound/effects/magic/summonitems_generic.ogg', 50, TRUE)
+>>>>>>> tg-pr-88929
 
 	switch(shoes_to_tie.tied)
 		if(SHOES_TIED)
@@ -96,7 +108,11 @@
 					cast_on.balloon_alert(owner, "laced!")
 					shoes_to_tie.can_be_tied = TRUE
 					if(invocation_type != INVOCATION_NONE)
+<<<<<<< HEAD
 						playsound(cast_on, 'sound/magic/summonitems_generic.ogg', 50, TRUE)
+=======
+						playsound(cast_on, 'sound/effects/magic/summonitems_generic.ogg', 50, TRUE)
+>>>>>>> tg-pr-88929
 					return TRUE
 				else
 					to_chat(owner, span_warning("[cast_on] is wearing laceless shoes!"))

@@ -38,6 +38,15 @@
 		/obj/item/melee/baton/security/boomerang/loaded = 1
 	)
 	rpg_title = "Guard"
+<<<<<<< HEAD
+=======
+	alternate_titles = list(
+		JOB_SECURITY_OFFICER_MEDICAL,
+		JOB_SECURITY_OFFICER_ENGINEERING,
+		JOB_SECURITY_OFFICER_SUPPLY,
+		JOB_SECURITY_OFFICER_SCIENCE,
+	)
+>>>>>>> tg-pr-88929
 	job_flags = STATION_JOB_FLAGS
 
 
@@ -77,7 +86,7 @@ GLOBAL_LIST_EMPTY(security_officer_distribution)
 
 	var/ears = null
 	var/accessory = null
-	var/list/dep_trim = null
+	var/datum/id_trim/dep_trim = null
 	var/destination = null
 	var/suit = null //monkestation edit: add departmental sec outfits
 	var/head = null //monkestation edit: add departmental sec outfits
@@ -137,6 +146,12 @@ GLOBAL_LIST_EMPTY(security_officer_distribution)
 		var/obj/item/card/id/worn_id = spawning.get_idcard(hand_first = FALSE)
 		SSid_access.apply_trim_to_card(worn_id, dep_trim)
 		spawning.sec_hud_set_ID()
+
+		// Update PDA to match new trim.
+		var/obj/item/modular_computer/pda/pda = spawning.get_item_by_slot(ITEM_SLOT_BELT)
+		var/assignment = worn_id.get_trim_assignment()
+		if(istype(pda) && !isnull(assignment))
+			pda.imprint_id(spawning.real_name, assignment)
 
 	var/spawn_point = pick(LAZYACCESS(GLOB.department_security_spawns, department))
 
@@ -230,6 +245,10 @@ GLOBAL_LIST_EMPTY(security_officer_distribution)
 	belt = /obj/item/modular_computer/pda/security
 	ears = /obj/item/radio/headset/headset_sec/alt
 	gloves = /obj/item/clothing/gloves/color/black/security
+<<<<<<< HEAD
+=======
+	head = /obj/item/clothing/head/helmet/sec
+>>>>>>> tg-pr-88929
 	shoes = /obj/item/clothing/shoes/jackboots/sec
 	l_pocket = /obj/item/assembly/flash/handheld
 	r_pocket = /obj/item/restraints/handcuffs
@@ -237,6 +256,7 @@ GLOBAL_LIST_EMPTY(security_officer_distribution)
 	backpack = /obj/item/storage/backpack/security
 	satchel = /obj/item/storage/backpack/satchel/sec
 	duffelbag = /obj/item/storage/backpack/duffelbag/sec
+	messenger = /obj/item/storage/backpack/messenger/sec
 
 	box = /obj/item/storage/box/survival/security
 	chameleon_extras = list(

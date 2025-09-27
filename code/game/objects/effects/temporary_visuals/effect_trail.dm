@@ -2,7 +2,11 @@
 /obj/effect/temp_visual/effect_trail
 	name = "effect trail"
 	desc = "An invisible effect, how did you examine this?"
+<<<<<<< HEAD
 	icon = 'icons/mob/silicon/cameramob.dmi'
+=======
+	icon = 'icons/mob/eyemob.dmi'
+>>>>>>> tg-pr-88929
 	icon_state = "marker"
 	duration = 15 SECONDS
 	invisibility = INVISIBILITY_ABSTRACT
@@ -29,7 +33,11 @@
 	AddElement(/datum/element/floor_loving)
 	AddComponent(/datum/component/spawner, spawn_types = list(spawned_effect), max_spawned = max_spawned, spawn_time = spawn_interval)
 	src.target = target
+<<<<<<< HEAD
 	movement = SSmove_manager.move_towards(src, chasing = target, delay = move_speed, home = homing, timeout = duration, flags = MOVEMENT_LOOP_START_FAST)
+=======
+	movement = GLOB.move_manager.move_towards(src, chasing = target, delay = move_speed, home = homing, timeout = duration, flags = MOVEMENT_LOOP_START_FAST)
+>>>>>>> tg-pr-88929
 
 	RegisterSignal(target, COMSIG_QDELETING, PROC_REF(on_target_invalid))
 	if (isliving(target))

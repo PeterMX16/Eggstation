@@ -137,6 +137,7 @@ Be careful of this.
 
 The `vis_contents` list allows you to essentially say "Hey, render this thing ON me".
 
+<<<<<<< HEAD
 The definition of "ON" varies significantly with the `vis_flags` value of the _thing_ being relayed.
 See the ref [here](https://www.byond.com/docs/ref/#/atom/var/vis_flags).
 
@@ -148,6 +149,18 @@ Some flags of interest:
   This flag changes the plane of any `vis_contents`'d object (while displayed on the source object) to the source's.
   This is occasionally useful, but should be used with care as it breaks any effects that rely on plane.
 
+=======
+The definition of "ON" varies significantly with the `vis_flags` value of the *thing* being relayed.
+See the ref [here](https://www.byond.com/docs/ref/#/atom/var/vis_flags).
+
+Some flags of interest:
+- `VIS_INHERIT_ID`: This allows you to link the object DIRECTLY to the thing it's drawn on,
+so clicking on the `vis_contents`'d object is just like clicking on the thing
+- `VIS_INHERIT_PLANE`: We will discuss [planes](#planes) more in future, but we use them to both effect rendering order and apply effects as a group.
+This flag changes the plane of any `vis_contents`'d object (while displayed on the source object) to the source's.
+This is occasionally useful, but should be used with care as it breaks any effects that rely on plane.
+
+>>>>>>> tg-pr-88929
 Anything inside a `vis_contents` list will have its loc stored in its `vis_locs` variable.
 We very rarely use this, primarily just for clearing references from `vis_contents`.
 
@@ -199,10 +212,16 @@ We then mirror this group of images into/out of the client's images list, based 
 This is the pattern we use for things like the medihud, or robot trails.
 
 ## View
+<<<<<<< HEAD
 
 - [Table of Contents](#table-of-contents)
 - [Reference Entry](https://www.byond.com/docs/ref/#/client/var/view)
 
+=======
+- [Table of Contents](#table-of-contents)
+- [Reference Entry](https://www.byond.com/docs/ref/#/client/var/view)
+
+>>>>>>> tg-pr-88929
 `/client/var/view` is actually a pretty simple topic,
 but I'm gonna take this chance to discuss the other things we do to manage pixel sizing and such since there isn't a better place for it,
 and they're handled in the same place by us.
@@ -228,6 +247,7 @@ Otherwise, any other numbers will lead to pixels being scaled by some multiple.
 This effect can only really result in nice clean edges if you pass in whole numbers which is why most of the constant scaling we give players are whole numbers.
 
 `zoom-mode` controls how a pixel will be up-scaled, if it needs to be.
+<<<<<<< HEAD
 See the ref for more details, but `normal` is fairly sharp, with a little blur, `distort` uses nearest neighbor, which is the sharpest option, but introduces heavier distortion some might find distracting, and `blur` uses bilinear sampling, which causes a LOT of blur.
 
 If you are using integer scaling, `distort` provides a perfect image, while the other two are not recommended to be used.
@@ -237,6 +257,15 @@ If you are using integer scaling, `distort` provides a perfect image, while the 
 - [Table of Contents](#table-of-contents)
 - [Reference Entry](https://www.byond.com/docs/ref/#/client/var/eye)
 
+=======
+See the ref for more details, but `normal` is gonna have the sharpest output, `distort` uses nearest neighbor,
+which causes some blur, and `blur` uses bilinear sampling, which causes a LOT of blur.
+
+## Eye
+- [Table of Contents](#table-of-contents)
+- [Reference Entry](https://www.byond.com/docs/ref/#/client/var/eye)
+
+>>>>>>> tg-pr-88929
 `/client/var/eye` is the atom or mob at which our view should be centered.
 Any screen objects we display will show "off" this, as will our actual well eye position.
 
@@ -244,6 +273,11 @@ It is by default `/client/var/mob` but it can be modified.
 This is how we accomplish ai eyes and ventcrawling, alongside most other effects that involve a player getting "into" something.
 
 ## Client Screen
+<<<<<<< HEAD
+=======
+- [Table of Contents](#table-of-contents)
+- [Reference Entry](https://www.byond.com/docs/ref/#/{notes}/HUD)
+>>>>>>> tg-pr-88929
 
 - [Table of Contents](#table-of-contents)
 - [Reference Entry](https://www.byond.com/docs/ref/#/{notes}/HUD)
@@ -322,7 +356,11 @@ We will also occasionally use glide size as a way to force a transition between 
 There's extra cruft here.
 
 > Something you should know: Our gliding system attempts to account for time dilation when setting move rates.
+<<<<<<< HEAD
 > This is done in a very simplistic way however, so a spike in td will lead to jumping around as glide rate is outpaced by mob movement rate.
+=======
+This is done in a very simplistic way however, so a spike in td will lead to jumping around as glide rate is outpaced by mob movement rate.
+>>>>>>> tg-pr-88929
 
 On that note, it is VERY important that glide rate is the same or near the same as actual move rate.
 Otherwise you will get strange jumping and jitter.
@@ -336,6 +374,11 @@ This is why you'll sometime see a stutter in your step when slowed
 Just so you know, client movement works off `/client/var/move_delay` which sets the next time an input will be accepted. It's typically glide rate, but is in some cases just 1 tick.
 
 ## Sight
+<<<<<<< HEAD
+=======
+- [Table of Contents](#table-of-contents)
+- [Reference Entry](https://www.byond.com/docs/ref/#/mob/var/sight)
+>>>>>>> tg-pr-88929
 
 - [Table of Contents](#table-of-contents)
 - [Reference Entry](https://www.byond.com/docs/ref/#/mob/var/sight)
@@ -345,9 +388,15 @@ That said, there is some nuance here so I'ma get into that.
 
 - `SEE_INFRA`: I'll get into this later, but infrared is essentially a copy of BYOND darkness, it's not something we currently use.
 - `SEE_BLACKNESS`: This relates heavily to [planes](#planes), essentially typically the "blackness" (that darkness that masks things that you can't see)
+<<<<<<< HEAD
   is rendered separately, out of our control as "users".
   However, if the `SEE_BLACKNESS` flag is set, it will instead render on plane 0, the default BYOND plane.
   This allows us to capture it, and say, blur it, or redraw it elsewhere. This is in theory very powerful, but not possible with the 'side_map' [map format](https://www.byond.com/docs/ref/#/world/var/map_format)
+=======
+is rendered separately, out of our control as "users".
+However, if the `SEE_BLACKNESS` flag is set, it will instead render on plane 0, the default BYOND plane.
+This allows us to capture it, and say, blur it, or redraw it elsewhere. This is in theory very powerful, but not possible with the 'side_map' [map format](https://www.byond.com/docs/ref/#/world/var/map_format)
+>>>>>>> tg-pr-88929
 
 ## BYOND Lighting
 
@@ -384,10 +433,16 @@ This is why when you stand in darkness you can see yourself, and why you can see
 It's quite simple, but worth describing.
 
 ### Infrared
+<<<<<<< HEAD
 
 - [Table of Contents](#table-of-contents)
 - [Reference Entry](https://www.byond.com/docs/ref/#/mob/var/see_infrared)
 
+=======
+- [Table of Contents](#table-of-contents)
+- [Reference Entry](https://www.byond.com/docs/ref/#/mob/var/see_infrared)
+
+>>>>>>> tg-pr-88929
 Infrared vision can be thought of as a hidden copy of standard BYOND darkness.
 It's not something we actually use, but I think you should know about it, because the whole thing is real confusing without context.
 
@@ -419,6 +474,9 @@ Layer has a bit more nuance then just being lowest to highest, tho it's not a lo
 There are a few snowflake layers that can be used to accomplish niche goals, alongside floating layers, which are essentially just any layer that is negative.
 
 Floating layers will float "up" the chain of things they're being drawn onto, until they find a real layer. They'll then offset off of that.
+
+Adding `TOPDOWN_LAYER` (actual value `10000`) to another layer forces the appearance into topdown rendering, locally disabling [side map](#side_map-check-the-main-page-too).
+We can think of this as applying to planes, since we don't want it interlaying with other non topdown objects.
 
 This allows us to keep relative layer differences while not needing to make all sources static. Often very useful.
 
@@ -452,10 +510,17 @@ called `/atom/movable/plane_master_controller`.
 This is somewhat outmoded by our use of [render relays](#render-targetsource), but it's still valid and occasionally useful.
 
 > Something you should know: Plane masters effect ONLY the map their screen_loc is on.
+<<<<<<< HEAD
 > For this reason, we are forced to generate whole copies of the set of plane masters with the proper screen_loc to make subviews look right
 
 > Warning: Planes have some restrictions on valid values. They NEED to be whole integers, and they NEED to have an absolute value of `10000`.
 > This is to support `FLOAT_PLANE`, which lives out at the very edge of the 32 bit int range.
+=======
+For this reason, we are forced to generate whole copies of the set of plane masters with the proper screen_loc to make subviews look right
+
+> Warning: Planes have some restrictions on valid values. They NEED to be whole integers, and they NEED to have an absolute value of `10000`.
+This is to support `FLOAT_PLANE`, which lives out at the very edge of the 32 bit int range.
+>>>>>>> tg-pr-88929
 
 ## Render Target/Source
 
@@ -497,10 +562,17 @@ Except not, for 2 reasons. One more annoying then the other.
 
 - 1: It looked like dog doo-doo. This pattern destroyed the old planes of everything vis_contents'd, so effects/lighting/dropshadows broke bad.
 - 2: I alluded to this earlier, but it totally breaks the `side_map` [map format](https://www.byond.com/docs/ref/#/world/var/map_format)
+<<<<<<< HEAD
   which I need for a massive resprite I'm helping with. This is because `side_map` changes how rendering order works,
   going off "distance" from the front of the frame.
   The issue here is it of course needs a way to group things that are even allowed to overlap, so it uses plane.
   So when you squish everything down onto one plane, this of course breaks horribly and fucks you.
+=======
+which I need for a massive resprite I'm helping with. This is because `side_map` changes how rendering order works,
+going off "distance" from the front of the frame.
+The issue here is it of course needs a way to group things that are even allowed to overlap, so it uses plane.
+So when you squish everything down onto one plane, this of course breaks horribly and fucks you.
+>>>>>>> tg-pr-88929
 
 Ok then, old way's not workable. What will we do instead?
 
@@ -534,10 +606,17 @@ We will on occasion use mouse opacity to expand hitboxes, but more often this is
 or just low alpha pixels on the sprite.
 
 > Note: Mouse opacity will only matter if the atom is being rendered on its own. [Overlays](#overlays)(and [images](#images))
+<<<<<<< HEAD
 > will NOT work as expected with this.
 > However, you can still have totally transparent overlays. If you render them onto a [plane master](#planes) with the desired mouse opacity value
 > it will work as expected. This is because as a step of the rendering pipeline the overlay is rendered ONTO the plane master, and then the plane
 > master's effects are applied.
+=======
+will NOT work as expected with this.
+However, you can still have totally transparent overlays. If you render them onto a [plane master](#planes) with the desired mouse opacity value
+it will work as expected. This is because as a step of the rendering pipeline the overlay is rendered ONTO the plane master, and then the plane
+master's effects are applied.
+>>>>>>> tg-pr-88929
 
 ## Filters
 
@@ -672,7 +751,11 @@ One more thing. Big icons are fucked
 
 From the byond reference
 
+<<<<<<< HEAD
 > If you use an icon wider than one tile, the "footprint" of the isometric icon (the actual map tiles it takes up) will always be a square. That is, if your normal tile size is 64 and you want to show a 128x128 icon, the icon is two tiles wide and so it will take up a 2×2-tile area on the map. The height of a big icon is irrelevant--any excess height beyond width/2 is used to show vertical features. To draw this icon properly, other tiles on that same ground will be moved behind it in the drawing order.
+=======
+>If you use an icon wider than one tile, the "footprint" of the isometric icon (the actual map tiles it takes up) will always be a square. That is, if your normal tile size is 64 and you want to show a 128x128 icon, the icon is two tiles wide and so it will take up a 2×2-tile area on the map. The height of a big icon is irrelevant--any excess height beyond width/2 is used to show vertical features. To draw this icon properly, other tiles on that same ground will be moved behind it in the drawing order.
+>>>>>>> tg-pr-88929
 > One important warning about using big icons in isometric mode is that you should only do this with dense atoms. If part of a big mob icon covers the same tile as a tall building for instance, the tall building is moved back and it could be partially covered by other turfs that are actually behind it. A mob walking onto a very large non-dense turf icon would experience similar irregularities.
 
 These can cause very annoying flickering. In fact, MUCH of how rendering works causes flickering. This is because we don't decide on a pixel by pixel case, the engine groups sprites up into a sort of rendering stack, unable to split them up.

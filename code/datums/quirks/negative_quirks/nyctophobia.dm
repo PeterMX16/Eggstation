@@ -6,7 +6,10 @@
 	medical_record_text = "Patient demonstrates a fear of the dark. (Seriously?)"
 	hardcore_value = 5
 	mail_goodies = list(/obj/effect/spawner/random/engineering/flashlight)
+<<<<<<< HEAD
 	no_process_traits = list(TRAIT_FEARLESS, TRAIT_MIND_TEMPORARILY_GONE)
+=======
+>>>>>>> tg-pr-88929
 
 /datum/quirk/nyctophobia/add(client/client_source)
 	RegisterSignal(quirk_holder, COMSIG_MOVABLE_MOVED, PROC_REF(on_holder_moved))
@@ -27,7 +30,11 @@
 
 	var/mob/living/carbon/human/human_holder = quirk_holder
 
+<<<<<<< HEAD
 	if(istype(human_holder.dna?.species, /datum/species/shadow) || IS_TEAM_DARKSPAWN(human_holder))
+=======
+	if(human_holder.dna?.species.id in list(SPECIES_SHADOW, SPECIES_NIGHTMARE))
+>>>>>>> tg-pr-88929
 		return
 
 	if((human_holder.sight & SEE_TURFS) == SEE_TURFS)
@@ -41,7 +48,13 @@
 		quirk_holder.clear_mood_event("nyctophobia")
 		return
 
+<<<<<<< HEAD
 	if(quirk_holder.m_intent == MOVE_INTENT_RUN)
 		to_chat(quirk_holder, span_warning("Easy, easy, take it slow... you're in the dark..."))
 		quirk_holder.set_move_intent(MOVE_INTENT_WALK)
+=======
+	if(quirk_holder.move_intent == MOVE_INTENT_RUN)
+		to_chat(quirk_holder, span_warning("Easy, easy, take it slow... you're in the dark..."))
+		quirk_holder.toggle_move_intent()
+>>>>>>> tg-pr-88929
 	quirk_holder.add_mood_event("nyctophobia", /datum/mood_event/nyctophobia)

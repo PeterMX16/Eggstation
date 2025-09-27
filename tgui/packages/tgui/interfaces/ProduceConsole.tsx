@@ -1,6 +1,22 @@
-import { BooleanLike } from 'common/react';
-import { capitalize, createSearch } from 'common/string';
+import { useState } from 'react';
+import {
+  Box,
+  Button,
+  Dimmer,
+  Divider,
+  DmIcon,
+  Icon,
+  Input,
+  NumberInput,
+  Section,
+  Stack,
+  Tabs,
+} from 'tgui-core/components';
+import { BooleanLike } from 'tgui-core/react';
+import { capitalize, createSearch } from 'tgui-core/string';
+
 import { useBackend, useLocalState } from '../backend';
+<<<<<<< HEAD
 import {
   Box,
   Button,
@@ -14,6 +30,8 @@ import {
   Tabs,
   DmIcon,
 } from '../components';
+=======
+>>>>>>> tg-pr-88929
 import { Window } from '../layouts';
 
 const buttonWidth = 2;
@@ -66,33 +84,38 @@ const findAmount = (item_amts, name) => {
 const ShoppingTab = (props) => {
   const { data, act } = useBackend<Data>();
   const { credit_type, order_categories, order_datums, item_amts } = data;
+<<<<<<< HEAD
   const [shopCategory, setShopCategory] = useLocalState(
     'shopCategory',
     order_categories[0],
   );
   const [condensed] = useLocalState('condensed', false);
   const [searchItem, setSearchItem] = useLocalState('searchItem', '');
+=======
+  const [shopCategory, setShopCategory] = useState(order_categories[0]);
+  const [condensed] = useLocalState('condensed', false);
+  const [searchItem, setSearchItem] = useState('');
+>>>>>>> tg-pr-88929
   const search = createSearch<OrderDatum>(
     searchItem,
     (order_datums) => order_datums.name,
   );
   let goods =
     searchItem.length > 0
-      ? order_datums.filter((item) => search(item) && item.cat === shopCategory)
+      ? order_datums.filter((item) => search(item))
       : order_datums.filter((item) => item && item.cat === shopCategory);
 
   return (
     <Stack fill vertical>
       <Section mb={-1}>
         <Stack.Item>
-          <Tabs>
+          <Tabs fluid textAlign="center">
             {order_categories.map((category) => (
               <Tabs.Tab
                 key={category}
                 selected={category === shopCategory}
                 onClick={() => {
                   setShopCategory(category);
-
                   if (searchItem.length > 0) {
                     setSearchItem('');
                   }
@@ -101,18 +124,16 @@ const ShoppingTab = (props) => {
                 {category}
               </Tabs.Tab>
             ))}
-            <Stack.Item grow>
+            <Stack.Item>
               <Input
                 autoFocus
-                ml={5}
-                width="150px"
                 mt={0.5}
+                width="150px"
                 placeholder="Search item..."
                 value={searchItem}
                 onInput={(e, value) => {
                   setSearchItem(value);
                 }}
-                fluid
               />
             </Stack.Item>
           </Tabs>
@@ -122,12 +143,12 @@ const ShoppingTab = (props) => {
         <Section fill scrollable>
           <Stack vertical mt={-2}>
             <Divider />
-            {goods.map((item, key) => (
-              <Stack.Item key={key}>
+            {goods.map((item) => (
+              <Stack.Item key={item.ref}>
                 <Stack>
                   <span
                     style={{
-                      'vertical-align': 'middle',
+                      verticalAlign: 'middle',
                     }}
                   />{' '}
                   {!condensed && (
@@ -142,9 +163,10 @@ const ShoppingTab = (props) => {
                       />
                     </Stack.Item>
                   )}
-                  <Stack.Item>{capitalize(item.name)}</Stack.Item>
-                  <Stack.Item grow mt={-1} color="label" fontSize="10px">
+                  <Stack.Item grow>{capitalize(item.name)}</Stack.Item>
+                  <Stack.Item color="label" fontSize="10px">
                     <Button
+                      mt={-1}
                       color="transparent"
                       icon="info"
                       tooltipPosition="right"
@@ -152,13 +174,13 @@ const ShoppingTab = (props) => {
                     />
                     <br />
                   </Stack.Item>
-                  <Stack.Item mt={-0.5}>
-                    <Box fontSize="10px" color="label" textAlign="right">
+                  <Stack.Item mt={-1.5} align="right">
+                    <Box fontSize="10px" color="label">
                       {item.cost + credit_type + ' per order.'}
                     </Box>
                     <Button
-                      ml={2}
                       icon="minus"
+                      ml={2}
                       onClick={() =>
                         act('remove_one', {
                           target: item.ref,
@@ -178,7 +200,8 @@ const ShoppingTab = (props) => {
                       width="41px"
                       minValue={0}
                       maxValue={20}
-                      onChange={(e, value) =>
+                      step={1}
+                      onChange={(value) =>
                         act('cart_set', {
                           target: item.ref,
                           amt: value,
@@ -238,7 +261,7 @@ const CheckoutTab = (props) => {
                 <Stack.Item key={key}>
                   <Stack>
                     <Stack.Item>{capitalize(item.name)}</Stack.Item>
-                    <Stack.Item grow mt={-1} color="label" fontSize="10px">
+                    <Stack.Item grow color="label" fontSize="10px">
                       {'"' + item.desc + '"'}
                       <br />
                       <Box textAlign="right">
@@ -255,7 +278,8 @@ const CheckoutTab = (props) => {
                         width="41px"
                         minValue={0}
                         maxValue={(item.cost > 10 && 50) || 10}
-                        onChange={(e, value) =>
+                        step={1}
+                        onChange={(value) =>
                           act('cart_set', {
                             target: item.ref,
                             amt: value,
@@ -275,7 +299,7 @@ const CheckoutTab = (props) => {
         <Section>
           <Stack>
             <Stack.Item grow mt={0.5}>
-              Total Cost:{total_cargo_cost}&#40;Express:
+              Total:{total_cargo_cost}&#40;Express:
               {total_cost * express_cost_multiplier}&#41;
             </Stack.Item>
             {!forced_express && (
@@ -287,7 +311,7 @@ const CheckoutTab = (props) => {
                   disabled={total_cargo_cost < cargo_value}
                   tooltip={
                     total_cargo_cost < cargo_value
-                      ? `Total Cost must be above or equal to ${cargo_value}`
+                      ? `Total must be above or equal to ${cargo_value}`
                       : purchase_tooltip
                   }
                   tooltipPosition="top"
@@ -333,10 +357,16 @@ const OrderSent = (props) => {
 
 export const ProduceConsole = (props) => {
   const { data } = useBackend<Data>();
+<<<<<<< HEAD
   const { points, off_cooldown, order_categories } = data;
   const [tabIndex, setTabIndex] = useLocalState('tab-index', 1);
+=======
+  const { credit_type, points, off_cooldown, order_categories } = data;
+  const [tabIndex, setTabIndex] = useState(1);
+>>>>>>> tg-pr-88929
   const [condensed, setCondensed] = useLocalState('condensed', false);
   const TabComponent = TAB2NAME[tabIndex - 1].component();
+
   return (
     <Window width={Math.max(order_categories.length * 125, 500)} height={400}>
       <Window.Content>
@@ -371,12 +401,10 @@ export const ProduceConsole = (props) => {
           <Section>
             <Stack direction="column">
               <Stack.Item grow>
-                Currently available balance: {points || 0}
+                Currently available balance: {points || 0} {credit_type}
               </Stack.Item>
-              <Stack.Item textAlign="right" fill>
+              <Stack.Item textAlign="right">
                 <Button
-                  ml={65}
-                  mt={-4}
                   color={condensed ? 'green' : 'red'}
                   content={condensed ? 'Uncondense' : 'Condense'}
                   onClick={() => setCondensed(!condensed)}

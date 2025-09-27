@@ -1,7 +1,12 @@
 ///commands the chief can pick from
 GLOBAL_LIST_INIT(mook_commands, list(
+<<<<<<< HEAD
 	new /datum/pet_command/point_targeting/attack,
 	new /datum/pet_command/point_targeting/fetch,
+=======
+	new /datum/pet_command/attack,
+	new /datum/pet_command/fetch,
+>>>>>>> tg-pr-88929
 ))
 
 /datum/ai_controller/basic_controller/mook
@@ -70,7 +75,11 @@ GLOBAL_LIST_INIT(mook_commands, list(
 ///deposit ores into the stand!
 /datum/ai_planning_subtree/find_and_hunt_target/material_stand
 	target_key = BB_MATERIAL_STAND_TARGET
+<<<<<<< HEAD
 	hunting_behavior = /datum/ai_behavior/hunt_target/unarmed_attack_target/material_stand
+=======
+	hunting_behavior = /datum/ai_behavior/hunt_target/interact_with_target/material_stand
+>>>>>>> tg-pr-88929
 	finding_behavior = /datum/ai_behavior/find_hunt_target
 	hunt_targets = list(/obj/structure/ore_container/material_stand)
 	hunt_range = 9
@@ -81,6 +90,7 @@ GLOBAL_LIST_INIT(mook_commands, list(
 		return
 	return ..()
 
+<<<<<<< HEAD
 /datum/ai_behavior/hunt_target/unarmed_attack_target/material_stand
 	required_distance = 0
 	always_reset_target = TRUE
@@ -89,6 +99,16 @@ GLOBAL_LIST_INIT(mook_commands, list(
 
 ///try to face the counter when depositing ores
 /datum/ai_behavior/hunt_target/unarmed_attack_target/material_stand/setup(datum/ai_controller/controller, hunting_target_key, hunting_cooldown_key)
+=======
+/datum/ai_behavior/hunt_target/interact_with_target/material_stand
+	required_distance = 0
+	always_reset_target = TRUE
+	behavior_combat_mode = FALSE
+	behavior_flags = AI_BEHAVIOR_REQUIRE_MOVEMENT
+
+///try to face the counter when depositing ores
+/datum/ai_behavior/hunt_target/interact_with_target/material_stand/setup(datum/ai_controller/controller, hunting_target_key, hunting_cooldown_key)
+>>>>>>> tg-pr-88929
 	. = ..()
 	var/atom/hunt_target = controller.blackboard[hunting_target_key]
 	if (QDELETED(hunt_target))
@@ -117,6 +137,7 @@ GLOBAL_LIST_INIT(mook_commands, list(
 /datum/ai_behavior/find_village
 
 /datum/ai_behavior/find_village/perform(seconds_per_tick, datum/ai_controller/controller, village_key)
+<<<<<<< HEAD
 	. = ..()
 
 	var/obj/effect/landmark/home_marker = locate(/obj/effect/landmark/mook_village) in GLOB.landmarks_list
@@ -126,6 +147,15 @@ GLOBAL_LIST_INIT(mook_commands, list(
 
 	controller.set_blackboard_key(village_key, home_marker)
 	finish_action(controller, TRUE)
+=======
+
+	var/obj/effect/landmark/home_marker = locate(/obj/effect/landmark/mook_village) in GLOB.landmarks_list
+	if(isnull(home_marker))
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
+
+	controller.set_blackboard_key(village_key, home_marker)
+	return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_SUCCEEDED
+>>>>>>> tg-pr-88929
 
 ///explore the lands away from the village to look for ore
 /datum/ai_planning_subtree/wander_away_from_village
@@ -190,8 +220,12 @@ GLOBAL_LIST_INIT(mook_commands, list(
 	return return_turf
 
 /datum/ai_behavior/wander/perform(seconds_per_tick, datum/ai_controller/controller, target_key, hiding_location_key)
+<<<<<<< HEAD
 	. = ..()
 	finish_action(controller, TRUE)
+=======
+	return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_SUCCEEDED
+>>>>>>> tg-pr-88929
 
 /datum/ai_planning_subtree/mine_walls/mook
 	find_wall_behavior = /datum/ai_behavior/find_mineral_wall/mook
@@ -300,7 +334,11 @@ GLOBAL_LIST_INIT(mook_commands, list(
 ///find injured miner mooks after they come home from a long day of work
 /datum/ai_planning_subtree/find_and_hunt_target/injured_mooks
 	target_key = BB_INJURED_MOOK
+<<<<<<< HEAD
 	hunting_behavior = /datum/ai_behavior/hunt_target/unarmed_attack_target/injured_mooks
+=======
+	hunting_behavior = /datum/ai_behavior/hunt_target/interact_with_target/injured_mooks
+>>>>>>> tg-pr-88929
 	finding_behavior = /datum/ai_behavior/find_hunt_target/injured_mooks
 	hunt_targets = list(/mob/living/basic/mining/mook/worker)
 	hunt_range = 9
@@ -316,9 +354,13 @@ GLOBAL_LIST_INIT(mook_commands, list(
 /datum/ai_behavior/find_hunt_target/injured_mooks/valid_dinner(mob/living/source, mob/living/injured_mook)
 	return (injured_mook.health < injured_mook.maxHealth)
 
+<<<<<<< HEAD
 /datum/ai_behavior/hunt_target/unarmed_attack_target/injured_mooks
 
 /datum/ai_behavior/hunt_target/unarmed_attack_target/injured_mooks
+=======
+/datum/ai_behavior/hunt_target/interact_with_target/injured_mooks
+>>>>>>> tg-pr-88929
 	always_reset_target = TRUE
 	hunt_cooldown = 10 SECONDS
 
@@ -351,7 +393,11 @@ GLOBAL_LIST_INIT(mook_commands, list(
 	if(!locate(/mob/living/basic/mining/mook) in oview(command_distance, controller.pawn))
 		return
 	if(controller.blackboard_key_exists(BB_BASIC_MOB_CURRENT_TARGET))
+<<<<<<< HEAD
 		controller.queue_behavior(/datum/ai_behavior/issue_commands, BB_BASIC_MOB_CURRENT_TARGET, /datum/pet_command/point_targeting/attack)
+=======
+		controller.queue_behavior(/datum/ai_behavior/issue_commands, BB_BASIC_MOB_CURRENT_TARGET, /datum/pet_command/attack)
+>>>>>>> tg-pr-88929
 		return
 
 	var/atom/ore_target = controller.blackboard[BB_ORE_TARGET]
@@ -361,17 +407,25 @@ GLOBAL_LIST_INIT(mook_commands, list(
 	if(get_dist(ore_target, living_pawn) <= 1)
 		return
 
+<<<<<<< HEAD
 	controller.queue_behavior(/datum/ai_behavior/issue_commands, BB_ORE_TARGET, /datum/pet_command/point_targeting/fetch)
+=======
+	controller.queue_behavior(/datum/ai_behavior/issue_commands, BB_ORE_TARGET, /datum/pet_command/fetch)
+>>>>>>> tg-pr-88929
 
 /datum/ai_behavior/issue_commands
 	action_cooldown = 5 SECONDS
 
 /datum/ai_behavior/issue_commands/perform(seconds_per_tick, datum/ai_controller/controller, target_key, command_path)
+<<<<<<< HEAD
 	. = ..()
+=======
+>>>>>>> tg-pr-88929
 	var/mob/living/basic/living_pawn = controller.pawn
 	var/atom/target = controller.blackboard[target_key]
 
 	if(isnull(target))
+<<<<<<< HEAD
 		finish_action(controller, FALSE)
 		return
 
@@ -379,11 +433,22 @@ GLOBAL_LIST_INIT(mook_commands, list(
 	if(isnull(to_command))
 		finish_action(controller, FALSE)
 		return
+=======
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
+
+	var/datum/pet_command/to_command = locate(command_path) in GLOB.mook_commands
+	if(isnull(to_command))
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
+>>>>>>> tg-pr-88929
 
 	var/issue_command = pick(to_command.speech_commands)
 	living_pawn.say(issue_command, forced = "controller")
 	living_pawn._pointed(target)
+<<<<<<< HEAD
 	finish_action(controller, TRUE)
+=======
+	return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_SUCCEEDED
+>>>>>>> tg-pr-88929
 
 
 ///find an ore, only pick it up when a mook brings it close to us
@@ -411,7 +476,11 @@ GLOBAL_LIST_INIT(mook_commands, list(
 /datum/ai_planning_subtree/find_and_hunt_target/bonfire
 	target_key = BB_MOOK_BONFIRE_TARGET
 	finding_behavior = /datum/ai_behavior/find_hunt_target/bonfire
+<<<<<<< HEAD
 	hunting_behavior = /datum/ai_behavior/hunt_target/unarmed_attack_target/bonfire
+=======
+	hunting_behavior = /datum/ai_behavior/hunt_target/interact_with_target/bonfire
+>>>>>>> tg-pr-88929
 	hunt_targets = list(/obj/structure/bonfire)
 	hunt_range = 9
 
@@ -424,5 +493,9 @@ GLOBAL_LIST_INIT(mook_commands, list(
 
 	return can_see(source, fire, radius)
 
+<<<<<<< HEAD
 /datum/ai_behavior/hunt_target/unarmed_attack_target/bonfire
+=======
+/datum/ai_behavior/hunt_target/interact_with_target/bonfire
+>>>>>>> tg-pr-88929
 	always_reset_target = TRUE

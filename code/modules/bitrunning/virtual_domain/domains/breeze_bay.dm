@@ -4,7 +4,11 @@
 	help_text = "It's simple! Enjoy some rays, catch some fish, and have a good time! Don't get bit by the crabs, though."
 	key = "breeze_bay"
 	map_name = "breeze_bay"
+<<<<<<< HEAD
 	safehouse_path = /datum/map_template/safehouse/wood
+=======
+	reward_points = BITRUNNER_REWARD_LOW
+>>>>>>> tg-pr-88929
 
 /datum/lazy_template/virtual_domain/breeze_bay/setup_domain(list/created_atoms)
 	. = ..()

@@ -2,49 +2,84 @@
 "aj" = (
 /obj/effect/turf_decal/weather/dirt,
 /turf/open/water,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "av" = (
 /obj/structure/flora/bush/pointy/style_random,
 /obj/structure/flora/bush/ferny/style_random,
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
 "aD" = (
 /turf/open/floor/grass,
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+"aD" = (
+/turf/open/floor/grass,
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "aZ" = (
 /obj/effect/turf_decal/weather/dirt,
 /obj/structure/flora/bush/fullgrass/style_random,
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "bd" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 8
 	},
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "br" = (
 /obj/structure/flora/bush/reed/style_random,
 /obj/effect/turf_decal/weather/dirt{
 	dir = 1
 	},
 /turf/open/water,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
 "bG" = (
 /obj/effect/landmark/bitrunning/mob_segment,
 /turf/open/floor/grass,
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+"bG" = (
+/obj/effect/landmark/bitrunning/mob_segment,
+/turf/open/floor/grass,
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "bI" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 1
 	},
 /turf/open/water,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "bU" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 1
 	},
 /turf/open/floor/holofloor/basalt,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "ce" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 10
@@ -52,52 +87,85 @@
 /obj/structure/flora/bush/grassy/style_random,
 /obj/structure/flora/tree/jungle/small/style_random,
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "cL" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 8
 	},
 /obj/structure/flora/bush/grassy/style_random,
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
 "cS" = (
 /obj/structure/flora/rock/pile,
 /turf/open/floor/holofloor/basalt,
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+"cS" = (
+/obj/structure/flora/rock/pile,
+/turf/open/floor/holofloor/basalt,
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "cZ" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 5
 	},
 /obj/structure/flora/bush/reed/style_random,
 /turf/open/water,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "dk" = (
 /obj/structure/flora/bush/fullgrass/style_random,
 /obj/structure/flora/rock/pile/jungle/style_random,
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
 "ec" = (
 /obj/effect/baseturf_helper/virtual_domain,
 /turf/closed/indestructible/binary,
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+"ec" = (
+/obj/effect/baseturf_helper/virtual_domain,
+/turf/closed/indestructible/binary,
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "ep" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 10
 	},
 /turf/open/water,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "eE" = (
 /obj/effect/turf_decal/weather/dirt,
 /obj/structure/flora/bush/lavendergrass/style_random,
 /obj/structure/flora/tree/jungle/small/style_random,
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "fa" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 6
 	},
 /obj/structure/flora/bush/sparsegrass/style_random,
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
 "fm" = (
 /obj/structure/flora/bush/grassy/style_random,
@@ -106,6 +174,16 @@
 "fK" = (
 /turf/closed/indestructible/rock,
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+"fm" = (
+/obj/structure/flora/bush/grassy/style_random,
+/turf/open/floor/grass,
+/area/virtual_domain/fullbright)
+"fK" = (
+/turf/closed/indestructible/rock,
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "fZ" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 5
@@ -114,6 +192,7 @@
 	dir = 6
 	},
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
 "gc" = (
 /obj/structure/railing/wooden_fencing{
@@ -124,6 +203,9 @@
 	},
 /turf/open/indestructible/hotelwood,
 /area/lavaland/surface/outdoors/virtual_domain/fullbright/protected_space)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "gT" = (
 /obj/structure/table/wood,
 /obj/item/gun/ballistic/rifle/boltaction{
@@ -139,7 +221,11 @@
 /obj/effect/turf_decal/weather/dirt,
 /obj/structure/flora/bush/grassy/style_random,
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "ic" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 6
@@ -148,6 +234,7 @@
 	dir = 5
 	},
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
 "iy" = (
 /obj/structure/flora/tree/jungle/small/style_random,
@@ -157,52 +244,95 @@
 /obj/structure/flora/bush/pointy/style_random,
 /turf/open/floor/grass,
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+"iy" = (
+/obj/structure/flora/tree/jungle/small/style_random,
+/turf/open/floor/grass,
+/area/virtual_domain/fullbright)
+"iT" = (
+/obj/structure/flora/bush/pointy/style_random,
+/turf/open/floor/grass,
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "jc" = (
 /obj/structure/flora/bush/stalky/style_random,
 /obj/effect/turf_decal/weather/dirt{
 	dir = 1
 	},
 /turf/open/water,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "jo" = (
 /obj/structure/flora/bush/lavendergrass/style_random,
 /obj/structure/flora/tree/jungle/small/style_random,
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "jq" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 4
 	},
 /turf/open/water,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
 "kd" = (
 /obj/structure/flora/tree/jungle/style_random,
 /turf/open/floor/grass,
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+"kd" = (
+/obj/structure/flora/tree/jungle/style_random,
+/turf/open/floor/grass,
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "kj" = (
 /obj/effect/turf_decal/weather/dirt,
 /obj/structure/flora/bush/stalky/style_random,
 /turf/open/water,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "kq" = (
 /obj/structure/flora/bush/sparsegrass/style_random,
 /obj/effect/turf_decal/weather/dirt{
 	dir = 4
 	},
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "kG" = (
 /obj/effect/turf_decal/weather/dirt,
 /obj/structure/flora/bush/lavendergrass/style_random,
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "kM" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 4
 	},
 /obj/structure/flora/bush/lavendergrass/style_random,
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "kX" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 8
@@ -210,7 +340,11 @@
 /obj/structure/flora/bush/fullgrass/style_random,
 /obj/structure/flora/tree/jungle/small/style_random,
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "lf" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 1
@@ -218,18 +352,30 @@
 /obj/structure/flora/bush/fullgrass/style_random,
 /obj/structure/flora/bush/grassy/style_random,
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
 "lh" = (
 /obj/structure/flora/bush/pointy/style_random,
 /turf/closed/indestructible/rock,
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+"lh" = (
+/obj/structure/flora/bush/pointy/style_random,
+/turf/closed/indestructible/rock,
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "lF" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 5
 	},
 /obj/structure/flora/bush/grassy/style_random,
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "lK" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 8
@@ -237,14 +383,22 @@
 /obj/structure/flora/bush/fullgrass/style_random,
 /obj/structure/flora/bush/grassy/style_random,
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "lN" = (
 /obj/structure/flora/bush/reed/style_random,
 /obj/effect/turf_decal/weather/dirt{
 	dir = 4
 	},
 /turf/open/water,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "lQ" = (
 /obj/structure/table/wood,
 /obj/item/storage/cans/sixbeer,
@@ -253,145 +407,239 @@
 "nn" = (
 /obj/structure/flora/bush/sparsegrass/style_random,
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "nE" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 5
 	},
 /obj/structure/flora/bush/stalky/style_random,
 /turf/open/water,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "nK" = (
 /obj/structure/flora/bush/pointy/style_random,
 /obj/structure/flora/bush/grassy/style_random,
 /obj/structure/flora/rock/pile/jungle/style_random,
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "od" = (
 /obj/item/knife/hunting,
 /obj/structure/table/wood,
 /turf/template_noop,
 /area/virtual_domain/safehouse)
+<<<<<<< HEAD
 "oo" = (
 /obj/structure/railing/wooden_fencing{
 	dir = 1
 	},
 /turf/open/indestructible/hotelwood,
 /area/lavaland/surface/outdoors/virtual_domain/fullbright/protected_space)
+=======
+>>>>>>> tg-pr-88929
 "or" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 4
 	},
 /obj/structure/flora/bush/reed/style_random,
 /turf/open/water,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "oy" = (
 /obj/structure/flora/bush/sparsegrass/style_random,
 /obj/structure/flora/bush/pointy/style_random,
 /obj/structure/flora/bush/grassy/style_random,
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "oJ" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 8
 	},
 /obj/structure/flora/bush/stalky/style_random,
 /turf/open/water,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "oT" = (
 /obj/structure/flora/bush/fullgrass/style_random,
 /obj/structure/flora/bush/ferny/style_random,
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "ph" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 6
 	},
 /turf/open/water,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
 "pn" = (
 /obj/structure/flora/bush/ferny/style_random,
 /turf/open/floor/grass,
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+"pn" = (
+/obj/structure/flora/bush/ferny/style_random,
+/turf/open/floor/grass,
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "pJ" = (
 /obj/effect/turf_decal/weather/dirt,
 /obj/structure/flora/bush/fullgrass/style_random,
 /obj/structure/flora/bush/grassy/style_random,
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "rj" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 10
 	},
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "rx" = (
 /obj/structure/flora/bush/sparsegrass/style_random,
 /obj/structure/flora/tree/jungle/style_random,
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "rO" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 4
 	},
 /obj/structure/flora/bush/grassy/style_random,
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "rW" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 1
 	},
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "sq" = (
 /obj/effect/turf_decal/weather/dirt,
 /obj/effect/turf_decal/weather/dirt{
 	dir = 1
 	},
 /turf/open/water,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "st" = (
 /obj/structure/flora/bush/fullgrass/style_random,
 /obj/structure/flora/tree/jungle/small/style_random,
 /turf/open/misc/dirt/station,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "sx" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 4
 	},
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "sZ" = (
 /obj/effect/turf_decal/weather/dirt,
 /obj/structure/flora/bush/reed/style_random,
 /turf/open/water,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
 "tw" = (
 /obj/structure/flora/bush/fullgrass/style_random,
 /turf/open/misc/dirt/station,
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+"tw" = (
+/obj/structure/flora/bush/fullgrass/style_random,
+/turf/open/misc/dirt/station,
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "tM" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 10
 	},
 /obj/structure/flora/bush/grassy/style_random,
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "tZ" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 4
 	},
 /obj/structure/flora/bush/stalky/style_random,
 /turf/open/water,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "uh" = (
 /obj/structure/flora/bush/fullgrass/style_random,
 /obj/effect/landmark/bitrunning/mob_segment,
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
 "uk" = (
 /turf/open/water,
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+"uk" = (
+/turf/open/water,
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "uA" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 4
@@ -399,34 +647,51 @@
 /obj/structure/flora/bush/fullgrass/style_random,
 /obj/structure/flora/bush/grassy/style_random,
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "uN" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 1
 	},
 /obj/effect/turf_decal/weather/dirt,
 /turf/open/water,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "vF" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 10
 	},
 /obj/structure/flora/bush/reed/style_random,
 /turf/open/water,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "vN" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 1
 	},
 /obj/structure/flora/bush/reed/style_random,
 /turf/open/water,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "vS" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 4
 	},
 /obj/structure/flora/bush/fullgrass/style_random,
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
 "vT" = (
 /obj/structure/railing/wooden_fencing{
@@ -437,24 +702,39 @@
 	},
 /turf/open/indestructible/hotelwood,
 /area/lavaland/surface/outdoors/virtual_domain/fullbright/protected_space)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "we" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 6
 	},
 /obj/structure/flora/bush/grassy/style_random,
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "wq" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 9
 	},
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "wT" = (
 /obj/structure/flora/bush/sparsegrass/style_random,
 /obj/structure/flora/bush/grassy/style_random,
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "xj" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 10
@@ -462,33 +742,57 @@
 /obj/structure/flora/bush/fullgrass/style_random,
 /obj/structure/flora/bush/ferny/style_random,
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "xw" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 1
 	},
 /obj/structure/flora/bush/lavendergrass/style_random,
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "xE" = (
 /obj/structure/flora/bush/ferny/style_random,
 /obj/effect/landmark/bitrunning/mob_segment,
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "yr" = (
 /obj/structure/flora/bush/fullgrass/style_random,
 /obj/structure/flora/tree/jungle/small/style_random,
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
 "yC" = (
 /obj/structure/flora/bush/fullgrass/style_random,
 /turf/open/floor/grass,
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+"yC" = (
+/obj/structure/flora/bush/fullgrass/style_random,
+/turf/open/floor/grass,
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "zb" = (
 /obj/structure/flora/bush/stalky/style_random,
 /obj/effect/turf_decal/weather/dirt,
 /turf/open/water,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "zd" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 8
@@ -497,14 +801,26 @@
 	dir = 4
 	},
 /turf/open/water,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "zr" = (
 /obj/structure/flora/bush/flowers_br/style_random,
 /obj/structure/flora/rock/pile/jungle/large/style_3,
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
 "zX" = (
 /obj/effect/landmark/bitrunning/safehouse_spawn,
+=======
+/area/virtual_domain/fullbright)
+"zX" = (
+/obj/modular_map_root/safehouse{
+	key = "wood"
+	},
+>>>>>>> tg-pr-88929
 /turf/template_noop,
 /area/virtual_domain/safehouse)
 "An" = (
@@ -512,14 +828,22 @@
 	dir = 8
 	},
 /turf/open/water,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "Az" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 4
 	},
 /obj/structure/flora/bush/sparsegrass/style_random,
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "AM" = (
 /obj/effect/baseturf_helper/virtual_domain,
 /turf/template_noop,
@@ -528,14 +852,22 @@
 /obj/structure/flora/bush/fullgrass/style_random,
 /obj/structure/flora/tree/jungle/style_random,
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "Be" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 9
 	},
 /obj/structure/flora/bush/sparsegrass/style_random,
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "Bl" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 1
@@ -543,32 +875,52 @@
 /obj/structure/flora/bush/lavendergrass/style_random,
 /obj/structure/flora/bush/grassy/style_random,
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "Bn" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 5
 	},
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "BR" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 5
 	},
 /turf/open/water,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "BS" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 9
 	},
 /turf/open/floor/holofloor/basalt,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "Co" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 9
 	},
 /obj/structure/flora/bush/lavendergrass/style_random,
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "Cw" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 1
@@ -576,11 +928,19 @@
 /obj/structure/flora/bush/lavendergrass/style_random,
 /obj/structure/flora/tree/jungle/small/style_random,
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
 "CH" = (
 /obj/structure/flora/rock/pile/jungle/style_random,
 /turf/open/floor/grass,
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+"CH" = (
+/obj/structure/flora/rock/pile/jungle/style_random,
+/turf/open/floor/grass,
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "Dk" = (
 /obj/effect/landmark/bitrunning/loot_signal,
 /turf/template_noop,
@@ -592,7 +952,11 @@
 /obj/effect/turf_decal/weather/dirt,
 /obj/structure/flora/bush/stalky/style_random,
 /turf/open/water,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "DT" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 5
@@ -600,39 +964,67 @@
 /obj/structure/flora/bush/fullgrass/style_random,
 /obj/structure/flora/tree/jungle/small/style_random,
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "Es" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 9
 	},
 /obj/structure/flora/bush/fullgrass/style_random,
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
 "EW" = (
 /obj/structure/flora/rock/pile/style_2,
 /turf/open/floor/holofloor/basalt,
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+"EW" = (
+/obj/structure/flora/rock/pile/style_2,
+/turf/open/floor/holofloor/basalt,
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "Fm" = (
 /obj/structure/flora/tree/jungle/style_random,
 /obj/structure/flora/bush/sparsegrass/style_random,
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "FC" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 9
 	},
 /obj/structure/flora/bush/leavy,
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "Gt" = (
 /obj/structure/flora/bush/sparsegrass/style_random,
 /obj/structure/flora/bush/ferny/style_random,
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
 "HT" = (
 /obj/structure/flora/bush/flowers_br/style_random,
 /turf/open/floor/grass,
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+"HT" = (
+/obj/structure/flora/bush/flowers_br/style_random,
+/turf/open/floor/grass,
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "Ib" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 1
@@ -640,26 +1032,39 @@
 /obj/structure/flora/tree/jungle/small/style_random,
 /obj/structure/flora/bush/sparsegrass/style_random,
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "Ik" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 9
 	},
 /turf/open/water,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "IC" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 10
 	},
 /obj/structure/flora/bush/fullgrass/style_random,
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "IQ" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 10
 	},
 /obj/structure/flora/bush/stalky/style_random,
 /turf/open/water,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
 "IZ" = (
 /obj/structure/railing/wooden_fencing{
@@ -679,11 +1084,18 @@
 	},
 /turf/open/indestructible/hotelwood,
 /area/lavaland/surface/outdoors/virtual_domain/fullbright/protected_space)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "Jr" = (
 /obj/structure/flora/tree/jungle/small/style_random,
 /obj/structure/flora/bush/sparsegrass/style_random,
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "Js" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 1
@@ -691,6 +1103,7 @@
 /obj/effect/turf_decal/weather/dirt,
 /obj/structure/flora/rock/pile/jungle/style_2,
 /turf/open/water,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
 "Jv" = (
 /obj/structure/flora/rock/pile/jungle/style_random,
@@ -700,10 +1113,22 @@
 /obj/structure/flora/bush/reed/style_random,
 /turf/open/water,
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+"Jv" = (
+/obj/structure/flora/rock/pile/jungle/style_random,
+/turf/open/water,
+/area/virtual_domain/fullbright)
+"Jw" = (
+/obj/structure/flora/bush/reed/style_random,
+/turf/open/water,
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "JD" = (
 /obj/structure/flora/bush/pointy/style_random,
 /obj/structure/flora/rock/pile/jungle/style_random,
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
 "JF" = (
 /turf/open/floor/holofloor/basalt,
@@ -712,6 +1137,16 @@
 /obj/structure/flora/bush/lavendergrass/style_random,
 /turf/open/floor/grass,
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+"JF" = (
+/turf/open/floor/holofloor/basalt,
+/area/virtual_domain/fullbright)
+"KE" = (
+/obj/structure/flora/bush/lavendergrass/style_random,
+/turf/open/floor/grass,
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "KR" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 5
@@ -721,11 +1156,15 @@
 	},
 /obj/structure/flora/bush/reed/style_random,
 /turf/open/water,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
 "Le" = (
 /obj/structure/fake_stairs/wood,
 /turf/open/misc/dirt/station,
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "Lx" = (
 /turf/template_noop,
 /area/virtual_domain/safehouse)
@@ -733,36 +1172,57 @@
 /obj/structure/flora/bush/fullgrass/style_random,
 /obj/structure/flora/bush/grassy/style_random,
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
 "Mh" = (
 /obj/structure/flora/bush/pale/style_random,
 /turf/open/floor/grass,
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+"Mh" = (
+/obj/structure/flora/bush/pale/style_random,
+/turf/open/floor/grass,
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "No" = (
 /obj/structure/flora/bush/sparsegrass/style_random,
 /obj/structure/flora/rock/pile/jungle/style_random,
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "NG" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 10
 	},
 /obj/structure/flora/bush/sparsegrass/style_random,
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "NY" = (
 /obj/structure/flora/tree/stump,
 /obj/structure/flora/bush/fullgrass/style_random,
 /turf/open/misc/dirt/station,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
 "Pa" = (
 /turf/open/indestructible/hotelwood,
 /area/lavaland/surface/outdoors/virtual_domain/fullbright/protected_space)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "PA" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 6
 	},
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
 "PM" = (
 /obj/structure/flora/bush/sparsegrass/style_random,
@@ -771,34 +1231,60 @@
 "PX" = (
 /turf/open/misc/dirt/station,
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+"PM" = (
+/obj/structure/flora/bush/sparsegrass/style_random,
+/turf/open/misc/dirt/station,
+/area/virtual_domain/fullbright)
+"PX" = (
+/turf/open/misc/dirt/station,
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "Qh" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 6
 	},
 /obj/structure/flora/bush/lavendergrass/style_random,
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "QA" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 8
 	},
 /obj/structure/flora/bush/lavendergrass/style_random,
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "QM" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 5
 	},
 /obj/structure/flora/bush/fullgrass/style_random,
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "Rl" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 1
 	},
 /obj/structure/flora/bush/grassy/style_random,
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "Rs" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 4
@@ -807,42 +1293,70 @@
 	dir = 8
 	},
 /turf/open/water,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "RL" = (
 /obj/structure/flora/bush/sparsegrass/style_random,
 /obj/structure/flora/tree/jungle/small/style_random,
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "RY" = (
 /obj/structure/flora/bush/lavendergrass/style_random,
 /obj/structure/flora/bush/ferny/style_random,
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "Se" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 5
 	},
 /obj/structure/flora/bush/lavendergrass/style_random,
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "Sm" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 1
 	},
 /obj/structure/flora/bush/stalky/style_random,
 /turf/open/water,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
 "SK" = (
 /obj/structure/flora/rock/pile/jungle/style_random,
 /turf/open/misc/dirt/station,
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+"SK" = (
+/obj/structure/flora/rock/pile/jungle/style_random,
+/turf/open/misc/dirt/station,
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "SP" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 10
 	},
 /obj/structure/flora/bush/lavendergrass/style_random,
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "SW" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 10
@@ -851,24 +1365,37 @@
 	dir = 9
 	},
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "Tx" = (
 /obj/structure/flora/bush/ferny/style_random,
 /obj/structure/flora/bush/sparsegrass/style_random,
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "TF" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 8
 	},
 /obj/structure/flora/bush/reed/style_random,
 /turf/open/water,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "Vi" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 5
 	},
 /turf/open/floor/holofloor/basalt,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
 "Vt" = (
 /obj/effect/turf_decal/weather/dirt,
@@ -877,6 +1404,16 @@
 "VN" = (
 /turf/closed/indestructible/binary,
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+"Vt" = (
+/obj/effect/turf_decal/weather/dirt,
+/turf/open/floor/grass,
+/area/virtual_domain/fullbright)
+"VN" = (
+/turf/closed/indestructible/binary,
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "XP" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 5
@@ -885,7 +1422,11 @@
 	dir = 9
 	},
 /turf/open/water,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "Yw" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 1
@@ -893,32 +1434,52 @@
 /obj/effect/turf_decal/weather/dirt,
 /obj/structure/flora/rock/pile/jungle/style_3,
 /turf/open/water,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "YF" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 8
 	},
 /obj/structure/flora/bush/sparsegrass/style_random,
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
 "YH" = (
 /obj/structure/flora/bush/stalky/style_random,
 /turf/open/water,
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+"YH" = (
+/obj/structure/flora/bush/stalky/style_random,
+/turf/open/water,
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "YY" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 8
 	},
 /obj/structure/flora/bush/fullgrass/style_random,
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "Zk" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 1
 	},
 /obj/structure/flora/bush/fullgrass/style_random,
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/lavaland/surface/outdoors/virtual_domain/fullbright)
+=======
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 
 (1,1,1) = {"
 VN
@@ -2292,7 +2853,11 @@ aD
 aD
 aD
 aD
+<<<<<<< HEAD
 gc
+=======
+fm
+>>>>>>> tg-pr-88929
 Lx
 gT
 lQ
@@ -2369,7 +2934,11 @@ kq
 aD
 sx
 Az
+<<<<<<< HEAD
 oo
+=======
+sx
+>>>>>>> tg-pr-88929
 Lx
 Lx
 Lx
@@ -2445,8 +3014,13 @@ PX
 PX
 ic
 PX
+<<<<<<< HEAD
 Le
 Pa
+=======
+PM
+PX
+>>>>>>> tg-pr-88929
 Lx
 Lx
 Lx
@@ -2523,7 +3097,11 @@ PX
 PX
 PX
 PX
+<<<<<<< HEAD
 vT
+=======
+wq
+>>>>>>> tg-pr-88929
 Lx
 Lx
 Lx
@@ -2600,7 +3178,11 @@ cL
 YF
 YF
 bd
+<<<<<<< HEAD
 IZ
+=======
+fm
+>>>>>>> tg-pr-88929
 Lx
 Dk
 Lx

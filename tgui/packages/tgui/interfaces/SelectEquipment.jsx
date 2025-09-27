@@ -1,7 +1,19 @@
 import { filter, map, sortBy, uniq } from 'common/collections';
-import { flow } from 'common/fp';
-import { createSearch } from 'common/string';
+import { useState } from 'react';
+import {
+  Box,
+  Button,
+  Icon,
+  Image,
+  Input,
+  Section,
+  Stack,
+  Tabs,
+} from 'tgui-core/components';
+import { createSearch } from 'tgui-core/string';
+
 import { useBackend, useLocalState } from '../backend';
+<<<<<<< HEAD
 import {
   Box,
   Button,
@@ -12,6 +24,8 @@ import {
   Tabs,
   Dropdown,
 } from '../components';
+=======
+>>>>>>> tg-pr-88929
 import { Window } from '../layouts';
 
 // here's an important mental define:
@@ -28,10 +42,10 @@ export const SelectEquipment = (props) => {
 
   const isFavorited = (entry) => favorites?.includes(entry.path);
 
-  const outfits = map((entry) => ({
+  const outfits = map([...data.outfits, ...data.custom_outfits], (entry) => ({
     ...entry,
     favorite: isFavorited(entry),
-  }))([...data.outfits, ...data.custom_outfits]);
+  }));
 
   // even if no custom outfits were sent, we still want to make sure there's
   // at least a 'Custom' tab so the button to create a new one pops up
@@ -41,12 +55,17 @@ export const SelectEquipment = (props) => {
   ]);
   const [tab] = useOutfitTabs(categories);
 
+<<<<<<< HEAD
   const [searchText, setSearchText] = useLocalState('searchText', '');
+=======
+  const [searchText, setSearchText] = useState('');
+>>>>>>> tg-pr-88929
   const searchFilter = createSearch(
     searchText,
     (entry) => entry.name + entry.path,
   );
 
+<<<<<<< HEAD
   const visibleOutfits = flow([
     filter((entry) => entry.category === tab),
     filter(searchFilter),
@@ -54,8 +73,17 @@ export const SelectEquipment = (props) => {
       (entry) => !entry.favorite,
       (entry) => !entry.priority,
       (entry) => entry.name,
+=======
+  const visibleOutfits = sortBy(
+    filter(
+      filter(outfits, (entry) => entry.category === tab),
+      searchFilter,
+>>>>>>> tg-pr-88929
     ),
-  ])(outfits);
+    (entry) => !entry.favorite,
+    (entry) => !entry.priority,
+    (entry) => entry.name,
+  );
 
   const getOutfitEntry = (current_outfit) =>
     outfits.find((outfit) => getOutfitKey(outfit) === current_outfit);
@@ -94,15 +122,17 @@ export const SelectEquipment = (props) => {
               </Stack.Item>
               <Stack.Item grow={1}>
                 <Section fill title={name} textAlign="center">
-                  <Box
-                    as="img"
+                  <Image
                     m={0}
                     src={`data:image/jpeg;base64,${icon64}`}
                     height="100%"
+<<<<<<< HEAD
                     style={{
                       '-ms-interpolation-mode': 'nearest-neighbor',
                       'image-rendering': 'pixelated',
                     }}
+=======
+>>>>>>> tg-pr-88929
                   />
                 </Section>
               </Stack.Item>
@@ -158,7 +188,7 @@ const OutfitDisplay = (props) => {
               path: getOutfitKey(entry),
             })
           }
-          onDblClick={() =>
+          onDoubleClick={() =>
             act('applyoutfit', {
               path: getOutfitKey(entry),
             })
@@ -180,7 +210,12 @@ const OutfitDisplay = (props) => {
 };
 
 const CurrentlySelectedDisplay = (props) => {
+<<<<<<< HEAD
   const { act } = useBackend();
+=======
+  const { act, data } = useBackend();
+  const { current_outfit } = data;
+>>>>>>> tg-pr-88929
   const { entry } = props;
   return (
     <Stack align="center">
@@ -205,8 +240,13 @@ const CurrentlySelectedDisplay = (props) => {
           title={entry?.path}
           style={{
             overflow: 'hidden',
+<<<<<<< HEAD
             'white-space': 'nowrap',
             'text-overflow': 'ellipsis',
+=======
+            whiteSpace: 'nowrap',
+            textOverflow: 'ellipsis',
+>>>>>>> tg-pr-88929
           }}
         >
           {entry?.name}

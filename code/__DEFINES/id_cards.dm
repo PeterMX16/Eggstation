@@ -10,6 +10,7 @@
  * explicitly equal 0 for all compatible wildcard slots.
  */
 
+<<<<<<< HEAD
 /// Wildcard slot define for basic grey cards. Only hold 2 common wildcards.
 #define WILDCARD_LIMIT_GREY list(WILDCARD_NAME_COMMON = list(limit = -1, usage = list()))
 /// Wildcard slot define for Head of Staff silver cards. Can hold 3 common, 1 command and 1 private command.
@@ -17,6 +18,15 @@
 	WILDCARD_NAME_COMMON = list(limit = -1, usage = list()), \
 	WILDCARD_NAME_COMMAND = list(limit = -1, usage = list()), \
 	WILDCARD_NAME_PRV_COMMAND = list(limit = 5, usage = list()) \
+=======
+/// Wildcard slot define for basic grey cards. Only hold 4 common wildcards.
+#define WILDCARD_LIMIT_GREY list(WILDCARD_NAME_COMMON = list(limit = 4, usage = list()))
+/// Wildcard slot define for Head of Staff silver cards. Can hold 6 common, 2 command and 1 private command.
+#define WILDCARD_LIMIT_SILVER list( \
+	WILDCARD_NAME_COMMON = list(limit = 6, usage = list()), \
+	WILDCARD_NAME_COMMAND = list(limit = 2, usage = list()), \
+	WILDCARD_NAME_PRV_COMMAND = list(limit = 1, usage = list()) \
+>>>>>>> tg-pr-88929
 )
 /// Wildcard slot define for Captain gold cards. Can hold infinite of any Captain level wildcard.
 #define WILDCARD_LIMIT_GOLD list(WILDCARD_NAME_CAPTAIN = list(limit = -1, usage = list()))
@@ -28,11 +38,23 @@
 #define WILDCARD_LIMIT_CENTCOM list(WILDCARD_NAME_CENTCOM = list(limit = -1, usage = list()))
 /// Wildcard slot define for Prisoner orange cards. No wildcard slots.
 #define WILDCARD_LIMIT_PRISONER list()
-/// Wildcard slot define for Chameleon/Agent ID grey cards. Can hold 3 common, 1 command and 1 captain access.
+/// Wildcard slot define for Chameleon/Agent ID grey cards. Can hold 6 common, 2 command and 1 captain access.
 #define WILDCARD_LIMIT_CHAMELEON list( \
+<<<<<<< HEAD
 	WILDCARD_NAME_COMMON = list(limit = -1, usage = list()), \
 	WILDCARD_NAME_COMMAND = list(limit = -1, usage = list()), \
 	WILDCARD_NAME_CAPTAIN = list(limit = 5, usage = list()) \
+=======
+	WILDCARD_NAME_COMMON = list(limit = 6, usage = list()), \
+	WILDCARD_NAME_COMMAND = list(limit = 2, usage = list()), \
+	WILDCARD_NAME_CAPTAIN = list(limit = 1, usage = list()) \
+>>>>>>> tg-pr-88929
 )
 /// Wildcard slot define for admin/debug/weird, special abstract cards. Can hold infinite of any access.
 #define WILDCARD_LIMIT_ADMIN list(WILDCARD_NAME_ALL = list(limit = -1, usage = list()))
+
+/**
+ * x1, y1, x2, y2 - Represents the bounding box for the ID card's non-transparent portion of its various icon_states.
+ * Used to crop the ID card's transparency away when chaching the icon for better use in tgui chat.
+ */
+#define ID_ICON_BORDERS 1, 9, 32, 24

@@ -19,7 +19,7 @@
 	custom_materials = list(/datum/material/iron=SHEET_MATERIAL_AMOUNT)
 	clumsy_check = FALSE
 	fire_sound = 'sound/items/syringeproj.ogg'
-	var/load_sound = 'sound/weapons/gun/shotgun/insert_shell.ogg'
+	var/load_sound = 'sound/items/weapons/gun/shotgun/insert_shell.ogg'
 	var/list/syringes = list()
 	var/max_syringes = 1 ///The number of syringes it can store.
 	var/has_syringe_overlay = TRUE ///If it has an overlay for inserted syringes. If true, the overlay is determined by the number of syringes inserted into it.
@@ -31,6 +31,7 @@
 	recharge_newshot()
 
 /obj/item/gun/syringe/apply_fantasy_bonuses(bonus)
+<<<<<<< HEAD
 	. = ..()
 	max_syringes = modify_fantasy_variable("max_syringes", max_syringes, bonus, minimum = 1)
 
@@ -39,9 +40,19 @@
 	return ..()
 
 /obj/item/gun/syringe/handle_atom_del(atom/A)
+=======
+>>>>>>> tg-pr-88929
 	. = ..()
-	if(A in syringes)
-		syringes.Remove(A)
+	max_syringes = modify_fantasy_variable("max_syringes", max_syringes, bonus, minimum = 1)
+
+/obj/item/gun/syringe/remove_fantasy_bonuses(bonus)
+	max_syringes = reset_fantasy_variable("max_syringes", max_syringes)
+	return ..()
+
+/obj/item/gun/syringe/Exited(atom/movable/gone, direction)
+	. = ..()
+	if(gone in syringes)
+		syringes -= gone
 
 /obj/item/gun/syringe/recharge_newshot()
 	if(!syringes.len)
@@ -208,7 +219,11 @@
 /obj/item/gun/syringe/blowgun/process_fire(atom/target, mob/living/user, message = TRUE, params = null, zone_override = "", bonus_spread = 0)
 	visible_message(span_danger("[user] shoots the blowgun!"))
 
+<<<<<<< HEAD
 	user.stamina.adjust(-20)
+=======
+	user.adjustStaminaLoss(20, updating_stamina = FALSE)
+>>>>>>> tg-pr-88929
 	user.adjustOxyLoss(20)
 	return ..()
 

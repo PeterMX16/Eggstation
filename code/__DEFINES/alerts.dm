@@ -14,6 +14,8 @@
 #define ALERT_TOO_MUCH_NITRO "too_much_nitro"
 #define ALERT_NOT_ENOUGH_NITRO "not_enough_nitro"
 
+#define ALERT_NOT_ENOUGH_WATER "not_enough_water"
+
 /** Mob related */
 #define ALERT_SUCCUMB "succumb"
 #define ALERT_BUCKLED "buckled"
@@ -22,6 +24,8 @@
 #define ALERT_IRRADIATED "irradiated"
 #define ALERT_EMBEDDED_OBJECT "embeddedobject"
 #define ALERT_SHOES_KNOT "shoealert"
+#define ALERT_RADIOACTIVE_AREA "radioactive_area"
+#define ALERT_UNPOSSESS_OBJECT "unpossess_object"
 
 //antag related
 #define ALERT_HYPNOSIS "hypnosis"
@@ -44,7 +48,6 @@
 #define ALERT_HACKING_APC "hackingapc"
 
 /** MODsuit/Mech related */
-#define ALERT_MODSUIT_CHARGE "mod_charge"
 #define ALERT_MECH_DAMAGE "mech_damage"
 
 /** Food related */

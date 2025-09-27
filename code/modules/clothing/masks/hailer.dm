@@ -56,10 +56,16 @@ GLOBAL_LIST_INIT(hailer_phrases, list(
 	flags_cover = MASKCOVERSMOUTH
 	visor_flags_cover = MASKCOVERSMOUTH
 	tint = 0
+<<<<<<< HEAD
 	has_fov = FALSE
 	alternative_deathgasps = list('sound/voice/sec_death.ogg')
 	COOLDOWN_DECLARE(hailer_cooldown)
 	supports_variations_flags = CLOTHING_SNOUTED_VARIATION
+=======
+	fishing_modifier = 0
+	unique_death = 'sound/items/sec_hailer/sec_death.ogg'
+	COOLDOWN_DECLARE(hailer_cooldown)
+>>>>>>> tg-pr-88929
 	///Decides the phrases available for use; defines used are the last index of a category of available phrases
 	var/aggressiveness = AGGR_BAD_COP
 	///Whether the hailer has been broken due to overuse or not
@@ -70,6 +76,8 @@ GLOBAL_LIST_INIT(hailer_phrases, list(
 	var/recent_uses = 0
 	///Whether the hailer is emagged or not
 	var/safety = TRUE
+	voice_filter = @{"[0:a] asetrate=%SAMPLE_RATE%*0.7,aresample=16000,atempo=1/0.7,lowshelf=g=-20:f=500,highpass=f=500,aphaser=in_gain=1:out_gain=1:delay=3.0:decay=0.4:speed=0.5:type=t [out]; [out]atempo=1.2,volume=15dB [final]; anoisesrc=a=0.01:d=60 [noise]; [final][noise] amix=duration=shortest"}
+	use_radio_beeps_tts = TRUE
 
 /obj/item/clothing/mask/gas/sechailer/plasmaman
 	starting_filter_type = /obj/item/gas_filter/plasmaman
@@ -85,7 +93,12 @@ GLOBAL_LIST_INIT(hailer_phrases, list(
 	visor_flags_inv = 0
 	flags_cover = MASKCOVERSMOUTH | MASKCOVERSEYES | PEPPERPROOF
 	visor_flags_cover = MASKCOVERSMOUTH | MASKCOVERSEYES | PEPPERPROOF
+<<<<<<< HEAD
 	supports_variations_flags = CLOTHING_SNOUTED_VARIATION
+=======
+	fishing_modifier = 2
+	pepper_tint = FALSE
+>>>>>>> tg-pr-88929
 
 /obj/item/clothing/mask/gas/sechailer/swat/spacepol
 	name = "spacepol mask"
@@ -98,11 +111,12 @@ GLOBAL_LIST_INIT(hailer_phrases, list(
 /obj/item/clothing/mask/gas/sechailer/cyborg
 	name = "security hailer"
 	desc = "A set of recognizable pre-recorded messages for cyborgs to use when apprehending criminals."
-	icon = 'icons/obj/device.dmi'
+	icon = 'icons/obj/devices/voice.dmi'
 	icon_state = "taperecorder_idle"
 	slot_flags = null
 	aggressiveness = AGGR_GOOD_COP // Borgs are nicecurity!
 	actions_types = list(/datum/action/item_action/halt)
+	fishing_modifier = 0
 
 /obj/item/clothing/mask/gas/sechailer/screwdriver_act(mob/living/user, obj/item/I)
 	. = ..()
@@ -124,16 +138,25 @@ GLOBAL_LIST_INIT(hailer_phrases, list(
 	if(istype(action, /datum/action/item_action/halt))
 		halt()
 	else
-		adjustmask(user)
+		adjust_visor(user)
 
 /obj/item/clothing/mask/gas/sechailer/attack_self()
 	halt()
 
+<<<<<<< HEAD
 /obj/item/clothing/mask/gas/sechailer/emag_act(mob/user)
 	if(safety)
 		safety = FALSE
 		to_chat(user, span_warning("You silently fry [src]'s vocal circuit."))
 		return ..()
+=======
+/obj/item/clothing/mask/gas/sechailer/emag_act(mob/user, obj/item/card/emag/emag_card)
+	if(safety)
+		safety = FALSE
+		balloon_alert(user, "vocal circuit fried")
+		return TRUE
+	return FALSE
+>>>>>>> tg-pr-88929
 
 /obj/item/clothing/mask/gas/sechailer/verb/halt()
 	set category = "Object"
@@ -233,9 +256,14 @@ GLOBAL_LIST_INIT(hailer_phrases, list(
 	if(!COOLDOWN_FINISHED(src, whistle_cooldown))
 		return
 	COOLDOWN_START(src, whistle_cooldown, 10 SECONDS)
+<<<<<<< HEAD
 	//user.audible_message("<font color='red' size='5'><b>HALT!</b></font>") monkestation removal
 	user.audible_message("[user] signals on their whistle!") //monkestation edit
 	playsound(src, 'sound/misc/whistle.ogg', 50, FALSE, 4, ignore_walls = FALSE)
+=======
+	user.audible_message("<font color='red' size='5'><b>HALT!</b></font>")
+	playsound(src, 'sound/items/whistle/whistle.ogg', 50, FALSE, 4)
+>>>>>>> tg-pr-88929
 
 /datum/action/item_action/halt
 	name = "HALT!"

@@ -20,20 +20,28 @@
 	Stun(TRANSFORMATION_DURATION, ignore_canstun = TRUE)
 	icon = null
 	cut_overlays()
-	invisibility = INVISIBILITY_MAXIMUM
 
-	new /obj/effect/temp_visual/monkeyify(loc)
+	var/obj/effect = new /obj/effect/temp_visual/monkeyify(loc)
+	effect.SetInvisibility(invisibility)
+	SetInvisibility(INVISIBILITY_MAXIMUM, id=type)
+
 	transformation_timer = addtimer(CALLBACK(src, PROC_REF(finish_monkeyize)), TRANSFORMATION_DURATION, TIMER_UNIQUE)
 
 /mob/living/carbon/proc/finish_monkeyize()
 	transformation_timer = null
 	REMOVE_TRAIT(src, TRAIT_NO_TRANSFORM, TEMPORARY_TRANSFORMATION_TRAIT)
 	icon = initial(icon)
-	invisibility = 0
+	RemoveInvisibility(type)
 	set_species(/datum/species/monkey)
 	to_chat(src, span_boldnotice("You are now \a [dna.species.name]."))
+<<<<<<< HEAD
 	fully_replace_character_name(null, pick(GLOB.random_monkey_names))
 	regenerate_icons()
+=======
+	name = LOWER_TEXT(dna.species.name)
+	regenerate_icons()
+	set_name()
+>>>>>>> tg-pr-88929
 	SEND_SIGNAL(src, COMSIG_HUMAN_MONKEYIZE)
 	uncuff()
 	return src
@@ -57,21 +65,29 @@
 	Stun(TRANSFORMATION_DURATION, ignore_canstun = TRUE)
 	icon = null
 	cut_overlays()
-	invisibility = INVISIBILITY_MAXIMUM
 
-	new /obj/effect/temp_visual/monkeyify/humanify(loc)
+	var/obj/effect = new /obj/effect/temp_visual/monkeyify/humanify(loc)
+	effect.SetInvisibility(invisibility)
+	SetInvisibility(INVISIBILITY_MAXIMUM, id=type)
+
 	transformation_timer = addtimer(CALLBACK(src, PROC_REF(finish_humanize), species), TRANSFORMATION_DURATION, TIMER_UNIQUE)
+
 
 /mob/living/carbon/proc/finish_humanize(species = /datum/species/human)
 	transformation_timer = null
 	REMOVE_TRAIT(src, TRAIT_NO_TRANSFORM, TEMPORARY_TRANSFORMATION_TRAIT)
 	icon = initial(icon)
-	invisibility = 0
+	RemoveInvisibility(type)
 	set_species(species)
 	to_chat(src, span_boldnotice("You are now \a [dna.species.name]."))
 	SEND_SIGNAL(src, COMSIG_MONKEY_HUMANIZE)
-	regenerate_icons()
 	return src
+
+/mob/living/carbon/human/finish_humanize(species = /datum/species/human)
+	underwear = "Nude"
+	undershirt = "Nude"
+	socks = "Nude"
+	return ..()
 
 /mob/proc/AIize(client/preference_source, move = TRUE)
 	var/list/turf/landmark_loc = list()
@@ -115,14 +131,12 @@
 		dropItemToGround(W)
 	regenerate_icons()
 	icon = null
-	invisibility = INVISIBILITY_MAXIMUM
+	SetInvisibility(INVISIBILITY_MAXIMUM)
 	return ..()
 
 /mob/living/carbon/human/AIize(client/preference_source, transfer_after = TRUE)
 	if(HAS_TRAIT(src, TRAIT_NO_TRANSFORM))
 		return
-	for(var/t in bodyparts)
-		qdel(t)
 
 	return ..()
 
@@ -133,15 +147,15 @@
 	var/mob/living/silicon/robot/new_borg = new /mob/living/silicon/robot(loc)
 
 	new_borg.gender = gender
-	new_borg.invisibility = 0
+	new_borg.SetInvisibility(INVISIBILITY_NONE)
 
-	if(client)
-		new_borg.updatename(client)
+	if(client?.prefs.read_preference(/datum/preference/name/cyborg) != DEFAULT_CYBORG_NAME)
+		new_borg.apply_pref_name(/datum/preference/name/cyborg, client)
 
 	if(mind) //TODO //TODO WHAT
 		if(!transfer_after)
 			mind.active = FALSE
-		mind.transfer_to(new_borg)
+		mind.transfer_to(new_borg, TRUE)
 	else if(transfer_after)
 		new_borg.PossessByPlayer(key)
 
@@ -167,14 +181,11 @@
 	ADD_TRAIT(src, TRAIT_NO_TRANSFORM, TEMPORARY_TRANSFORMATION_TRAIT)
 	Paralyze(1, ignore_canstun = TRUE)
 
-	for(var/obj/item/W in src)
-		if(delete_items)
-			qdel(W)
-		else
-			dropItemToGround(W)
+	drop_everything(delete_items)
+
 	regenerate_icons()
 	icon = null
-	invisibility = INVISIBILITY_MAXIMUM
+	SetInvisibility(INVISIBILITY_MAXIMUM)
 
 	REMOVE_TRAIT(src, TRAIT_NO_TRANSFORM, TEMPORARY_TRANSFORMATION_TRAIT)
 	return ..()
@@ -183,7 +194,11 @@
 	to_chat(src, "<b>You are job banned from cyborg! Appeal your job ban if you want to avoid this in the future!</b>")
 	ghostize(FALSE)
 
+<<<<<<< HEAD
 	var/mob/chosen_one = SSpolling.poll_ghosts_for_target("Do you want to play as [span_notice(name)]?", check_jobban = JOB_CYBORG, poll_time = 5 SECONDS, checked_target = src, alert_pic = src, role_name_text = "cyborg", chat_text_border_icon = src)
+=======
+	var/mob/chosen_one = SSpolling.poll_ghosts_for_target("Do you want to play as [span_notice(name)]?", check_jobban = JOB_CYBORG, poll_time = 5 SECONDS, checked_target = src, alert_pic = src, role_name_text = "cyborg")
+>>>>>>> tg-pr-88929
 	if(chosen_one)
 		message_admins("[key_name_admin(chosen_one)] has taken control of ([key_name_admin(src)]) to replace a jobbanned player.")
 		key = chosen_one.key
@@ -198,7 +213,7 @@
 		dropItemToGround(W)
 	regenerate_icons()
 	icon = null
-	invisibility = INVISIBILITY_MAXIMUM
+	SetInvisibility(INVISIBILITY_MAXIMUM)
 	for(var/t in bodyparts)
 		qdel(t)
 
@@ -213,7 +228,11 @@
 			new_xeno = new /mob/living/carbon/alien/adult/drone(loc)
 
 	new_xeno.set_combat_mode(TRUE)
+<<<<<<< HEAD
 	new_xeno.PossessByPlayer(key)
+=======
+	new_xeno.key = key
+>>>>>>> tg-pr-88929
 
 	to_chat(new_xeno, span_boldnotice("You are now an alien."))
 	qdel(src)
@@ -228,7 +247,7 @@
 		dropItemToGround(W)
 	regenerate_icons()
 	icon = null
-	invisibility = INVISIBILITY_MAXIMUM
+	SetInvisibility(INVISIBILITY_MAXIMUM)
 	for(var/t in bodyparts)
 		qdel(t)
 
@@ -238,6 +257,10 @@
 		var/list/babies = list()
 		for(var/i in 1 to number)
 			var/mob/living/basic/slime/M = new/mob/living/basic/slime(loc)
+<<<<<<< HEAD
+=======
+			M.set_nutrition(round(nutrition/number))
+>>>>>>> tg-pr-88929
 			step_away(M,src)
 			babies += M
 		new_slime = pick(babies)
@@ -251,8 +274,13 @@
 	return new_slime
 
 /mob/proc/become_overmind(starting_points = OVERMIND_STARTING_POINTS)
+<<<<<<< HEAD
 	var/mob/camera/blob/B = new /mob/camera/blob(get_turf(src), starting_points)
 	B.PossessByPlayer(key)
+=======
+	var/mob/eye/blob/B = new /mob/eye/blob(get_turf(src), starting_points)
+	B.key = key
+>>>>>>> tg-pr-88929
 	. = B
 	qdel(src)
 
@@ -266,7 +294,7 @@
 		dropItemToGround(W)
 	regenerate_icons()
 	icon = null
-	invisibility = INVISIBILITY_MAXIMUM
+	SetInvisibility(INVISIBILITY_MAXIMUM)
 	for(var/t in bodyparts) //this really should not be necessary
 		qdel(t)
 
@@ -278,28 +306,72 @@
 	qdel(src)
 	return new_corgi
 
+<<<<<<< HEAD
 /mob/living/carbon/proc/gorillize()
 	if(HAS_TRAIT(src, TRAIT_NO_TRANSFORM))
 		return
 	ADD_TRAIT(src, TRAIT_NO_TRANSFORM, PERMANENT_TRANSFORMATION_TRAIT)
+=======
+/**
+ * Turns the source atom into a crab crab, the peak of evolutionary design.
+ */
+/mob/living/carbon/human/proc/crabize()
+	if(HAS_TRAIT(src, TRAIT_NO_TRANSFORM))
+		return
+	ADD_TRAIT(src, TRAIT_NO_TRANSFORM, PERMANENT_TRANSFORMATION_TRAIT)
+	Paralyze(1, ignore_canstun = TRUE)
+	for(var/obj/item/objeto in src)
+		dropItemToGround(objeto)
+	regenerate_icons()
+	icon = null
+	SetInvisibility(INVISIBILITY_MAXIMUM)
+
+	var/mob/living/basic/crab/new_crab = new (loc)
+	new_crab.set_combat_mode(TRUE) // snip snip
+	if(mind)
+		mind.transfer_to(new_crab)
+
+	to_chat(new_crab, span_boldnotice("You have evolved into a crab!"))
+	qdel(src)
+	return new_crab
+
+/mob/living/carbon/proc/gorillize(genetics_gorilla = FALSE)
+	if(HAS_TRAIT(src, TRAIT_NO_TRANSFORM))
+		return
+	ADD_TRAIT(src, TRAIT_NO_TRANSFORM, PERMANENT_TRANSFORMATION_TRAIT)
+>>>>>>> tg-pr-88929
 	Paralyze(1, ignore_canstun = TRUE)
 
 	SSblackbox.record_feedback("amount", "gorillas_created", 1)
 
+<<<<<<< HEAD
 	var/Itemlist = get_equipped_items(include_pockets = TRUE)
+=======
+	var/Itemlist = get_equipped_items(INCLUDE_POCKETS)
+>>>>>>> tg-pr-88929
 	Itemlist += held_items
 	for(var/obj/item/W in Itemlist)
 		dropItemToGround(W, TRUE)
 
 	regenerate_icons()
 	icon = null
+<<<<<<< HEAD
 	invisibility = INVISIBILITY_MAXIMUM
 	var/mob/living/basic/gorilla/new_gorilla = new (get_turf(src))
+=======
+	SetInvisibility(INVISIBILITY_MAXIMUM)
+	var/gorilla_type = genetics_gorilla ? /mob/living/basic/gorilla/genetics : /mob/living/basic/gorilla
+	var/mob/living/basic/gorilla/new_gorilla = new gorilla_type(get_turf(src))
+>>>>>>> tg-pr-88929
 	new_gorilla.set_combat_mode(TRUE)
 	if(mind)
 		mind.transfer_to(new_gorilla)
 	else
+<<<<<<< HEAD
 		new_gorilla.PossessByPlayer(key)
+=======
+		new_gorilla.key = key
+>>>>>>> tg-pr-88929
 	to_chat(new_gorilla, span_boldnotice("You are now a gorilla. Ooga ooga!"))
 	qdel(src)
 	return new_gorilla
@@ -324,7 +396,7 @@
 
 	regenerate_icons()
 	icon = null
-	invisibility = INVISIBILITY_MAXIMUM
+	SetInvisibility(INVISIBILITY_MAXIMUM)
 
 	for(var/t in bodyparts)
 		qdel(t)
@@ -372,7 +444,7 @@
 		return FALSE //Verbs do not appear for players.
 
 //Good mobs!
-	if(ispath(MP, /mob/living/simple_animal/pet/cat))
+	if(ispath(MP, /mob/living/basic/pet/cat))
 		return TRUE
 	if(ispath(MP, /mob/living/basic/pet/dog/corgi))
 		return TRUE

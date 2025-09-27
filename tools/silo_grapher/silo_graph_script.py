@@ -11,6 +11,10 @@ import os
 import matplotlib.pyplot as plt
 
 show_json_figures = False  # Set to True to show all JSON-specific figures at the end
+<<<<<<< HEAD
+=======
+sheet_amount = 100 # How many units of material are a sheet worth right now?
+>>>>>>> tg-pr-88929
 
 materials = {
     "iron": {"total": 0, "spent": 0, "obtained": 0},
@@ -40,11 +44,20 @@ grand_total = {
     "plastic": {"grand_total": 0, "grand_spent": 0, "grand_obtained": 0},
 }
 
+<<<<<<< HEAD
 log_folder = "logs"
+=======
+log_folder = "tools\silo_grapher\logs"
+>>>>>>> tg-pr-88929
 total_files = 0
 first_time_value = None
 first_time_setup = True
 
+<<<<<<< HEAD
+=======
+total_ores_mined = 0
+
+>>>>>>> tg-pr-88929
 for filename in os.listdir(log_folder):
     with open(os.path.join(log_folder, filename), "r") as file:
         total_files += 1
@@ -60,7 +73,11 @@ for filename in os.listdir(log_folder):
                 log = json.loads(line)
                 raw_materials = log.get("data", {}).get("raw_materials", "")
                 if first_time_setup:
+<<<<<<< HEAD
                     first_time_value = log["timestamp"]
+=======
+                    first_time_value = float(log["ts"])
+>>>>>>> tg-pr-88929
                     first_time_setup = False
                 if not raw_materials:
                     continue
@@ -73,7 +90,12 @@ for filename in os.listdir(log_folder):
                     else:
                         materials[material]["obtained"] += int(quantity[1:])
                         materials[material]["total"] += int(quantity[1:])
+<<<<<<< HEAD
                     time[material].append((int(log["timestamp"]) - int(first_time_value)) / 10)
+=======
+                        total_ores_mined += int(quantity[1:])
+                    time[material].append((float(log["w-state"]["timestamp"]) - float(first_time_value)) / 10.0)
+>>>>>>> tg-pr-88929
                     y[material].append(int(materials[material]["total"]))
 
             except Exception as e:
@@ -116,6 +138,7 @@ plt.show()
 
 for material, values in grand_total.items():
     if values["grand_obtained"] != 0:
+<<<<<<< HEAD
         grand_total[material]["grand_spent_percentage"] = values["grand_spent"] / values["grand_obtained"] * 100
     else:
         grand_total[material]["grand_spent_percentage"] = 0
@@ -125,3 +148,20 @@ for material, values in grand_total.items():
     print(
         f"{material} total: {values['grand_total']} | spent total: {values['grand_spent']} | obtained total: {values['grand_obtained']} | percentage spent: {values['grand_spent_percentage']:.2f}%"
     )
+=======
+        grand_total[material]["grand_spent_percentage"] = values["grand_spent"] / values["grand_obtained"] * sheet_amount
+    else:
+        grand_total[material]["grand_spent_percentage"] = 0
+
+print("************Grand totals************")
+for material, values in grand_total.items():
+    print(
+        f"{material} net: {values['grand_total']/sheet_amount} | spent total: {values['grand_spent']/sheet_amount} | obtained total: {values['grand_obtained']/sheet_amount}"
+    )
+print("************AVERAGES************")
+for material, values in grand_total.items():
+    print(
+        f"{material} net: {round(values['grand_total']/(sheet_amount*total_files), 2)} | spent total: {round(values['grand_spent']/(sheet_amount*total_files), 2)} | obtained total: {round(values['grand_obtained']/(sheet_amount*total_files), 2)} | percentage spent: {values['grand_spent_percentage'] :.2f}%"
+    )
+print(f"This is equivalent to a total of an average {int(total_ores_mined/(sheet_amount*3))} mineral tiles, or {int(total_ores_mined/(sheet_amount*3*total_files))} mineral walls per round.")
+>>>>>>> tg-pr-88929

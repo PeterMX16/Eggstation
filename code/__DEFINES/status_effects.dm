@@ -11,8 +11,11 @@
 #define STATUS_EFFECT_PERMANENT -1
 /// Use in status effect "tick_interval" to prevent it from calling tick()
 #define STATUS_EFFECT_NO_TICK -1
+<<<<<<< HEAD
 /// Use in status effect "tick_interval" to guarantee that tick() gets called on every process()
 #define STATUS_EFFECT_AUTO_TICK 0
+=======
+>>>>>>> tg-pr-88929
 
 /// Indicates this status effect is an abstract type, ie not instantiated
 /// Doesn't actually do anything in practice, primarily just a marker / used in unit tests,
@@ -38,6 +41,7 @@
 #define CURSE_GRASPING (1<<3)
 
 //Incapacitated status effect flags
+<<<<<<< HEAD
 /// If the incapacitated status effect will ignore a mob in restraints (handcuffs)
 #define IGNORE_RESTRAINTS (1<<0)
 /// If the incapacitated status effect will ignore a mob in stasis (stasis beds)
@@ -48,6 +52,22 @@
 #define IGNORE_CRIT (1<<3)
 
 /// Maxamounts of fire stacks a mob can get
+=======
+/// If the mob is normal incapacitated. Should never need this, just avoids issues if we ever overexpand this
+#define TRADITIONAL_INCAPACITATED (1<<0)
+/// If the incapacitated status effect is being caused by restraints (handcuffs)
+#define INCAPABLE_RESTRAINTS (1<<1)
+/// If the incapacitated status effect is being caused by stasis (stasis beds)
+#define INCAPABLE_STASIS (1<<2)
+/// If the incapacitated status effect is being caused by being agressively grabbed
+#define INCAPABLE_GRAB (1<<3)
+
+/// Checks to see if a mob would be incapacitated even while ignoring some types
+/// Does this by inverting the passed in flags and seeing if we're still incapacitated
+#define INCAPACITATED_IGNORING(mob, flags) (mob.incapacitated & ~(flags))
+
+/// Max amounts of fire stacks a mob can get
+>>>>>>> tg-pr-88929
 #define MAX_FIRE_STACKS 20
 /// If a mob has a higher threshold than this, the icon shown will be increased to the big fire icon.
 #define MOB_BIG_FIRE_STACK_THRESHOLD 3
@@ -55,12 +75,14 @@
 // Grouped effect sources, see also code/__DEFINES/traits.dm
 
 #define STASIS_MACHINE_EFFECT "stasis_machine"
-
 #define STASIS_CHEMICAL_EFFECT "stasis_chemical"
-
 #define STASIS_SHAPECHANGE_EFFECT "stasis_shapechange"
 #define STASIS_ADMIN "stasis_admin"
 #define STASIS_LEGION_EATEN "stasis_eaten"
+<<<<<<< HEAD
+=======
+#define STASIS_SLIME_BZ "stasis_slime_bz"
+>>>>>>> tg-pr-88929
 
 #define STASIS_NETPOD_EFFECT "stasis_netpod"
 
@@ -137,8 +159,15 @@
 #define set_dizzy(duration) set_timed_status_effect(duration, /datum/status_effect/dizziness)
 #define set_dizzy_if_lower(duration) set_timed_status_effect(duration, /datum/status_effect/dizziness, TRUE)
 
+<<<<<<< HEAD
 //#define adjust_rebuked_up_to(duration, up_to) adjust_timed_status_effect(duration, /datum/status_effect/staggered, up_to) // MONKESTATION EDIT OLD
 #define adjust_rebuked_up_to(duration, up_to) adjust_timed_status_effect(duration, /datum/status_effect/rebuked, up_to) // MONKESTATION EDIT NEW
+=======
+#define adjust_staggered(duration) adjust_timed_status_effect(duration, /datum/status_effect/staggered)
+#define adjust_staggered_up_to(duration, up_to) adjust_timed_status_effect(duration, /datum/status_effect/staggered, up_to)
+#define set_staggered(duration) set_timed_status_effect(duration, /datum/status_effect/staggered)
+#define set_staggered_if_lower(duration) set_timed_status_effect(duration, /datum/status_effect/staggered, TRUE)
+>>>>>>> tg-pr-88929
 
 #define adjust_jitter(duration) adjust_timed_status_effect(duration, /datum/status_effect/jitter)
 #define adjust_jitter_up_to(duration, up_to) adjust_timed_status_effect(duration, /datum/status_effect/jitter, up_to)
@@ -188,6 +217,7 @@
 #define set_temp_blindness(duration) set_timed_status_effect(duration, /datum/status_effect/temporary_blindness)
 #define set_temp_blindness_if_lower(duration) set_timed_status_effect(duration, /datum/status_effect/temporary_blindness, TRUE)
 
+<<<<<<< HEAD
 
 ///makes you run foward and bounce of walls
 #define SUGAR_RUSH /datum/status_effect/ranching/sugar_rush
@@ -212,6 +242,8 @@
 ///makes you a mime and gives you the wall ability for the duration
 #define MIME_EGG /datum/status_effect/ranching/mime
 
+=======
+>>>>>>> tg-pr-88929
 #define adjust_static_vision(duration) adjust_timed_status_effect(duration, /datum/status_effect/static_vision)
 #define adjust_static_vision_up_to(duration, up_to) adjust_timed_status_effect(duration, /datum/status_effect/static_vision, up_to)
 #define set_static_vision(duration) set_timed_status_effect(duration, /datum/status_effect/static_vision)

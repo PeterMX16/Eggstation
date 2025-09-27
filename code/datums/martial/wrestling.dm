@@ -18,6 +18,7 @@ If you make a derivative work from this code, you must include this notification
 /datum/martial_art/wrestling
 	name = "Wrestling"
 	id = MARTIALART_WRESTLING
+<<<<<<< HEAD
 	// Monkestation Edit: Changes datum names to be less confusing
 	var/datum/action/wrestle_slam/wrestle_slam = new/datum/action/wrestle_slam()
 	var/datum/action/wrestle_throw/wrestle_throw = new/datum/action/wrestle_throw()
@@ -25,8 +26,34 @@ If you make a derivative work from this code, you must include this notification
 	var/datum/action/wrestle_strike/wrestle_strike = new/datum/action/wrestle_strike()
 	var/datum/action/wrestle_drop/wrestle_drop = new/datum/action/wrestle_drop()
 	// Monkestation Edit end
+=======
+	VAR_PRIVATE/datum/action/slam/slam
+	VAR_PRIVATE/datum/action/throw_wrassle/throw_wrassle
+	VAR_PRIVATE/datum/action/kick/kick
+	VAR_PRIVATE/datum/action/strike/strike
+	VAR_PRIVATE/datum/action/drop/drop
+
+/datum/martial_art/wrestling/New()
+	. = ..()
+	slam = new(src)
+	throw_wrassle = new(src)
+	kick = new(src)
+	strike = new(src)
+	drop = new(src)
+
+/datum/martial_art/wrestling/Destroy()
+	slam = null
+	throw_wrassle = null
+	kick = null
+	strike = null
+	drop = null
+	return ..()
+>>>>>>> tg-pr-88929
 
 /datum/martial_art/wrestling/proc/check_streak(mob/living/attacker, mob/living/defender)
+	if(defender.check_block(attacker, 10, "[attacker]'s [streak]", UNARMED_ATTACK))
+		return FALSE
+
 	switch(streak)
 		if("drop")
 			streak = ""
@@ -55,10 +82,17 @@ If you make a derivative work from this code, you must include this notification
 	desc = "Slam a grappled opponent into the floor." //Monkestation Edit: Moves description from name to desc
 	button_icon = 'monkestation/icons/hud/martial_arts_actions.dmi'
 	button_icon_state = "wrassle_slam"
+	check_flags = AB_CHECK_INCAPACITATED|AB_CHECK_HANDS_BLOCKED|AB_CHECK_CONSCIOUS
 
+<<<<<<< HEAD
 /datum/action/wrestle_slam/Trigger(trigger_flags)
 	if(owner.incapacitated())
 		to_chat(owner, span_warning("You can't WRESTLE while you're OUT FOR THE COUNT."))
+=======
+/datum/action/slam/Trigger(trigger_flags)
+	. = ..()
+	if(!.)
+>>>>>>> tg-pr-88929
 		return
 	owner.visible_message(span_danger("[owner] prepares to BODY SLAM!"), "<b><i>Your next attack will be a BODY SLAM.</i></b>")
 	owner.mind.martial_art.streak = "slam"
@@ -68,10 +102,17 @@ If you make a derivative work from this code, you must include this notification
 	desc = "Spin a cinched opponent around and throw them." //Monkestation Edit: adds desc
 	button_icon = 'monkestation/icons/hud/martial_arts_actions.dmi'
 	button_icon_state = "wrassle_throw"
+	check_flags = AB_CHECK_INCAPACITATED|AB_CHECK_HANDS_BLOCKED|AB_CHECK_CONSCIOUS
 
+<<<<<<< HEAD
 /datum/action/wrestle_throw/Trigger(trigger_flags)
 	if(owner.incapacitated())
 		to_chat(owner, span_warning("You can't WRESTLE while you're OUT FOR THE COUNT."))
+=======
+/datum/action/throw_wrassle/Trigger(trigger_flags)
+	. = ..()
+	if(!.)
+>>>>>>> tg-pr-88929
 		return
 	owner.visible_message(span_danger("[owner] prepares to THROW!"), "<b><i>Your next attack will be a THROW.</i></b>")
 	owner.mind.martial_art.streak = "throw"
@@ -81,10 +122,17 @@ If you make a derivative work from this code, you must include this notification
 	desc = "A powerful kick, sends people flying away from you. Also useful for escaping from bad situations." //Monkestation Edit: adds desc
 	button_icon = 'monkestation/icons/hud/martial_arts_actions.dmi'
 	button_icon_state = "wrassle_kick"
+	check_flags = AB_CHECK_INCAPACITATED|AB_CHECK_CONSCIOUS // This is supposed to be usable while cuffed but it probably isn't
 
+<<<<<<< HEAD
 /datum/action/wrestle_kick/Trigger(trigger_flags)
 	if(owner.incapacitated())
 		to_chat(owner, span_warning("You can't WRESTLE while you're OUT FOR THE COUNT."))
+=======
+/datum/action/kick/Trigger(trigger_flags)
+	. = ..()
+	if(!.)
+>>>>>>> tg-pr-88929
 		return
 	owner.visible_message(span_danger("[owner] prepares to KICK!"), "<b><i>Your next attack will be a KICK.</i></b>")
 	owner.mind.martial_art.streak = "kick"
@@ -94,10 +142,17 @@ If you make a derivative work from this code, you must include this notification
 	desc = "Hit a neaby opponent with a quick attack." //Monkestation Edit: adds desc
 	button_icon = 'monkestation/icons/hud/martial_arts_actions.dmi'
 	button_icon_state = "wrassle_strike"
+	check_flags = AB_CHECK_INCAPACITATED|AB_CHECK_HANDS_BLOCKED|AB_CHECK_CONSCIOUS
 
+<<<<<<< HEAD
 /datum/action/wrestle_strike/Trigger(trigger_flags)
 	if(owner.incapacitated())
 		to_chat(owner, span_warning("You can't WRESTLE while you're OUT FOR THE COUNT."))
+=======
+/datum/action/strike/Trigger(trigger_flags)
+	. = ..()
+	if(!.)
+>>>>>>> tg-pr-88929
 		return
 	owner.visible_message(span_danger("[owner] prepares to STRIKE!"), "<b><i>Your next attack will be a STRIKE.</i></b>")
 	owner.mind.martial_art.streak = "strike"
@@ -107,14 +162,22 @@ If you make a derivative work from this code, you must include this notification
 	desc = "Smash down onto an opponent." //Monkestation Edit: adds desc
 	button_icon = 'monkestation/icons/hud/martial_arts_actions.dmi'
 	button_icon_state = "wrassle_drop"
+	check_flags = AB_CHECK_INCAPACITATED|AB_CHECK_HANDS_BLOCKED
 
+<<<<<<< HEAD
 /datum/action/wrestle_drop/Trigger(trigger_flags)
 	if(owner.incapacitated())
 		to_chat(owner, span_warning("You can't WRESTLE while you're OUT FOR THE COUNT."))
+=======
+/datum/action/drop/Trigger(trigger_flags)
+	. = ..()
+	if(!.)
+>>>>>>> tg-pr-88929
 		return
 	owner.visible_message(span_danger("[owner] prepares to LEG DROP!"), "<b><i>Your next attack will be a LEG DROP.</i></b>")
 	owner.mind.martial_art.streak = "drop"
 
+<<<<<<< HEAD
 /datum/martial_art/wrestling/teach(mob/living/owner, make_temporary=FALSE)
 	if(..())
 		to_chat(owner, span_userdanger("SNAP INTO A THIN TIM!"))
@@ -132,12 +195,29 @@ If you make a derivative work from this code, you must include this notification
 	wrestle_slam.Remove(owner)
 	wrestle_throw.Remove(owner)
 	wrestle_strike.Remove(owner)
+=======
+/datum/martial_art/wrestling/on_teach(mob/living/new_holder)
+	. = ..()
+	to_chat(new_holder, span_userdanger("SNAP INTO A THIN TIM!"))
+	to_chat(new_holder, span_danger("Place your cursor over a move at the top of the screen to see what it does."))
+	drop.Grant(new_holder)
+	kick.Grant(new_holder)
+	slam.Grant(new_holder)
+	throw_wrassle.Grant(new_holder)
+	strike.Grant(new_holder)
+
+/datum/martial_art/wrestling/on_remove(mob/living/remove_from)
+	to_chat(remove_from, span_userdanger("You no longer feel that the tower of power is too sweet to be sour..."))
+	drop?.Remove(remove_from)
+	kick?.Remove(remove_from)
+	slam?.Remove(remove_from)
+	throw_wrassle?.Remove(remove_from)
+	strike?.Remove(remove_from)
+	return ..()
+>>>>>>> tg-pr-88929
 
 /datum/martial_art/wrestling/harm_act(mob/living/attacker, mob/living/defender)
-	if(check_streak(attacker, defender))
-		return 1
-	log_combat(attacker, defender, "punched with wrestling")
-	..()
+	return check_streak(attacker, defender) ? MARTIAL_ATTACK_SUCCESS : MARTIAL_ATTACK_INVALID
 
 /datum/martial_art/wrestling/proc/wrestle_throw(mob/living/attacker, mob/living/defender)
 	if(!defender)
@@ -348,7 +428,7 @@ If you make a derivative work from this code, you must include this notification
 			attacker.setDir(turn(attacker.dir, 90))
 
 		attacker.forceMove(defender.loc)
-		addtimer(CALLBACK(src, PROC_REF(CheckStrikeTurf), attacker, T), 4)
+		addtimer(CALLBACK(src, PROC_REF(CheckStrikeTurf), attacker, T), 0.4 SECONDS)
 
 		defender.visible_message(span_danger("[attacker] headbutts [defender]!"), \
 						span_userdanger("You're headbutted by [attacker]!"), span_hear("You hear a sickening sound of flesh hitting flesh!"), COMBAT_MESSAGE_RANGE, attacker)
@@ -456,36 +536,31 @@ If you make a derivative work from this code, you must include this notification
 	return
 
 /datum/martial_art/wrestling/disarm_act(mob/living/attacker, mob/living/defender)
-	if(check_streak(attacker, defender))
-		return 1
-	log_combat(attacker, defender, "wrestling-disarmed")
-	..()
+	return check_streak(attacker, defender) ? MARTIAL_ATTACK_SUCCESS : MARTIAL_ATTACK_INVALID
 
 /datum/martial_art/wrestling/grab_act(mob/living/attacker, mob/living/defender)
 	if(check_streak(attacker, defender))
-		return 1
+		return MARTIAL_ATTACK_SUCCESS
+	if(defender.check_block(attacker, 0, "[attacker]'s grab", UNARMED_ATTACK))
+		return MARTIAL_ATTACK_FAIL
 	if(attacker.pulling == defender)
-		return 1
+		return MARTIAL_ATTACK_FAIL
 	attacker.start_pulling(defender)
-	defender.visible_message(span_danger("[attacker] gets [defender] in a cinch!"), \
-					span_userdanger("You're put into a cinch by [attacker]!"), span_hear("You hear aggressive shuffling!"), COMBAT_MESSAGE_RANGE, attacker)
+	defender.visible_message(
+		span_danger("[attacker] gets [defender] in a cinch!"),
+		span_userdanger("You're put into a cinch by [attacker]!"),
+		span_hear("You hear aggressive shuffling!"),
+		COMBAT_MESSAGE_RANGE,
+		attacker,
+	)
 	to_chat(attacker, span_danger("You get [defender] in a cinch!"))
 	defender.Stun(rand(6 SECONDS, 10 SECONDS))
 	log_combat(attacker, defender, "cinched")
-	return 1
+	return MARTIAL_ATTACK_SUCCESS
 
 /obj/item/storage/belt/champion/wrestling
 	name = "Wrestling Belt"
-	var/datum/martial_art/wrestling/style = new
 
-/obj/item/storage/belt/champion/wrestling/equipped(mob/user, slot)
+/obj/item/storage/belt/champion/wrestling/Initialize(mapload)
 	. = ..()
-	if(slot & ITEM_SLOT_BELT)
-		style.teach(user, TRUE)
-	return
-
-/obj/item/storage/belt/champion/wrestling/dropped(mob/user)
-	. = ..()
-	if(user.get_item_by_slot(ITEM_SLOT_BELT) == src)
-		style.remove(user)
-	return
+	AddComponent(/datum/component/martial_art_giver, /datum/martial_art/wrestling)

@@ -54,6 +54,24 @@
 	},
 /turf/open/floor/holofloor/dark,
 /area/template_noop)
+<<<<<<< HEAD
+=======
+"au" = (
+/obj/structure/table/wood/fancy,
+/obj/item/book/bible,
+/obj/effect/turf_decal/tile/neutral,
+/obj/effect/turf_decal/tile/neutral{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/neutral{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/neutral{
+	dir = 8
+	},
+/turf/open/floor/holofloor/dark,
+/area/template_noop)
+>>>>>>> tg-pr-88929
 "av" = (
 /obj/structure/table/wood,
 /obj/item/folder/red,

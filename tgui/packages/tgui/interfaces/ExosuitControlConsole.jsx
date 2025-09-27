@@ -1,5 +1,15 @@
-import { toFixed } from 'common/math';
+import {
+  AnimatedNumber,
+  Box,
+  Button,
+  LabeledList,
+  NoticeBox,
+  Section,
+} from 'tgui-core/components';
+import { toFixed } from 'tgui-core/math';
+
 import { useBackend } from '../backend';
+<<<<<<< HEAD
 import {
   AnimatedNumber,
   Box,
@@ -8,6 +18,8 @@ import {
   NoticeBox,
   Section,
 } from '../components';
+=======
+>>>>>>> tg-pr-88929
 import { Window } from '../layouts';
 
 export const ExosuitControlConsole = (props) => {

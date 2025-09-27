@@ -9,6 +9,7 @@
 	else if (secondary_result != SECONDARY_ATTACK_CALL_NORMAL)
 		CRASH("resolve_right_click_attack (probably attack_hand_secondary) did not return a SECONDARY_ATTACK_* define.")
 
+<<<<<<< HEAD
 //Checks if mob doesnt have hands blocked, for future TG PR port (see https://github.com/tgstation/tgstation/pull/78991)
 /mob/living/proc/can_unarmed_attack()
 	return !HAS_TRAIT(src, TRAIT_HANDS_BLOCKED)
@@ -24,15 +25,31 @@
 		if(src == A)
 			check_self_for_injuries()
 		return
+=======
+/**
+ * Checks if this mob is in a valid state to punch someone.
+ *
+ * (Potentially) gives feedback to the mob if they cannot.
+ */
+/mob/living/proc/can_unarmed_attack()
+	return !HAS_TRAIT(src, TRAIT_HANDS_BLOCKED)
+
+/mob/living/carbon/can_unarmed_attack()
+	. = ..()
+	if(!.)
+		return FALSE
+
+>>>>>>> tg-pr-88929
 	if(!has_active_hand()) //can't attack without a hand.
 		var/obj/item/bodypart/check_arm = get_active_hand()
 		if(check_arm?.bodypart_disabled)
 			to_chat(src, span_warning("Your [check_arm.name] is in no condition to be used."))
-			return
+			return FALSE
 
 		to_chat(src, span_notice("You look at your arm and sigh."))
-		return
+		return FALSE
 
+<<<<<<< HEAD
 	//This signal is needed to prevent gloves of the north star + hulk.
 	if(SEND_SIGNAL(src, COMSIG_HUMAN_EARLY_UNARMED_ATTACK, A, proximity_flag) & COMPONENT_CANCEL_ATTACK_CHAIN)
 		return
@@ -44,6 +61,48 @@
 		if(.)
 			animate_interact(A, INTERACT_GENERIC)
 		//monkestation edit end
+=======
+	return TRUE
+
+/mob/living/UnarmedAttack(atom/attack_target, proximity_flag, list/modifiers)
+	// The sole reason for this signal needing to exist is making FotNS incompatible with Hulk.
+	// Note that it is send before [proc/can_unarmed_attack] is called, keep this in mind.
+	var/sigreturn = SEND_SIGNAL(src, COMSIG_LIVING_EARLY_UNARMED_ATTACK, attack_target, proximity_flag, modifiers)
+	if(sigreturn & COMPONENT_CANCEL_ATTACK_CHAIN)
+		return TRUE
+	if(sigreturn & COMPONENT_SKIP_ATTACK)
+		return FALSE
+
+	if(!can_unarmed_attack())
+		return FALSE
+
+	sigreturn = SEND_SIGNAL(src, COMSIG_LIVING_UNARMED_ATTACK, attack_target, proximity_flag, modifiers)
+	if(sigreturn & COMPONENT_CANCEL_ATTACK_CHAIN)
+		return TRUE
+	if(sigreturn & COMPONENT_SKIP_ATTACK)
+		return FALSE
+
+	if(!right_click_attack_chain(attack_target, modifiers))
+		resolve_unarmed_attack(attack_target, modifiers)
+	return TRUE
+
+/mob/living/carbon/human/UnarmedAttack(atom/attack_target, proximity_flag, list/modifiers)
+	// Humans can always check themself regardless of having their hands blocked or w/e
+	if(src == attack_target && !combat_mode && HAS_TRAIT(src, TRAIT_HANDS_BLOCKED))
+		check_self_for_injuries()
+		return TRUE
+
+	return ..()
+
+/mob/living/carbon/resolve_unarmed_attack(atom/attack_target, list/modifiers)
+	return attack_target.attack_paw(src, modifiers)
+
+/mob/living/carbon/human/resolve_unarmed_attack(atom/attack_target, list/modifiers)
+	if(!ISADVANCEDTOOLUSER(src))
+		return ..()
+
+	return attack_target.attack_hand(src, modifiers)
+>>>>>>> tg-pr-88929
 
 /mob/living/carbon/human/resolve_right_click_attack(atom/target, list/modifiers)
 	return target.attack_hand_secondary(src, modifiers)
@@ -82,11 +141,11 @@
 	if(!(interaction_flags_atom & INTERACT_ATOM_IGNORE_INCAPACITATED))
 		var/ignore_flags = NONE
 		if(interaction_flags_atom & INTERACT_ATOM_IGNORE_RESTRAINED)
-			ignore_flags |= IGNORE_RESTRAINTS
+			ignore_flags |= INCAPABLE_RESTRAINTS
 		if(!(interaction_flags_atom & INTERACT_ATOM_CHECK_GRAB))
-			ignore_flags |= IGNORE_GRAB
+			ignore_flags |= INCAPABLE_GRAB
 
-		if(user.incapacitated(ignore_flags))
+		if(INCAPACITATED_IGNORING(user, ignore_flags))
 			return FALSE
 	return TRUE
 
@@ -127,6 +186,7 @@
 	Animals & All Unspecified
 */
 
+<<<<<<< HEAD
 // If the UnarmedAttack chain is blocked
 #define LIVING_UNARMED_ATTACK_BLOCKED(target_atom) (HAS_TRAIT(src, TRAIT_HANDS_BLOCKED) \
 	|| SEND_SIGNAL(src, COMSIG_LIVING_UNARMED_ATTACK, target_atom, proximity_flag) & COMPONENT_CANCEL_ATTACK_CHAIN)
@@ -152,6 +212,8 @@
 	if(!right_click_attack_chain(attack_target, modifiers))
 		resolve_unarmed_attack(attack_target, modifiers)
 	return TRUE
+=======
+>>>>>>> tg-pr-88929
 /**
  * Called when the unarmed attack hasn't been stopped by the LIVING_UNARMED_ATTACK_BLOCKED macro or the right_click_attack_chain proc.
  * This will call an attack proc that can vary from mob type to mob type on the target.
@@ -169,6 +231,9 @@
 /mob/living/proc/resolve_right_click_attack(atom/target, list/modifiers)
 	return target.attack_animal_secondary(src, modifiers)
 
+/**
+ * Called when a simple animal is unarmed attacking / clicking on this atom.
+ */
 /atom/proc/attack_animal(mob/user, list/modifiers)
 	SEND_SIGNAL(src, COMSIG_ATOM_ATTACK_ANIMAL, user)
 
@@ -182,7 +247,8 @@
 ///When a basic mob attacks something, either by AI or user.
 /atom/proc/attack_basic_mob(mob/user, list/modifiers)
 	SHOULD_CALL_PARENT(TRUE)
-	SEND_SIGNAL(src, COMSIG_ATOM_ATTACK_BASIC_MOB, user)
+	if(SEND_SIGNAL(src, COMSIG_ATOM_ATTACK_BASIC_MOB, user) & COMSIG_BASIC_ATTACK_CANCEL_CHAIN)
+		return
 	return handle_basic_attack(user, modifiers) //return value of attack animal, this is how much damage was dealt to the attacked thing
 
 ///This exists so stuff can override the default call of attack_animal for attack_basic_mob
@@ -225,6 +291,9 @@
 /mob/living/carbon/alien/larva/resolve_right_click_attack(atom/target, list/modifiers)
 	return target.attack_larva_secondary(src, modifiers)
 
+/mob/living/carbon/alien/larva/can_unarmed_attack() //We bite stuff, and our head is always free.
+	return TRUE
+
 /atom/proc/attack_larva(mob/user, list/modifiers)
 	return
 
@@ -235,7 +304,10 @@
 /atom/proc/attack_larva_secondary(mob/user, list/modifiers)
 	return SECONDARY_ATTACK_CALL_NORMAL
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> tg-pr-88929
 /*
 	Drones
 */
@@ -287,6 +359,7 @@
 	return SECONDARY_ATTACK_CALL_NORMAL
 
 /*
+<<<<<<< HEAD
 	Simple animals
 */
 
@@ -305,14 +378,19 @@
 		return ..()
 
 /*
+=======
+>>>>>>> tg-pr-88929
 	Hostile animals
 */
 
 /mob/living/simple_animal/hostile/resolve_unarmed_attack(atom/attack_target, list/modifiers)
 	GiveTarget(attack_target)
 	INVOKE_ASYNC(src, PROC_REF(AttackingTarget), attack_target)
+<<<<<<< HEAD
 
 #undef LIVING_UNARMED_ATTACK_BLOCKED
+=======
+>>>>>>> tg-pr-88929
 
 /*
 	New Players:

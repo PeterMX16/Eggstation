@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
 	"name": "typescript",
 	"version": "4.9.4-sdk",
 	"main": "./lib/typescript.js",
@@ -7,4 +8,14 @@
 		"tsc": "./bin/tsc",
 		"tsserver": "./bin/tsserver"
 	}
+=======
+  "name": "typescript",
+  "version": "5.4.3-sdk",
+  "main": "./lib/typescript.js",
+  "type": "commonjs",
+  "bin": {
+    "tsc": "./bin/tsc",
+    "tsserver": "./bin/tsserver"
+  }
+>>>>>>> tg-pr-88929
 }

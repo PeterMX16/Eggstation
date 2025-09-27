@@ -14,7 +14,12 @@
 	can_assign_self_objectives = TRUE
 	default_custom_objective = "Consume the station's most valuable genomes."
 	hardcore_random_bonus = TRUE
+<<<<<<< HEAD
 	stinger_sound = 'sound/ambience/antag/ling_alert.ogg'
+=======
+	stinger_sound = 'sound/music/antag/ling_alert.ogg'
+
+>>>>>>> tg-pr-88929
 	/// Whether to give this changeling objectives or not
 	var/give_objectives = TRUE
 	/// Weather we assign objectives which compete with other lings
@@ -40,7 +45,7 @@
 	/// The max chemical storage the changeling currently has.
 	var/total_chem_storage = 75
 	/// The chemical recharge rate per life tick.
-	var/chem_recharge_rate = 0.5
+	var/chem_recharge_rate = 1
 	/// Any additional modifiers triggered by changelings that modify the chem_recharge_rate.
 	var/chem_recharge_slowdown = 0
 	/// The range this ling can sting things.
@@ -61,7 +66,7 @@
 	/// The voice we're mimicing via the changeling voice ability.
 	var/mimicing = ""
 	/// Whether we can currently respec in the cellular emporium.
-	var/can_respec = FALSE
+	var/can_respec = 0
 
 	/// The currently active changeling sting.
 	var/datum/action/changeling/sting/chosen_sting
@@ -132,7 +137,10 @@
 	if(give_objectives)
 		forge_objectives()
 	owner.current.get_language_holder().omnitongue = TRUE
+<<<<<<< HEAD
 	owner.current.persistent_client?.remove_challenge(/datum/challenge/no_heals)
+=======
+>>>>>>> tg-pr-88929
 	return ..()
 
 /datum/antagonist/changeling/apply_innate_effects(mob/living/mob_override)
@@ -147,6 +155,7 @@
 	RegisterSignal(living_mob, COMSIG_LIVING_POST_FULLY_HEAL, PROC_REF(on_fullhealed))
 	RegisterSignal(living_mob, COMSIG_MOB_GET_STATUS_TAB_ITEMS, PROC_REF(get_status_tab_item))
 	RegisterSignals(living_mob, list(COMSIG_MOB_MIDDLECLICKON, COMSIG_MOB_ALTCLICKON), PROC_REF(on_click_sting))
+	ADD_TRAIT(living_mob, TRAIT_FAKE_SOULLESS, CHANGELING_TRAIT)
 
 	if(living_mob.hud_used)
 		var/datum/hud/hud_used = living_mob.hud_used
@@ -161,12 +170,24 @@
 	else
 		RegisterSignal(living_mob, COMSIG_MOB_HUD_CREATED, PROC_REF(on_hud_created))
 
+	make_brain_decoy(living_mob)
+
+/datum/antagonist/changeling/proc/make_brain_decoy(mob/living/ling)
+	var/obj/item/organ/brain/our_ling_brain = ling.get_organ_slot(ORGAN_SLOT_BRAIN)
+	if(isnull(our_ling_brain) || our_ling_brain.decoy_override)
+		return
+
 	// Brains are optional for lings.
+<<<<<<< HEAD
 	if(!isoozeling(living_mob))
 		var/obj/item/organ/internal/brain/our_ling_brain = living_mob.get_organ_slot(ORGAN_SLOT_BRAIN)
 		if(our_ling_brain)
 			our_ling_brain.organ_flags &= ~ORGAN_VITAL
 			our_ling_brain.decoy_override = TRUE
+=======
+	// This is automatically cleared if the ling is.
+	our_ling_brain.AddComponent(/datum/component/ling_decoy_brain, src)
+>>>>>>> tg-pr-88929
 
 /datum/antagonist/changeling/proc/generate_name()
 	var/honorific
@@ -201,6 +222,7 @@
 	var/mob/living/living_mob = mob_override || owner.current
 	handle_clown_mutation(living_mob, removing = FALSE)
 	UnregisterSignal(living_mob, list(COMSIG_MOB_LOGIN, COMSIG_LIVING_LIFE, COMSIG_LIVING_POST_FULLY_HEAL, COMSIG_MOB_GET_STATUS_TAB_ITEMS, COMSIG_MOB_MIDDLECLICKON, COMSIG_MOB_ALTCLICKON))
+	REMOVE_TRAIT(living_mob, TRAIT_FAKE_SOULLESS, CHANGELING_TRAIT)
 
 	if(living_mob.hud_used)
 		var/datum/hud/hud_used = living_mob.hud_used
@@ -210,15 +232,10 @@
 		QDEL_NULL(lingchemdisplay)
 		QDEL_NULL(lingstingdisplay)
 
+	// The old body's brain still remains a decoy, I guess?
+
 /datum/antagonist/changeling/on_removal()
 	remove_changeling_powers(include_innate = TRUE)
-	if(!iscarbon(owner.current))
-		return
-	var/mob/living/carbon/carbon_owner = owner.current
-	var/obj/item/organ/internal/brain/not_ling_brain = carbon_owner.get_organ_slot(ORGAN_SLOT_BRAIN)
-	if(not_ling_brain && (not_ling_brain.decoy_override != initial(not_ling_brain.decoy_override)))
-		not_ling_brain.organ_flags |= ORGAN_VITAL
-		not_ling_brain.decoy_override = FALSE
 	return ..()
 
 /datum/antagonist/changeling/farewell()
@@ -268,23 +285,38 @@
 	SIGNAL_HANDLER
 
 	var/delta_time = DELTA_WORLD_TIME(SSmobs)
+<<<<<<< HEAD
+=======
+	var/mob/living/living_owner = owner.current
+>>>>>>> tg-pr-88929
 
 	// If dead, we only regenerate up to half chem storage.
 	if(owner.current.stat == DEAD)
 		adjust_chemicals((chem_recharge_rate - chem_recharge_slowdown) * delta_time, total_chem_storage * 0.5)
 
-	// If we're not dead - we go up to the full chem cap.
+	// If we're not dead and not on fire - we go up to the full chem cap at normal speed. If on fire we only regenerate at 1/4th the normal speed
 	else
+<<<<<<< HEAD
 		adjust_chemicals((chem_recharge_rate - chem_recharge_slowdown) * delta_time)
+=======
+		if(living_owner.fire_stacks && living_owner.on_fire)
+			adjust_chemicals((chem_recharge_rate - 0.75) * delta_time)
+		else
+			adjust_chemicals((chem_recharge_rate - chem_recharge_slowdown) * delta_time)
+>>>>>>> tg-pr-88929
 
 /**
- * Signal proc for [COMSIG_LIVING_POST_FULLY_HEAL], getting admin-healed restores our chemicals.
+ * Signal proc for [COMSIG_LIVING_POST_FULLY_HEAL]
  */
-/datum/antagonist/changeling/proc/on_fullhealed(datum/source, heal_flags)
+/datum/antagonist/changeling/proc/on_fullhealed(mob/living/source, heal_flags)
 	SIGNAL_HANDLER
 
+	// Aheal restores all chemicals
 	if(heal_flags & HEAL_ADMIN)
 		adjust_chemicals(INFINITY)
+
+	// Makes sure the brain, if recreated, is a decoy as expected
+	make_brain_decoy(source)
 
 /**
  * Signal proc for [COMSIG_MOB_MIDDLECLICKON] and [COMSIG_MOB_ALTCLICKON].
@@ -352,12 +384,20 @@
 /datum/antagonist/changeling/proc/regain_powers()
 	emporium_action.Grant(owner.current)
 	for(var/datum/action/changeling/power as anything in innate_powers)
+<<<<<<< HEAD
 		power.Grant(owner.current)
+=======
+		power.on_purchase(owner.current)
+>>>>>>> tg-pr-88929
 
 	for(var/power_path in purchased_powers)
 		var/datum/action/changeling/power = purchased_powers[power_path]
 		if(istype(power))
+<<<<<<< HEAD
 			power.Grant(owner.current)
+=======
+			power.on_purchase(owner.current)
+>>>>>>> tg-pr-88929
 
 /*
  * The act of purchasing a certain power for a changeling.
@@ -440,7 +480,7 @@
 
 	to_chat(owner.current, span_notice("We have removed our evolutions from this form, and are now ready to readapt."))
 	remove_changeling_powers()
-	can_respec = FALSE
+	can_respec -= 1
 	SSblackbox.record_feedback("tally", "changeling_power_purchase", 1, "Readapt")
 	log_changeling_power("[key_name(owner)] readapted their changeling powers")
 	return TRUE
@@ -528,6 +568,7 @@
 
 	new_profile.age = target.age
 	new_profile.physique = target.physique
+	new_profile.athletics_level = target.mind?.get_skill_level(/datum/skill/athletics) || SKILL_LEVEL_NONE
 
 	// Grab the target's quirks.
 	for(var/datum/quirk/target_quirk as anything in target.quirks)
@@ -539,10 +580,6 @@
 	new_profile.undershirt = target.undershirt
 	new_profile.socks = target.socks
 	new_profile.socks_color = target.socks_color //MONKESTATION EDIT
-
-	// Hair and facial hair gradients, alongside their colours.
-	new_profile.grad_style = LAZYLISTDUPLICATE(target.grad_style)
-	new_profile.grad_color = LAZYLISTDUPLICATE(target.grad_color)
 
 	// Grab skillchips they have
 	new_profile.skillchips = target.clone_skillchip_list(TRUE)
@@ -578,6 +615,9 @@
 		new_profile.worn_icon_list[slot] = clothing_item.worn_icon
 		new_profile.worn_icon_state_list[slot] = clothing_item.worn_icon_state
 		new_profile.exists_list[slot] = 1
+
+	new_profile.voice = target.voice
+	new_profile.voice_filter = target.voice_filter
 
 	return new_profile
 
@@ -691,7 +731,10 @@
 		else
 			var/datum/objective/maroon/maroon_objective = new
 			maroon_objective.owner = owner
+<<<<<<< HEAD
 
+=======
+>>>>>>> tg-pr-88929
 
 			if (!(locate(/datum/objective/escape) in objectives) && escape_objective_possible)
 				var/datum/objective/escape/escape_with_identity/identity_theft = new
@@ -706,6 +749,10 @@
 			else
 				maroon_objective.find_target()
 				objectives += maroon_objective
+<<<<<<< HEAD
+=======
+
+>>>>>>> tg-pr-88929
 
 	if (!(locate(/datum/objective/escape) in objectives) && escape_objective_possible)
 		if(prob(50))
@@ -767,8 +814,9 @@
 	user.socks_color =chosen_profile.socks_color  //MONKESTATION EDIT
 	user.age = chosen_profile.age
 	user.physique = chosen_profile.physique
-	user.grad_style = LAZYLISTDUPLICATE(chosen_profile.grad_style)
-	user.grad_color = LAZYLISTDUPLICATE(chosen_profile.grad_color)
+	user.mind?.set_level(/datum/skill/athletics, chosen_profile.athletics_level, silent = TRUE)
+	user.voice = chosen_profile.voice
+	user.voice_filter = chosen_profile.voice_filter
 
 	chosen_dna.copy_dna(user.dna, COPY_DNA_SE|COPY_DNA_SPECIES)
 
@@ -853,7 +901,7 @@
 			flesh_id.hud_icon = chosen_profile.id_icon
 
 		if(equip)
-			user.equip_to_slot_or_del(new_flesh_item, slot2slot[slot])
+			user.equip_to_slot_or_del(new_flesh_item, slot2slot[slot], indirect_action = TRUE)
 			if(!QDELETED(new_flesh_item))
 				ADD_TRAIT(new_flesh_item, TRAIT_NODROP, CHANGELING_TRAIT)
 
@@ -863,6 +911,7 @@
 			attempted_fake_scar.fake = TRUE
 
 	user.regenerate_icons()
+	user.name = user.get_visible_name()
 	current_profile = chosen_profile
 
 // Changeling profile themselves. Store a data to store what every DNA instance looked like.
@@ -913,12 +962,14 @@
 	var/age
 	/// The body type of the profile source.
 	var/physique
+	/// The athleticism of the profile source.
+	var/athletics_level
 	/// The quirks of the profile source.
 	var/list/quirks = list()
-	/// The hair and facial hair gradient styles of the profile source.
-	var/list/grad_style = list("None", "None")
-	/// The hair and facial hair gradient colours of the profile source.
-	var/list/grad_color = list(null, null)
+	/// The TTS voice of the profile source
+	var/voice
+	/// The TTS filter of the profile filter
+	var/voice_filter = ""
 
 /datum/changeling_profile/Destroy()
 	qdel(dna)
@@ -955,9 +1006,10 @@
 	new_profile.id_icon = id_icon
 	new_profile.age = age
 	new_profile.physique = physique
+	new_profile.athletics_level = athletics_level
 	new_profile.quirks = quirks.Copy()
-	new_profile.grad_style = LAZYLISTDUPLICATE(grad_style)
-	new_profile.grad_color = LAZYLISTDUPLICATE(grad_color)
+	new_profile.voice = voice
+	new_profile.voice_filter = voice_filter
 
 /datum/antagonist/changeling/roundend_report()
 	var/list/parts = list()
@@ -990,11 +1042,11 @@
 	var/icon/final_icon = render_preview_outfit(/datum/outfit/changeling)
 	var/icon/split_icon = render_preview_outfit(/datum/outfit/job/engineer)
 
-	final_icon.Shift(WEST, world.icon_size / 2)
-	final_icon.Shift(EAST, world.icon_size / 2)
+	final_icon.Shift(WEST, ICON_SIZE_X / 2)
+	final_icon.Shift(EAST, ICON_SIZE_X / 2)
 
-	split_icon.Shift(EAST, world.icon_size / 2)
-	split_icon.Shift(WEST, world.icon_size / 2)
+	split_icon.Shift(EAST, ICON_SIZE_X / 2)
+	split_icon.Shift(WEST, ICON_SIZE_X / 2)
 
 	final_icon.Blend(split_icon, ICON_OVERLAY)
 
@@ -1031,7 +1083,8 @@
 	total_chem_storage = 50
 
 /datum/antagonist/changeling/headslug/greet()
-	to_chat(owner, span_boldannounce("You are a fresh changeling birthed from a headslug! \
+	play_stinger()
+	to_chat(owner, span_bolddanger("You are a fresh changeling birthed from a headslug! \
 		You aren't as strong as a normal changeling, as you are newly born."))
 
 
@@ -1043,6 +1096,7 @@
 	return finish_preview_icon(final_icon)
 
 /datum/antagonist/changeling/space/greet()
+	play_stinger()
 	to_chat(src, span_changeling("Our mind stirs to life, from the depths of an endless slumber..."))
 
 /datum/outfit/changeling

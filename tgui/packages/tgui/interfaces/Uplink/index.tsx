@@ -1,8 +1,12 @@
+<<<<<<< HEAD
 import { BooleanLike } from 'common/react';
 import { Component, Fragment } from 'inferno';
 
 import { resolveAsset } from '../../assets';
 import { useBackend } from '../../backend';
+=======
+import { Component, Fragment } from 'react';
+>>>>>>> tg-pr-88929
 import {
   Box,
   Button,
@@ -12,15 +16,27 @@ import {
   Stack,
   Tabs,
   Tooltip,
+<<<<<<< HEAD
 } from '../../components';
 import { fetchRetry } from '../../http';
+=======
+} from 'tgui-core/components';
+import { fetchRetry } from 'tgui-core/http';
+import { BooleanLike } from 'tgui-core/react';
+
+import { resolveAsset } from '../../assets';
+import { useBackend } from '../../backend';
+>>>>>>> tg-pr-88929
 import { Window } from '../../layouts';
 import {
   calculateDangerLevel,
   calculateProgression,
   dangerLevelsTooltip,
 } from './calculateDangerLevel';
+<<<<<<< HEAD
 import { ContractorItem, ContractorMenu } from './ContractorMenu';
+=======
+>>>>>>> tg-pr-88929
 import { GenericUplink, Item } from './GenericUplink';
 import { Objective, ObjectiveMenu } from './ObjectiveMenu';
 import { PrimaryObjectiveMenu } from './PrimaryObjectiveMenu';
@@ -77,10 +93,13 @@ type UplinkData = {
   purchased_items: number;
   shop_locked: BooleanLike;
   can_renegotiate: BooleanLike;
+<<<<<<< HEAD
   locked_entries: string[];
   is_contractor: BooleanLike;
   contractor_items: ContractorItem[];
   contractor_rep: number;
+=======
+>>>>>>> tg-pr-88929
 };
 
 type UplinkState = {
@@ -290,7 +309,11 @@ export class Uplink extends Component<{}, UplinkState> {
     // Round it and convert it into a percentage
     progressionPercentage = Math.round(progressionPercentage * 1000) / 10;
     return (
+<<<<<<< HEAD
       <Window width={is_contractor ? 725 : 700} height={600} theme="syndicate">
+=======
+      <Window width={700} height={600} theme="syndicate">
+>>>>>>> tg-pr-88929
         <Window.Content>
           <Stack fill vertical>
             <Stack.Item>
@@ -357,8 +380,13 @@ export class Uplink extends Component<{}, UplinkState> {
                           <Tabs.Tab
                             style={{
                               overflow: 'hidden',
+<<<<<<< HEAD
                               'white-space': 'nowrap',
                               'text-overflow': 'ellipsis',
+=======
+                              whiteSpace: 'nowrap',
+                              textOverflow: 'ellipsis',
+>>>>>>> tg-pr-88929
                             }}
                             icon="star"
                             selected={currentTab === 0}
@@ -371,8 +399,13 @@ export class Uplink extends Component<{}, UplinkState> {
                           <Tabs.Tab
                             style={{
                               overflow: 'hidden',
+<<<<<<< HEAD
                               'white-space': 'nowrap',
                               'text-overflow': 'ellipsis',
+=======
+                              whiteSpace: 'nowrap',
+                              textOverflow: 'ellipsis',
+>>>>>>> tg-pr-88929
                             }}
                             icon="star-half-stroke"
                             selected={currentTab === 1}
@@ -381,6 +414,7 @@ export class Uplink extends Component<{}, UplinkState> {
                             Secondary Objectives
                           </Tabs.Tab>
                         )}
+<<<<<<< HEAD
                         {!!is_contractor && (
                           <Tabs.Tab
                             style={{
@@ -404,6 +438,17 @@ export class Uplink extends Component<{}, UplinkState> {
                           icon="store"
                           selected={currentTab === 3 || !has_objectives}
                           onClick={() => this.setState({ currentTab: 3 })}
+=======
+                        <Tabs.Tab
+                          style={{
+                            overflow: 'hidden',
+                            whiteSpace: 'nowrap',
+                            textOverflow: 'ellipsis',
+                          }}
+                          icon="store"
+                          selected={currentTab === 2}
+                          onClick={() => this.setState({ currentTab: 2 })}
+>>>>>>> tg-pr-88929
                         >
                           Market
                         </Tabs.Tab>

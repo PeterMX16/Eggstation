@@ -44,7 +44,11 @@ INITIALIZE_IMMEDIATE(/obj/effect/statclick)
 	usr.client.debug_variables(target)
 	message_admins("Admin [key_name_admin(usr)] is debugging the [target] [class].")
 
+<<<<<<< HEAD
 ADMIN_VERB(restart_controller, R_DEBUG, FALSE, "Restart Controller", "Restart one of the various periodic loop controllers for the game (be careful!)", ADMIN_CATEGORY_DEBUG, controller in list("Master", "Failsafe"))
+=======
+ADMIN_VERB(restart_controller, R_DEBUG, "Restart Controller", "Restart one of the various periodic loop controllers for the game (be careful!)", ADMIN_CATEGORY_DEBUG, controller in list("Master", "Failsafe"))
+>>>>>>> tg-pr-88929
 	switch(controller)
 		if("Master")
 			Recreate_MC()
@@ -55,7 +59,11 @@ ADMIN_VERB(restart_controller, R_DEBUG, FALSE, "Restart Controller", "Restart on
 
 	message_admins("Admin [key_name_admin(user)] has restarted the [controller] controller.")
 
+<<<<<<< HEAD
 ADMIN_VERB(debug_controller, R_DEBUG, FALSE, "Debug Controller", "Debug the various periodic loop controllers for the game (be careful!)", ADMIN_CATEGORY_DEBUG)
+=======
+ADMIN_VERB(debug_controller, R_DEBUG, "Debug Controller", "Debug the various periodic loop controllers for the game (be careful!)", ADMIN_CATEGORY_DEBUG)
+>>>>>>> tg-pr-88929
 	var/list/controllers = list()
 	var/list/controller_choices = list()
 

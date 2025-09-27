@@ -24,7 +24,11 @@
 /datum/map_template/shuttle/whiteship/birdshot
 	suffix = "birdshot"
 	name = "NT Patrol Bee"
+<<<<<<< HEAD
 	description = "A small patrol vessel with a central corridor connecting all rooms. Features 2 small cargo bays and a brig. Spawns with an agressive and deadly Gelatinous Cube"
+=======
+	description = "A small patrol vessel with a central corridor connecting all rooms. Features 2 small cargo bays and a brig. Spawns with an aggressive and deadly Gelatinous Cube"
+>>>>>>> tg-pr-88929
 
 /datum/map_template/shuttle/whiteship/kilo
 	suffix = "kilo"

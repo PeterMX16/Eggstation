@@ -1,6 +1,10 @@
 /datum/ai_controller/basic_controller/parrot
 	blackboard = list(
 		BB_TARGETING_STRATEGY = /datum/targeting_strategy/basic/allow_items,
+<<<<<<< HEAD
+=======
+		BB_PET_TARGETING_STRATEGY = /datum/targeting_strategy/basic/not_friends,
+>>>>>>> tg-pr-88929
 		BB_HOARD_LOCATION_RANGE = 9,
 	)
 
@@ -9,11 +13,19 @@
 	idle_behavior = /datum/idle_behavior/idle_random_walk/parrot
 
 	planning_subtrees = list(
+<<<<<<< HEAD
+=======
+		/datum/ai_planning_subtree/parrot_as_in_repeat, // always get a witty oneliner in when you can
+		/datum/ai_planning_subtree/pet_planning,
+>>>>>>> tg-pr-88929
 		/datum/ai_planning_subtree/target_retaliate,
 		/datum/ai_planning_subtree/perch_on_target,
 		/datum/ai_planning_subtree/basic_melee_attack_subtree,
 		/datum/ai_planning_subtree/hoard_items,
+<<<<<<< HEAD
 		/datum/ai_planning_subtree/parrot_as_in_repeat, // always get a witty oneliner in when you can
+=======
+>>>>>>> tg-pr-88929
 	)
 
 /datum/idle_behavior/idle_random_walk/parrot

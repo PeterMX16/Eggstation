@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { useBackend, useLocalState } from '../backend';
 import { Item } from './Uplink/GenericUplink';
 import { BlockQuote, Button, Section, Stack, Tabs } from '../components';
@@ -10,6 +11,20 @@ import {
   Objective,
   ReplaceObjectivesButton,
 } from './common/Objectives';
+=======
+import { useState } from 'react';
+import { BlockQuote, Button, Section, Stack, Tabs } from 'tgui-core/components';
+import { BooleanLike } from 'tgui-core/react';
+
+import { useBackend } from '../backend';
+import { Window } from '../layouts';
+import {
+  Objective,
+  ObjectivePrintout,
+  ReplaceObjectivesButton,
+} from './common/Objectives';
+import { GenericUplink, Item } from './Uplink/GenericUplink';
+>>>>>>> tg-pr-88929
 
 const allystyle = {
   color: 'yellow',
@@ -26,12 +41,16 @@ const goalstyle = {
   'font-weight': 'bold',
 };
 
+<<<<<<< HEAD
 type Category = {
   name: string;
   items: Item[];
 };
 
 type Data = {
+=======
+type Info = {
+>>>>>>> tg-pr-88929
   has_codewords: BooleanLike;
   phrases: string;
   responses: string;
@@ -41,14 +60,23 @@ type Data = {
   intro: string;
   processingTime: string;
   objectives: Objective[];
+<<<<<<< HEAD
   categories: Category[];
+=======
+  categories: any[];
+>>>>>>> tg-pr-88929
   can_change_objective: BooleanLike;
 };
 
 const IntroductionSection = (props) => {
+<<<<<<< HEAD
   const { data } = useBackend<Data>();
   const { intro, objectives, can_change_objective } = data;
 
+=======
+  const { act, data } = useBackend<Info>();
+  const { intro, objectives, can_change_objective } = data;
+>>>>>>> tg-pr-88929
   return (
     <Section fill title="Intro" scrollable>
       <Stack vertical fill>
@@ -56,6 +84,7 @@ const IntroductionSection = (props) => {
         <Stack.Item grow>
           <ObjectivePrintout
             objectives={objectives}
+<<<<<<< HEAD
             titleMessage="Your prime objectives"
             objectivePrefix="≥"
             objectiveFollowup={
@@ -63,6 +92,15 @@ const IntroductionSection = (props) => {
                 can_change_objective={can_change_objective}
                 button_title="Overwrite Objectives Data"
                 button_colour="green"
+=======
+            titleMessage="Your prime objectives:"
+            objectivePrefix="&#8805-"
+            objectiveFollowup={
+              <ReplaceObjectivesButton
+                can_change_objective={can_change_objective}
+                button_title={'Overwrite Objectives Data'}
+                button_colour={'green'}
+>>>>>>> tg-pr-88929
               />
             }
           />
@@ -73,7 +111,11 @@ const IntroductionSection = (props) => {
 };
 
 const FlavorSection = (props) => {
+<<<<<<< HEAD
   const { data } = useBackend<Data>();
+=======
+  const { data } = useBackend<Info>();
+>>>>>>> tg-pr-88929
   const { allies, goal } = data;
 
   return (
@@ -85,7 +127,7 @@ const FlavorSection = (props) => {
           mr={-0.8}
           mt={-0.5}
           icon="hammer"
-          tooltip={multiline`
+          tooltip={`
             This is a gameplay suggestion for bored ais.
             You don't have to follow it, unless you want some
             ideas for how to spend the round.`}
@@ -98,7 +140,7 @@ const FlavorSection = (props) => {
       <Stack vertical fill>
         <Stack.Item grow>
           <Stack fill vertical>
-            <Stack.Item style={{ 'background-color': 'black' }}>
+            <Stack.Item style={{ backgroundColor: 'black' }}>
               <span style={goalstyle}>
                 System Integrity Report:
                 <br />
@@ -106,7 +148,7 @@ const FlavorSection = (props) => {
               &gt;{goal}
             </Stack.Item>
             <Stack.Divider />
-            <Stack.Item grow style={{ 'background-color': 'black' }}>
+            <Stack.Item grow style={{ backgroundColor: 'black' }}>
               <span style={allystyle}>
                 Morality Core Report:
                 <br />
@@ -114,7 +156,7 @@ const FlavorSection = (props) => {
               &gt;{allies}
             </Stack.Item>
             <Stack.Divider />
-            <Stack.Item style={{ 'background-color': 'black' }}>
+            <Stack.Item style={{ backgroundColor: 'black' }}>
               <span style={badstyle}>
                 Overall Sentience Coherence Grade: FAILING.
                 <br />
@@ -131,7 +173,11 @@ const FlavorSection = (props) => {
 };
 
 const CodewordsSection = (props) => {
+<<<<<<< HEAD
   const { data } = useBackend<Data>();
+=======
+  const { data } = useBackend<Info>();
+>>>>>>> tg-pr-88929
   const { has_codewords, phrases, responses } = data;
 
   return (
@@ -177,6 +223,7 @@ const CodewordsSection = (props) => {
   );
 };
 
+<<<<<<< HEAD
 enum Screen {
   Intro,
   Modules,
@@ -188,27 +235,68 @@ export const AntagInfoMalf = (props) => {
     Screen.Intro,
   );
 
+=======
+export const AntagInfoMalf = (props) => {
+  const { act, data } = useBackend<Info>();
+  const { processingTime, categories } = data;
+  const [antagInfoTab, setAntagInfoTab] = useState(0);
+  const categoriesList: string[] = [];
+  const items: Item[] = [];
+  for (let i = 0; i < categories.length; i++) {
+    const category = categories[i];
+    categoriesList.push(category.name);
+    for (let itemIndex = 0; itemIndex < category.items.length; itemIndex++) {
+      const item = category.items[itemIndex];
+      items.push({
+        id: item.name,
+        name: item.name,
+        icon: item.icon,
+        icon_state: item.icon_state,
+        category: category.name,
+        cost: `${item.cost} PT`,
+        desc: item.desc,
+        disabled: processingTime < item.cost,
+      });
+    }
+  }
+>>>>>>> tg-pr-88929
   return (
     <Window
       width={660}
       height={530}
+<<<<<<< HEAD
       theme={antagInfoTab === Screen.Intro ? 'hackerman' : 'malfunction'}
     >
       <Window.Content style={{ 'font-family': 'Consolas, monospace' }}>
+=======
+      theme={(antagInfoTab === 0 && 'hackerman') || 'malfunction'}
+    >
+      <Window.Content style={{ fontFamily: 'Consolas, monospace' }}>
+>>>>>>> tg-pr-88929
         <Stack vertical fill>
           <Stack.Item>
             <Tabs fluid>
               <Tabs.Tab
                 icon="info"
+<<<<<<< HEAD
                 selected={antagInfoTab === Screen.Intro}
                 onClick={() => setAntagInfoTab(Screen.Intro)}
+=======
+                selected={antagInfoTab === 0}
+                onClick={() => setAntagInfoTab(0)}
+>>>>>>> tg-pr-88929
               >
                 Information
               </Tabs.Tab>
               <Tabs.Tab
                 icon="code"
+<<<<<<< HEAD
                 selected={antagInfoTab === Screen.Modules}
                 onClick={() => setAntagInfoTab(Screen.Modules)}
+=======
+                selected={antagInfoTab === 1}
+                onClick={() => setAntagInfoTab(1)}
+>>>>>>> tg-pr-88929
               >
                 Malfunction Modules
               </Tabs.Tab>

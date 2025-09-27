@@ -14,12 +14,20 @@
 	var/delete_on_death = FALSE
 
 /datum/component/temporary_body/Initialize(datum/mind/old_mind, mob/living/old_body, delete_on_death = FALSE)
+<<<<<<< HEAD
 	if(!isliving(parent))
 		return COMPONENT_INCOMPATIBLE
 	src.old_mind_ref = WEAKREF(old_mind)
 	if(istype(old_body))
 		ADD_TRAIT(old_body, TRAIT_MIND_TEMPORARILY_GONE, REF(src))
 		src.old_body_ref = WEAKREF(old_body)
+=======
+	if(!isliving(parent) || !isliving(old_body))
+		return COMPONENT_INCOMPATIBLE
+	ADD_TRAIT(old_body, TRAIT_MIND_TEMPORARILY_GONE, REF(src))
+	src.old_mind_ref = WEAKREF(old_mind)
+	src.old_body_ref = WEAKREF(old_body)
+>>>>>>> tg-pr-88929
 	src.delete_on_death = delete_on_death
 
 /datum/component/temporary_body/RegisterWithParent()
@@ -39,9 +47,15 @@
 /datum/component/temporary_body/proc/on_parent_destroy()
 	SIGNAL_HANDLER
 	var/datum/mind/old_mind = old_mind_ref?.resolve()
+<<<<<<< HEAD
 	var/mob/living/old_body = old_body_ref?.resolve() || old_mind.current
 
 	if(!old_mind)
+=======
+	var/mob/living/old_body = old_body_ref?.resolve()
+
+	if(!old_mind || !old_body)
+>>>>>>> tg-pr-88929
 		return
 
 	var/mob/living/living_parent = parent
@@ -51,13 +65,21 @@
 	if(!ghost)
 		CRASH("[src] belonging to [parent] was completely unable to find a ghost to put back into a body!")
 	ghost.mind = old_mind
+<<<<<<< HEAD
 	if(old_body?.stat != DEAD)
+=======
+	if(old_body.stat != DEAD)
+>>>>>>> tg-pr-88929
 		old_mind.transfer_to(old_body, force_key_move = TRUE)
 	else
 		old_mind.set_current(old_body)
 
+<<<<<<< HEAD
 	if(old_body)
 		REMOVE_TRAIT(old_body, TRAIT_MIND_TEMPORARILY_GONE, REF(src))
+=======
+	REMOVE_TRAIT(old_body, TRAIT_MIND_TEMPORARILY_GONE, REF(src))
+>>>>>>> tg-pr-88929
 
 	old_mind = null
 	old_body = null

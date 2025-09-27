@@ -10,7 +10,12 @@
 	clickable_glow = TRUE
 
 /atom/movable/screen/alert/bitrunning/qserver_domain_complete/Click(location, control, params)
+<<<<<<< HEAD
 	if(..())
+=======
+	. = ..()
+	if(!.)
+>>>>>>> tg-pr-88929
 		return
 
 	var/mob/living/living_owner = owner

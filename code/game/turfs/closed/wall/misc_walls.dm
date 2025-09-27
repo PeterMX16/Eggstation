@@ -29,6 +29,7 @@
 /turf/closed/wall/mineral/cult/artificer/devastate_wall()
 	new /obj/effect/temp_visual/cult/turf(get_turf(src))
 
+<<<<<<< HEAD
 /turf/closed/wall/vault
 	name = "strange wall"
 	icon = 'icons/turf/walls.dmi'
@@ -55,6 +56,8 @@
 	icon_state = "sandstonevault"
 	base_icon_state = "sandstonevault"
 
+=======
+>>>>>>> tg-pr-88929
 /turf/closed/wall/ice
 	icon = 'icons/turf/walls/icedmetal_wall.dmi'
 	icon_state = "icedmetal_wall-0"
@@ -72,24 +75,45 @@
 /turf/closed/wall/rust
 	//SDMM supports colors, this is simply for easier mapping
 	//and should be removed on initialize
+<<<<<<< HEAD
 	color = COLOR_ORANGE_BROWN
 	wall_trim = null //monkestation edit
+=======
+	color = MAP_SWITCH(null, COLOR_ORANGE_BROWN)
+>>>>>>> tg-pr-88929
 
 /turf/closed/wall/rust/Initialize(mapload)
 	. = ..()
-	color = null
 	AddElement(/datum/element/rust)
+
+/turf/closed/wall/heretic_rust
+	color = MAP_SWITCH(null, COLOR_GREEN_GRAY)
+
+/turf/closed/wall/heretic_rust/Initialize(mapload)
+	. = ..()
+	AddElement(/datum/element/rust/heretic)
 
 /turf/closed/wall/r_wall/rust
 	//SDMM supports colors, this is simply for easier mapping
 	//and should be removed on initialize
+<<<<<<< HEAD
 	color = COLOR_ORANGE_BROWN
 	wall_trim = null //monkestation edit
+=======
+	color = MAP_SWITCH(null, COLOR_ORANGE_BROWN)
+	base_decon_state = "rusty_r_wall"
+>>>>>>> tg-pr-88929
 
 /turf/closed/wall/r_wall/rust/Initialize(mapload)
 	. = ..()
-	color = null
 	AddElement(/datum/element/rust)
+
+/turf/closed/wall/r_wall/heretic_rust
+	color = MAP_SWITCH(null, COLOR_GREEN_GRAY)
+
+/turf/closed/wall/r_wall/heretic_rust/Initialize(mapload)
+	. = ..()
+	AddElement(/datum/element/rust/heretic)
 
 /turf/closed/wall/mineral/bronze
 	name = "bronze wall" //monkestation edit: renamed from clockwork to bronze

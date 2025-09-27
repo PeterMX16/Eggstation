@@ -70,12 +70,17 @@
 	assignment = "Beta Station Engineer"
 
 /// Trim for the oldstation ruin/Charlie station to access APCs and other equipment
+<<<<<<< HEAD
 /datum/id_trim/job/away/old/equipment
 	minimal_access = list(
 		ACCESS_AWAY_ENGINEERING,
 		ACCESS_ENGINEERING,
 		ACCESS_ENGINE_EQUIP
 	)
+=======
+/datum/id_trim/away/old/equipment
+	access = list(ACCESS_AWAY_GENERAL, ACCESS_AWAY_ENGINEERING, ACCESS_ENGINEERING, ACCESS_ENGINE_EQUIP)
+>>>>>>> tg-pr-88929
 	assignment = "Engine Equipment Access"
 
 /// Trim for the oldstation ruin/Charlie station to access robots, and downloading of paper publishing software for experiments
@@ -133,6 +138,7 @@
 /datum/id_trim/centcom/corpse/commander
 	assignment = "Commander"
 	access = list(ACCESS_CENT_CAPTAIN, ACCESS_CENT_GENERAL, ACCESS_CENT_SPECOPS, ACCESS_CENT_MEDICAL, ACCESS_CENT_STORAGE)
+	big_pointer = TRUE
 
 /// Trim for various Centcom corpses.
 /datum/id_trim/centcom/corpse/private_security
@@ -176,6 +182,7 @@
 /datum/id_trim/pirate/captain
 	assignment = "Pirate Captain"
 	trim_state = "trim_captain"
+	big_pointer = TRUE
 
 /datum/id_trim/pirate/silverscale
 	assignment = "Silver Scale Member"
@@ -191,6 +198,7 @@
 /datum/id_trim/away/dangerous_research/head_occultist
 	assignment = "Head Occultist"
 	access = list(ACCESS_AWAY_SCIENCE, ACCESS_AWAY_COMMAND)
+	big_pointer = TRUE
 
 //Trims for waystation.dmm space ruin
 /datum/id_trim/away/waystation/cargo_technician
@@ -204,6 +212,7 @@
 	trim_state = "trim_quartermaster"
 	department_color = COLOR_CARGO_BROWN
 	access = list(ACCESS_AWAY_SUPPLY, ACCESS_AWAY_COMMAND)
+	big_pointer = TRUE
 
 /datum/id_trim/away/waystation/security
 	assignment = "Waystation Security Officer"
@@ -223,6 +232,7 @@
 /datum/id_trim/away/the_outlet/mad_manager
 	assignment = "The Mad Manager"
 	access = list(ACCESS_AWAY_GENERAL, ACCESS_AWAY_MEDICAL, ACCESS_AWAY_SEC)
+<<<<<<< HEAD
 
 /// Trim for the SCP site ruins.
 /datum/id_trim/away/scp1
@@ -239,3 +249,19 @@
 /// Trim for the SCP site ruins.
 /datum/id_trim/away/scp4
 	access = list(ACCESS_AWAY_GENERAL, ACCESS_AWAY_MAINTENANCE, ACCESS_AWAY_SEC, ACCESS_AWAY_SCIENCE, ACCESS_AWAY_GENERIC1, ACCESS_AWAY_GENERIC2, ACCESS_AWAY_COMMAND, ACCESS_AWAY_GENERIC3, ACCESS_AWAY_GENERIC4, ACCESS_AWAY_ENGINEERING)
+=======
+	big_pointer = TRUE
+
+//Haunted Trading Post IDs
+/datum/id_trim/away/hauntedtradingpost
+	assignment = "Donk Co. Employee"
+	department_color = COLOR_ENGINEERING_ORANGE
+	sechud_icon_state = SECHUD_SYNDICATE
+	threat_modifier = 5
+	access = list(ACCESS_SYNDICATE)
+
+/datum/id_trim/away/hauntedtradingpost/boss
+	assignment = "Donk Co. Executive"
+	access = list(ACCESS_SYNDICATE, ACCESS_AWAY_COMMAND)
+	big_pointer = TRUE
+>>>>>>> tg-pr-88929

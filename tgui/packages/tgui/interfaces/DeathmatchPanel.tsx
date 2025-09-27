@@ -7,8 +7,13 @@ import {
   Stack,
   Table,
   Tooltip,
+<<<<<<< HEAD
 } from '../components';
 import type { BooleanLike } from 'common/react';
+=======
+} from 'tgui-core/components';
+import { BooleanLike } from 'tgui-core/react';
+>>>>>>> tg-pr-88929
 
 import { useBackend } from '../backend';
 import { Window } from '../layouts';
@@ -24,11 +29,19 @@ type Lobby = {
 type Data = {
   hosting: BooleanLike;
   admin: BooleanLike;
+<<<<<<< HEAD
   playing: string | number;
   lobbies: Lobby[];
 };
 
 export const DeathmatchPanel = (props) => {
+=======
+  playing: string;
+  lobbies: Lobby[];
+};
+
+export function DeathmatchPanel(props) {
+>>>>>>> tg-pr-88929
   const { act, data } = useBackend<Data>();
   const { hosting } = data;
 
@@ -60,9 +73,15 @@ export const DeathmatchPanel = (props) => {
       </Window.Content>
     </Window>
   );
+<<<<<<< HEAD
 };
 
 const LobbyPane = (props) => {
+=======
+}
+
+function LobbyPane(props) {
+>>>>>>> tg-pr-88929
   const { data } = useBackend<Data>();
   const { lobbies = [] } = data;
 
@@ -98,9 +117,15 @@ const LobbyPane = (props) => {
       </Table>
     </Section>
   );
+<<<<<<< HEAD
 };
 
 const LobbyDisplay = (props) => {
+=======
+}
+
+function LobbyDisplay(props) {
+>>>>>>> tg-pr-88929
   const { act, data } = useBackend<Data>();
   const { admin, playing, hosting } = data;
   const { lobby } = props;
@@ -114,7 +139,11 @@ const LobbyDisplay = (props) => {
           lobby.name
         ) : (
           <Dropdown
+<<<<<<< HEAD
             width="10%"
+=======
+            width={10}
+>>>>>>> tg-pr-88929
             noChevron
             selected={lobby.name}
             options={['Close', 'View']}
@@ -133,6 +162,7 @@ const LobbyDisplay = (props) => {
       </Table.Cell>
       <Table.Cell collapsing>
         {!lobby.playing ? (
+<<<<<<< HEAD
           <Button
             disabled={isActive}
             color="good"
@@ -142,6 +172,22 @@ const LobbyDisplay = (props) => {
           >
             {playing === lobby.name ? 'View' : 'Join'}
           </Button>
+=======
+          <>
+            <Button
+              disabled={isActive}
+              color="good"
+              onClick={() => act('join', { id: lobby.name })}
+            >
+              {playing === lobby.name ? 'View' : 'Join'}
+            </Button>
+            <Button
+              color="caution"
+              icon="eye"
+              onClick={() => act('spectate', { id: lobby.name })}
+            />
+          </>
+>>>>>>> tg-pr-88929
         ) : (
           <Button
             disabled={isActive}
@@ -154,4 +200,8 @@ const LobbyDisplay = (props) => {
       </Table.Cell>
     </Table.Row>
   );
+<<<<<<< HEAD
 };
+=======
+}
+>>>>>>> tg-pr-88929

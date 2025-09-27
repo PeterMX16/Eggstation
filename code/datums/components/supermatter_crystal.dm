@@ -4,6 +4,11 @@
 	var/datum/callback/tool_act_callback
 	///Callback used by the SM to get the damage and matter power increase/decrease
 	var/datum/callback/consume_callback
+	// A whitelist of items that can interact with the SM without dusting the user
+	var/static/list/sm_item_whitelist = typecacheof(list(
+		/obj/item/melee/roastingstick,
+		/obj/item/toy/crayon/spraycan
+	))
 
 /datum/component/supermatter_crystal/Initialize(datum/callback/tool_act_callback, datum/callback/consume_callback)
 
@@ -15,8 +20,10 @@
 	RegisterSignal(parent, COMSIG_ATOM_ATTACK_HAND, PROC_REF(hand_hit))
 	RegisterSignal(parent, COMSIG_ATOM_ATTACKBY, PROC_REF(attackby_hit))
 	RegisterSignal(parent, COMSIG_ATOM_TOOL_ACT(TOOL_WRENCH), PROC_REF(tool_hit))
+	RegisterSignal(parent, COMSIG_ATOM_SECONDARY_TOOL_ACT(TOOL_WRENCH), PROC_REF(tool_hit))
 	RegisterSignal(parent, COMSIG_ATOM_BUMPED, PROC_REF(bumped_hit))
 	RegisterSignal(parent, COMSIG_ATOM_INTERCEPT_Z_FALL, PROC_REF(intercept_z_fall))
+	RegisterSignal(parent, COMSIG_ATOM_ON_Z_IMPACT, PROC_REF(on_z_impact))
 
 	src.tool_act_callback = tool_act_callback
 	src.consume_callback = consume_callback
@@ -36,8 +43,10 @@
 		COMSIG_ATOM_ATTACK_HAND,
 		COMSIG_ATOM_ATTACKBY,
 		COMSIG_ATOM_TOOL_ACT(TOOL_WRENCH),
+		COMSIG_ATOM_SECONDARY_TOOL_ACT(TOOL_WRENCH),
 		COMSIG_ATOM_BUMPED,
 		COMSIG_ATOM_INTERCEPT_Z_FALL,
+		COMSIG_ATOM_ON_Z_IMPACT,
 	)
 
 	UnregisterSignal(parent, signals_to_remove)
@@ -98,7 +107,7 @@
 	if(iscyborg(user) && atom_source.Adjacent(user))
 		dust_mob(source, user, cause = "cyborg attack")
 		return
-	if(isaicamera(user))
+	if(iscameramob(user))
 		return
 	if(islarva(user))
 		dust_mob(source, user, cause = "larva attack")
@@ -121,7 +130,7 @@
 			)
 			return
 
-		var/obj/item/organ/internal/tongue/licking_tongue = user.get_organ_slot(ORGAN_SLOT_TONGUE)
+		var/obj/item/organ/tongue/licking_tongue = user.get_organ_slot(ORGAN_SLOT_TONGUE)
 		if(licking_tongue)
 			dust_mob(source, user,
 				span_danger("As [user] hesitantly leans in and licks [atom_source] everything goes silent before [user.p_their()] body starts to glow and burst into flames before flashing to ash!"),
@@ -150,20 +159,22 @@
 	var/atom/atom_source = source
 	if(!istype(item) || (item.item_flags & ABSTRACT) || !istype(user))
 		return
-	if(istype(item, /obj/item/melee/roastingstick))
+	if(is_type_in_typecache(item, sm_item_whitelist))
 		return FALSE
+<<<<<<< HEAD
 	if(istype(item, /obj/item/toy/crayon/spraycan))
 		return FALSE
 	if(istype(item, /obj/item/soap))
 		return FALSE
 	if(istype(item, /obj/item/clothing/mask/cigarette))
 		var/obj/item/clothing/mask/cigarette/cig = item
+=======
+	if(istype(item, /obj/item/cigarette))
+		var/obj/item/cigarette/cig = item
+>>>>>>> tg-pr-88929
 		var/clumsy = HAS_TRAIT(user, TRAIT_CLUMSY)
 		if(clumsy)
-			var/which_hand = BODY_ZONE_L_ARM
-			if(!(user.active_hand_index % 2))
-				which_hand = BODY_ZONE_R_ARM
-			var/obj/item/bodypart/dust_arm = user.get_bodypart(which_hand)
+			var/obj/item/bodypart/dust_arm = user.get_active_hand()
 			dust_arm.dismember()
 			user.visible_message(span_danger("The [item] flashes out of existence on contact with \the [atom_source], resonating with a horrible sound..."),\
 				span_danger("Oops! The [item] flashes out of existence on contact with \the [atom_source], taking your arm with it! That was clumsy of you!"))
@@ -199,7 +210,11 @@
 	if(atom_source.Adjacent(user)) //if the item is stuck to the person, kill the person too instead of eating just the item.
 		if(user.incorporeal_move || HAS_TRAIT(user, TRAIT_GODMODE))
 			return
+<<<<<<< HEAD
 		var/vis_msg = span_danger("[user] reaches out and touches [atom_source] with [item], inducing a resonance... [item] starts to glow briefly before the light continues up to [user]'s body. [user.p_they(TRUE)] bursts into flames before flashing into dust!")
+=======
+		var/vis_msg = span_danger("[user] reaches out and touches [atom_source] with [item], inducing a resonance... [item] starts to glow briefly before the light continues up to [user]'s body. [user.p_They()] burst[user.p_s()] into flames before flashing into dust!")
+>>>>>>> tg-pr-88929
 		var/mob_msg = span_userdanger("You reach out and touch [atom_source] with [item]. Everything starts burning and all you can hear is ringing. Your last thought is \"That was not a wise decision.\"")
 		dust_mob(source, user, vis_msg, mob_msg)
 
@@ -236,9 +251,39 @@
 /datum/component/supermatter_crystal/proc/intercept_z_fall(datum/source, list/falling_movables, levels)
 	SIGNAL_HANDLER
 	for(var/atom/movable/hit_object as anything in falling_movables)
+		if(parent == hit_object)
+			return
+
 		bumped_hit(parent, hit_object)
 	return FALL_INTERCEPTED | FALL_NO_MESSAGE
 
+<<<<<<< HEAD
+=======
+/datum/component/supermatter_crystal/proc/on_z_impact(datum/source, turf/impacted_turf, levels)
+	SIGNAL_HANDLER
+
+	var/atom/atom_source = source
+
+	for(var/mob/living/poor_target in impacted_turf)
+		consume(atom_source, poor_target)
+		playsound(get_turf(atom_source), 'sound/effects/supermatter.ogg', 50, TRUE)
+		poor_target.visible_message(span_danger("\The [atom_source] slams into \the [poor_target] out of nowhere inducing a resonance... [poor_target.p_their()] body starts to glow and burst into flames before flashing into dust!"),
+			span_userdanger("\The [atom_source] slams into you out of nowhere as your ears are filled with unearthly ringing. Your last thought is \"The fuck.\""),
+			span_hear("You hear an unearthly noise as a wave of heat washes over you."))
+
+	for(var/atom/movable/hit_object as anything in impacted_turf)
+		if(parent == hit_object)
+			return
+
+		if(iseffect(hit_object))
+			continue
+
+		consume(atom_source, hit_object)
+		playsound(get_turf(atom_source), 'sound/effects/supermatter.ogg', 50, TRUE)
+		atom_source.visible_message(span_danger("\The [atom_source], smacks into the plating out of nowhere, reducing everything below to ash."), null,
+			span_hear("You hear a loud crack as you are washed with a wave of heat."))
+
+>>>>>>> tg-pr-88929
 /datum/component/supermatter_crystal/proc/dust_mob(datum/source, mob/living/nom, vis_msg, mob_msg, cause)
 	if(nom.incorporeal_move || HAS_TRAIT(nom, TRAIT_GODMODE)) //try to keep supermatter sliver's + hemostat's dust conditions in sync with this too
 		return
@@ -256,15 +301,26 @@
 	consume(atom_source, nom)
 
 /datum/component/supermatter_crystal/proc/consume(atom/source, atom/movable/consumed_object)
+	if(consumed_object.flags_1 & SUPERMATTER_IGNORES_1)
+		return
+	if(HAS_TRAIT(consumed_object, TRAIT_GODMODE))
+		return
+
 	var/atom/atom_source = source
+	SEND_SIGNAL(consumed_object, COMSIG_SUPERMATTER_CONSUMED, atom_source)
+
 	var/object_size = 0
 	var/matter_increase = 0
 	var/damage_increase = 0
+
 	if(isliving(consumed_object))
 		var/mob/living/consumed_mob = consumed_object
 		object_size = consumed_mob.mob_size + 2
+<<<<<<< HEAD
 		if(HAS_TRAIT(consumed_mob, TRAIT_GODMODE))
 			return
+=======
+>>>>>>> tg-pr-88929
 		message_admins("[atom_source] has consumed [key_name_admin(consumed_mob)] [ADMIN_JMP(atom_source)].")
 		atom_source.investigate_log("has consumed [key_name(consumed_mob)].", INVESTIGATE_ENGINE)
 		consumed_mob.investigate_log("has been dusted by [atom_source].", INVESTIGATE_DEATHS)
@@ -274,15 +330,16 @@
 				"[consumed_mob] has been dusted by [atom_source]!",
 				source = atom_source,
 				header = "Polytechnical Difficulties",
+<<<<<<< HEAD
 				notify_flags = NOTIFY_CATEGORY_DEFAULT,
+=======
+>>>>>>> tg-pr-88929
 			)
 		consumed_mob.dust(force = TRUE)
 		matter_increase += 100 * object_size
 		if(is_clown_job(consumed_mob.mind?.assigned_role))
 			damage_increase += rand(-30, 30) // HONK
 		consume_returns(matter_increase, damage_increase)
-	else if(consumed_object.flags_1 & SUPERMATTER_IGNORES_1)
-		return
 	else if(isobj(consumed_object))
 		if(!iseffect(consumed_object))
 			var/suspicion = ""

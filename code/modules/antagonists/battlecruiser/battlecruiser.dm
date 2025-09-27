@@ -20,7 +20,11 @@
 	antag_hud_name = "battlecruiser_crew"
 	antagpanel_category = ANTAG_GROUP_SYNDICATE
 	job_rank = ROLE_BATTLECRUISER_CREW
+<<<<<<< HEAD
 	stinger_sound = 'sound/ambience/antag/ops.ogg'
+=======
+	stinger_sound = 'sound/music/antag/ops.ogg'
+>>>>>>> tg-pr-88929
 	/// Team to place the crewmember on.
 	var/datum/team/battlecruiser/battlecruiser_team
 

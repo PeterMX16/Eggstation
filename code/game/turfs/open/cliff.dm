@@ -35,6 +35,13 @@
 	SET_PLANE(underlay, underlay_plane || plane, src)
 	underlays += underlay
 
+<<<<<<< HEAD
+=======
+/turf/open/cliff/Destroy(force)
+	UnregisterSignal(src, COMSIG_TURF_MOVABLE_THROW_LANDED)
+	return ..()
+
+>>>>>>> tg-pr-88929
 /turf/open/cliff/CanPass(atom/movable/mover, border_dir)
 	..()
 
@@ -78,6 +85,14 @@
 	// We can walk infront of the bottom cliff turf, so check that here
 	if(!iscliffturf(get_step(src, fall_direction)) && !(get_dir(arrived, src) & fall_direction))
 		return FALSE
+<<<<<<< HEAD
+=======
+	
+	// gravity
+	// marked in UNLINT due to a spacemandmm bug: https://github.com/SpaceManiac/SpacemanDMM/issues/382 (REMOVE ONCE FIXED!)
+	if(UNLINT(!arrived.has_gravity(src)))
+		return FALSE
+>>>>>>> tg-pr-88929
 
 	return TRUE
 

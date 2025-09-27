@@ -1,18 +1,18 @@
 /obj/structure/trap
 	name = "IT'S A TRAP"
 	desc = "Stepping on me is a guaranteed bad day."
-	icon = 'icons/obj/hand_of_god_structures.dmi'
+	icon = 'icons/obj/service/hand_of_god_structures.dmi'
 	icon_state = "trap"
 	density = FALSE
 	anchored = TRUE
 	alpha = 30 //initially quite hidden when not "recharging"
-	var/flare_message = "<span class='warning'>the trap flares brightly!</span>"
+	var/flare_message = span_warning("the trap flares brightly!")
 	var/last_trigger = 0
 	var/time_between_triggers = 1 MINUTES
 	var/charges = INFINITY
 	var/antimagic_flags = MAGIC_RESISTANCE
 
-	var/list/static/ignore_typecache
+	var/static/list/ignore_typecache
 	var/list/mob/immune_minds = list()
 
 	var/sparks = TRUE
@@ -21,7 +21,7 @@
 
 /obj/structure/trap/Initialize(mapload)
 	. = ..()
-	flare_message = "<span class='warning'>[src] flares brightly!</span>"
+	flare_message = span_warning("[src] flares brightly!")
 	spark_system = new
 	spark_system.set_up(4,1,src)
 	spark_system.attach(src)
@@ -31,7 +31,7 @@
 	)
 	AddElement(/datum/element/connect_loc, loc_connections)
 
-	if(!ignore_typecache)
+	if(isnull(ignore_typecache))
 		ignore_typecache = typecacheof(list(
 			/obj/effect,
 			/mob/dead,
@@ -67,7 +67,11 @@
 	else
 		animate(src, alpha = initial(alpha), time = time_between_triggers)
 
+<<<<<<< HEAD
 /obj/structure/trap/proc/on_trap_entered(datum/source, atom/movable/victim)
+=======
+/obj/structure/trap/proc/on_entered(datum/source, atom/movable/victim)
+>>>>>>> tg-pr-88929
 	SIGNAL_HANDLER
 	if(last_trigger + time_between_triggers > world.time)
 		return
@@ -103,7 +107,7 @@
 /obj/structure/trap/stun/hunter
 	name = "bounty trap"
 	desc = "A trap that only goes off when a fugitive steps on it, announcing the location and stunning the target. You'd better avoid it."
-	icon = 'icons/obj/objects.dmi'
+	icon = 'icons/obj/weapons/restraints.dmi'
 	icon_state = "bounty_trap_on"
 	stun_time = 20 SECONDS
 	sparks = FALSE //the item version gives them off to prevent runtimes (see Destroy())
@@ -114,7 +118,11 @@
 /obj/structure/trap/stun/hunter/Initialize(mapload)
 	. = ..()
 	time_between_triggers = 1 SECONDS
+<<<<<<< HEAD
 	flare_message = "<span class='warning'>[src] snaps shut!</span>"
+=======
+	flare_message = span_warning("[src] snaps shut!")
+>>>>>>> tg-pr-88929
 
 /obj/structure/trap/stun/hunter/Destroy()
 	if(!QDELETED(stored_item))
@@ -122,7 +130,11 @@
 	stored_item = null
 	return ..()
 
+<<<<<<< HEAD
 /obj/structure/trap/stun/hunter/on_trap_entered(datum/source, atom/movable/victim)
+=======
+/obj/structure/trap/stun/hunter/on_entered(datum/source, atom/movable/victim)
+>>>>>>> tg-pr-88929
 	if(isliving(victim))
 		var/mob/living/living_victim = victim
 		if(!living_victim.mind?.has_antag_datum(/datum/antagonist/fugitive))
@@ -144,7 +156,7 @@
 /obj/item/bountytrap
 	name = "bounty trap"
 	desc = "A trap that only goes off when a fugitive steps on it, announcing the location and stunning the target. It's currently inactive."
-	icon = 'icons/obj/objects.dmi'
+	icon = 'icons/obj/weapons/restraints.dmi'
 	icon_state = "bounty_trap_off"
 	var/obj/structure/trap/stun/hunter/stored_trap
 	var/obj/item/radio/radio
@@ -201,9 +213,17 @@
 	icon_state = "trap-frost"
 
 /obj/structure/trap/chill/trap_effect(mob/living/victim)
+<<<<<<< HEAD
 	to_chat(victim, span_bolddanger("You're frozen solid!"))
 	victim.Paralyze(2 SECONDS)
 	victim.adjust_bodytemperature(-T0C, use_insulation = TRUE)
+=======
+	if(HAS_TRAIT(victim, TRAIT_RESISTCOLD))
+		return
+	to_chat(victim, span_bolddanger("You're frozen solid!"))
+	victim.Paralyze(2 SECONDS)
+	victim.adjust_bodytemperature(-300)
+>>>>>>> tg-pr-88929
 	victim.apply_status_effect(/datum/status_effect/freon)
 
 

@@ -13,6 +13,7 @@
 	additional_syllable_high = 0
 
 	icon_state = "galcom"
+<<<<<<< HEAD
 
 	//Syllable Lists
 	/*
@@ -23,6 +24,19 @@
 		http://www.sttmedia.com/syllablefrequency-english
 		http://www.chinahighlights.com/travelguide/learning-chinese/pinyin-syllables.htm
 	*/
+=======
+	// Default namelist is the human namelist, and common is the human language, so might as well.
+	// Feel free to remove this at some point because common can generate some pretty cool names.
+	always_use_default_namelist = TRUE
+	/**
+	 * This list really long, mainly because I can't make up my mind about which mandarin syllables should be removed,
+	 * and the english syllables had to be duplicated so that there is roughly a 50-50 weighting.
+	 *
+	 * Sources:
+	 * http://www.sttmedia.com/syllablefrequency-english
+	 * http://www.chinahighlights.com/travelguide/learning-chinese/pinyin-syllables.htm
+	 */
+>>>>>>> tg-pr-88929
 	syllables = list(
 		// each sublist has an equal chance of being picked, so each syllable has an equal chance of being english or chinese
 		list(
@@ -60,8 +74,11 @@
 			"his", "ing", "ion", "ith", "not", "ome", "oul", "our", "sho", "ted", "ter", "tha", "the", "thi",
 		),
 	)
+<<<<<<< HEAD
 
 	mutual_understanding = list(
 		/datum/language/beachbum = 33,
 		/datum/language/uncommon = 20,
 	)
+=======
+>>>>>>> tg-pr-88929

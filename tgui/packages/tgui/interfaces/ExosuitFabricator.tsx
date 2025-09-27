@@ -1,15 +1,29 @@
+<<<<<<< HEAD
+=======
+import { Box, Button, Icon, Section, Stack } from 'tgui-core/components';
+import { Tooltip } from 'tgui-core/components';
+import { BooleanLike, classes } from 'tgui-core/react';
+
+>>>>>>> tg-pr-88929
 import { useBackend } from '../backend';
-import { Box, Button, Section, Stack, Icon } from '../components';
 import { Window } from '../layouts';
+<<<<<<< HEAD
 import { MaterialAccessBar } from './Fabrication/MaterialAccessBar';
 import { FabricatorData, MaterialMap, Design } from './Fabrication/Types';
+=======
+>>>>>>> tg-pr-88929
 import { DesignBrowser } from './Fabrication/DesignBrowser';
+import { MaterialAccessBar } from './Fabrication/MaterialAccessBar';
 import { MaterialCostSequence } from './Fabrication/MaterialCostSequence';
-import { Tooltip } from '../components';
-import { BooleanLike, classes } from 'common/react';
+import { Design, FabricatorData, MaterialMap } from './Fabrication/Types';
+
+type ExosuitDesign = Design & {
+  constructionTime: number;
+};
 
 type ExosuitFabricatorData = FabricatorData & {
   processing: BooleanLike;
+<<<<<<< HEAD
   authorization: BooleanLike;
   alert_level: Number;
   combat_parts_allowed: BooleanLike;
@@ -21,6 +35,11 @@ type ExosuitDesign = Design & {
   craftable: BooleanLike;
 };
 
+=======
+  designs: Record<string, ExosuitDesign>;
+};
+
+>>>>>>> tg-pr-88929
 export const ExosuitFabricator = (props) => {
   const { act, data } = useBackend<ExosuitFabricatorData>();
   const { materials, SHEET_MATERIAL_AMOUNT } = data;
@@ -44,10 +63,14 @@ export const ExosuitFabricator = (props) => {
                   buildRecipeElement={(design, availableMaterials) => (
                     <Recipe
                       available={availableMaterials}
+<<<<<<< HEAD
                       design={{
                         ...design,
                         craftable: (design as any).craftable ?? true, // fallback if missing
                       }}
+=======
+                      design={design}
+>>>>>>> tg-pr-88929
                       SHEET_MATERIAL_AMOUNT={SHEET_MATERIAL_AMOUNT}
                     />
                   )}
@@ -79,7 +102,10 @@ export const ExosuitFabricator = (props) => {
             </Stack>
           </Stack.Item>
           <Stack.Item width="420px">
+<<<<<<< HEAD
             <Authorization width="420" />
+=======
+>>>>>>> tg-pr-88929
             <Queue
               availableMaterials={availableMaterials}
               SHEET_MATERIAL_AMOUNT={SHEET_MATERIAL_AMOUNT}
@@ -92,7 +118,11 @@ export const ExosuitFabricator = (props) => {
 };
 
 type RecipeProps = {
+<<<<<<< HEAD
   design: ExosuitDesign;
+=======
+  design: Design;
+>>>>>>> tg-pr-88929
   available: MaterialMap;
   SHEET_MATERIAL_AMOUNT: number;
 };
@@ -252,11 +282,16 @@ const Queue = (props: QueueProps) => {
             />
           </Section>
         </Stack.Item>
+<<<<<<< HEAD
         <Stack.Item
           grow
           style={{ 'overflow-y': 'auto', 'overflow-x': 'hidden' }}
         >
           <Section fill>
+=======
+        <Stack.Item grow>
+          <Section fill style={{ overflow: 'auto' }}>
+>>>>>>> tg-pr-88929
             <QueueList
               availableMaterials={availableMaterials}
               SHEET_MATERIAL_AMOUNT={SHEET_MATERIAL_AMOUNT}

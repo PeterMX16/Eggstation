@@ -29,7 +29,11 @@ handles linking back and forth.
 	allow_standalone = TRUE,
 	force_connect = FALSE,
 	mat_container_flags = NONE,
+<<<<<<< HEAD
 	list/mat_container_signals = null
+=======
+	list/mat_container_signals = null,
+>>>>>>> tg-pr-88929
 )
 	if (!isatom(parent))
 		return COMPONENT_INCOMPATIBLE
@@ -44,11 +48,17 @@ handles linking back and forth.
 	var/connect_to_silo = FALSE
 	if(force_connect || (mapload && is_station_level(T.z)))
 		connect_to_silo = TRUE
+<<<<<<< HEAD
 		if(!(mat_container_flags & MATCONTAINER_NO_INSERT))
 			RegisterSignal(parent, COMSIG_ATOM_ATTACKBY, TYPE_PROC_REF(/datum/component/remote_materials, SiloAttackBy))
 
 	if(mapload) // wait for silo to initialize during mapload
 		addtimer(CALLBACK(src, PROC_REF(_PrepareStorage), connect_to_silo))
+=======
+
+	if(mapload) // wait for silo to initialize during mapload
+		SSticker.OnRoundstart(CALLBACK(src, PROC_REF(_PrepareStorage), connect_to_silo))
+>>>>>>> tg-pr-88929
 	else //directly register in round
 		_PrepareStorage(connect_to_silo)
 
@@ -66,17 +76,32 @@ handles linking back and forth.
 		silo = GLOB.ore_silo_default
 		if (silo)
 			silo.ore_connected_machines += src
+<<<<<<< HEAD
 			mat_container = silo.GetComponent(/datum/component/material_container)
+=======
+			mat_container = silo.materials
+			if(!(mat_container_flags & MATCONTAINER_NO_INSERT))
+				RegisterSignal(parent, COMSIG_ATOM_ITEM_INTERACTION, PROC_REF(on_item_insert))
+
+>>>>>>> tg-pr-88929
 	if (!mat_container && allow_standalone)
 		_MakeLocal()
 
 /datum/component/remote_materials/Destroy()
+<<<<<<< HEAD
 	if (silo)
 		silo.ore_connected_machines -= src
 		silo.holds -= src
 		silo = null
 		UnregisterSignal(parent, COMSIG_ATOM_ATTACKBY)
 	mat_container = null
+=======
+	if(silo)
+		allow_standalone = FALSE
+		disconnect_from(silo)
+	mat_container = null
+
+>>>>>>> tg-pr-88929
 	return ..()
 
 /datum/component/remote_materials/proc/_MakeLocal()
@@ -93,6 +118,7 @@ handles linking back and forth.
 		allowed_items = /obj/item/stack \
 	)
 
+<<<<<<< HEAD
 /datum/component/remote_materials/proc/toggle_holding(force_hold = FALSE)
 	if(isnull(silo))
 		return
@@ -100,10 +126,27 @@ handles linking back and forth.
 	if(force_hold)
 		silo.holds[src] = TRUE
 	else if(!silo.holds[src])
+=======
+/// Adds/Removes this connection from the silo
+/datum/component/remote_materials/proc/toggle_holding()
+	if(isnull(silo))
+		return
+
+	if(!silo.holds[src])
+>>>>>>> tg-pr-88929
 		silo.holds[src] = TRUE
 	else
 		silo.holds -= src
 
+<<<<<<< HEAD
+=======
+/**
+ * Sets the storage size for local materials when not linked with silo
+ * Arguments
+ *
+ * * size - the new size for local storage. measured in SHEET_MATERIAL_SIZE units
+ */
+>>>>>>> tg-pr-88929
 /datum/component/remote_materials/proc/set_local_size(size)
 	local_size = size
 	if (!silo && mat_container)
@@ -116,6 +159,7 @@ handles linking back and forth.
  * old_silo- The silo we are trying to disconnect from
  */
 /datum/component/remote_materials/proc/disconnect_from(obj/machinery/ore_silo/old_silo)
+<<<<<<< HEAD
 	if (!old_silo || silo != old_silo)
 		return
 	silo.ore_connected_machines -= src
@@ -138,6 +182,19 @@ handles linking back and forth.
 
 	return COMPONENT_NO_AFTERATTACK
 
+=======
+	if (QDELETED(old_silo) || silo != old_silo)
+		return
+
+	UnregisterSignal(parent, COMSIG_ATOM_ITEM_INTERACTION)
+	silo.ore_connected_machines -= src
+	silo = null
+	mat_container = null
+
+	if (allow_standalone)
+		_MakeLocal()
+
+>>>>>>> tg-pr-88929
 /datum/component/remote_materials/proc/OnMultitool(datum/source, mob/user, obj/item/multitool/M)
 	SIGNAL_HANDLER
 
@@ -170,6 +227,7 @@ handles linking back and forth.
 		mat_container = new_container
 		if(!(mat_container_flags & MATCONTAINER_NO_INSERT))
 			RegisterSignal(parent, COMSIG_ATOM_ITEM_INTERACTION, PROC_REF(on_item_insert))
+<<<<<<< HEAD
 			RegisterSignal(parent, COMSIG_ATOM_ITEM_INTERACTION_SECONDARY, PROC_REF(on_secondary_insert))
 		to_chat(user, span_notice("You connect [parent] to [silo] from the multitool's buffer."))
 		return ITEM_INTERACT_SUCCESS
@@ -187,11 +245,28 @@ handles linking back and forth.
 /// Insert mats into silo
 /datum/component/remote_materials/proc/attempt_insert(mob/living/user, obj/item/target)
 	if(!(mat_container_flags & MATCONTAINER_ANY_INTENT) && (user.istate & ISTATE_HARM))
+=======
+		to_chat(user, span_notice("You connect [parent] to [silo] from the multitool's buffer."))
+		return ITEM_INTERACT_SUCCESS
+
+///Insert mats into silo
+/datum/component/remote_materials/proc/on_item_insert(datum/source, mob/living/user, obj/item/target)
+	SIGNAL_HANDLER
+
+	//Allows you to attack the machine with iron sheets for e.g.
+	if(!(mat_container_flags & MATCONTAINER_ANY_INTENT) && user.combat_mode)
+>>>>>>> tg-pr-88929
 		return
 
 	if(silo)
 		mat_container.user_insert(target, user, parent)
+<<<<<<< HEAD
 		return ITEM_INTERACT_SUCCESS
+=======
+
+	return ITEM_INTERACT_SUCCESS
+
+>>>>>>> tg-pr-88929
 
 /**
  * Checks if the param silo is in the same level as this components parent i.e. connected machine, rcd, etc
@@ -205,6 +280,10 @@ handles linking back and forth.
 /datum/component/remote_materials/proc/check_z_level(obj/silo_to_check = silo)
 	if(isnull(silo_to_check))
 		return FALSE
+<<<<<<< HEAD
+=======
+
+>>>>>>> tg-pr-88929
 	return is_valid_z_level(get_turf(silo_to_check), get_turf(parent))
 
 /// returns TRUE if this connection put on hold by the silo
@@ -219,9 +298,14 @@ handles linking back and forth.
  * - The silo in not on hold
  * Arguments
  * * check_hold - should we check if the silo is on hold
+<<<<<<< HEAD
  * * user_data - in the form rendered by ID_DATA(user); used as a reference for silo bans and access checks
  */
 /datum/component/remote_materials/proc/can_use_resource(check_hold = TRUE, alist/user_data)
+=======
+ */
+/datum/component/remote_materials/proc/can_use_resource(check_hold = TRUE)
+>>>>>>> tg-pr-88929
 	var/atom/movable/movable_parent = parent
 	if (!istype(movable_parent))
 		return FALSE
@@ -231,13 +315,20 @@ handles linking back and forth.
 	if(check_hold && on_hold()) //silo on hold
 		movable_parent.say("Mineral access is on hold, please contact the quartermaster.")
 		return FALSE
+<<<<<<< HEAD
 	if(SEND_SIGNAL(movable_parent, COMSIG_ORE_SILO_PERMISSION_CHECKED, user_data, movable_parent) & COMPONENT_ORE_SILO_DENY)
 		return FALSE
+=======
+>>>>>>> tg-pr-88929
 	return TRUE
 
 /**
  * Use materials from either the silo(if connected) or from the local storage. If silo then this action
+<<<<<<< HEAD
  * is logged else not e.g. action="build" & name="matter bin" means you are trying to build a matter bin
+=======
+ * is logged else not e.g. action="build" & name="matter bin" means you are trying to build an matter bin
+>>>>>>> tg-pr-88929
  *
  * Arguments
  * [mats][list]- list of materials to use
@@ -245,10 +336,16 @@ handles linking back and forth.
  * multiplier- each mat unit is scaled by this value then rounded after it is scaled by coefficient. This value is your print quatity e.g. printing multiple items
  * action- For logging only. e.g. build, create, i.e. the action you are trying to perform
  * name- For logging only. the design you are trying to build e.g. matter bin, etc.
+<<<<<<< HEAD
  * user_data - in the form rendered by ID_DATA(user), for material logging and (if this component is connected to a silo), permission checking
  */
 /datum/component/remote_materials/proc/use_materials(list/mats, coefficient = 1, multiplier = 1, action = "build", name = "design", alist/user_data)
 	if(!can_use_resource(user_data = user_data))
+=======
+ */
+/datum/component/remote_materials/proc/use_materials(list/mats, coefficient = 1, multiplier = 1, action = "build", name = "design")
+	if(!can_use_resource())
+>>>>>>> tg-pr-88929
 		return 0
 
 	var/amount_consumed = mat_container.use_materials(mats, coefficient, multiplier)
@@ -268,17 +365,27 @@ handles linking back and forth.
  * [material_ref][datum/material]- The material type you are trying to eject
  * eject_amount- how many sheets to eject
  * [drop_target][atom]- optional where to drop the sheets. null means it is dropped at this components parent location
+<<<<<<< HEAD
  * user_data - in the form rendered by ID_DATA(user), for material logging and (if this component is connected to a silo), permission checking
  */
 /datum/component/remote_materials/proc/eject_sheets(datum/material/material_ref, eject_amount, atom/drop_target = null, alist/user_data)
 	if(!can_use_resource(user_data = user_data))
+=======
+ */
+/datum/component/remote_materials/proc/eject_sheets(datum/material/material_ref, eject_amount, atom/drop_target = null)
+	if(!can_use_resource())
+>>>>>>> tg-pr-88929
 		return 0
 
 	var/atom/movable/movable_parent = parent
 	if(isnull(drop_target))
 		drop_target = movable_parent.drop_location()
 
+<<<<<<< HEAD
 	return mat_container.retrieve_sheets(eject_amount, material_ref, target = drop_target, context = parent, user_data = user_data)
+=======
+	return mat_container.retrieve_sheets(eject_amount, material_ref, target = drop_target, context = parent)
+>>>>>>> tg-pr-88929
 
 /**
  * Insert an item into the mat container, helper proc to insert items with the correct context
@@ -286,6 +393,7 @@ handles linking back and forth.
  * Arguments
  * * obj/item/weapon - the item you are trying to insert
  * * multiplier - the multiplier applied on the materials consumed
+<<<<<<< HEAD
  * * user_data - an alist in the form rendered by ID_DATA(user), for logging who/where/when the item was inserted
  */
 /datum/component/remote_materials/proc/insert_item(obj/item/weapon, multiplier = 1, alist/user_data)
@@ -297,3 +405,11 @@ handles linking back and forth.
 		return MATERIAL_INSERT_ITEM_FAILURE
 
 	return mat_container.insert_item(weapon, multiplier, parent, user_data = user_data)
+=======
+ */
+/datum/component/remote_materials/proc/insert_item(obj/item/weapon, multiplier = 1)
+	if(!can_use_resource(FALSE))
+		return MATERIAL_INSERT_ITEM_FAILURE
+
+	return mat_container.insert_item(weapon, multiplier, parent)
+>>>>>>> tg-pr-88929

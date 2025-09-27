@@ -115,11 +115,12 @@
 
 /datum/custom_order/icecream/get_order_appearance(datum/venue/our_venue)
 	var/image/food_image = image(icon = 'icons/effects/effects.dmi' , icon_state = "thought_bubble")
-	var/image/i_scream = image('icons/obj/kitchen.dmi', initial(cone_type.icon_state))
+	var/image/i_scream = image('icons/obj/service/kitchen.dmi', initial(cone_type.icon_state))
 
 	var/added_offset = 0
 	for(var/flavor in wanted_flavors)
-		var/image/scoop = image('icons/obj/kitchen.dmi', GLOB.ice_cream_flavours[flavor].icon_state)
+		var/image/scoop = image('icons/obj/service/kitchen.dmi', "icecream_custom")
+		scoop.color = GLOB.ice_cream_flavours[flavor].color
 		scoop.pixel_y = added_offset
 		i_scream.overlays += scoop
 		added_offset += ICE_CREAM_SCOOP_OFFSET
@@ -170,7 +171,8 @@
 
 	var/datum/reagents/holder = object_used.reagents
 	// The container must be majority reagent
-	if(holder.get_master_reagent_id() != reagent_type)
+	var/datum/reagent/master_reagent = holder.get_master_reagent()
+	if(master_reagent?.type != reagent_type)
 		return FALSE
 	// We must fulfill the sample size threshold
 	if(reagents_needed > holder.total_volume)

@@ -31,10 +31,17 @@
 	. = ..()
 	src.total_damage += total_damage
 
+<<<<<<< HEAD
 /datum/status_effect/genetic_damage/tick(seconds_between_ticks, times_fired)
 	if(ismonkey(owner) && total_damage >= GORILLA_MUTATION_MINIMUM_DAMAGE && SPT_PROB(GORILLA_MUTATION_CHANCE_PER_SECOND, seconds_between_ticks))
 		var/mob/living/carbon/carbon_owner = owner
 		carbon_owner.gorillize()
+=======
+/datum/status_effect/genetic_damage/tick(seconds_between_ticks)
+	if(ismonkey(owner) && total_damage >= GORILLA_MUTATION_MINIMUM_DAMAGE && SPT_PROB(GORILLA_MUTATION_CHANCE_PER_SECOND, seconds_between_ticks))
+		var/mob/living/carbon/carbon_owner = owner
+		carbon_owner.gorillize(genetics_gorilla = TRUE)
+>>>>>>> tg-pr-88929
 		qdel(src)
 		return
 
@@ -51,11 +58,19 @@
 
 	var/message = ""
 	if(advanced)
+<<<<<<< HEAD
 		message += "Genetic damage: [round(total_damage / minimum_before_tox_damage * 100, 0.1)]%"
 	else if(total_damage >= minimum_before_tox_damage)
 		message += "Severe genetic damage detected."
 	else
 		message += "Minor genetic damage detected."
+=======
+		message = "Genetic damage: [round(total_damage / minimum_before_tox_damage * 100, 0.1)]%"
+	else if(total_damage >= minimum_before_tox_damage)
+		message = "Severe genetic damage detected."
+	else
+		message = "Minor genetic damage detected."
+>>>>>>> tg-pr-88929
 
 	if(message)
 		render_list += conditional_tooltip("<span class='alert ml-1'>[message]</span>", "Irreparable under normal circumstances - will decay over time.", tochat)

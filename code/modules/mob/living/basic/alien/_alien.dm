@@ -16,7 +16,11 @@
 	maxHealth = 125
 	health = 125
 	bubble_icon = "alien"
+<<<<<<< HEAD
 	// combat_mode = TRUE MONKESTATION REMOVAL
+=======
+	combat_mode = TRUE
+>>>>>>> tg-pr-88929
 	faction = list(ROLE_ALIEN)
 
 	// Going for a dark purple here
@@ -35,6 +39,7 @@
 	attack_verb_continuous = "slashes"
 	attack_verb_simple = "slash"
 
+<<<<<<< HEAD
 	attack_sound = 'sound/weapons/bladeslice.ogg'
 	attack_vis_effect = ATTACK_EFFECT_CLAW
 	gold_core_spawnable = NO_SPAWN
@@ -42,6 +47,15 @@
 	death_message = "lets out a waning guttural screech, green blood bubbling from its maw..."
 
 	habitable_atmos = list("min_oxy" = 0, "max_oxy" = 0, "min_plas" = 0, "max_plas" = 0, "min_co2" = 0, "max_co2" = 0, "min_n2" = 0, "max_n2" = 0)
+=======
+	attack_sound = 'sound/items/weapons/bladeslice.ogg'
+	attack_vis_effect = ATTACK_EFFECT_CLAW
+	gold_core_spawnable = NO_SPAWN
+	death_sound = 'sound/mobs/non-humanoids/hiss/hiss6.ogg'
+	death_message = "lets out a waning guttural screech, green blood bubbling from its maw..."
+
+	habitable_atmos = null
+>>>>>>> tg-pr-88929
 	unsuitable_atmos_damage = FALSE
 	unsuitable_heat_damage = 20
 
@@ -62,6 +76,12 @@
 		AddElement(/datum/element/death_drops, loot)
 	AddElement(/datum/element/footstep, footstep_type = FOOTSTEP_MOB_CLAW)
 
+<<<<<<< HEAD
+=======
+/mob/living/basic/alien/get_butt_sprite()
+	return icon('icons/mob/butts.dmi', BUTT_SPRITE_XENOMORPH)
+
+>>>>>>> tg-pr-88929
 ///Places alien weeds on the turf the mob is currently standing on.
 /mob/living/basic/alien/proc/place_weeds()
 	if(!isturf(loc) || isspaceturf(loc))
@@ -71,6 +91,12 @@
 	visible_message(span_alertalien("[src] plants some alien weeds!"))
 	new /obj/structure/alien/weeds/node(loc)
 
+<<<<<<< HEAD
+=======
+/mob/living/basic/alien/create_splatter(splatter_dir)
+	new /obj/effect/temp_visual/dir_setting/bloodsplatter/xenosplatter(get_turf(src), splatter_dir)
+
+>>>>>>> tg-pr-88929
 ///Lays an egg on the turf the mob is currently standing on.
 /mob/living/basic/alien/proc/lay_alien_egg()
 	if(!isturf(loc) || isspaceturf(loc))

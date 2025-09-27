@@ -26,5 +26,9 @@
 	target_key = BB_LOW_PRIORITY_HUNTING_TARGET
 	hunting_behavior = /datum/ai_behavior/hunt_target/find_honeycomb
 	finding_behavior = /datum/ai_behavior/find_hunt_target/find_honeycomb
+<<<<<<< HEAD
 	hunt_targets = list(/obj/item/food/grown/banana)
+=======
+	hunt_targets = list(/obj/item/food/honeycomb)
+>>>>>>> tg-pr-88929
 	hunt_range = 10

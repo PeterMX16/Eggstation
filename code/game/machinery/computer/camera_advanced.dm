@@ -4,11 +4,13 @@
 	icon_screen = "cameras"
 	icon_keyboard = "security_key"
 	light_color = COLOR_SOFT_RED
+	processing_flags = START_PROCESSING_MANUALLY
+
 	var/list/z_lock = list() // Lock use to these z levels
 	var/lock_override = NONE
-	var/mob/camera/ai_eye/remote/eyeobj
+	var/mob/eye/camera/remote/eyeobj
 	var/mob/living/current_user = null
-	var/list/networks = list("ss13")
+	var/list/networks = list(CAMERANET_NETWORK_SS13)
 	/// Typepath of the action button we use as "off"
 	/// It's a typepath so subtypes can give it fun new names
 	var/datum/action/innate/camera_off/off_action = /datum/action/innate/camera_off
@@ -26,13 +28,13 @@
 	///Should we supress any view changes?
 	var/should_supress_view_changes = TRUE
 
-	interaction_flags_machine = INTERACT_MACHINE_ALLOW_SILICON | INTERACT_MACHINE_SET_MACHINE | INTERACT_MACHINE_REQUIRES_SIGHT
+	interaction_flags_machine = INTERACT_MACHINE_ALLOW_SILICON | INTERACT_MACHINE_REQUIRES_SIGHT
 
 /obj/machinery/computer/camera_advanced/Initialize(mapload)
 	. = ..()
 	for(var/i in networks)
 		networks -= i
-		networks += lowertext(i)
+		networks += LOWER_TEXT(i)
 	if(lock_override)
 		if(lock_override & CAMERA_LOCK_STATION)
 			z_lock |= SSmapping.levels_by_trait(ZTRAIT_STATION)
@@ -52,8 +54,11 @@
 	if(move_down_action)
 		actions += new move_down_action(src)
 
+<<<<<<< HEAD
 	camnet = GLOB.cameranet //the default cameranet
 
+=======
+>>>>>>> tg-pr-88929
 /obj/machinery/computer/camera_advanced/Destroy()
 	unset_machine()
 	QDEL_NULL(eyeobj)
@@ -78,43 +83,70 @@
 /obj/machinery/computer/camera_advanced/syndie/connect_to_shuttle(mapload, obj/docking_port/mobile/port, obj/docking_port/stationary/dock)
 	return //For syndie nuke shuttle, to spy for station.
 
+/**
+ * Initializes a camera eye.
+ * Returns TRUE if initialization was successful.
+ * Will return nothing if it runtimes.
+ */
 /obj/machinery/computer/camera_advanced/proc/CreateEye()
+<<<<<<< HEAD
 	eyeobj = new()
 	eyeobj.origin = src
 	eyeobj.networks = networks
+=======
+	if(eyeobj)
+		CRASH("Tried to make another eyeobj for some reason. Why?")
+
+	eyeobj = new(get_turf(src), src)
+	return TRUE
+>>>>>>> tg-pr-88929
 
 /obj/machinery/computer/camera_advanced/proc/GrantActions(mob/living/user)
 	for(var/datum/action/to_grant as anything in actions)
 		to_grant.Grant(user)
 
 /obj/machinery/proc/remove_eye_control(mob/living/user)
-	CRASH("[type] does not implement ai eye handling")
+	CRASH("[type] does not implement camera eye handling")
+
+/obj/machinery/computer/camera_advanced/proc/give_eye_control(mob/user)
+	if(isnull(user?.client))
+		return
+
+	current_user = user
+	eyeobj.assign_user(user)
+	GrantActions(user)
+
+	if(should_supress_view_changes)
+		user.client.view_size.supress()
+	begin_processing()
 
 /obj/machinery/computer/camera_advanced/remove_eye_control(mob/living/user)
-	if(!user)
+	if(isnull(user?.client))
 		return
-	for(var/V in actions)
-		var/datum/action/A = V
-		A.Remove(user)
-	for(var/V in eyeobj.visibleCameraChunks)
-		var/datum/camerachunk/C = V
-		C.remove(eyeobj)
-	if(user.client)
-		user.reset_perspective(null)
-		if(eyeobj.visible_icon && user.client)
-			user.client.images -= eyeobj.user_image
-		user.client.view_size.unsupress()
 
-	eyeobj.eye_user = null
-	user.remote_control = null
+	for(var/datum/action/actions_removed as anything in actions)
+		actions_removed.Remove(user)
+	for(var/datum/camerachunk/camerachunks_gone as anything in eyeobj.visibleCameraChunks)
+		camerachunks_gone.remove(eyeobj)
+
+	eyeobj.assign_user(null)
 	current_user = null
-	user.unset_machine()
-	playsound(src, 'sound/machines/terminal_off.ogg', 25, FALSE)
 
+<<<<<<< HEAD
 /obj/machinery/computer/camera_advanced/check_eye(mob/user)
 	if(!can_use(user) || (issilicon(user) && !HAS_SILICON_ACCESS(user)))
 		user.unset_machine()
 
+=======
+	user.client.view_size.unsupress()
+
+	playsound(src, 'sound/machines/terminal/terminal_off.ogg', 25, FALSE)
+
+/obj/machinery/computer/camera_advanced/on_set_is_operational(old_value)
+	if(!is_operational)
+		unset_machine()
+
+>>>>>>> tg-pr-88929
 /obj/machinery/computer/camera_advanced/proc/unset_machine()
 	if(!QDELETED(current_user))
 		remove_eye_control(current_user)
@@ -134,14 +166,17 @@
 		return
 	if(!can_use(user))
 		return
-	if(current_user)
+	if(isnull(user.client))
+		return
+	if(!QDELETED(current_user))
 		to_chat(user, span_warning("The console is already in use!"))
 		return
-	var/mob/living/L = user
-	if(!eyeobj)
-		CreateEye()
-	if(!eyeobj) //Eye creation failed
+
+	if(eyeobj)
+		give_eye_control(user)
+		eyeobj.setLoc(eyeobj.loc)
 		return
+<<<<<<< HEAD
 	if(!eyeobj.eye_initialized)
 		var/camera_location
 		var/turf/myturf = get_turf(src)
@@ -156,20 +191,40 @@
 					if(length(network_overlap))
 						camera_location = get_turf(C)
 						break
+=======
+	/* We're attempting to initialize the eye past this point */
+
+	if(!CreateEye())
+		to_chat(user, span_warning("\The [src] flashes a bunch of never-ending errors on the display. Something is really wrong."))
+		return
+
+	var/camera_location
+	var/turf/myturf = get_turf(src)
+	var/consider_zlock = (!!length(z_lock))
+
+	if(!eyeobj.use_visibility)
+		if(consider_zlock && !(myturf.z in z_lock))
+			camera_location = locate(round(world.maxx * 0.5), round(world.maxy * 0.5), z_lock[1])
+>>>>>>> tg-pr-88929
 		else
 			camera_location = myturf
-			if(length(z_lock) && !(myturf.z in z_lock))
-				camera_location = locate(round(world.maxx/2), round(world.maxy/2), z_lock[1])
-
-		if(camera_location)
-			eyeobj.eye_initialized = TRUE
-			give_eye_control(L)
-			eyeobj.setLoc(camera_location)
-		else
-			user.unset_machine()
 	else
-		give_eye_control(L)
-		eyeobj.setLoc(eyeobj.loc)
+		if((!consider_zlock || (myturf.z in z_lock)) && GLOB.cameranet.checkTurfVis(myturf))
+			camera_location = myturf
+		else
+			for(var/obj/machinery/camera/C as anything in GLOB.cameranet.cameras)
+				if(!C.can_use() || consider_zlock && !(C.z in z_lock))
+					continue
+				var/list/network_overlap = networks & C.network
+				if(length(network_overlap))
+					camera_location = get_turf(C)
+					break
+
+	if(camera_location)
+		give_eye_control(user)
+		eyeobj.setLoc(camera_location, TRUE)
+	else
+		unset_machine()
 
 /obj/machinery/computer/camera_advanced/attack_robot(mob/user)
 	return attack_hand(user)
@@ -177,6 +232,7 @@
 /obj/machinery/computer/camera_advanced/attack_ai(mob/user)
 	return //AIs would need to disable their own camera procs to use the console safely. Bugs happen otherwise.
 
+<<<<<<< HEAD
 /obj/machinery/computer/camera_advanced/proc/give_eye_control(mob/user)
 	GrantActions(user)
 	current_user = user
@@ -255,6 +311,8 @@
 	else
 		sprint = initial
 
+=======
+>>>>>>> tg-pr-88929
 /datum/action/innate/camera_off
 	name = "End Camera View"
 	button_icon = 'icons/mob/actions/actions_silicon.dmi'
@@ -263,8 +321,8 @@
 /datum/action/innate/camera_off/Activate()
 	if(!owner || !isliving(owner))
 		return
-	var/mob/camera/ai_eye/remote/remote_eye = owner.remote_control
-	var/obj/machinery/computer/camera_advanced/console = remote_eye.origin
+	var/mob/eye/camera/remote/remote_eye = owner.remote_control
+	var/obj/machinery/computer/camera_advanced/console = remote_eye.origin_ref.resolve()
 	console.remove_eye_control(owner)
 
 /datum/action/innate/camera_jump
@@ -275,17 +333,23 @@
 /datum/action/innate/camera_jump/Activate()
 	if(!owner || !isliving(owner))
 		return
-	var/mob/camera/ai_eye/remote/remote_eye = owner.remote_control
-	var/obj/machinery/computer/camera_advanced/origin = remote_eye.origin
+	var/mob/eye/camera/remote/remote_eye = owner.remote_control
+	var/obj/machinery/computer/camera_advanced/origin = remote_eye.origin_ref.resolve()
 
 	var/list/cameras_by_tag = origin.camnet.get_available_camera_by_tag_list(origin.networks, origin.z_lock)
 
+<<<<<<< HEAD
 	playsound(origin, 'sound/machines/terminal_prompt.ogg', 25, FALSE)
 	var/camera = tgui_input_list(usr, "Camera to view", "Cameras", cameras_by_tag)
+=======
+	playsound(origin, 'sound/machines/terminal/terminal_prompt.ogg', 25, FALSE)
+	var/camera = tgui_input_list(usr, "Camera to view", "Cameras", T)
+>>>>>>> tg-pr-88929
 	if(isnull(camera))
 		return
 
 	playsound(src, SFX_TERMINAL_TYPE, 25, FALSE)
+<<<<<<< HEAD
 
 	var/obj/machinery/camera/chosen_camera = cameras_by_tag[camera]
 	if(isnull(chosen_camera))
@@ -296,6 +360,15 @@
 	remote_eye.setLoc(get_turf(chosen_camera))
 	owner.overlay_fullscreen("flash", /atom/movable/screen/fullscreen/flash/static)
 	owner.clear_fullscreen("flash", 3) //Shorter flash than normal since it's an ~~advanced~~ console!
+=======
+	if(final)
+		playsound(origin, 'sound/machines/terminal/terminal_prompt_confirm.ogg', 25, FALSE)
+		remote_eye.setLoc(get_turf(final))
+		owner.overlay_fullscreen("flash", /atom/movable/screen/fullscreen/flash/static)
+		owner.clear_fullscreen("flash", 3) //Shorter flash than normal since it's an ~~advanced~~ console!
+	else
+		playsound(origin, 'sound/machines/terminal/terminal_prompt_deny.ogg', 25, FALSE)
+>>>>>>> tg-pr-88929
 
 /datum/action/innate/camera_multiz_up
 	name = "Move up a floor"
@@ -305,7 +378,7 @@
 /datum/action/innate/camera_multiz_up/Activate()
 	if(!owner || !isliving(owner))
 		return
-	var/mob/camera/ai_eye/remote/remote_eye = owner.remote_control
+	var/mob/eye/camera/remote/remote_eye = owner.remote_control
 	if(remote_eye.zMove(UP))
 		to_chat(owner, span_notice("You move upwards."))
 	else
@@ -319,8 +392,17 @@
 /datum/action/innate/camera_multiz_down/Activate()
 	if(!owner || !isliving(owner))
 		return
-	var/mob/camera/ai_eye/remote/remote_eye = owner.remote_control
+	var/mob/eye/camera/remote/remote_eye = owner.remote_control
 	if(remote_eye.zMove(DOWN))
 		to_chat(owner, span_notice("You move downwards."))
 	else
 		to_chat(owner, span_notice("You couldn't move downwards!"))
+
+/obj/machinery/computer/camera_advanced/human_ai/screwdriver_act(mob/living/user, obj/item/tool)
+	balloon_alert(user, "repackaging...")
+	if(!do_after(user, 5 SECONDS, src))
+		return ITEM_INTERACT_BLOCKING
+	tool.play_tool_sound(src, 40)
+	new /obj/item/secure_camera_console_pod(get_turf(src))
+	qdel(src)
+	return ITEM_INTERACT_SUCCESS

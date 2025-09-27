@@ -2,6 +2,7 @@
 	name = "Paraplegic"
 	desc = "Your legs do not function. Nothing will ever fix this. But hey, free wheelchair!"
 	icon = FA_ICON_WHEELCHAIR
+<<<<<<< HEAD
 	value = QUIRK_COST_PARAPLEGIC
 	gain_text = null // Handled by trauma.
 	lose_text = null
@@ -9,6 +10,19 @@
 	hardcore_value = QUIRK_HARDCORE_PARAPLEGIC
 	mail_goodies = list(/obj/vehicle/ridden/wheelchair/motorized) //yes a fullsized unfolded motorized wheelchair does fit
 
+=======
+	value = -12
+	gain_text = null // Handled by trauma.
+	lose_text = null
+	medical_record_text = "Patient has an untreatable impairment in motor function in the lower extremities."
+	hardcore_value = 15
+	mail_goodies = list(/obj/vehicle/ridden/wheelchair/motorized) //yes a fullsized unfolded motorized wheelchair does fit
+
+/datum/quirk_constant_data/paraplegic
+	associated_typepath = /datum/quirk/paraplegic
+	customization_options = list(/datum/preference/choiced/paraplegic)
+
+>>>>>>> tg-pr-88929
 /datum/quirk/paraplegic/add_unique(client/client_source)
 	if(quirk_holder.buckled) // Handle late joins being buckled to arrival shuttle chairs.
 		quirk_holder.buckled.unbuckle_mob(quirk_holder)
@@ -32,6 +46,19 @@
 		if(dropped_item.fingerprintslast == quirk_holder.ckey)
 			quirk_holder.put_in_hands(dropped_item)
 
+<<<<<<< HEAD
+=======
+	// Finally, removes their legs if they have opted as such, deleting the shoes
+	var/amputee = GLOB.paraplegic_choice[client_source?.prefs?.read_preference(/datum/preference/choiced/paraplegic)]
+	if(amputee)
+		delete_legs(quirk_holder)
+
+/datum/quirk/paraplegic/proc/delete_legs(mob/living/carbon/human/human_holder)
+	qdel(human_holder.get_item_by_slot(ITEM_SLOT_FEET))
+	qdel(human_holder.get_bodypart(BODY_ZONE_L_LEG))
+	qdel(human_holder.get_bodypart(BODY_ZONE_R_LEG))
+
+>>>>>>> tg-pr-88929
 /datum/quirk/paraplegic/add(client/client_source)
 	var/mob/living/carbon/human/human_holder = quirk_holder
 	human_holder.gain_trauma(/datum/brain_trauma/severe/paralysis/paraplegic, TRAUMA_RESILIENCE_ABSOLUTE)

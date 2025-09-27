@@ -1,3 +1,41 @@
+<<<<<<< HEAD
+=======
+/atom/movable/screen/plane_master/field_of_vision_blocker
+	name = "Field of vision blocker"
+	documentation = "This is one of those planes that's only used as a filter. It cuts out a portion of the game plate and does effects to it."
+	plane = FIELD_OF_VISION_BLOCKER_PLANE
+	appearance_flags = PLANE_MASTER|NO_CLIENT_COLOR
+	render_target = FIELD_OF_VISION_BLOCKER_RENDER_TARGET
+	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
+	render_relay_planes = list()
+	// We do NOT allow offsetting, because there's no case where you would want to block only one layer, at least currently
+	offsetting_flags = BLOCKS_PLANE_OFFSETTING
+	// We mark as multiz_scaled FALSE so transforms don't effect us, and we draw to the planes below us as if they were us.
+	// This is safe because we will ALWAYS be on the top z layer, so it DON'T MATTER
+	multiz_scaled = FALSE
+
+/atom/movable/screen/plane_master/field_of_vision_blocker/show_to(mob/mymob)
+	. = ..()
+	if(!. || !mymob)
+		return .
+	RegisterSignal(mymob, SIGNAL_ADDTRAIT(TRAIT_FOV_APPLIED), PROC_REF(fov_enabled), override = TRUE)
+	RegisterSignal(mymob, SIGNAL_REMOVETRAIT(TRAIT_FOV_APPLIED), PROC_REF(fov_disabled), override = TRUE)
+	if(HAS_TRAIT(mymob, TRAIT_FOV_APPLIED))
+		fov_enabled(mymob)
+	else
+		fov_disabled(mymob)
+
+/atom/movable/screen/plane_master/field_of_vision_blocker/proc/fov_enabled(mob/source)
+	SIGNAL_HANDLER
+	if(force_hidden == FALSE)
+		return
+	unhide_plane(source)
+
+/atom/movable/screen/plane_master/field_of_vision_blocker/proc/fov_disabled(mob/source)
+	SIGNAL_HANDLER
+	hide_plane(source)
+
+>>>>>>> tg-pr-88929
 /atom/movable/screen/plane_master/clickcatcher
 	name = "Click Catcher"
 	documentation = "Contains the screen object we use as a backdrop to catch clicks on portions of the screen that would otherwise contain nothing else. \
@@ -52,6 +90,7 @@
 		critical = PLANE_CRITICAL_FUCKO_PARALLAX
 		return
 	RegisterSignal(SSmapping, COMSIG_PLANE_OFFSET_INCREASE, PROC_REF(on_offset_increase))
+<<<<<<< HEAD
 /*
 	RegisterSignal(SSdcs, COMSIG_NARSIE_SUMMON_UPDATE, PROC_REF(narsie_modified))
 	if(GLOB.narsie_summon_count >= 1)
@@ -60,6 +99,11 @@
 	RegisterSignal(SSdcs, COMSIG_DARKSPAWN_ASCENSION, PROC_REF(darkspawn_ascension))
 	if(GLOB.sacrament_done) //so no runtimes prior to the round starting
 		darkspawn_ascension(0)
+=======
+	RegisterSignal(SSdcs, COMSIG_NARSIE_SUMMON_UPDATE, PROC_REF(narsie_modified))
+	if(GLOB.narsie_summon_count >= 1)
+		narsie_start_midway(GLOB.narsie_effect_last_modified) // We assume we're on the start, so we can use this number
+>>>>>>> tg-pr-88929
 	offset_increase(0, SSmapping.max_plane_offset)
 
 /atom/movable/screen/plane_master/parallax/proc/on_offset_increase(datum/source, old_offset, new_offset)
@@ -104,7 +148,10 @@
 	// If we're outside bounds AND we're the 0th plane, we need to show cause parallax is hacked to hell
 	return offset != 0 && is_outside_bounds
 
+<<<<<<< HEAD
 /*
+=======
+>>>>>>> tg-pr-88929
 /// Starts the narsie animation midway, so we can catch up to everyone else quickly
 /atom/movable/screen/plane_master/parallax/proc/narsie_start_midway(start_time)
 	var/time_elapsed = world.time - start_time
@@ -131,11 +178,14 @@
 
 /atom/movable/screen/plane_master/parallax/proc/narsie_unsummoned()
 	animate(src, color = null, time = 8 SECONDS)
+<<<<<<< HEAD
 */
 
 /atom/movable/screen/plane_master/parallax/proc/darkspawn_ascension(delay = 15 SECONDS)
 	animate(src, color = "#555555", time = delay) //greatly dimmed stars
 
+=======
+>>>>>>> tg-pr-88929
 
 /atom/movable/screen/plane_master/gravpulse
 	name = "Gravpulse"
@@ -180,17 +230,18 @@
 	add_relay_to(GET_NEW_PLANE(EMISSIVE_RENDER_PLATE, offset), relay_layer = EMISSIVE_WALL_LAYER, relay_color = GLOB.em_block_color)
 
 /atom/movable/screen/plane_master/game
-	name = "Lower game world"
-	documentation = "Exists mostly because of FOV shit. Basically, if you've just got a normal not ABOVE fov thing, and you don't want it masked, stick it here yeah?"
+	name = "Game"
+	documentation = "Holds most non floor/wall things. Anything on this plane \"wants\" to interlayer depending on position."
 	plane = GAME_PLANE
 	render_relay_planes = list(RENDER_PLANE_GAME_WORLD)
 
-/atom/movable/screen/plane_master/game_world_fov_hidden
-	name = "lower game world fov hidden"
-	documentation = "If you want something to be hidden by fov, stick it on this plane. We're masked by the fov blocker plane, so the items on us can actually well, disappear."
-	plane = GAME_PLANE_FOV_HIDDEN
+/atom/movable/screen/plane_master/game_world_above
+	name = "Upper Game"
+	documentation = "For stuff you want to draw like the game plane, but not ever below its contents"
+	plane = ABOVE_GAME_PLANE
 	render_relay_planes = list(RENDER_PLANE_GAME_WORLD)
 
+<<<<<<< HEAD
 /atom/movable/screen/plane_master/game_world_fov_hidden/Initialize(mapload, datum/hud/hud_owner)
 	. = ..()
 	add_filter("vision_cone", 1, alpha_mask_filter(render_source = OFFSET_RENDER_TARGET(FIELD_OF_VISION_BLOCKER_RENDER_TARGET, offset), flags = MASK_INVERSE))
@@ -243,6 +294,8 @@
 	// Dupe of the other hidden plane
 	add_filter("vision_cone", 1, alpha_mask_filter(render_source = OFFSET_RENDER_TARGET(FIELD_OF_VISION_BLOCKER_RENDER_TARGET, offset), flags = MASK_INVERSE))
 
+=======
+>>>>>>> tg-pr-88929
 /atom/movable/screen/plane_master/seethrough
 	name = "Seethrough"
 	documentation = "Holds the seethrough versions (done using image overrides) of large objects. Mouse transparent, so you can click through them."
@@ -250,12 +303,6 @@
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
 	render_relay_planes = list(RENDER_PLANE_GAME_WORLD)
 	start_hidden = TRUE
-
-/atom/movable/screen/plane_master/game_world_above
-	name = "Above game world"
-	documentation = "We need a place that's unmasked by fov that also draws above the upper game world fov hidden plane. I told you fov was hacky man."
-	plane = ABOVE_GAME_PLANE
-	render_relay_planes = list(RENDER_PLANE_GAME_WORLD)
 
 /**
  * Plane master that byond will by default draw to
@@ -277,6 +324,18 @@
 	name = "Area"
 	documentation = "Holds the areas themselves, which ends up meaning it holds any overlays/effects we apply to areas. NOT snow or rad storms, those go on above lighting"
 	plane = AREA_PLANE
+
+/atom/movable/screen/plane_master/weather
+	name = "Weather"
+	documentation = "Holds the main tiling 32x32 sprites of weather. We mask against walls that are on the edge of weather effects."
+	plane = WEATHER_PLANE
+	start_hidden = TRUE
+
+/atom/movable/screen/plane_master/weather/set_home(datum/plane_master_group/home)
+	. = ..()
+	if(!.)
+		return
+	home.AddComponent(/datum/component/hide_weather_planes, src)
 
 /atom/movable/screen/plane_master/massive_obj
 	name = "Massive object"
@@ -320,6 +379,18 @@
 	documentation = "Anything on the game plane that needs a space to draw on that will be above the lighting plane.\
 		<br>Mostly little alerts and effects, also sometimes contains things that are meant to look as if they glow."
 
+/atom/movable/screen/plane_master/weather_glow
+	name = "Weather Glow"
+	documentation = "Holds the glowing parts of the main tiling 32x32 sprites of weather."
+	plane = WEATHER_GLOW_PLANE
+	start_hidden = TRUE
+
+/atom/movable/screen/plane_master/weather_glow/set_home(datum/plane_master_group/home)
+	. = ..()
+	if(!.)
+		return
+	home.AddComponent(/datum/component/hide_weather_planes, src)
+
 /**
  * Handles emissive overlays and emissive blockers.
  */
@@ -347,7 +418,7 @@
 	// Has a nice effect, makes thing stand out
 	color = list(1.2,0,0,0, 0,1.2,0,0, 0,0,1.2,0, 0,0,0,1, 0,0,0,0)
 	// This serves a similar purpose, I want the pipes to pop
-	add_filter("pipe_dropshadow", 1, drop_shadow_filter(x = -1, y= -1, size = 1, color = "#0000007A"))
+	add_filter("pipe_dropshadow", 1, drop_shadow_filter(x = -1, y= -1, size = 1, color = COLOR_HALF_TRANSPARENT_BLACK))
 	mirror_parent_hidden()
 
 /atom/movable/screen/plane_master/camera_static
@@ -373,7 +444,7 @@
 /atom/movable/screen/plane_master/camera_static/proc/eye_changed(datum/hud/source, atom/old_eye, atom/new_eye)
 	SIGNAL_HANDLER
 
-	if(!isaicamera(new_eye))
+	if(!iscameramob(new_eye))
 		if(!force_hidden)
 			hide_plane(source.mymob)
 		return
@@ -403,7 +474,7 @@
 	appearance_flags = PLANE_MASTER|NO_CLIENT_COLOR
 	render_relay_planes = list(RENDER_PLANE_NON_GAME)
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
-	allows_offsetting = FALSE
+	offsetting_flags = BLOCKS_PLANE_OFFSETTING|OFFSET_RELAYS_MATCH_HIGHEST
 
 /atom/movable/screen/plane_master/runechat
 	name = "Runechat"
@@ -432,7 +503,7 @@
 	plane = HUD_PLANE
 	appearance_flags = PLANE_MASTER|NO_CLIENT_COLOR
 	render_relay_planes = list(RENDER_PLANE_NON_GAME)
-	allows_offsetting = FALSE
+	offsetting_flags = BLOCKS_PLANE_OFFSETTING|OFFSET_RELAYS_MATCH_HIGHEST
 
 /atom/movable/screen/plane_master/above_hud
 	name = "Above HUD"
@@ -440,7 +511,7 @@
 	plane = ABOVE_HUD_PLANE
 	appearance_flags = PLANE_MASTER|NO_CLIENT_COLOR
 	render_relay_planes = list(RENDER_PLANE_NON_GAME)
-	allows_offsetting = FALSE
+	offsetting_flags = BLOCKS_PLANE_OFFSETTING|OFFSET_RELAYS_MATCH_HIGHEST
 
 /atom/movable/screen/plane_master/splashscreen
 	name = "Splashscreen"
@@ -448,7 +519,7 @@
 	plane = SPLASHSCREEN_PLANE
 	appearance_flags = PLANE_MASTER|NO_CLIENT_COLOR
 	render_relay_planes = list(RENDER_PLANE_NON_GAME)
-	allows_offsetting = FALSE
+	offsetting_flags = BLOCKS_PLANE_OFFSETTING|OFFSET_RELAYS_MATCH_HIGHEST
 
 /atom/movable/screen/plane_master/escape_menu
 	name = "Escape Menu"
@@ -456,6 +527,7 @@
 	plane = ESCAPE_MENU_PLANE
 	appearance_flags = PLANE_MASTER|NO_CLIENT_COLOR
 	render_relay_planes = list(RENDER_PLANE_MASTER)
+<<<<<<< HEAD
 	allows_offsetting = FALSE
 
 /atom/movable/screen/plane_master/weather
@@ -546,3 +618,6 @@
 	render_target = SUNLIGHTING_RENDER_TARGET
 	render_relay_planes = list()  //Used as layer filter for sunlight fullscreen
 	critical = PLANE_CRITICAL_DISPLAY
+=======
+	offsetting_flags = BLOCKS_PLANE_OFFSETTING|OFFSET_RELAYS_MATCH_HIGHEST
+>>>>>>> tg-pr-88929

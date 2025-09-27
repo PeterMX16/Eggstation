@@ -15,7 +15,10 @@
 
 GLOBAL_VAR_INIT(magic_appearance_detecting_image, new /image) // appearances are awful to detect safely, but this seems to be the best way ~ninjanomnom
 #define isappearance(thing) (!isimage(thing) && !ispath(thing) && istype(GLOB.magic_appearance_detecting_image, thing))
+<<<<<<< HEAD
 #define isappearance_or_image(thing) (isimage(thing) || (!ispath(thing) && istype(GLOB.magic_appearance_detecting_image, thing)))
+=======
+>>>>>>> tg-pr-88929
 
 // The filters list has the same ref type id as a filter, but isnt one and also isnt a list, so we have to check if the thing has Cut() instead
 GLOBAL_VAR_INIT(refid_filter, TYPEID(filter(type="angular_blur")))
@@ -71,13 +74,28 @@ GLOBAL_LIST_INIT(turfs_openspace, typecacheof(list(
 
 #define isplatingturf(A) (istype(A, /turf/open/floor/plating))
 
+#define iscatwalkturf(A) (istype(A, /turf/open/floor/catwalk_floor))
+
 #define isasteroidturf(A) (istype(A, /turf/open/misc/asteroid))
 
 #define istransparentturf(A) (HAS_TRAIT(A, TURF_Z_TRANSPARENT_TRAIT))
 
 #define iscliffturf(A) (istype(A, /turf/open/cliff))
 
+<<<<<<< HEAD
 #define isoceanturf(A) (istype(A, /turf/open/floor/plating/ocean))
+=======
+#define iswaterturf(A) (istype(A, /turf/open/water))
+
+GLOBAL_LIST_INIT(turfs_pass_meteor, typecacheof(list(
+	/turf/closed/mineral,
+	/turf/open/misc/asteroid,
+	/turf/open/openspace,
+	/turf/open/space
+)))
+
+#define ispassmeteorturf(A) (is_type_in_typecache(A, GLOB.turfs_pass_meteor))
+>>>>>>> tg-pr-88929
 
 //Mobs
 #define isliving(A) (istype(A, /mob/living))
@@ -106,8 +124,12 @@ GLOBAL_LIST_INIT(turfs_openspace, typecacheof(list(
 #define isoni(A) (is_species(A, /datum/species/oni)) //Monkestation Addition
 #define ismoth(A) (is_species(A, /datum/species/moth))
 #define isethereal(A) (is_species(A, /datum/species/ethereal))
+<<<<<<< HEAD
 #define isvampire(A) (is_species(A,/datum/species/vampire))
 #define iswerewolf(A) (is_species(A,/datum/species/werewolf))
+=======
+#define isvampire(A) (is_species(A,/datum/species/human/vampire))
+>>>>>>> tg-pr-88929
 #define isdullahan(A) (is_species(A, /datum/species/dullahan))
 #define ismonkey(A) (is_species(A, /datum/species/monkey))
 #define isandroid(A) (is_species(A, /datum/species/android))
@@ -180,6 +202,7 @@ GLOBAL_LIST_INIT(turfs_openspace, typecacheof(list(
 
 #define isdrone(A) (istype(A, /mob/living/basic/drone))
 
+<<<<<<< HEAD
 GLOBAL_LIST_INIT(cat_typecache, typecacheof(list(
 	/mob/living/simple_animal/pet/cat,
 	/mob/living/simple_animal/hostile/syndicat,
@@ -188,6 +211,9 @@ GLOBAL_LIST_INIT(cat_typecache, typecacheof(list(
 )))
 
 #define iscat(A) (is_type_in_typecache(A, GLOB.cat_typecache))
+=======
+#define iscat(A) (istype(A, /mob/living/basic/pet/cat))
+>>>>>>> tg-pr-88929
 
 #define isdog(A) (istype(A, /mob/living/basic/pet/dog))
 
@@ -204,23 +230,39 @@ GLOBAL_LIST_INIT(cat_typecache, typecacheof(list(
 #define isclown(A) (istype(A, /mob/living/basic/clown))
 
 #define isspider(A) (istype(A, /mob/living/basic/spider))
+<<<<<<< HEAD
 
 #define isbingle(A) (istype(A, /mob/living/basic/bingle))
+=======
+>>>>>>> tg-pr-88929
 
+//Eye mobs
+#define iseyemob(A) (istype(A, /mob/eye))
 
-//Misc mobs
-#define isobserver(A) (istype(A, /mob/dead/observer))
+#define isovermind(A) (istype(A, /mob/eye/blob))
 
+#define iscameramob(A) (istype(A, /mob/eye/camera))
+
+#define isaicamera(A) (istype(A, /mob/eye/camera/ai))
+
+#define isremotecamera(A) (istype(A, /mob/eye/camera/remote))
+
+//Dead mobs
 #define isdead(A) (istype(A, /mob/dead))
+
+#define isobserver(A) (istype(A, /mob/dead/observer))
 
 #define isnewplayer(A) (istype(A, /mob/dead/new_player))
 
+<<<<<<< HEAD
 #define isovermind(A) (istype(A, /mob/camera/blob))
 
 #define iscameramob(A) (istype(A, /mob/camera))
 
 #define isaicamera(A) (istype(A, /mob/camera/ai_eye))
 
+=======
+>>>>>>> tg-pr-88929
 //Objects
 #define isobj(A) istype(A, /obj) //override the byond proc because it returns true on children of /atom/movable that aren't objs
 
@@ -234,6 +276,8 @@ GLOBAL_LIST_INIT(cat_typecache, typecacheof(list(
 
 #define islandmine(A) (istype(A, /obj/effect/mine))
 
+#define iscloset(A) (istype(A, /obj/structure/closet))
+
 #define issupplypod(A) (istype(A, /obj/structure/closet/supplypod))
 
 #define isammocasing(A) (istype(A, /obj/item/ammo_casing))
@@ -246,7 +290,11 @@ GLOBAL_LIST_INIT(cat_typecache, typecacheof(list(
 
 #define ismachinery(A) (istype(A, /obj/machinery))
 
+<<<<<<< HEAD
 #define istramwall(A) (istype(A, /obj/structure/window/reinforced/tram/front))
+=======
+#define istramwall(A) (istype(A, /obj/structure/tram))
+>>>>>>> tg-pr-88929
 
 #define isvendor(A) (istype(A, /obj/machinery/vending))
 
@@ -254,13 +302,7 @@ GLOBAL_LIST_INIT(cat_typecache, typecacheof(list(
 
 #define ismecha(A) (istype(A, /obj/vehicle/sealed/mecha))
 
-#define ismopable(A) (A && (A.layer <= FLOOR_CLEAN_LAYER)) //If something can be cleaned by floor-cleaning devices such as mops or clean bots
-
 #define isorgan(A) (istype(A, /obj/item/organ))
-
-#define isinternalorgan(A) (istype(A, /obj/item/organ/internal))
-
-#define isexternalorgan(A) (istype(A, /obj/item/organ/external))
 
 #define isclothing(A) (istype(A, /obj/item/clothing))
 
@@ -274,15 +316,20 @@ GLOBAL_LIST_INIT(cat_typecache, typecacheof(list(
 
 #define isgun(A) (istype(A, /obj/item/gun))
 
+#define isammobox(A) (istype(A, /obj/item/ammo_box))
+
 #define isinstrument(A) (istype(A, /obj/item/instrument) || istype(A, /obj/structure/musician))
 
 #define is_reagent_container(O) (istype(O, /obj/item/reagent_containers))
 
 #define isapc(A) (istype(A, /obj/machinery/power/apc))
 
+<<<<<<< HEAD
 //MONKESTATION EDIT: used to block cargo teleporters from escaping with syndicate blackbox
 #define issyndicateblackbox(O) (istype(O, /obj/item/syndicate_blackbox))
 
+=======
+>>>>>>> tg-pr-88929
 //Assemblies
 #define isassembly(O) (istype(O, /obj/item/assembly))
 
@@ -317,7 +364,12 @@ GLOBAL_LIST_INIT(glass_sheet_types, typecacheof(list(
 GLOBAL_LIST_INIT(book_types, typecacheof(list(
 	/obj/item/book,
 	/obj/item/spellbook,
+<<<<<<< HEAD
 	/obj/item/infuser_book)))
+=======
+	/obj/item/infuser_book,
+)))
+>>>>>>> tg-pr-88929
 
 // Jobs
 #define is_job(job_type)  (istype(job_type, /datum/job))
@@ -325,7 +377,12 @@ GLOBAL_LIST_INIT(book_types, typecacheof(list(
 #define is_bartender_job(job_type) (istype(job_type, /datum/job/bartender))
 #define is_captain_job(job_type) (istype(job_type, /datum/job/captain))
 #define is_chaplain_job(job_type) (istype(job_type, /datum/job/chaplain))
+<<<<<<< HEAD
 #define is_clown_job(job_type) (istype(job_type, /datum/job/clown) || istype(job_type, /datum/job/yellowclown) || istype(job_type, /datum/job/ert/clown)) //monkestation edit: adds ERT clowns cus why not
+=======
+#define is_clown_job(job_type) (istype(job_type, /datum/job/clown))
+#define is_mime_job(job_type) (istype(job_type, /datum/job/mime))
+>>>>>>> tg-pr-88929
 #define is_detective_job(job_type) (istype(job_type, /datum/job/detective))
 #define is_scientist_job(job_type) (istype(job_type, /datum/job/scientist))
 #define is_security_officer_job(job_type) (istype(job_type, /datum/job/security_officer))
@@ -333,9 +390,13 @@ GLOBAL_LIST_INIT(book_types, typecacheof(list(
 #define is_unassigned_job(job_type) (istype(job_type, /datum/job/unassigned))
 
 #define isprojectilespell(thing) (istype(thing, /datum/action/cooldown/spell/pointed/projectile))
+<<<<<<< HEAD
 #define is_multi_tile_object(atom) (atom.bound_width > world.icon_size || atom.bound_height > world.icon_size)
 
 #define isartifact(thing) (istype(thing, /obj/structure/artifact) || istype(thing, /obj/item/melee/artifact) || istype(thing, /obj/item/gun/magic/artifact) || istype(thing, /obj/item/stock_parts/power_store/cell/artifact))
 #define iswater(A) (istype(A, /turf/open/water))
 
 #define is_oozeling_core(A) (istype(A, /obj/item/organ/internal/brain/slime))
+=======
+#define is_multi_tile_object(atom) (atom.bound_width > ICON_SIZE_X || atom.bound_height > ICON_SIZE_Y)
+>>>>>>> tg-pr-88929

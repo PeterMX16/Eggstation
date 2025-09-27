@@ -5,11 +5,23 @@
 /mob/dead/observer/get_message_mods(message, list/mods)
 	var/key = message[1]
 	if((key in GLOB.department_radio_prefixes) && length(message) > length(key) + 1 && !mods[RADIO_EXTENSION])
-		mods[RADIO_KEY] = lowertext(message[1 + length(key)])
+		mods[RADIO_KEY] = LOWER_TEXT(message[1 + length(key)])
 		mods[RADIO_EXTENSION] = GLOB.department_radio_keys[mods[RADIO_KEY]]
 	return message
 
-/mob/dead/observer/say(message, bubble_type, list/spans = list(), sanitize = TRUE, datum/language/language = null, ignore_spam = FALSE, forced = null, filterproof = null, message_range = 7, datum/saymode/saymode = null)
+/mob/dead/observer/say(
+	message,
+	bubble_type,
+	list/spans = list(),
+	sanitize = TRUE,
+	datum/language/language,
+	ignore_spam = FALSE,
+	forced,
+	filterproof = FALSE,
+	message_range = 7,
+	datum/saymode/saymode,
+	list/message_mods = list(),
+)
 	message = trim(message) //trim now and sanitize after checking for special admin radio keys
 
 	var/list/filter_result = CAN_BYPASS_FILTER(src) ? null : is_ooc_filtered(message)
@@ -27,15 +39,20 @@
 
 	if(!message)
 		return
-	var/list/message_mods = list()
 	message = get_message_mods(message, message_mods)
 	if(client?.holder && (message_mods[RADIO_EXTENSION] == MODE_ADMIN || message_mods[RADIO_EXTENSION] == MODE_DEADMIN || (message_mods[RADIO_EXTENSION] == MODE_PUPPET && mind?.current)))
 		message = trim_left(copytext_char(message, length(message_mods[RADIO_KEY]) + 2))
 		switch(message_mods[RADIO_EXTENSION])
 			if(MODE_ADMIN)
+<<<<<<< HEAD
 				SSadmin_verbs.dynamic_invoke_verb(src, /datum/admin_verb/cmd_admin_say, message)
 			if(MODE_DEADMIN)
 				SSadmin_verbs.dynamic_invoke_verb(src, /datum/admin_verb/dsay, message)
+=======
+				SSadmin_verbs.dynamic_invoke_verb(client, /datum/admin_verb/cmd_admin_say, message)
+			if(MODE_DEADMIN)
+				SSadmin_verbs.dynamic_invoke_verb(client, /datum/admin_verb/dsay, message)
+>>>>>>> tg-pr-88929
 			if(MODE_PUPPET)
 				if(!mind.current.say(message))
 					to_chat(src, span_warning("Your linked body was unable to speak!"))
@@ -60,7 +77,7 @@
 			to_follow = V.source
 	var/link = FOLLOW_LINK(src, to_follow)
 	// Create map text prior to modifying message for goonchat
-	if (client?.prefs.read_preference(/datum/preference/toggle/enable_runechat) && (client.prefs.read_preference(/datum/preference/toggle/enable_runechat_non_mobs) || ismob(speaker)))
+	if (safe_read_pref(client, /datum/preference/toggle/enable_runechat) && (safe_read_pref(client, /datum/preference/toggle/enable_runechat_non_mobs) || ismob(speaker)))
 		create_chat_message(speaker, message_language, raw_message, spans)
 	// monkestation start: bold messages for ghosts when they're nearby
 	var/list/our_spans = spans
@@ -73,3 +90,4 @@
 	to_chat(src,
 		html = "[link] [message]",
 		avoid_highlighting = speaker == src)
+	return TRUE

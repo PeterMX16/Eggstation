@@ -6,7 +6,11 @@
 	key = "grasslands_hunt"
 	map_name = "grasslands_hunt"
 	mob_modules = list(/datum/modular_mob_segment/deer)
+<<<<<<< HEAD
 	safehouse_path = /datum/map_template/safehouse/wood
+=======
+
+>>>>>>> tg-pr-88929
 
 /datum/lazy_template/virtual_domain/grasslands_hunt/setup_domain(list/created_atoms)
 	for(var/obj/effect/landmark/bitrunning/mob_segment/landmark in created_atoms)

@@ -1,4 +1,16 @@
+import {
+  Box,
+  Button,
+  LabeledList,
+  NoticeBox,
+  ProgressBar,
+  Section,
+  Stack,
+  Tabs,
+} from 'tgui-core/components';
+
 import { useBackend, useSharedState } from '../backend';
+<<<<<<< HEAD
 import {
   Box,
   Button,
@@ -9,6 +21,8 @@ import {
   Stack,
   Tabs,
 } from '../components';
+=======
+>>>>>>> tg-pr-88929
 import { NtosWindow } from '../layouts';
 
 export const NtosCyborgRemoteMonitor = (props) => {

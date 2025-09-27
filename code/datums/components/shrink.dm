@@ -17,6 +17,10 @@
 	if(isliving(parent_atom))
 		var/mob/living/L = parent_atom
 		ADD_TRAIT(L, TRAIT_UNDENSE, SHRUNKEN_TRAIT)
+<<<<<<< HEAD
+=======
+		RegisterSignal(L, COMSIG_MOB_SAY, PROC_REF(handle_shrunk_speech))
+>>>>>>> tg-pr-88929
 		L.add_movespeed_modifier(/datum/movespeed_modifier/shrink_ray)
 		if(iscarbon(L))
 			var/mob/living/carbon/C = L
@@ -39,6 +43,13 @@
 	span_userdanger("Everything grows bigger!"))
 	if(shrink_time >= 0) // negative shrink time is permanent
 		QDEL_IN(src, shrink_time)
+<<<<<<< HEAD
+=======
+
+/datum/component/shrink/proc/handle_shrunk_speech(mob/living/little_guy, list/speech_args)
+	SIGNAL_HANDLER
+	speech_args[SPEECH_SPANS] |= SPAN_SMALL_VOICE
+>>>>>>> tg-pr-88929
 
 /datum/component/shrink/Destroy()
 	if(newsquash)
@@ -50,6 +61,10 @@
 		var/mob/living/L = parent_atom
 		L.remove_movespeed_modifier(/datum/movespeed_modifier/shrink_ray)
 		REMOVE_TRAIT(L, TRAIT_UNDENSE, SHRUNKEN_TRAIT)
+<<<<<<< HEAD
+=======
+		UnregisterSignal(L, COMSIG_MOB_SAY)
+>>>>>>> tg-pr-88929
 		if(ishuman(L))
 			var/mob/living/carbon/human/H = L
 			H.physiology.damage_resistance += 100

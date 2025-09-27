@@ -5,11 +5,17 @@
 	worn_icon = 'icons/mob/clothing/head/hats.dmi'
 	icon_state = "cargosoft"
 	inhand_icon_state = "greyscale_softcap" //todo wip
+	interaction_flags_click = NEED_DEXTERITY|ALLOW_RESTING
+	/// For setting icon archetype
 	var/soft_type = "cargo"
+<<<<<<< HEAD
+=======
+	/// If there is a suffix to append
+>>>>>>> tg-pr-88929
 	var/soft_suffix = "soft"
 
 	dog_fashion = /datum/dog_fashion/head/cargo_tech
-
+	/// Whether this is on backwards... Woah, cool
 	var/flipped = FALSE
 
 /obj/item/clothing/head/soft/dropped()
@@ -24,14 +30,13 @@
 	flip(usr)
 
 
-/obj/item/clothing/head/soft/AltClick(mob/user)
-	..()
-	if(user.can_perform_action(src, NEED_DEXTERITY))
-		flip(user)
+/obj/item/clothing/head/soft/click_alt(mob/user)
+	flip(user)
+	return CLICK_ACTION_SUCCESS
 
 
 /obj/item/clothing/head/soft/proc/flip(mob/user)
-	if(!user.incapacitated())
+	if(!user.incapacitated)
 		flipped = !flipped
 		if(flipped)
 			icon_state = "[soft_type][soft_suffix]_flipped"
@@ -131,18 +136,18 @@
 	desc = "It's a robust baseball hat in tasteful red colour."
 	icon_state = "secsoft"
 	soft_type = "sec"
-	armor_type = /datum/armor/soft_sec
+	armor_type = /datum/armor/cosmetic_sec
 	strip_delay = 60
 	dog_fashion = null
 
-/datum/armor/soft_sec
-	melee = 30
-	bullet = 25
-	laser = 25
-	energy = 35
-	bomb = 25
-	fire = 20
-	acid = 50
+/obj/item/clothing/head/soft/veteran
+	name = "veteran cap"
+	desc = "It's a robust baseball hat in tasteful black colour with a golden connotation to \"REMEMBER\"."
+	icon_state = "veteransoft"
+	soft_type = "veteran"
+	armor_type = /datum/armor/cosmetic_sec
+	strip_delay = 60
+	dog_fashion = null
 
 /obj/item/clothing/head/soft/paramedic
 	name = "paramedic cap"
@@ -167,11 +172,21 @@
 	clothing_flags = SNUG_FIT
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE
 	dog_fashion = null
+<<<<<<< HEAD
 
 /obj/item/clothing/head/soft/fishing_hat/Initialize(mapload)
 	. = ..()
 	if(add_element) //monkestation edit
 		AddElement(/datum/element/skill_reward, /datum/skill/fishing)
+=======
+	clothing_traits = list(TRAIT_SCARY_FISHERMAN) //Fish, carps, lobstrosities and frogs fear me.
+
+/obj/item/clothing/head/soft/fishing_hat/Initialize(mapload)
+	. = ..()
+	AddComponent(/datum/component/speechmod, replacements = strings("crustacean_replacement.json", "crustacean")) //you asked for this.
+	AddElement(/datum/element/skill_reward, /datum/skill/fishing)
+	AddComponent(/datum/component/adjust_fishing_difficulty, -5)
+>>>>>>> tg-pr-88929
 
 #define PROPHAT_MOOD "prophat"
 

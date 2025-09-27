@@ -14,10 +14,16 @@
 	user.apply_status_effect(/datum/status_effect/changeling_panacea) // monkestation addition
 	/* MONKESTATION REMOVAL START
 	var/list/bad_organs = list(
+<<<<<<< HEAD
 		user.get_organ_by_type(/obj/item/organ/internal/body_egg),
 		user.get_organ_by_type(/obj/item/organ/internal/legion_tumour),
 		user.get_organ_by_type(/obj/item/organ/internal/zombie_infection),
 		user.get_organ_by_type(/obj/item/organ/internal/empowered_borer_egg), // MONKESTATION ADDITION -- CORTICAL_BORERS
+=======
+		user.get_organ_by_type(/obj/item/organ/body_egg),
+		user.get_organ_by_type(/obj/item/organ/legion_tumour),
+		user.get_organ_by_type(/obj/item/organ/zombie_infection),
+>>>>>>> tg-pr-88929
 	)
 
 	for(var/o in bad_organs)
@@ -28,7 +34,7 @@
 		O.Remove(user)
 		if(iscarbon(user))
 			var/mob/living/carbon/C = user
-			C.vomit(0)
+			C.vomit(VOMIT_CATEGORY_DEFAULT, lost_nutrition = 0)
 		O.forceMove(get_turf(user))
 
 	// MONKESTATION ADDITION START -- CORTICAL_BORERS

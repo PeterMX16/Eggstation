@@ -1,7 +1,11 @@
 /// A mini-tool used to apply label items onto something to modify its name.
 /obj/item/hand_labeler
 	name = "hand labeler"
+<<<<<<< HEAD
 	desc = "A combined label printer, applicator, and remover, all in a single portable device. Designed to be easy to operate and use.\nUse while powered off to remove existing labels."
+=======
+	desc = "A combined label printer, applicator, and remover, all in a single portable device. Designed to be easy to operate and use."
+>>>>>>> tg-pr-88929
 	icon = 'icons/obj/service/bureaucracy.dmi'
 	icon_state = "labeler0"
 	item_flags = NOBLUDGEON
@@ -20,7 +24,7 @@
 	VAR_FINAL/mode = FALSE
 
 /obj/item/hand_labeler/suicide_act(mob/living/user)
-	user.visible_message(span_suicide("[user] is pointing [src] at [user.p_them()]self. [user.p_theyre(TRUE)] going to label [user.p_them()]self as a suicide!"))
+	user.visible_message(span_suicide("[user] is pointing [src] at [user.p_them()]self. [user.p_Theyre()] going to label [user.p_them()]self as a suicide!"))
 	labels_left = max(labels_left - 1, 0)
 
 	var/old_real_name = user.real_name
@@ -107,17 +111,33 @@
 		to_chat(user, span_notice("You turn off [src]."))
 	return TRUE
 
+<<<<<<< HEAD
 /obj/item/hand_labeler/item_interaction(mob/living/user, obj/item/tool, list/modifiers, is_right_clicking)
 	. = ..()
 	if(. & ITEM_INTERACT_ANY_BLOCKER)
 		return .
 	if(!istype(tool, /obj/item/hand_labeler_refill))
 		return .
+=======
+/obj/item/hand_labeler/item_interaction(mob/living/user, obj/item/tool, list/modifiers)
+	if(!istype(tool, /obj/item/hand_labeler_refill))
+		return NONE
+>>>>>>> tg-pr-88929
 
 	balloon_alert(user, "refilled")
 	qdel(tool)
 	labels_left = initial(labels_left) //Yes, it's capped at its initial value
 	return ITEM_INTERACT_SUCCESS
+<<<<<<< HEAD
+=======
+
+/obj/item/hand_labeler/examine()
+	. = ..()
+	if(labels_left > 0)
+		. += span_notice("It looks like it could label [labels_left] more thing\s.")
+	else
+		. += span_notice("It's out of labels.")
+>>>>>>> tg-pr-88929
 
 /obj/item/hand_labeler/borg
 	name = "cyborg-hand labeler"
@@ -214,7 +234,11 @@
 
 	return ..()
 
+<<<<<<< HEAD
 /obj/item/label/proc/stick_to_atom(atom/applying_to, stick_px = world.icon_size / 2, stick_py = world.icon_size / 2)
+=======
+/obj/item/label/proc/stick_to_atom(atom/applying_to, stick_px = ICON_SIZE_X / 2, stick_py = ICON_SIZE_Y / 2)
+>>>>>>> tg-pr-88929
 	applying_to.AddComponent( \
 		/datum/component/sticker, \
 		stickering_atom = src, \
@@ -290,7 +314,11 @@
 		playsound(sticking_to, 'sound/items/handling/component_pickup.ogg', 20, TRUE)
 		sticking_to.balloon_alert(user, "label renamed")
 	else
+<<<<<<< HEAD
 		playsound(sticking_to, 'sound/items/poster_ripped.ogg', 20, TRUE)
+=======
+		playsound(sticking_to, 'sound/items/poster/poster_ripped.ogg', 20, TRUE)
+>>>>>>> tg-pr-88929
 		sticking_to.balloon_alert(user, "label removed")
 		qdel(src)
 	return ITEM_INTERACT_SUCCESS

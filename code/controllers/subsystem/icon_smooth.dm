@@ -10,6 +10,7 @@ SUBSYSTEM_DEF(icon_smooth)
 	var/list/smooth_queue = list()
 	var/list/deferred = list()
 	var/list/deferred_by_source = list()
+<<<<<<< HEAD
 
 /datum/controller/subsystem/icon_smooth/PreInit(start_timeofday)
 	. = ..()
@@ -17,13 +18,19 @@ SUBSYSTEM_DEF(icon_smooth)
 		NAMEOF(src, smooth_queue),
 		NAMEOF(src, deferred),
 	)
+=======
+>>>>>>> tg-pr-88929
 
 /datum/controller/subsystem/icon_smooth/fire()
 	// We do not want to smooth icons of atoms whose neighbors are not initialized yet,
 	// this causes runtimes.
 	// Icon smoothing SS runs after atoms, so this only happens for something like shuttles.
 	// This kind of map loading shouldn't take too long, so the delay is not a problem.
+<<<<<<< HEAD
 	if(SSatoms.initializing_something())
+=======
+	if (SSatoms.initializing_something())
+>>>>>>> tg-pr-88929
 		return
 
 	var/list/smooth_queue_cache = smooth_queue

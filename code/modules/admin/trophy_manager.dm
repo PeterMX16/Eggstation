@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 ADMIN_VERB(trophy_manager, R_ADMIN, FALSE, "Trophy Manager", "View all trophies.", ADMIN_CATEGORY_MAIN)
+=======
+ADMIN_VERB(trophy_manager, R_ADMIN, "Trophy Manager", "View all trophies.", ADMIN_CATEGORY_MAIN)
+>>>>>>> tg-pr-88929
 	var/static/datum/trophy_manager/ui = new
 	ui.ui_interact(user.mob)
 

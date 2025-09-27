@@ -57,7 +57,12 @@
 	data["bountyText"] = bounty_text
 	return data
 
+<<<<<<< HEAD
 /datum/computer_file/program/bounty_board/ui_act(action, list/params)
+=======
+/datum/computer_file/program/bounty_board/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
+	. = ..()
+>>>>>>> tg-pr-88929
 	var/current_ref_num = params["request"]
 	var/current_app_num = params["applicant"]
 	var/datum/bank_account/request_target
@@ -74,7 +79,7 @@
 	switch(action)
 		if("createBounty")
 			if(!current_user || !bounty_text)
-				playsound(src, 'sound/machines/buzz-sigh.ogg', 20, TRUE)
+				playsound(src, 'sound/machines/buzz/buzz-sigh.ogg', 20, TRUE)
 				return TRUE
 			for(var/datum/station_request/i in GLOB.request_list)
 				if("[i.req_number]" == "[current_user.account_id]")
@@ -91,14 +96,14 @@
 				computer.say("Please swipe a valid ID first.")
 				return TRUE
 			if(current_user.account_holder == active_request.owner)
-				playsound(computer, 'sound/machines/buzz-sigh.ogg', 20, TRUE)
+				playsound(computer, 'sound/machines/buzz/buzz-sigh.ogg', 20, TRUE)
 				return TRUE
 			active_request.applicants += list(current_user)
 		if("payApplicant")
 			if(!current_user)
 				return
 			if(!current_user.has_money(active_request.value) || (current_user.account_holder != active_request.owner))
-				playsound(computer, 'sound/machines/buzz-sigh.ogg', 30, TRUE)
+				playsound(computer, 'sound/machines/buzz/buzz-sigh.ogg', 30, TRUE)
 				return
 			request_target.transfer_money(current_user, active_request.value, "Bounties: Request Completed")
 			computer.say("Paid out [active_request.value] credits.")
@@ -111,10 +116,10 @@
 				return TRUE
 		if("deleteRequest")
 			if(!current_user)
-				playsound(computer, 'sound/machines/buzz-sigh.ogg', 20, TRUE)
+				playsound(computer, 'sound/machines/buzz/buzz-sigh.ogg', 20, TRUE)
 				return TRUE
 			if(active_request.owner != current_user.account_holder)
-				playsound(computer, 'sound/machines/buzz-sigh.ogg', 20, TRUE)
+				playsound(computer, 'sound/machines/buzz/buzz-sigh.ogg', 20, TRUE)
 				return TRUE
 			computer.say("Deleted current request.")
 			GLOB.request_list.Remove(active_request)
@@ -128,7 +133,3 @@
 		if("bountyText")
 			bounty_text = (params["bountytext"])
 	return TRUE
-
-/datum/computer_file/program/bounty_board/Destroy()
-	GLOB.allbountyboards -= computer
-	. = ..()

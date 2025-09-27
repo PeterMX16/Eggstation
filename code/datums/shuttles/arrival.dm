@@ -26,6 +26,7 @@
 	suffix = "pubby"
 	name = "arrival shuttle (Pubby)"
 
+<<<<<<< HEAD
 /datum/map_template/shuttle/arrival/omega
 	suffix = "omega"
 	name = "arrival shuttle (Omega)"
@@ -37,3 +38,8 @@
 /datum/map_template/shuttle/arrival/premiumleaded
 	suffix = "premiumleaded"
 	name = "arrival shuttle (premiumlead)"
+=======
+/datum/map_template/shuttle/arrival/nebula
+	suffix = "nebula"
+	name = "arrival shuttle (Nebula)"
+>>>>>>> tg-pr-88929

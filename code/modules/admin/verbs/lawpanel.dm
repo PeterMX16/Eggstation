@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 ADMIN_VERB(law_panel, R_ADMIN, FALSE, "Law Panel", "View the AI laws.", ADMIN_CATEGORY_EVENTS)
+=======
+ADMIN_VERB(law_panel, R_ADMIN, "Law Panel", "View the AI laws.", ADMIN_CATEGORY_EVENTS)
+>>>>>>> tg-pr-88929
 	if(!isobserver(user) && SSticker.HasRoundStarted())
 		message_admins("[key_name_admin(user)] checked AI laws via the Law Panel.")
 	var/datum/law_panel/tgui = new
@@ -24,7 +28,7 @@ ADMIN_VERB(law_panel, R_ADMIN, FALSE, "Law Panel", "View the AI laws.", ADMIN_CA
 	var/lawtype = tgui_input_list(user, "Select law type", "Law type", lawtypes)
 	if(isnull(lawtype))
 		return FALSE
-	var/lawtext = tgui_input_text(user, "Input law text", "Law text")
+	var/lawtext = tgui_input_text(user, "Input law text", "Law text") // admin verb so no max length and also any user-level input is config based already so ehhhh
 	if(!lawtext)
 		return FALSE
 	if(QDELETED(src) || QDELETED(borgo))
@@ -48,7 +52,8 @@ ADMIN_VERB(law_panel, R_ADMIN, FALSE, "Law Panel", "View the AI laws.", ADMIN_CA
 			borgo.laws.add_inherent_law(lawtext)
 		if(LAW_SUPPLIED)
 			borgo.laws.add_supplied_law(length(borgo.laws.supplied), lawtext) // Just goes to the end of the list
-
+	log_admin("[key_name(user)] has UPLOADED a [lawtype] law to [key_name(borgo)] stating: [lawtext]")
+	message_admins("[key_name(user)] has UPLOADED a [lawtype] law to [key_name(borgo)] stating: [lawtext]")
 	return TRUE
 
 /datum/law_panel/proc/move_law_helper(mob/living/user, mob/living/silicon/borgo, direction, law)
@@ -104,6 +109,9 @@ ADMIN_VERB(law_panel, R_ADMIN, FALSE, "Law Panel", "View the AI laws.", ADMIN_CA
 		return FALSE
 
 	relevant_laws[lawindex] = newlaw
+	log_admin("[key_name(user)] has EDITED [key_name(borgo)] [lawtype] law. OLD LAW: [oldlaw] \
+		NEW LAW: [newlaw]")
+	message_admins("[key_name(user)] has EDITED a [lawtype] law on [key_name(borgo)]")
 	return TRUE
 
 /datum/law_panel/proc/edit_law_priority_helper(mob/living/user, mob/living/silicon/borgo, law)
@@ -145,10 +153,12 @@ ADMIN_VERB(law_panel, R_ADMIN, FALSE, "Law Panel", "View the AI laws.", ADMIN_CA
 
 		if(swap_or_remove == "Swap")
 			borgo.laws.supplied.Swap(old_prio, new_prio)
+			log_admin("[key_name(user)] has SWAPPED [key_name(borgo)] law [old_prio] and [new_prio]")
 			return TRUE
 		if(swap_or_remove == "Replace")
 			borgo.laws.remove_supplied_law_by_num(new_prio, law)
 			borgo.laws.add_supplied_law(new_prio, law)
+			log_admin("[key_name(user)] has REPLACED [key_name(borgo)] law: [law] with priority [new_prio]")
 			return TRUE
 
 		var/new_prio_for_old_law = new_prio + (swap_or_remove == "Move up" ? 1 : -1)
@@ -157,6 +167,7 @@ ADMIN_VERB(law_panel, R_ADMIN, FALSE, "Law Panel", "View the AI laws.", ADMIN_CA
 		borgo.laws.remove_supplied_law_by_num(new_prio)
 		borgo.laws.add_supplied_law(new_prio, law)
 		borgo.laws.add_supplied_law(new_prio_for_old_law, existing_law)
+		log_admin("[key_name(user)] has changed the priority of an existing law on [key_name(borgo)]. LAW: [law] PRIORITY: [new_prio]")
 		return TRUE
 
 	// Sanity
@@ -167,6 +178,8 @@ ADMIN_VERB(law_panel, R_ADMIN, FALSE, "Law Panel", "View the AI laws.", ADMIN_CA
 	// At this point the slot is free, insert it as normal
 	borgo.laws.remove_supplied_law_by_num(old_prio)
 	borgo.laws.add_supplied_law(new_prio, law)
+	log_admin("[key_name(user)] has UPLOADED a supplied law to [key_name(borgo)] stating: [law]") // Normal insertion, I.E upload
+	message_admins("[key_name(user)] has UPLOADED a supplied law to [key_name(borgo)] stating: [law]")
 	return TRUE
 
 /datum/law_panel/proc/remove_law_helper(mob/living/user, mob/living/silicon/borgo, lawtype, law)
@@ -184,7 +197,8 @@ ADMIN_VERB(law_panel, R_ADMIN, FALSE, "Law Panel", "View the AI laws.", ADMIN_CA
 			borgo.laws.protected_zeroth = FALSE
 		else
 			return FALSE
-
+	log_admin("[key_name(user)] has REMOVED a law from [key_name(borgo)]. LAW: [law]")
+	message_admins("[key_name(user)] has REMOVED a law from [key_name(borgo)]. LAW: [law]")
 	return TRUE
 
 /datum/law_panel/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)

@@ -41,7 +41,7 @@
 		return FALSE
 
 	var/obj/effect/temp_visual/decoy/DA = new /obj/effect/temp_visual/decoy(owner.loc, owner)
-	DA.color = "#FF0000"
+	DA.color = COLOR_RED
 	var/oldtransform = DA.transform
 	DA.transform = matrix()*2
 	animate(DA, alpha = 255, color = initial(DA.color), transform = oldtransform, time = 3)
@@ -57,11 +57,16 @@
 		shuffle_inplace(pools)
 		found_bloodpool = pick(pools)
 	if(found_bloodpool)
+<<<<<<< HEAD
 		owner.visible_message("<span class='danger'>[owner] sinks into the blood...</span>")
 		playsound(owner_turf, 'sound/magic/enter_blood.ogg', 100, TRUE, -1)
+=======
+		owner.visible_message(span_danger("[owner] sinks into the blood..."))
+		playsound(owner_turf, 'sound/effects/magic/enter_blood.ogg', 100, TRUE, -1)
+>>>>>>> tg-pr-88929
 		owner.forceMove(get_turf(found_bloodpool))
-		playsound(get_turf(owner), 'sound/magic/exit_blood.ogg', 100, TRUE, -1)
-		owner.visible_message("<span class='danger'>And springs back out!</span>")
+		playsound(get_turf(owner), 'sound/effects/magic/exit_blood.ogg', 100, TRUE, -1)
+		owner.visible_message(span_danger("And springs back out!"))
 		SEND_SIGNAL(owner, COMSIG_BLOOD_WARP)
 		return TRUE
 	return FALSE

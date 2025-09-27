@@ -67,7 +67,7 @@
 		qdel(src)
 		return
 	//Since we already did the checks in afterattack, the denonator must be a ninja with the bomb objective.
-	if(!detonator)
+	if(isnull(detonator))
 		return
 	. = ..()
 	if(!.)

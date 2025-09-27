@@ -25,6 +25,7 @@
 	volume = 250
 	possible_transfer_amounts = list(5,10)
 	var/spray_sound = 'sound/effects/spray2.ogg'
+	reagent_container_liquid_sound = SFX_DEFAULT_LIQUID_SLOSH
 
 /obj/item/reagent_containers/spray/ranged_interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
 	return try_spray(interacting_with, user) ? ITEM_INTERACT_SUCCESS : ITEM_INTERACT_BLOCKING
@@ -52,7 +53,7 @@
 			to_chat(user, span_warning("[src] is full."))
 			return FALSE
 
-		var/trans = target.reagents.trans_to(src, 50, transfered_by = user) //transfer 50u , using the spray's transfer amount would take too long to refill
+		var/trans = target.reagents.trans_to(src, 50, transferred_by = user) //transfer 50u , using the spray's transfer amount would take too long to refill
 		to_chat(user, span_notice("You fill \the [src] with [trans] units of the contents of \the [target]."))
 		return FALSE
 
@@ -69,14 +70,18 @@
 
 	playsound(src, spray_sound, 50, TRUE, -6)
 	user.changeNext_move(CLICK_CD_RANGE * 2)
+<<<<<<< HEAD
 	user.newtonian_move(get_dir(target, user))
+=======
+	user.newtonian_move(get_angle(target, user))
+>>>>>>> tg-pr-88929
 	return TRUE
 
 /// Handles creating a chem puff that travels towards the target atom, exposing reagents to everything it hits on the way.
-/obj/item/reagent_containers/spray/proc/spray(atom/target, mob/user)
+/obj/item/reagent_containers/spray/proc/spray(atom/target, mob/user, turf/start_turf = get_turf(src))
 	var/range = max(min(current_range, get_dist(src, target)), 1)
 
-	var/obj/effect/decal/chempuff/reagent_puff = new /obj/effect/decal/chempuff(get_turf(src))
+	var/obj/effect/decal/chempuff/reagent_puff = new(start_turf)
 
 	reagent_puff.create_reagents(amount_per_transfer_from_this)
 	var/puff_reagent_left = range //how many turf, mob or dense objet we can react with before we consider the chem puff consumed
@@ -89,9 +94,7 @@
 	var/wait_step = max(round(2+3/range), 2)
 
 	var/puff_reagent_string = reagent_puff.reagents.get_reagent_log_string()
-	var/turf/src_turf = get_turf(src)
-
-	log_combat(user, src_turf, "fired a puff of reagents from", src, addition="with a range of \[[range]\], containing [puff_reagent_string].")
+	log_combat(user, start_turf, "fired a puff of reagents from", src, addition="with a range of \[[range]\], containing [puff_reagent_string].")
 	user.log_message("fired a puff of reagents from \a [src] with a range of \[[range]\] and containing [puff_reagent_string].", LOG_ATTACK)
 
 	// do_spray includes a series of step_towards and sleeps. As a result, it will handle deletion of the chempuff.
@@ -99,11 +102,22 @@
 
 /// Handles exposing atoms to the reagents contained in a spray's chempuff. Deletes the chempuff when it's completed.
 /obj/item/reagent_containers/spray/proc/do_spray(atom/target, wait_step, obj/effect/decal/chempuff/reagent_puff, range, puff_reagent_left, mob/user)
-	var/datum/move_loop/our_loop = SSmove_manager.move_towards_legacy(reagent_puff, target, wait_step, timeout = range * wait_step, flags = MOVEMENT_LOOP_START_FAST, priority = MOVEMENT_ABOVE_SPACE_PRIORITY)
 	reagent_puff.user = user
 	reagent_puff.sprayer = src
-	reagent_puff.lifetime = puff_reagent_left
 	reagent_puff.stream = stream_mode
+<<<<<<< HEAD
+=======
+
+	var/turf/target_turf = get_turf(target)
+	var/turf/start_turf = get_turf(reagent_puff)
+	if(target_turf == start_turf) // Don't need to bother movelooping if we don't move
+		reagent_puff.setDir(user.dir)
+		reagent_puff.spray_down_turf(target_turf)
+		reagent_puff.end_life()
+		return
+
+	var/datum/move_loop/our_loop = GLOB.move_manager.move_towards_legacy(reagent_puff, target, wait_step, timeout = range * wait_step, flags = MOVEMENT_LOOP_START_FAST, priority = MOVEMENT_ABOVE_SPACE_PRIORITY)
+>>>>>>> tg-pr-88929
 	reagent_puff.RegisterSignal(our_loop, COMSIG_QDELETING, TYPE_PROC_REF(/obj/effect/decal/chempuff, loop_ended))
 	reagent_puff.RegisterSignal(our_loop, COMSIG_MOVELOOP_POSTPROCESS, TYPE_PROC_REF(/obj/effect/decal/chempuff, check_move))
 
@@ -151,7 +165,7 @@
 	set name = "Empty Spray Bottle"
 	set category = "Object"
 	set src in usr
-	if(usr.incapacitated())
+	if(usr.incapacitated)
 		return
 	if (tgui_alert(usr, "Are you sure you want to empty that?", "Empty Bottle:", list("Yes", "No")) != "Yes")
 		return
@@ -196,7 +210,7 @@
 	if(do_after(user, 3 SECONDS, user))
 		if(reagents.total_volume >= amount_per_transfer_from_this)//if not empty
 			user.visible_message(span_suicide("[user] pulls the trigger!"))
-			spray(user)
+			spray(user, user)
 			return BRUTELOSS
 		else
 			user.visible_message(span_suicide("[user] pulls the trigger...but \the [src] is empty!"))
@@ -226,6 +240,8 @@
 	stream_range = 4
 	amount_per_transfer_from_this = 5
 	list_reagents = list(/datum/reagent/consumable/condensedcapsaicin = 50)
+	pickup_sound = 'sound/items/handling/pepper_spray/pepper_spray_pick_up.ogg'
+	drop_sound = 'sound/items/handling/pepper_spray/pepper_spray_drop.ogg'
 
 /obj/item/reagent_containers/spray/pepper/empty //for protolathe printing
 	list_reagents = null
@@ -244,13 +260,13 @@
 /obj/item/reagent_containers/spray/waterflower
 	name = "water flower"
 	desc = "A seemingly innocent sunflower...with a twist."
-	icon = 'icons/obj/hydroponics/harvest.dmi'
+	icon = 'icons/obj/service/hydroponics/harvest.dmi'
 	icon_state = "sunflower"
 	inhand_icon_state = "sunflower"
 	lefthand_file = 'icons/mob/inhands/weapons/plants_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/weapons/plants_righthand.dmi'
 	amount_per_transfer_from_this = 1
-	possible_transfer_amounts = list(1)
+	has_variable_transfer_amount = FALSE
 	can_toggle_range = FALSE
 	current_range = 1
 	volume = 10
@@ -393,6 +409,7 @@
 	spray_range = 2
 	spray_sound = 'sound/effects/snap.ogg'
 	possible_transfer_amounts = list(5)
+	reagent_container_liquid_sound = null
 
 /obj/item/reagent_containers/spray/chemsprayer/party/spray(atom/A, mob/user)
 	. = ..()
@@ -403,7 +420,7 @@
 /obj/item/reagent_containers/spray/plantbgone // -- Skie
 	name = "Plant-B-Gone"
 	desc = "Kills those pesky weeds!"
-	icon = 'icons/obj/hydroponics/equipment.dmi'
+	icon = 'icons/obj/service/hydroponics/equipment.dmi'
 	icon_state = "plantbgone"
 	inhand_icon_state = "plantbgone"
 	lefthand_file = 'icons/mob/inhands/equipment/hydroponics_lefthand.dmi'
@@ -440,10 +457,6 @@
 						"Yellow" = "sprayer_med_yellow",
 						"Blue" = "sprayer_med_blue")
 
-/obj/item/reagent_containers/spray/medical/AltClick(mob/user)
-	if(unique_reskin && !current_skin && user.can_perform_action(src, NEED_DEXTERITY))
-		reskin_obj(user)
-
 /obj/item/reagent_containers/spray/medical/reskin_obj(mob/M)
 	..()
 	switch(icon_state)
@@ -457,6 +470,7 @@
 
 /obj/item/reagent_containers/spray/hercuri
 	name = "medical spray (hercuri)"
-	desc = "A medical spray bottle.This one contains hercuri, a medicine used to negate the effects of dangerous high-temperature environments. Careful not to freeze the patient!"
-	icon_state = "sprayer_large"
+	desc = "A medical spray bottle. This one contains hercuri, a medicine used to negate the effects of dangerous high-temperature environments. Careful not to freeze the patient!"
+	icon = 'icons/obj/medical/chemical.dmi'
+	icon_state = "sprayer_med_yellow"
 	list_reagents = list(/datum/reagent/medicine/c2/hercuri = 100)

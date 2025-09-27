@@ -21,3 +21,10 @@
 /// Logging for wizard powers learned
 /proc/log_spellbook(text, list/data)
 	logger.Log(LOG_CATEGORY_UPLINK_SPELL, text, data)
+<<<<<<< HEAD
+=======
+
+/// Logs bounties completed by spies and their rewards
+/proc/log_spy(text, list/data)
+	logger.Log(LOG_CATEGORY_UPLINK_SPY, text, data)
+>>>>>>> tg-pr-88929

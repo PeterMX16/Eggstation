@@ -24,15 +24,25 @@
 
 	attack_verb_continuous = "bites"
 	attack_verb_simple = "bite"
+<<<<<<< HEAD
 	attack_sound = 'sound/weapons/bite.ogg'
+=======
+	attack_sound = 'sound/items/weapons/bite.ogg'
+>>>>>>> tg-pr-88929
 	attack_vis_effect = ATTACK_EFFECT_BITE
 
 	faction = list(FACTION_SPOOKY)
 	speak_emote = list("telepathically cries")
 
+<<<<<<< HEAD
 	habitable_atmos = list("min_oxy" = 0, "max_oxy" = 0, "min_plas" = 0, "max_plas" = 0, "min_co2" = 0, "max_co2" = 0, "min_n2" = 0, "max_n2" = 0)
 	bodytemp_cold_damage_limit = T0C
 	bodytemp_heat_damage_limit = T0C + 1500
+=======
+	habitable_atmos = null
+	minimum_survivable_temperature = T0C
+	maximum_survivable_temperature = T0C + 1500
+>>>>>>> tg-pr-88929
 	sight = SEE_SELF|SEE_MOBS|SEE_OBJS|SEE_TURFS
 
 	lighting_cutoff_red = 40
@@ -52,6 +62,7 @@
 
 /mob/living/basic/eyeball/Initialize(mapload)
 	. = ..()
+<<<<<<< HEAD
 	var/datum/action/cooldown/spell/pointed/death_glare/glare = new(src)
 	glare.Grant(src)
 	ai_controller.set_blackboard_key(BB_GLARE_ABILITY, glare)
@@ -59,6 +70,17 @@
 	AddComponent(/datum/component/tameable, food_types = list(/obj/item/food/grown/carrot), tame_chance = 100)
 	ADD_TRAIT(src, TRAIT_SPACEWALK, INNATE_TRAIT)
 	RegisterSignal(src, COMSIG_HOSTILE_PRE_ATTACKINGTARGET, PROC_REF(pre_attack))
+=======
+	var/static/list/innate_actions = list(
+		/datum/action/cooldown/spell/pointed/death_glare = BB_GLARE_ABILITY
+	)
+	grant_actions_by_list(innate_actions)
+
+	AddElement(/datum/element/simple_flying)
+	var/list/food_types = string_list(list(/obj/item/food/grown/carrot))
+	AddComponent(/datum/component/tameable, food_types = food_types, tame_chance = 100)
+	ADD_TRAIT(src, TRAIT_SPACEWALK, INNATE_TRAIT)
+>>>>>>> tg-pr-88929
 	on_hit_overlay = mutable_appearance(icon, "[icon_state]_crying")
 
 /mob/living/basic/eyeball/UnarmedAttack(atom/attack_target, proximity_flag, list/modifiers)
@@ -77,7 +99,11 @@
 
 /mob/living/basic/eyeball/attackby(obj/item/weapon, mob/living/carbon/human/user, list/modifiers)
 	. = ..()
+<<<<<<< HEAD
 	if(!weapon.force && !(user.istate & ISTATE_HARM))
+=======
+	if(!weapon.force && !user.combat_mode)
+>>>>>>> tg-pr-88929
 		return
 	if(crying)
 		return
@@ -92,6 +118,7 @@
 	cut_overlay(on_hit_overlay)
 
 
+<<<<<<< HEAD
 /mob/living/basic/eyeball/proc/pre_attack(mob/living/eyeball, atom/target)
 	SIGNAL_HANDLER
 
@@ -109,6 +136,22 @@
 
 
 /mob/living/basic/eyeball/proc/heal_eye_damage(mob/living/target, obj/item/organ/internal/eyes/eyes)
+=======
+/mob/living/basic/eyeball/early_melee_attack(atom/target, list/modifiers, ignore_cooldown)
+	. = ..()
+	if(!.)
+		return FALSE
+	if(!ishuman(target))
+		return TRUE
+	var/mob/living/carbon/human_target = target
+	var/obj/item/organ/eyes/eyes = human_target.get_organ_slot(ORGAN_SLOT_EYES)
+	if(isnull(eyes) || eyes.damage < 10)
+		return TRUE
+	heal_eye_damage(human_target, eyes)
+	return FALSE
+
+/mob/living/basic/eyeball/proc/heal_eye_damage(mob/living/target, obj/item/organ/eyes/eyes)
+>>>>>>> tg-pr-88929
 	if(!COOLDOWN_FINISHED(src, eye_healing))
 		return
 	to_chat(target, span_warning("[src] seems to be healing your [eyes.zone]!"))

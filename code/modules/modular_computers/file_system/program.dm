@@ -46,6 +46,40 @@
 	var/always_update_ui = FALSE
 	/// How well this program will help combat detomatix viruses.
 	var/detomatix_resistance = NONE
+	/// Unremovable circuit componentn added to the physical computer while the program is installed
+	var/obj/item/circuit_component/mod_program/circuit_comp_type
+
+/datum/computer_file/program/New()
+	..()
+	///We need to ensure that different programs (subtypes mostly) won't try to load in the same circuit comps into the shell or usb port of the modpc.
+	if(circuit_comp_type && initial(circuit_comp_type.associated_program) != type)
+		stack_trace("circuit comp type mismatch: [type] has circuit comp type \[[circuit_comp_type]\], while \[[circuit_comp_type]\] has associated program \[[initial(circuit_comp_type.associated_program)]\].")
+
+/**
+ * Here we deal with peculiarity of adding unremovable components to the computer shell.
+ * It probably doesn't look badass, but it's a decent way of doing it without taining the component with
+ * oddities like this.
+ */
+/datum/computer_file/program/on_install(datum/computer_file/source, obj/item/modular_computer/computer_installing)
+	. = ..()
+	if(isnull(circuit_comp_type) || isnull(computer.shell))
+		return
+	if(!(locate(circuit_comp_type) in computer.shell.unremovable_circuit_components))
+		var/obj/item/circuit_component/mod_program/comp = new circuit_comp_type()
+		computer.shell.add_unremovable_circuit_component(comp)
+		if(computer.shell.attached_circuit)
+			comp.forceMove(computer.shell.attached_circuit)
+			computer.shell.attached_circuit.add_component(comp)
+
+///Here we deal with killing the associated components instead.
+/datum/computer_file/program/Destroy()
+	if(isnull(circuit_comp_type) || isnull(computer?.shell))
+		return ..()
+	for(var/obj/item/circuit_component/mod_program/comp in computer.shell.unremovable_circuit_components)
+		if(comp.associated_program == src)
+			computer.shell.unremovable_circuit_components -= comp
+			qdel(comp)
+	return ..()
 
 /datum/computer_file/program/clone()
 	var/datum/computer_file/program/temp = ..()
@@ -69,10 +103,13 @@
 /datum/computer_file/program/ui_interact(mob/user, datum/tgui/ui)
 	SHOULD_CALL_PARENT(FALSE)
 
+<<<<<<< HEAD
 ///We are not calling parent as it's handled by the computer itself, this is only called after.
 /datum/computer_file/program/ui_act(action, params, datum/tgui/ui, datum/ui_state/state)
 	SHOULD_CALL_PARENT(FALSE)
 
+=======
+>>>>>>> tg-pr-88929
 // Relays icon update to the computer.
 /datum/computer_file/program/proc/update_computer_icon()
 	if(computer)
@@ -80,9 +117,9 @@
 
 ///Attempts to generate an Ntnet log, returns the log on success, FALSE otherwise.
 /datum/computer_file/program/proc/generate_network_log(text)
-	if(computer)
-		return computer.add_log(text)
-	return FALSE
+	if(!computer || computer.obj_flags & EMAGGED)
+		return FALSE
+	return computer.add_log(text)
 
 /**
  *Runs when the device is used to attack an atom in non-combat mode using right click (secondary).
@@ -169,12 +206,22 @@
  **/
 /datum/computer_file/program/proc/on_start(mob/living/user)
 	SHOULD_CALL_PARENT(TRUE)
+<<<<<<< HEAD
 	if(can_run(user, loud = TRUE))
 		if(program_flags & PROGRAM_REQUIRES_NTNET)
 			var/obj/item/card/id/ID = computer.computer_id_slot?.GetID()
 			generate_network_log("Connection opened -- Program ID:[filename] User:[ID?"[ID.registered_name]":"None"]")
 		return TRUE
 	return FALSE
+=======
+	if(!can_run(user, loud = TRUE))
+		return FALSE
+	if(program_flags & PROGRAM_REQUIRES_NTNET)
+		var/obj/item/card/id/ID = computer.computer_id_slot?.GetID()
+		generate_network_log("Connection opened -- Program ID:[filename] User:[ID?"[ID.registered_name]":"None"]")
+	SEND_SIGNAL(src, COMSIG_COMPUTER_PROGRAM_START, user)
+	return TRUE
+>>>>>>> tg-pr-88929
 
 /**
  * Kills the running program
@@ -191,20 +238,35 @@
 		computer.active_program = null
 		if(!QDELETED(computer) && computer.enabled)
 			INVOKE_ASYNC(computer, TYPE_PROC_REF(/obj/item/modular_computer, update_tablet_open_uis), user)
+<<<<<<< HEAD
 	if(src in computer.idle_threads)
 		computer.idle_threads.Remove(src)
+=======
+	else if(src in computer.idle_threads)
+		computer.idle_threads.Remove(src)
+	else //The program wasn't running to begin with.
+		return FALSE
+>>>>>>> tg-pr-88929
 
 	if(program_flags & PROGRAM_REQUIRES_NTNET)
 		var/obj/item/card/id/ID = computer.computer_id_slot?.GetID()
 		generate_network_log("Connection closed -- Program ID: [filename] User:[ID ? "[ID.registered_name]" : "None"]")
 
 	computer.update_appearance(UPDATE_ICON)
+<<<<<<< HEAD
+=======
+	SEND_SIGNAL(src, COMSIG_COMPUTER_PROGRAM_KILL, user)
+>>>>>>> tg-pr-88929
 	return TRUE
 
 ///Sends the running program to the background/idle threads. Header programs can't be minimized and will kill instead.
 /datum/computer_file/program/proc/background_program(mob/user)
 	SHOULD_CALL_PARENT(TRUE)
+<<<<<<< HEAD
 	if(program_flags & PROGRAM_HEADER)
+=======
+	if(program_flags & PROGRAM_HEADER || length(computer.idle_threads) > computer.max_idle_programs)
+>>>>>>> tg-pr-88929
 		return kill_program()
 
 	computer.idle_threads.Add(src)

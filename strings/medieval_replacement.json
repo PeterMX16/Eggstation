@@ -54,6 +54,7 @@
 		"there": "thither",
 		"will not": "shan't",
 		"thank you": [
+<<<<<<< HEAD
 			"grammercy to you",
 			"kindly thanks to you",
 			"many good thanks to you",
@@ -123,16 +124,129 @@
 		"hello": ["ave", "good day", "hail", "tally ho", "well met", "well meteth"],
 		"hi": ["ave", "good day", "hail", "tally ho", "well met", "well meteth"],
 		"does": ["doeseth", "dost", "doth"],
+=======
+		"grammercy to you",
+		"kindly thanks to you",
+		"many good thanks to you",
+		"thankee"
+		],
+		"thanks": [
+		"grammercy to you",
+		"kindly thanks to you",
+		"many good thanks to you",
+		"thankee"
+		],
+		"you": [
+		"thou",
+		"thee",
+		"ye"
+		],
+		"your": [
+		"thine",
+		"thy",
+		"thyne"
+		],
+		"are": "art",
+		"killed": [
+		"bested",
+		"brung low",
+		"conquered",
+		"fleeced",
+		"foiled",
+		"humbled",
+		"slain",
+		"subjugated",
+		"vanquished"
+		],
+		"kill": [
+		"best",
+		"bring low",
+		"conquer",
+		"fleece",
+		"foil",
+		"humble",
+		"slay",
+		"subjugate",
+		"vanquish"
+		],
+		"goodbye": [
+		"adieu",
+		"begone",
+		"by your leave",
+		"cheerio",
+		"fare thee well",
+		"farewell",
+		"godspeed",
+		"good day",
+		"good morrow",
+		"I bid thee farewell",
+		"I bid thee good day",
+		"pleasant journey"
+		],
+		"bye": [
+		"adieu",
+		"begone",
+		"by your leave",
+		"cheerio",
+		"fare thee well",
+		"farewell",
+		"godspeed",
+		"good day",
+		"good morrow",
+		"I bid thee farewell",
+		"I bid thee good day",
+		"pleasant journey"
+		],
+		"yes": [
+		"aye",
+		"yea",
+		"yea verily"
+		],
+		"no": [
+		"nay",
+		"nayeth"
+		],
+		"hello": [
+		"ave",
+		"good day",
+		"hail",
+		"tally ho",
+		"well met",
+		"well meteth"
+		],
+		"hi": [
+		"ave",
+		"good day",
+		"hail",
+		"tally ho",
+		"well met",
+		"well meteth"
+		],
+		"does": [
+		"doeseth",
+		"dost",
+		"doth"
+		],
+>>>>>>> tg-pr-88929
 		"cap": "king",
 		"captain": "king",
 		"in": "within",
 		"my": "mine",
 		"nuke disk": "plate of holy fire",
+<<<<<<< HEAD
 		"food": ["bellytimber", "cake", "game"],
+=======
+		"food": [
+		"bellytimber",
+		"cake",
+		"game"
+		],
+>>>>>>> tg-pr-88929
 		"bet": "warrant",
 		"go": "a-walk",
 		"going": "a-walkin'",
 		"the": "yon",
+<<<<<<< HEAD
 		"kidding": ["but pulling a jest", "but pulling a jape"],
 		"joke": ["jest", "jape"],
 		"station": "castle",
@@ -219,6 +333,129 @@
 		"maybe": ["mayhaps", "perchance"],
 		"probably": ["mayhaps", "perchance"],
 		"girl": ["lady", "lass", "madame", "maid", "maiden", "mistress", "waif"],
+=======
+		"kidding": [
+		"but pulling a jest",
+		"but pulling a jape"
+		],
+		"joke": [
+		"jest",
+		"jape"
+		],
+		"station": "castle",
+		"please": [
+		"I pray you",
+		"prithee",
+		"pray"
+		],
+		"ok": [
+		"as you will",
+		"agreed",
+		"well said",
+		"just so"
+		],
+		"is": "be",
+		"never": "ne'er",
+		"haha": [
+		"and there was much chuckling!",
+		"and there was much guffawing!",
+		"and there was much mirth!",
+		"and there was much snickering!",
+		"and there was much snorting!",
+		"and there was much tittering!",
+		"cachinnate!",
+		"cackle!",
+		"chuckle!",
+		"guffaw!",
+		"oh, 'tis to laugh!",
+		"snicker!",
+		"snigger!",
+		"snort!",
+		"titter!",
+		"zounds!"
+		],
+		"hehe": [
+		"and there was much chuckling!",
+		"and there was much guffawing!",
+		"and there was much mirth!",
+		"and there was much snickering!",
+		"and there was much snorting!",
+		"and there was much tittering!",
+		"cachinnate!",
+		"cackle!",
+		"chuckle!",
+		"guffaw!",
+		"oh, 'tis to laugh!",
+		"snicker!",
+		"snigger!",
+		"snort!",
+		"titter!",
+		"zounds!"
+		],
+		"hah": [
+		"and there was much chuckling!",
+		"and there was much guffawing!",
+		"and there was much mirth!",
+		"and there was much snickering!",
+		"and there was much snorting!",
+		"and there was much tittering!",
+		"cachinnate!",
+		"cackle!",
+		"chuckle!",
+		"guffaw!",
+		"oh, 'tis to laugh!",
+		"snicker!",
+		"snigger!",
+		"snort!",
+		"titter!",
+		"zounds!"
+		],
+		"heh": [
+		"and there was much chuckling!",
+		"and there was much guffawing!",
+		"and there was much mirth!",
+		"and there was much snickering!",
+		"and there was much snorting!",
+		"and there was much tittering!",
+		"cachinnate!",
+		"cackle!",
+		"chuckle!",
+		"guffaw!",
+		"oh, 'tis to laugh!",
+		"snicker!",
+		"snigger!",
+		"snort!",
+		"titter!",
+		"zounds!"
+		],
+		"help": [
+		"aid",
+		"aideth",
+		"assistance",
+		"saveth",
+		"succor"
+		],
+		"could": "couldst",
+		"would": "wouldst",
+		"sure": "shore",
+		"maybe": [
+		"mayhaps",
+		"perchance"
+		],
+		"probably": [
+		"mayhaps",
+		"perchance"
+		],
+		"girl": [
+		"lady",
+		"lass",
+		"madame",
+		"maid",
+		"maiden",
+		"mistress",
+		"waif"
+		],
+>>>>>>> tg-pr-88929
 		"cat": "beast",
 		"felinid": "catbeast",
 		"later": "anon",
@@ -230,7 +467,14 @@
 		"plasmaman": "fire spirit",
 		"plasmamen": "fire spirits",
 		"soon": "anon",
+<<<<<<< HEAD
 		"really": ["indeed", "in truth"],
+=======
+		"really": [
+		"indeed",
+		"in truth"
+		],
+>>>>>>> tg-pr-88929
 		"away": "aroint",
 		"being": "bein",
 		"enough": "ynogh",
@@ -240,6 +484,13 @@
 		"shit": "nightsoil",
 		"those": "yon",
 		"why": "wherefore",
+<<<<<<< HEAD
 		"based": ["joly", "jolyf"]
+=======
+		"based": [
+		"joly",
+		"jolyf"
+		]
+>>>>>>> tg-pr-88929
 	}
 }

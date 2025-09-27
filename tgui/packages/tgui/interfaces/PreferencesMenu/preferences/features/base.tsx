@@ -1,28 +1,53 @@
+<<<<<<< HEAD
 import { sortBy, sortStrings } from 'common/collections';
 import { BooleanLike, classes } from 'common/react';
 import { ComponentType, createComponentVNode, InfernoNode } from 'inferno';
 import { VNodeFlags } from 'inferno-vnode-flags';
 import { sendAct, useBackend, useLocalState } from '../../../../backend';
+=======
+import { sortBy } from 'common/collections';
+import {
+  ComponentType,
+  createElement,
+  ReactNode,
+  useEffect,
+  useState,
+} from 'react';
+import { sendAct, useBackend } from 'tgui/backend';
+>>>>>>> tg-pr-88929
 import {
   Box,
   Button,
   Dropdown,
   Input,
   NumberInput,
+<<<<<<< HEAD
   Stack,
   Flex,
   Tooltip,
 } from '../../../../components';
+=======
+  Slider,
+  Stack,
+} from 'tgui-core/components';
+import { BooleanLike } from 'tgui-core/react';
+
+>>>>>>> tg-pr-88929
 import { createSetPreference, PreferencesMenuData } from '../../data';
 import { ServerPreferencesFetcher } from '../../ServerPreferencesFetcher';
 import features from '.';
 
-export const sortChoices = sortBy<[string, InfernoNode]>(([name]) => name);
+export const sortChoices = (array: [string, ReactNode][]) =>
+  sortBy(array, ([name]) => name);
 
 export type Feature<
   TReceiving,
   TSending = TReceiving,
+<<<<<<< HEAD
   TServerData = unknown,
+=======
+  TServerData = undefined,
+>>>>>>> tg-pr-88929
 > = {
   name: string;
   component: FeatureValue<TReceiving, TSending, TServerData>;
@@ -42,7 +67,11 @@ export type Feature<
 type FeatureValue<
   TReceiving,
   TSending = TReceiving,
+<<<<<<< HEAD
   TServerData = unknown,
+=======
+  TServerData = undefined,
+>>>>>>> tg-pr-88929
 > = ComponentType<FeatureValueProps<TReceiving, TSending, TServerData>>;
 
 export type FeatureValueProps<
@@ -55,7 +84,11 @@ export type FeatureValueProps<
   handleSetValue: (newValue: TSending) => void;
   serverData: TServerData | undefined;
   shrink?: boolean;
+<<<<<<< HEAD
   value?: TReceiving;
+=======
+  value: TReceiving;
+>>>>>>> tg-pr-88929
 }>;
 
 export const FeatureColorInput = (props: FeatureValueProps<string>) => {
@@ -76,7 +109,7 @@ export const FeatureColorInput = (props: FeatureValueProps<string>) => {
                 ? props.value
                 : `#${props.value}`,
               border: '2px solid white',
-              'box-sizing': 'content-box',
+              boxSizing: 'content-box',
               height: '11px',
               width: '11px',
               ...(props.shrink
@@ -132,16 +165,21 @@ export const CheckboxInputInverse = (
   );
 };
 
-export const createDropdownInput = <T extends string | number = string>(
+export function createDropdownInput<T extends string | number = string>(
   // Map of value to display texts
+<<<<<<< HEAD
   choices: Record<T, InfernoNode>,
   dropdownProps?: Record<T, unknown>,
 ): FeatureValue<T> => {
+=======
+  choices: Record<T, ReactNode>,
+  dropdownProps?: Record<T, unknown>,
+): FeatureValue<T> {
+>>>>>>> tg-pr-88929
   return (props: FeatureValueProps<T>) => {
     return (
       <Dropdown
-        selected={props.value}
-        displayText={choices[props.value]}
+        selected={choices[props.value] as string}
         onSelected={props.handleSetValue}
         width="100%"
         options={sortChoices(Object.entries(choices)).map(
@@ -156,7 +194,7 @@ export const createDropdownInput = <T extends string | number = string>(
       />
     );
   };
-};
+}
 
 export type FeatureChoicedServerData = {
   choices: string[];
@@ -166,6 +204,7 @@ export type FeatureChoicedServerData = {
 
 export type FeatureChoiced = Feature<string, string, FeatureChoicedServerData>;
 
+<<<<<<< HEAD
 const capitalizeFirstLetter = (text: string) =>
   text.toString().charAt(0).toUpperCase() + text.toString().slice(1);
 
@@ -332,6 +371,8 @@ export const StandardizedChoiceButtons = (props: {
   );
 };
 
+=======
+>>>>>>> tg-pr-88929
 export type FeatureNumericData = {
   minimum: number;
   maximum: number;
@@ -349,7 +390,7 @@ export const FeatureNumberInput = (
 
   return (
     <NumberInput
-      onChange={(e, value) => {
+      onChange={(value) => {
         props.handleSetValue(value);
       }}
       minValue={props.serverData.minimum}
@@ -360,6 +401,30 @@ export const FeatureNumberInput = (
   );
 };
 
+<<<<<<< HEAD
+=======
+export const FeatureSliderInput = (
+  props: FeatureValueProps<number, number, FeatureNumericData>,
+) => {
+  if (!props.serverData) {
+    return <Box>Loading...</Box>;
+  }
+
+  return (
+    <Slider
+      onChange={(e, value) => {
+        props.handleSetValue(value);
+      }}
+      minValue={props.serverData.minimum}
+      maxValue={props.serverData.maximum}
+      step={props.serverData.step}
+      value={props.value}
+      stepPixelSize={10}
+    />
+  );
+};
+
+>>>>>>> tg-pr-88929
 export const FeatureValueInput = (props: {
   feature: Feature<unknown>;
   featureId: string;
@@ -372,6 +437,7 @@ export const FeatureValueInput = (props: {
 
   const feature = props.feature;
 
+<<<<<<< HEAD
   const [predictedValue, setPredictedValue] =
     feature.predictable === undefined || feature.predictable
       ? useLocalState(
@@ -379,27 +445,41 @@ export const FeatureValueInput = (props: {
           props.value,
         )
       : [props.value, () => {}];
+=======
+  const [predictedValue, setPredictedValue] = useState(props.value);
+>>>>>>> tg-pr-88929
 
   const changeValue = (newValue: unknown) => {
     setPredictedValue(newValue);
     createSetPreference(props.act, props.featureId)(newValue);
   };
+<<<<<<< HEAD
+=======
+
+  useEffect(() => {
+    setPredictedValue(props.value);
+  }, [data.active_slot, props.value]);
+
+>>>>>>> tg-pr-88929
   return (
     <ServerPreferencesFetcher
       render={(serverData) => {
-        return createComponentVNode(
-          VNodeFlags.ComponentUnknown,
-          feature.component,
-          {
-            act: props.act,
-            featureId: props.featureId,
-            serverData: serverData && serverData[props.featureId],
-            shrink: props.shrink,
+        return createElement(feature.component, {
+          act: props.act,
+          featureId: props.featureId,
+          serverData: serverData?.[props.featureId] as any,
+          shrink: props.shrink,
 
+<<<<<<< HEAD
             handleSetValue: changeValue,
             value: predictedValue,
           },
         );
+=======
+          handleSetValue: changeValue,
+          value: predictedValue,
+        });
+>>>>>>> tg-pr-88929
       }}
     />
   );
@@ -421,6 +501,7 @@ export const FeatureShortTextInput = (
       width="100%"
       value={props.value}
       maxLength={props.serverData.maximum_length}
+      updateOnPropsChange
       onChange={(_, value) => props.handleSetValue(value)}
     />
   );

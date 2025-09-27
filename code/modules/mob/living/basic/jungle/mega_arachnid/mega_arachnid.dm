@@ -16,26 +16,43 @@
 	pixel_x = -16
 	base_pixel_x = -16
 
+<<<<<<< HEAD
 	habitable_atmos = list("min_oxy" = 0, "max_oxy" = 0, "min_plas" = 0, "max_plas" = 0, "min_co2" = 0, "max_co2" = 0, "min_n2" = 0, "max_n2" = 0)
 	faction = list(FACTION_JUNGLE)
 	obj_damage = 30
 	environment_smash = ENVIRONMENT_SMASH_WALLS
 	bodytemp_cold_damage_limit = T0C
 	bodytemp_heat_damage_limit = T0C + 450
+=======
+	habitable_atmos = null
+	faction = list(FACTION_JUNGLE)
+	obj_damage = 30
+	environment_smash = ENVIRONMENT_SMASH_WALLS
+	minimum_survivable_temperature = T0C
+	maximum_survivable_temperature = T0C + 450
+>>>>>>> tg-pr-88929
 	status_flags = NONE
 	lighting_cutoff_red = 5
 	lighting_cutoff_green = 20
 	lighting_cutoff_blue = 25
+<<<<<<< HEAD
 	mob_size = MOB_SIZE_HUGE
 
 	speak_emote = list("chitters")
 	attack_sound = 'sound/weapons/bladeslice.ogg'
+=======
+	mob_size = MOB_SIZE_LARGE
+
+	speak_emote = list("chitters")
+	attack_sound = 'sound/items/weapons/bladeslice.ogg'
+>>>>>>> tg-pr-88929
 	attack_vis_effect = ATTACK_EFFECT_SLASH
 	ai_controller = /datum/ai_controller/basic_controller/mega_arachnid
 	alpha = 40
 
 /mob/living/basic/mega_arachnid/Initialize(mapload)
 	. = ..()
+<<<<<<< HEAD
 	AddComponent(/datum/component/seethrough_mob)
 	var/datum/action/cooldown/spell/pointed/projectile/flesh_restraints/restrain = new(src)
 	var/datum/action/cooldown/mob_cooldown/secrete_acid/acid_spray = new(src)
@@ -46,6 +63,18 @@
 	AddComponent(/datum/component/tree_climber, climbing_distance = 15)
 	ai_controller.set_blackboard_key(BB_ARACHNID_RESTRAIN, restrain)
 	ai_controller.set_blackboard_key(BB_ARACHNID_SLIP, acid_spray)
+=======
+	var/static/list/innate_actions = list(
+		/datum/action/cooldown/mob_cooldown/secrete_acid = BB_ARACHNID_SLIP,
+		/datum/action/cooldown/spell/pointed/projectile/flesh_restraints = BB_ARACHNID_RESTRAIN,
+	)
+	grant_actions_by_list(innate_actions)
+
+	AddElement(/datum/element/swabable, CELL_LINE_TABLE_MEGA_ARACHNID, CELL_VIRUS_TABLE_GENERIC_MOB, 1, 5)
+	AddComponent(/datum/component/seethrough_mob)
+	AddComponent(/datum/component/appearance_on_aggro, alpha_on_aggro = 255, alpha_on_deaggro = alpha)
+	AddComponent(/datum/component/tree_climber, climbing_distance = 15)
+>>>>>>> tg-pr-88929
 
 /mob/living/basic/mega_arachnid/Login()
 	. = ..()

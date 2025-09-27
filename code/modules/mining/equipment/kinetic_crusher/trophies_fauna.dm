@@ -122,7 +122,11 @@
 
 /obj/item/crusher_trophy/brimdemon_fang/on_mark_detonation(mob/living/target, mob/living/user)
 	target.balloon_alert_to_viewers("[pick(comic_phrases)]!")
+<<<<<<< HEAD
 	playsound(target, 'sound/lavaland/brimdemon_crush.ogg', 100)
+=======
+	playsound(target, 'sound/mobs/non-humanoids/brimdemon/brimdemon_crush.ogg', 100)
+>>>>>>> tg-pr-88929
 
 // Bileworm
 /obj/item/crusher_trophy/bileworm_spewlet
@@ -168,7 +172,11 @@
 	owner_has_control = FALSE
 	cooldown_time = 10 SECONDS
 	projectile_type = /obj/projectile/bileworm_acid
+<<<<<<< HEAD
 	projectile_sound = 'sound/creatures/bileworm/bileworm_spit.ogg'
+=======
+	projectile_sound = 'sound/mobs/non-humanoids/bileworm/bileworm_spit.ogg'
+>>>>>>> tg-pr-88929
 
 /datum/action/cooldown/mob_cooldown/projectile_attack/dir_shots/spewlet/New(Target)
 	firing_directions = GLOB.cardinals.Copy()
@@ -221,3 +229,24 @@
 
 /obj/item/crusher_trophy/wolf_ear/on_mark_detonation(mob/living/target, mob/living/user)
 	user.apply_status_effect(/datum/status_effect/speed_boost, 1 SECONDS)
+<<<<<<< HEAD
+=======
+
+// Polar bear
+/obj/item/crusher_trophy/bear_paw
+	name = "polar bear paw"
+	desc = "It's a polar bear paw."
+	icon_state = "bear_paw"
+	denied_type = /obj/item/crusher_trophy/bear_paw
+
+/obj/item/crusher_trophy/bear_paw/effect_desc()
+	return "mark detonation to attack twice if you are below half your life"
+
+/obj/item/crusher_trophy/bear_paw/on_mark_detonation(mob/living/target, mob/living/user)
+	if(user.health / user.maxHealth > 0.5)
+		return
+	var/obj/item/I = user.get_active_held_item()
+	if(!I)
+		return
+	I.melee_attack_chain(user, target, null)
+>>>>>>> tg-pr-88929

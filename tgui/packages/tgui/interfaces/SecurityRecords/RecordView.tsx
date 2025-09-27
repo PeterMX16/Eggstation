@@ -8,13 +8,18 @@ import {
   Section,
   Stack,
   Table,
+<<<<<<< HEAD
 } from 'tgui/components';
+=======
+} from 'tgui-core/components';
+
+>>>>>>> tg-pr-88929
 import { CharacterPreview } from '../common/CharacterPreview';
 import { EditableText } from '../common/EditableText';
-import { CrimeWatcher } from './CrimeWatcher';
-import { RecordPrint } from './RecordPrint';
 import { CRIMESTATUS2COLOR, CRIMESTATUS2DESC } from './constants';
+import { CrimeWatcher } from './CrimeWatcher';
 import { getSecurityRecord } from './helpers';
+import { RecordPrint } from './RecordPrint';
 import { SecurityRecordsData } from './types';
 
 /** Views a selected record. */
@@ -65,6 +70,7 @@ const RecordInfo = (props) => {
     rank,
     species,
     wanted_status,
+    voice,
   } = foundRecord;
 
   const hasValidCrimes = !!crimes.find((crime) => !!crime.valid);
@@ -101,7 +107,10 @@ const RecordInfo = (props) => {
               {name}
             </Table.Cell>
           }
+<<<<<<< HEAD
           wrap
+=======
+>>>>>>> tg-pr-88929
         >
           <LabeledList>
             <LabeledList.Item
@@ -180,6 +189,9 @@ const RecordInfo = (props) => {
                 target_ref={crew_ref}
                 text={fingerprint}
               />
+            </LabeledList.Item>
+            <LabeledList.Item label="Voice">
+              <EditableText field="voice" target_ref={crew_ref} text={voice} />
             </LabeledList.Item>
             <LabeledList.Item label="Note">
               <EditableText

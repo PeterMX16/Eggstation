@@ -1,7 +1,10 @@
+///how much charge we give off to cells around us when rubbed
+#define FESTIVUS_RECHARGE_VALUE (0.075 * STANDARD_CELL_CHARGE)
+
 /mob/living/basic/festivus
 	name = "festivus pole"
 	desc = "Serenity now... SERENITY NOW!"
-	icon = 'icons/obj/flora/pinetrees.dmi'
+	icon = 'icons/obj/fluff/flora/pinetrees.dmi'
 	icon_state = "festivus_pole"
 	icon_living = "festivus_pole"
 	icon_dead = "festivus_pole"
@@ -27,7 +30,7 @@
 	melee_damage_upper = 12
 	attack_verb_continuous = "bites"
 	attack_verb_simple = "bite"
-	attack_sound = 'sound/weapons/bite.ogg'
+	attack_sound = 'sound/items/weapons/bite.ogg'
 	attack_vis_effect = ATTACK_EFFECT_BITE
 
 	faction = list(FACTION_HOSTILE)
@@ -37,18 +40,25 @@
 
 	ai_controller = /datum/ai_controller/basic_controller/festivus_pole
 
+<<<<<<< HEAD
 	///how much charge we give off to cells around us when rubbed
 	var/recharge_value = 75 KILO JOULES
 
+=======
+>>>>>>> tg-pr-88929
 /mob/living/basic/festivus/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/seethrough_mob)
 	var/static/list/death_loot = list(/obj/item/stack/rods)
 	AddElement(/datum/element/death_drops, death_loot)
 	AddComponent(/datum/component/aggro_emote, emote_list = string_list(list("growls")), emote_chance = 20)
+<<<<<<< HEAD
 	var/datum/action/cooldown/mob_cooldown/charge_apc/charge_ability = new(src)
 	charge_ability.Grant(src)
 	ai_controller.set_blackboard_key(BB_FESTIVE_APC, charge_ability)
+=======
+	grant_actions_by_list(list(/datum/action/cooldown/mob_cooldown/charge_apc = BB_FESTIVE_APC))
+>>>>>>> tg-pr-88929
 
 /datum/ai_controller/basic_controller/festivus_pole
 	blackboard = list(
@@ -72,16 +82,20 @@
 	for(var/atom/affected in range(2, get_turf(src)))
 		if(istype(affected, /obj/item/stock_parts/power_store/cell))
 			var/obj/item/stock_parts/power_store/cell/cell = affected
+<<<<<<< HEAD
 			cell.give(recharge_value)
+=======
+			cell.give(FESTIVUS_RECHARGE_VALUE)
+>>>>>>> tg-pr-88929
 			cell.update_appearance()
 		if(istype(affected, /mob/living/silicon/robot))
 			var/mob/living/silicon/robot/robot = affected
 			if(robot.cell)
-				robot.cell.give(recharge_value)
+				robot.cell.give(FESTIVUS_RECHARGE_VALUE)
 		if(istype(affected, /obj/machinery/power/apc))
 			var/obj/machinery/power/apc/apc_target = affected
 			if(apc_target.cell)
-				apc_target.cell.give(recharge_value)
+				apc_target.cell.give(FESTIVUS_RECHARGE_VALUE)
 
 /datum/ai_planning_subtree/find_and_hunt_target/look_for_apcs
 	hunting_behavior = /datum/ai_behavior/hunt_target/apcs
@@ -119,3 +133,5 @@
 			return FALSE
 
 	return can_see(source, dinner, radius)
+
+#undef FESTIVUS_RECHARGE_VALUE

@@ -8,5 +8,17 @@
 		return
 	for(var/crafting_recipe_type in crafting_recipe_types)
 		user.mind.teach_crafting_recipe(crafting_recipe_type)
+<<<<<<< HEAD
 		var/datum/crafting_recipe/recipe = locate(crafting_recipe_type) in GLOB.crafting_recipes
 		to_chat(user, span_notice("You learned how to make [recipe.name]."))
+=======
+		var/datum/crafting_recipe/recipe = locate(crafting_recipe_type) in GLOB.crafting_recipes + GLOB.cooking_recipes
+		to_chat(user, span_notice("You learned how to make [recipe.name]."))
+
+/obj/item/book/granter/crafting_recipe/dusting
+	icon_state = "book1"
+
+/obj/item/book/granter/crafting_recipe/dusting/recoil(mob/living/user)
+	to_chat(user, span_warning("The book turns to dust in your hands."))
+	qdel(src)
+>>>>>>> tg-pr-88929

@@ -14,6 +14,10 @@
 		if(!destination_turf?.can_cross_safely(living_pawn))
 			return FALSE
 		living_pawn.Move(destination_turf, move_dir)
+<<<<<<< HEAD
+=======
+	return TRUE
+>>>>>>> tg-pr-88929
 
 /datum/idle_behavior/idle_random_walk/less_walking
 	walk_chance = 10

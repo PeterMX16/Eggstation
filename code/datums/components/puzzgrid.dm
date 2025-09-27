@@ -172,7 +172,7 @@
 
 	var/message = answers.Join("<p>-----</p>")
 
-	for (var/mob/mob as anything in get_hearers_in_view(DEFAULT_MESSAGE_RANGE, src))
+	for (var/mob/mob in get_hearers_in_view(DEFAULT_MESSAGE_RANGE, parent))
 		to_chat(mob, message)
 
 /datum/component/puzzgrid/ui_data(mob/user)
@@ -280,7 +280,11 @@
 	var/list/answers = list()
 	var/description
 
+<<<<<<< HEAD
 ADMIN_VERB(validate_puzzgrids, R_DEBUG, FALSE, "Validate Puzzgrid Config", "Validate the puzzgrid config to ensure it's set up correctly.", ADMIN_CATEGORY_DEBUG)
+=======
+ADMIN_VERB(validate_puzzgrids, R_DEBUG, "Validate Puzzgrid Config", "Validate the puzzgrid config to ensure it's set up correctly.", ADMIN_CATEGORY_DEBUG)
+>>>>>>> tg-pr-88929
 	var/line_number = 0
 
 	for (var/line in world.file2list(PUZZGRID_CONFIG))

@@ -40,14 +40,18 @@
 	damage_coeff = list(BRUTE = 1, BURN = 1, TOX = 0, STAMINA = 0, OXY = 0)
 	hud_possible = list(DIAG_STAT_HUD, DIAG_HUD, ANTAG_HUD)
 	unique_name = TRUE
+<<<<<<< HEAD
 	faction = list(FACTION_NEUTRAL,FACTION_SILICON,FACTION_TURRET,FACTION_SLIME)
 	hud_type = /datum/hud/dextrous/drone
 	dexterous = TRUE
+=======
+	faction = list(FACTION_NEUTRAL,FACTION_SILICON,FACTION_TURRET)
+	hud_type = /datum/hud/dextrous/drone
+>>>>>>> tg-pr-88929
 	// Going for a sort of pale green here
 	lighting_cutoff_red = 30
 	lighting_cutoff_green = 35
 	lighting_cutoff_blue = 25
-
 	can_be_held = TRUE
 	worn_slot_flags = ITEM_SLOT_HEAD
 	/// `TRUE` if we have picked our visual appearance, `FALSE` otherwise (default)
@@ -134,9 +138,9 @@
 		/obj/item/weldingtool/drone,
 		/obj/item/wirecutters/drone,
 		/obj/item/multitool/drone,
-		/obj/item/pipe_dispenser,
-		/obj/item/t_scanner,
-		/obj/item/analyzer,
+		/obj/item/pipe_dispenser/drone,
+		/obj/item/t_scanner/drone,
+		/obj/item/analyzer/drone,
 		/obj/item/rack_parts,
 	)
 	/// whitelisted drone items, recursive/includes descendants
@@ -181,7 +185,11 @@
 	AddElement(/datum/element/dextrous, hud_type = hud_type)
 	AddComponent(/datum/component/basic_inhands, y_offset = getItemPixelShiftY())
 	AddComponent(/datum/component/simple_access, SSid_access.get_region_access_list(list(REGION_ALL_GLOBAL)))
+<<<<<<< HEAD
 	AddComponent(/datum/component/personal_crafting) //MONKESTATION ADDITION
+=======
+	AddComponent(/datum/component/personal_crafting) // Kind of hard to be a drone and not be able to make tiles
+>>>>>>> tg-pr-88929
 
 	if(default_storage)
 		var/obj/item/storage = new default_storage(src)
@@ -222,6 +230,7 @@
 	listener.RegisterSignal(src, COMSIG_LIVING_REVIVE, TYPE_PROC_REF(/datum/alarm_listener, allow_alarm_changes))
 
 /mob/living/basic/drone/med_hud_set_health()
+<<<<<<< HEAD
 	var/image/holder = hud_list[DIAG_HUD]
 	holder.pixel_y = get_cached_height() - world.icon_size
 	holder.icon_state = "huddiag[RoundDiagBar(health/maxHealth)]"
@@ -229,13 +238,24 @@
 /mob/living/basic/drone/med_hud_set_status()
 	var/image/holder = hud_list[DIAG_STAT_HUD]
 	holder.pixel_y = get_cached_height() - world.icon_size
-	if(stat == DEAD)
-		holder.icon_state = "huddead2"
-	else if(incapacitated())
-		holder.icon_state = "hudoffline"
-	else
-		holder.icon_state = "hudstat"
+=======
+	set_hud_image_state(DIAG_HUD, "huddiag[RoundDiagBar(health/maxHealth)]")
 
+/mob/living/basic/drone/med_hud_set_status()
+>>>>>>> tg-pr-88929
+	if(stat == DEAD)
+		set_hud_image_state(DIAG_STAT_HUD, "huddead2")
+		return
+
+<<<<<<< HEAD
+=======
+	if(incapacitated)
+		set_hud_image_state(DIAG_STAT_HUD, "hudoffline")
+		return
+
+	set_hud_image_state(DIAG_STAT_HUD, "hudstat")
+
+>>>>>>> tg-pr-88929
 /mob/living/basic/drone/Destroy()
 	GLOB.drones_list -= src
 	QDEL_NULL(listener)
@@ -270,25 +290,36 @@
 	alert_drones(DRONE_NET_DISCONNECT)
 
 
+<<<<<<< HEAD
 /mob/living/basic/drone/gib(no_brain, no_organs, no_bodyparts, safe_gib = TRUE)
 	dust()
 
 /mob/living/basic/drone/examine(mob/user)
 	. = list("<span class='info'>This is [icon2html(src, user)] \a <b>[src]</b>!")
+=======
+/mob/living/basic/drone/gib()
+	dust()
+
+/mob/living/basic/drone/get_butt_sprite()
+	return icon('icons/mob/butts.dmi', BUTT_SPRITE_DRONE)
+
+/mob/living/basic/drone/examine(mob/user)
+	. = list()
+>>>>>>> tg-pr-88929
 
 	//Hands
 	for(var/obj/item/held_thing in held_items)
 		if((held_thing.item_flags & (ABSTRACT|HAND_ITEM)) || HAS_TRAIT(held_thing, TRAIT_EXAMINE_SKIP))
 			continue
-		. += "It has [held_thing.get_examine_string(user)] in its [get_held_index_name(get_held_index_of_item(held_thing))]."
+		. += "It has [held_thing.examine_title(user)] in its [get_held_index_name(get_held_index_of_item(held_thing))]."
 
 	//Internal storage
 	if(internal_storage && !(internal_storage.item_flags & ABSTRACT))
-		. += "It is holding [internal_storage.get_examine_string(user)] in its internal storage."
+		. += "It is holding [internal_storage.examine_title(user)] in its internal storage."
 
 	//Cosmetic hat - provides no function other than looks
 	if(head && !(head.item_flags & ABSTRACT))
-		. += "It is wearing [head.get_examine_string(user)] on its head."
+		. += "It is wearing [head.examine_title(user)] on its head."
 
 	//Braindead
 	if(!client && stat != DEAD)
@@ -311,9 +342,11 @@
 			. += span_deadsay("A message repeatedly flashes on its display: \"REBOOT -- REQUIRED\".")
 		else
 			. += span_deadsay("A message repeatedly flashes on its display: \"ERROR -- OFFLINE\".")
-	. += "</span>"
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> tg-pr-88929
 /mob/living/basic/drone/assess_threat(judgement_criteria, lasercolor = "", datum/callback/weaponcheck=null) //Secbots won't hunt maintenance drones.
 	return -10
 
@@ -348,6 +381,9 @@
 		to_chat(src, span_warning("Using [machine] could break your laws."))
 		return COMPONENT_CANT_INTERACT_WIRES
 
+/mob/living/basic/drone/proc/init_shy_in_room_component(list/drone_bad_areas)
+	if(CONFIG_GET(flag/drone_area_interaction_restrict))
+		LoadComponent(/datum/component/shy_in_room, drone_bad_areas, "Touching anything in %ROOM could break your laws.")
 
 /mob/living/basic/drone/proc/set_shy(new_shy)
 	shy = new_shy
@@ -362,13 +398,22 @@
 
 	var/static/list/not_shy_of = typecacheof(list(/mob/living/basic/drone, /mob/living/simple_animal/bot))
 	if(shy)
+		REMOVE_TRAIT(src, TRAIT_CAN_STRIP, DRONE_SHY_TRAIT) // To shy to touch someone elses hat
 		ADD_TRAIT(src, TRAIT_PACIFISM, DRONE_SHY_TRAIT)
+<<<<<<< HEAD
 		LoadComponent(/datum/component/shy, mob_whitelist=not_shy_of, shy_range=1, message="Your laws prevent this action near %TARGET.", keyless_shy=FALSE, clientless_shy=FALSE, dead_shy=FALSE, dead_shy_immediate=TRUE, machine_whitelist=shy_machine_whitelist)
 		LoadComponent(/datum/component/shy_in_room, drone_bad_areas, "Touching anything in %ROOM could break your laws.")
 		LoadComponent(/datum/component/technoshy, 5 SECONDS, "%TARGET was touched by a being recently, using it could break your laws.")
+=======
+		LoadComponent(/datum/component/shy, mob_whitelist=not_shy_of, shy_range=3, message="Your laws prevent this action near %TARGET.", keyless_shy=FALSE, clientless_shy=TRUE, dead_shy=FALSE, dead_shy_immediate=TRUE, machine_whitelist=shy_machine_whitelist)
+		init_shy_in_room_component(drone_bad_areas)
+		LoadComponent(/datum/component/technoshy, 20 SECONDS, "%TARGET was touched by a being recently, using it could break your laws.")
+		LoadComponent(/datum/component/itempicky, drone_good_items, "Using %TARGET could break your laws.")
+>>>>>>> tg-pr-88929
 		RegisterSignal(src, COMSIG_TRY_USE_MACHINE, PROC_REF(blacklist_on_try_use_machine))
 		RegisterSignal(src, COMSIG_TRY_WIRES_INTERACT, PROC_REF(blacklist_on_try_wires_interact))
 	else
+		ADD_TRAIT(src, TRAIT_CAN_STRIP, DRONE_SHY_TRAIT) // ...I wonder if I can ware pants like a hat
 		REMOVE_TRAIT(src, TRAIT_PACIFISM, DRONE_SHY_TRAIT)
 		qdel(GetComponent(/datum/component/shy))
 		qdel(GetComponent(/datum/component/shy_in_room))

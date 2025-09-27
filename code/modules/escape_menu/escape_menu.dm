@@ -47,6 +47,10 @@ GLOBAL_LIST_EMPTY(escape_menus)
 	RegisterSignal(client, COMSIG_QDELETING, PROC_REF(on_client_qdel))
 	RegisterSignal(client, COMSIG_CLIENT_MOB_LOGIN, PROC_REF(on_client_mob_login))
 
+	SEND_SOUND(client, 'sound/misc/escape_menu/esc_open.ogg')
+	var/sound/esc_middle = sound('sound/misc/escape_menu/esc_middle.ogg', repeat = FALSE, channel = CHANNEL_ESCAPEMENU, volume = 80)
+	SEND_SOUND(client, esc_middle)
+
 	if (!isnull(ckey))
 		GLOB.escape_menus[ckey] = src
 
@@ -59,6 +63,10 @@ GLOBAL_LIST_EMPTY(escape_menus)
 		plane_master_controller?.remove_filter("escape_menu_blur")
 	plane_master_controller = null
 	client = null
+
+	var/sound/esc_clear = sound(null, repeat = FALSE, channel = CHANNEL_ESCAPEMENU) //yes, I'm doing it like this with a null, no its absolutely intentional, cuts off the sound right as needed.
+	SEND_SOUND(client, esc_clear)
+	SEND_SOUND(client, 'sound/misc/escape_menu/esc_close.ogg')
 
 	return ..()
 

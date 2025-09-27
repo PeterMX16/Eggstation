@@ -23,10 +23,14 @@
 	time = 64
 
 /datum/surgery/ear_surgery/can_start(mob/user, mob/living/carbon/target)
+<<<<<<< HEAD
 	var/obj/item/organ/internal/ears/target_ears = target.get_organ_slot(ORGAN_SLOT_EARS)
 	if(target_ears?.damage > 0) // monkestation edit: ear surgery is repeatable so no worries about wasting the surgery
 		return TRUE
 	return FALSE
+=======
+	return target.get_organ_slot(ORGAN_SLOT_EARS) && ..()
+>>>>>>> tg-pr-88929
 
 /datum/surgery_step/fix_ears/preop(mob/user, mob/living/carbon/target, target_zone, obj/item/tool, datum/surgery/surgery)
 	display_results(
@@ -39,7 +43,7 @@
 	display_pain(target, "You feel a dizzying pain in your head!")
 
 /datum/surgery_step/fix_ears/success(mob/user, mob/living/carbon/target, target_zone, obj/item/tool, datum/surgery/surgery, default_display_results = FALSE)
-	var/obj/item/organ/internal/ears/target_ears = target.get_organ_slot(ORGAN_SLOT_EARS)
+	var/obj/item/organ/ears/target_ears = target.get_organ_slot(ORGAN_SLOT_EARS)
 	display_results(
 		user,
 		target,
@@ -53,7 +57,7 @@
 	return ..()
 
 /datum/surgery_step/fix_ears/failure(mob/user, mob/living/carbon/target, target_zone, obj/item/tool, datum/surgery/surgery)
-	if(target.get_organ_by_type(/obj/item/organ/internal/brain))
+	if(target.get_organ_by_type(/obj/item/organ/brain))
 		display_results(
 			user,
 			target,

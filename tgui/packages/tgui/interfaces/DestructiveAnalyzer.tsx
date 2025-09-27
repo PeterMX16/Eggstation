@@ -1,13 +1,23 @@
+<<<<<<< HEAD
 import { BooleanLike } from 'common/react';
 import { useBackend } from '../backend';
 import { Button, Box, Section, NoticeBox, DmIcon } from '../components';
+=======
+import { Box, Button, Image, NoticeBox, Section } from 'tgui-core/components';
+import { BooleanLike } from 'tgui-core/react';
+
+import { useBackend } from '../backend';
+>>>>>>> tg-pr-88929
 import { Window } from '../layouts';
 
 type Data = {
   server_connected: BooleanLike;
   loaded_item: string;
   item_icon: string;
+<<<<<<< HEAD
   item_icon_state: string;
+=======
+>>>>>>> tg-pr-88929
   indestructible: BooleanLike;
   already_deconstructed: BooleanLike;
   recoverable_points: string;
@@ -28,7 +38,10 @@ export const DestructiveAnalyzer = (props) => {
     indestructible,
     loaded_item,
     item_icon,
+<<<<<<< HEAD
     item_icon_state,
+=======
+>>>>>>> tg-pr-88929
     already_deconstructed,
     recoverable_points,
     research_point_id,
@@ -58,6 +71,7 @@ export const DestructiveAnalyzer = (props) => {
     );
   }
   return (
+<<<<<<< HEAD
     <Window
       width={400}
       height={260}
@@ -65,6 +79,9 @@ export const DestructiveAnalyzer = (props) => {
       fill
       title="Destructive Analyzer"
     >
+=======
+    <Window width={400} height={260} title="Destructive Analyzer">
+>>>>>>> tg-pr-88929
       <Window.Content scrollable>
         <Section
           title={loaded_item}
@@ -76,11 +93,18 @@ export const DestructiveAnalyzer = (props) => {
             />
           }
         >
+<<<<<<< HEAD
           <DmIcon
             icon={item_icon}
             icon_state={item_icon_state}
             width="64px"
             height="64px"
+=======
+          <Image
+            src={`data:image/jpeg;base64,${item_icon}`}
+            height="64px"
+            width="64px"
+>>>>>>> tg-pr-88929
             verticalAlign="middle"
           />
         </Section>
@@ -114,20 +138,34 @@ export const DestructiveAnalyzer = (props) => {
           )}
           {node_data.map((node) => (
             <Button.Confirm
+<<<<<<< HEAD
               content={node.node_name}
+=======
+>>>>>>> tg-pr-88929
               icon="cash-register"
               mt={1}
               disabled={!node.node_hidden}
               key={node.node_id}
               tooltip={
                 node.node_hidden
+<<<<<<< HEAD
                   ? 'Deconstructing this will allow you to research the node in question by making it visible to R&D consoles.'
                   : 'This node has already been researched, and does not need to be deconstructed.'
+=======
+                  ? 'Deconstruct this to research the selected node.'
+                  : 'This node has already been researched.'
+>>>>>>> tg-pr-88929
               }
               onClick={() =>
                 act('deconstruct', { deconstruct_id: node.node_id })
               }
+<<<<<<< HEAD
             />
+=======
+            >
+              {node.node_name}
+            </Button.Confirm>
+>>>>>>> tg-pr-88929
           ))}
         </Section>
       </Window.Content>

@@ -18,7 +18,7 @@
 	response_harm_simple = "kick"
 	attack_verb_continuous = "kicks"
 	attack_verb_simple = "kick"
-	attack_sound = 'sound/weapons/punch1.ogg'
+	attack_sound = 'sound/items/weapons/punch1.ogg'
 	attack_vis_effect = ATTACK_EFFECT_KICK
 	melee_damage_lower = 1
 	melee_damage_upper = 2
@@ -30,8 +30,20 @@
 	/// does this pig contribute to the pig cap?
 	var/contributes_to_pigcap = TRUE
 
+/datum/emote/pig
+	mob_type_allowed_typecache = /mob/living/basic/pig
+	mob_type_blacklist_typecache = list()
+
+/datum/emote/pig/oink
+	key = "oink"
+	key_third_person = "oinks"
+	message = "oinks!"
+	emote_type = EMOTE_VISIBLE | EMOTE_AUDIBLE
+	vary = TRUE
+	sound = SFX_PIG_OINK
 /mob/living/basic/pig/Initialize(mapload)
 	. = ..()
+<<<<<<< HEAD
 	if(contributes_to_pigcap)
 		var/cap = CONFIG_GET(number/pigcap)
 		if (LAZYLEN(SSmobs.cubepigs) > cap)
@@ -56,6 +68,19 @@
 /mob/living/basic/pig/tamed(mob/living/tamer, atom/food)
 	can_buckle = TRUE
 	buckle_lying = 0
+=======
+	AddElement(/datum/element/pet_bonus, "oink")
+	AddElement(/datum/element/ai_retaliate)
+	AddElement(/datum/element/ai_flee_while_injured)
+	make_tameable()
+
+///wrapper for the tameable component addition so you can have non tamable cow subtypes
+/mob/living/basic/pig/proc/make_tameable()
+	var/list/food_types = string_list(list(/obj/item/food/grown/carrot))
+	AddComponent(/datum/component/tameable, food_types = food_types, tame_chance = 25, bonus_tame_chance = 15)
+
+/mob/living/basic/pig/tamed(mob/living/tamer, atom/food)
+>>>>>>> tg-pr-88929
 	AddElement(/datum/element/ridable, /datum/component/riding/creature/pig)
 	visible_message(span_notice("[src] snorts respectfully."))
 

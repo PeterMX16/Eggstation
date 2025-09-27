@@ -47,6 +47,7 @@
 					/obj/item/food/spiderleg,
 					/obj/item/food/fishmeat/carp,
 					/obj/item/food/meat/slab/human,
+					/obj/item/food/meat/slab/grassfed,
 				)
 	crate_name = "food crate"
 
@@ -60,6 +61,7 @@
 	desc = "Any entrepreneuring botanist's dream. Contains twelve different seeds, \
 		including one replica-pod seed and two mystery seeds!"
 	cost = CARGO_CRATE_VALUE * 3
+<<<<<<< HEAD
 	contains = list(/obj/item/seeds/nettle,
 					/obj/item/seeds/replicapod,
 					/obj/item/seeds/plump,
@@ -73,6 +75,23 @@
 					/obj/item/seeds/shrub,
 					/obj/item/seeds/random = 2,
 				)
+=======
+	access_view = ACCESS_HYDROPONICS
+	contains = list(
+		/obj/item/seeds/amanita,
+		/obj/item/seeds/bamboo,
+		/obj/item/seeds/eggplant/eggy,
+		/obj/item/seeds/liberty,
+		/obj/item/seeds/nettle,
+		/obj/item/seeds/plump,
+		/obj/item/seeds/replicapod,
+		/obj/item/seeds/reishi,
+		/obj/item/seeds/rainbow_bunch,
+		/obj/item/seeds/seedling,
+		/obj/item/seeds/shrub,
+		/obj/item/seeds/random = 2,
+	)
+>>>>>>> tg-pr-88929
 	crate_name = "exotic seeds crate"
 	crate_type = /obj/structure/closet/crate/hydroponics
 
@@ -98,8 +117,8 @@
 
 /datum/supply_pack/organic/randomized/chef/fruits
 	name = "Fruit Crate"
-	desc = "Rich of vitamins. Contains a lime, orange, watermelon, apple, \
-		berries and a lime."
+	desc = "Rich in vitamins. Contains a lime, orange, watermelon, apple, \
+		berries and a lemon."
 	cost = CARGO_CRATE_VALUE * 3
 	contains = list(/obj/item/food/grown/citrus/lime,
 					/obj/item/food/grown/citrus/orange,
@@ -122,6 +141,7 @@
 	access = ACCESS_THEATRE
 	access_view = ACCESS_THEATRE
 	crate_type = /obj/structure/closet/crate/secure
+	discountable = SUPPLY_PACK_RARE_DISCOUNTABLE
 
 /datum/supply_pack/organic/hydroponics
 	name = "Hydroponics Crate"
@@ -147,7 +167,7 @@
 	cost = CARGO_CRATE_VALUE * 2
 	contains = list(/obj/item/watertank)
 	crate_name = "hydroponics backpack crate"
-	crate_type = /obj/structure/closet/crate/secure
+	crate_type = /obj/structure/closet/crate/secure/hydroponics
 
 /datum/supply_pack/organic/pizza
 	name = "Pizza Crate"
@@ -296,7 +316,7 @@
 	name = "Grilling Starter Kit"
 	desc = "Hey dad I'm Hungry. Hi Hungry I'm THE NEW GRILLING STARTER KIT \
 		ONLY 5000 BUX GET NOW! Contains a grill and fuel."
-	cost = CARGO_CRATE_VALUE * 8
+	cost = CARGO_CRATE_VALUE * 4
 	crate_type = /obj/structure/closet/crate
 	contains = list(
 		/obj/item/stack/sheet/mineral/coal/five,
@@ -305,6 +325,7 @@
 		/obj/machinery/grill/unwrenched,
 	)
 	crate_name = "grilling starter kit crate"
+	discountable = SUPPLY_PACK_UNCOMMON_DISCOUNTABLE
 
 /datum/supply_pack/organic/grillfuel
 	name = "Grilling Fuel Kit"
@@ -316,6 +337,7 @@
 					/obj/item/reagent_containers/cup/soda_cans/monkey_energy,
 				)
 	crate_name = "grilling fuel kit crate"
+	discountable = SUPPLY_PACK_UNCOMMON_DISCOUNTABLE
 
 /datum/supply_pack/organic/tiziran_supply
 	name = "Tiziran Supply Box"

@@ -50,7 +50,11 @@
 	name = "Ignition Switch Controller"
 	id = "ignition"
 	build_type = PROTOLATHE | AWAY_LATHE | AUTOLATHE
+<<<<<<< HEAD
 	materials = list(/datum/material/iron = SMALL_MATERIAL_AMOUNT, /datum/material/glass = SMALL_MATERIAL_AMOUNT * 0.5) // MONKESTATION EDIT CHANGE OLD // REQUIRES PR #75052
+=======
+	materials = list(/datum/material/iron = SMALL_MATERIAL_AMOUNT, /datum/material/glass = SMALL_MATERIAL_AMOUNT * 0.5)
+>>>>>>> tg-pr-88929
 	build_path = /obj/item/assembly/control/igniter
 	category = list(
 		RND_CATEGORY_INITIAL,
@@ -87,7 +91,11 @@
 	name = "Geiger Counter"
 	id = "geigercounter"
 	build_type = AUTOLATHE | PROTOLATHE | AWAY_LATHE
+<<<<<<< HEAD
 	materials = list(/datum/material/iron = SHEET_MATERIAL_AMOUNT*1.75, /datum/material/glass =HALF_SHEET_MATERIAL_AMOUNT)
+=======
+	materials = list(/datum/material/iron = SMALL_MATERIAL_AMOUNT*1.5, /datum/material/glass = SMALL_MATERIAL_AMOUNT*1.5)
+>>>>>>> tg-pr-88929
 	build_path = /obj/item/geiger_counter
 	category = list(
 		RND_CATEGORY_INITIAL,
@@ -95,6 +103,7 @@
 	)
 	departmental_flags = DEPARTMENT_BITFLAG_ENGINEERING
 
+<<<<<<< HEAD
 /datum/design/turret_control_frame
 	name = "Turret Control Frame"
 	id = "turret_control"
@@ -107,6 +116,8 @@
 	)
 	departmental_flags = DEPARTMENT_BITFLAG_ENGINEERING
 
+=======
+>>>>>>> tg-pr-88929
 /datum/design/large_welding_tool
 	name = "Industrial Welding Tool"
 	id = "large_welding_tool"
@@ -119,6 +130,7 @@
 	)
 	departmental_flags = DEPARTMENT_BITFLAG_ENGINEERING
 
+<<<<<<< HEAD
 /datum/design/camera_assembly
 	name = "Camera Assembly"
 	id = "camera_assembly"
@@ -168,6 +180,8 @@
 	)
 	departmental_flags = DEPARTMENT_BITFLAG_ENGINEERING
 
+=======
+>>>>>>> tg-pr-88929
 /datum/design/earmuffs
 	name = "Earmuffs"
 	id = "earmuffs"
@@ -216,6 +230,21 @@
 	)
 	departmental_flags = DEPARTMENT_BITFLAG_ENGINEERING
 
+<<<<<<< HEAD
+=======
+/datum/design/airlock_painter/decal/tile
+	name = "Tile Sprayer"
+	id = "tile_sprayer"
+	build_type = AUTOLATHE | PROTOLATHE | AWAY_LATHE
+	materials = list(/datum/material/iron =SMALL_MATERIAL_AMOUNT*0.5, /datum/material/glass =SMALL_MATERIAL_AMOUNT*0.5)
+	build_path = /obj/item/airlock_painter/decal/tile
+	category = list(
+		RND_CATEGORY_INITIAL,
+		RND_CATEGORY_TOOLS + RND_SUBCATEGORY_TOOLS_ENGINEERING,
+	)
+	departmental_flags = DEPARTMENT_BITFLAG_ENGINEERING
+
+>>>>>>> tg-pr-88929
 /datum/design/apc_board
 	name = "APC Module"
 	id = "power_control"
@@ -231,7 +260,11 @@
 /datum/design/airlock_board
 	name = "Airlock Electronics"
 	id = "airlock_board"
+<<<<<<< HEAD
 	build_type = AUTOLATHE | PROTOLATHE //MONKESTATION EDIT - Removes 'AWAY_LATHE' from build_type, since we have a subtype of airlock electronics for offstation lathes
+=======
+	build_type = AUTOLATHE | PROTOLATHE | AWAY_LATHE
+>>>>>>> tg-pr-88929
 	materials = list(/datum/material/iron =SMALL_MATERIAL_AMOUNT*0.5, /datum/material/glass =SMALL_MATERIAL_AMOUNT*0.5)
 	build_path = /obj/item/electronics/airlock
 	category = list(
@@ -311,6 +344,7 @@
 		RND_CATEGORY_TOOLS + RND_SUBCATEGORY_TOOLS_ATMOSPHERICS,
 	)
 	departmental_flags = DEPARTMENT_BITFLAG_ENGINEERING
+<<<<<<< HEAD
 
 /datum/design/tscanner
 	name = "T-Ray Scanner"
@@ -416,3 +450,5 @@
 	id = "nifsoft_hud_meson"
 	build_path = /obj/item/disk/nifsoft_uploader/meson_hud
 	departmental_flags = DEPARTMENT_BITFLAG_CARGO | DEPARTMENT_BITFLAG_ENGINEERING
+=======
+>>>>>>> tg-pr-88929

@@ -42,9 +42,7 @@
 	var/environment_smash = ENVIRONMENT_SMASH_STRUCTURES
 
 	/// 1 for full damage, 0 for none, -1 for 1:1 heal from that source.
-	var/list/damage_coeff = list(BRUTE = 1, BURN = 1, TOX = 1, CLONE = 1, STAMINA = 0, OXY = 1)
-	///Minimum force required to deal any damage.
-	var/force_threshold = 0
+	var/list/damage_coeff = list(BRUTE = 1, BURN = 1, TOX = 1, STAMINA = 0, OXY = 1)
 
 	///Verbs used for speaking e.g. "Says" or "Chitters". This can be elementized
 	var/list/speak_emote = list()
@@ -107,12 +105,16 @@
 	var/minimum_survivable_temperature = NPC_DEFAULT_MIN_TEMP
 	///Maximal body temperature without receiving damage
 	var/maximum_survivable_temperature = NPC_DEFAULT_MAX_TEMP
+<<<<<<< HEAD
 	*/
 	bodytemp_cold_damage_limit = NPC_DEFAULT_MIN_TEMP
 	bodytemp_heat_damage_limit = NPC_DEFAULT_MAX_TEMP
 	///This damage is taken when the body temp is too cold. Set both this and unsuitable_heat_damage to 0 to avoid adding the basic_body_temp_sensitive element.
+=======
+	///This damage is taken when the body temp is too cold. Set both this and unsuitable_heat_damage to 0 to avoid adding the body_temp_sensitive element.
+>>>>>>> tg-pr-88929
 	var/unsuitable_cold_damage = 1
-	///This damage is taken when the body temp is too hot. Set both this and unsuitable_cold_damage to 0 to avoid adding the basic_body_temp_sensitive element.
+	///This damage is taken when the body temp is too hot. Set both this and unsuitable_cold_damage to 0 to avoid adding the body_temp_sensitive element.
 	var/unsuitable_heat_damage = 1
 
 /mob/living/basic/Initialize(mapload)
@@ -139,14 +141,34 @@
 	if(speak_emote)
 		speak_emote = string_list(speak_emote)
 
+<<<<<<< HEAD
 	apply_atmos_requirements()
 
 /// Ensures this mob can take atmospheric damage if it's supposed to
 /mob/living/basic/proc/apply_atmos_requirements()
+=======
+	///We need to wait for SSair to be initialized before we can check atmos/temp requirements.
+	if(PERFORM_ALL_TESTS(focus_only/atmos_and_temp_requirements) && mapload && !SSair.initialized)
+		RegisterSignal(SSair, COMSIG_SUBSYSTEM_POST_INITIALIZE, PROC_REF(on_ssair_init))
+		return
+	apply_atmos_requirements(mapload)
+	apply_temperature_requirements(mapload)
+	apply_target_randomisation()
+
+/mob/living/basic/proc/on_ssair_init(datum/source)
+	SIGNAL_HANDLER
+	UnregisterSignal(SSair, COMSIG_SUBSYSTEM_POST_INITIALIZE)
+	apply_atmos_requirements(TRUE)
+	apply_temperature_requirements(TRUE)
+
+/// Ensures this mob can take atmospheric damage if it's supposed to
+/mob/living/basic/proc/apply_atmos_requirements(mapload)
+>>>>>>> tg-pr-88929
 	if(unsuitable_atmos_damage == 0 || isnull(habitable_atmos))
 		return
 	//String assoc list returns a cached list, so this is like a static list to pass into the element below.
 	habitable_atmos = string_assoc_list(habitable_atmos)
+<<<<<<< HEAD
 	AddElement(/datum/element/atmos_requirements, habitable_atmos, unsuitable_atmos_damage)
 
 /mob/living/basic/body_temperature_damage(datum/gas_mixture/environment, seconds_per_tick, times_fired)
@@ -179,16 +201,28 @@
 
 	if(!.)
 		clear_alert(ALERT_TEMPERATURE)
+=======
+	AddElement(/datum/element/atmos_requirements, habitable_atmos, unsuitable_atmos_damage, mapload)
+
+/// Ensures this mob can take temperature damage if it's supposed to
+/mob/living/basic/proc/apply_temperature_requirements(mapload)
+	if((unsuitable_cold_damage == 0 && unsuitable_heat_damage == 0) || (minimum_survivable_temperature <= 0 && maximum_survivable_temperature >= INFINITY))
+		return
+	AddElement(/datum/element/body_temp_sensitive, minimum_survivable_temperature, maximum_survivable_temperature, unsuitable_cold_damage, unsuitable_heat_damage, mapload)
+
+/mob/living/basic/proc/apply_target_randomisation()
+	if (basic_mob_flags & PRECISE_ATTACK_ZONES)
+		return
+	AddElement(/datum/element/attack_zone_randomiser)
+>>>>>>> tg-pr-88929
 
 /mob/living/basic/Life(seconds_per_tick = SSMOBS_DT, times_fired)
 	. = ..()
 	if(staminaloss > 0)
 		stamina.adjust(stamina_recovery * seconds_per_tick, forced = TRUE)
 
-/mob/living/basic/say_mod(input, list/message_mods = list())
-	if(length(speak_emote))
-		verb_say = pick(speak_emote)
-	return ..()
+/mob/living/basic/get_default_say_verb()
+	return length(speak_emote) ? pick(speak_emote) : ..()
 
 /mob/living/basic/death(gibbed)
 	. = ..()
@@ -199,7 +233,11 @@
 		health = 0
 		look_dead()
 
+<<<<<<< HEAD
 /mob/living/basic/gib(no_brain, no_organs, no_bodyparts, safe_gib = TRUE)
+=======
+/mob/living/basic/gib()
+>>>>>>> tg-pr-88929
 	if(butcher_results || guaranteed_butcher_results)
 		var/list/butcher_loot = list()
 		if(butcher_results)
@@ -250,14 +288,27 @@
 	. += span_deadsay("Upon closer examination, [p_they()] appear[p_s()] to be [HAS_MIND_TRAIT(user, TRAIT_NAIVE) ? "asleep" : "dead"].")
 
 /mob/living/basic/proc/melee_attack(atom/target, list/modifiers, ignore_cooldown = FALSE)
+<<<<<<< HEAD
 	face_atom(target)
 	if (!ignore_cooldown)
 		changeNext_move(melee_attack_cooldown)
 	if(SEND_SIGNAL(src, COMSIG_HOSTILE_PRE_ATTACKINGTARGET, target, Adjacent(target), modifiers) & COMPONENT_HOSTILE_NO_ATTACK)
 		return FALSE //but more importantly return before attack_animal called
+=======
+	if(!early_melee_attack(target, modifiers, ignore_cooldown))
+		return FALSE
+>>>>>>> tg-pr-88929
 	var/result = target.attack_basic_mob(src, modifiers)
 	SEND_SIGNAL(src, COMSIG_HOSTILE_POST_ATTACKINGTARGET, target, result)
 	return result
+
+/mob/living/basic/proc/early_melee_attack(atom/target, list/modifiers, ignore_cooldown = FALSE)
+	face_atom(target)
+	if(!ignore_cooldown)
+		changeNext_move(melee_attack_cooldown)
+	if(SEND_SIGNAL(src, COMSIG_HOSTILE_PRE_ATTACKINGTARGET, target, Adjacent(target), modifiers) & COMPONENT_HOSTILE_NO_ATTACK)
+		return FALSE //but more importantly return before attack_animal called
+	return TRUE
 
 /mob/living/basic/resolve_unarmed_attack(atom/attack_target, list/modifiers)
 	//monkestation edit
@@ -272,11 +323,23 @@
 		if(NAMEOF(src, habitable_atmos), NAMEOF(src, unsuitable_atmos_damage))
 			RemoveElement(/datum/element/atmos_requirements, habitable_atmos, unsuitable_atmos_damage)
 			. = TRUE
+<<<<<<< HEAD
+=======
+		if(NAMEOF(src, minimum_survivable_temperature), NAMEOF(src, maximum_survivable_temperature), NAMEOF(src, unsuitable_cold_damage), NAMEOF(src, unsuitable_heat_damage))
+			RemoveElement(/datum/element/body_temp_sensitive, minimum_survivable_temperature, maximum_survivable_temperature, unsuitable_cold_damage, unsuitable_heat_damage)
+			. = TRUE
+
+>>>>>>> tg-pr-88929
 	. = ..()
 
 	switch(vname)
 		if(NAMEOF(src, habitable_atmos), NAMEOF(src, unsuitable_atmos_damage))
 			apply_atmos_requirements()
+<<<<<<< HEAD
+=======
+		if(NAMEOF(src, minimum_survivable_temperature), NAMEOF(src, maximum_survivable_temperature), NAMEOF(src, unsuitable_cold_damage), NAMEOF(src, unsuitable_heat_damage))
+			apply_temperature_requirements()
+>>>>>>> tg-pr-88929
 		if(NAMEOF(src, speed))
 			datum_flags |= DF_VAR_EDITED
 			set_varspeed(vval)
@@ -299,7 +362,7 @@
 		REMOVE_TRAIT(src, TRAIT_NO_GLIDE, SPEED_TRAIT)
 
 /mob/living/basic/relaymove(mob/living/user, direction)
-	if(user.incapacitated())
+	if(user.incapacitated)
 		return
 	return relaydrive(user, direction)
 
@@ -314,6 +377,7 @@
 /mob/living/basic/on_stamina_update()
 	set_varspeed(initial(speed) + (staminaloss * 0.06))
 
+<<<<<<< HEAD
 /mob/living/basic/get_fire_overlay(stacks, on_fire)
 	var/fire_icon = "generic_fire"
 	if(!GLOB.fire_appearances[fire_icon])
@@ -355,3 +419,47 @@
 	return
 //MONKESTATION EDIT STOP
 
+=======
+/mob/living/basic/on_fire_stack(seconds_per_tick, datum/status_effect/fire_handler/fire_stacks/fire_handler)
+	adjust_bodytemperature((maximum_survivable_temperature + (fire_handler.stacks * 12)) * 0.5 * seconds_per_tick)
+
+/mob/living/basic/get_fire_overlay(stacks, on_fire)
+	var/fire_icon = "generic_fire"
+	if(!GLOB.fire_appearances[fire_icon])
+		GLOB.fire_appearances[fire_icon] = mutable_appearance(
+			'icons/mob/effects/onfire.dmi',
+			fire_icon,
+			-HIGHEST_LAYER,
+			appearance_flags = RESET_COLOR,
+		)
+
+	return GLOB.fire_appearances[fire_icon]
+
+/mob/living/basic/put_in_hands(obj/item/I, del_on_fail = FALSE, merge_stacks = TRUE, ignore_animation = TRUE)
+	. = ..()
+	if (.)
+		update_held_items()
+
+/mob/living/basic/update_held_items()
+	. = ..()
+	if(isnull(client) || isnull(hud_used) || hud_used.hud_version == HUD_STYLE_NOHUD)
+		return
+	var/turf/our_turf = get_turf(src)
+	for(var/obj/item/held in held_items)
+		var/index = get_held_index_of_item(held)
+		SET_PLANE(held, ABOVE_HUD_PLANE, our_turf)
+		held.screen_loc = ui_hand_position(index)
+		client.screen |= held
+
+/mob/living/basic/get_body_temp_heat_damage_limit()
+	return maximum_survivable_temperature
+
+/mob/living/basic/get_body_temp_cold_damage_limit()
+	return minimum_survivable_temperature
+
+/mob/living/basic/proc/hop_on_nearby_turf()
+	var/dir = pick(GLOB.cardinals)
+	Move(get_step(src, dir), dir)
+	animate(src, pixel_y = 18, time = 0.4 SECONDS, flags = ANIMATION_RELATIVE, easing = CUBIC_EASING|EASE_OUT)
+	animate(pixel_y = -18, time = 0.4 SECONDS, flags = ANIMATION_RELATIVE, easing = CUBIC_EASING|EASE_IN)
+>>>>>>> tg-pr-88929

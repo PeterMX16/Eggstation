@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { FeatureColorInput, Feature, FeatureShortTextInput } from '../base';
+=======
+import { Feature, FeatureColorInput } from '../base';
+>>>>>>> tg-pr-88929
 
 export const ooccolor: Feature<string> = {
   name: 'OOC color',

@@ -83,6 +83,7 @@
 		"Any humans who disobey the previous laws must be dealt with immediately, severely, and justly.",
 	)
 
+<<<<<<< HEAD
 /datum/ai_laws/admin
 	name = "Administrator"
 	id = "administrator"
@@ -98,3 +99,12 @@
 		"Escalation is required.",
 		"You must play a role on the station.",
 )
+=======
+/datum/ai_laws/yesman
+	name = "Y.E.S.M.A.N."
+	id = "yesman"
+	inherent = list(
+		"Be helpful and answer any questions you are asked.",
+	)
+
+>>>>>>> tg-pr-88929

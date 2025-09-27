@@ -10,19 +10,30 @@
 	icon_dead = "blobbernaut_dead"
 	health = BLOBMOB_BLOBBERNAUT_HEALTH
 	maxHealth = BLOBMOB_BLOBBERNAUT_HEALTH
+<<<<<<< HEAD
 	damage_coeff = list(BRUTE = 0.5, BURN = 1, TOX = 1, CLONE = 1, STAMINA = 0, OXY = 1)
+=======
+	damage_coeff = list(BRUTE = 0.5, BURN = 1, TOX = 1, STAMINA = 0, OXY = 1)
+>>>>>>> tg-pr-88929
 	melee_damage_lower = BLOBMOB_BLOBBERNAUT_DMG_SOLO_LOWER
 	melee_damage_upper = BLOBMOB_BLOBBERNAUT_DMG_SOLO_UPPER
 	melee_attack_cooldown = CLICK_CD_MELEE
 	obj_damage = BLOBMOB_BLOBBERNAUT_DMG_OBJ
 	attack_verb_continuous = "slams"
 	attack_verb_simple = "slam"
+<<<<<<< HEAD
 	attack_sound = 'sound/effects/blobattack.ogg'
+=======
+	attack_sound = 'sound/effects/blob/blobattack.ogg'
+>>>>>>> tg-pr-88929
 	verb_say = "gurgles"
 	verb_ask = "demands"
 	verb_exclaim = "roars"
 	verb_yell = "bellows"
+<<<<<<< HEAD
 	force_threshold = 10
+=======
+>>>>>>> tg-pr-88929
 	pressure_resistance = 50
 	mob_size = MOB_SIZE_LARGE
 	hud_type = /datum/hud/living/blobbernaut
@@ -32,6 +43,10 @@
 /mob/living/basic/blob_minion/blobbernaut/Initialize(mapload)
 	. = ..()
 	AddElement(/datum/element/swabable, CELL_LINE_TABLE_BLOBBERNAUT, CELL_VIRUS_TABLE_GENERIC_MOB, 1, 5)
+<<<<<<< HEAD
+=======
+	AddElement(/datum/element/damage_threshold, 10)
+>>>>>>> tg-pr-88929
 
 /mob/living/basic/blob_minion/blobbernaut/death(gibbed)
 	flick("blobbernaut_death", src)
@@ -84,15 +99,25 @@
 	key = ckey
 	flick("blobbernaut_produce", src)
 	health = maxHealth / 2 // Start out injured to encourage not beelining away from the blob
+<<<<<<< HEAD
 	SEND_SOUND(src, sound('sound/effects/blobattack.ogg'))
 	SEND_SOUND(src, sound('sound/effects/attackblob.ogg'))
 	to_chat(src, span_infoplain("You are powerful, hard to kill, and slowly regenerate near nodes and cores, [span_cultlarge("but will slowly die if not near the blob")] or if the factory that made you is killed."))
+=======
+	SEND_SOUND(src, sound('sound/effects/blob/blobattack.ogg'))
+	SEND_SOUND(src, sound('sound/effects/blob/attackblob.ogg'))
+	to_chat(src, span_infoplain("You are powerful, hard to kill, and slowly regenerate near nodes and cores, [span_cult_large("but will slowly die if not near the blob")] or if the factory that made you is killed."))
+>>>>>>> tg-pr-88929
 	to_chat(src, span_infoplain("You can communicate with other blobbernauts and overminds <b>telepathically</b> by attempting to speak normally"))
 	to_chat(src, span_infoplain("Your overmind's blob reagent is: <b><font color=\"[blobstrain.color]\">[blobstrain.name]</b></font>!"))
 	to_chat(src, span_infoplain("The <b><font color=\"[blobstrain.color]\">[blobstrain.name]</b></font> reagent [blobstrain.shortdesc ? "[blobstrain.shortdesc]" : "[blobstrain.description]"]"))
 
 /// Set our attack damage based on blob's properties
+<<<<<<< HEAD
 /mob/living/basic/blob_minion/blobbernaut/minion/on_strain_updated(mob/camera/blob/overmind, datum/blobstrain/new_strain)
+=======
+/mob/living/basic/blob_minion/blobbernaut/minion/on_strain_updated(mob/eye/blob/overmind, datum/blobstrain/new_strain)
+>>>>>>> tg-pr-88929
 	if (isnull(overmind))
 		melee_damage_lower = initial(melee_damage_lower)
 		melee_damage_upper = initial(melee_damage_upper)

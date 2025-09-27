@@ -46,9 +46,13 @@ the same goes for Remove(). if you override Remove(), call parent or else your p
 
 /datum/action/changeling/Trigger(trigger_flags)
 	var/mob/user = owner
+<<<<<<< HEAD
 	if(!user?.mind?.has_antag_datum(/datum/antagonist/changeling))
 		return
 	if(SEND_SIGNAL(src, COMSIG_ACTION_TRIGGER, src) & COMPONENT_ACTION_BLOCK_TRIGGER)
+=======
+	if(!user || !IS_CHANGELING(user))
+>>>>>>> tg-pr-88929
 		return
 	try_to_sting(user)
 
@@ -68,7 +72,11 @@ the same goes for Remove(). if you override Remove(), call parent or else your p
 	if(disabled_by_fire && user.fire_stacks && user.on_fire)
 		user.balloon_alert(user, "on fire!")
 		return FALSE
+<<<<<<< HEAD
 	var/datum/antagonist/changeling/changeling = user.mind.has_antag_datum(/datum/antagonist/changeling)
+=======
+	var/datum/antagonist/changeling/changeling = IS_CHANGELING(user)
+>>>>>>> tg-pr-88929
 	if(sting_action(user, target))
 		sting_feedback(user, target)
 		changeling.adjust_chemicals(-chemical_cost)
@@ -77,6 +85,7 @@ the same goes for Remove(). if you override Remove(), call parent or else your p
 	return FALSE
 
 /datum/action/changeling/proc/sting_action(mob/living/user, mob/living/target)
+	SHOULD_CALL_PARENT(TRUE)
 	SSblackbox.record_feedback("nested tally", "changeling_powers", 1, list("[name]"))
 	return FALSE
 
@@ -87,7 +96,7 @@ the same goes for Remove(). if you override Remove(), call parent or else your p
 /datum/action/changeling/proc/can_sting(mob/living/user, mob/living/target)
 	if(!can_be_used_by(user))
 		return FALSE
-	var/datum/antagonist/changeling/changeling = user.mind.has_antag_datum(/datum/antagonist/changeling)
+	var/datum/antagonist/changeling/changeling = IS_CHANGELING(user)
 	if(changeling.chem_charges < chemical_cost)
 		user.balloon_alert(user, "needs [chemical_cost] chemicals!")
 		return FALSE

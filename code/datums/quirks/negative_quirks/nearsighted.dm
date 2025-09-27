@@ -7,11 +7,23 @@
 	lose_text = span_notice("You start seeing faraway things normally again.")
 	medical_record_text = "Patient requires prescription glasses in order to counteract nearsightedness."
 	hardcore_value = 5
+<<<<<<< HEAD
 	quirk_flags = QUIRK_HUMAN_ONLY | QUIRK_CHANGES_APPEARANCE
 	mail_goodies = list(/obj/item/clothing/glasses/regular) // extra pair if orginal one gets broken by somebody mean
 
 /datum/quirk/item_quirk/nearsighted/add_unique(client/client_source)
 	var/glasses_name = client_source?.prefs?.read_preference(/datum/preference/choiced/glasses) || "Regular"
+=======
+	quirk_flags = QUIRK_HUMAN_ONLY|QUIRK_CHANGES_APPEARANCE
+	mail_goodies = list(/obj/item/clothing/glasses/regular) // extra pair if orginal one gets broken by somebody mean
+
+/datum/quirk_constant_data/nearsighted
+	associated_typepath = /datum/quirk/item_quirk/nearsighted
+	customization_options = list(/datum/preference/choiced/glasses)
+
+/datum/quirk/item_quirk/nearsighted/add_unique(client/client_source)
+	var/glasses_name = client_source?.prefs.read_preference(/datum/preference/choiced/glasses) || "Regular"
+>>>>>>> tg-pr-88929
 	var/obj/item/clothing/glasses/glasses_type
 
 	glasses_name = glasses_name == "Random" ? pick(GLOB.nearsighted_glasses) : glasses_name

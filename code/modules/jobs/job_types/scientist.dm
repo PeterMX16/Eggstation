@@ -33,6 +33,11 @@
 	)
 	rpg_title = "Thaumaturgist"
 	job_flags = STATION_JOB_FLAGS
+<<<<<<< HEAD
+=======
+
+	job_tone = "boom"
+>>>>>>> tg-pr-88929
 
 
 /datum/outfit/job/scientist
@@ -50,6 +55,7 @@
 	backpack = /obj/item/storage/backpack/science
 	satchel = /obj/item/storage/backpack/satchel/science
 	duffelbag = /obj/item/storage/backpack/duffelbag/science
+	messenger = /obj/item/storage/backpack/messenger/science
 
 /datum/outfit/job/scientist/pre_equip(mob/living/carbon/human/H)
 	..()

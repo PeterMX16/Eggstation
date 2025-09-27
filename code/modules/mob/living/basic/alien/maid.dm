@@ -2,7 +2,11 @@
 	name = "lusty xenomorph maid"
 	melee_damage_lower = 0
 	melee_damage_upper = 0
+<<<<<<< HEAD
 	// combat_mode = FALSE MONKESTATION REMOVAL
+=======
+	combat_mode = FALSE
+>>>>>>> tg-pr-88929
 	friendly_verb_continuous = "caresses"
 	friendly_verb_simple = "caress"
 	obj_damage = 0
@@ -15,17 +19,31 @@
 /mob/living/basic/alien/maid/Initialize(mapload)
 	. = ..()
 	AddElement(/datum/element/cleaning)
+<<<<<<< HEAD
 	RegisterSignal(src, COMSIG_HOSTILE_PRE_ATTACKINGTARGET, PROC_REF(pre_attack))
 
 ///Handles the maid attacking other players, cancelling the attack to clean up instead.
 /mob/living/basic/alien/maid/proc/pre_attack(mob/living/puncher, atom/target)
 	SIGNAL_HANDLER
+=======
+
+///Handles the maid attacking other players, cancelling the attack to clean up instead.
+/mob/living/basic/alien/maid/early_melee_attack(atom/target, list/modifiers, ignore_cooldown)
+	. = ..()
+	if(!.)
+		return FALSE
+
+>>>>>>> tg-pr-88929
 	target.wash(CLEAN_SCRUB)
 	if(istype(target, /obj/effect/decal/cleanable))
 		visible_message(span_notice("[src] cleans up \the [target]."))
 	else
 		visible_message(span_notice("[src] polishes \the [target]."))
+<<<<<<< HEAD
 	return COMPONENT_HOSTILE_NO_ATTACK
+=======
+	return FALSE
+>>>>>>> tg-pr-88929
 
 /**
  * Barmaid special type

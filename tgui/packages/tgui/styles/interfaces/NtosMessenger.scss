@@ -19,10 +19,17 @@ $msgpadding: 0.7rem;
 
     border-radius: 0;
 
+<<<<<<< HEAD
     background-color: lighten($msgcolor-incoming, 10%);
     &_outgoing {
       border-color: lighten($msgcolor-outgoing, 20%);
       background-color: lighten($msgcolor-outgoing, 30%);
+=======
+    background-color: color.adjust($msgcolor-incoming, $lightness: 10%);
+    &_outgoing {
+      border-color: color.adjust($msgcolor-outgoing, $lightness: 20%);
+      background-color: color.adjust($msgcolor-outgoing, $lightness: 30%);
+>>>>>>> tg-pr-88929
     }
   }
 
@@ -77,7 +84,10 @@ $msgpadding: 0.7rem;
     margin-right: 3rem;
     max-width: 25rem;
     -ms-interpolation-mode: nearest-neighbor;
+<<<<<<< HEAD
     image-rendering: pixelated;
+=======
+>>>>>>> tg-pr-88929
   }
 }
 
@@ -97,7 +107,10 @@ $msgpadding: 0.7rem;
     justify-self: center;
     align-self: center;
     -ms-interpolation-mode: nearest-neighbor;
+<<<<<<< HEAD
     image-rendering: pixelated;
+=======
+>>>>>>> tg-pr-88929
   }
 }
 

@@ -22,7 +22,11 @@ GLOBAL_DATUM(cargo_sloth, /mob/living/basic/sloth)
 
 	attack_verb_continuous = "bites"
 	attack_verb_simple = "bite"
+<<<<<<< HEAD
 	attack_sound = 'sound/weapons/bite.ogg'
+=======
+	attack_sound = 'sound/items/weapons/bite.ogg'
+>>>>>>> tg-pr-88929
 	attack_vis_effect = ATTACK_EFFECT_BITE
 
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
@@ -37,9 +41,25 @@ GLOBAL_DATUM(cargo_sloth, /mob/living/basic/sloth)
 
 	ai_controller = /datum/ai_controller/basic_controller/sloth
 
+<<<<<<< HEAD
 /mob/living/basic/sloth/Initialize(mapload)
 	. = ..()
 	AddElement(/datum/element/pet_bonus, "slowly smiles!")
+=======
+/datum/emote/sloth
+	mob_type_allowed_typecache = /mob/living/basic/sloth
+	mob_type_blacklist_typecache = list()
+
+/datum/emote/sloth/smile_slow
+	key = "ssmile"
+	key_third_person = "slowlysmiles"
+	message = "slowly smiles!"
+	emote_type = EMOTE_VISIBLE | EMOTE_AUDIBLE
+
+/mob/living/basic/sloth/Initialize(mapload)
+	. = ..()
+	AddElement(/datum/element/pet_bonus, "ssmile")
+>>>>>>> tg-pr-88929
 	AddElement(/datum/element/footstep, footstep_type = FOOTSTEP_MOB_CLAW)
 	AddElement(/datum/element/ai_retaliate)
 	AddComponent(/datum/component/tree_climber)
@@ -49,6 +69,10 @@ GLOBAL_DATUM(cargo_sloth, /mob/living/basic/sloth)
 
 	// If someone adds non-cargo sloths to maps we'll have a problem but we're fine for now
 	GLOB.cargo_sloth = src
+<<<<<<< HEAD
+=======
+	GLOB.gorilla_start += get_turf(src)
+>>>>>>> tg-pr-88929
 
 /mob/living/basic/sloth/Destroy()
 	if(GLOB.cargo_sloth == src)

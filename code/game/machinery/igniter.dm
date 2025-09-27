@@ -1,9 +1,10 @@
 /obj/machinery/igniter
 	name = "igniter"
 	desc = "It's useful for igniting plasma."
-	icon = 'icons/obj/stationobjs.dmi'
+	icon = 'icons/obj/machines/floor.dmi'
 	icon_state = "igniter0"
 	base_icon_state = "igniter"
+	layer = ABOVE_OPEN_TURF_LAYER
 	plane = FLOOR_PLANE
 	max_integrity = 300
 	armor_type = /datum/armor/machinery_igniter
@@ -55,11 +56,17 @@
 	deconstruct(TRUE)
 	return ITEM_INTERACT_SUCCESS
 
+<<<<<<< HEAD
 /obj/machinery/igniter/deconstruct(disassembled)
 	if(!(flags_1 & NODECONSTRUCT_1))
 		new /obj/item/stack/sheet/iron(loc, 5)
 		new /obj/item/assembly/igniter(loc)
 	return ..()
+=======
+/obj/machinery/igniter/on_deconstruction(disassembled)
+	new /obj/item/stack/sheet/iron(loc, 5)
+	new /obj/item/assembly/igniter(loc)
+>>>>>>> tg-pr-88929
 
 /obj/machinery/igniter/multitool_act(mob/living/user, obj/item/tool)
 	var/change_id = tgui_input_number(user, "Set the igniter controller's ID", "Igniter ID", id, 100)
@@ -135,15 +142,22 @@
 /obj/item/wallframe/sparker
 	name = "Sparker WallFrame"
 	desc = "An unmounted sparker. Attach it to a wall to use."
+<<<<<<< HEAD
 	icon = 'icons/obj/stationobjs.dmi'
 	icon_state = "migniter"
 	result_path = /obj/machinery/sparker
+=======
+	icon = 'icons/obj/wallmounts.dmi'
+	icon_state = "migniter"
+	result_path = /obj/machinery/sparker
+	custom_materials = list(/datum/material/iron = SHEET_MATERIAL_AMOUNT)
+>>>>>>> tg-pr-88929
 	pixel_shift = 26
 
 /obj/machinery/sparker
 	name = "mounted igniter"
 	desc = "A wall-mounted ignition device."
-	icon = 'icons/obj/stationobjs.dmi'
+	icon = 'icons/obj/wallmounts.dmi'
 	icon_state = "migniter"
 	base_icon_state = "migniter"
 	resistance_flags = FIRE_PROOF
@@ -163,6 +177,10 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/sparker, 26)
 	spark_system.set_up(2, 1, src)
 	spark_system.attach(src)
 	register_context()
+<<<<<<< HEAD
+=======
+	find_and_hang_on_wall()
+>>>>>>> tg-pr-88929
 
 /obj/machinery/sparker/Destroy()
 	QDEL_NULL(spark_system)
@@ -200,10 +218,15 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/sparker, 26)
 	deconstruct(TRUE)
 	return ITEM_INTERACT_SUCCESS
 
+<<<<<<< HEAD
 /obj/machinery/sparker/deconstruct(disassembled)
 	if(!(flags_1 & NODECONSTRUCT_1))
 		new /obj/item/wallframe/sparker(loc)
 	return ..()
+=======
+/obj/machinery/sparker/on_deconstruction(disassembled)
+	new /obj/item/wallframe/sparker(loc)
+>>>>>>> tg-pr-88929
 
 /obj/machinery/sparker/multitool_act(mob/living/user, obj/item/tool)
 	var/change_id = tgui_input_number(user, "Set the sparker controller's ID", "Sparker ID", id, 100)

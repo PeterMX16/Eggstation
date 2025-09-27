@@ -28,6 +28,10 @@
 	var/atom/movable/ref_holder/testbed = allocate(/atom/movable/ref_holder)
 	SSgarbage.should_save_refs = TRUE
 
+<<<<<<< HEAD
+=======
+	//Sanity check
+>>>>>>> tg-pr-88929
 	var/refcount = refcount(victim)
 	TEST_ASSERT_EQUAL(refcount, 3, "Should be: test references: 0 + baseline references: 3 (victim var,loc,allocated list)")
 	victim.DoSearchVar(testbed, "Sanity Check") //We increment search time to get around an optimization

@@ -1,17 +1,19 @@
 //spears
 /obj/item/spear
+	name = "spear"
+	desc = "A haphazardly-constructed yet still deadly weapon of ancient design."
 	icon = 'icons/obj/weapons/spear.dmi'
 	icon_state = "spearglass0"
 	lefthand_file = 'icons/mob/inhands/weapons/polearms_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/weapons/polearms_righthand.dmi'
-	name = "spear"
-	desc = "A haphazardly-constructed yet still deadly weapon of ancient design."
+	icon_angle = -45
 	force = 10
 	w_class = WEIGHT_CLASS_BULKY
 	slot_flags = ITEM_SLOT_BACK
 	throwforce = 20
 	throw_speed = 4
 	demolition_mod = 0.75
+<<<<<<< HEAD
 	embedding = list("impact_pain_mult" = 2, "remove_pain_mult" = 4, "jostle_chance" = 2.5)
 	armour_penetration = 30
 	custom_materials = list(/datum/material/iron = HALF_SHEET_MATERIAL_AMOUNT, /datum/material/glass= HALF_SHEET_MATERIAL_AMOUNT * 2)
@@ -19,6 +21,15 @@
 	attack_verb_continuous = list("attacks", "pokes", "jabs", "tears", "lacerates", "gores")
 	attack_verb_simple = list("attack", "poke", "jab", "tear", "lacerate", "gore")
 	sharpness = SHARP_POINTY // Monke, spears are actually pointy.
+=======
+	embed_type = /datum/embedding/spear
+	armour_penetration = 10
+	custom_materials = list(/datum/material/iron = HALF_SHEET_MATERIAL_AMOUNT, /datum/material/glass= HALF_SHEET_MATERIAL_AMOUNT * 2)
+	hitsound = 'sound/items/weapons/bladeslice.ogg'
+	attack_verb_continuous = list("attacks", "pokes", "jabs", "tears", "lacerates", "gores")
+	attack_verb_simple = list("attack", "poke", "jab", "tear", "lacerate", "gore")
+	sharpness = SHARP_POINTY
+>>>>>>> tg-pr-88929
 	max_integrity = 200
 	armor_type = /datum/armor/item_spear
 	wound_bonus = 8 // Monke, spears have better wound bonus.
@@ -32,6 +43,11 @@
 	/// How much damage to do wielded
 	var/force_wielded = 18
 
+/datum/embedding/spear
+	impact_pain_mult = 2
+	remove_pain_mult = 4
+	jostle_chance = 2.5
+
 /datum/armor/item_spear
 	fire = 50
 	acid = 30
@@ -40,7 +56,10 @@
 	. = ..()
 	force = force_unwielded
 	//decent in a pinch, but pretty bad.
-	AddComponent(/datum/component/jousting)
+	AddComponent(/datum/component/jousting, \
+		max_tile_charge = 9, \
+		min_tile_charge = 6, \
+		)
 
 	AddComponent(/datum/component/butchering, \
 		speed = 10 SECONDS, \
@@ -51,7 +70,17 @@
 		force_wielded = force_wielded, \
 		icon_wielded = "[icon_prefix]1", \
 	)
+	add_headpike_component()
 	update_appearance()
+
+// I dunno man
+/obj/item/spear/proc/add_headpike_component()
+	var/static/list/slapcraft_recipe_list = list(/datum/crafting_recipe/headpike)
+
+	AddElement(
+		/datum/element/slapcrafting,\
+		slapcraft_recipes = slapcraft_recipe_list,\
+	)
 
 /obj/item/spear/update_icon_state()
 	icon_state = "[icon_prefix]0"
@@ -81,7 +110,11 @@
 			throw_range = 8
 			throw_speed = 5
 			custom_materials = list(/datum/material/iron= HALF_SHEET_MATERIAL_AMOUNT, /datum/material/alloy/titaniumglass= HALF_SHEET_MATERIAL_AMOUNT * 2)
+<<<<<<< HEAD
 			wound_bonus = 12 // Monke, spears have better wound bonus.
+=======
+			wound_bonus = -10
+>>>>>>> tg-pr-88929
 			force_unwielded = 13
 			force_wielded = 18
 			icon_prefix = "speartitanium"
@@ -92,8 +125,13 @@
 			throw_range = 9
 			throw_speed = 5
 			custom_materials = list(/datum/material/iron= HALF_SHEET_MATERIAL_AMOUNT, /datum/material/alloy/plastitaniumglass= HALF_SHEET_MATERIAL_AMOUNT * 2)
+<<<<<<< HEAD
 			wound_bonus = 12 // Monke, spears have better wound bonus.
 			bare_wound_bonus = 8 // Monke, reduced bare wound bonus to compensate for better wound bonus.
+=======
+			wound_bonus = -10
+			bare_wound_bonus = 20
+>>>>>>> tg-pr-88929
 			force_unwielded = 13
 			force_wielded = 20
 			icon_prefix = "spearplastitanium"
@@ -139,7 +177,7 @@
 	user.say("[war_cry]", forced="spear warcry")
 	explosive.forceMove(user)
 	explosive.detonate()
-	user.gib()
+	user.gib(DROP_ALL_REMAINS)
 	qdel(src)
 	return BRUTELOSS
 
@@ -147,14 +185,16 @@
 	. = ..()
 	. += span_notice("Alt-click to set your war cry.")
 
-/obj/item/spear/explosive/AltClick(mob/user)
-	if(user.can_perform_action(src))
-		..()
-		if(istype(user) && loc == user)
-			var/input = tgui_input_text(user, "What do you want your war cry to be? You will shout it when you hit someone in melee.", "War Cry", max_length = 50)
-			if(input)
-				src.war_cry = input
+/obj/item/spear/explosive/click_alt(mob/user)
+	var/input = tgui_input_text(user, "What do you want your war cry to be? You will shout it when you hit someone in melee.", "War Cry", max_length = 50)
+	if(input)
+		war_cry = input
+	return CLICK_ACTION_SUCCESS
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> tg-pr-88929
 /obj/item/spear/explosive/afterattack(atom/movable/target, mob/user, click_parameters)
 	if(!HAS_TRAIT(src, TRAIT_WIELDED) || !istype(target))
 		return
@@ -196,6 +236,34 @@
 		fake_clone.faction = user.faction.Copy()
 		fake_clone.Copy_Parent(user, 100, user.health/2.5, 12, 30)
 		fake_clone.GiveTarget(stabbed)
+<<<<<<< HEAD
+=======
+
+//MILITARY
+/obj/item/spear/military
+	icon_state = "military_spear0"
+	base_icon_state = "military_spear0"
+	icon_prefix = "military_spear"
+	name = "military javelin"
+	desc = "A stick with a seemingly blunt spearhead on its end. Looks like it might break bones easily."
+	attack_verb_continuous = list("attacks", "pokes", "jabs")
+	attack_verb_simple = list("attack", "poke", "jab")
+	throwforce = 30
+	demolition_mod = 1
+	wound_bonus = 5
+	bare_wound_bonus = 25
+	throw_range = 9
+	throw_speed = 5
+	sharpness = NONE // we break bones instead of cutting flesh
+
+/obj/item/spear/military/add_headpike_component()
+	var/static/list/slapcraft_recipe_list = list(/datum/crafting_recipe/headpikemilitary)
+
+	AddElement(
+		/datum/element/slapcrafting,\
+		slapcraft_recipes = slapcraft_recipe_list,\
+	)
+>>>>>>> tg-pr-88929
 
 /*
  * Bone Spear
@@ -217,6 +285,14 @@
 	force_unwielded = 12
 	force_wielded = 20
 
+/obj/item/spear/bonespear/add_headpike_component()
+	var/static/list/slapcraft_recipe_list = list(/datum/crafting_recipe/headpikebone)
+
+	AddElement(
+		/datum/element/slapcrafting,\
+		slapcraft_recipes = slapcraft_recipe_list,\
+	)
+
 /*
  * Bamboo Spear
  */
@@ -231,3 +307,12 @@
 	custom_materials = list(/datum/material/bamboo = SHEET_MATERIAL_AMOUNT * 20)
 	force_unwielded = 10
 	force_wielded = 18
+
+
+/obj/item/spear/bamboospear/add_headpike_component()
+	var/static/list/slapcraft_recipe_list = list(/datum/crafting_recipe/headpikebamboo)
+
+	AddElement(
+		/datum/element/slapcrafting,\
+		slapcraft_recipes = slapcraft_recipe_list,\
+	)

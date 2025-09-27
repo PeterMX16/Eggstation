@@ -1,8 +1,3 @@
-/turf
-	///what /mob/oranges_ear instance is already assigned to us as there should only ever be one.
-	///used for guaranteeing there is only one oranges_ear per turf when assigned, speeds up view() iteration
-	var/mob/oranges_ear/assigned_oranges_ear
-
 /** # Oranges Ear
  *
  * turns out view() spends a significant portion of its processing time generating lists of contents of viewable turfs which includes EVERYTHING on it visible
@@ -23,7 +18,7 @@
 	icon_state = null
 	density = FALSE
 	move_resist = INFINITY
-	invisibility = 0
+	invisibility = INVISIBILITY_NONE
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
 	logging = null
 	held_items = null //all of these are list objects that should not exist for something like us
@@ -79,7 +74,7 @@
 /**
  * returns every hearaing movable in view to the turf of source not taking into account lighting
  * useful when you need to maintain always being able to hear something if a sound is emitted from it and you can see it (and youre in range).
- * otherwise this is just a more expensive version of get_hearers_in_LOS()
+ * otherwise this is just a more expensive version of get_hearers_in_LOS().
  *
  * * view_radius - what radius search circle we are using, worse performance as this increases
  * * source - object at the center of our search area. everything in get_turf(source) is guaranteed to be part of the search area
@@ -106,15 +101,23 @@
 
 	var/list/assigned_oranges_ears = SSspatial_grid.assign_oranges_ears(hearables_from_grid)
 
+<<<<<<< HEAD
 	//this is the ENTIRE reason all this shit is worth it due to how view() and the contents list works and can be optimized
+=======
+	//this is the ENTIRE reason all this shit is worth it due to how view()-like procs and the contents list works and can be optimized
+>>>>>>> tg-pr-88929
 	//internally, the contents list is secretly two linked lists, one for /obj's and one for /mob's (/atom/movable counts as /obj here)
 	//by default, for(var/atom/name in view()) iterates through both the /obj linked list then the /mob linked list of each turf
 	//but because what we want are only a tiny proportion of all movables, most of the things in the /obj contents list are not what we're looking for
-	//while every mob can hear. for this case view() has an optimization to only look through 1 of these lists if it can (eg youre only looking for mobs)
+	//while every mob can hear. for this case view() and similar procs have an optimization to only look through 1 of these lists if it can (eg youre only looking for mobs)
 	//so by representing every hearing contents on a turf with a single /mob/oranges_ear containing references to all of them, we are:
 	//1. making view() only go through the smallest of the two linked lists per turf, which contains the type we're looking for at the end
 	//2. typechecking all mobs in the output to only actually return mobs of type /mob/oranges_ear
 	//on a whole this can outperform iterating through all movables in view() by ~2x especially when hearables are a tiny percentage of movables in view
+<<<<<<< HEAD
+=======
+	//using hearers is a further optimization of that because for our purposes its the same as view except we dont have to set center's luminosity to 6 and then unset it
+>>>>>>> tg-pr-88929
 	for(var/mob/oranges_ear/ear in hearers(view_radius, center_turf))
 		. += ear.references
 
@@ -131,9 +134,14 @@
  *
  * * radius - what radius search circle we are using, worse performance as this increases
  * * source - object at the center of our search area. everything in get_turf(source) is guaranteed to be part of the search area
+<<<<<<< HEAD
  * * contents_type - the type of contents we want to be looking for. defaults to hearing sensitive
  */
 /proc/get_hearers_in_range(range, atom/source, contents_type=RECURSIVE_CONTENTS_HEARING_SENSITIVE)
+=======
+ */
+/proc/get_hearers_in_range(range, atom/source)
+>>>>>>> tg-pr-88929
 	var/turf/center_turf = get_turf(source)
 	if(!center_turf)
 		return
@@ -142,12 +150,20 @@
 
 	if(range <= 0)//special case for if only source cares
 		for(var/atom/movable/target as anything in center_turf)
+<<<<<<< HEAD
 			var/list/recursive_contents = target.important_recursive_contents?[contents_type]
+=======
+			var/list/recursive_contents = target.important_recursive_contents?[RECURSIVE_CONTENTS_HEARING_SENSITIVE]
+>>>>>>> tg-pr-88929
 			if(recursive_contents)
 				. += recursive_contents
 		return .
 
+<<<<<<< HEAD
 	var/list/hearables_from_grid = SSspatial_grid.orthogonal_range_search(source, contents_type, range)
+=======
+	var/list/hearables_from_grid = SSspatial_grid.orthogonal_range_search(source, RECURSIVE_CONTENTS_HEARING_SENSITIVE, range)
+>>>>>>> tg-pr-88929
 
 	if(!length(hearables_from_grid))//we know that something is returned by the grid, but we dont know if we need to actually filter down the output
 		return .
@@ -217,37 +233,49 @@
 	for(var/obj/item/radio/radio as anything in radios)
 		. |= get_hearers_in_LOS(radio.canhear_range, radio)
 
+//Used when converting pixels to tiles to make them accurate
+#define OFFSET_X (0.5 / ICON_SIZE_X)
+#define OFFSET_Y (0.5 / ICON_SIZE_Y)
+
 ///Calculate if two atoms are in sight, returns TRUE or FALSE
 /proc/inLineOfSight(X1,Y1,X2,Y2,Z=1,PX1=16.5,PY1=16.5,PX2=16.5,PY2=16.5)
-	var/turf/T
+	var/turf/current_turf
 	if(X1 == X2)
 		if(Y1 == Y2)
 			return TRUE //Light cannot be blocked on same tile
 		else
-			var/s = SIGN(Y2-Y1)
-			Y1+=s
+			var/sign = SIGN(Y2-Y1)
+			Y1 += sign
 			while(Y1 != Y2)
-				T=locate(X1,Y1,Z)
-				if(IS_OPAQUE_TURF(T))
+				current_turf = locate(X1, Y1, Z)
+				if(IS_OPAQUE_TURF(current_turf))
 					return FALSE
-				Y1+=s
+				Y1 += sign
 	else
-		var/m=(32*(Y2-Y1)+(PY2-PY1))/(32*(X2-X1)+(PX2-PX1))
-		var/b=(Y1+PY1/32-0.015625)-m*(X1+PX1/32-0.015625) //In tiles
+		//This looks scary but we're just calculating a linear function (y = mx + b)
+
+		//m = y/x
+		var/m = (ICON_SIZE_Y*(Y2-Y1) + (PY2-PY1)) / (ICON_SIZE_X*(X2-X1) + (PX2-PX1))//In pixels
+
+		//b = y - mx
+		var/b = (Y1 + PY1/ICON_SIZE_Y - OFFSET_Y) - m*(X1 + PX1/ICON_SIZE_X - OFFSET_X)//In tiles
+
 		var/signX = SIGN(X2-X1)
 		var/signY = SIGN(Y2-Y1)
-		if(X1<X2)
-			b+=m
+		if(X1 < X2)
+			b += m
 		while(X1 != X2 || Y1 != Y2)
-			if(round(m*X1+b-Y1))
-				Y1+=signY //Line exits tile vertically
+			if(round(m*X1 + b - Y1)) // Basically, if y >= mx+b
+				Y1 += signY //Line exits tile vertically
 			else
-				X1+=signX //Line exits tile horizontally
-			T=locate(X1,Y1,Z)
-			if(IS_OPAQUE_TURF(T))
+				X1 += signX //Line exits tile horizontally
+			current_turf = locate(X1, Y1, Z)
+			if(IS_OPAQUE_TURF(current_turf))
 				return FALSE
 	return TRUE
 
+#undef OFFSET_X
+#undef OFFSET_Y
 
 /proc/is_in_sight(atom/first_atom, atom/second_atom)
 	var/turf/first_turf = get_turf(first_atom)
@@ -289,7 +317,11 @@
 	return atoms
 
 ///Returns the distance between two atoms
+<<<<<<< HEAD
 /proc/get_dist_euclidean(atom/first_location as turf|mob|obj, atom/second_location as turf|mob|obj)
+=======
+/proc/get_dist_euclidean(atom/first_location, atom/second_location)
+>>>>>>> tg-pr-88929
 	var/dx = first_location.x - second_location.x
 	var/dy = first_location.y - second_location.y
 
@@ -479,3 +511,22 @@
 		return center //Offer the center only as a default case when we don't have a valid circle.
 	return peel
 
+<<<<<<< HEAD
+=======
+///check if 2 diagonal turfs are blocked by dense objects
+/proc/diagonally_blocked(turf/our_turf, turf/dest_turf)
+	if(get_dist(our_turf, dest_turf) != 1)
+		return FALSE
+	var/direction_to_turf = get_dir(dest_turf, our_turf)
+	if(!ISDIAGONALDIR(direction_to_turf))
+		return FALSE
+	for(var/direction_check in GLOB.cardinals)
+		if(!(direction_check & direction_to_turf))
+			continue
+		var/turf/test_turf = get_step(dest_turf, direction_check)
+		if(isnull(test_turf))
+			continue
+		if(!test_turf.is_blocked_turf(exclude_mobs = TRUE))
+			return FALSE
+	return TRUE
+>>>>>>> tg-pr-88929

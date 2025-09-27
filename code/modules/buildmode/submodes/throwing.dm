@@ -7,11 +7,19 @@
 	unset_target()
 	return ..()
 
+<<<<<<< HEAD
 /datum/buildmode_mode/throwing/show_help(client/user)
 	to_chat(user, span_notice("***********************************************************"))
 	to_chat(user, span_notice("Left Mouse Button on obj/mob           = Select"))
 	to_chat(user, span_notice("Right Mouse Button on turf/obj/mob     = Throw"))
 	to_chat(user, span_notice("***********************************************************"))
+=======
+/datum/buildmode_mode/throwing/show_help(client/builder)
+	to_chat(builder, span_purple(boxed_message(
+		"[span_bold("Select")] -> Left Mouse Button on turf/obj/mob\n\
+		[span_bold("Throw")] -> Right Mouse Button on turf/obj/mob"))
+	)
+>>>>>>> tg-pr-88929
 
 /datum/buildmode_mode/throwing/handle_click(client/user, params, obj/object)
 	var/list/modifiers = params2list(params)

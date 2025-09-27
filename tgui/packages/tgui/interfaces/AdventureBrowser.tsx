@@ -1,4 +1,8 @@
+import { Box, Button, NoticeBox, Section, Table } from 'tgui-core/components';
+import { formatTime } from 'tgui-core/format';
+
 import { useBackend, useLocalState } from '../backend';
+<<<<<<< HEAD
 import {
   Button,
   LabeledList,
@@ -7,18 +11,18 @@ import {
   NoticeBox,
   Table,
 } from '../components';
+=======
+>>>>>>> tg-pr-88929
 import { Window } from '../layouts';
 import { AdventureDataProvider, AdventureScreen } from './ExodroneConsole';
-import { formatTime } from '../format';
 
 type Adventure = {
   ref: string;
   name: string;
-  id: string;
+  filename: string;
   approved: boolean;
   uploader: string;
   version: number;
-  timestamp: string;
   json_status: string;
 };
 
@@ -31,6 +35,7 @@ type AdventureBrowserData = AdventureDataProvider & {
   delay_message: string;
 };
 
+<<<<<<< HEAD
 const AdventureEntry = (props) => {
   const { data, act } = useBackend<AdventureBrowserData>();
   const { entry_ref, close }: { entry_ref: string; close: () => void } = props;
@@ -91,6 +96,8 @@ const AdventureEntry = (props) => {
   );
 };
 
+=======
+>>>>>>> tg-pr-88929
 const AdventureList = (props) => {
   const { data, act } = useBackend<AdventureBrowserData>();
   const [openAdventure, setOpenAdventure] = useLocalState<string | null>(
@@ -99,38 +106,28 @@ const AdventureList = (props) => {
   );
 
   return (
-    <>
-      {openAdventure && (
-        <AdventureEntry
-          entry_ref={openAdventure}
-          close={() => setOpenAdventure(null)}
-        />
-      )}
-      {!openAdventure && (
-        <Table>
-          <Table.Row>
-            <Table.Cell color="label">ID</Table.Cell>
-            <Table.Cell color="label">Title</Table.Cell>
-            <Table.Cell color="label">Edit</Table.Cell>
-          </Table.Row>
-          {data.adventures.map((adventure) => (
-            <Table.Row key={adventure.ref} className="candystripe">
-              <Table.Cell>{adventure.id}</Table.Cell>
-              <Table.Cell>{adventure.name}</Table.Cell>
-              <Table.Cell>
-                <Button
-                  icon="edit"
-                  onClick={() => setOpenAdventure(adventure.ref)}
-                />
-              </Table.Cell>
-            </Table.Row>
-          ))}
-          <Table.Row>
-            <Button onClick={() => act('create')}>Create New</Button>
-          </Table.Row>
-        </Table>
-      )}
-    </>
+    <Table>
+      <Table.Row>
+        <Table.Cell color="label">Filename</Table.Cell>
+        <Table.Cell color="label">Title</Table.Cell>
+        <Table.Cell color="label">Author</Table.Cell>
+        <Table.Cell color="label">Playtest</Table.Cell>
+      </Table.Row>
+      {data.adventures.map((adventure) => (
+        <Table.Row key={adventure.ref} className="candystripe">
+          <Table.Cell>{adventure.filename}</Table.Cell>
+          <Table.Cell>{adventure.name}</Table.Cell>
+          <Table.Cell>{adventure.uploader}</Table.Cell>
+          <Table.Cell>
+            <Button
+              color="good"
+              onClick={() => act('play', { ref: adventure.ref })}
+              content="Play"
+            />
+          </Table.Cell>
+        </Table.Row>
+      ))}
+    </Table>
   );
 };
 
@@ -161,7 +158,7 @@ export const AdventureBrowser = (props) => {
   const { data } = useBackend<AdventureBrowserData>();
 
   return (
-    <Window width={650} height={500} title="Adventure Manager">
+    <Window width={600} height={400} title="Adventure Overview">
       <Window.Content>
         {!!data.feedback_message && (
           <NoticeBox>{data.feedback_message}</NoticeBox>

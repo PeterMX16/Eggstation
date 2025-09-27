@@ -1,7 +1,11 @@
-import { Button, Section } from '../components';
-import { Window } from '../layouts';
-import { useBackend } from '../backend';
+import { Button, Section } from 'tgui-core/components';
 
+<<<<<<< HEAD
+=======
+import { useBackend } from '../backend';
+import { Window } from '../layouts';
+
+>>>>>>> tg-pr-88929
 export const InterviewManager = (props) => {
   const { act, data } = useBackend();
   const { open_interviews, closed_interviews } = data;

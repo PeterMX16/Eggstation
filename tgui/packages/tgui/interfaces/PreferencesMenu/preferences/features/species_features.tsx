@@ -1,4 +1,5 @@
 import {
+<<<<<<< HEAD
   FeatureColorInput,
   Feature,
   FeatureChoiced,
@@ -6,6 +7,15 @@ import {
   FeatureDropdownInput,
   StandardizedPalette,
 } from './base';
+=======
+  Feature,
+  FeatureChoiced,
+  FeatureChoicedServerData,
+  FeatureColorInput,
+  FeatureValueProps,
+} from './base';
+import { FeatureDropdownInput } from './dropdowns';
+>>>>>>> tg-pr-88929
 
 const eyePresets = {
   // these need to be short color (3 byte) compatible
@@ -132,7 +142,11 @@ export const gradient_color: Feature<string> = {
 
 export const facial_hair_gradient: FeatureChoiced = {
   name: 'Facial hair gradient',
-  component: FeatureDropdownInput,
+  component: (
+    props: FeatureValueProps<string, string, FeatureChoicedServerData>,
+  ) => {
+    return <FeatureDropdownInput buttons {...props} />;
+  },
 };
 
 export const facial_hair_gradient_color: Feature<string> = {
@@ -209,7 +223,11 @@ export const hair_color: Feature<string> = {
 
 export const hair_gradient: FeatureChoiced = {
   name: 'Hair gradient',
-  component: FeatureDropdownInput,
+  component: (
+    props: FeatureValueProps<string, string, FeatureChoicedServerData>,
+  ) => {
+    return <FeatureDropdownInput buttons {...props} />;
+  },
 };
 
 export const hair_gradient_color: Feature<string> = {
@@ -238,27 +256,56 @@ export const hair_gradient_color: Feature<string> = {
 
 export const feature_human_ears: FeatureChoiced = {
   name: 'Ears',
-  component: FeatureDropdownInput,
+  component: (
+    props: FeatureValueProps<string, string, FeatureChoicedServerData>,
+  ) => {
+    return <FeatureDropdownInput buttons {...props} />;
+  },
 };
 
 export const feature_human_tail: FeatureChoiced = {
   name: 'Tail',
-  component: FeatureDropdownInput,
+  component: (
+    props: FeatureValueProps<string, string, FeatureChoicedServerData>,
+  ) => {
+    return <FeatureDropdownInput buttons {...props} />;
+  },
+};
+
+export const feature_monkey_tail: FeatureChoiced = {
+  name: 'Tail',
+  component: (
+    props: FeatureValueProps<string, string, FeatureChoicedServerData>,
+  ) => {
+    return <FeatureDropdownInput buttons {...props} />;
+  },
 };
 
 export const feature_lizard_legs: FeatureChoiced = {
   name: 'Legs',
-  component: FeatureDropdownInput,
+  component: (
+    props: FeatureValueProps<string, string, FeatureChoicedServerData>,
+  ) => {
+    return <FeatureDropdownInput buttons {...props} />;
+  },
 };
 
 export const feature_lizard_spines: FeatureChoiced = {
   name: 'Spines',
-  component: FeatureDropdownInput,
+  component: (
+    props: FeatureValueProps<string, string, FeatureChoicedServerData>,
+  ) => {
+    return <FeatureDropdownInput buttons {...props} />;
+  },
 };
 
 export const feature_lizard_tail: FeatureChoiced = {
   name: 'Tail',
-  component: FeatureDropdownInput,
+  component: (
+    props: FeatureValueProps<string, string, FeatureChoicedServerData>,
+  ) => {
+    return <FeatureDropdownInput buttons {...props} />;
+  },
 };
 
 export const feature_mcolor: Feature<string> = {

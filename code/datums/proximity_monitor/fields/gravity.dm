@@ -80,6 +80,10 @@
 	alpha = 200
 	/// our emissive appearance
 	var/mutable_appearance/emissive
+<<<<<<< HEAD
+=======
+	var/particles/particle_type
+>>>>>>> tg-pr-88929
 
 /obj/gravity_fluff_field/Initialize(mapload, strength)
 	. = ..()
@@ -89,6 +93,7 @@
 	QUEUE_SMOOTH_NEIGHBORS(src)
 	switch(strength)
 		if(2 to INFINITY)
+<<<<<<< HEAD
 			particles = new /particles/grav_field_down/strong()
 		if(1 to 2)
 			particles = new /particles/grav_field_down()
@@ -101,6 +106,22 @@
 
 /obj/gravity_fluff_field/Destroy(force)
 	particles = null
+=======
+			particle_type = /particles/grav_field_down/strong
+		if(1 to 2)
+			particle_type = /particles/grav_field_down
+		if(0 to 1)
+			particle_type = /particles/grav_field_float
+		if(-INFINITY to -1)
+			particle_type = /particles/grav_field_up
+	if (particle_type)
+		add_shared_particles(/particles/grav_field_down/strong)
+		color = particle_type::color
+	RegisterSignal(src, COMSIG_ATOM_SMOOTHED_ICON, PROC_REF(smoothed))
+
+/obj/gravity_fluff_field/Destroy(force)
+	remove_shared_particles(particle_type)
+>>>>>>> tg-pr-88929
 	emissive = null
 	return ..()
 

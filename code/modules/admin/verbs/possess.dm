@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ADMIN_VERB_AND_CONTEXT_MENU(possess, R_POSSESS, FALSE, "Possess Obj", "Possess an object.", ADMIN_CATEGORY_OBJECT, obj/target in world)
 	if((target.obj_flags & DANGEROUS_POSSESSION) && CONFIG_GET(flag/forbid_singulo_possession))
 		to_chat(user, "[target] is too powerful for you to possess.", confidential = TRUE)
@@ -39,4 +40,25 @@ ADMIN_VERB(release, R_POSSESS, FALSE, "Release Object", "Stop possessing an obje
 	user.mob.forceMove(get_turf(user.mob.control_object))
 	user.mob.reset_perspective()
 	user.mob.control_object = null
+=======
+
+ADMIN_VERB_AND_CONTEXT_MENU(possess, R_POSSESS, "Possess Obj", "Possess an object.", ADMIN_CATEGORY_OBJECT, obj/target in world)
+	var/result = user.mob.AddComponent(/datum/component/object_possession, target)
+
+	if(isnull(result)) // trigger a safety movement just in case we yonk
+		user.mob.forceMove(get_turf(user.mob))
+		return
+
+	var/turf/target_turf = get_turf(target)
+	var/message = "[key_name(user)] has possessed [target] ([target.type]) at [AREACOORD(target_turf)]"
+	message_admins(message)
+	log_admin(message)
+
+	BLACKBOX_LOG_ADMIN_VERB("Possess Object")
+
+ADMIN_VERB(release, R_POSSESS, "Release Object", "Stop possessing an object.", ADMIN_CATEGORY_OBJECT)
+	var/possess_component = user.mob.GetComponent(/datum/component/object_possession)
+	if(!isnull(possess_component))
+		qdel(possess_component)
+>>>>>>> tg-pr-88929
 	BLACKBOX_LOG_ADMIN_VERB("Release Object")

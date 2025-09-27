@@ -78,3 +78,7 @@
 	steps[FOOTSTEP_MOB_HEAVY] = heavyfootstep
 	steps[FOOTSTEP_MOB_CLAW] = clawfootstep
 	steps[STEP_SOUND_PRIORITY] = priority
+<<<<<<< HEAD
+=======
+	return FOOTSTEP_OVERRIDEN
+>>>>>>> tg-pr-88929

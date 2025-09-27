@@ -5,10 +5,11 @@
 	icon = 'monkestation/icons/obj/guns/40mm_grenade.dmi'
 	icon_state = "40mm_projectile"
 	damage = 60
-	embedding = null
+	embed_type = null
 	shrapnel_type = null
 	range = 30
 
+<<<<<<< HEAD
 /obj/projectile/bullet/a40mm/Range() //because you lob the grenade to achieve the range :)
 	if(!has_gravity(get_area(src)))
 		range++
@@ -17,6 +18,8 @@
 /obj/projectile/bullet/a40mm/proc/payload(atom/target)
 	explosion(target, devastation_range = -1, light_impact_range = 3, flame_range = 0, flash_range = 2, adminlog = FALSE, explosion_cause = src)
 
+=======
+>>>>>>> tg-pr-88929
 /obj/projectile/bullet/a40mm/on_hit(atom/target, blocked = 0, pierce_hit)
 	..()
 	payload(target)

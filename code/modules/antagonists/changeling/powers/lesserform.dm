@@ -31,7 +31,7 @@
 	if(user.movement_type & VENTCRAWLING)
 		user.balloon_alert(user, "can't transform in pipes!")
 		return FALSE
-	var/datum/antagonist/changeling/changeling = user.mind.has_antag_datum(/datum/antagonist/changeling)
+	var/datum/antagonist/changeling/changeling = IS_CHANGELING(user)
 	var/datum/changeling_profile/chosen_form = select_form(changeling, user)
 	if(!chosen_form)
 		return FALSE
@@ -41,7 +41,6 @@
 	user.humanize(species = chosen_species, instant = transform_instantly)
 
 	changeling.transform(user, chosen_form)
-	user.regenerate_icons()
 	return TRUE
 
 /// Returns the form to transform back into, automatically selects your only profile if you only have one

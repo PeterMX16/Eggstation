@@ -1,6 +1,6 @@
 /obj/machinery/recharger
 	name = "recharger"
-	icon = 'icons/obj/stationobjs.dmi'
+	icon = 'icons/obj/machines/sec.dmi'
 	icon_state = "recharger"
 	base_icon_state = "recharger"
 	desc = "A charging dock for energy based weaponry, PDAs, and other devices."
@@ -20,9 +20,13 @@
 		/obj/item/melee/baton/security,
 		/obj/item/ammo_box/magazine/recharge,
 		/obj/item/modular_computer,
+<<<<<<< HEAD
 		///obj/item/gun/ballistic/automatic/battle_rifle,
 		/obj/item/gun/microfusion, //monkestation edit
 		/obj/item/stock_parts/power_store/cell/microfusion, //monkestation edit
+=======
+		/obj/item/gun/ballistic/automatic/battle_rifle,
+>>>>>>> tg-pr-88929
 	))
 
 /obj/machinery/recharger/RefreshParts()
@@ -53,7 +57,11 @@
 	if(!status_display_message_shown)
 		. += span_notice("The status display reads:")
 
+<<<<<<< HEAD
 	var/obj/item/stock_parts/power_store/cell/charging_cell = charging.get_cell()
+=======
+	var/obj/item/stock_parts/power_store/charging_cell = charging.get_cell()
+>>>>>>> tg-pr-88929
 	if(charging_cell)
 		. += span_notice("- \The [charging]'s cell is at <b>[charging_cell.percent()]%</b>.")
 		return
@@ -61,12 +69,20 @@
 		var/obj/item/ammo_box/magazine/recharge/power_pack = charging
 		. += span_notice("- \The [charging]'s cell is at <b>[PERCENT(power_pack.stored_ammo.len/power_pack.max_ammo)]%</b>.")
 		return
+<<<<<<< HEAD
 	//if(istype(charging, /obj/item/gun/ballistic/automatic/battle_rifle))
 	//	var/obj/item/gun/ballistic/automatic/battle_rifle/recalibrating_gun = charging
 	//	. += span_notice("- \The [charging]'s system degradation is at stage [recalibrating_gun.degradation_stage] of [recalibrating_gun.degradation_stage_max]</b>.")
 	//	. += span_notice("- \The [charging]'s degradation buffer is at <b>[PERCENT(recalibrating_gun.shots_before_degradation/recalibrating_gun.max_shots_before_degradation)]%</b>.")
 	//	return // MONKE EDIT: No battle rifles (yet)
 
+=======
+	if(istype(charging, /obj/item/gun/ballistic/automatic/battle_rifle))
+		var/obj/item/gun/ballistic/automatic/battle_rifle/recalibrating_gun = charging
+		. += span_notice("- \The [charging]'s system degradation is at stage [recalibrating_gun.degradation_stage] of [recalibrating_gun.degradation_stage_max]</b>.")
+		. += span_notice("- \The [charging]'s degradation buffer is at <b>[PERCENT(recalibrating_gun.shots_before_degradation/recalibrating_gun.max_shots_before_degradation)]%</b>.")
+		return
+>>>>>>> tg-pr-88929
 	. += span_notice("- \The [charging] is not reporting a power level.")
 
 /obj/machinery/recharger/Entered(atom/movable/arrived, atom/old_loc, list/atom/old_locs)
@@ -89,6 +105,7 @@
 		update_appearance()
 	return ..()
 
+<<<<<<< HEAD
 /obj/machinery/recharger/item_interaction(mob/living/user, obj/item/tool, list/modifiers)
 	if(!is_type_in_typecache(tool, allowed_devices))
 		return NONE
@@ -125,6 +142,30 @@
 	//MONKESTATION EDIT END
 	user.transferItemToLoc(tool, src)
 	return ITEM_INTERACT_SUCCESS
+=======
+/obj/machinery/recharger/attackby(obj/item/attacking_item, mob/user, params)
+	if(!is_type_in_typecache(attacking_item, allowed_devices))
+		return ..()
+
+	if(!anchored)
+		to_chat(user, span_notice("[src] isn't connected to anything!"))
+		return TRUE
+	if(charging || panel_open)
+		return TRUE
+
+	var/area/our_area = get_area(src) //Check to make sure user's not in space doing it, and that the area got proper power.
+	if(!isarea(our_area) || our_area.power_equip == 0)
+		to_chat(user, span_notice("[src] blinks red as you try to insert [attacking_item]."))
+		return TRUE
+
+	if (istype(attacking_item, /obj/item/gun/energy))
+		var/obj/item/gun/energy/energy_gun = attacking_item
+		if(!energy_gun.can_charge)
+			to_chat(user, span_notice("Your gun has no external power connector."))
+			return TRUE
+	user.transferItemToLoc(attacking_item, src)
+	return TRUE
+>>>>>>> tg-pr-88929
 
 /obj/machinery/recharger/wrench_act(mob/living/user, obj/item/tool)
 	if(charging)
@@ -169,25 +210,39 @@
 	using_power = FALSE
 	if(isnull(charging))
 		return PROCESS_KILL
+<<<<<<< HEAD
 	var/obj/item/stock_parts/power_store/cell/charging_cell = charging.get_cell()
 	if(charging_cell)
 		if(charging_cell.charge < charging_cell.maxcharge)
 			charge_cell(charging_cell.chargerate * recharge_coeff * seconds_per_tick, charging_cell)
 			charge_cell(charging_cell.chargerate * recharge_coeff * seconds_per_tick, charging_cell)
+=======
+	var/obj/item/stock_parts/power_store/charging_cell = charging.get_cell()
+	if(charging_cell)
+		if(charging_cell.charge < charging_cell.maxcharge)
+			charge_cell(charging_cell.chargerate * recharge_coeff * seconds_per_tick, charging_cell)
+>>>>>>> tg-pr-88929
 			using_power = TRUE
 		update_appearance()
 
 	if(istype(charging, /obj/item/ammo_box/magazine/recharge)) //if you add any more snowflake ones, make sure to update the examine messages too.
 		var/obj/item/ammo_box/magazine/recharge/power_pack = charging
+<<<<<<< HEAD
 		for(var/charge_iterations in 1 to recharge_coeff)
 			if(power_pack.stored_ammo.len >= power_pack.max_ammo)
 				break
 			power_pack.stored_ammo += new power_pack.ammo_type(power_pack)
 			use_energy(active_power_usage * seconds_per_tick)
+=======
+		if(power_pack.stored_ammo.len < power_pack.max_ammo)
+			power_pack.stored_ammo += new power_pack.ammo_type(power_pack)
+			use_energy(active_power_usage * recharge_coeff * seconds_per_tick)
+>>>>>>> tg-pr-88929
 			using_power = TRUE
 		update_appearance()
 		return
 
+<<<<<<< HEAD
 //	if(istype(charging, /obj/item/gun/ballistic/automatic/battle_rifle))
 //		var/obj/item/gun/ballistic/automatic/battle_rifle/recalibrating_gun = charging
 //
@@ -203,6 +258,23 @@
 //
 //		update_appearance()
 //		return // MONKE EDIT: No Battle Rifle
+=======
+	if(istype(charging, /obj/item/gun/ballistic/automatic/battle_rifle))
+		var/obj/item/gun/ballistic/automatic/battle_rifle/recalibrating_gun = charging
+
+		if(recalibrating_gun.degradation_stage)
+			recalibrating_gun.attempt_recalibration(FALSE)
+			use_energy(active_power_usage * recharge_coeff * seconds_per_tick)
+			using_power = TRUE
+
+		else if(recalibrating_gun.shots_before_degradation < recalibrating_gun.max_shots_before_degradation)
+			recalibrating_gun.attempt_recalibration(TRUE, 1 * recharge_coeff)
+			use_energy(active_power_usage * recharge_coeff * seconds_per_tick)
+			using_power = TRUE
+
+		update_appearance()
+		return
+>>>>>>> tg-pr-88929
 
 	if(!using_power && !finished_recharging) //Inserted thing is at max charge/ammo, notify those around us
 		finished_recharging = TRUE
@@ -213,42 +285,26 @@
 	. = ..()
 	if(. & EMP_PROTECT_CONTENTS)
 		return
-	if(!(machine_stat & (NOPOWER|BROKEN)) && anchored)
-		if(istype(charging,  /obj/item/gun/energy))
-			var/obj/item/gun/energy/E = charging
-			if(E.cell)
-				E.cell.emp_act(severity)
-
-		else if(istype(charging, /obj/item/melee/baton/security))
-			var/obj/item/melee/baton/security/batong = charging
-			if(batong.cell)
-				batong.cell.charge = 0
-
-/obj/machinery/recharger/update_appearance(updates)
-	. = ..()
-	if((machine_stat & (NOPOWER|BROKEN)) || panel_open || !anchored)
-		luminosity = 0
+	if((machine_stat & (NOPOWER|BROKEN)) || !anchored)
 		return
-	luminosity = 1
+	if(istype(charging, /obj/item/gun/energy))
+		var/obj/item/gun/energy/energy_gun = charging
+		if(energy_gun.cell)
+			energy_gun.cell.emp_act(severity)
+
+	else if(istype(charging, /obj/item/melee/baton/security))
+		var/obj/item/melee/baton/security/batong = charging
+		if(batong.cell)
+			batong.cell.charge = 0
 
 /obj/machinery/recharger/update_overlays()
 	. = ..()
 	if(machine_stat & (NOPOWER|BROKEN) || !anchored)
 		return
-
 	if(panel_open)
 		. += mutable_appearance(icon, "[base_icon_state]-open", alpha = src.alpha)
 		return
 
-	if(!charging)
-		. += mutable_appearance(icon, "[base_icon_state]-empty", alpha = src.alpha)
-		. += emissive_appearance(icon, "[base_icon_state]-empty", src, alpha = src.alpha)
-		return
-
-	if(using_power)
-		. += mutable_appearance(icon, "[base_icon_state]-charging", alpha = src.alpha)
-		. += emissive_appearance(icon, "[base_icon_state]-charging", src, alpha = src.alpha)
-		return
-
-	. += mutable_appearance(icon, "[base_icon_state]-full", alpha = src.alpha)
-	. += emissive_appearance(icon, "[base_icon_state]-full", src, alpha = src.alpha)
+	var/icon_to_use = "[base_icon_state]-[isnull(charging) ? "empty" : (using_power ? "charging" : "full")]"
+	. += mutable_appearance(icon, icon_to_use, alpha = src.alpha)
+	. += emissive_appearance(icon, icon_to_use, src, alpha = src.alpha)

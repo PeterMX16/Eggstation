@@ -28,7 +28,11 @@
 	for(var/mob/living/living_target in oview(2, user))
 		if(user.faction_check_atom(living_target) || living_target.stat == DEAD)
 			continue
+<<<<<<< HEAD
 		playsound(living_target, 'sound/magic/fireball.ogg', 20, TRUE)
+=======
+		playsound(living_target, 'sound/effects/magic/fireball.ogg', 20, TRUE)
+>>>>>>> tg-pr-88929
 		new /obj/effect/temp_visual/fire(living_target.loc)
 		addtimer(CALLBACK(src, PROC_REF(pushback), living_target, user), 1) //no free backstabs, we push AFTER module stuff is done
 		living_target.adjustFireLoss(bonus_value, forced = TRUE)
@@ -129,7 +133,10 @@
 	target.apply_status_effect(/datum/status_effect/ice_block_talisman)
 
 // Wendigo
+<<<<<<< HEAD
 
+=======
+>>>>>>> tg-pr-88929
 /obj/item/crusher_trophy/wendigo_horn
 	name = "wendigo horn"
 	desc = "A gnarled horn ripped from the skull of a wendigo. Suitable as a trophy for a kinetic crusher."
@@ -142,18 +149,30 @@
 /obj/item/crusher_trophy/wendigo_horn/add_to(obj/item/kinetic_crusher/crusher, mob/living/user)
 	. = ..()
 	if(.)
+<<<<<<< HEAD
 		crusher.AddComponent(/datum/component/two_handed, force_wielded=crusher.force_wielded * 2) //MONKESTATION EDIT c.force_wielded
+=======
+		crusher.AddComponent(/datum/component/two_handed, force_wielded=40)
+>>>>>>> tg-pr-88929
 
 /obj/item/crusher_trophy/wendigo_horn/remove_from(obj/item/kinetic_crusher/crusher, mob/living/user)
 	. = ..()
 	if(.)
+<<<<<<< HEAD
 		crusher.AddComponent(/datum/component/two_handed, force_wielded=crusher.force_wielded) //MONKESTATION EDIT c.force_wielded
+=======
+		crusher.AddComponent(/datum/component/two_handed, force_wielded=20)
+>>>>>>> tg-pr-88929
 
 // Goliath Broodmother
 /obj/item/crusher_trophy/broodmother_tongue
 	name = "broodmother tongue"
 	desc = "The tongue of a broodmother. If attached a certain way, makes for a suitable crusher trophy.  It also feels very spongey, I wonder what would happen if you squeezed it?..."
+<<<<<<< HEAD
 	icon = 'icons/obj/lavaland/elite_trophies.dmi'
+=======
+	icon = 'icons/obj/mining_zones/elite_trophies.dmi'
+>>>>>>> tg-pr-88929
 	icon_state = "broodmother_tongue"
 	denied_type = /obj/item/crusher_trophy/broodmother_tongue
 	bonus_value = 10
@@ -186,7 +205,11 @@
 /obj/item/crusher_trophy/legionnaire_spine
 	name = "legionnaire spine"
 	desc = "The spine of a legionnaire. With some creativity, you could use it as a crusher trophy. Alternatively, shaking it might do something as well."
+<<<<<<< HEAD
 	icon = 'icons/obj/lavaland/elite_trophies.dmi'
+=======
+	icon = 'icons/obj/mining_zones/elite_trophies.dmi'
+>>>>>>> tg-pr-88929
 	icon_state = "legionnaire_spine"
 	denied_type = /obj/item/crusher_trophy/legionnaire_spine
 	bonus_value = 20

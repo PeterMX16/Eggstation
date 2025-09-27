@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { useBackend, useLocalState } from '../backend';
 import {
   Section,
@@ -11,6 +12,23 @@ import {
   Tooltip,
   Knob,
 } from '../components';
+=======
+import { useState } from 'react';
+import {
+  Box,
+  Button,
+  Divider,
+  Dropdown,
+  Input,
+  Knob,
+  NumberInput,
+  Section,
+  TextArea,
+  Tooltip,
+} from 'tgui-core/components';
+
+import { useBackend } from '../backend';
+>>>>>>> tg-pr-88929
 import { Window } from '../layouts';
 
 export const AdminFax = (props) => {
@@ -26,6 +44,7 @@ export const AdminFax = (props) => {
 export const FaxMainPanel = (props) => {
   const { act, data } = useBackend();
 
+<<<<<<< HEAD
   const [fax, setFax] = useLocalState('fax', '');
   const [saved, setSaved] = useLocalState('saved', false);
   const [paperName, setPaperName] = useLocalState('paperName', '');
@@ -35,11 +54,22 @@ export const FaxMainPanel = (props) => {
   const [stampCoordX, setStampCoordX] = useLocalState('stampCoordX', 0);
   const [stampCoordY, setStampCoordY] = useLocalState('stampCoordY', 0);
   const [stampAngle, setStampAngle] = useLocalState('stampAngle', 0);
+=======
+  const [fax, setFax] = useState('');
+  const [saved, setSaved] = useState(false);
+  const [paperName, setPaperName] = useState('');
+  const [fromWho, setFromWho] = useState('');
+  const [rawText, setRawText] = useState('');
+  const [stamp, setStamp] = useState('');
+  const [stampCoordX, setStampCoordX] = useState(0);
+  const [stampCoordY, setStampCoordY] = useState(0);
+  const [stampAngle, setStampAngle] = useState(0);
+>>>>>>> tg-pr-88929
   if (stamp && data.stamps[0] !== 'None') {
     data.stamps.unshift('None');
   }
   return (
-    <div class="faxmenu">
+    <div className="faxmenu">
       <Section
         title="Fax Menu"
         buttons={
@@ -61,10 +91,9 @@ export const FaxMainPanel = (props) => {
         <Box fontSize="13px">
           <Dropdown
             textAlign="center"
-            selected="Choose fax machine..."
+            placeholder="Choose fax machine..."
             width="100%"
-            nochevron
-            nowrap
+            selected={fax}
             options={data.faxes}
             onSelected={(value) => setFax(value)}
           />
@@ -98,7 +127,11 @@ export const FaxMainPanel = (props) => {
             icon="n"
             mr="7px"
             width="49%"
+<<<<<<< HEAD
             onClick={() => setPaperName('Nanotrasen Offical Report')}
+=======
+            onClick={() => setPaperName('Nanotrasen Official Report')}
+>>>>>>> tg-pr-88929
           >
             Nanotrasen
           </Button>
@@ -140,7 +173,7 @@ export const FaxMainPanel = (props) => {
             placeholder="Your message here..."
             height="200px"
             value={rawText}
-            onInput={(e, value) => {
+            onChange={(e, value) => {
               setRawText(value);
             }}
           />
@@ -169,7 +202,7 @@ export const FaxMainPanel = (props) => {
                   minValue={0}
                   maxValue={300}
                   value={stampCoordX}
-                  onChange={(_, v) => setStampCoordX(v)}
+                  onChange={(v) => setStampCoordX(v)}
                 />
               </h4>
 
@@ -179,7 +212,7 @@ export const FaxMainPanel = (props) => {
                   width="45px"
                   minValue={0}
                   value={stampCoordY}
-                  onChange={(_, v) => setStampCoordY(v)}
+                  onChange={(v) => setStampCoordY(v)}
                 />
               </h4>
 

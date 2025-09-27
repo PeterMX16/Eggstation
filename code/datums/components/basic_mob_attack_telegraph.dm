@@ -14,17 +14,27 @@
 /datum/component/basic_mob_attack_telegraph/Initialize(
 	telegraph_icon = 'icons/mob/telegraphing/telegraph.dmi',
 	telegraph_state = ATTACK_EFFECT_BITE,
+<<<<<<< HEAD
 	display_telegraph_overlay = TRUE,
+=======
+>>>>>>> tg-pr-88929
 	telegraph_duration = 0.4 SECONDS,
 	datum/callback/on_began_forecast,
 )
 	. = ..()
+<<<<<<< HEAD
 	if (!isbasicmob(parent) && !ishostile(parent))
 		return ELEMENT_INCOMPATIBLE
 
 	if(display_telegraph_overlay)
 		target_overlay = mutable_appearance(telegraph_icon, telegraph_state)
 
+=======
+	if (!isbasicmob(parent))
+		return ELEMENT_INCOMPATIBLE
+
+	target_overlay = mutable_appearance(telegraph_icon, telegraph_state)
+>>>>>>> tg-pr-88929
 	src.telegraph_duration = telegraph_duration
 	src.on_began_forecast = on_began_forecast
 
@@ -61,6 +71,7 @@
 	return COMPONENT_HOSTILE_NO_ATTACK
 
 /// Perform an attack after a delay
+<<<<<<< HEAD
 /datum/component/basic_mob_attack_telegraph/proc/delayed_attack(mob/living/source, atom/target)
 	current_target = target
 
@@ -68,6 +79,11 @@
 		RegisterSignal(target, COMSIG_ATOM_UPDATE_OVERLAYS, PROC_REF(on_target_overlays_update))
 		target.update_appearance()
 
+=======
+/datum/component/basic_mob_attack_telegraph/proc/delayed_attack(mob/living/basic/source, atom/target)
+	current_target = target
+	target.add_overlay(target_overlay)
+>>>>>>> tg-pr-88929
 	RegisterSignal(target, COMSIG_QDELETING, PROC_REF(forget_target))
 	RegisterSignal(target, COMSIG_MOVABLE_MOVED, PROC_REF(target_moved))
 
@@ -80,12 +96,16 @@
 		return
 	ADD_TRAIT(source, TRAIT_BASIC_ATTACK_FORECAST, REF(src))
 	forget_target(target)
+<<<<<<< HEAD
 	if(isbasicmob(source))
 		var/mob/living/basic/basic_source = source
 		basic_source.melee_attack(target, ignore_cooldown = TRUE) // We already started the cooldown when we triggered the forecast
 		return
 	var/mob/living/simple_animal/hostile/hostile_source = source
 	hostile_source.AttackingTarget(target)
+=======
+	source.melee_attack(target, ignore_cooldown = TRUE) // We already started the cooldown when we triggered the forecast
+>>>>>>> tg-pr-88929
 
 /// The guy we're trying to attack moved, is he still in range?
 /datum/component/basic_mob_attack_telegraph/proc/target_moved(atom/target)
@@ -98,6 +118,7 @@
 /datum/component/basic_mob_attack_telegraph/proc/forget_target(atom/target)
 	SIGNAL_HANDLER
 	current_target = null
+<<<<<<< HEAD
 	target.update_appearance()
 	UnregisterSignal(target, list(COMSIG_QDELETING, COMSIG_MOVABLE_MOVED, COMSIG_ATOM_UPDATE_OVERLAYS))
 
@@ -105,3 +126,7 @@
 	SIGNAL_HANDLER
 	if(parent_atom == current_target)
 		overlays += target_overlay
+=======
+	target.cut_overlay(target_overlay)
+	UnregisterSignal(target, list(COMSIG_QDELETING, COMSIG_MOVABLE_MOVED))
+>>>>>>> tg-pr-88929

@@ -5,11 +5,22 @@
 	value = 0
 	medical_record_text = "Patient has an irrational fear of something."
 	mail_goodies = list(/obj/item/clothing/glasses/blindfold, /obj/item/storage/pill_bottle/psicodine)
+<<<<<<< HEAD
 	var/phobia
 
 // Phobia will follow you between transfers
 /datum/quirk/phobia/add(client/client_source)
 	phobia ||= client_source?.prefs?.read_preference(/datum/preference/choiced/phobia)
+=======
+
+/datum/quirk_constant_data/phobia
+	associated_typepath = /datum/quirk/phobia
+	customization_options = list(/datum/preference/choiced/phobia)
+
+// Phobia will follow you between transfers
+/datum/quirk/phobia/add(client/client_source)
+	var/phobia = client_source?.prefs.read_preference(/datum/preference/choiced/phobia)
+>>>>>>> tg-pr-88929
 	if(!phobia)
 		return
 
@@ -19,6 +30,7 @@
 /datum/quirk/phobia/remove()
 	var/mob/living/carbon/human/human_holder = quirk_holder
 	human_holder.cure_trauma_type(/datum/brain_trauma/mild/phobia, TRAUMA_RESILIENCE_ABSOLUTE)
+<<<<<<< HEAD
 	phobia = null
 
 /datum/quirk/phobia/clone_data()
@@ -27,3 +39,5 @@
 /datum/quirk/phobia/on_clone(mob/living/carbon/human/cloned_mob, client/client_source, data)
 	phobia = data
 	return ..()
+=======
+>>>>>>> tg-pr-88929

@@ -19,9 +19,15 @@
 	l_hand = /obj/item/gun/ballistic/automatic/m90
 
 	backpack_contents = list(
+<<<<<<< HEAD
 		/obj/item/ammo_box/magazine/m556,
 		/obj/item/ammo_box/magazine/m556,
 		/obj/item/ammo_box/magazine/m556,
+=======
+		/obj/item/ammo_box/magazine/m223,
+		/obj/item/ammo_box/magazine/m223,
+		/obj/item/ammo_box/magazine/m223,
+>>>>>>> tg-pr-88929
 	)
 
 /datum/outfit/cyber_police/tactical/post_equip(mob/living/carbon/human/user, visuals_only)

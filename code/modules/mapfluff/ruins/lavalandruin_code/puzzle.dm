@@ -138,10 +138,10 @@
 	return sortTim(elements,cmp=/proc/cmp_xy_desc)
 
 /obj/effect/sliding_puzzle/proc/get_base_icon()
-	var/icon/I = new('icons/obj/puzzle.dmi')
+	var/icon/I = new('icons/obj/fluff/puzzle.dmi')
 	var/list/puzzles = icon_states(I)
 	var/puzzle_state = pick(puzzles)
-	var/icon/P = new('icons/obj/puzzle.dmi',puzzle_state)
+	var/icon/P = new('icons/obj/fluff/puzzle.dmi',puzzle_state)
 	return P
 
 /obj/effect/sliding_puzzle/proc/setup()
@@ -160,10 +160,10 @@
 		var/y = width - round((id - 1) / width)
 		var/x = ((id - 1) % width) + 1
 
-		var/x_start = 1 + (x - 1) * world.icon_size
-		var/x_end = x_start + world.icon_size - 1
-		var/y_start = 1 + ((y - 1) * world.icon_size)
-		var/y_end = y_start + world.icon_size - 1
+		var/x_start = 1 + (x - 1) * ICON_SIZE_X
+		var/x_end = x_start + ICON_SIZE_X - 1
+		var/y_start = 1 + ((y - 1) * ICON_SIZE_Y)
+		var/y_end = y_start + ICON_SIZE_Y - 1
 
 		var/icon/T = new(base_icon)
 		T.Crop(x_start,y_start,x_end,y_end)
@@ -173,7 +173,7 @@
 	//Setup random empty tile
 	empty_tile_id = pick_n_take(left_ids)
 	var/turf/empty_tile_turf = get_turf_for_id(empty_tile_id)
-	empty_tile_turf.PlaceOnTop(floor_type,null,CHANGETURF_INHERIT_AIR)
+	empty_tile_turf.place_on_top(floor_type, CHANGETURF_INHERIT_AIR)
 	var/mutable_appearance/MA = new(puzzle_pieces["[empty_tile_id]"])
 	MA.layer = empty_tile_turf.layer + 0.1
 	empty_tile_turf.add_overlay(MA)
@@ -182,7 +182,7 @@
 	var/list/empty_spots = left_ids.Copy()
 	for(var/spot_id in empty_spots)
 		var/turf/T = get_turf_for_id(spot_id)
-		T = T.PlaceOnTop(floor_type,null,CHANGETURF_INHERIT_AIR)
+		T = T.place_on_top(floor_type, CHANGETURF_INHERIT_AIR)
 		var/obj/structure/puzzle_element/E = new element_type(T)
 		elements += E
 		var/chosen_id = pick_n_take(left_ids)
@@ -197,7 +197,7 @@
 /obj/structure/puzzle_element
 	name = "mysterious pillar"
 	desc = "puzzling..."
-	icon = 'icons/obj/lavaland/artefacts.dmi'
+	icon = 'icons/obj/mining_zones/artefacts.dmi'
 	icon_state = "puzzle_pillar"
 	anchored = FALSE
 	density = TRUE
@@ -222,6 +222,10 @@
 		puzzle_small.pixel_x = 7
 		puzzle_small.pixel_y = 7
 		add_overlay(puzzle_small)
+
+/obj/structure/puzzle_element/update_icon(updates=ALL) // to prevent update_appearance calls from cutting the overlays and not adding them back
+	. = ..()
+	set_puzzle_icon()
 
 /obj/structure/puzzle_element/Destroy()
 	if(source)
@@ -313,7 +317,7 @@
 /obj/item/prisoncube
 	name = "Prison Cube"
 	desc = "Dusty cube with humanoid imprint on it."
-	icon = 'icons/obj/lavaland/artefacts.dmi'
+	icon = 'icons/obj/mining_zones/artefacts.dmi'
 	icon_state = "prison_cube"
 
 /obj/item/prisoncube/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)

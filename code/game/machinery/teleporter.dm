@@ -33,7 +33,7 @@
 /obj/machinery/teleport/hub/examine(mob/user)
 	. = ..()
 	if(in_range(user, src) || isobserver(user))
-		. += span_notice("The status display reads: Probability of malfunction decreased by <b>[(accuracy*25)-25]%</b>.")
+		. += span_notice("The status display reads: Success chance is <b>[70 + (accuracy * 10)]%</b>.")
 
 /obj/machinery/teleport/hub/proc/link_power_station()
 	if(power_station)
@@ -162,6 +162,7 @@
 		teleporter_console = null
 	return ..()
 
+<<<<<<< HEAD
 /obj/machinery/teleport/station/multitool_act(mob/living/user, obj/item/multitool/multi)
 	. = NONE
 
@@ -184,6 +185,27 @@
 
 /obj/machinery/teleport/station/attackby(obj/item/attacking_item, mob/user, list/modifiers, list/attack_modifiers)
 	if(default_deconstruction_screwdriver(user, "controller-o", "controller", attacking_item))
+=======
+/obj/machinery/teleport/station/multitool_act(mob/living/user, obj/item/multitool/tool)
+	. = NONE
+
+	if(panel_open)
+		tool.set_buffer(src)
+		balloon_alert(user, "saved to multitool buffer")
+		return ITEM_INTERACT_SUCCESS
+
+	if(!istype(tool.buffer, /obj/machinery/teleport/station) || tool.buffer == src)
+		return ITEM_INTERACT_BLOCKING
+
+	if(linked_stations.len < efficiency)
+		linked_stations.Add(tool.buffer)
+		tool.set_buffer(null)
+		balloon_alert(user, "data uploaded from buffer")
+		return ITEM_INTERACT_SUCCESS
+
+/obj/machinery/teleport/station/attackby(obj/item/W, mob/user, params)
+	if(default_deconstruction_screwdriver(user, "controller-o", "controller", W))
+>>>>>>> tg-pr-88929
 		update_appearance()
 		return
 

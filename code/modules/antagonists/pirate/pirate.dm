@@ -12,7 +12,7 @@
 
 /datum/antagonist/pirate/greet()
 	. = ..()
-	to_chat(owner, "<B>The station refused to pay for your protection, protect the ship, siphon the credits from the station and raid it for even more loot.</B>")
+	to_chat(owner, "<B>The station refused to pay for your protection. Protect the ship, siphon the credits from the station, and raid it for even more loot.</B>")
 	owner.announce_objectives()
 
 /datum/antagonist/pirate/get_team()
@@ -58,7 +58,7 @@
 /datum/team/pirate/proc/forge_objectives()
 	var/datum/objective/loot/getbooty = new()
 	getbooty.team = src
-	for(var/obj/machinery/computer/piratepad_control/P in GLOB.machines)
+	for(var/obj/machinery/computer/piratepad_control/P as anything in SSmachines.get_machines_by_type_and_subtypes(/obj/machinery/computer/piratepad_control))
 		var/area/A = get_area(P)
 		if(istype(A,/area/shuttle/pirate))
 			getbooty.cargo_hold = P
@@ -73,7 +73,7 @@
 
 /datum/objective/loot
 	var/obj/machinery/computer/piratepad_control/cargo_hold
-	explanation_text = "Acquire valuable loot and store it in designated area."
+	explanation_text = "Acquire valuable loot and store it in the designated area."
 	var/target_value = 50000
 
 
@@ -105,7 +105,7 @@
 /datum/team/pirate/roundend_report()
 	var/list/parts = list()
 
-	parts += "<span class='header'>Space Pirates were:</span>"
+	parts += span_header("Space Pirates were:")
 
 	var/all_dead = TRUE
 	for(var/datum/mind/M in members)

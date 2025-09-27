@@ -59,9 +59,16 @@ SUBSYSTEM_DEF(achievements)
 				most_unlocked_achievement = instance
 	qdel(query)
 
+<<<<<<< HEAD
 	for(var/client/player as anything in GLOB.clients)
 		if(player?.persistent_client?.achievements && !player.persistent_client.achievements.initialized)
 			player.persistent_client.achievements.InitializeData()
+=======
+	for(var/i in GLOB.clients)
+		var/client/C = i
+		if(!C.player_details.achievements.initialized)
+			C.player_details.achievements.InitializeData()
+>>>>>>> tg-pr-88929
 
 	return SS_INIT_SUCCESS
 
@@ -77,7 +84,8 @@ SUBSYSTEM_DEF(achievements)
 		cheevos_to_save += PD.achievements.get_changed_data()
 	if(!length(cheevos_to_save))
 		return
-	SSdbcore.MassInsert(format_table_name("achievements"),cheevos_to_save,duplicate_key = TRUE)
+	SSdbcore.MassInsert(format_table_name("achievements"), cheevos_to_save, duplicate_key = TRUE)
+	SEND_SIGNAL(src, COMSIG_ACHIEVEMENTS_SAVED_TO_DB)
 
 //Update the metadata if any are behind
 /datum/controller/subsystem/achievements/proc/update_metadata()

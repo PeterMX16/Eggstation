@@ -16,13 +16,24 @@
 /obj/structure/tank_dispenser/oxygen,
 /turf/open/floor/iron/dark,
 /area/virtual_domain/safehouse)
+<<<<<<< HEAD
+=======
+"t" = (
+/obj/modular_map_connector,
+/turf/closed/wall,
+/area/virtual_domain/safehouse)
+>>>>>>> tg-pr-88929
 "w" = (
 /obj/effect/turf_decal/loading_area{
 	dir = 4
 	},
 /obj/machinery/light/directional/east,
 /obj/effect/landmark/bitrunning/cache_goal_turf,
+<<<<<<< HEAD
 /turf/open/floor/bitrunning_transport,
+=======
+/turf/open/indestructible/bitrunning_transport,
+>>>>>>> tg-pr-88929
 /area/virtual_domain/safehouse)
 "B" = (
 /obj/effect/turf_decal/trimline/brown/filled/line{
@@ -48,7 +59,11 @@
 	},
 /obj/structure/railing,
 /obj/effect/landmark/bitrunning/cache_goal_turf,
+<<<<<<< HEAD
 /turf/open/floor/bitrunning_transport,
+=======
+/turf/open/indestructible/bitrunning_transport,
+>>>>>>> tg-pr-88929
 /area/virtual_domain/safehouse)
 "H" = (
 /obj/machinery/door/airlock/external/glass{
@@ -112,7 +127,11 @@ f
 f
 P
 P
+<<<<<<< HEAD
 f
+=======
+t
+>>>>>>> tg-pr-88929
 "}
 (2,1,1) = {"
 P

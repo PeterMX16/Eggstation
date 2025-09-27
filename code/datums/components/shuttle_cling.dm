@@ -35,7 +35,7 @@
 
 	src.direction = direction
 
-	ADD_TRAIT(parent, TRAIT_HYPERSPACED, src)
+	ADD_TRAIT(parent, TRAIT_HYPERSPACED, REF(src))
 
 	RegisterSignals(parent, list(COMSIG_MOVABLE_MOVED, COMSIG_MOVABLE_UNBUCKLE, COMSIG_ATOM_NO_LONGER_PULLED), PROC_REF(update_state))
 	RegisterSignal(parent, SIGNAL_REMOVETRAIT(TRAIT_FREE_HYPERSPACE_MOVEMENT), PROC_REF(initialize_loop))
@@ -51,7 +51,11 @@
 	update_state(parent) //otherwise we'll get moved 1 tile before we can correct ourselves, which isnt super bad but just looks jank
 
 /datum/component/shuttle_cling/proc/initialize_loop()
+<<<<<<< HEAD
 	hyperloop = SSmove_manager.move(moving = parent, direction = direction, delay = not_clinging_move_delay, subsystem = SShyperspace_drift, priority = MOVEMENT_ABOVE_SPACE_PRIORITY, flags = MOVEMENT_LOOP_NO_DIR_UPDATE|MOVEMENT_LOOP_OUTSIDE_CONTROL)
+=======
+	hyperloop = GLOB.move_manager.move(moving = parent, direction = direction, delay = not_clinging_move_delay, subsystem = SShyperspace_drift, priority = MOVEMENT_ABOVE_SPACE_PRIORITY, flags = MOVEMENT_LOOP_NO_DIR_UPDATE|MOVEMENT_LOOP_OUTSIDE_CONTROL)
+>>>>>>> tg-pr-88929
 	update_state()
 
 /datum/component/shuttle_cling/proc/clear_loop()
@@ -90,9 +94,9 @@
 		return
 
 	//Do pause/unpause/nothing for the hyperloop
-	if(should_loop && hyperloop.paused)
+	if(should_loop && hyperloop.status & MOVELOOP_STATUS_PAUSED)
 		hyperloop.resume_loop()
-	else if(!should_loop && !hyperloop.paused)
+	else if(!should_loop && !(hyperloop.status & MOVELOOP_STATUS_PAUSED))
 		hyperloop.pause_loop()
 
 ///Check if we're "holding on" to the shuttle
@@ -150,11 +154,11 @@
 		var/side_dir = hyperloop.direction - direction
 
 		if(is_tile_solid(get_step(clinger, side_dir)))
-			hyperloop.direction = direction + turn(side_dir, 180) //We're bumping a wall to the side, so switch to the other side_dir (yes this adds pingpong protocol)
+			hyperloop.direction = direction + REVERSE_DIR(side_dir) //We're bumping a wall to the side, so switch to the other side_dir (yes this adds pingpong protocol)
 		return
 
 	//Get the directions from the side of our current drift direction (so if we have drift south, get all cardinals and remove north and south, leaving only east and west)
-	var/side_dirs = shuffle(GLOB.cardinals - direction - turn(direction, 180))
+	var/side_dirs = shuffle(GLOB.cardinals - direction - REVERSE_DIR(direction))
 
 	//We check if one side is solid
 	if(!is_tile_solid(get_step(clinger, side_dirs[1])))
@@ -178,7 +182,11 @@
 	qdel(src)
 
 /datum/component/shuttle_cling/Destroy(force)
+<<<<<<< HEAD
 	REMOVE_TRAIT(parent, TRAIT_HYPERSPACED, src)
+=======
+	REMOVE_TRAIT(parent, TRAIT_HYPERSPACED, REF(src))
+>>>>>>> tg-pr-88929
 	QDEL_NULL(hyperloop)
 
 	return ..()

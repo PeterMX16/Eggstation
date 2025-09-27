@@ -19,6 +19,13 @@
 	suffix = "kilo"
 	name = "labour shuttle (Kilo)"
 
+<<<<<<< HEAD
+=======
+/datum/map_template/shuttle/labour/nebula
+	suffix = "nebula"
+	name = "labour shuttle (Nebula)"
+
+>>>>>>> tg-pr-88929
 // MINING SHUTTLES
 /datum/map_template/shuttle/mining
 	port_id = "mining"
@@ -40,9 +47,15 @@
 	suffix = "large"
 	name = "mining shuttle (Large)"
 
+<<<<<<< HEAD
 /datum/map_template/shuttle/mining/northstar
 	suffix = "northstar"
 	name = "mining shuttle (North Star)"
+=======
+/datum/map_template/shuttle/mining/nebula
+	suffix = "nebula"
+	name = "mining shuttle (Nebula)"
+>>>>>>> tg-pr-88929
 
 // MINING COMMON SHUTTLES
 /datum/map_template/shuttle/mining_common
@@ -56,7 +69,10 @@
 /datum/map_template/shuttle/mining_common/kilo
 	suffix = "kilo"
 	name = "lavaland shuttle (Kilo)"
+<<<<<<< HEAD
 
 /datum/map_template/shuttle/mining_common/northstar
 	suffix = "northstar"
 	name = "lavaland shuttle (North Star)"
+=======
+>>>>>>> tg-pr-88929

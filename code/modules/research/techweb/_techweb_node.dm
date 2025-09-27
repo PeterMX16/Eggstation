@@ -34,10 +34,17 @@
 	var/category = "Misc"
 	/// The list of experiments required to research the node
 	var/list/required_experiments = list()
-	/// If completed, these experiments give a specific point amount discount to the node.area
+	/// If completed, these experiments give a specific point amount discount to the node.
 	var/list/discount_experiments = list()
+	/// When this node is completed, allows these experiments to be performed.
+	var/list/experiments_to_unlock = list()
 	/// Whether or not this node should show on the wiki
 	var/show_on_wiki = TRUE
+<<<<<<< HEAD
+=======
+	/// Hidden Mech nodes unlocked when mech fabricator emaged.
+	var/illegal_mech_node = FALSE
+>>>>>>> tg-pr-88929
 	/**
 	 * If set, the researched node will be announced on these channels by an announcement system
 	 * with 'announce_research_node' set to TRUE when researched by the station.
@@ -92,8 +99,12 @@
 		var/list/boostlist = host.boosted_nodes[id]
 		for(var/booster in boostlist)
 			if(actual_costs[booster])
+<<<<<<< HEAD
 				var/delta = max(0, actual_costs[booster] - 250)
 				actual_costs[booster] -= min(boostlist[booster], delta)
+=======
+				actual_costs[booster] = max(actual_costs[booster] - boostlist[booster], 0)
+>>>>>>> tg-pr-88929
 
 	return actual_costs
 
@@ -111,7 +122,12 @@
 /datum/techweb_node/proc/price_display(datum/techweb/TN)
 	return techweb_point_display_generic(get_price(TN))
 
+<<<<<<< HEAD
 /datum/techweb_node/proc/on_research(atom/research_source) //new proc, not currently in file
+=======
+///Proc called when the Station (Science techweb specific) researches a node.
+/datum/techweb_node/proc/on_station_research(atom/research_source)
+>>>>>>> tg-pr-88929
 	SHOULD_CALL_PARENT(TRUE)
 	var/channels_to_use = announce_channels
 	if(istype(research_source, /obj/machinery/computer/rdconsole))

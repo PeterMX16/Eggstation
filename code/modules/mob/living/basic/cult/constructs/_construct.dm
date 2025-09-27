@@ -2,6 +2,7 @@
 	icon = 'icons/mob/nonhuman-player/cult.dmi'
 	gender = NEUTER
 	basic_mob_flags = DEL_ON_DEATH
+<<<<<<< HEAD
 	istate = ISTATE_HARM
 	mob_biotypes = MOB_MINERAL
 	faction = list(FACTION_CULT)
@@ -12,6 +13,19 @@
 	pressure_resistance = 100
 	speed = 0
 	unique_name = TRUE
+=======
+	combat_mode = TRUE
+	mob_biotypes = MOB_MINERAL | MOB_SPECIAL
+	faction = list(FACTION_CULT)
+	unsuitable_atmos_damage = 0
+	minimum_survivable_temperature = 0
+	maximum_survivable_temperature = INFINITY
+	damage_coeff = list(BRUTE = 1, BURN = 1, TOX = 0, STAMINA = 0, OXY = 0)
+	pressure_resistance = 100
+	speed = 0
+	unique_name = TRUE
+	can_buckle_to = FALSE
+>>>>>>> tg-pr-88929
 	initial_language_holder = /datum/language_holder/construct
 	death_message = "collapses in a shattered heap."
 
@@ -34,7 +48,11 @@
 	/// Flavor text shown to players when they spawn as this construct
 	var/playstyle_string = "You are a generic construct. Your job is to not exist, and you should probably adminhelp this."
 	/// The construct's master
+<<<<<<< HEAD
 	var/master = null
+=======
+	var/mob/construct_master = null
+>>>>>>> tg-pr-88929
 	/// Whether this construct is currently seeking nar nar
 	var/seeking = FALSE
 	/// Whether this construct can repair other constructs or cult buildings. Gets the healing_touch component if so.
@@ -50,10 +68,18 @@
 		THEME_CULT = list(/obj/item/ectoplasm/construct),
 		THEME_HOLY = list(/obj/item/ectoplasm/angelic),
 		THEME_WIZARD = list(/obj/item/ectoplasm/mystic),
+<<<<<<< HEAD
+=======
+		THEME_HERETIC = list(/obj/item/ectoplasm/construct),
+>>>>>>> tg-pr-88929
 	)
 
 /mob/living/basic/construct/Initialize(mapload)
 	. = ..()
+<<<<<<< HEAD
+=======
+	throw_alert("bloodsense", /atom/movable/screen/alert/bloodsense)
+>>>>>>> tg-pr-88929
 	AddElement(/datum/element/simple_flying)
 	var/list/remains = string_list(remains_by_theme[theme])
 	if(length(remains))
@@ -80,9 +106,13 @@
 			structure_types_typecache = structure_types,\
 			)
 	add_traits(list(TRAIT_HEALS_FROM_CULT_PYLONS, TRAIT_SPACEWALK), INNATE_TRAIT)
+<<<<<<< HEAD
 	for(var/spell in construct_spells)
 		var/datum/action/new_spell = new spell(src)
 		new_spell.Grant(src)
+=======
+	grant_actions_by_list(construct_spells)
+>>>>>>> tg-pr-88929
 
 	var/spell_count = 1
 	for(var/datum/action/spell as anything in actions)
@@ -105,7 +135,11 @@
 		return FALSE
 	to_chat(src, span_bold(playstyle_string))
 
+<<<<<<< HEAD
 /mob/living/basic/construct/examine(mob/user)
+=======
+/mob/living/basic/construct/get_examine_name(mob/user)
+>>>>>>> tg-pr-88929
 	var/text_span
 	switch(theme)
 		if(THEME_CULT)
@@ -114,13 +148,28 @@
 			text_span = "purple"
 		if(THEME_HOLY)
 			text_span = "blue"
+<<<<<<< HEAD
 	. = list("<span class='[text_span]'>This is [icon2html(src, user)] \a <b>[src]</b>!\n[desc]")
+=======
+
+	if(!text_span)
+		return ..()
+
+	return "<span class='[text_span]'>[..()]</span>"
+
+/mob/living/basic/construct/examine(mob/user)
+	. = list()
+>>>>>>> tg-pr-88929
 	if(health < maxHealth)
 		if(health >= maxHealth/2)
 			. += span_warning("[p_They()] look[p_s()] slightly dented.")
 		else
 			. += span_warning(span_bold("[p_They()] look[p_s()] severely dented!"))
+<<<<<<< HEAD
 	. += "</span>"
+=======
+
+>>>>>>> tg-pr-88929
 	return .
 
 /mob/living/basic/construct/narsie_act()

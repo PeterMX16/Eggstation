@@ -31,12 +31,22 @@
 	desc = "Spooky! It's got delicious calcium flavouring!"
 	icon = 'icons/obj/holiday/halloween_items.dmi'
 	icon_state = "skeletoncookie"
+	crafting_complexity = FOOD_COMPLEXITY_2
+
+/obj/item/food/cookie/sugar/spookyskull/Initialize(mapload, seasonal_changes = FALSE)
+	// Changes default parameter of seasonal_changes to FALSE, pass to parent
+	return ..(mapload, seasonal_changes)
 
 /obj/item/food/cookie/sugar/spookycoffin
 	name = "coffin cookie"
 	desc = "Spooky! It's got delicious coffee flavouring!"
 	icon = 'icons/obj/holiday/halloween_items.dmi'
 	icon_state = "coffincookie"
+	crafting_complexity = FOOD_COMPLEXITY_2
+
+/obj/item/food/cookie/sugar/spookycoffin/Initialize(mapload, seasonal_changes = FALSE)
+	// Changes default parameter of seasonal_changes to FALSE, pass to parent
+	return ..(mapload, seasonal_changes)
 
 //spooky items
 
@@ -55,5 +65,5 @@
 		/obj/item/food/candy,
 		/obj/item/food/candiedapple,
 		/obj/item/food/chocolatebar,
-		/obj/item/organ/internal/brain ) // OH GOD THIS ISN'T CANDY!
+		/obj/item/organ/brain ) // OH GOD THIS ISN'T CANDY!
 		new type(src)

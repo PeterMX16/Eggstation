@@ -39,6 +39,11 @@
 
 	RegisterSignal(src, SIGNAL_ADDTRAIT(TRAIT_DEAF), PROC_REF(on_hearing_loss))
 	RegisterSignal(src, SIGNAL_REMOVETRAIT(TRAIT_DEAF), PROC_REF(on_hearing_regain))
+<<<<<<< HEAD
+=======
+	RegisterSignal(src, SIGNAL_ADDTRAIT(TRAIT_STASIS), PROC_REF(on_stasis_trait_gain))
+	RegisterSignal(src, SIGNAL_REMOVETRAIT(TRAIT_STASIS), PROC_REF(on_stasis_trait_loss))
+>>>>>>> tg-pr-88929
 
 	RegisterSignals(src, list(
 		SIGNAL_ADDTRAIT(TRAIT_CRITICAL_CONDITION),
@@ -65,8 +70,18 @@
 	)
 	AddElement(/datum/element/connect_loc, loc_connections)
 
+<<<<<<< HEAD
 	RegisterSignal(src, SIGNAL_ADDTRAIT(TRAIT_COLD_BLOODED), PROC_REF(on_cold_blooded_trait_gain))
 	RegisterSignal(src, SIGNAL_REMOVETRAIT(TRAIT_COLD_BLOODED), PROC_REF(on_cold_blooded_trait_loss))
+=======
+	RegisterSignal(src, COMSIG_MOVABLE_EDIT_UNIQUE_IMMERSE_OVERLAY, PROC_REF(edit_immerse_overlay))
+
+/// Called when [TRAIT_KNOCKEDOUT] is added to the mob.
+/mob/living/proc/on_knockedout_trait_gain(datum/source)
+	SIGNAL_HANDLER
+	if(stat < UNCONSCIOUS)
+		set_stat(UNCONSCIOUS)
+>>>>>>> tg-pr-88929
 
 /// Called when [TRAIT_KNOCKEDOUT] is added or removed from the mob.
 /mob/living/proc/on_knockedout_trait(datum/source)
@@ -77,12 +92,15 @@
 		add_traits(list(TRAIT_HANDS_BLOCKED, TRAIT_IMMOBILIZED, TRAIT_INCAPACITATED, TRAIT_FLOORED), TRAIT_KNOCKEDOUT)
 		update_body() // Update eyelids
 
+<<<<<<< HEAD
 	else
 		cure_blind(UNCONSCIOUS_TRAIT)
 		unset_pain_mod(PAIN_MOD_KOD)
 		remove_traits(list(TRAIT_HANDS_BLOCKED, TRAIT_IMMOBILIZED, TRAIT_INCAPACITATED, TRAIT_FLOORED), TRAIT_KNOCKEDOUT)
 		update_body() // Update eyelids
 
+=======
+>>>>>>> tg-pr-88929
 /// Called when [TRAIT_DEATHCOMA] is added to the mob.
 /mob/living/proc/on_deathcoma_trait_gain(datum/source)
 	SIGNAL_HANDLER
@@ -93,7 +111,11 @@
 	SIGNAL_HANDLER
 	REMOVE_TRAIT(src, TRAIT_KNOCKEDOUT, TRAIT_DEATHCOMA)
 
+<<<<<<< HEAD
 /// Updates medhud when recieving relevant signals.
+=======
+/// Updates medhud when receiving relevant signals.
+>>>>>>> tg-pr-88929
 /mob/living/proc/update_medhud_on_signal(datum/source)
 	SIGNAL_HANDLER
 	med_hud_set_health()
@@ -104,7 +126,7 @@
 	SIGNAL_HANDLER
 	mobility_flags &= ~MOBILITY_MOVE
 	if(living_flags & MOVES_ON_ITS_OWN)
-		SSmove_manager.stop_looping(src) //stop mid walk //This is also really dumb
+		GLOB.move_manager.stop_looping(src) //stop mid walk //This is also really dumb
 
 /// Called when [TRAIT_IMMOBILIZED] is removed from the mob.
 /mob/living/proc/on_immobilized_trait_loss(datum/source)
@@ -163,7 +185,6 @@
 /mob/living/proc/on_ui_blocked_trait_gain(datum/source)
 	SIGNAL_HANDLER
 	mobility_flags &= ~(MOBILITY_UI)
-	unset_machine()
 	update_mob_action_buttons()
 
 /// Called when [TRAIT_UI_BLOCKED] is removed from the mob.
@@ -191,24 +212,36 @@
 	SIGNAL_HANDLER
 	add_traits(list(TRAIT_UI_BLOCKED, TRAIT_PULL_BLOCKED), TRAIT_INCAPACITATED)
 	update_appearance()
+	update_incapacitated()
 
 /// Called when [TRAIT_INCAPACITATED] is removed from the mob.
 /mob/living/proc/on_incapacitated_trait_loss(datum/source)
 	SIGNAL_HANDLER
 	remove_traits(list(TRAIT_UI_BLOCKED, TRAIT_PULL_BLOCKED), TRAIT_INCAPACITATED)
 	update_appearance()
-
+	update_incapacitated()
 
 /// Called when [TRAIT_RESTRAINED] is added to the mob.
 /mob/living/proc/on_restrained_trait_gain(datum/source)
 	SIGNAL_HANDLER
 	ADD_TRAIT(src, TRAIT_HANDS_BLOCKED, TRAIT_RESTRAINED)
+	update_incapacitated()
 
 /// Called when [TRAIT_RESTRAINED] is removed from the mob.
 /mob/living/proc/on_restrained_trait_loss(datum/source)
 	SIGNAL_HANDLER
 	REMOVE_TRAIT(src, TRAIT_HANDS_BLOCKED, TRAIT_RESTRAINED)
+	update_incapacitated()
 
+/// Called when [TRAIT_STASIS] is added to the mob
+/mob/living/proc/on_stasis_trait_gain(datum/source)
+	SIGNAL_HANDLER
+	update_incapacitated()
+
+/// Called when [TRAIT_STASIS] is removed from the mob
+/mob/living/proc/on_stasis_trait_loss(datum/source)
+	SIGNAL_HANDLER
+	update_incapacitated()
 
 /**
  * Called when traits that alter succumbing are added/removed.
@@ -267,6 +300,17 @@
 	SIGNAL_HANDLER
 	refresh_gravity()
 
+<<<<<<< HEAD
+=======
+/// Called in [/datum/element/immerse/apply_filter]
+/mob/living/proc/edit_immerse_overlay(datum/source, atom/movable/immerse_overlay/vis_overlay)
+	SIGNAL_HANDLER
+
+	vis_overlay.transform = vis_overlay.transform.Scale(1/current_size)
+	vis_overlay.transform = vis_overlay.transform.Turn(-lying_angle)
+	vis_overlay.adjust_living_overlay_offset(src)
+
+>>>>>>> tg-pr-88929
 /// Called when [TRAIT_UNDENSE] is gained or lost
 /mob/living/proc/undense_changed(datum/source)
 	SIGNAL_HANDLER
@@ -282,6 +326,7 @@
 /mob/living/proc/on_hearing_regain()
 	SIGNAL_HANDLER
 	refresh_looping_ambience()
+<<<<<<< HEAD
 
 ///Called when [TRAIT_COLD_BLOODED] is added to the mob.
 /mob/living/proc/on_cold_blooded_trait_gain()
@@ -292,3 +337,5 @@
 /mob/living/proc/on_cold_blooded_trait_loss()
 	SIGNAL_HANDLER
 	temperature_insulation += initial(temperature_insulation)
+=======
+>>>>>>> tg-pr-88929

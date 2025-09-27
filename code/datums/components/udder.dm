@@ -10,11 +10,15 @@
 	var/datum/callback/on_milk_callback
 
 //udder_type and reagent_produced_typepath are typepaths, not reference
-/datum/component/udder/Initialize(udder_type = /obj/item/udder, datum/callback/on_milk_callback, datum/callback/on_generate_callback, reagent_produced_typepath = /datum/reagent/consumable/milk)
+/datum/component/udder/Initialize(udder_type = /obj/item/udder, datum/callback/on_milk_callback, datum/callback/on_generate_callback, reagent_produced_override)
 	if(!isliving(parent)) //technically is possible to drop this on carbons... but you wouldn't do that to me, would you?
 		return COMPONENT_INCOMPATIBLE
 	udder = new udder_type(null)
+<<<<<<< HEAD
 	udder.add_features(parent, on_generate_callback, reagent_produced_typepath)
+=======
+	udder.add_features(parent, on_generate_callback, reagent_produced_override)
+>>>>>>> tg-pr-88929
 	src.on_milk_callback = on_milk_callback
 
 /datum/component/udder/RegisterWithParent()
@@ -67,6 +71,8 @@
 	var/reagent_produced_typepath = /datum/reagent/consumable/milk
 	///how much the udder holds
 	var/size = 50
+	///the probability that the udder will produce the reagent (0 - 100)
+	var/production_probability = 5
 	///mob that has the udder component
 	var/mob/living/udder_mob
 	///optional proc to callback to when the udder generates milk
@@ -78,11 +84,20 @@
 	///hunger key we set to look for food
 	var/hunger_key = BB_CHECK_HUNGRY
 
+<<<<<<< HEAD
 /obj/item/udder/proc/add_features(parent, callback, reagent = /datum/reagent/consumable/milk)
 	udder_mob = parent
 	on_generate_callback = callback
 	create_reagents(size, REAGENT_HOLDER_ALIVE)
 	reagent_produced_typepath = reagent
+=======
+/obj/item/udder/proc/add_features(parent, callback, reagent_override)
+	udder_mob = parent
+	on_generate_callback = callback
+	create_reagents(size, REAGENT_HOLDER_ALIVE)
+	if(reagent_override)
+		reagent_produced_typepath = reagent_override
+>>>>>>> tg-pr-88929
 	initial_conditions()
 	if(isnull(require_consume_type))
 		return
@@ -149,7 +164,7 @@
  * also useful for changing initial amounts in reagent holder (cows start with milk, gutlunches start empty)
  */
 /obj/item/udder/proc/initial_conditions()
-	reagents.add_reagent(reagent_produced_typepath, 20)
+	reagents.add_reagent(reagent_produced_typepath, 20, added_purity = 1)
 	START_PROCESSING(SSobj, src)
 
 /**
@@ -157,12 +172,22 @@
  */
 /obj/item/udder/proc/generate()
 	if(!isnull(require_consume_type) && !(locate(require_consume_type) in src))
+<<<<<<< HEAD
 		return
 	if(prob(95))
 		return
 	reagents.add_reagent(reagent_produced_typepath, rand(5, 10), added_purity = 1)
 	if(on_generate_callback)
 		on_generate_callback.Invoke(reagents.total_volume, reagents.maximum_volume)
+=======
+		return FALSE
+	if(!prob(production_probability))
+		return FALSE
+	reagents.add_reagent(reagent_produced_typepath, rand(5, 10), added_purity = 1)
+	if(on_generate_callback)
+		on_generate_callback.Invoke(reagents.total_volume, reagents.maximum_volume)
+	return TRUE
+>>>>>>> tg-pr-88929
 
 /**
  * Proc called from attacking the component parent with the correct item, moves reagents into the glass basically.
@@ -175,9 +200,9 @@
 	if(milk_holder.reagents.total_volume >= milk_holder.volume)
 		to_chat(user, span_warning("[milk_holder] is full."))
 		return
-	var/transfered = reagents.trans_to(milk_holder, rand(5,10))
-	if(transfered)
-		user.visible_message(span_notice("[user] milks [src] using \the [milk_holder]."), span_notice("You milk [src] using \the [milk_holder]."))
+	var/transferred = reagents.trans_to(milk_holder, rand(5,10))
+	if(transferred)
+		user.visible_message(span_notice("[user] milks [udder_mob] using \the [milk_holder]."), span_notice("You milk [udder_mob] using \the [milk_holder]."))
 	else
 		to_chat(user, span_warning("The udder is dry. Wait a bit longer..."))
 
@@ -200,3 +225,16 @@
 		reagents.add_reagent(/datum/reagent/medicine/salglu_solution, rand(2,5))
 	if(on_generate_callback)
 		on_generate_callback.Invoke(reagents.total_volume, reagents.maximum_volume)
+
+/obj/item/udder/raptor
+	name = "bird udder"
+
+/obj/item/udder/raptor/generate()
+	if(!prob(production_probability))
+		return FALSE
+	var/happiness_percentage = udder_mob.ai_controller?.blackboard[BB_BASIC_HAPPINESS]
+	if(prob(happiness_percentage))
+		reagents.add_reagent(/datum/reagent/consumable/cream, 5, added_purity = 1)
+	var/minimum_bound = happiness_percentage > 0.6 ? 10 : 5
+	var/upper_bound = minimum_bound + 5
+	reagents.add_reagent(reagent_produced_typepath, rand(minimum_bound, upper_bound), added_purity = 1)

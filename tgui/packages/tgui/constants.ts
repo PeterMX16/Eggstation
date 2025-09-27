@@ -49,6 +49,7 @@ export const COLORS = {
 
 // Colors defined in CSS
 export const CSS_COLORS = [
+<<<<<<< HEAD
   'black',
   'white',
   'red',
@@ -66,10 +67,30 @@ export const CSS_COLORS = [
   'amber',
   'crimson',
   'good',
+=======
+>>>>>>> tg-pr-88929
   'average',
   'bad',
+  'black',
+  'blue',
+  'brown',
+  'good',
+  'green',
+  'grey',
   'label',
-];
+  'olive',
+  'orange',
+  'pink',
+  'purple',
+  'red',
+  'teal',
+  'transparent',
+  'violet',
+  'white',
+  'yellow',
+] as const;
+
+export type CssColor = (typeof CSS_COLORS)[number];
 
 /* IF YOU CHANGE THIS KEEP IT IN SYNC WITH CHAT CSS */
 export const RADIO_CHANNELS = [
@@ -173,7 +194,7 @@ const GASES = [
     path: '/datum/gas/nitrogen',
     name: 'Nitrogen',
     label: 'N₂',
-    color: 'red',
+    color: 'yellow',
   },
   {
     id: 'co2',
@@ -197,7 +218,7 @@ const GASES = [
     color: 'lightsteelblue',
   },
   {
-    id: 'nob',
+    id: 'hypernoblium',
     path: '/datum/gas/hypernoblium',
     name: 'Hyper-noblium',
     label: 'Hyper-nob',
@@ -232,7 +253,7 @@ const GASES = [
     color: 'mediumpurple',
   },
   {
-    id: 'pluox',
+    id: 'pluoxium',
     path: '/datum/gas/pluoxium',
     name: 'Pluoxium',
     label: 'Pluoxium',

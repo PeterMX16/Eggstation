@@ -48,7 +48,11 @@
 	RegisterSignal(talking_lizard, COMSIG_MOB_SAY, PROC_REF(handle_speech))
 
 	// lizard's forked tongue causes hissing when speaking common
+<<<<<<< HEAD
 	talking_lizard.get_language_holder().selected_language = /datum/language/common
+=======
+	talking_lizard.set_active_language(/datum/language/common)
+>>>>>>> tg-pr-88929
 	talking_lizard.say(unhissed_quote)
 	TEST_ASSERT(handle_speech_result, "Handle speech signal was not fired")
 	TEST_ASSERT_EQUAL(hissed_quote, handle_speech_result[SPEECH_MESSAGE], "Speech modifier test failed: [handle_speech_result[SPEECH_LANGUAGE]] did not equal [hissed_quote] when spoken by a lizard in language [handle_speech_result[SPEECH_LANGUAGE]]")
@@ -56,7 +60,11 @@
 	handle_speech_result = null
 
 	// lizard's forked tongue does not cause hissing when speaking native draconic
+<<<<<<< HEAD
 	talking_lizard.get_language_holder().selected_language = /datum/language/draconic
+=======
+	talking_lizard.set_active_language(/datum/language/draconic)
+>>>>>>> tg-pr-88929
 	talking_lizard.say(unhissed_quote)
 	TEST_ASSERT(handle_speech_result, "Handle speech signal was not fired")
 	TEST_ASSERT_EQUAL(unhissed_quote, handle_speech_result[SPEECH_MESSAGE], "Speech modifier test failed: [handle_speech_result[SPEECH_LANGUAGE]] did not equal [unhissed_quote] when spoken by a lizard in language [handle_speech_result[SPEECH_LANGUAGE]]")
@@ -237,9 +245,15 @@
 	// Normally speaking, if there isn't a functional telecomms array on the same z-level, then handheld radios
 	// have a short delay before sending the message. We use the centcom frequency to get around this.
 	speaker_radio.set_frequency(FREQ_CENTCOM)
+<<<<<<< HEAD
 	speaker_radio.independent = TRUE
 	listener_radio.set_frequency(FREQ_CENTCOM)
 	listener_radio.independent = TRUE
+=======
+	speaker_radio.special_channels = RADIO_SPECIAL_CENTCOM
+	listener_radio.set_frequency(FREQ_CENTCOM)
+	listener_radio.special_channels = RADIO_SPECIAL_CENTCOM
+>>>>>>> tg-pr-88929
 
 	var/pangram_quote = "The quick brown fox jumps over the lazy dog"
 

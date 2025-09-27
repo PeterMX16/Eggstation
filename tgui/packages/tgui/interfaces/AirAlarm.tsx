@@ -1,6 +1,18 @@
-import { BooleanLike } from 'common/react';
-import { Fragment } from 'inferno';
+import { Fragment } from 'react';
+import {
+  Box,
+  Button,
+  LabeledList,
+  Modal,
+  NumberInput,
+  Section,
+  Table,
+  VirtualList,
+} from 'tgui-core/components';
+import { BooleanLike } from 'tgui-core/react';
+
 import { useBackend, useLocalState } from '../backend';
+<<<<<<< HEAD
 import {
   Box,
   Button,
@@ -10,6 +22,8 @@ import {
   Section,
   Table,
 } from '../components';
+=======
+>>>>>>> tg-pr-88929
 import { Window } from '../layouts';
 import {
   Scrubber,
@@ -140,6 +154,7 @@ const AirAlarmStatus = (props) => {
                 (data.fireAlarm && 'Fire Alarm') ||
                 'Nominal'}
             </LabeledList.Item>
+<<<<<<< HEAD
             <LabeledList.Item
               label="Air Conditioning Status"
               color={
@@ -152,6 +167,8 @@ const AirAlarmStatus = (props) => {
                   : 'Idle'
                 : 'Disabled'}
             </LabeledList.Item>
+=======
+>>>>>>> tg-pr-88929
             <LabeledList.Item label="Fault Status" color={areaFault.color}>
               {areaFault.areaFaultText}
             </LabeledList.Item>
@@ -316,11 +333,11 @@ const AirAlarmControlVents = (props) => {
     return <span>Nothing to show</span>;
   }
   return (
-    <>
+    <VirtualList>
       {vents.map((vent) => (
         <Vent key={vent.refID} {...vent} />
       ))}
-    </>
+    </VirtualList>
   );
 };
 
@@ -334,11 +351,11 @@ const AirAlarmControlScrubbers = (props) => {
     return <span>Nothing to show</span>;
   }
   return (
-    <>
+    <VirtualList>
       {scrubbers.map((scrubber) => (
         <Scrubber key={scrubber.refID} {...scrubber} />
       ))}
-    </>
+    </VirtualList>
   );
 };
 
@@ -413,7 +430,7 @@ const EditingModal = (props: EditingModalProps) => {
         ) : (
           <>
             <NumberInput
-              onChange={(e, value) =>
+              onChange={(value) =>
                 act('set_threshold', {
                   threshold: id,
                   threshold_type: type,

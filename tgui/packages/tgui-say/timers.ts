@@ -1,4 +1,10 @@
+<<<<<<< HEAD
 import { debounce, throttle } from 'common/timer';
+=======
+import { debounce, throttle } from 'tgui-core/timer';
+
+import { Channel } from './ChannelIterator';
+>>>>>>> tg-pr-88929
 
 const SECONDS = 1000;
 
@@ -10,7 +16,12 @@ export const byondMessages = {
     0.4 * SECONDS,
   ),
   forceSayMsg: debounce(
+<<<<<<< HEAD
     (entry: string) => Byond.sendMessage('force', { entry, channel: 'Say' }),
+=======
+    (entry: string, channel: Channel) =>
+      Byond.sendMessage('force', { entry, channel }),
+>>>>>>> tg-pr-88929
     1 * SECONDS,
     true,
   ),

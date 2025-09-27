@@ -1,7 +1,7 @@
 /obj/machinery/griddle
 	name = "griddle"
 	desc = "Because using pans is for pansies."
-	icon = 'icons/obj/machines/kitchenmachines.dmi'
+	icon = 'icons/obj/machines/kitchen.dmi'
 	icon_state = "griddle1_off"
 	density = TRUE
 	pass_flags_self = PASSMACHINE | PASSTABLE| LETPASSTHROW // It's roughly the height of a table.
@@ -59,6 +59,12 @@
 
 /obj/machinery/griddle/attackby(obj/item/I, mob/user, list/modifiers, list/attack_modifiers)
 
+<<<<<<< HEAD
+=======
+
+/obj/machinery/griddle/attackby(obj/item/I, mob/user, params)
+
+>>>>>>> tg-pr-88929
 	if(griddled_objects.len >= max_items)
 		to_chat(user, span_notice("[src] can't fit more items!"))
 		return
@@ -74,6 +80,17 @@
 	else
 		return ..()
 
+<<<<<<< HEAD
+=======
+/obj/machinery/griddle/item_interaction_secondary(mob/living/user, obj/item/item, list/modifiers)
+	if(isnull(item.atom_storage))
+		return NONE
+
+	for(var/obj/tray_item in griddled_objects)
+		item.atom_storage.attempt_insert(tray_item, user, TRUE)
+	return ITEM_INTERACT_SUCCESS
+
+>>>>>>> tg-pr-88929
 /obj/machinery/griddle/item_interaction(mob/living/user, obj/item/item, list/modifiers)
 	if(isnull(item.atom_storage))
 		return NONE
@@ -136,7 +153,11 @@
 	item_to_grill.flags_1 |= IS_ONTOP_1
 	item_to_grill.vis_flags |= VIS_INHERIT_PLANE
 
+<<<<<<< HEAD
 	SEND_SIGNAL(item_to_grill, COMSIG_ITEM_GRILL_PLACED_ON, user)
+=======
+	SEND_SIGNAL(item_to_grill, COMSIG_ITEM_GRILL_PLACED, user)
+>>>>>>> tg-pr-88929
 	if(on)
 		SEND_SIGNAL(item_to_grill, COMSIG_ITEM_GRILL_TURNED_ON)
 	RegisterSignal(item_to_grill, COMSIG_MOVABLE_MOVED, PROC_REF(ItemMoved))
@@ -175,23 +196,28 @@
 	default_unfasten_wrench(user, tool, time = 2 SECONDS)
 	return ITEM_INTERACT_SUCCESS
 
-/obj/machinery/griddle/proc/on_storage_dump(datum/source, obj/item/storage_source, mob/user)
+/obj/machinery/griddle/proc/on_storage_dump(datum/source, datum/storage/storage, mob/user)
 	SIGNAL_HANDLER
 
+<<<<<<< HEAD
 	for(var/obj/item/to_dump in storage_source)
 		if(to_dump.loc != storage_source)
 			continue
 		if(length(griddled_objects) >= max_items)
+=======
+	for(var/obj/item/to_dump in storage.real_location)
+		if(griddled_objects.len >= max_items)
+>>>>>>> tg-pr-88929
 			break
 
-		if(!storage_source.atom_storage.attempt_remove(to_dump, src, silent = TRUE))
+		if(!storage.attempt_remove(to_dump, src, silent = TRUE))
 			continue
 
 		to_dump.pixel_x = to_dump.base_pixel_x + rand(-5, 5)
 		to_dump.pixel_y = to_dump.base_pixel_y + rand(-5, 5)
 		AddToGrill(to_dump, user)
 
-	to_chat(user, span_notice("You dump out [storage_source] onto [src]."))
+	to_chat(user, span_notice("You dump out [storage.parent] onto [src]."))
 	return STORAGE_DUMP_HANDLED
 
 /obj/machinery/griddle/process(seconds_per_tick)

@@ -56,8 +56,13 @@ GLOBAL_LIST_INIT(magicarp_spell_colours, list(
 		/datum/pet_command/idle,
 		/datum/pet_command/free,
 		/datum/pet_command/follow,
+<<<<<<< HEAD
 		/datum/pet_command/point_targeting/attack,
 		/datum/pet_command/point_targeting/use_ability/magicarp,
+=======
+		/datum/pet_command/attack,
+		/datum/pet_command/use_ability/magicarp,
+>>>>>>> tg-pr-88929
 	)
 	/// List of all projectiles we can fire.
 	/// Non-static, because subtypes can have their own lists.

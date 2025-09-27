@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { useBackend } from '../../backend';
+=======
+import { Dispatch } from 'react';
+>>>>>>> tg-pr-88929
 import {
   Button,
   Icon,
@@ -6,19 +10,33 @@ import {
   Stack,
   Table,
   Tooltip,
+<<<<<<< HEAD
 } from '../../components';
+=======
+} from 'tgui-core/components';
+
+import { useBackend } from '../../backend';
+>>>>>>> tg-pr-88929
 import { SORTING_TYPES } from './contants';
 import { SortType, SubsystemData } from './types';
 
 type Props = {
   max: number;
+<<<<<<< HEAD
   setSelected: (newValue: SubsystemData) => void;
+=======
+  setSelected: Dispatch<SubsystemData>;
+>>>>>>> tg-pr-88929
   showBars: boolean;
   sortType: SortType;
   subsystem: SubsystemData;
 };
 
+<<<<<<< HEAD
 export const SubsystemRow = (props: Props) => {
+=======
+export function SubsystemRow(props: Props) {
+>>>>>>> tg-pr-88929
   const { act } = useBackend();
   const { max, setSelected, showBars, sortType, subsystem } = props;
   const { can_fire, doesnt_fire, initialized, name, ref } = subsystem;
@@ -102,4 +120,8 @@ export const SubsystemRow = (props: Props) => {
       </Table.Cell>
     </Table.Row>
   );
+<<<<<<< HEAD
 };
+=======
+}
+>>>>>>> tg-pr-88929

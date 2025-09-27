@@ -33,7 +33,23 @@
 		"YOU'RE GROUNDED!!"
 	],
 
+<<<<<<< HEAD
 	"verb": ["CALL", "HELP", "VISIT"],
 
 	"relative": ["AUNT AND UNCLE", "DAD", "GRANDPARENTS", "MOM"]
+=======
+	"verb": [
+		"CALL",
+		"HELP",
+		"VISIT"
+	],
+	
+	"relative": [
+		"AUNT AND UNCLE",
+		"DAD",
+		"GRANDPARENTS",
+		"MOM"
+	]
+
+>>>>>>> tg-pr-88929
 }

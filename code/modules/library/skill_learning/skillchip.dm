@@ -1,15 +1,18 @@
+<<<<<<< HEAD
 // Skillchip categories
 //Various skillchip categories. Use these when setting which categories a skillchip restricts being paired with
 //while using the SKILLCHIP_RESTRICTED_CATEGORIES flag
 /// General related skillchip category
 #define SKILLCHIP_CATEGORY_GENERAL "general"
 
+=======
+>>>>>>> tg-pr-88929
 /obj/item/skillchip
 	name = "skillchip"
 	desc = "This biochip integrates with user's brain to enable mastery of specific skill. Consult certified Nanotrasen neurosurgeon before use."
 
-	icon = 'icons/obj/card.dmi'
-	icon_state = "data_3"
+	icon = 'icons/obj/devices/circuitry_n_data.dmi'
+	icon_state = "skillchip"
 	custom_price = PAYCHECK_CREW * 3
 	w_class = WEIGHT_CLASS_SMALL
 
@@ -48,7 +51,7 @@
 	/// Set to TRUE when the skill chip's effects are applied. Set to FALSE when they're not.
 	var/active = FALSE
 	/// Brain that holds this skillchip.
-	var/obj/item/organ/internal/brain/holding_brain
+	var/obj/item/organ/brain/holding_brain
 
 /obj/item/skillchip/Initialize(mapload, is_removable = TRUE)
 	. = ..()
@@ -140,7 +143,11 @@
  * Arguments:
  * * owner_brain - The brain that this skillchip was implanted in to.
  */
+<<<<<<< HEAD
 /obj/item/skillchip/proc/on_implant(obj/item/organ/internal/brain/owner_brain)
+=======
+/obj/item/skillchip/proc/on_implant(obj/item/organ/brain/owner_brain)
+>>>>>>> tg-pr-88929
 	SHOULD_CALL_PARENT(TRUE)
 	if(holding_brain)
 		CRASH("Skillchip is trying to be implanted into [owner_brain], but it's already implanted in [holding_brain]")
@@ -216,7 +223,7 @@
  * Arguments:
  * * skillchip - The skillchip you're intending to activate. Does not activate the chip.
  */
-/obj/item/skillchip/proc/has_activate_incompatibility(obj/item/organ/internal/brain/brain)
+/obj/item/skillchip/proc/has_activate_incompatibility(obj/item/organ/brain/brain)
 	if(QDELETED(brain))
 		return "No brain detected."
 
@@ -266,7 +273,7 @@
 		return "Incompatible lifeform detected."
 
 	// No brain
-	var/obj/item/organ/internal/brain/brain = target.get_organ_slot(ORGAN_SLOT_BRAIN)
+	var/obj/item/organ/brain/brain = target.get_organ_slot(ORGAN_SLOT_BRAIN)
 	if(QDELETED(brain))
 		return "No brain detected."
 
@@ -285,7 +292,7 @@
  * Arguments:
  * * brain - The brain to check for implantability with.
  */
-/obj/item/skillchip/proc/has_brain_incompatibility(obj/item/organ/internal/brain/brain)
+/obj/item/skillchip/proc/has_brain_incompatibility(obj/item/organ/brain/brain)
 	if(!istype(brain))
 		stack_trace("Attempted to check incompatibility with invalid brain object [brain].")
 		return "Incompatible brain."
@@ -391,6 +398,7 @@
 	removable = metadata["removable"]
 
 	return active_msg
+<<<<<<< HEAD
 
 /obj/item/skillchip/basketweaving
 	name = "Basketsoft 3000 skillchip"
@@ -526,3 +534,5 @@
 	deactivate_message = "<span class='notice'>Your senses dull.</span>"
 
 #undef SKILLCHIP_CATEGORY_GENERAL
+=======
+>>>>>>> tg-pr-88929

@@ -38,7 +38,11 @@
 	var/target_Theyre = target.p_Theyre()
 	var/target_They_have = "[target.p_They()] [target.p_have()]"
 
+<<<<<<< HEAD
 	if(target.stat == CONSCIOUS && !HAS_TRAIT_FROM(target, TRAIT_INCAPACITATED, STAMINA)) // monkestation edit: allow revenants to drain stamcrit people
+=======
+	if(target.stat == CONSCIOUS)
+>>>>>>> tg-pr-88929
 		to_chat(src, span_revennotice("[target_Their] soul is too strong to harvest."))
 		if(prob(10))
 			to_chat(target, span_revennotice("You feel as if you are being watched."))
@@ -88,7 +92,11 @@
 
 	if(target.stat == CONSCIOUS)
 		to_chat(src, span_revenwarning("[target_Theyre] now powerful enough to fight off your draining!"))
+<<<<<<< HEAD
 		to_chat(target, span_boldannounce("You feel something tugging across your body before subsiding.")) //hey, wait a minute...
+=======
+		to_chat(target, span_bolddanger("You feel something tugging across your body before subsiding.")) //hey, wait a minute...
+>>>>>>> tg-pr-88929
 		return FALSE
 
 	to_chat(src, span_revenminor("You begin siphoning essence from [target]'s soul."))
@@ -111,7 +119,11 @@
 		return FALSE
 
 	var/datum/beam/draining_beam = Beam(target, icon_state = "drain_life")
+<<<<<<< HEAD
 	if(!do_after(src, 4.6 SECONDS, target, timed_action_flags = (IGNORE_HELD_ITEM | IGNORE_INCAPACITATED))) //As one cannot prove the existance of ghosts, ghosts cannot prove the existance of the target they were draining.
+=======
+	if(!do_after(src, 4.6 SECONDS, target, timed_action_flags = (IGNORE_HELD_ITEM | IGNORE_INCAPACITATED))) //As one cannot prove the existence of ghosts, ghosts cannot prove the existence of the target they were draining.
+>>>>>>> tg-pr-88929
 		to_chat(src, span_revenwarning("[target ? "[target]'s soul has" : "[target_They_have]"] been drawn out of your grasp. The link has been broken."))
 		if(target)
 			target.visible_message(

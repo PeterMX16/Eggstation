@@ -12,7 +12,6 @@ GLOBAL_DATUM_INIT(cameranet, /datum/cameranet, new)
 	var/list/obj/machinery/camera/cameras = list()
 	/// The chunks of the map, mapping the areas that the cameras can see.
 	var/list/chunks = list()
-	var/ready = 0
 
 	/// List of images cloned by all chunk static images put onto turfs cameras cant see
 	/// Indexed by the plane offset to use
@@ -64,18 +63,14 @@ GLOBAL_DATUM_INIT(cameranet, /datum/cameranet, new)
 	if(!.)
 		chunks[key] = . = new /datum/camerachunk(x, y, lowest.z, src)
 
-/// Updates what the aiEye can see. It is recommended you use this when the aiEye moves or it's location is set.
-/datum/cameranet/proc/visibility(list/moved_eyes, client/C, list/other_eyes, use_static = TRUE)
+/// Updates what the camera eye can see. It is recommended you use this when a camera eye moves or its location is set.
+/datum/cameranet/proc/visibility(list/moved_eyes)
 	if(!islist(moved_eyes))
 		moved_eyes = moved_eyes ? list(moved_eyes) : list()
-	if(islist(other_eyes))
-		other_eyes = (other_eyes - moved_eyes)
-	else
-		other_eyes = list()
 
-	for(var/mob/camera/ai_eye/eye as anything in moved_eyes)
+	for(var/mob/eye/camera/eye as anything in moved_eyes)
 		var/list/visibleChunks = list()
-		//Get the eye's turf in case it's located in an object like a mecha
+		//Get the eye's turf in case its located in an object like a mecha
 		var/turf/eye_turf = get_turf(eye)
 		if(eye.loc)
 			var/static_range = eye.static_visibility_range
@@ -137,6 +132,8 @@ GLOBAL_DATUM_INIT(cameranet, /datum/cameranet, new)
  * to change the time between static updates.
  */
 /datum/cameranet/proc/majorChunkChange(atom/c, choice, update_delay_buffer)
+	PROTECTED_PROC(TRUE)
+
 	if(QDELETED(c) && choice == 1)
 		CRASH("Tried to add a qdeleting camera to the net")
 
@@ -196,6 +193,7 @@ GLOBAL_DATUM_INIT(cameranet, /datum/cameranet, new)
 	if(chunk.visibleTurfs[position])
 		return chunk
 
+<<<<<<< HEAD
 /// Returns list of available cameras, ready to use for UIs displaying list of them
 /// The format is: list("name" = "camera.c_tag", ref = REF(camera))
 /datum/cameranet/proc/get_available_cameras_data(list/networks_available, list/z_levels_available)
@@ -250,6 +248,8 @@ GLOBAL_DATUM_INIT(cameranet, /datum/cameranet, new)
 
 	return length(camera_to_check.network & networks_available) > 0
 
+=======
+>>>>>>> tg-pr-88929
 /obj/effect/overlay/camera_static
 	name = "static"
 	icon = null

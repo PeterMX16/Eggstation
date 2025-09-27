@@ -1,7 +1,13 @@
+import { Box, Button, LabeledList, Section } from 'tgui-core/components';
+
 import { useBackend } from '../backend';
+<<<<<<< HEAD
 import { Box, Button, LabeledList, NumberInput, Section } from '../components';
 import { InterfaceLockNoticeBox } from './common/InterfaceLockNoticeBox';
+=======
+>>>>>>> tg-pr-88929
 import { Window } from '../layouts';
+import { InterfaceLockNoticeBox } from './common/InterfaceLockNoticeBox';
 
 const DISEASE_THEASHOLD_LIST = [
   'Positive',
@@ -13,6 +19,7 @@ const DISEASE_THEASHOLD_LIST = [
   'BIOHAZARD',
 ];
 
+<<<<<<< HEAD
 const TARGET_SPECIES_LIST = [
   {
     name: 'Human',
@@ -56,6 +63,8 @@ const TARGET_SPECIES_LIST = [
   },
 ];
 
+=======
+>>>>>>> tg-pr-88929
 const TARGET_NUTRITION_LIST = [
   {
     name: 'Starving',
@@ -140,7 +149,11 @@ const ScannerGateControl = (props) => {
 };
 
 const ScannerGateOff = (props) => {
+<<<<<<< HEAD
   const { act } = useBackend();
+=======
+  const { act, data } = useBackend();
+>>>>>>> tg-pr-88929
   return (
     <>
       <Box mb={2}>Select a scanning mode below.</Box>
@@ -250,30 +263,38 @@ const ScannerGateDisease = (props) => {
 
 const ScannerGateSpecies = (props) => {
   const { act, data } = useBackend();
+<<<<<<< HEAD
   const { reverse, target_species } = data;
   const species = TARGET_SPECIES_LIST.find((species) => {
     return species.value === target_species;
+=======
+  const { reverse, target_species_id, available_species, target_zombie } = data;
+  const species = available_species.find((species) => {
+    return species.specie_id === target_species_id;
+>>>>>>> tg-pr-88929
   });
   return (
     <>
       <Box mb={2}>
         Trigger if the person scanned is {reverse ? 'not' : ''} of the{' '}
-        {species.name} species.
-        {target_species === 'zombie' &&
-          ' All zombie types will be detected, including dormant zombies.'}
+        {species.specie_name} species.
+        {target_zombie
+          ? ' All zombie types will be detected, including dormant zombies.'
+          : null}
       </Box>
       <Box mb={2}>
-        {TARGET_SPECIES_LIST.map((species) => (
+        {available_species.map((species) => (
           <Button.Checkbox
-            key={species.value}
-            checked={species.value === target_species}
-            content={species.name}
+            key={species.specie_id}
+            checked={species.specie_id === target_species_id}
             onClick={() =>
               act('set_target_species', {
-                new_species: species.value,
+                new_species_id: species.specie_id,
               })
             }
-          />
+          >
+            {species.specie_name}
+          </Button.Checkbox>
         ))}
       </Box>
       <ScannerGateMode />
@@ -312,6 +333,7 @@ const ScannerGateNutrition = (props) => {
   );
 };
 
+<<<<<<< HEAD
 const ScannerGateNanites = (props) => {
   const { act, data } = useBackend();
   const { reverse, nanite_cloud } = data;
@@ -344,6 +366,8 @@ const ScannerGateNanites = (props) => {
   );
 };
 
+=======
+>>>>>>> tg-pr-88929
 const ScannerGateMode = (props) => {
   const { act, data } = useBackend();
   const { reverse } = data;

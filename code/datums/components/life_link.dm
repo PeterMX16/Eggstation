@@ -72,8 +72,11 @@
 			host.adjustToxLoss(amount, forced = TRUE)
 		if(OXY)
 			host.adjustOxyLoss(amount, forced = TRUE)
+<<<<<<< HEAD
 		if(CLONE)
 			host.adjustCloneLoss(amount, forced = TRUE)
+=======
+>>>>>>> tg-pr-88929
 
 	on_passed_damage?.Invoke(our_mob, host, amount)
 	return COMPONENT_IGNORE_CHANGE
@@ -125,6 +128,7 @@
 
 /// Update our health on the medical hud
 /datum/component/life_link/proc/update_med_hud_health(mob/living/mob_parent)
+<<<<<<< HEAD
 	var/image/holder = mob_parent.hud_list?[HEALTH_HUD]
 	if(isnull(holder))
 		return
@@ -141,6 +145,16 @@
 		holder.icon_state = "huddead"
 	else
 		holder.icon_state = "hudhealthy"
+=======
+	mob_parent.set_hud_image_state(HEALTH_HUD, "hud[RoundHealth(host)]")
+
+/// Update our vital status on the medical hud
+/datum/component/life_link/proc/update_med_hud_status(mob/living/mob_parent)
+	if(host.stat == DEAD || HAS_TRAIT(host, TRAIT_FAKEDEATH))
+		mob_parent.set_hud_image_state(STATUS_HUD, "huddead")
+	else
+		mob_parent.set_hud_image_state(STATUS_HUD, "hudhealthy")
+>>>>>>> tg-pr-88929
 
 /// When our status tab updates, draw how much HP our host has in there
 /datum/component/life_link/proc/on_status_tab_updated(mob/living/source, list/items)

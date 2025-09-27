@@ -94,38 +94,58 @@
 	if(multitooled)
 		src.multitooled = multitooled
 
+<<<<<<< HEAD
 	RegisterSignal(src, COMSIG_ATOM_TOOL_ACT(TOOL_MULTITOOL), PROC_REF(on_parent_multitool))
 
+=======
+>>>>>>> tg-pr-88929
 /datum/component/style/RegisterWithParent()
 	RegisterSignal(parent, COMSIG_USER_ITEM_INTERACTION, PROC_REF(hotswap))
 	RegisterSignal(parent, COMSIG_MOB_MINED, PROC_REF(on_mine))
 	RegisterSignal(parent, COMSIG_MOB_APPLY_DAMAGE, PROC_REF(on_take_damage))
+<<<<<<< HEAD
 	RegisterSignal(parent, COMSIG_MOB_EMOTED("flip"), PROC_REF(on_flip))
 	RegisterSignal(parent, COMSIG_MOB_EMOTED("spin"), PROC_REF(on_spin))
 	RegisterSignal(parent, COMSIG_MOB_ITEM_ATTACK, PROC_REF(on_attack))
 	RegisterSignal(parent, COMSIG_HUMAN_MELEE_UNARMED_ATTACK, PROC_REF(on_punch))
+=======
+	RegisterSignal(parent, COMSIG_MOB_EMOTED("taunt"), PROC_REF(on_taunt))
+	RegisterSignal(parent, COMSIG_MOB_ITEM_ATTACK, PROC_REF(on_attack))
+	RegisterSignal(parent, COMSIG_LIVING_UNARMED_ATTACK, PROC_REF(on_punch))
+>>>>>>> tg-pr-88929
 	RegisterSignal(SSdcs, COMSIG_GLOB_MOB_DEATH, PROC_REF(on_death))
 	RegisterSignal(parent, COMSIG_LIVING_RESONATOR_BURST, PROC_REF(on_resonator_burst))
 	RegisterSignal(parent, COMSIG_LIVING_PROJECTILE_PARRIED, PROC_REF(on_projectile_parry))
 	RegisterSignal(parent, COMSIG_LIVING_DEFUSED_GIBTONITE, PROC_REF(on_gibtonite_defuse))
 	RegisterSignal(parent, COMSIG_LIVING_CRUSHER_DETONATE, PROC_REF(on_crusher_detonate))
 	RegisterSignal(parent, COMSIG_LIVING_DISCOVERED_GEYSER, PROC_REF(on_geyser_discover))
+<<<<<<< HEAD
 
+=======
+>>>>>>> tg-pr-88929
 	ADD_TRAIT(parent, TRAIT_MINING_PARRYING, STYLE_TRAIT)
 
 /datum/component/style/UnregisterFromParent()
 	UnregisterSignal(parent, COMSIG_USER_ITEM_INTERACTION)
 	UnregisterSignal(parent, COMSIG_MOB_MINED)
 	UnregisterSignal(parent, COMSIG_MOB_APPLY_DAMAGE)
+<<<<<<< HEAD
 	UnregisterSignal(parent, list(COMSIG_MOB_EMOTED("flip"), COMSIG_MOB_EMOTED("spin")))
 	UnregisterSignal(parent, list(COMSIG_MOB_ITEM_ATTACK, COMSIG_HUMAN_MELEE_UNARMED_ATTACK))
+=======
+	UnregisterSignal(parent, COMSIG_MOB_EMOTED("taunt"))
+	UnregisterSignal(parent, list(COMSIG_MOB_ITEM_ATTACK, COMSIG_LIVING_UNARMED_ATTACK))
+>>>>>>> tg-pr-88929
 	UnregisterSignal(SSdcs, COMSIG_GLOB_MOB_DEATH)
 	UnregisterSignal(parent, COMSIG_LIVING_RESONATOR_BURST)
 	UnregisterSignal(parent, COMSIG_LIVING_PROJECTILE_PARRIED)
 	UnregisterSignal(parent, COMSIG_LIVING_DEFUSED_GIBTONITE)
 	UnregisterSignal(parent, COMSIG_LIVING_CRUSHER_DETONATE)
 	UnregisterSignal(parent, COMSIG_LIVING_DISCOVERED_GEYSER)
+<<<<<<< HEAD
 
+=======
+>>>>>>> tg-pr-88929
 	REMOVE_TRAIT(parent, TRAIT_MINING_PARRYING, STYLE_TRAIT)
 
 /datum/component/style/Destroy(force)
@@ -202,7 +222,11 @@
 
 			rank = rank_changed
 	meter.maptext = "[format_rank_string(rank)][generate_multiplier()][generate_actions()]"
+<<<<<<< HEAD
 	meter.maptext_y = 100 - 9 * length(actions)
+=======
+	meter.maptext_y = 94 - 12 * length(actions)
+>>>>>>> tg-pr-88929
 	update_meter(point_to_rank(), go_back)
 
 /datum/component/style/proc/update_meter(new_rank, go_back)
@@ -253,6 +277,7 @@
 			return "SPACED!"
 
 /datum/component/style/proc/format_rank_string(new_rank)
+<<<<<<< HEAD
 	var/rank_string = rank_to_string(new_rank)
 	var/final_string = ""
 	final_string += "<span class='maptext' style='font-size: 8px'><font color='[rank_to_color(new_rank)]'><b>[rank_string[1]]</b>"
@@ -261,11 +286,21 @@
 
 /datum/component/style/proc/generate_multiplier()
 	return "<br><span class='maptext' style='font-size: 7px'>MULTIPLIER: [point_multiplier]X</span>"
+=======
+	return MAPTEXT_PIXELLARI("<font color='[rank_to_color(new_rank)]'>[rank_to_string(new_rank)]</font>")
+
+/datum/component/style/proc/generate_multiplier()
+	return "<br>" + MAPTEXT_GRAND9K("MULTIPLIER: [point_multiplier]X")
+>>>>>>> tg-pr-88929
 
 /datum/component/style/proc/generate_actions()
 	var/action_string = ""
 	for(var/action in actions)
+<<<<<<< HEAD
 		action_string += "<br><span class='maptext'>+ <font color='[action_to_color(actions[action])]'>[actions[action]]</font></span>"
+=======
+		action_string += "<br>" + MAPTEXT_GRAND9K("+ <font color='[action_to_color(actions[action])]'>[actions[action]]</font>")
+>>>>>>> tg-pr-88929
 	return action_string
 
 /datum/component/style/proc/action_to_color(action)
@@ -324,17 +359,24 @@
 	source.visible_message(span_notice("[source] quickly swaps [weapon] out with [target]!"), span_notice("You quickly swap [weapon] with [target]."))
 	return ITEM_INTERACT_BLOCKING
 
+<<<<<<< HEAD
 
 /datum/component/style/proc/on_parent_multitool(datum/source, mob/living/user, obj/item/tool, list/recipes)
 	multitooled = !multitooled
 	user.balloon_alert(user, "meter [multitooled ? "" : "un"]hacked")
 
 
+=======
+>>>>>>> tg-pr-88929
 // Point givers
 /datum/component/style/proc/on_punch(mob/living/carbon/human/punching_person, atom/attacked_atom, proximity)
 	SIGNAL_HANDLER
 
+<<<<<<< HEAD
 	if(!proximity || !(punching_person.istate & ISTATE_HARM) || !isliving(attacked_atom))
+=======
+	if(!proximity || !punching_person.combat_mode || !isliving(attacked_atom))
+>>>>>>> tg-pr-88929
 		return
 
 	var/mob/living/disrespected = attacked_atom
@@ -421,12 +463,17 @@
 
 
 // Emote-based multipliers
+<<<<<<< HEAD
 /datum/component/style/proc/on_flip()
+=======
+/datum/component/style/proc/on_taunt()
+>>>>>>> tg-pr-88929
 	SIGNAL_HANDLER
 
 	point_multiplier = round(min(point_multiplier + 0.5, 3), 0.1)
 	update_screen()
 
+<<<<<<< HEAD
 /datum/component/style/proc/on_spin()
 	SIGNAL_HANDLER
 
@@ -434,6 +481,8 @@
 	update_screen()
 
 
+=======
+>>>>>>> tg-pr-88929
 // Negative effects
 /datum/component/style/proc/on_take_damage(...)
 	SIGNAL_HANDLER

@@ -5,7 +5,12 @@ import {
   Section,
   Stack,
   Tooltip,
+<<<<<<< HEAD
 } from 'tgui/components';
+=======
+} from 'tgui-core/components';
+
+>>>>>>> tg-pr-88929
 import { getColor } from './helpers';
 import { Threshold } from './types';
 
@@ -56,7 +61,7 @@ const Thresholds = (props) => {
           {convertedThresholds.map(([label, descr], index) => {
             return (
               <LabeledList.Item key={index} label={label}>
-                {descr}
+                {String(descr)}
               </LabeledList.Item>
             );
           })}
@@ -69,7 +74,7 @@ const Thresholds = (props) => {
 /** Displays the numerical trait modifiers for a virus symptom */
 const Traits = (props) => {
   const {
-    symptom: { level, resistance, stage_speed, stealth, transmission },
+    symptom: { level, weight, resistance, stage_speed, stealth, transmission },
   } = props;
 
   return (
@@ -78,6 +83,11 @@ const Traits = (props) => {
         <Tooltip content="Rarity of the symptom.">
           <LabeledList.Item color={getColor(level)} label="Level">
             {level}
+          </LabeledList.Item>
+        </Tooltip>
+        <Tooltip content="The space the symptom takes.">
+          <LabeledList.Item color={getColor(weight)} label="Weight">
+            {weight}
           </LabeledList.Item>
         </Tooltip>
         <Tooltip content="Decides the cure complexity.">

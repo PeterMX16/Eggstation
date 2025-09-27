@@ -16,7 +16,11 @@
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/landmark/bitrunning/cache_goal_turf,
 /obj/effect/turf_decal/loading_area,
+<<<<<<< HEAD
 /turf/open/floor/bitrunning_transport,
+=======
+/turf/open/indestructible/bitrunning_transport,
+>>>>>>> tg-pr-88929
 /area/virtual_domain/safehouse)
 "i" = (
 /obj/effect/turf_decal/stripes/line{
@@ -41,7 +45,15 @@
 /obj/machinery/light/small/directional/south,
 /obj/effect/landmark/bitrunning/cache_goal_turf,
 /obj/effect/turf_decal/loading_area,
+<<<<<<< HEAD
 /turf/open/floor/bitrunning_transport,
+=======
+/turf/open/indestructible/bitrunning_transport,
+/area/virtual_domain/safehouse)
+"m" = (
+/obj/modular_map_connector,
+/turf/closed/wall/mineral/titanium,
+>>>>>>> tg-pr-88929
 /area/virtual_domain/safehouse)
 "q" = (
 /obj/effect/turf_decal/stripes/end,
@@ -144,6 +156,18 @@
 /obj/effect/turf_decal/sand/volcanic,
 /turf/open/floor/iron,
 /area/virtual_domain/safehouse)
+<<<<<<< HEAD
+=======
+"M" = (
+/obj/effect/turf_decal/tile/neutral/half/contrasted,
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/obj/machinery/light/small/directional/north,
+/obj/effect/decal/cleanable/dirt/dust,
+/turf/open/floor/iron,
+/area/virtual_domain/safehouse)
+>>>>>>> tg-pr-88929
 "T" = (
 /obj/effect/turf_decal/tile/neutral/half/contrasted{
 	dir = 1
@@ -167,7 +191,11 @@ t
 e
 e
 t
+<<<<<<< HEAD
 a
+=======
+m
+>>>>>>> tg-pr-88929
 "}
 (2,1,1) = {"
 e
@@ -195,7 +223,11 @@ a
 "}
 (5,1,1) = {"
 a
+<<<<<<< HEAD
 x
+=======
+M
+>>>>>>> tg-pr-88929
 X
 H
 T

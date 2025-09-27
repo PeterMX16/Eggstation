@@ -14,7 +14,7 @@
 	var/incidents_left = INFINITY
 	/// Base probability of negative events. Cursed are half as unlucky.
 	var/luck_mod = 1
-	/// Base damage from negative events. Cursed take 25% less damage.
+	/// Base damage from negative events. Cursed take 25% of this damage.
 	var/damage_mod = 1
 
 /datum/component/omen/Initialize(obj/vessel, incidents_left, luck_mod, damage_mod)
@@ -31,6 +31,14 @@
 	if(!isnull(damage_mod))
 		src.damage_mod = damage_mod
 
+<<<<<<< HEAD
+=======
+	ADD_TRAIT(parent, TRAIT_CURSED, SMITE_TRAIT)
+
+/**
+ * This is a omen eat omen world! The stronger omen survives.
+ */
+>>>>>>> tg-pr-88929
 /datum/component/omen/InheritComponent(obj/vessel, incidents_left, luck_mod, damage_mod)
 	// If we have more incidents left the new one gets deleted.
 	if(src.incidents_left > incidents_left)
@@ -47,6 +55,7 @@
 
 /datum/component/omen/Destroy(force)
 	var/mob/living/person = parent
+	REMOVE_TRAIT(person, TRAIT_CURSED, SMITE_TRAIT)
 	to_chat(person, span_nicegreen("You feel a horrible omen lifted off your shoulders!"))
 
 	if(vessel)
@@ -71,6 +80,11 @@
 /datum/component/omen/UnregisterFromParent()
 	UnregisterSignal(parent, list(COMSIG_ON_CARBON_SLIP, COMSIG_MOVABLE_MOVED, COMSIG_CARBON_MOOD_UPDATE, COMSIG_LIVING_DEATH))
 
+/datum/component/omen/proc/consume_omen()
+	incidents_left--
+	if(incidents_left < 1)
+		qdel(src)
+
 /**
  * check_accident() is called each step we take
  *
@@ -82,6 +96,7 @@
 
 	if(!isliving(our_guy))
 		return
+<<<<<<< HEAD
 
 	var/mob/living/living_guy = our_guy
 	var/effective_luck = luck_mod
@@ -100,6 +115,35 @@
 	if(!prob(15 * effective_luck))
 		return
 
+=======
+
+	var/mob/living/living_guy = our_guy
+
+	if(prob(0.001) && (living_guy.stat != DEAD)) // You hit the lottery! Kinda.
+		living_guy.visible_message(span_danger("[living_guy] suddenly bursts into flames!"), span_danger("You suddenly burst into flames!"))
+		INVOKE_ASYNC(living_guy, TYPE_PROC_REF(/mob, emote), "scream")
+		living_guy.adjust_fire_stacks(20)
+		living_guy.ignite_mob(silent = TRUE)
+		consume_omen()
+		return
+
+	var/effective_luck = luck_mod
+
+	// If there's nobody to witness the misfortune, make it less likely.
+	// This way, we allow for people to be able to get into hilarious situations without making the game nigh unplayable most of the time.
+
+	var/has_watchers = FALSE
+	for(var/mob/viewer in viewers(our_guy, world.view))
+		if(viewer.client && !viewer.client.is_afk())
+			has_watchers = TRUE
+			break
+	if(!has_watchers)
+		effective_luck *= 0.5
+
+	if(!prob(8 * effective_luck))
+		return
+
+>>>>>>> tg-pr-88929
 	var/turf/open/our_guy_pos = living_guy.loc
 	if(!isopenturf(our_guy_pos))
 		return
@@ -112,12 +156,15 @@
 		INVOKE_ASYNC(src, PROC_REF(slam_airlock), darth_airlock)
 		return
 
+<<<<<<< HEAD
 	if(istype(our_guy_pos, /turf/open/floor/noslip/tram_plate/energized))
 		var/turf/open/floor/noslip/tram_plate/energized/future_tram_victim = our_guy_pos
 		if(future_tram_victim.toast(living_guy))
 			consume_omen()
 			return
 
+=======
+>>>>>>> tg-pr-88929
 	for(var/turf/the_turf as anything in get_adjacent_open_turfs(living_guy))
 		if(istype(the_turf, /turf/open/floor/glass/reinforced/tram)) // don't fall off the tram bridge, we want to hit you instead
 			return
@@ -135,6 +182,57 @@
 			consume_omen()
 			return
 
+		for(var/obj/machinery/light/evil_light in the_turf)
+			if((evil_light.status == LIGHT_BURNED || evil_light.status == LIGHT_BROKEN) || (HAS_TRAIT(living_guy, TRAIT_SHOCKIMMUNE))) // we can't do anything :( // Why in the world is there no get_siemens_coeff proc???
+				to_chat(living_guy, span_warning("[evil_light] sparks weakly for a second."))
+				do_sparks(2, FALSE, evil_light) // hey maybe it'll ignite them
+				return
+
+			to_chat(living_guy, span_warning("[evil_light] glows ominously...")) // ominously
+			evil_light.visible_message(span_boldwarning("[evil_light] suddenly flares brightly and sparks!"))
+			evil_light.break_light_tube(skip_sound_and_sparks = FALSE)
+			do_sparks(number = 4, cardinal_only = FALSE, source = evil_light)
+			evil_light.Beam(living_guy, icon_state = "lightning[rand(1,12)]", time = 0.5 SECONDS)
+			living_guy.electrocute_act(35 * (damage_mod * 0.5), evil_light, flags = SHOCK_NOGLOVES)
+			INVOKE_ASYNC(living_guy, TYPE_PROC_REF(/mob, emote), "scream")
+			consume_omen()
+
+		for(var/obj/structure/mirror/evil_mirror in the_turf)
+			to_chat(living_guy, span_warning("You pass by the mirror and glance at it..."))
+			if(evil_mirror.broken)
+				to_chat(living_guy, span_notice("You feel lucky, somehow."))
+				return
+			switch(rand(1, 5))
+				if(1)
+					to_chat(living_guy, span_warning("The mirror explodes into a million pieces! Wait, does that mean you're even more unlucky?"))
+					evil_mirror.take_damage(evil_mirror.max_integrity, BRUTE, MELEE, FALSE)
+					if(prob(50 * effective_luck)) // sometimes
+						luck_mod += 0.25
+						damage_mod += 0.25
+				if(2 to 3)
+					to_chat(living_guy, span_big(span_hypnophrase("Oh god, you can't see your reflection!!")))
+					if(HAS_TRAIT(living_guy, TRAIT_NO_MIRROR_REFLECTION)) // not so living i suppose
+						to_chat(living_guy, span_green("Well, obviously."))
+						return
+					INVOKE_ASYNC(living_guy, TYPE_PROC_REF(/mob, emote), "scream")
+
+				if(4 to 5)
+					if(HAS_TRAIT(living_guy, TRAIT_NO_MIRROR_REFLECTION))
+						to_chat(living_guy, span_warning("You don't see anything of notice. Huh."))
+						return
+					to_chat(living_guy, span_userdanger("You see your reflection, but it is grinning malevolently and staring directly at you!"))
+					INVOKE_ASYNC(living_guy, TYPE_PROC_REF(/mob, emote), "scream")
+
+			living_guy.set_jitter_if_lower(25 SECONDS)
+			if(prob(7 * effective_luck))
+				to_chat(living_guy, span_warning("You are completely shocked by this turn of events!"))
+				to_chat(living_guy, span_userdanger("You clutch at your heart!"))
+				var/mob/living/carbon/carbon_guy = living_guy
+				if(istype(carbon_guy))
+					carbon_guy.set_heartattack(status = TRUE)
+
+			consume_omen()
+
 /datum/component/omen/proc/slam_airlock(obj/machinery/door/airlock/darth_airlock)
 	. = darth_airlock.close(force_crush = TRUE)
 	if(.)
@@ -148,14 +246,16 @@
 		INVOKE_ASYNC(our_guy, TYPE_PROC_REF(/mob, emote), "scream")
 		to_chat(our_guy, span_warning("What a horrible night... To have a curse!"))
 
-	if(prob(30 * luck_mod)) /// Bonk!
-		var/obj/item/bodypart/the_head = our_guy.get_bodypart(BODY_ZONE_HEAD)
-		if(!the_head)
-			return
-		playsound(get_turf(our_guy), 'sound/effects/tableheadsmash.ogg', 90, TRUE)
+	if(prob(30 * luck_mod) && our_guy.get_bodypart(BODY_ZONE_HEAD)) /// Bonk!
+		playsound(our_guy, 'sound/effects/tableheadsmash.ogg', 90, TRUE)
 		our_guy.visible_message(span_danger("[our_guy] hits [our_guy.p_their()] head really badly falling down!"), span_userdanger("You hit your head really badly falling down!"))
+<<<<<<< HEAD
 		the_head.receive_damage(75 * damage_mod)
 		our_guy.adjustOrganLoss(ORGAN_SLOT_BRAIN, 100 * damage_mod)
+=======
+		our_guy.apply_damage(75 * damage_mod, BRUTE, BODY_ZONE_HEAD, attacking_item = "slipping")
+		our_guy.apply_damage(100 * damage_mod, BRAIN)
+>>>>>>> tg-pr-88929
 		consume_omen()
 
 	return
@@ -165,10 +265,19 @@
 	SIGNAL_HANDLER
 
 	if(incidents_left == INFINITY)
+<<<<<<< HEAD
+		return
+
+	if(!("blessing" in our_guy.mob_mood.mood_events))
+=======
+>>>>>>> tg-pr-88929
 		return
 
 	if(!("blessing" in our_guy.mob_mood.mood_events))
 		return
+
+	playsound(our_guy, 'sound/effects/pray_chaplain.ogg', 40, TRUE)
+	to_chat(our_guy, span_green("You feel fantastic!"))
 
 	qdel(src)
 
@@ -205,7 +314,7 @@
 		return ..()
 
 	death_explode(our_guy)
-	our_guy.gib()
+	our_guy.gib(DROP_ALL_REMAINS)
 
 /**
  * The quirk omen. Permanent.
@@ -213,7 +322,11 @@
  */
 /datum/component/omen/quirk
 	incidents_left = INFINITY
+<<<<<<< HEAD
 	luck_mod = 0.4 // 30% chance of bad things happening
+=======
+	luck_mod = 0.3 // 30% chance of bad things happening
+>>>>>>> tg-pr-88929
 	damage_mod = 0.25 // 25% of normal damage
 
 /datum/component/omen/quirk/RegisterWithParent()
@@ -226,7 +339,7 @@
 
 /datum/component/omen/quirk/check_death(mob/living/our_guy)
 	if(!iscarbon(our_guy))
-		our_guy.gib()
+		our_guy.gib(DROP_ALL_REMAINS)
 		return
 
 	// Don't explode if buckled to a stasis bed
@@ -237,7 +350,7 @@
 
 	death_explode(our_guy)
 	var/mob/living/carbon/player = our_guy
-	player.spread_bodyparts(skip_head = TRUE)
+	player.spread_bodyparts()
 	player.spawn_gibs()
 
 	return
@@ -247,6 +360,10 @@
  * While it lasts, parent gets a cursed aura filter.
  */
 /datum/component/omen/bible
+<<<<<<< HEAD
+=======
+	incidents_left = 1
+>>>>>>> tg-pr-88929
 
 /datum/component/omen/bible/RegisterWithParent()
 	. = ..()

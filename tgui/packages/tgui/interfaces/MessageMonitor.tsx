@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { BooleanLike } from 'common/react';
 import { useBackend, useLocalState } from '../backend';
 import {
@@ -9,6 +10,21 @@ import {
   NoticeBox,
   Box,
 } from '../components';
+=======
+import { Dispatch, SetStateAction, useState } from 'react';
+import {
+  Box,
+  Button,
+  Input,
+  NoticeBox,
+  Section,
+  Stack,
+  Table,
+} from 'tgui-core/components';
+import { BooleanLike } from 'tgui-core/react';
+
+import { useBackend } from '../backend';
+>>>>>>> tg-pr-88929
 import { Window } from '../layouts';
 
 enum Screen {
@@ -36,7 +52,11 @@ type Request = {
   ref: string;
   message: string;
   stamp: string;
+<<<<<<< HEAD
   send_dpt: string;
+=======
+  sender_department: string;
+>>>>>>> tg-pr-88929
   id_auth: string;
 };
 
@@ -84,7 +104,11 @@ const RequestLogsScreen = (props) => {
                 </Table.Cell>
                 <Table.Cell>{request.message}</Table.Cell>
                 <Table.Cell>{request.stamp}</Table.Cell>
+<<<<<<< HEAD
                 <Table.Cell>{request.send_dpt}</Table.Cell>
+=======
+                <Table.Cell>{request.sender_department}</Table.Cell>
+>>>>>>> tg-pr-88929
                 <Table.Cell>{request.id_auth}</Table.Cell>
               </Table.Row>
             ))}
@@ -131,7 +155,16 @@ const MessageLogsScreen = (props) => {
                 </Table.Cell>
                 <Table.Cell>{message.sender}</Table.Cell>
                 <Table.Cell>{message.recipient}</Table.Cell>
+<<<<<<< HEAD
                 <Table.Cell>{message.message}</Table.Cell>
+=======
+                <Table.Cell>
+                  <Box
+                    as="span"
+                    dangerouslySetInnerHTML={{ __html: message.message }}
+                  />
+                </Table.Cell>
+>>>>>>> tg-pr-88929
               </Table.Row>
             ))}
           </Table>
@@ -159,6 +192,7 @@ const HackedScreen = (props) => {
   );
 };
 
+<<<<<<< HEAD
 const MainScreenAuth = (props) => {
   const { act, data } = useBackend<Data>();
   const { status, is_malf, password } = data;
@@ -166,13 +200,25 @@ const MainScreenAuth = (props) => {
     'input_password',
     password,
   );
+=======
+const MainScreenAuth = (props: AuthScreenProps) => {
+  const { auth_password, setPassword } = props;
+
+  const { act, data } = useBackend<Data>();
+  const { status, is_malf } = data;
+
+>>>>>>> tg-pr-88929
   return (
     <>
       <Stack.Item>
         <Section>
           <Input
             value={auth_password}
+<<<<<<< HEAD
             onInput={(e, value) => setPassword(value)}
+=======
+            onChange={(e, value) => setPassword(value)}
+>>>>>>> tg-pr-88929
             placeholder="Password"
           />
           <Button
@@ -259,6 +305,7 @@ const MainScreenAuth = (props) => {
   );
 };
 
+<<<<<<< HEAD
 const MainScreenNotAuth = (props) => {
   const { act, data } = useBackend<Data>();
   const { status, is_malf, password } = data;
@@ -266,6 +313,17 @@ const MainScreenNotAuth = (props) => {
     'input_password',
     password,
   );
+=======
+type AuthScreenProps = {
+  auth_password: string;
+  setPassword: Dispatch<SetStateAction<string>>;
+};
+
+const MainScreenNotAuth = (props: AuthScreenProps) => {
+  const { auth_password, setPassword } = props;
+  const { act, data } = useBackend<Data>();
+  const { status, is_malf } = data;
+>>>>>>> tg-pr-88929
 
   return (
     <>
@@ -273,6 +331,7 @@ const MainScreenNotAuth = (props) => {
         <Section>
           <Input
             value={auth_password}
+<<<<<<< HEAD
             onInput={(e, value) => setPassword(value)}
             placeholder="Password"
           />
@@ -289,6 +348,26 @@ const MainScreenNotAuth = (props) => {
           />
           {!!is_malf && (
             <Button content="Hack" color="red" onClick={() => act('hack')} />
+=======
+            onChange={(e, value) => setPassword(value)}
+            placeholder="Password"
+          />
+          <Button onClick={() => act('auth', { auth_password: auth_password })}>
+            Auth
+          </Button>
+          <Button
+            icon={status ? 'power-off' : 'times'}
+            color={status ? 'green' : 'red'}
+            disabled
+            onClick={() => act('turn_server')}
+          >
+            {status ? 'ON' : 'OFF'}
+          </Button>
+          {!!is_malf && (
+            <Button color="red" onClick={() => act('hack')}>
+              Hack
+            </Button>
+>>>>>>> tg-pr-88929
           )}
         </Section>
       </Stack.Item>
@@ -316,11 +395,32 @@ const MainScreenNotAuth = (props) => {
 };
 
 const MainScreen = (props) => {
+<<<<<<< HEAD
   const { act, data } = useBackend<Data>();
   const { auth } = data;
   return (
     <Stack fill vertical>
       {auth ? <MainScreenAuth /> : <MainScreenNotAuth />}
+=======
+  const { data } = useBackend<Data>();
+  const { auth, password } = data;
+
+  const [auth_password, setPassword] = useState(password);
+
+  return (
+    <Stack fill vertical>
+      {auth ? (
+        <MainScreenAuth
+          auth_password={auth_password}
+          setPassword={setPassword}
+        />
+      ) : (
+        <MainScreenNotAuth
+          auth_password={auth_password}
+          setPassword={setPassword}
+        />
+      )}
+>>>>>>> tg-pr-88929
     </Stack>
   );
 };

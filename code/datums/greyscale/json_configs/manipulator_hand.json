@@ -2,14 +2,29 @@
 	"hand": [
 		{
 			"type": "icon_state",
+<<<<<<< HEAD
 			"icon_state": "hand",
 			"blend_mode": "overlay"
+=======
+<<<<<<<< HEAD:code/datums/greyscale/json_configs/buckets.json
+			"icon_state": "bucket",
+			"blend_mode": "overlay",
+			"color_ids": [1]
+========
+			"icon_state": "hand",
+			"blend_mode": "overlay"
+>>>>>>>> tg-pr-88929:code/datums/greyscale/json_configs/manipulator_hand.json
+>>>>>>> tg-pr-88929
 		},
 		{
 			"type": "icon_state",
 			"icon_state": "hand_colour",
 			"blend_mode": "overlay",
+<<<<<<< HEAD
 			"color_ids": [1]
+=======
+			"color_ids": [ 1 ]
+>>>>>>> tg-pr-88929
 		}
 	]
 }

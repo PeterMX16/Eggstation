@@ -11,12 +11,28 @@
 	icon_state = "wrap_paper"
 	inhand_icon_state = "wrap_paper"
 	greyscale_config = /datum/greyscale_config/wrap_paper
-	item_flags = NOBLUDGEON
 	amount = 25
 	max_amount = 25
 	resistance_flags = FLAMMABLE
 	merge_type = /obj/item/stack/wrapping_paper
 	singular_name = "wrapping paper"
+	throwforce = 0
+	w_class = WEIGHT_CLASS_TINY
+	throw_speed = 3
+	throw_range = 5
+	hitsound = 'sound/effects/bonk.ogg'
+
+/obj/item/stack/wrapping_paper/Initialize(mapload)
+	. = ..()
+	ADD_TRAIT(src, TRAIT_CUSTOM_TAP_SOUND, INNATE_TRAIT)
+
+/obj/item/stack/wrapping_paper/attack(mob/living/target_mob, mob/living/user, params)
+	. = ..()
+	user.visible_message(
+		span_warning("[user] baps [target_mob] on the head with [src]!"),
+		span_warning("You bap [target_mob] on the head with [src]!"),
+	)
+	target_mob.add_mood_event("roll", /datum/mood_event/bapped)
 
 /obj/item/stack/wrapping_paper/Initialize(mapload)
 	. = ..()
@@ -24,25 +40,34 @@
 		//Generate random valid colors for paper and ribbon
 		var/generated_base_color = "#" + random_color()
 		var/generated_ribbon_color = "#" + random_color()
-		var/temp_base_hsv = RGBtoHSV(generated_base_color)
-		var/temp_ribbon_hsv = RGBtoHSV(generated_ribbon_color)
+		var/list/base_hsv = rgb2hsv(generated_base_color)
+		var/list/ribbon_hsv = rgb2hsv(generated_ribbon_color)
 
 		//If colors are too dark, set to original colors
-		if(ReadHSV(temp_base_hsv)[3] < ReadHSV("7F7F7F")[3])
-			generated_base_color = "#00FF00"
-		if(ReadHSV(temp_ribbon_hsv)[3] < ReadHSV("7F7F7F")[3])
-			generated_ribbon_color = "#FF0000"
+		if(base_hsv[3] < 50)
+			generated_base_color = COLOR_VIBRANT_LIME
+		if(ribbon_hsv[3] < 50)
+			generated_ribbon_color = COLOR_RED
 
 		//Set layers to these colors, base then ribbon
 		set_greyscale(colors = list(generated_base_color, generated_ribbon_color))
 
+<<<<<<< HEAD
 /obj/item/stack/wrapping_paper/AltClick(mob/user, modifiers)
 	var/new_base = tgui_color_picker(user, "", "Select a base color", color)
 	var/new_ribbon = tgui_color_picker(user, "", "Select a ribbon color", color)
 	if(!user.can_perform_action(src))
 		return
+=======
+/obj/item/stack/wrapping_paper/click_alt(mob/user)
+	var/new_base = input(user, "", "Select a base color", color) as color
+	var/new_ribbon = input(user, "", "Select a ribbon color", color) as color
+	if(!new_base || !new_ribbon)
+		return CLICK_ACTION_BLOCKING
+
+>>>>>>> tg-pr-88929
 	set_greyscale(colors = list(new_base, new_ribbon))
-	return TRUE
+	return CLICK_ACTION_SUCCESS
 
 //preset wrapping paper meant to fill the original color configuration
 /obj/item/stack/wrapping_paper/xmas
@@ -129,7 +154,7 @@
 			item.forceMove(parcel)
 			var/size = round(item.w_class)
 			parcel.name = "[weight_class_to_text(size)] parcel"
-			parcel.w_class = size
+			parcel.update_weight_class(size)
 			size = min(size, 5)
 			parcel.base_icon_state = "deliverypackage[size]"
 			parcel.update_icon()
@@ -161,8 +186,12 @@
 		else
 			balloon_alert(user, "not enough paper!")
 			return ITEM_INTERACT_BLOCKING
+<<<<<<< HEAD
 
 	else if(istype(interacting_with, /obj/machinery/portable_atmospherics))
+=======
+	else if(istype(interacting_with,  /obj/machinery/portable_atmospherics))
+>>>>>>> tg-pr-88929
 		var/obj/machinery/portable_atmospherics/portable_atmospherics = interacting_with
 		if(portable_atmospherics.anchored)
 			balloon_alert(user, "can't wrap while anchored!")
@@ -178,6 +207,7 @@
 		else
 			balloon_alert(user, "not enough paper!")
 			return ITEM_INTERACT_BLOCKING
+<<<<<<< HEAD
 
 	// MONKESTATION EDIT START
 	else if(istype(interacting_with, /obj/structure/fermentation_keg))
@@ -200,6 +230,8 @@
 			balloon_alert(user, "not enough paper!")
 			return
 	// MONKESTATION EDIT END
+=======
+>>>>>>> tg-pr-88929
 
 	else
 		balloon_alert(user, "can't wrap!")
@@ -231,3 +263,17 @@
 	w_class = WEIGHT_CLASS_TINY
 	throw_speed = 3
 	throw_range = 5
+	hitsound = 'sound/effects/bonk.ogg'
+
+/obj/item/c_tube/Initialize(mapload)
+	. = ..()
+	ADD_TRAIT(src, TRAIT_CUSTOM_TAP_SOUND, INNATE_TRAIT)
+
+/obj/item/c_tube/attack(mob/living/target_mob, mob/living/user, params)
+	. = ..()
+	user.visible_message(
+		span_warning("[user] baps [target_mob] on the head with [src]!"),
+		span_warning("You bap [target_mob] on the head with [src]!"),
+	)
+	target_mob.add_mood_event("roll", /datum/mood_event/bapped)
+

@@ -253,7 +253,11 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/sign/poster/official/the_owl, 32)
 
 /obj/structure/sign/poster/official/no_erp
 	name = "No ERP"
+<<<<<<< HEAD
 	desc = "This poster reminds the crew that Extreme Role-Playing is banned on Nanotrasen stations."
+=======
+	desc = "This poster reminds the crew that Enterprise Resource Planning is not allowed by company policy, in accordance with Spinward governmental regulations on megacorporations."
+>>>>>>> tg-pr-88929
 	icon_state = "no_erp"
 
 MAPPING_DIRECTIONAL_HELPERS(/obj/structure/sign/poster/official/no_erp, 32)
@@ -429,6 +433,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/sign/poster/official/boombox, 32)
 	icon_state = "download_gun"
 
 MAPPING_DIRECTIONAL_HELPERS(/obj/structure/sign/poster/official/download, 32)
+<<<<<<< HEAD
 
 /obj/structure/sign/poster/official/join_admin
 	name = "You, Join admin!"
@@ -436,3 +441,5 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/sign/poster/official/download, 32)
 	icon_state = "join_admin"
 
 MAPPING_DIRECTIONAL_HELPERS(/obj/structure/sign/poster/official/join_admin, 32)
+=======
+>>>>>>> tg-pr-88929

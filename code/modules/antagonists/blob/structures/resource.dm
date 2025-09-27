@@ -6,8 +6,12 @@
 	max_integrity = BLOB_RESOURCE_MAX_HP
 	point_return = BLOB_REFUND_RESOURCE_COST
 	resistance_flags = LAVA_PROOF
+	armor_type = /datum/armor/structure_blob/resource
 	var/resource_delay = 0
 	armor_type = /datum/armor/structure_blob/resource
+
+/datum/armor/structure_blob/resource
+	laser = 25
 
 /datum/armor/structure_blob/resource
 	laser = 25

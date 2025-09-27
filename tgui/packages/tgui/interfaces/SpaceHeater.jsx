@@ -1,4 +1,15 @@
+import {
+  Box,
+  Button,
+  LabeledList,
+  NumberInput,
+  ProgressBar,
+  Section,
+} from 'tgui-core/components';
+import { capitalize } from 'tgui-core/string';
+
 import { useBackend } from '../backend';
+<<<<<<< HEAD
 import {
   Box,
   Button,
@@ -7,6 +18,8 @@ import {
   ProgressBar,
   Section,
 } from '../components';
+=======
+>>>>>>> tg-pr-88929
 import { Window } from '../layouts';
 
 export const SpaceHeater = (props) => {
@@ -83,9 +96,10 @@ export const SpaceHeater = (props) => {
                   value={parseFloat(data.targetTemp)}
                   width="65px"
                   unit="°C"
+                  step={1}
                   minValue={data.minTemp}
                   maxValue={data.maxTemp}
-                  onChange={(e, value) =>
+                  onChange={(value) =>
                     act('target', {
                       target: value,
                     })
@@ -95,7 +109,7 @@ export const SpaceHeater = (props) => {
                 data.targetTemp + '°C'}
             </LabeledList.Item>
             <LabeledList.Item label="Mode">
-              {(!data.open && 'Auto') || (
+              {(!data.open && capitalize(data.mode)) || (
                 <>
                   <Button
                     icon="thermometer-half"

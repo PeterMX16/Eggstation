@@ -1,5 +1,11 @@
+<<<<<<< HEAD
 import { CSS_COLORS } from '../../constants';
 import { classes } from '../../../common/react';
+=======
+import { classes } from 'tgui-core/react';
+
+import { CSS_COLORS } from '../../constants';
+>>>>>>> tg-pr-88929
 
 const SVG_CURVE_INTENSITY = 64;
 
@@ -35,7 +41,11 @@ export const Connections = (props: {
 
   const isColorClass = (str) => {
     if (typeof str === 'string') {
+<<<<<<< HEAD
       return CSS_COLORS.includes(str);
+=======
+      return CSS_COLORS.includes(str as any);
+>>>>>>> tg-pr-88929
     }
   };
 
@@ -45,9 +55,14 @@ export const Connections = (props: {
       height="100%"
       style={{
         position: 'absolute',
+<<<<<<< HEAD
         'pointer-events': 'none',
         'z-index': zLayer,
         overflow: 'visible',
+=======
+        pointerEvents: 'none',
+        zIndex: zLayer,
+>>>>>>> tg-pr-88929
       }}
     >
       {connections.map((val, index) => {

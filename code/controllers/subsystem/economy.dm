@@ -13,9 +13,14 @@ SUBSYSTEM_DEF(economy)
 										ACCOUNT_MED = ACCOUNT_MED_NAME,
 										ACCOUNT_SRV = ACCOUNT_SRV_NAME,
 										ACCOUNT_CAR = ACCOUNT_CAR_NAME,
+<<<<<<< HEAD
 										ACCOUNT_SEC = ACCOUNT_SEC_NAME,
 										ACCOUNT_CMD = ACCOUNT_CMD_NAME)
 	var/list/generated_accounts = list()
+=======
+										ACCOUNT_SEC = ACCOUNT_SEC_NAME)
+	var/list/departmental_accounts = list()
+>>>>>>> tg-pr-88929
 	/**
 	 * Enables extra money charges for things that normally would be free, such as sleepers/cryo/beepsky.
 	 * Take care when enabling, as players will NOT respond well if the economy is set up for low cash flows.
@@ -29,7 +34,9 @@ SUBSYSTEM_DEF(economy)
 	  * A list of sole account datums can be obtained with flatten_list(), another variable would be redundant rn.
 	  */
 	var/list/bank_accounts_by_id = list()
-	///List of the departmental budget cards in existance.
+	/// A list of bank accounts indexed by their assigned job typepath.
+	var/list/bank_accounts_by_job = list()
+	///List of the departmental budget cards in existence.
 	var/list/dep_cards = list()
 	/// A var that collects the total amount of credits owned in player accounts on station, reset and recounted on fire()
 	var/station_total = 0
@@ -51,10 +58,6 @@ SUBSYSTEM_DEF(economy)
 	 */
 	var/list/audit_log = list()
 
-	/// Total value of exported materials.
-	var/export_total = 0
-	/// Total value of imported goods.
-	var/import_total = 0
 	/// Number of mail items generated.
 	var/mail_waiting = 0
 	/// Mail Holiday: AKA does mail arrive today? Always blocked on Sundays.
@@ -83,7 +86,7 @@ SUBSYSTEM_DEF(economy)
 	return SS_INIT_SUCCESS
 
 /datum/controller/subsystem/economy/Recover()
-	generated_accounts = SSeconomy.generated_accounts
+	departmental_accounts = SSeconomy.departmental_accounts
 	bank_accounts_by_id = SSeconomy.bank_accounts_by_id
 	dep_cards = SSeconomy.dep_cards
 
@@ -113,17 +116,28 @@ SUBSYSTEM_DEF(economy)
 		if(!issue_paydays())
 			return
 
+<<<<<<< HEAD
+=======
+		processing_part = ECON_PRICE_UPDATE_STEP
+>>>>>>> tg-pr-88929
 		station_target = max(round(temporary_total / max(bank_accounts_by_id.len * 2, 1)) + station_target_buffer, 1)
 
 	var/effective_mailcount = round(living_player_count()) ///(inflation_value - 0.5)) //More mail at low inflation, and vis versa. | MONKESTATION EDIT
 	mail_waiting += clamp(effective_mailcount, 4, MAX_MAIL_PER_MINUTE * seconds_per_tick)
 
+	SSstock_market.news_string = ""
+
 /**
  * Handy proc for obtaining a department's bank account, given the department ID, AKA the define assigned for what department they're under.
  */
+<<<<<<< HEAD
 /datum/controller/subsystem/economy/proc/get_dep_account(dep_id) as /datum/bank_account/department
 	RETURN_TYPE(/datum/bank_account/department)
 	for(var/datum/bank_account/department/D in generated_accounts)
+=======
+/datum/controller/subsystem/economy/proc/get_dep_account(dep_id)
+	for(var/datum/bank_account/department/D in departmental_accounts)
+>>>>>>> tg-pr-88929
 		if(D.department_id == dep_id)
 			return D
 
@@ -161,6 +175,22 @@ SUBSYSTEM_DEF(economy)
 	return TRUE
 
 /**
+<<<<<<< HEAD
+=======
+ * Updates the the inflation_value, effecting newscaster alerts and the mail system.
+ **/
+/datum/controller/subsystem/economy/proc/price_update()
+	var/fluff_string = ""
+	if(!HAS_TRAIT(SSeconomy, TRAIT_MARKET_CRASHING))
+		fluff_string = ", but company countermeasures protect <b>YOU</b> from being affected!"
+	else
+		fluff_string = ", and company countermeasures are failing to protect <b>YOU</b> from being affected. We're all doomed!"
+	earning_report = "<b>Sector Economic Report</b><br><br> Sector vendor prices is currently at <b>[SSeconomy.inflation_value()*100]%</b>[fluff_string]<br><br> The station spending power is currently <b>[station_total] Credits</b>, and the crew's targeted allowance is at <b>[station_target] Credits</b>.<br><br>[SSstock_market.news_string] That's all from the <i>Nanotrasen Economist Division</i>."
+	GLOB.news_network.submit_article(earning_report, "Station Earnings Report", "Station Announcements", null, update_alert = FALSE)
+	return TRUE
+
+/**
+>>>>>>> tg-pr-88929
  * Proc that returns a value meant to shift inflation values in vendors, based on how much money exists on the station.
  *
  * If crew are somehow aquiring far too much money, this value will dynamically cause vendables across the station to skyrocket in price until some money is spent.
@@ -170,6 +200,8 @@ SUBSYSTEM_DEF(economy)
 /datum/controller/subsystem/economy/proc/inflation_value()
 	if(!bank_accounts_by_id.len)
 		return 1
+	if(HAS_TRAIT(SSeconomy, TRAIT_MARKET_CRASHING))
+		return inflation_value //early return instead of the actual check
 	inflation_value = max(round(((station_total / bank_accounts_by_id.len) / station_target), 0.1), 1.0)
 	return inflation_value
 
@@ -189,6 +221,29 @@ SUBSYSTEM_DEF(economy)
 		"cost" = price_to_use,
 		"vendor" = "[vendor]",
 	))
+
+/**
+ * Iterates over the machines list for vending machines, resets their regular and premium product prices (Not contraband), and sends a message to the newscaster network.
+ */
+/datum/controller/subsystem/economy/proc/update_vending_prices()
+	var/list/obj/machinery/vending/prices_to_update = list()
+	// Assoc list of "z level" -> if it's on the station
+	// Hack, is station z level is too expensive to do for each machine, I hate this place
+	var/list/station_z_status = list()
+	for(var/obj/machinery/vending/vending_lad as anything in SSmachines.get_machines_by_type_and_subtypes(/obj/machinery/vending))
+		if(istype(vending_lad, /obj/machinery/vending/custom))
+			continue
+		var/vending_level = vending_lad.z
+		var/station_status = station_z_status["[vending_level]"]
+		if(station_status == null)
+			station_status = is_station_level(vending_level)
+			station_z_status["[vending_level]"] = station_status
+		if(!station_status)
+			continue
+		prices_to_update += vending_lad
+	for(var/i in 1 to length(prices_to_update))
+		var/obj/machinery/vending/vending = prices_to_update[i]
+		vending.reset_prices(vending.product_records, vending.coin_records + vending.hidden_records)
 
 #undef ECON_DEPARTMENT_STEP
 #undef ECON_ACCOUNT_STEP

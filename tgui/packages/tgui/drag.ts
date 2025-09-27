@@ -4,10 +4,10 @@
  * @license MIT
  */
 
+import { storage } from 'common/storage';
 import { vecAdd, vecMultiply, vecScale, vecSubtract } from 'common/vector';
 
 import { createLogger } from './logging';
-import { storage } from 'common/storage';
 
 const logger = createLogger('drag');
 const pixelRatio = window.devicePixelRatio ?? 1;
@@ -120,7 +120,10 @@ export const recallWindowGeometry = async (
     pos?: [number, number];
     size?: [number, number];
     locked?: boolean;
+<<<<<<< HEAD
     scale?: boolean;
+=======
+>>>>>>> tg-pr-88929
   } = {},
 ) => {
   const geometry = options.fancy && (await storage.get(windowKey));
@@ -220,13 +223,19 @@ const constraintPosition = (
 };
 
 // Start dragging the window
-export const dragStartHandler = (event: MouseEvent) => {
+export const dragStartHandler = (event) => {
   logger.log('drag start');
   dragging = true;
   dragPointOffset = vecSubtract(
+<<<<<<< HEAD
     [event.screenX * pixelRatio, event.screenY * pixelRatio],
     getWindowPosition(),
   );
+=======
+    [event.screenX, event.screenY],
+    getWindowPosition(),
+  ) as [number, number];
+>>>>>>> tg-pr-88929
   // Focus click target
   (event.target as HTMLElement)?.focus();
   document.addEventListener('mousemove', dragMoveHandler);
@@ -235,7 +244,7 @@ export const dragStartHandler = (event: MouseEvent) => {
 };
 
 // End dragging the window
-const dragEndHandler = (event: MouseEvent) => {
+const dragEndHandler = (event) => {
   logger.log('drag end');
   dragMoveHandler(event);
   document.removeEventListener('mousemove', dragMoveHandler);
@@ -251,10 +260,17 @@ const dragMoveHandler = (event: MouseEvent) => {
   }
   event.preventDefault();
   setWindowPosition(
+<<<<<<< HEAD
     vecSubtract(
       [event.screenX * pixelRatio, event.screenY * pixelRatio],
       dragPointOffset,
     ) as [number, number],
+=======
+    vecSubtract([event.screenX, event.screenY], dragPointOffset) as [
+      number,
+      number,
+    ],
+>>>>>>> tg-pr-88929
   );
 };
 
@@ -265,9 +281,15 @@ export const resizeStartHandler =
     logger.log('resize start', resizeMatrix);
     resizing = true;
     dragPointOffset = vecSubtract(
+<<<<<<< HEAD
       [event.screenX * pixelRatio, event.screenY * pixelRatio],
       getWindowPosition(),
     );
+=======
+      [event.screenX, event.screenY],
+      getWindowPosition(),
+    ) as [number, number];
+>>>>>>> tg-pr-88929
     initialSize = getWindowSize();
     // Focus click target
     (event.target as HTMLElement)?.focus();
@@ -293,12 +315,19 @@ const resizeMoveHandler = (event: MouseEvent) => {
   }
   event.preventDefault();
   const currentOffset = vecSubtract(
+<<<<<<< HEAD
     [event.screenX * pixelRatio, event.screenY * pixelRatio],
+=======
+    [event.screenX, event.screenY],
+>>>>>>> tg-pr-88929
     getWindowPosition(),
   );
   const delta = vecSubtract(currentOffset, dragPointOffset);
   // Extra 1x1 area is added to ensure the browser can see the cursor
-  size = vecAdd(initialSize, vecMultiply(resizeMatrix, delta), [1, 1]);
+  size = vecAdd(initialSize, vecMultiply(resizeMatrix, delta), [1, 1]) as [
+    number,
+    number,
+  ];
   // Sane window size values
   size[0] = Math.max(size[0], 150 * pixelRatio);
   size[1] = Math.max(size[1], 50 * pixelRatio);

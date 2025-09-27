@@ -81,7 +81,14 @@
 		qdel(src)
 		return
 
+<<<<<<< HEAD
 	description = pick_list(W.get_scar_file(BP, add_to_scars), W.get_scar_keyword(BP, add_to_scars)) || "general disfigurement"
+=======
+	description = pick_list(scar_file, scar_keyword)
+	if (!description)
+		stack_trace("no valid description found for scar! file: [scar_file] keyword: [scar_keyword] wound: [W.type]")
+		description = "general disfigurement"
+>>>>>>> tg-pr-88929
 
 	precise_location = pick_list_replacements(SCAR_LOC_FILE, limb.body_zone)
 	switch(W.severity)
@@ -150,7 +157,7 @@
 	if(!victim || !is_visible(viewer))
 		return
 
-	var/msg = "[victim.p_they(TRUE)] [victim.p_have()] [description] on [victim.p_their()] [precise_location]."
+	var/msg = "[victim.p_They()] [victim.p_have()] [description] on [victim.p_their()] [precise_location]."
 	switch(severity)
 		if(WOUND_SEVERITY_MODERATE)
 			msg = span_tinynoticeital("[msg]")
@@ -159,7 +166,7 @@
 		if(WOUND_SEVERITY_CRITICAL)
 			msg = span_smallnoticeital("<b>[msg]</b>")
 		if(WOUND_SEVERITY_LOSS)
-			msg = "[victim.p_their(TRUE)] [limb.plaintext_zone] [description]." // different format
+			msg = "[victim.p_Their()] [limb.plaintext_zone] [description]." // different format
 			msg = span_notice("<i><b>[msg]</b></i>")
 	return "\t[msg]"
 

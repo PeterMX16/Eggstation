@@ -5,8 +5,8 @@
 	suit = /obj/item/clothing/suit/space/santa
 	back = /obj/item/storage/backpack/santabag
 	backpack_contents = list(
-		/obj/item/a_gift/anything = 5,
-)
+		/obj/item/gift/anything = 5,
+	)
 	gloves = /obj/item/clothing/gloves/color/red
 	head = /obj/item/clothing/head/helmet/space/santahat/beardless
 	shoes = /obj/item/clothing/shoes/sneakers/red
@@ -14,15 +14,28 @@
 
 	box = /obj/item/storage/box/survival/engineer
 
+<<<<<<< HEAD
 /datum/outfit/santa/post_equip(mob/living/carbon/human/user, visualsOnly = FALSE)
 	if(visualsOnly)
 		return
 	user.fully_replace_character_name(user.real_name, "Santa Claus")
 	user.mind.set_assigned_role(SSjob.GetJobType(/datum/job/santa))
+=======
+/datum/outfit/santa/post_equip(mob/living/carbon/human/user, visuals_only = FALSE)
+	if(visuals_only)
+		return
+	user.fully_replace_character_name(user.real_name, "Santa Claus")
+	user.mind.set_assigned_role(SSjob.get_job_type(/datum/job/santa))
+>>>>>>> tg-pr-88929
 	user.mind.special_role = ROLE_SANTA
 
 	user.hairstyle = "Long Hair 3"
 	user.facial_hairstyle = "Beard (Full)"
+<<<<<<< HEAD
 	user.hair_color = "#FFFFFF"
 	user.facial_hair_color = "#FFFFFF"
+=======
+	user.hair_color = COLOR_WHITE
+	user.facial_hair_color = COLOR_WHITE
+>>>>>>> tg-pr-88929
 	user.update_body_parts(update_limb_data = TRUE)

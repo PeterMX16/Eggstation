@@ -6,11 +6,19 @@
 /datum/grand_finale/cheese
 	// we don't set name, desc and others, thus we won't appear in the radial choice of a normal finale rune
 	dire_warning = TRUE
+<<<<<<< HEAD
 //	minimum_time = 45 MINUTES //i'd imagine speedrunning this would be crummy, but the wizard's average lifespan is barely reaching this point
 
 /datum/grand_finale/cheese/trigger(mob/living/invoker)
 	message_admins("[key_name(invoker)] has summoned forth The Wabbajack and cursed the crew with madness!")
 	priority_announce("Danger: Extremely potent reality altering object has been summoned on station. Immediate evacuation advised. Brace for impact.", "[command_name()] Higher Dimensional Affairs", 'sound/effects/glassbr1.ogg')
+=======
+	minimum_time = 45 MINUTES //i'd imagine speedrunning this would be crummy, but the wizard's average lifespan is barely reaching this point
+
+/datum/grand_finale/cheese/trigger(mob/living/invoker)
+	message_admins("[key_name(invoker)] has summoned forth The Wabbajack and cursed the crew with madness!")
+	priority_announce("Danger: Extremely potent reality altering object has been summoned on station. Immediate evacuation advised. Brace for impact.", "[command_name()] Higher Dimensional Affairs", 'sound/effects/glass/glassbr1.ogg')
+>>>>>>> tg-pr-88929
 
 	for (var/mob/living/carbon/human/crewmate as anything in GLOB.human_list)
 		if (isnull(crewmate.mind))

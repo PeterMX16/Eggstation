@@ -22,7 +22,11 @@
 	name = "Smite"
 	desc = "Charges your hand with an unholy energy that can be used to cause a touched victim to violently explode."
 	spell_type = /datum/action/cooldown/spell/touch/smite
+<<<<<<< HEAD
 	category = SPELLBOOK_CATEGORY_OFFENSIVE*/
+=======
+	category = SPELLBOOK_CATEGORY_OFFENSIVE
+>>>>>>> tg-pr-88929
 
 /datum/spellbook_entry/summon_simians
 	name = "Summon Simians"
@@ -77,7 +81,7 @@
 	spell_type = /datum/action/cooldown/spell/conjure_item/infinite_guns/gun
 	category = SPELLBOOK_CATEGORY_OFFENSIVE
 	cost = 3
-	no_coexistance_typecache = list(/datum/action/cooldown/spell/conjure_item/infinite_guns/arcane_barrage)
+	no_coexistence_typecache = list(/datum/action/cooldown/spell/conjure_item/infinite_guns/arcane_barrage)
 
 /datum/spellbook_entry/arcane_barrage
 	name = "Arcane Barrage"
@@ -85,14 +89,17 @@
 	spell_type = /datum/action/cooldown/spell/conjure_item/infinite_guns/arcane_barrage
 	category = SPELLBOOK_CATEGORY_OFFENSIVE
 	cost = 3
-	no_coexistance_typecache = list(/datum/action/cooldown/spell/conjure_item/infinite_guns/gun)
+	no_coexistence_typecache = list(/datum/action/cooldown/spell/conjure_item/infinite_guns/gun)
 
 /datum/spellbook_entry/barnyard
 	name = "Barnyard Curse"
 	desc = "This spell dooms an unlucky soul to possess the speech and facial attributes of a barnyard animal."
 	spell_type = /datum/action/cooldown/spell/pointed/barnyardcurse
 	category = SPELLBOOK_CATEGORY_OFFENSIVE
+<<<<<<< HEAD
 	cost = 1 //monkestation edit
+=======
+>>>>>>> tg-pr-88929
 
 /datum/spellbook_entry/splattercasting
 	name = "Splattercasting"
@@ -100,7 +107,11 @@
 		draining from you over time. You can replenish it from your victims, specifically their necks."
 	spell_type =  /datum/action/cooldown/spell/splattercasting
 	category = SPELLBOOK_CATEGORY_OFFENSIVE
+<<<<<<< HEAD
 	no_coexistance_typecache = list(/datum/action/cooldown/spell/lichdom)
+=======
+	no_coexistence_typecache = list(/datum/action/cooldown/spell/lichdom)
+>>>>>>> tg-pr-88929
 
 /datum/spellbook_entry/sanguine_strike
 	name = "Exsanguinating Strike"
@@ -131,7 +142,11 @@
 	name = "Mjolnir"
 	desc = "A mighty hammer on loan from Thor, God of Thunder. It crackles with barely contained power."
 	item_path = /obj/item/mjollnir
+<<<<<<< HEAD
 	category = SPELLBOOK_CATEGORY_OFFENSIVE*/
+=======
+	category = SPELLBOOK_CATEGORY_OFFENSIVE
+>>>>>>> tg-pr-88929
 
 /datum/spellbook_entry/item/singularity_hammer
 	name = "Singularity Hammer"
@@ -152,6 +167,15 @@
 	category = SPELLBOOK_CATEGORY_OFFENSIVE
 	cost = 3
 
+<<<<<<< HEAD
+=======
+/datum/spellbook_entry/item/frog_contract
+	name = "Frog Contract"
+	desc = "Sign a pact with the frogs to have your own destructive pet guardian!"
+	item_path = /obj/item/frog_contract
+	category = SPELLBOOK_CATEGORY_OFFENSIVE
+
+>>>>>>> tg-pr-88929
 /datum/spellbook_entry/item/staffshrink
 	name = "Staff of Shrinking"
 	desc = "An artefact that can shrink anything for a reasonable duration. Small structures can be walked over, and small people are very vulnerable (often because their armour no longer fits)."

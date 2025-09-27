@@ -1,13 +1,20 @@
 // Admin Tab - Event Verbs
 
+<<<<<<< HEAD
 ADMIN_VERB_AND_CONTEXT_MENU(cmd_admin_subtle_message, R_ADMIN, FALSE, "Subtle Message", ADMIN_VERB_NO_DESCRIPTION, ADMIN_CATEGORY_HIDDEN, mob/target in world)
 	message_admins("[key_name_admin(user)] has started answering [ADMIN_LOOKUPFLW(target)]'s prayer.")
 	var/msg = input(user, "Message:", "Subtle PM to [target.key]") as text | null
+=======
+ADMIN_VERB_AND_CONTEXT_MENU(cmd_admin_subtle_message, R_ADMIN, "Subtle Message", ADMIN_VERB_NO_DESCRIPTION, ADMIN_CATEGORY_HIDDEN, mob/target in world)
+	message_admins("[key_name_admin(user)] has started answering [ADMIN_LOOKUPFLW(target)]'s prayer.")
+	var/msg = input(user, "Message:", "Subtle PM to [target.key]") as text|null
+>>>>>>> tg-pr-88929
 
 	if(!msg)
 		message_admins("[key_name_admin(user)] decided not to answer [ADMIN_LOOKUPFLW(target)]'s prayer")
 		return
 
+<<<<<<< HEAD
 	target.balloon_alert(target, "you hear a voice")
 	to_chat(target, "<i>You hear a voice in your head... <b>[msg]</i></b>", confidential = TRUE)
 	// MONKESTATION EDIT START - tgui tickets
@@ -20,6 +27,20 @@ ADMIN_VERB_AND_CONTEXT_MENU(cmd_admin_subtle_message, R_ADMIN, FALSE, "Subtle Me
 	BLACKBOX_LOG_ADMIN_VERB("Subtle Message")
 
 ADMIN_VERB_AND_CONTEXT_MENU(cmd_admin_headset_message, R_ADMIN, FALSE, "Headset Message", ADMIN_VERB_NO_DESCRIPTION, ADMIN_CATEGORY_HIDDEN, mob/target in world)
+=======
+	msg = user.reformat_narration(msg)
+
+	target.balloon_alert(target, "you hear a voice")
+	to_chat(target, "<i>You hear a voice in your head... <b>[msg]</i></b>", confidential = TRUE)
+
+	log_admin("SubtlePM: [key_name(user)] -> [key_name(target)] : [msg]")
+	msg = span_adminnotice("<b> SubtleMessage: [key_name_admin(user)] -> [key_name_admin(target)] :</b> [msg]")
+	message_admins(msg)
+	admin_ticket_log(target, msg)
+	BLACKBOX_LOG_ADMIN_VERB("Subtle Message")
+
+ADMIN_VERB_AND_CONTEXT_MENU(cmd_admin_headset_message, R_ADMIN, "Headset Message", ADMIN_VERB_NO_DESCRIPTION, ADMIN_CATEGORY_HIDDEN, mob/target in world)
+>>>>>>> tg-pr-88929
 	user.admin_headset_message(target)
 
 /client/proc/admin_headset_message(mob/target in GLOB.mob_list, sender = null)
@@ -55,6 +76,8 @@ ADMIN_VERB_AND_CONTEXT_MENU(cmd_admin_headset_message, R_ADMIN, FALSE, "Headset 
 		message_admins("[key_name_admin(src)] decided not to answer [key_name_admin(target)]'s [sender] request.")
 		return
 
+	input = reformat_narration(input)
+
 	log_directed_talk(mob, target, input, LOG_ADMIN, "reply")
 	message_admins("[key_name_admin(src)] replied to [key_name_admin(target)]'s [sender] message with: \"[input]\"")
 	target.balloon_alert(target, "you hear a voice")
@@ -62,15 +85,22 @@ ADMIN_VERB_AND_CONTEXT_MENU(cmd_admin_headset_message, R_ADMIN, FALSE, "Headset 
 
 	BLACKBOX_LOG_ADMIN_VERB("Headset Message")
 
+<<<<<<< HEAD
 ADMIN_VERB(cmd_admin_world_narrate, R_ADMIN, FALSE, "Global Narrate", "Send a direct narration to all connected players.", ADMIN_CATEGORY_EVENTS)
 	var/msg = input(user, "Message:", "Enter the text you wish to appear to everyone:") as text | null
+=======
+ADMIN_VERB(cmd_admin_world_narrate, R_ADMIN, "Global Narrate", "Send a direct narration to all connected players.", ADMIN_CATEGORY_EVENTS)
+	var/msg = input(user, "Message:", "Enter the text you wish to appear to everyone:") as text|null
+>>>>>>> tg-pr-88929
 	if (!msg)
 		return
+	msg = user.reformat_narration(msg)
 	to_chat(world, "[msg]", confidential = TRUE)
 	log_admin("GlobalNarrate: [key_name(user)] : [msg]")
 	message_admins(span_adminnotice("[key_name_admin(user)] Sent a global narrate"))
 	BLACKBOX_LOG_ADMIN_VERB("Global Narrate")
 
+<<<<<<< HEAD
 ADMIN_VERB_AND_CONTEXT_MENU(cmd_admin_local_narrate, R_ADMIN, FALSE, "Local Narrate", ADMIN_VERB_NO_DESCRIPTION, ADMIN_CATEGORY_HIDDEN, atom/locale in world)
 	var/range = input(user, "Range:", "Narrate to mobs within how many tiles:", 7) as num | null
 	if(!range)
@@ -78,18 +108,35 @@ ADMIN_VERB_AND_CONTEXT_MENU(cmd_admin_local_narrate, R_ADMIN, FALSE, "Local Narr
 	var/msg = input(user, "Message:", text("Enter the text you wish to appear to everyone within view:")) as text | null
 	if (!msg)
 		return
+=======
+ADMIN_VERB_AND_CONTEXT_MENU(cmd_admin_local_narrate, R_ADMIN, "Local Narrate", ADMIN_VERB_NO_DESCRIPTION, ADMIN_CATEGORY_HIDDEN, atom/locale in world)
+	var/range = input(user, "Range:", "Narrate to mobs within how many tiles:", 7) as num|null
+	if(!range)
+		return
+	var/msg = input(user, "Message:", "Enter the text you wish to appear to everyone within view:") as text|null
+	if (!msg)
+		return
+	msg = user.reformat_narration(msg)
+>>>>>>> tg-pr-88929
 	for(var/mob/M in view(range, locale))
 		to_chat(M, msg, confidential = TRUE)
 
 	log_admin("LocalNarrate: [key_name(user)] at [AREACOORD(locale)]: [msg]")
 	message_admins(span_adminnotice("<b> LocalNarrate: [key_name_admin(user)] at [ADMIN_VERBOSEJMP(locale)]:</b> [msg]<BR>"))
 	BLACKBOX_LOG_ADMIN_VERB("Local Narrate")
+<<<<<<< HEAD
+=======
+
+ADMIN_VERB_AND_CONTEXT_MENU(cmd_admin_direct_narrate, R_ADMIN, "Direct Narrate", ADMIN_VERB_NO_DESCRIPTION, ADMIN_CATEGORY_HIDDEN, mob/target)
+	var/msg = input(user, "Message:", "Enter the text you wish to appear to your target:") as text|null
+>>>>>>> tg-pr-88929
 
 ADMIN_VERB_AND_CONTEXT_MENU(cmd_admin_direct_narrate, R_ADMIN, FALSE, "Direct Narrate", ADMIN_VERB_NO_DESCRIPTION, ADMIN_CATEGORY_HIDDEN, mob/target)
 	var/msg = input(user, "Message:", "Enter the text you wish to appear to your target:") as text | null
 	if( !msg )
 		return
 
+<<<<<<< HEAD
 	to_chat(target, msg, confidential = TRUE)
 	// MONKESTATION EDIT START - tgui tickets
 	var/log_msg = "DirectNarrate: [key_name(user)] to ([key_name(target.name)]): [msg]"
@@ -102,6 +149,19 @@ ADMIN_VERB_AND_CONTEXT_MENU(cmd_admin_direct_narrate, R_ADMIN, FALSE, "Direct Na
 
 ADMIN_VERB(cmd_admin_add_freeform_ai_law, R_ADMIN, FALSE, "Add Custom AI Law", "Add a custom law to the Silicons.", ADMIN_CATEGORY_EVENTS)
 	var/input = input(user, "Please enter anything you want the AI to do. Anything. Serious.", "What?", "") as text | null
+=======
+	msg = user.reformat_narration(msg)
+
+	to_chat(target, msg, confidential = TRUE)
+	log_admin("DirectNarrate: [key_name(user)] to ([key_name(target)]): [msg]")
+	msg = span_adminnotice("<b> DirectNarrate: [key_name_admin(user)] to ([key_name_admin(target)]):</b> [msg]<BR>")
+	message_admins(msg)
+	admin_ticket_log(target, msg)
+	BLACKBOX_LOG_ADMIN_VERB("Direct Narrate")
+
+ADMIN_VERB(cmd_admin_add_freeform_ai_law, R_ADMIN, "Add Custom AI Law", "Add a custom law to the Silicons.", ADMIN_CATEGORY_EVENTS)
+	var/input = input(user, "Please enter anything you want the AI to do. Anything. Serious.", "What?", "") as text|null
+>>>>>>> tg-pr-88929
 	if(!input)
 		return
 
@@ -117,6 +177,7 @@ ADMIN_VERB(cmd_admin_add_freeform_ai_law, R_ADMIN, FALSE, "Add Custom AI Law", "
 	ion.start() // Monkeystation Edit: Fixes AI law additions.
 	BLACKBOX_LOG_ADMIN_VERB("Add Custom AI Law")
 
+<<<<<<< HEAD
 ADMIN_VERB(call_shuttle, R_ADMIN, FALSE, "Call Shuttle", "Force a shuttle call with additional modifiers.", ADMIN_CATEGORY_EVENTS)
 	if(EMERGENCY_AT_LEAST_DOCKED)
 		return
@@ -226,6 +287,17 @@ ADMIN_VERB(toggle_nuke, R_DEBUG|R_ADMIN, FALSE, "Toggle Nuke", "Arm or disarm a 
 	if (isnull(nuke))
 		return
 
+=======
+	BLACKBOX_LOG_ADMIN_VERB("Add Custom AI Law")
+
+ADMIN_VERB(toggle_nuke, R_DEBUG|R_ADMIN, "Toggle Nuke", "Arm or disarm a nuke.", ADMIN_CATEGORY_EVENTS)
+	var/list/nukes = list()
+	for (var/obj/machinery/nuclearbomb/bomb in world)
+		nukes += bomb
+	var/obj/machinery/nuclearbomb/nuke = tgui_input_list(user, "", "Toggle Nuke", nukes)
+	if (isnull(nuke))
+		return
+>>>>>>> tg-pr-88929
 	if(!nuke.timing)
 		var/newtime = tgui_input_number(user, "Set activation timer.", "Activate Nuke", nuke.timer_set)
 		if(!newtime)
@@ -236,6 +308,7 @@ ADMIN_VERB(toggle_nuke, R_DEBUG|R_ADMIN, FALSE, "Toggle Nuke", "Arm or disarm a 
 
 	log_admin("[key_name(user)] [nuke.timing ? "activated" : "deactivated"] a nuke at [AREACOORD(nuke)].")
 	message_admins("[ADMIN_LOOKUPFLW(user)] [nuke.timing ? "activated" : "deactivated"] a nuke at [ADMIN_VERBOSEJMP(nuke)].")
+<<<<<<< HEAD
 	SSblackbox.record_feedback("nested tally", "admin_toggle", 1, list("Toggle Nuke", "[nuke.timing]")) //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 //MONKESTATION EDIT START
@@ -246,6 +319,12 @@ ADMIN_VERB(toggle_junior_op, R_DEBUG, FALSE, "Toggle Junior OPs", "Toggles nuke 
 		message_admins("[ADMIN_LOOKUPFLW(user)] toggled [disky.can_trigger_junior_operative ? "on" : "off"] junior lone operative spawning on a nuke disk at [AREACOORD(disky)].")
 		SSblackbox.record_feedback("nested tally", "admin_toggle", 1, list("Toggle Junior OP Spawning", "[disky.can_trigger_junior_operative]]")) //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 //MONKESTATION EDIT STOP
+=======
+	SSblackbox.record_feedback("nested tally", "admin_toggle", 1, list("Toggle Nuke", "[nuke.timing]")) // If you are copy-pasting this, ensure the 4th parameter is unique to the new proc!
+
+ADMIN_VERB(change_sec_level, R_ADMIN, "Set Security Level", "Changes the security level. Announcement effects only.", ADMIN_CATEGORY_EVENTS)
+	var/level = tgui_input_list(user, "Select Security Level:", "Set Security Level", SSsecurity_level.available_levels)
+>>>>>>> tg-pr-88929
 
 ADMIN_VERB(change_sec_level, R_ADMIN, FALSE, "Set Security Level", "Changes the security level. Announcement effects only.", ADMIN_CATEGORY_EVENTS)
 	var/level = tgui_input_list(user, "Select Security Level:", "Set Security Level", SSsecurity_level.available_levels)
@@ -258,13 +337,22 @@ ADMIN_VERB(change_sec_level, R_ADMIN, FALSE, "Set Security Level", "Changes the 
 	message_admins("[key_name_admin(user)] changed the security level to [level]")
 	BLACKBOX_LOG_ADMIN_VERB("Set Security Level [capitalize(level)]")
 
+<<<<<<< HEAD
 ADMIN_VERB(run_weather, R_FUN, FALSE, "Run Weather", "Triggers specific weather on the z-level you choose.", ADMIN_CATEGORY_EVENTS)
 	var/weather_type = input(user, "Choose a weather", "Weather")  as null | anything in sort_list(subtypesof(/datum/weather), GLOBAL_PROC_REF(cmp_typepaths_asc))
+=======
+ADMIN_VERB(run_weather, R_FUN, "Run Weather", "Triggers specific weather on the z-level you choose.", ADMIN_CATEGORY_EVENTS)
+	var/weather_type = input(user, "Choose a weather", "Weather")  as null|anything in sort_list(subtypesof(/datum/weather), GLOBAL_PROC_REF(cmp_typepaths_asc))
+>>>>>>> tg-pr-88929
 	if(!weather_type)
 		return
 
 	var/turf/T = get_turf(user.mob)
+<<<<<<< HEAD
 	var/z_level = input(user, "Z-Level to target?", "Z-Level", T?.z) as num | null
+=======
+	var/z_level = input(user, "Z-Level to target?", "Z-Level", T?.z) as num|null
+>>>>>>> tg-pr-88929
 	if(!isnum(z_level))
 		return
 
@@ -274,6 +362,7 @@ ADMIN_VERB(run_weather, R_FUN, FALSE, "Run Weather", "Triggers specific weather 
 	log_admin("[key_name(user)] started weather of type [weather_type] on the z-level [z_level].")
 	BLACKBOX_LOG_ADMIN_VERB("Run Weather")
 
+<<<<<<< HEAD
 ADMIN_VERB(command_report_footnote, R_ADMIN, FALSE, "Command Report Footnote", "Adds a footnote to the roundstart command report.", ADMIN_CATEGORY_EVENTS)
 	var/datum/command_footnote/command_report_footnote = new /datum/command_footnote()
 	SScommunications.block_command_report += 1 //Add a blocking condition to the counter until the inputs are done.
@@ -285,12 +374,38 @@ ADMIN_VERB(command_report_footnote, R_ADMIN, FALSE, "Command Report Footnote", "
 		return
 
 	command_report_footnote.signature = tgui_input_text(user, "Whose signature will appear on this footnote?", "Also sign here, here, aaand here.")
+=======
+ADMIN_VERB(command_report_footnote, R_ADMIN, "Command Report Footnote", "Adds a footnote to the roundstart command report.", ADMIN_CATEGORY_EVENTS)
+	var/datum/command_footnote/command_report_footnote = new /datum/command_footnote()
+	GLOB.communications_controller.block_command_report += 1 //Add a blocking condition to the counter until the inputs are done.
+
+	command_report_footnote.message = tgui_input_text(
+		user,
+		"This message will be attached to the bottom of the roundstart threat report. Be sure to delay the roundstart report if you need extra time.",
+		"P.S.",
+	)
+	if(!command_report_footnote.message)
+		GLOB.communications_controller.block_command_report -= 1
+		qdel(command_report_footnote)
+		return
+
+	command_report_footnote.signature = tgui_input_text(
+		user,
+		"Whose signature will appear on this footnote?",
+		"Also sign here, here, aaand here.",
+	)
+>>>>>>> tg-pr-88929
 
 	if(!command_report_footnote.signature)
 		command_report_footnote.signature = "Classified"
 
+<<<<<<< HEAD
 	SScommunications.command_report_footnotes += command_report_footnote
 	SScommunications.block_command_report--
+=======
+	GLOB.communications_controller.command_report_footnotes += command_report_footnote
+	GLOB.communications_controller.block_command_report--
+>>>>>>> tg-pr-88929
 
 	message_admins("[user] has added a footnote to the command report: [command_report_footnote.message], signed [command_report_footnote.signature]")
 
@@ -298,6 +413,7 @@ ADMIN_VERB(command_report_footnote, R_ADMIN, FALSE, "Command Report Footnote", "
 	var/message
 	var/signature
 
+<<<<<<< HEAD
 
 ADMIN_VERB(delay_command_report, R_FUN, FALSE, "Delay Command Report", "Prevents the roundstart command report from being sent; or forces it to send it delayed.", ADMIN_CATEGORY_EVENTS)
 	SScommunications.block_command_report = !SScommunications.block_command_report
@@ -386,3 +502,19 @@ ADMIN_VERB(toggle_crew_cc_comms, R_DEBUG, FALSE, "Toggle Crew CC Comms", "Toggle
 	SSblackbox.record_feedback("nested tally", "admin_toggle", 1, list("Toggle Crew CC Comms", "[toggle]]")) //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 //MONKESTATION EDIT STOP
 
+=======
+ADMIN_VERB(delay_command_report, R_FUN, "Delay Command Report", "Prevents the roundstart command report from being sent; or forces it to send it delayed.", ADMIN_CATEGORY_EVENTS)
+	GLOB.communications_controller.block_command_report = !GLOB.communications_controller.block_command_report
+	message_admins("[key_name_admin(user)] has [(GLOB.communications_controller.block_command_report ? "delayed" : "sent")] the roundstart command report.")
+
+///Reformats a narration message. First provides a prompt asking if the user wants to reformat their message, then allows them to pick from a list of spans to use.
+/client/proc/reformat_narration(input)
+	if(tgui_alert(mob, "Set a custom text format?", "Make it snazzy!", list("Yes", "No")) == "Yes")
+		var/text_span = tgui_input_list(mob, "Select a span!", "Immersion! Yeah!", GLOB.spanname_to_formatting)
+		if(isnull(text_span)) //In case the user just quit the prompt.
+			return text_span
+		text_span = GLOB.spanname_to_formatting[text_span]
+		input = "<span class='[text_span]'>" + input + "</span>"
+
+	return input
+>>>>>>> tg-pr-88929

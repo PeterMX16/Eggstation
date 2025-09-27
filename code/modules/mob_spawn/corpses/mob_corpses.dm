@@ -51,12 +51,13 @@
 	outfit = /datum/outfit/syndicatecommandocorpse/lessenedgear
 
 /datum/outfit/syndicatecommandocorpse/lessenedgear
-	name = "Syndicate Commando Corpse"
+	name = "Syndicate Commando Corpse (Less Antag Gear)"
 	gloves = /obj/item/clothing/gloves/tackler
 	back = null
 	id = null
 	id_trim = null
 
+<<<<<<< HEAD
 //monkestation edit begin
 /obj/effect/mob_spawn/corpse/human/syndicatecommando/lessenedgear/listeningpost
 	outfit = /datum/outfit/syndicatecommandocorpse/lessenedgear/listeningpost
@@ -68,6 +69,19 @@
 	neck = /obj/item/clothing/neck/large_scarf/syndie
 	head = /obj/item/clothing/head/soft/black
 //monke business ends
+=======
+/obj/effect/mob_spawn/corpse/human/syndicatecommando/soft_suit
+	outfit = /datum/outfit/syndicatecommandocorpse/soft_suit
+
+/datum/outfit/syndicatecommandocorpse/soft_suit
+	name = "Syndicate Commando Corpse (Softsuit)"
+	suit = /obj/item/clothing/suit/space/syndicate/black
+	head = /obj/item/clothing/head/helmet/space/syndicate/black
+	gloves = /obj/item/clothing/gloves/color/black
+	back = null
+	id = null
+	id_trim = null
+>>>>>>> tg-pr-88929
 
 /obj/effect/mob_spawn/corpse/human/syndicatestormtrooper
 	name = "Syndicate Stormtrooper"
@@ -170,6 +184,16 @@
 	suit = /obj/item/clothing/suit/space/pirate
 	head = /obj/item/clothing/head/helmet/space/pirate
 	back = /obj/item/tank/jetpack/carbondioxide
+
+/obj/effect/mob_spawn/corpse/human/old_pirate_captain
+	name = "Pirate Captain Skeleton"
+	outfit = /datum/outfit/piratecorpse/captain
+	mob_species = /datum/species/skeleton
+
+/datum/outfit/piratecorpse/captain
+	glasses = /obj/item/clothing/glasses/eyepatch
+	head = /obj/item/clothing/head/costume/pirate
+	suit = /obj/item/clothing/suit/costume/pirate
 
 /obj/effect/mob_spawn/corpse/human/russian
 	name = "Russian"
@@ -399,6 +423,7 @@
 /obj/effect/mob_spawn/corpse/human/cyber_police
 	name = "Dead Cyber Police"
 	outfit = /datum/outfit/cyber_police
+<<<<<<< HEAD
 
 /obj/effect/mob_spawn/corpse/human/dclass
 	name = "Prisoner"
@@ -483,3 +508,5 @@
 	head = /obj/item/clothing/head/bio_hood/plague
 	mask = /obj/item/clothing/mask/gas/plaguedoctor
 	shoes = /obj/item/clothing/shoes/laceup
+=======
+>>>>>>> tg-pr-88929

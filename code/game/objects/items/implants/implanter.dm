@@ -44,11 +44,19 @@
 	else
 		to_chat(user, span_warning("[src] fails to implant [target]."))
 
+<<<<<<< HEAD
 /obj/item/implanter/item_interaction(mob/living/user, obj/item/tool, list/modifiers)
 	if(!IS_WRITING_UTENSIL(tool))
 		return NONE
 	if(!user.can_write(tool))
 		return ITEM_INTERACT_BLOCKING
+=======
+/obj/item/implanter/attackby(obj/item/I, mob/living/user, params)
+	if(IS_WRITING_UTENSIL(I))
+		return ..()
+	if(!user.can_write(I))
+		return
+>>>>>>> tg-pr-88929
 
 	var/new_name = tgui_input_text(user, "What would you like the label to be?", name, max_length = MAX_NAME_LEN)
 	if(user.get_active_held_item() != tool)

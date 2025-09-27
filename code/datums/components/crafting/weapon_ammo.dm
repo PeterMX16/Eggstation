@@ -6,7 +6,7 @@
 		/obj/item/rcd_ammo = 1,
 		/datum/reagent/gunpowder = 10,
 		/datum/reagent/consumable/ethanol/rum = 10,
-		/obj/item/stock_parts/manipulator = 2,
+		/obj/item/stock_parts/servo = 2,
 	)
 	tool_behaviors = list(TOOL_SCREWDRIVER)
 	time = 0.5 SECONDS
@@ -23,15 +23,24 @@
 
 /datum/crafting_recipe/rebarsyndie
 	name = "jagged iron rod"
+<<<<<<< HEAD
 	always_available = FALSE
+=======
+>>>>>>> tg-pr-88929
 	result = /obj/item/ammo_casing/rebar/syndie
 	reqs = list(
 		/obj/item/stack/rods = 1,
 	)
 	tool_behaviors = list(TOOL_WIRECUTTER)
+<<<<<<< HEAD
 	time = 0.5 SECONDS
 	time = 0.1 SECONDS
 	category = CAT_WEAPON_AMMO
+=======
+	time = 0.1 SECONDS
+	category = CAT_WEAPON_AMMO
+	crafting_flags = CRAFT_CHECK_DENSITY | CRAFT_MUST_BE_LEARNED
+>>>>>>> tg-pr-88929
 
 /datum/crafting_recipe/healium_bolt
 	name = "healium crystal crossbow bolt"
@@ -41,6 +50,10 @@
 	)
 	time = 0.1 SECONDS
 	category = CAT_WEAPON_AMMO
+<<<<<<< HEAD
+=======
+	crafting_flags = CRAFT_CHECK_DENSITY
+>>>>>>> tg-pr-88929
 
 /datum/crafting_recipe/pulseslug
 	name = "Pulse Slug Shell"
@@ -66,13 +79,12 @@
 	category = CAT_WEAPON_AMMO
 
 /datum/crafting_recipe/frag12
-	name = "FRAG-12 Shell"
+	name = "FRAG-12 Slug Shell"
 	result = /obj/item/ammo_casing/shotgun/frag12
 	reqs = list(
 		/obj/item/ammo_casing/shotgun/techshell = 1,
 		/datum/reagent/glycerol = 5,
-		/datum/reagent/toxin/acid = 5,
-		/datum/reagent/toxin/acid/fluacid = 5,
+		/datum/reagent/toxin/acid/fluacid = 10,
 	)
 	tool_behaviors = list(TOOL_SCREWDRIVER)
 	time = 0.5 SECONDS
@@ -91,35 +103,89 @@
 	category = CAT_WEAPON_AMMO
 
 /datum/crafting_recipe/improvisedslug
-	name = "Improvised Shotgun Shell"
-	result = /obj/item/ammo_casing/shotgun/improvised
+	name = "Junk Shell"
+	result = /obj/effect/spawner/random/junk_shell
 	reqs = list(
 		/obj/item/stack/sheet/iron = 2,
 		/obj/item/stack/cable_coil = 1,
+		/obj/item/shard = 1,
 		/datum/reagent/fuel = 10,
 	)
 	tool_behaviors = list(TOOL_SCREWDRIVER)
 	time = 1.2 SECONDS
 	category = CAT_WEAPON_AMMO
 
-/datum/crafting_recipe/laserslug
-	name = "Scatter Laser Shell"
-	result = /obj/item/ammo_casing/shotgun/laserslug
-	reqs = list(
-		/obj/item/ammo_casing/shotgun/techshell = 1,
-		/obj/item/stock_parts/capacitor/adv = 1,
-		/obj/item/stock_parts/micro_laser/high = 1,
-	)
-	tool_behaviors = list(TOOL_SCREWDRIVER)
-	time = 0.5 SECONDS
-	category = CAT_WEAPON_AMMO
-
 /datum/crafting_recipe/trashball
 	name = "Trashball"
-	always_available = FALSE
 	result = /obj/item/stack/cannonball/trashball
 	reqs = list(
 		/obj/item/stack/sheet = 5,
 		/datum/reagent/consumable/space_cola = 10,
 	)
 	category = CAT_WEAPON_AMMO
+	crafting_flags = CRAFT_CHECK_DENSITY | CRAFT_MUST_BE_LEARNED
+
+/datum/crafting_recipe/arrow
+	name = "Arrow"
+	result = /obj/item/ammo_casing/arrow
+	reqs = list(
+		/obj/item/stack/sheet/mineral/wood = 1,
+		/obj/item/stack/sheet/cloth = 1,
+		/obj/item/stack/sheet/iron = 1,
+	)
+	tool_paths = list(
+		/obj/item/hatchet,
+	)
+	time = 5 SECONDS
+	category = CAT_WEAPON_AMMO
+	crafting_flags = CRAFT_CHECK_DENSITY | CRAFT_MUST_BE_LEARNED
+
+/datum/crafting_recipe/sticky_arrow
+	name = "Sticky arrow"
+	result = /obj/item/ammo_casing/arrow/sticky
+	reqs = list(
+		/obj/item/ammo_casing/arrow = 1,
+		/obj/item/food/honeycomb = 3,
+	)
+	time = 5 SECONDS
+	category = CAT_WEAPON_AMMO
+	crafting_flags = CRAFT_CHECK_DENSITY
+
+/datum/crafting_recipe/poison_arrow
+	name = "Poison arrow"
+	result = /obj/item/ammo_casing/arrow/poison
+	reqs = list(
+		/obj/item/ammo_casing/arrow = 1,
+		/obj/item/food/grown/berries/poison = 5,
+	)
+	time = 5 SECONDS
+	category = CAT_WEAPON_AMMO
+	crafting_flags = CRAFT_CHECK_DENSITY
+
+/datum/crafting_recipe/plastic_arrow
+	name = "Plastic Arrow"
+	result = /obj/item/ammo_casing/arrow/plastic
+	reqs = list(
+		/obj/item/stack/sheet/plastic = 1,
+	)
+	tool_paths = list(
+		/obj/item/hatchet,
+	)
+	time = 5 SECONDS
+	category = CAT_WEAPON_AMMO
+	crafting_flags = CRAFT_CHECK_DENSITY | CRAFT_MUST_BE_LEARNED
+
+
+/datum/crafting_recipe/holy_arrow
+	name = "Holy Arrow"
+	result = /obj/item/ammo_casing/arrow/holy
+	reqs = list(
+		/obj/item/ammo_casing/arrow = 1,
+		/datum/reagent/water/holywater = 10,
+	)
+	tool_paths = list(
+		/obj/item/gun/ballistic/bow/divine,
+	)
+	time = 5 SECONDS
+	category = CAT_WEAPON_AMMO
+	crafting_flags = CRAFT_CHECK_DENSITY | CRAFT_MUST_BE_LEARNED

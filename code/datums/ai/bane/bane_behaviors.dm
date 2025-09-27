@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> tg-pr-88929
 /datum/ai_behavior/break_spine/bane/finish_action(datum/ai_controller/controller, succeeded, target_key)
 	if(succeeded)
 		var/list/bane_quotes = strings("bane.json", "bane")

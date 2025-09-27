@@ -8,16 +8,26 @@
 	// icon_aggro = "hivelord_alert"
 	icon_dead = "hivelord_dead"
 	icon_gib = "syndicate_gib"
+<<<<<<< HEAD
 	mob_biotypes = MOB_ORGANIC|MOB_MINING
+=======
+	mob_biotypes = MOB_ORGANIC
+>>>>>>> tg-pr-88929
 	speed = 2
 	maxHealth = 75
 	health = 75
 	melee_damage_lower = 0
 	melee_damage_upper = 0
 	attack_verb_continuous = "weakly tackles"
+<<<<<<< HEAD
 	attack_verb_simple = "weakly tackles"
 	speak_emote = list("telepathically cries")
 	attack_sound = 'sound/weapons/pierce.ogg'
+=======
+	attack_verb_simple = "weakly tackle"
+	speak_emote = list("telepathically cries")
+	attack_sound = 'sound/items/weapons/pierce.ogg'
+>>>>>>> tg-pr-88929
 	throw_blocked_message = "passes between the bodies of the"
 	obj_damage = 0
 	pass_flags = PASSTABLE
@@ -29,7 +39,11 @@
 
 /mob/living/basic/mining/hivelord/Initialize(mapload)
 	. = ..()
+<<<<<<< HEAD
 	var/static/list/death_loot = list(/obj/item/organ/internal/monster_core/regenerative_core)
+=======
+	var/static/list/death_loot = list(/obj/item/organ/monster_core/regenerative_core)
+>>>>>>> tg-pr-88929
 	AddElement(/datum/element/relay_attackers)
 	AddElement(/datum/element/death_drops, death_loot)
 	AddComponent(/datum/component/clickbox, icon_state = "hivelord", max_scale = INFINITY, dead_state = "hivelord_dead") // They writhe so much.
@@ -84,8 +98,13 @@
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	faction = list(FACTION_MINING)
 	unsuitable_atmos_damage = 0
+<<<<<<< HEAD
 	bodytemp_cold_damage_limit = -1
 	bodytemp_heat_damage_limit = INFINITY
+=======
+	minimum_survivable_temperature = 0
+	maximum_survivable_temperature = INFINITY
+>>>>>>> tg-pr-88929
 	speed = 1.5
 	maxHealth = 1
 	health = 1
@@ -94,7 +113,11 @@
 	attack_verb_continuous = "bites"
 	attack_verb_simple = "bite"
 	speak_emote = list("telepathically cries")
+<<<<<<< HEAD
 	attack_sound = 'sound/weapons/bite.ogg'
+=======
+	attack_sound = 'sound/items/weapons/bite.ogg'
+>>>>>>> tg-pr-88929
 	attack_vis_effect = ATTACK_EFFECT_BITE
 	obj_damage = 0
 	density = FALSE
@@ -110,6 +133,7 @@
 
 /mob/living/basic/hivelord_brood/death(gibbed)
 	if (!gibbed)
+<<<<<<< HEAD
 		new /obj/effect/temp_visual/hive_spawn_wither(get_turf(src), /* copy_from = */ src)
 	return ..()
 
@@ -139,4 +163,7 @@
 		time = duration,
 		flags = ANIMATION_RELATIVE,
 	)
+=======
+		new /obj/effect/temp_visual/despawn_effect(get_turf(src), /* copy_from = */ src)
+>>>>>>> tg-pr-88929
 	return ..()

@@ -14,8 +14,13 @@
 	melee_damage_lower = 10
 	melee_damage_upper = 10
 	melee_attack_cooldown = 1.5 SECONDS
+<<<<<<< HEAD
 	attack_sound = 'sound/weapons/punch1.ogg'
 	istate = ISTATE_HARM|ISTATE_BLOCKING
+=======
+	attack_sound = 'sound/items/weapons/punch1.ogg'
+	combat_mode = TRUE
+>>>>>>> tg-pr-88929
 	faction = list(FACTION_STICKMAN)
 	unsuitable_atmos_damage = 7.5
 	unsuitable_cold_damage = 7.5
@@ -54,7 +59,7 @@
 	attack_vis_effect = ATTACK_EFFECT_BITE
 	sharpness = SHARP_POINTY
 	mob_biotypes = MOB_BEAST
-	attack_sound = 'sound/weapons/bite.ogg'
+	attack_sound = 'sound/items/weapons/bite.ogg'
 
 /mob/living/basic/stickman/ranged
 	name = "Angry Stick Gunman"
@@ -65,7 +70,7 @@
 	attack_verb_simple = "whack"
 	melee_damage_lower = 5
 	melee_damage_upper = 5
-	attack_sound = 'sound/weapons/genhit1.ogg'
+	attack_sound = 'sound/items/weapons/genhit1.ogg'
 
 	ai_controller = /datum/ai_controller/basic_controller/stickman/ranged
 

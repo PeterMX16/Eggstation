@@ -15,8 +15,8 @@
 	gun_flags = TOY_FIREARM_OVERLAY | NOT_A_REAL_GUN
 	casing_ejector = FALSE
 
-/obj/item/gun/ballistic/automatic/toy/unrestricted
-	pin = /obj/item/firing_pin
+/obj/item/gun/ballistic/automatic/toy/riot
+	spawn_magazine_type = /obj/item/ammo_box/magazine/toy/smg/riot
 
 /obj/item/gun/ballistic/automatic/pistol/toy
 	name = "foam force pistol"
@@ -26,11 +26,18 @@
 	gun_flags = TOY_FIREARM_OVERLAY | NOT_A_REAL_GUN
 
 /obj/item/gun/ballistic/automatic/pistol/toy/riot
+<<<<<<< HEAD
 	accepted_magazine_type = /obj/item/ammo_box/magazine/toy/pistol/riot
+=======
+	spawn_magazine_type = /obj/item/ammo_box/magazine/toy/pistol/riot
+>>>>>>> tg-pr-88929
 
 /obj/item/gun/ballistic/automatic/pistol/riot/Initialize(mapload)
 	magazine = new /obj/item/ammo_box/magazine/toy/pistol/riot(src)
 	return ..()
+
+/obj/item/gun/ballistic/automatic/pistol/toy/riot/clandestine
+	projectile_damage_multiplier = 1.4
 
 /obj/item/gun/ballistic/shotgun/toy
 	name = "foam force shotgun"
@@ -47,16 +54,25 @@
 	pb_knockback = 0
 	gun_flags = TOY_FIREARM_OVERLAY | NOT_A_REAL_GUN
 
+<<<<<<< HEAD
 /obj/item/gun/ballistic/shotgun/toy/handle_chamber(mob/living/user, empty_chamber = TRUE, from_firing = TRUE, chamber_next_round = TRUE)
+=======
+/obj/item/gun/ballistic/shotgun/toy/handle_chamber(empty_chamber = TRUE, from_firing = TRUE, chamber_next_round = TRUE)
+>>>>>>> tg-pr-88929
 	. = ..()
 	if(chambered && !chambered.loaded_projectile)
 		qdel(chambered)
 
+<<<<<<< HEAD
 /obj/item/gun/ballistic/shotgun/toy/give_manufacturer_examine()
 	AddElement(/datum/element/manufacturer_examine, COMPANY_DONK)
 
 /obj/item/gun/ballistic/shotgun/toy/unrestricted
 	pin = /obj/item/firing_pin
+=======
+/obj/item/gun/ballistic/shotgun/toy/riot
+	spawn_magazine_type = /obj/item/ammo_box/magazine/internal/shot/toy/riot
+>>>>>>> tg-pr-88929
 
 /obj/item/gun/ballistic/shotgun/toy/crossbow
 	name = "foam force crossbow"
@@ -76,12 +92,20 @@
 	w_class = WEIGHT_CLASS_SMALL
 	gun_flags = NONE
 
+/obj/item/gun/ballistic/shotgun/toy/crossbow/riot
+	spawn_magazine_type =  /obj/item/ammo_box/magazine/internal/shot/toy/crossbow/riot
+
 /obj/item/gun/ballistic/automatic/c20r/toy //This is the syndicate variant with syndicate firing pin and riot darts.
 	name = "donksoft SMG"
 	desc = "A bullpup three-round burst toy SMG, designated 'C-20r'. Ages 8 and up."
 	can_suppress = TRUE
 	item_flags = NONE
+<<<<<<< HEAD
 	accepted_magazine_type = /obj/item/ammo_box/magazine/toy/smgm45/riot
+=======
+	accepted_magazine_type = /obj/item/ammo_box/magazine/toy/smgm45
+	spawn_magazine_type = /obj/item/ammo_box/magazine/toy/smgm45/riot
+>>>>>>> tg-pr-88929
 	casing_ejector = FALSE
 	clumsy_check = FALSE
 	gun_flags = TOY_FIREARM_OVERLAY | NOT_A_REAL_GUN
@@ -91,10 +115,17 @@
 
 /obj/item/gun/ballistic/automatic/c20r/toy/unrestricted //Use this for actual toys
 	pin = /obj/item/firing_pin
+<<<<<<< HEAD
 	accepted_magazine_type = /obj/item/ammo_box/magazine/toy/smgm45
 
 /obj/item/gun/ballistic/automatic/c20r/toy/unrestricted/riot
 	accepted_magazine_type = /obj/item/ammo_box/magazine/toy/smgm45/riot
+=======
+	spawn_magazine_type = /obj/item/ammo_box/magazine/toy/smgm45
+
+/obj/item/gun/ballistic/automatic/c20r/toy/unrestricted/riot
+	spawn_magazine_type = /obj/item/ammo_box/magazine/toy/smgm45/riot
+>>>>>>> tg-pr-88929
 
 /obj/item/gun/ballistic/automatic/l6_saw/toy //This is the syndicate variant with syndicate firing pin and riot darts.
 	name = "donksoft LMG"
@@ -102,13 +133,19 @@
 	fire_sound = 'sound/items/syringeproj.ogg'
 	can_suppress = FALSE
 	item_flags = NONE
+<<<<<<< HEAD
 	accepted_magazine_type = /obj/item/ammo_box/magazine/toy/m762/riot
+=======
+	accepted_magazine_type = /obj/item/ammo_box/magazine/toy/m762
+	spawn_magazine_type = /obj/item/ammo_box/magazine/toy/m762/riot
+>>>>>>> tg-pr-88929
 	casing_ejector = FALSE
 	clumsy_check = FALSE
 	gun_flags = TOY_FIREARM_OVERLAY | NOT_A_REAL_GUN
 
 /obj/item/gun/ballistic/automatic/l6_saw/toy/unrestricted //Use this for actual toys
 	pin = /obj/item/firing_pin
+<<<<<<< HEAD
 	accepted_magazine_type = /obj/item/ammo_box/magazine/toy/m762
 
 /obj/item/gun/ballistic/automatic/l6_saw/toy/unrestricted/riot
@@ -117,3 +154,9 @@
 /obj/item/gun/ballistic/automatic/l6_saw/toy/give_manufacturer_examine()
 	AddElement(/datum/element/manufacturer_examine, COMPANY_DONK)
 
+=======
+	spawn_magazine_type = /obj/item/ammo_box/magazine/toy/m762
+
+/obj/item/gun/ballistic/automatic/l6_saw/toy/unrestricted/riot
+	spawn_magazine_type = /obj/item/ammo_box/magazine/toy/m762/riot
+>>>>>>> tg-pr-88929

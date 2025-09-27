@@ -12,5 +12,9 @@
 	else
 		holder.add_tagged_datum(target_datum)
 
+<<<<<<< HEAD
 ADMIN_VERB_ONLY_CONTEXT_MENU(tag_datum, R_NONE, FALSE, "Tag Datum", datum/target_datum as mob | obj | turf | area in view())
+=======
+ADMIN_VERB_ONLY_CONTEXT_MENU(tag_datum, R_NONE, "Tag Datum", datum/target_datum as mob|obj|turf|area in view())
+>>>>>>> tg-pr-88929
 	user.tag_datum(target_datum)

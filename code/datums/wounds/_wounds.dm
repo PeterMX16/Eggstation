@@ -116,11 +116,14 @@
 	/// The actionspeed modifier we will use in case we are on the arms and have a interaction penalty. Qdelled on destroy.
 	var/datum/actionspeed_modifier/wound_interaction_inefficiency/actionspeed_mod
 
+<<<<<<< HEAD
 	/// If we did the gel + surgical tape healing method for fractures, how many ticks does it take to heal by default
 	var/regen_ticks_needed
 	/// Our current counter for gel + surgical tape regeneration
 	var/regen_ticks_current
 
+=======
+>>>>>>> tg-pr-88929
 /datum/wound/New()
 	. = ..()
 
@@ -136,7 +139,11 @@
 
 	return ..()
 
+<<<<<<< HEAD
 /// If we should have an actionspeed_mod, ensures we do and updates its slowdown. Otherwise, ensures we dont have one
+=======
+/// If we should have an actionspeed_mod, ensures we do and updates its slowdown. Otherwise, ensures we don't have one
+>>>>>>> tg-pr-88929
 /// by qdeleting any existing modifier.
 /datum/wound/proc/update_actionspeed_modifier()
 	if (should_have_actionspeed_modifier())
@@ -187,15 +194,29 @@
  * * old_wound: If our new wound is a replacement for one of the same time (promotion or demotion), we can reference the old one just before it's removed to copy over necessary vars
  * * smited- If this is a smite, we don't care about this wound for stat tracking purposes (not yet implemented)
  * * attack_direction: For bloodsplatters, if relevant
+ * * wound_source: The source of the wound, such as a weapon.
  */
+<<<<<<< HEAD
 /datum/wound/proc/apply_wound(obj/item/bodypart/L, silent = FALSE, datum/wound/old_wound = null, smited = FALSE, attack_direction = null, wound_source = "Unknown")
+=======
+/datum/wound/proc/apply_wound(obj/item/bodypart/L, silent = FALSE, datum/wound/old_wound = null, smited = FALSE, attack_direction = null, wound_source = "Unknown", replacing = FALSE)
+>>>>>>> tg-pr-88929
 
 	if (!can_be_applied_to(L, old_wound))
 		qdel(src)
 		return FALSE
+<<<<<<< HEAD
+=======
+
+	if(isitem(wound_source))
+		var/obj/item/wound_item = wound_source
+		src.wound_source = wound_item.name
+	else
+		src.wound_source = wound_source
+>>>>>>> tg-pr-88929
 
 	set_victim(L.owner)
-	set_limb(L)
+	set_limb(L, replacing)
 	LAZYADD(victim.all_wounds, src)
 	LAZYADD(limb.wounds, src)
 	update_descriptions()
@@ -216,13 +237,21 @@
 		var/msg = span_danger("[victim]'s [limb.plaintext_zone] [occur_text]!")
 		var/vis_dist = COMBAT_MESSAGE_RANGE
 
+<<<<<<< HEAD
 		if(severity > WOUND_SEVERITY_MODERATE)
+=======
+		if(severity > WOUND_SEVERITY_SEVERE)
+>>>>>>> tg-pr-88929
 			msg = "<b>[msg]</b>"
 			vis_dist = DEFAULT_MESSAGE_RANGE
 
 		victim.visible_message(msg, span_userdanger("Your [limb.plaintext_zone] [occur_text]!"), vision_distance = vis_dist)
 		if(sound_effect)
+<<<<<<< HEAD
 			playsound(L.owner, sound_effect, sound_volume + (20 * severity), TRUE)
+=======
+			playsound(L.owner, sound_effect, sound_volume + (20 * severity), TRUE, falloff_exponent = SOUND_FALLOFF_EXPONENT + 2,  ignore_walls = FALSE, falloff_distance = 0)
+>>>>>>> tg-pr-88929
 
 	wound_injury(old_wound, attack_direction = attack_direction)
 	if(!demoted)
@@ -286,7 +315,11 @@
 	. = limb
 	if(limb) // if we're nulling limb, we're basically detaching from it, so we should remove ourselves in that case
 		UnregisterSignal(limb, COMSIG_QDELETING)
+<<<<<<< HEAD
 		UnregisterSignal(limb, list(COMSIG_BODYPART_GAUZED, COMSIG_BODYPART_GAUZE_DESTROYED))
+=======
+		UnregisterSignal(limb, list(COMSIG_BODYPART_GAUZED, COMSIG_BODYPART_UNGAUZED))
+>>>>>>> tg-pr-88929
 		LAZYREMOVE(limb.wounds, src)
 		limb.update_wounds(replaced)
 		if (disabling)
@@ -298,7 +331,11 @@
 
 	if (limb)
 		RegisterSignal(limb, COMSIG_QDELETING, PROC_REF(source_died))
+<<<<<<< HEAD
 		RegisterSignals(limb, list(COMSIG_BODYPART_GAUZED, COMSIG_BODYPART_GAUZE_DESTROYED), PROC_REF(gauze_state_changed))
+=======
+		RegisterSignals(limb, list(COMSIG_BODYPART_GAUZED, COMSIG_BODYPART_UNGAUZED), PROC_REF(gauze_state_changed))
+>>>>>>> tg-pr-88929
 		if (disabling)
 			limb.add_traits(list(TRAIT_PARALYSIS, TRAIT_DISABLED_BY_WOUND), REF(src))
 
@@ -306,7 +343,11 @@
 			start_limping_if_we_should() // the status effect already handles removing itself
 			add_or_remove_actionspeed_mod()
 
+<<<<<<< HEAD
 		update_inefficiencies()
+=======
+		update_inefficiencies(replaced)
+>>>>>>> tg-pr-88929
 
 /datum/wound/proc/add_or_remove_actionspeed_mod()
 	update_actionspeed_modifier()
@@ -324,7 +365,7 @@
 	SIGNAL_HANDLER
 	qdel(src)
 
-/// Remove the wound from whatever it's afflicting, and cleans up whateverstatus effects it had or modifiers it had on interaction times. ignore_limb is used for detachments where we only want to forget the victim
+/// Remove the wound from whatever it's afflicting, and cleans up whatever status effects it had or modifiers it had on interaction times. ignore_limb is used for detachments where we only want to forget the victim
 /datum/wound/proc/remove_wound(ignore_limb, replaced = FALSE)
 	//TODO: have better way to tell if we're getting removed without replacement (full heal) scar stuff
 	var/old_victim = victim
@@ -342,7 +383,11 @@
 
 	if(limb && !ignore_limb)
 		set_limb(null, replaced) // since we're removing limb's ref to us, we should do the same
+<<<<<<< HEAD
 		// if you want to keep the ref, do it externally, theres no reason for us to remember it
+=======
+		// if you want to keep the ref, do it externally, there's no reason for us to remember it
+>>>>>>> tg-pr-88929
 
 	if (ismob(old_victim))
 		var/mob/mob_victim = old_victim
@@ -367,7 +412,11 @@
 	already_scarred = TRUE
 	var/obj/item/bodypart/cached_limb = limb // remove_wound() nulls limb so we have to track it locally
 	remove_wound(replaced=TRUE)
+<<<<<<< HEAD
 	new_wound.apply_wound(cached_limb, old_wound = src, smited = smited, attack_direction = attack_direction, wound_source = wound_source)
+=======
+	new_wound.apply_wound(cached_limb, old_wound = src, smited = smited, attack_direction = attack_direction, wound_source = wound_source, replacing = TRUE)
+>>>>>>> tg-pr-88929
 	. = new_wound
 	qdel(src)
 
@@ -422,7 +471,11 @@
 		update_inefficiencies()
 
 /// Updates our limping and interaction penalties in accordance with our gauze.
+<<<<<<< HEAD
 /datum/wound/proc/update_inefficiencies()
+=======
+/datum/wound/proc/update_inefficiencies(replaced_or_replacing = FALSE)
+>>>>>>> tg-pr-88929
 	if (wound_flags & ACCEPTS_GAUZE)
 		if(limb.body_zone in list(BODY_ZONE_L_LEG, BODY_ZONE_R_LEG))
 			if(limb.current_gauze?.splint_factor)
@@ -431,16 +484,26 @@
 			else
 				limp_slowdown = initial(limp_slowdown)
 				limp_chance = initial(limp_chance)
+<<<<<<< HEAD
 		else if(limb.body_zone in list(BODY_ZONE_L_ARM, BODY_ZONE_R_ARM))
+=======
+		else if(limb.body_zone in GLOB.arm_zones)
+>>>>>>> tg-pr-88929
 			if(limb.current_gauze?.splint_factor)
 				set_interaction_efficiency_penalty(1 + ((get_effective_actionspeed_modifier()) * limb.current_gauze.splint_factor))
 			else
 				set_interaction_efficiency_penalty(initial(interaction_efficiency_penalty))
 
 		if(initial(disabling))
+<<<<<<< HEAD
 			set_disabling(!limb.current_gauze)
 
 		limb.update_wounds()
+=======
+			set_disabling(isnull(limb.current_gauze))
+
+		limb.update_wounds(replaced_or_replacing)
+>>>>>>> tg-pr-88929
 
 	start_limping_if_we_should()
 
@@ -499,7 +562,11 @@
 	// check if we have a valid treatable tool
 	if(potential_treater.tool_behaviour in treatable_tools)
 		return TRUE
+<<<<<<< HEAD
 	if((TOOL_CAUTERY in treatable_tools) && potential_treater.get_temperature() && user == victim) // allow improvised cauterization on yourself without an aggro grab
+=======
+	if((TOOL_CAUTERY in treatable_tools) && potential_treater.get_temperature() && (user == victim)) // allow improvised cauterization on yourself without an aggro grab
+>>>>>>> tg-pr-88929
 		return TRUE
 	// failing that, see if we're aggro grabbing them and if we have an item that works for aggro grabs only
 	if(user.pulling == victim && user.grab_state >= GRAB_AGGRESSIVE && check_grab_treatments(potential_treater, user))
@@ -513,8 +580,8 @@
 /datum/wound/proc/check_grab_treatments(obj/item/I, mob/user)
 	return FALSE
 
-/// Like try_treating() but for unhanded interactions from humans, used by joint dislocations for manual bodypart chiropractice for example. Ignores thick material checks since you can pop an arm into place through a thick suit unlike using sutures
-/datum/wound/proc/try_handling(mob/living/carbon/human/user)
+/// Like try_treating() but for unhanded interactions, used by joint dislocations for manual bodypart chiropractice for example. Ignores thick material checks since you can pop an arm into place through a thick suit unlike using sutures
+/datum/wound/proc/try_handling(mob/living/user)
 	return FALSE
 
 /// Someone is using something that might be used for treating the wound on this limb
@@ -606,7 +673,11 @@
  */
 /datum/wound/proc/get_examine_description(mob/user)
 	. = get_wound_description(user)
+<<<<<<< HEAD
 	if(. && HAS_TRAIT(src, TRAIT_WOUND_SCANNED))
+=======
+	if(HAS_TRAIT(src, TRAIT_WOUND_SCANNED))
+>>>>>>> tg-pr-88929
 		. += span_notice("\nThere is a holo-image next to the wound that seems to contain indications for treatment.")
 
 	return .
@@ -615,6 +686,7 @@
 	var/desc
 
 	if ((wound_flags & ACCEPTS_GAUZE) && limb.current_gauze)
+<<<<<<< HEAD
 		desc = "[victim.p_Their()] [limb.plaintext_zone] is [get_gauze_condition()] fastened in a sling of [limb.current_gauze.name]"
 	else if(examine_desc)
 		desc = "[victim.p_Their()] [limb.plaintext_zone] [examine_desc]"
@@ -622,10 +694,18 @@
 	if(!desc)
 		return
 
+=======
+		var/sling_condition = get_gauze_condition()
+		desc = "[victim.p_Their()] [limb.plaintext_zone] is [sling_condition] fastened in a sling of [limb.current_gauze.name]"
+	else
+		desc = "[victim.p_Their()] [limb.plaintext_zone] [examine_desc]"
+
+>>>>>>> tg-pr-88929
 	desc = modify_desc_before_span(desc, user)
 
 	return get_desc_intensity(desc)
 
+<<<<<<< HEAD
 /datum/wound/proc/get_self_check_description(mob/user)
 	// future todo : medical doctors can self-diagnose / don't use [undiagnosed_name]
 	switch(severity)
@@ -638,6 +718,8 @@
 		if(WOUND_SEVERITY_CRITICAL)
 			return span_boldwarning("It's suffering [a_or_from] [lowertext(undiagnosed_name || name)]!!")
 
+=======
+>>>>>>> tg-pr-88929
 /// A hook proc used to modify desc before it is spanned via [get_desc_intensity]. Useful for inserting spans yourself.
 /datum/wound/proc/modify_desc_before_span(desc, mob/user)
 	return desc
@@ -701,6 +783,14 @@
 		if(WOUND_SEVERITY_CRITICAL)
 			return "<b>Critical</b>"
 
+<<<<<<< HEAD
+=======
+/// Returns TRUE if our limb is the head or chest, FALSE otherwise.
+/// Essential in the sense of "we cannot live without it".
+/datum/wound/proc/limb_essential()
+	return (limb.body_zone == BODY_ZONE_HEAD || limb.body_zone == BODY_ZONE_CHEST)
+
+>>>>>>> tg-pr-88929
 /// Getter proc for our scar_keyword, in case we might have some custom scar gen logic.
 /datum/wound/proc/get_scar_keyword(obj/item/bodypart/scarred_limb, add_to_scars)
 	return scar_keyword
@@ -712,7 +802,11 @@
 	// fleshy burns will look for flesh then bone
 	// dislocations will look for flesh, then bone, then metal
 	var/file = default_scar_file
+<<<<<<< HEAD
 	for (var/biotype in pregen_data.scar_priorities)
+=======
+	for (var/biotype as anything in pregen_data.scar_priorities)
+>>>>>>> tg-pr-88929
 		if (scarred_limb.biological_state & text2num(biotype))
 			file = GLOB.biotypes_to_scar_file[biotype]
 			break
@@ -724,7 +818,11 @@
 /datum/wound/proc/get_limb_examine_description()
 	return
 
+<<<<<<< HEAD
 /// Gets the flat percentage chance increment of a dismember occuring, if a dismember is attempted (requires mangled flesh and bone). returning 15 = +15%.
+=======
+/// Gets the flat percentage chance increment of a dismember occurring, if a dismember is attempted (requires mangled flesh and bone). returning 15 = +15%.
+>>>>>>> tg-pr-88929
 /datum/wound/proc/get_dismember_chance_bonus(existing_chance)
 	SHOULD_BE_PURE(TRUE)
 

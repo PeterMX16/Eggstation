@@ -92,7 +92,7 @@
 	if (should_halt_effects(parent))
 		return
 
-	if (human_parent.stat > DEAD)
+	if (human_parent.stat != DEAD)
 		human_parent.dna?.species?.handle_radiation(human_parent, world.time - beginning_of_irradiation, seconds_per_tick)
 
 	process_tox_damage(human_parent, seconds_per_tick)
@@ -140,10 +140,10 @@
 	if(human_parent.is_blind())
 		to_chat(human_parent, span_boldwarning("Your [affected_limb.plaintext_zone] feels like it's bubbling, then burns like hell!"))
 
-	human_parent.apply_damage(RADIATION_BURN_SPLOTCH_DAMAGE, BURN, affected_limb)
+	human_parent.apply_damage(RADIATION_BURN_SPLOTCH_DAMAGE, BURN, affected_limb, wound_clothing = FALSE)
 	playsound(
 		human_parent,
-		pick('sound/effects/wounds/sizzle1.ogg', 'sound/effects/wounds/sizzle2.ogg'),
+		SFX_SIZZLE,
 		50,
 		vary = TRUE,
 	)
@@ -181,10 +181,10 @@
 
 	if (isliving(source))
 		var/mob/living/living_source = source
-		to_chat(user, span_boldannounce("[icon2html(geiger_counter, user)] Subject is irradiated. Contamination traces back to roughly [DisplayTimeText(world.time - beginning_of_irradiation, 5)] ago. Current toxin levels: [living_source.getToxLoss()]."))
+		to_chat(user, span_bolddanger("[icon2html(geiger_counter, user)] Subject is irradiated. Contamination traces back to roughly [DisplayTimeText(world.time - beginning_of_irradiation, 5)] ago. Current toxin levels: [living_source.getToxLoss()]."))
 	else
 		// In case the green wasn't obvious enough...
-		to_chat(user, span_boldannounce("[icon2html(geiger_counter, user)] Target is irradiated."))
+		to_chat(user, span_bolddanger("[icon2html(geiger_counter, user)] Target is irradiated."))
 
 	return COMSIG_GEIGER_COUNTER_SCAN_SUCCESSFUL
 

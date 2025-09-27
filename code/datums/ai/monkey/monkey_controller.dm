@@ -15,25 +15,43 @@ have ways of interacting with a specific mob and control it.
 		/datum/ai_planning_subtree/monkey_shenanigans,
 	)
 	blackboard = list(
+		BB_TARGETING_STRATEGY = /datum/targeting_strategy/basic/monkey,
 		BB_MONKEY_AGGRESSIVE = FALSE,
 		BB_MONKEY_BEST_FORCE_FOUND = 0,
 		BB_MONKEY_ENEMIES = list(),
 		BB_MONKEY_BLACKLISTITEMS = list(),
-		BB_MONKEY_PICKUPTARGET = null,
 		BB_MONKEY_PICKPOCKETING = FALSE,
 		BB_MONKEY_DISPOSING = FALSE,
-		BB_MONKEY_TARGET_DISPOSAL = null,
-		BB_MONKEY_CURRENT_ATTACK_TARGET = null,
 		BB_MONKEY_GUN_NEURONS_ACTIVATED = FALSE,
-		BB_MONKEY_GUN_WORKED = TRUE,
 		BB_SONG_LINES = MONKEY_SONG,
+		BB_RESISTING = FALSE,
 	)
 	idle_behavior = /datum/idle_behavior/idle_monkey
 
+/datum/targeting_strategy/basic/monkey
+
+/datum/targeting_strategy/basic/monkey/faction_check(datum/ai_controller/controller, mob/living/living_mob, mob/living/the_target)
+	if(controller.blackboard[BB_MONKEY_ENEMIES][the_target])
+		return FALSE
+	return ..()
+
+/datum/ai_controller/monkey/process(seconds_per_tick)
+
+	var/mob/living/living_pawn = src.pawn
+
+	if(!length(living_pawn.do_afters) && living_pawn.ai_controller.blackboard[BB_RESISTING])
+		living_pawn.ai_controller.set_blackboard_key(BB_RESISTING, FALSE)
+
+	if(living_pawn.ai_controller.blackboard[BB_RESISTING])
+		return
+
+	. = ..()
+
 /datum/ai_controller/monkey/New(atom/new_pawn)
-	AddElement(/datum/element/ai_control_examine, list(
-		ORGAN_SLOT_EYES = span_monkey("eyes have a primal look in them."),
-	))
+	var/static/list/control_examine = list(
+		ORGAN_SLOT_EYES = span_monkey("%PRONOUN_They stare%PRONOUN_s around with wild, primal eyes."),
+	)
+	AddElement(/datum/element/ai_control_examine, control_examine)
 	return ..()
 
 /datum/ai_controller/monkey/pun_pun
@@ -54,7 +72,11 @@ have ways of interacting with a specific mob and control it.
 	if(. & AI_CONTROLLER_INCOMPATIBLE)
 		return
 	pawn = new_pawn
+<<<<<<< HEAD
 	set_blackboard_key(BB_MONKEY_AGGRESSIVE, TRUE) //Angry
+=======
+	set_blackboard_key(BB_MONKEY_AGGRESSIVE, TRUE) //Angry cunt
+>>>>>>> tg-pr-88929
 	set_trip_mode(mode = FALSE)
 
 /datum/ai_controller/monkey/TryPossessPawn(atom/new_pawn)
@@ -62,7 +84,8 @@ have ways of interacting with a specific mob and control it.
 		return AI_CONTROLLER_INCOMPATIBLE
 
 	var/mob/living/living_pawn = new_pawn
-	living_pawn.AddElement(/datum/element/relay_attackers)
+	if(!HAS_TRAIT(living_pawn, TRAIT_RELAYING_ATTACKER))
+		living_pawn.AddElement(/datum/element/relay_attackers)
 	RegisterSignal(new_pawn, COMSIG_ATOM_WAS_ATTACKED, PROC_REF(on_attacked))
 	RegisterSignal(new_pawn, COMSIG_LIVING_START_PULL, PROC_REF(on_startpulling))
 	RegisterSignals(new_pawn, list(COMSIG_LIVING_TRY_SYRINGE_INJECT, COMSIG_LIVING_TRY_SYRINGE_WITHDRAW), PROC_REF(on_try_syringe))
@@ -89,18 +112,30 @@ have ways of interacting with a specific mob and control it.
 	. = ..()
 	set_trip_mode(mode = TRUE)
 
-/datum/ai_controller/monkey/able_to_run()
+/datum/ai_controller/monkey/on_stat_changed(mob/living/source, new_stat)
+	. = ..()
+	update_able_to_run()
+
+/datum/ai_controller/monkey/setup_able_to_run()
+	. = ..()
+	RegisterSignal(pawn, COMSIG_MOB_INCAPACITATE_CHANGED, PROC_REF(update_able_to_run))
+
+/datum/ai_controller/monkey/clear_able_to_run()
+	UnregisterSignal(pawn, list(COMSIG_MOB_INCAPACITATE_CHANGED, COMSIG_MOB_STATCHANGE))
+	return ..()
+
+/datum/ai_controller/monkey/get_able_to_run()
 	var/mob/living/living_pawn = pawn
 
-	if(IS_DEAD_OR_INCAP(living_pawn))
-		return FALSE
+	if(INCAPACITATED_IGNORING(living_pawn, INCAPABLE_RESTRAINTS|INCAPABLE_STASIS|INCAPABLE_GRAB) || living_pawn.stat > CONSCIOUS)
+		return AI_UNABLE_TO_RUN
 	return ..()
 
 /datum/ai_controller/monkey/proc/set_trip_mode(mode = TRUE)
 	var/mob/living/carbon/regressed_monkey = pawn
 	var/brain = regressed_monkey.get_organ_slot(ORGAN_SLOT_BRAIN)
-	if(istype(brain, /obj/item/organ/internal/brain/primate)) // In case we are a monkey AI in a human brain by who was previously controlled by a client but it now not by some marvel
-		var/obj/item/organ/internal/brain/primate/monkeybrain = brain
+	if(istype(brain, /obj/item/organ/brain/primate)) // In case we are a monkey AI in a human brain by who was previously controlled by a client but it now not by some marvel
+		var/obj/item/organ/brain/primate/monkeybrain = brain
 		monkeybrain.tripping = mode
 
 ///re-used behavior pattern by monkeys for finding a weapon
@@ -119,7 +154,7 @@ have ways of interacting with a specific mob and control it.
 	for(var/obj/item/item in oview(2, living_pawn))
 		nearby_items += item
 
-	for(var/obj/item/item in living_pawn.held_items) // If we've got some garbage in out hands thats going to stop us from effectivly attacking, we should get rid of it.
+	for(var/obj/item/item in living_pawn.held_items) // If we've got some garbage in out hands that's going to stop us from effectively attacking, we should get rid of it.
 		if(item.force < 2)
 			living_pawn.dropItemToGround(item)
 
@@ -136,15 +171,18 @@ have ways of interacting with a specific mob and control it.
 	if(!weapon || (weapon in living_pawn.held_items))
 		return FALSE
 
-	if(weapon.force < 2) // our bite does 2 damage on avarage, no point in settling for anything less
+	if(weapon.force < 2) // our bite does 2 damage on average, no point in settling for anything less
 		return FALSE
 
 	set_blackboard_key(BB_MONKEY_PICKUPTARGET, weapon)
+<<<<<<< HEAD
 	set_movement_target(type, weapon)
+=======
+>>>>>>> tg-pr-88929
 	if(pickpocket)
-		queue_behavior(/datum/ai_behavior/monkey_equip/pickpocket)
+		queue_behavior(/datum/ai_behavior/monkey_equip/pickpocket, BB_MONKEY_PICKUPTARGET)
 	else
-		queue_behavior(/datum/ai_behavior/monkey_equip/ground)
+		queue_behavior(/datum/ai_behavior/monkey_equip/ground, BB_MONKEY_PICKUPTARGET)
 	return TRUE
 
 ///Reactive events to being hit
@@ -154,6 +192,7 @@ have ways of interacting with a specific mob and control it.
 		return
 
 	add_blackboard_key_assoc(BB_MONKEY_ENEMIES, living_mob, MONKEY_HATRED_AMOUNT)
+<<<<<<< HEAD
 	if(HAS_TRAIT(living_mob, TRAIT_MONKEYFRIEND))
 		REMOVE_TRAIT(living_mob, TRAIT_MONKEYFRIEND, SPECIES_TRAIT)
 		addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(monkeyfriend_check), living_mob), 60 SECONDS)
@@ -168,6 +207,8 @@ have ways of interacting with a specific mob and control it.
 			ADD_TRAIT(user, TRAIT_MONKEYFRIEND, SPECIES_TRAIT)
 	if(((M in equipped) && (S in equipped)))
 		ADD_TRAIT(user, TRAIT_MONKEYFRIEND, CLOTHING_TRAIT)
+=======
+>>>>>>> tg-pr-88929
 
 /datum/ai_controller/monkey/proc/on_attacked(datum/source, mob/attacker)
 	SIGNAL_HANDLER

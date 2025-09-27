@@ -13,6 +13,10 @@
 	invocation_type = INVOCATION_SHOUT
 	spell_requirements = NONE
 
+<<<<<<< HEAD
+=======
+	convert_damage = FALSE // Functionally meaningless on Armsy, we track how many segments it had instead
+>>>>>>> tg-pr-88929
 	possible_shapes = list(/mob/living/basic/heretic_summon/armsy)
 
 	/// The length of our new wormy when we shed.

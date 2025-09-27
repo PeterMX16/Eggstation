@@ -8,8 +8,12 @@
 	name = "chemical press"
 	desc = "A press that makes pills, patches and tubes."
 	icon_state = "pill_press"
+<<<<<<< HEAD
 	///category for plumbing RCD
 	category="Storage"
+=======
+
+>>>>>>> tg-pr-88929
 	/// selected size of the product
 	var/current_volume = 10
 	/// maximum printable volume of the product
@@ -29,12 +33,21 @@
 	. = ..()
 
 	if(!packaging_types)
+<<<<<<< HEAD
 		var/datum/asset/spritesheet_batched/chemmaster/assets = get_asset_datum(/datum/asset/spritesheet_batched/chemmaster)
 
 		var/list/types = list(
 			CAT_PILLS = GLOB.chem_master_containers[CAT_PILLS],
 			CAT_PATCHES = GLOB.chem_master_containers[CAT_PATCHES],
 			CAT_TUBES = list(/obj/item/reagent_containers/cup/tube),
+=======
+		var/datum/asset/spritesheet/simple/assets = get_asset_datum(/datum/asset/spritesheet/chemmaster)
+
+		var/list/types = list(
+			CAT_PILLS = GLOB.reagent_containers[CAT_PILLS],
+			CAT_PATCHES = GLOB.reagent_containers[CAT_PATCHES],
+			"Bottles" = list(/obj/item/reagent_containers/cup/bottle),
+>>>>>>> tg-pr-88929
 		)
 
 		packaging_types = list()
@@ -51,7 +64,11 @@
 
 			packaging_types += list(category_item)
 
+<<<<<<< HEAD
 	packaging_type = GLOB.chem_master_containers[CAT_PILLS][1] //monkestation edit: reaplces GLOB.reagent_containers with GLOB.chem_master_containers
+=======
+	packaging_type = GLOB.reagent_containers[CAT_PILLS][1]
+>>>>>>> tg-pr-88929
 	max_volume = initial(packaging_type.volume)
 	current_volume = clamp(current_volume, MIN_VOLUME, max_volume)
 
@@ -80,7 +97,11 @@
 			if(CAT_PATCHES)
 				suffix = "Patch"
 			else
+<<<<<<< HEAD
 				suffix = "Tube"
+=======
+				suffix = "Bottle"
+>>>>>>> tg-pr-88929
 		container.name = "[product_name] [suffix]"
 		reagents.trans_to(container, current_volume)
 		stored_products += container
@@ -101,7 +122,11 @@
 
 /obj/machinery/plumbing/pill_press/ui_assets(mob/user)
 	return list(
+<<<<<<< HEAD
 		get_asset_datum(/datum/asset/spritesheet_batched/chemmaster)
+=======
+		get_asset_datum(/datum/asset/spritesheet/chemmaster)
+>>>>>>> tg-pr-88929
 	)
 
 /obj/machinery/plumbing/pill_press/ui_interact(mob/user, datum/tgui/ui)

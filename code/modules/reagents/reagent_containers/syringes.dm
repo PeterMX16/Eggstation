@@ -82,7 +82,11 @@
 		else
 			log_combat(user, living_target, "injected", src, addition="which had [contained]")
 
+<<<<<<< HEAD
 	if(reagents.trans_to(target, amount_per_transfer_from_this, transfered_by = user, methods = INJECT))
+=======
+	if(reagents.trans_to(target, amount_per_transfer_from_this, transferred_by = user, methods = INJECT))
+>>>>>>> tg-pr-88929
 		to_chat(user, span_notice("You inject [amount_per_transfer_from_this] units of the solution. The syringe now contains [reagents.total_volume] units."))
 		target.update_appearance()
 		return ITEM_INTERACT_SUCCESS
@@ -127,7 +131,11 @@
 		to_chat(user, span_warning("You cannot directly remove reagents from [target]!"))
 		return ITEM_INTERACT_BLOCKING
 
+<<<<<<< HEAD
 	var/trans = target.reagents.trans_to(src, amount_per_transfer_from_this, transfered_by = user) // transfer from, transfer to - who cares?
+=======
+	var/trans = target.reagents.trans_to(src, amount_per_transfer_from_this, transferred_by = user) // transfer from, transfer to - who cares?
+>>>>>>> tg-pr-88929
 
 	to_chat(user, span_notice("You fill [src] with [trans] units of the solution. It now contains [reagents.total_volume] units."))
 	target.update_appearance()
@@ -138,12 +146,12 @@
  */
 /obj/item/reagent_containers/syringe/on_accidental_consumption(mob/living/carbon/victim, mob/living/carbon/user, obj/item/source_item,  discover_after = TRUE)
 	if(source_item)
-		to_chat(victim, span_boldwarning("There's a [src] in [source_item]!!"))
+		to_chat(victim, span_boldwarning("There's \a [src] in [source_item]!!"))
 	else
 		to_chat(victim, span_boldwarning("[src] injects you!"))
 
 	victim.apply_damage(5, BRUTE, BODY_ZONE_HEAD)
-	reagents?.trans_to(victim, round(reagents.total_volume*(2/3)), transfered_by = user, methods = INJECT)
+	reagents?.trans_to(victim, round(reagents.total_volume*(2/3)), transferred_by = user, methods = INJECT)
 
 	return discover_after
 
@@ -161,7 +169,7 @@
 /// Returns a list of overlays to add that relate to the reagents inside the syringe
 /obj/item/reagent_containers/syringe/proc/update_reagent_overlay()
 	if(reagents?.total_volume)
-		var/mutable_appearance/filling_overlay = mutable_appearance('icons/obj/reagentfillings.dmi', "syringe[get_rounded_vol()]")
+		var/mutable_appearance/filling_overlay = mutable_appearance('icons/obj/medical/reagent_fillings.dmi', "syringe[get_rounded_vol()]")
 		filling_overlay.color = mix_color_from_reagents(reagents.reagent_list)
 		. += filling_overlay
 
@@ -180,6 +188,11 @@
 	name = "syringe (multiver)"
 	desc = "Contains multiver. Diluted with granibitaluri."
 	list_reagents = list(/datum/reagent/medicine/c2/multiver = 6, /datum/reagent/medicine/granibitaluri = 9)
+
+/obj/item/reagent_containers/syringe/calomel
+	name = "syringe (calomel)"
+	desc = "Contains calomel - a toxic drug for rapidly removing chemicals from the body."
+	list_reagents = list(/datum/reagent/medicine/calomel = 15)
 
 /obj/item/reagent_containers/syringe/convermol
 	name = "syringe (convermol)"
@@ -210,6 +223,7 @@
 	name = "lethal injection syringe"
 	desc = "A syringe used for lethal injections. It can hold up to 50 units."
 	amount_per_transfer_from_this = 50
+	has_variable_transfer_amount = FALSE
 	volume = 50
 
 /obj/item/reagent_containers/syringe/lethal/choral
@@ -222,6 +236,7 @@
 	name = "Mulligan"
 	desc = "A syringe used to completely change the users identity."
 	amount_per_transfer_from_this = 1
+	has_variable_transfer_amount = FALSE
 	volume = 1
 	list_reagents = list(/datum/reagent/mulligan = 1)
 
@@ -229,6 +244,7 @@
 	name = "Gluttony's Blessing"
 	desc = "A syringe recovered from a dread place. It probably isn't wise to use."
 	amount_per_transfer_from_this = 1
+	has_variable_transfer_amount = FALSE
 	volume = 1
 	list_reagents = list(/datum/reagent/gluttonytoxin = 1)
 
@@ -263,13 +279,21 @@
 /obj/item/reagent_containers/syringe/crude/update_reagent_overlay()
 	return
 
+<<<<<<< HEAD
 // Used by monkeys from the elemental plane of bananas. Reagents come from bungo pit, death berries, destroying angel, jupiter cups, and jumping beans.
+=======
+	// Used by monkeys from the elemental plane of bananas. Reagents come from bungo pit, death berries, destroying angel, jupiter cups, and jumping beans.
+>>>>>>> tg-pr-88929
 /obj/item/reagent_containers/syringe/crude/tribal
 	name = "tribal syringe"
 	desc = "A crudely made syringe. Smells like bananas."
 
 /obj/item/reagent_containers/syringe/crude/tribal/Initialize(mapload)
+<<<<<<< HEAD
 	var/toxin_to_get = pick(/datum/reagent/toxin/bungotoxin, /datum/reagent/toxin/coniine, /datum/reagent/toxin/amanitin, /datum/reagent/consumable/liquidelectricity, /datum/reagent/ants)
+=======
+	var/toxin_to_get = pick(/datum/reagent/toxin/bungotoxin, /datum/reagent/toxin/coniine, /datum/reagent/toxin/amanitin, /datum/reagent/consumable/liquidelectricity/enriched, /datum/reagent/ants)
+>>>>>>> tg-pr-88929
 	list_reagents = list((toxin_to_get) = 5)
 	return ..()
 
@@ -307,6 +331,10 @@
 /obj/item/reagent_containers/syringe/contraband
 	name = "unlabeled syringe"
 	desc = "A syringe containing some sort of unknown chemical cocktail."
+
+/obj/item/reagent_containers/syringe/contraband/Initialize(mapload)
+	. = ..()
+	ADD_TRAIT(src, TRAIT_CONTRABAND, INNATE_TRAIT)
 
 /obj/item/reagent_containers/syringe/contraband/space_drugs
 	list_reagents = list(/datum/reagent/drug/space_drugs = 15)

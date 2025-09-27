@@ -2,6 +2,7 @@
 	name = "Generic Maintenance"
 	ambience_index = AMBIENCE_MAINT
 	area_flags = BLOBS_ALLOWED | UNIQUE_AREA | CULT_PERMITTED | PERSISTENT_ENGRAVINGS
+<<<<<<< HEAD
 	mood_bonus = 15
 	mood_message = "Being in maintenance makes me feel like i'm home again!"
 	mood_trait = TRAIT_MAINTENANCE_DWELLER
@@ -9,6 +10,12 @@
 	sound_environment = SOUND_ENVIRONMENT_HALLWAY
 	forced_ambience = TRUE
 	ambient_buzz = 'sound/ambience/source_corridor2.ogg'
+=======
+	airlock_wires = /datum/wires/airlock/maint
+	sound_environment = SOUND_AREA_TUNNEL_ENCLOSED
+	forced_ambience = TRUE
+	ambient_buzz = 'sound/ambience/maintenance/source_corridor2.ogg'
+>>>>>>> tg-pr-88929
 	ambient_buzz_vol = 20
 
 /*

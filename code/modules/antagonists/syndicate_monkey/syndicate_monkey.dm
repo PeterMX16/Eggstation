@@ -11,7 +11,12 @@
 
 /datum/antagonist/syndicate_monkey/on_gain()
 	monky_master = owner.enslaved_to?.resolve()
+<<<<<<< HEAD
 	forge_objectives(monky_master)
+=======
+	if(monky_master)
+		forge_objectives(monky_master)
+>>>>>>> tg-pr-88929
 	return ..()
 
 /datum/antagonist/syndicate_monkey/Destroy()
@@ -26,6 +31,7 @@
 	var/mob/living/monky_master
 
 /datum/objective/syndicate_monkey/check_completion()
+<<<<<<< HEAD
 	if(!monky_master)
 		return TRUE
 	return monky_master.stat != DEAD
@@ -43,3 +49,13 @@
 		objective.explanation_text = "You are a badass monkey syndicate agent. Sabotage the efforts of the station, DEATH TO NANOTRASEN!"
 		objective.owner = owner
 		objectives += objective
+=======
+	return monky_master.stat != DEAD
+
+/datum/antagonist/syndicate_monkey/forge_objectives(mob/monky_master)
+	var/datum/objective/syndicate_monkey/objective = new
+	objective.monky_master = monky_master
+	objective.explanation_text = "You are a badass monkey syndicate agent. Protect and obey all of your master [monky_master]'s orders!"
+	objective.owner = owner
+	objectives += objective
+>>>>>>> tg-pr-88929

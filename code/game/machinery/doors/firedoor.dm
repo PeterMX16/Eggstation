@@ -24,8 +24,6 @@
 
 	COOLDOWN_DECLARE(activation_cooldown)
 
-	///Trick to get the glowing overlay visible from a distance
-	luminosity = 1
 	///X offset for the overlay lights, so that they line up with the thin border firelocks
 	var/light_xoffset = 0
 	///Y offset for the overlay lights, so that they line up with the thin border firelocks
@@ -61,8 +59,8 @@
 	///Keeps track of if we're playing the alarm sound loop (as only one firelock per group should be). Used during power changes.
 	var/is_playing_alarm = FALSE
 
-	var/knock_sound = 'sound/effects/glassknock.ogg'
-	var/bash_sound = 'sound/effects/glassbash.ogg'
+	var/knock_sound = 'sound/effects/glass/glassknock.ogg'
+	var/bash_sound = 'sound/effects/glass/glassbash.ogg'
 
 
 /datum/armor/door_firedoor
@@ -93,7 +91,7 @@
 	RegisterSignal(src, COMSIG_MACHINERY_POWER_LOST, PROC_REF(on_power_loss))
 	return INITIALIZE_HINT_LATELOAD
 
-/obj/machinery/door/firedoor/LateInitialize()
+/obj/machinery/door/firedoor/post_machine_initialize()
 	. = ..()
 	RegisterSignal(src, COMSIG_MERGER_ADDING, PROC_REF(merger_adding))
 	RegisterSignal(src, COMSIG_MERGER_REMOVING, PROC_REF(merger_removing))
@@ -536,7 +534,7 @@
 	return
 
 /obj/machinery/door/firedoor/try_to_weld_secondary(obj/item/weldingtool/W, mob/user)
-	if(!W.tool_start_check(user, amount=0))
+	if(!W.tool_start_check(user, amount=1))
 		return
 	user.visible_message(span_notice("[user] starts [welded ? "unwelding" : "welding"] [src]."), span_notice("You start welding [src]."))
 	if(W.use_tool(src, user, DEFAULT_STEP_TIME, volume=50))
@@ -547,22 +545,31 @@
 		correct_state()
 
 /// We check for adjacency when using the primary attack.
-/obj/machinery/door/firedoor/try_to_crowbar(obj/item/acting_object, mob/user)
+/obj/machinery/door/firedoor/try_to_crowbar(obj/item/acting_object, mob/user, forced = FALSE)
 	if(welded || operating)
 		return
 
+	var/atom/crowbar_owner = acting_object?.loc || user // catches mechs and any other non-mob using a crowbar
+
 	if(density)
 		being_held_open = TRUE
-		user.balloon_alert_to_viewers("holding [src] open", "holding [src] open")
+		crowbar_owner.balloon_alert_to_viewers("holding firelock open", "holding firelock open")
 		COOLDOWN_START(src, activation_cooldown, REACTIVATION_DELAY)
 		open()
-		if(QDELETED(user))
+		if(QDELETED(crowbar_owner))
 			being_held_open = FALSE
 			return
+<<<<<<< HEAD
 		RegisterSignal(user, COMSIG_MOVABLE_MOVED, PROC_REF(handle_held_open_adjacency))
 		RegisterSignal(user, COMSIG_LIVING_SET_BODY_POSITION, PROC_REF(handle_held_open_adjacency))
 		RegisterSignal(user, COMSIG_QDELETING, PROC_REF(handle_held_open_adjacency))
 		handle_held_open_adjacency(user)
+=======
+		RegisterSignal(crowbar_owner, COMSIG_MOVABLE_MOVED, PROC_REF(handle_held_open_adjacency))
+		RegisterSignal(crowbar_owner, COMSIG_LIVING_SET_BODY_POSITION, PROC_REF(handle_held_open_adjacency))
+		RegisterSignal(crowbar_owner, COMSIG_QDELETING, PROC_REF(handle_held_open_adjacency))
+		handle_held_open_adjacency(crowbar_owner)
+>>>>>>> tg-pr-88929
 	else
 		close()
 
@@ -578,19 +585,31 @@
 	else
 		close()
 
-/obj/machinery/door/firedoor/proc/handle_held_open_adjacency(mob/user)
+/obj/machinery/door/firedoor/proc/handle_held_open_adjacency(atom/crowbar_owner)
 	SIGNAL_HANDLER
 
-	var/mob/living/living_user = user
-	if(!QDELETED(user) && Adjacent(user) && isliving(user) && (living_user.body_position == STANDING_UP))
-		return
+
+	if(!QDELETED(crowbar_owner) && crowbar_owner.CanReach(src))
+		if(!ismob(crowbar_owner))
+			return
+		var/mob/living/mob_user = crowbar_owner
+		if(isliving(mob_user) && (mob_user.body_position == STANDING_UP))
+			return
 	being_held_open = FALSE
 	correct_state()
+<<<<<<< HEAD
 	UnregisterSignal(user, COMSIG_MOVABLE_MOVED)
 	UnregisterSignal(user, COMSIG_LIVING_SET_BODY_POSITION)
 	UnregisterSignal(user, COMSIG_QDELETING)
 	if(user)
 		user.balloon_alert_to_viewers("released [src]", "released [src]")
+=======
+	UnregisterSignal(crowbar_owner, COMSIG_MOVABLE_MOVED)
+	UnregisterSignal(crowbar_owner, COMSIG_LIVING_SET_BODY_POSITION)
+	UnregisterSignal(crowbar_owner, COMSIG_QDELETING)
+	if(crowbar_owner)
+		crowbar_owner.balloon_alert_to_viewers("released firelock", "released firelock")
+>>>>>>> tg-pr-88929
 
 /obj/machinery/door/firedoor/attack_ai(mob/user)
 	add_fingerprint(user)
@@ -610,22 +629,43 @@
 /obj/machinery/door/firedoor/attack_alien(mob/user, list/modifiers)
 	add_fingerprint(user)
 	if(welded)
-		to_chat(user, span_warning("[src] refuses to budge!"))
+		balloon_alert(user, "refuses to budge!")
 		return
 	open()
 	if(active)
 		addtimer(CALLBACK(src, PROC_REF(correct_state)), 2 SECONDS, TIMER_UNIQUE)
 
-/obj/machinery/door/firedoor/do_animate(animation)
-	switch(animation)
-		if("opening")
-			flick("[base_icon_state]_opening", src)
-		if("closing")
-			flick("[base_icon_state]_closing", src)
-
 /obj/machinery/door/firedoor/update_icon_state()
 	. = ..()
-	icon_state = "[base_icon_state]_[density ? "closed" : "open"]"
+	switch(animation)
+		if(DOOR_OPENING_ANIMATION)
+			icon_state = "[base_icon_state]_opening"
+		if(DOOR_CLOSING_ANIMATION)
+			icon_state = "[base_icon_state]_closing"
+		if(DOOR_DENY_ANIMATION)
+			icon_state = "[base_icon_state]_deny"
+		else
+			icon_state = "[base_icon_state]_[density ? "closed" : "open"]"
+
+/obj/machinery/door/firedoor/animation_length(animation)
+	switch(animation)
+		if(DOOR_OPENING_ANIMATION)
+			return 1.2 SECONDS
+		if(DOOR_CLOSING_ANIMATION)
+			return 1.2 SECONDS
+		if(DOOR_DENY_ANIMATION)
+			return 0.3 SECONDS
+
+/obj/machinery/door/firedoor/animation_segment_delay(animation)
+	switch(animation)
+		if(DOOR_OPENING_PASSABLE)
+			return 1.0 SECONDS
+		if(DOOR_OPENING_FINISHED)
+			return 1.2 SECONDS
+		if(DOOR_CLOSING_UNPASSABLE)
+			return 0.2 SECONDS
+		if(DOOR_CLOSING_FINISHED)
+			return 1.2 SECONDS
 
 /obj/machinery/door/firedoor/update_overlays()
 	. = ..()
@@ -676,20 +716,18 @@
 	if(old_activity != active) //Something changed while we were sleeping
 		correct_state() //So we should re-evaluate our state
 
-/obj/machinery/door/firedoor/deconstruct(disassembled = TRUE)
-	if(!(flags_1 & NODECONSTRUCT_1))
-		var/turf/targetloc = get_turf(src)
-		if(disassembled || prob(40))
-			var/obj/structure/firelock_frame/unbuilt_lock = new assemblytype(targetloc)
-			if(disassembled)
-				unbuilt_lock.constructionStep = CONSTRUCTION_PANEL_OPEN
-			else
-				unbuilt_lock.constructionStep = CONSTRUCTION_NO_CIRCUIT
-				unbuilt_lock.update_integrity(unbuilt_lock.max_integrity * 0.5)
-			unbuilt_lock.update_appearance()
+/obj/machinery/door/firedoor/on_deconstruction(disassembled)
+	var/turf/targetloc = get_turf(src)
+	if(disassembled || prob(40))
+		var/obj/structure/firelock_frame/unbuilt_lock = new assemblytype(targetloc)
+		if(disassembled)
+			unbuilt_lock.constructionStep = CONSTRUCTION_PANEL_OPEN
 		else
-			new /obj/item/electronics/firelock (targetloc)
-	qdel(src)
+			unbuilt_lock.constructionStep = CONSTRUCTION_NO_CIRCUIT
+			unbuilt_lock.update_integrity(unbuilt_lock.max_integrity * 0.5)
+		unbuilt_lock.update_appearance()
+	else
+		new /obj/item/electronics/firelock (targetloc)
 
 /obj/machinery/door/firedoor/Moved(atom/old_loc, movement_dir, forced, list/old_locs, momentum_change = TRUE)
 	. = ..()
@@ -882,7 +920,7 @@
 				user.visible_message(span_notice("[user] begins cutting apart [src]'s frame..."), \
 					span_notice("You begin slicing [src] apart..."))
 
-				if(attacking_object.use_tool(src, user, DEFAULT_STEP_TIME, volume=50, amount=1))
+				if(attacking_object.use_tool(src, user, DEFAULT_STEP_TIME, volume=50))
 					if(constructionStep != CONSTRUCTION_NO_CIRCUIT)
 						return
 					user.visible_message(span_notice("[user] cuts apart [src]!"), \
@@ -895,7 +933,7 @@
 				return
 			if(istype(attacking_object, /obj/item/electroadaptive_pseudocircuit))
 				var/obj/item/electroadaptive_pseudocircuit/raspberrypi = attacking_object
-				if(!raspberrypi.adapt_circuit(user, DEFAULT_STEP_TIME * 0.5))
+				if(!raspberrypi.adapt_circuit(user, circuit_cost = DEFAULT_STEP_TIME * 0.0005 * STANDARD_CELL_CHARGE))
 					return
 				user.visible_message(span_notice("[user] fabricates a circuit and places it into [src]."), \
 				span_notice("You adapt a firelock circuit and slot it into the assembly."))
@@ -906,21 +944,25 @@
 
 /obj/structure/firelock_frame/rcd_vals(mob/user, obj/item/construction/rcd/the_rcd)
 	if(the_rcd.mode == RCD_DECONSTRUCT)
+<<<<<<< HEAD
 		return list("mode" = RCD_DECONSTRUCT, "delay" = 5 SECONDS, "cost" = 16)
 	else if((constructionStep == CONSTRUCTION_NO_CIRCUIT) && (the_rcd.upgrade & RCD_UPGRADE_SIMPLE_CIRCUITS))
 		return list("mode" = RCD_UPGRADE_SIMPLE_CIRCUITS, "delay" = 2 SECONDS, "cost" = 1)
+=======
+		return list("delay" = 5 SECONDS, "cost" = 16)
+	else if((constructionStep == CONSTRUCTION_NO_CIRCUIT) && (the_rcd.upgrade & RCD_UPGRADE_SIMPLE_CIRCUITS))
+		return list("delay" = 2 SECONDS, "cost" = 1)
+>>>>>>> tg-pr-88929
 	return FALSE
 
-/obj/structure/firelock_frame/rcd_act(mob/user, obj/item/construction/rcd/the_rcd, passed_mode)
-	switch(passed_mode)
+/obj/structure/firelock_frame/rcd_act(mob/user, obj/item/construction/rcd/the_rcd, list/rcd_data)
+	switch(rcd_data["[RCD_DESIGN_MODE]"])
 		if(RCD_UPGRADE_SIMPLE_CIRCUITS)
-			user.visible_message(span_notice("[user] fabricates a circuit and places it into [src]."), \
-			span_notice("You adapt a firelock circuit and slot it into the assembly."))
+			user.balloon_alert(user, "circuit installed")
 			constructionStep = CONSTRUCTION_PANEL_OPEN
 			update_appearance()
 			return TRUE
 		if(RCD_DECONSTRUCT)
-			to_chat(user, span_notice("You deconstruct [src]."))
 			qdel(src)
 			return TRUE
 	return FALSE

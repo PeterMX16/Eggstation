@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+#define BURROW_RANGE 5
+>>>>>>> tg-pr-88929
 /datum/ai_controller/basic_controller/goldgrub
 	blackboard = list(
 		BB_TARGETING_STRATEGY = /datum/targeting_strategy/basic,
@@ -11,6 +15,7 @@
 	planning_subtrees = list(
 		/datum/ai_planning_subtree/simple_find_target,
 		/datum/ai_planning_subtree/pet_planning,
+<<<<<<< HEAD
 		/datum/ai_planning_subtree/dig_away_from_danger,
 		/datum/ai_planning_subtree/flee_target,
 		/datum/ai_planning_subtree/find_and_hunt_target/hunt_ores,
@@ -18,6 +23,17 @@
 		/datum/ai_planning_subtree/mine_walls,
 	)
 	can_idle = FALSE // we want these to be running always
+=======
+		/datum/ai_planning_subtree/burrow_through_ground,
+		/datum/ai_planning_subtree/dig_away_from_danger,
+		/datum/ai_planning_subtree/flee_target,
+		/datum/ai_planning_subtree/find_and_hunt_target/hunt_ores,
+		/datum/ai_planning_subtree/find_and_hunt_target/break_boulders,
+		/datum/ai_planning_subtree/find_and_hunt_target/harvest_vents,
+		/datum/ai_planning_subtree/find_and_hunt_target/baby_egg,
+		/datum/ai_planning_subtree/mine_walls,
+	)
+>>>>>>> tg-pr-88929
 
 /datum/ai_controller/basic_controller/babygrub
 	blackboard = list(
@@ -37,15 +53,65 @@
 		/datum/ai_planning_subtree/flee_target,
 		/datum/ai_planning_subtree/look_for_adult,
 	)
+<<<<<<< HEAD
 	can_idle = FALSE // we want these to be running always
+=======
+
+/datum/ai_planning_subtree/burrow_through_ground
+
+/datum/ai_planning_subtree/burrow_through_ground/SelectBehaviors(datum/ai_controller/controller, seconds_per_tick)
+	if(is_jaunting(controller.pawn) && controller.blackboard_key_exists(BB_BASIC_MOB_CURRENT_TARGET))
+		controller.queue_behavior(/datum/ai_behavior/burrow_through_ground, BB_BASIC_MOB_CURRENT_TARGET)
+		return SUBTREE_RETURN_FINISH_PLANNING
+
+/datum/ai_behavior/burrow_through_ground
+	action_cooldown = 10 SECONDS
+
+/datum/ai_behavior/burrow_through_ground/perform(seconds_per_tick, datum/ai_controller/controller, target_key)
+	var/atom/target = controller.blackboard[target_key]
+	if(!is_jaunting(controller.pawn) || QDELETED(target))
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
+
+	var/mob/living/living_pawn = controller.pawn
+	var/atom/movable/phased = living_pawn.loc
+
+	var/list/turfs_list = RANGE_TURFS(BURROW_RANGE, phased)
+	var/current_max_distance = 0
+	var/turf/selected_turf
+
+	for(var/turf/possible_turf as anything in turfs_list)
+		if(!ismineralturf(possible_turf) && !isasteroidturf(possible_turf))
+			continue
+
+		var/distance_to_target = get_dist(possible_turf, target)
+		if(distance_to_target > current_max_distance)
+			current_max_distance = distance_to_target
+			selected_turf = possible_turf
+
+		if(distance_to_target == BURROW_RANGE)
+			break
+
+	if(isnull(selected_turf))
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
+
+	phased.forceMove(selected_turf)
+	return AI_BEHAVIOR_SUCCEEDED | AI_BEHAVIOR_DELAY
+>>>>>>> tg-pr-88929
 
 ///consume food!
 /datum/ai_planning_subtree/find_and_hunt_target/hunt_ores
 	target_key = BB_ORE_TARGET
+<<<<<<< HEAD
 	hunting_behavior = /datum/ai_behavior/hunt_target/unarmed_attack_target/hunt_ores
 	finding_behavior = /datum/ai_behavior/find_hunt_target/hunt_ores
 	hunt_targets = list(/obj/item/stack/ore)
 	hunt_chance = 75
+=======
+	hunting_behavior = /datum/ai_behavior/hunt_target/interact_with_target/hunt_ores
+	finding_behavior = /datum/ai_behavior/find_hunt_target/hunt_ores
+	hunt_targets = list(/obj/item/stack/ore)
+	hunt_chance = 90
+>>>>>>> tg-pr-88929
 	hunt_range = 9
 
 /datum/ai_behavior/find_hunt_target/hunt_ores
@@ -65,9 +131,59 @@
 
 	return can_see(source, target, radius)
 
+<<<<<<< HEAD
 /datum/ai_behavior/hunt_target/unarmed_attack_target/hunt_ores
 	always_reset_target = TRUE
 
+=======
+/datum/ai_behavior/hunt_target/interact_with_target/hunt_ores
+	always_reset_target = TRUE
+
+///break boulders so that we can find more food!
+/datum/ai_planning_subtree/find_and_hunt_target/harvest_vents
+	target_key = BB_VENT_TARGET
+	hunting_behavior = /datum/ai_behavior/hunt_target/interact_with_target //We call the ore vent's produce_boulder() proc here to produce a single boulder.
+	finding_behavior = /datum/ai_behavior/find_hunt_target/harvest_vents
+	hunt_targets = list(/obj/structure/ore_vent)
+	hunt_chance = 25
+	hunt_range = 15
+
+/datum/ai_behavior/find_hunt_target/harvest_vents
+
+/datum/ai_behavior/find_hunt_target/harvest_vents/valid_dinner(mob/living/basic/source, obj/structure/target, radius)
+	if(target in source)
+		return FALSE
+
+	var/turf/vent_turf = target.drop_location()
+	var/counter = 0
+	for(var/obj/item/boulder in vent_turf.contents)
+		counter++
+		if(counter > MAX_BOULDERS_PER_VENT) //Too many items currently on the vent
+			return FALSE
+
+	return can_see(source, target, radius)
+
+///break boulders so that we can find more food!
+/datum/ai_planning_subtree/find_and_hunt_target/break_boulders
+	target_key = BB_BOULDER_TARGET
+	hunting_behavior = /datum/ai_behavior/hunt_target/interact_with_target //We process boulders once every tap, so we dont need to do anything special here
+	finding_behavior = /datum/ai_behavior/find_hunt_target/break_boulders
+	hunt_targets = list(/obj/item/boulder)
+	hunt_chance = 100 //If we can, we should always break boulders.
+	hunt_range = 9
+
+/datum/ai_behavior/find_hunt_target/break_boulders
+
+/datum/ai_behavior/find_hunt_target/break_boulders/valid_dinner(mob/living/basic/source, obj/item/boulder/target, radius)
+	if(target in source)
+		return FALSE
+
+	var/obj/item/pet_target = source.ai_controller.blackboard[BB_CURRENT_PET_TARGET]
+	if(target == pet_target) //we are currently fetching this ore for master, dont eat it!
+		return FALSE
+	return can_see(source, target, radius)
+
+>>>>>>> tg-pr-88929
 ///find our child's egg and pull it!
 /datum/ai_planning_subtree/find_and_hunt_target/baby_egg
 	target_key = BB_LOW_PRIORITY_HUNTING_TARGET
@@ -125,6 +241,11 @@
 
 /datum/pet_command/grub_spit
 	command_name = "Spit"
+<<<<<<< HEAD
+=======
+	radial_icon = 'icons/obj/ore.dmi'
+	radial_icon_state = "uranium"
+>>>>>>> tg-pr-88929
 	command_desc = "Ask your grub pet to spit out its ores."
 	speech_commands = list("spit", "ores")
 
@@ -135,3 +256,11 @@
 	controller.queue_behavior(/datum/ai_behavior/use_mob_ability, BB_SPIT_ABILITY)
 	controller.clear_blackboard_key(BB_ACTIVE_PET_COMMAND)
 	return SUBTREE_RETURN_FINISH_PLANNING
+<<<<<<< HEAD
+=======
+
+/datum/pet_command/grub_spit/retrieve_command_text(atom/living_pet, atom/target)
+	return "signals [living_pet] to spit its ores!"
+
+#undef BURROW_RANGE
+>>>>>>> tg-pr-88929

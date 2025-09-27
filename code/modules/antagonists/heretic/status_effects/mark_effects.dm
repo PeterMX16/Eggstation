@@ -51,10 +51,10 @@
 /datum/status_effect/eldritch/proc/on_effect(mob/living/activator) // monkestation edit: add "activator" arg to /datum/status_effect/eldritch/proc/on_effect()
 	SHOULD_CALL_PARENT(TRUE)
 
-	playsound(owner, 'sound/magic/repulse.ogg', 75, TRUE)
+	playsound(owner, 'sound/effects/magic/repulse.ogg', 75, TRUE)
 	qdel(src) //what happens when this is procced.
 
-//Each mark has diffrent effects when it is destroyed that combine with the mansus grasp effect.
+//Each mark has different effects when it is destroyed that combine with the mansus grasp effect.
 
 // MARK OF FLESH
 
@@ -100,6 +100,7 @@
 
 /* monkestation removal: reimplemented in [monkestation/code/modules/antagonists/heretic/status_effects/mark_effects.dm]
 /datum/status_effect/eldritch/rust/on_effect()
+<<<<<<< HEAD
 	if(iscarbon(owner))
 		var/mob/living/carbon/carbon_owner = owner
 		var/static/list/organs_to_damage = list(
@@ -123,6 +124,10 @@
 				if(!istype(thing, /obj/item/card/id))
 					thing.take_damage(50) //monkestation edit end
 
+=======
+	owner.adjust_disgust(100)
+	owner.adjust_confusion(10 SECONDS)
+>>>>>>> tg-pr-88929
 	return ..()
 monkestation end */
 
@@ -131,8 +136,13 @@ monkestation end */
 /datum/status_effect/eldritch/void
 	effect_icon_state = "emark4"
 
+<<<<<<< HEAD
 /datum/status_effect/eldritch/void/on_effect(mob/living/activator) // monkestation edit: add "activator" arg to /datum/status_effect/eldritch/proc/on_effect()
 	owner.apply_status_effect(/datum/status_effect/void_chill, 2)
+=======
+/datum/status_effect/eldritch/void/on_effect()
+	owner.apply_status_effect(/datum/status_effect/void_chill, 3)
+>>>>>>> tg-pr-88929
 	owner.adjust_silence(10 SECONDS)
 	owner.adjust_emote_mute(10 SECONDS)
 	return ..()
@@ -256,6 +266,7 @@ monkestation end */
 	owner.Paralyze(2 SECONDS)
 	return ..()
 
+<<<<<<< HEAD
 // MARK OF KNOCK
 
 /datum/status_effect/eldritch/knock
@@ -270,6 +281,26 @@ monkestation end */
 	REMOVE_TRAIT(owner, TRAIT_ALWAYS_NO_ACCESS, TRAIT_STATUS_EFFECT(id))
 	return ..()
 
+=======
+// MARK OF LOCK
+
+/datum/status_effect/eldritch/lock
+	effect_icon_state = "emark7"
+	duration = 10 SECONDS
+
+/datum/status_effect/eldritch/lock/on_apply()
+	. = ..()
+	RegisterSignal(owner, COMSIG_MOB_TRIED_ACCESS, PROC_REF(attempt_access))
+
+/datum/status_effect/eldritch/lock/on_remove()
+	UnregisterSignal(owner, COMSIG_MOB_TRIED_ACCESS)
+	return ..()
+
+/datum/status_effect/eldritch/lock/proc/attempt_access(datum/source, obj/door_attempt)
+	SIGNAL_HANDLER
+	return ACCESS_DISALLOWED
+
+>>>>>>> tg-pr-88929
 // MARK OF MOON
 
 /datum/status_effect/eldritch/moon
@@ -279,7 +310,13 @@ monkestation end */
 
 /datum/status_effect/eldritch/moon/on_apply()
 	. = ..()
+<<<<<<< HEAD
 	ADD_TRAIT(owner, TRAIT_PACIFISM, TRAIT_STATUS_EFFECT(id))
+=======
+	if(owner.can_block_magic(MAGIC_RESISTANCE_MIND))
+		return FALSE
+	ADD_TRAIT(owner, TRAIT_PACIFISM, id)
+>>>>>>> tg-pr-88929
 	owner.emote(pick("giggle", "laugh"))
 	owner.balloon_alert(owner, "you feel unable to hurt a soul!")
 	RegisterSignal (owner, COMSIG_MOB_APPLY_DAMAGE, PROC_REF(on_damaged))
@@ -299,10 +336,17 @@ monkestation end */
 		return
 
 	// Removes the trait in here since we don't wanna destroy the mark before its detonated or allow detonation triggers with other weapons
+<<<<<<< HEAD
 	REMOVE_TRAIT(owner, TRAIT_PACIFISM, TRAIT_STATUS_EFFECT(id))
 	owner.balloon_alert(owner, "you feel able to once again strike!")
 
 /datum/status_effect/eldritch/moon/on_effect(mob/living/activator) // monkestation edit: add "activator" arg to /datum/status_effect/eldritch/proc/
+=======
+	REMOVE_TRAIT(owner, TRAIT_PACIFISM, id)
+	owner.balloon_alert(owner, "you feel able to once again strike!")
+
+/datum/status_effect/eldritch/moon/on_effect()
+>>>>>>> tg-pr-88929
 	owner.adjust_confusion(30 SECONDS)
 	owner.adjustOrganLoss(ORGAN_SLOT_BRAIN, 25, 160)
 	owner.emote(pick("giggle", "laugh"))
@@ -313,5 +357,10 @@ monkestation end */
 	. = ..()
 	UnregisterSignal (owner, COMSIG_MOB_APPLY_DAMAGE)
 
+<<<<<<< HEAD
 	// Incase the trait was not removed earlier
 	REMOVE_TRAIT(owner, TRAIT_PACIFISM, TRAIT_STATUS_EFFECT(id))
+=======
+	// In case the trait was not removed earlier
+	REMOVE_TRAIT(owner, TRAIT_PACIFISM, id)
+>>>>>>> tg-pr-88929

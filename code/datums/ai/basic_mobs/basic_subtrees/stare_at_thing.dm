@@ -10,4 +10,7 @@
 		return
 
 	controller.queue_behavior(/datum/ai_behavior/stop_and_stare, BB_STATIONARY_CAUSE)
+<<<<<<< HEAD
 
+=======
+>>>>>>> tg-pr-88929

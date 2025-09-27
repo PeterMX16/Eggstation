@@ -88,7 +88,7 @@
 /turf/open/floor/iron,
 /area/ruin/planetengi)
 "aA" = (
-/obj/machinery/rnd/production/protolathe/department/engineering/no_tax,
+/obj/machinery/rnd/production/protolathe/department/engineering,
 /obj/effect/turf_decal/trimline/yellow/filled/warning{
 	dir = 9
 	},
@@ -230,7 +230,11 @@
 "br" = (
 /obj/machinery/atmospherics/pipe/smart/simple/cyan/visible,
 /obj/structure/sign/poster/official/build/directional/west,
+<<<<<<< HEAD
 /turf/open/floor/iron/icemoon,
+=======
+/turf/open/floor/iron,
+>>>>>>> tg-pr-88929
 /area/ruin/planetengi)
 "bs" = (
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/visible{
@@ -605,7 +609,11 @@
 	dir = 4
 	},
 /obj/structure/sign/poster/official/pda_ad/directional/south,
+<<<<<<< HEAD
 /turf/open/floor/iron/icemoon,
+=======
+/turf/open/floor/iron,
+>>>>>>> tg-pr-88929
 /area/ruin/planetengi)
 "dg" = (
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/visible{
@@ -788,9 +796,12 @@
 /area/ruin/planetengi)
 "yF" = (
 /mob/living/basic/construct/proteon,
+<<<<<<< HEAD
 /turf/open/floor/iron/icemoon,
 /area/ruin/planetengi)
 "Ab" = (
+=======
+>>>>>>> tg-pr-88929
 /turf/open/floor/iron,
 /area/ruin/planetengi)
 "Ai" = (

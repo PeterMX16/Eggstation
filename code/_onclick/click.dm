@@ -116,7 +116,25 @@
 			else
 				MiddleClickOn(A, params)
 			return
+<<<<<<< HEAD
 		if(LAZYACCESS(modifiers, ALT_CLICK)) // alt and alt-gr (rightalt)
+=======
+		if(LAZYACCESS(modifiers, CTRL_CLICK))
+			CtrlShiftClickOn(A)
+			return
+		ShiftClickOn(A)
+		return
+	if(LAZYACCESS(modifiers, MIDDLE_CLICK))
+		if(LAZYACCESS(modifiers, CTRL_CLICK))
+			CtrlMiddleClickOn(A)
+		else
+			MiddleClickOn(A, params)
+		return
+	if(LAZYACCESS(modifiers, ALT_CLICK)) // alt and alt-gr (rightalt)
+		if(LAZYACCESS(modifiers, RIGHT_CLICK))
+			AltClickSecondaryOn(A)
+		else
+>>>>>>> tg-pr-88929
 			AltClickOn(A)
 			return
 		if(LAZYACCESS(modifiers, CTRL_CLICK))
@@ -126,7 +144,11 @@
 		alt_click_on_secondary(A)
 		return
 
+<<<<<<< HEAD
 	if(incapacitated(IGNORE_RESTRAINTS|IGNORE_STASIS|IGNORE_CRIT))
+=======
+	if(INCAPACITATED_IGNORING(src, INCAPABLE_RESTRAINTS|INCAPABLE_STASIS))
+>>>>>>> tg-pr-88929
 		return
 
 	face_atom(A)
@@ -139,7 +161,11 @@
 
 	if(HAS_TRAIT(src, TRAIT_HANDS_BLOCKED) && !((stat >= SOFT_CRIT && (stat != DEAD && stat != UNCONSCIOUS))))
 		changeNext_move(CLICK_CD_HANDCUFFED)   //Doing shit in cuffs shall be vey slow
+<<<<<<< HEAD
 		UnarmedAttack(A, FALSE)
+=======
+		UnarmedAttack(A, Adjacent(A), modifiers)
+>>>>>>> tg-pr-88929
 		return
 
 	if(throw_mode)
@@ -168,7 +194,11 @@
 			if(ismob(A))
 				changeNext_move(CLICK_CD_MELEE)
 
+<<<<<<< HEAD
 			UnarmedAttack(A, FALSE)
+=======
+			UnarmedAttack(A, TRUE, modifiers)
+>>>>>>> tg-pr-88929
 		return
 
 	//Can't reach anything else in lockers or other weirdness
@@ -188,7 +218,11 @@
 		else
 			if(ismob(A))
 				changeNext_move(CLICK_CD_MELEE)
+<<<<<<< HEAD
 			UnarmedAttack(A , 1, modifiers)
+=======
+			UnarmedAttack(A, TRUE, modifiers)
+>>>>>>> tg-pr-88929
 	else
 		if(W)
 			A.base_ranged_item_interaction(src, W, modifiers)
@@ -222,7 +256,7 @@
  * A backwards depth-limited breadth-first-search to see if the target is
  * logically "in" anything adjacent to us.
  */
-/atom/movable/proc/CanReach(atom/ultimate_target, obj/item/tool, view_only = FALSE)
+/atom/proc/CanReach(atom/ultimate_target, obj/item/tool, view_only = FALSE)
 	var/list/direct_access = DirectAccess()
 	var/depth = 1 + (view_only ? STORAGE_VIEW_DEPTH : INVENTORY_DEPTH)
 
@@ -250,9 +284,13 @@
 				next += target.loc
 
 		checking = next
+
+	if(SEND_SIGNAL(src, COMSIG_ATOM_CANREACH, ultimate_target) & COMPONENT_ALLOW_REACH)
+		return TRUE
+
 	return FALSE
 
-/atom/movable/proc/DirectAccess()
+/atom/proc/DirectAccess()
 	return list(src, loc)
 
 /mob/DirectAccess(atom/target)
@@ -278,7 +316,7 @@
 		if(2 to INFINITY)
 			var/obj/dummy = new(get_turf(here))
 			dummy.pass_flags |= PASSTABLE
-			dummy.invisibility = INVISIBILITY_ABSTRACT
+			dummy.SetInvisibility(INVISIBILITY_ABSTRACT)
 			for(var/i in 1 to reach) //Limit it to that many tries
 				var/turf/T = get_step(dummy, get_dir(dummy, there))
 				if(dummy.CanReach(there))
@@ -295,7 +333,10 @@
 
 
 /**
- * Translates into [atom/proc/attack_hand], etc.
+ * UnarmedAttack: The higest level of mob click chain discounting click itself.
+ *
+ * This handles, just "clicking on something" without an item. It translates
+ * into [atom/proc/attack_hand], [atom/proc/attack_animal] etc.
  *
  * Note: proximity_flag here is used to distinguish between normal usage (flag=1),
  * and usage when clicking on things telekinetically (flag=0).  This proc will
@@ -363,6 +404,7 @@
 	if(user.client && (user.client.eye == user || user.client.eye == user.loc || flags & COMPONENT_ALLOW_EXAMINATE))
 		user.examinate(src)
 
+<<<<<<< HEAD
 /**
  * Ctrl click
  * For most objects, pull
@@ -501,15 +543,13 @@
 /mob/proc/CtrlShiftClickOn(atom/A)
 	A.CtrlShiftClick(src)
 	return
+=======
+/mob/proc/TurfAdjacent(turf/tile)
+	return tile.Adjacent(src)
+>>>>>>> tg-pr-88929
 
 /mob/proc/ShiftMiddleClickOn(atom/A)
 	src.pointed(A)
-	return
-
-/atom/proc/CtrlShiftClick(mob/user)
-	if(!can_interact(user))
-		return FALSE
-	SEND_SIGNAL(src, COMSIG_CLICK_CTRL_SHIFT, user)
 	return
 
 /*
@@ -560,15 +600,15 @@
 	mouse_opacity = MOUSE_OPACITY_OPAQUE
 	screen_loc = "CENTER"
 
-#define MAX_SAFE_BYOND_ICON_SCALE_TILES (MAX_SAFE_BYOND_ICON_SCALE_PX / world.icon_size)
-#define MAX_SAFE_BYOND_ICON_SCALE_PX (33 * 32) //Not using world.icon_size on purpose.
+#define MAX_SAFE_BYOND_ICON_SCALE_TILES (MAX_SAFE_BYOND_ICON_SCALE_PX / ICON_SIZE_ALL)
+#define MAX_SAFE_BYOND_ICON_SCALE_PX (33 * 32) //Not using world.icon_size on purpose. //Ok well I trust you
 
 /atom/movable/screen/click_catcher/proc/UpdateGreed(view_size_x = 15, view_size_y = 15)
 	var/icon/newicon = icon('icons/hud/screen_gen.dmi', "catcher")
 	var/ox = min(MAX_SAFE_BYOND_ICON_SCALE_TILES, view_size_x)
 	var/oy = min(MAX_SAFE_BYOND_ICON_SCALE_TILES, view_size_y)
-	var/px = view_size_x * world.icon_size
-	var/py = view_size_y * world.icon_size
+	var/px = view_size_x * ICON_SIZE_X
+	var/py = view_size_y * ICON_SIZE_Y
 	var/sx = min(MAX_SAFE_BYOND_ICON_SCALE_PX, px)
 	var/sy = min(MAX_SAFE_BYOND_ICON_SCALE_PX, py)
 	newicon.Scale(sx, sy)

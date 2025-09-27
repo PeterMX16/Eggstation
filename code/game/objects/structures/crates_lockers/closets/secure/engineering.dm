@@ -19,13 +19,18 @@
 	new /obj/item/extinguisher/advanced(src)
 	new /obj/item/storage/photo_album/ce(src)
 	new /obj/item/storage/box/skillchips/engineering(src)
+	new /obj/item/storage/box/stickers/chief_engineer(src)
 
 /obj/structure/closet/secure_closet/engineering_chief/populate_contents_immediate()
 	. = ..()
 
 	// Traitor steal objective
+<<<<<<< HEAD
 	new /obj/item/areaeditor/blueprints(src)
 	new /obj/item/gun/ballistic/SRN_rocketlauncher(src)
+=======
+	new /obj/item/blueprints(src)
+>>>>>>> tg-pr-88929
 	new /obj/item/pipe_dispenser(src)
 
 /obj/structure/closet/secure_closet/engineering_electrical
@@ -88,7 +93,10 @@
 	..()
 	new /obj/item/radio/headset/headset_eng(src)
 
+<<<<<<< HEAD
 	new /obj/item/storage/box/nanofrost(src) //monkestation addition
+=======
+>>>>>>> tg-pr-88929
 	new /obj/item/storage/toolbox/mechanical(src)
 	new /obj/item/tank/internals/emergency_oxygen/engi(src)
 	new /obj/item/holosign_creator/atmos(src)
@@ -104,6 +112,7 @@
 	. = ..()
 
 	new /obj/item/pipe_dispenser(src)
+<<<<<<< HEAD
 //monkestation addition start
 /obj/structure/closet/secure_closet/shipbreaker
 	name = "shipbreaker tool locker"
@@ -125,3 +134,5 @@
 /obj/structure/closet/secure_closet/shipbreaker/populate_contents_immediate()
 	. = ..()
 //monkestation addition end
+=======
+>>>>>>> tg-pr-88929

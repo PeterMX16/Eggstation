@@ -1,9 +1,19 @@
+<<<<<<< HEAD
 import { useBackend } from '../../backend';
 import { Button, Stack } from '../../components';
 import { Window } from '../../layouts';
 import { RequestsData } from './types';
 import { RequestsConsoleHeader } from './RequestsConsoleHeader';
 import { RequestMainScreen } from './RequestsConsoleMainScreen';
+=======
+import { Button, Stack } from 'tgui-core/components';
+
+import { useBackend } from '../../backend';
+import { Window } from '../../layouts';
+import { RequestsConsoleHeader } from './RequestsConsoleHeader';
+import { RequestMainScreen } from './RequestsConsoleMainScreen';
+import { RequestsData } from './types';
+>>>>>>> tg-pr-88929
 
 export const RequestsConsole = (props) => {
   const { act, data } = useBackend<RequestsData>();

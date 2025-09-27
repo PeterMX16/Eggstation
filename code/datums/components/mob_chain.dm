@@ -43,7 +43,11 @@
 	RegisterSignal(parent, COMSIG_QDELETING, PROC_REF(on_deletion))
 	RegisterSignal(parent, COMSIG_MOVABLE_MOVED, PROC_REF(on_moved))
 	RegisterSignal(parent, COMSIG_ATOM_CAN_BE_PULLED, PROC_REF(on_pulled))
+<<<<<<< HEAD
 	RegisterSignals(parent, list(COMSIG_LIVING_UNARMED_ATTACK, COMSIG_HUMAN_EARLY_UNARMED_ATTACK, COMSIG_MOB_ATTACK_RANGED), PROC_REF(on_attack))
+=======
+	RegisterSignals(parent, list(COMSIG_LIVING_UNARMED_ATTACK, COMSIG_MOB_ATTACK_RANGED), PROC_REF(on_attack))
+>>>>>>> tg-pr-88929
 	RegisterSignal(parent, COMSIG_MOVABLE_UPDATE_GLIDE_SIZE, PROC_REF(on_glide_size_changed))
 	if (vary_icon_state)
 		RegisterSignal(parent, COMSIG_ATOM_UPDATE_ICON_STATE, PROC_REF(on_update_icon_state))
@@ -61,10 +65,15 @@
 		COMSIG_ATOM_CAN_BE_PULLED,
 		COMSIG_ATOM_UPDATE_ICON_STATE,
 		COMSIG_CARBON_LIMB_DAMAGED,
+<<<<<<< HEAD
 		COMSIG_HUMAN_EARLY_UNARMED_ATTACK,
 		COMSIG_LIVING_ADJUST_BRUTE_DAMAGE,
 		COMSIG_LIVING_ADJUST_BURN_DAMAGE,
 		COMSIG_LIVING_ADJUST_CLONE_DAMAGE,
+=======
+		COMSIG_LIVING_ADJUST_BRUTE_DAMAGE,
+		COMSIG_LIVING_ADJUST_BURN_DAMAGE,
+>>>>>>> tg-pr-88929
 		COMSIG_LIVING_DEATH,
 		COMSIG_LIVING_ADJUST_OXY_DAMAGE,
 		COMSIG_LIVING_ADJUST_STAMINA_DAMAGE,
@@ -90,7 +99,11 @@
 	var/mob/living/body = parent
 	body.update_appearance(UPDATE_ICON_STATE)
 
+<<<<<<< HEAD
 /// Called when something sets us as IT'S front
+=======
+/// Called when something sets us as ITS front
+>>>>>>> tg-pr-88929
 /datum/component/mob_chain/proc/on_gained_tail(mob/living/body, mob/living/tail)
 	SIGNAL_HANDLER
 	back = tail
@@ -173,16 +186,23 @@
 	SIGNAL_HANDLER
 	if (forced)
 		return
+<<<<<<< HEAD
 	back?.stamina.adjust(-amount, forced)
+=======
+	back?.adjustStaminaLoss(amount, forced = forced)
+>>>>>>> tg-pr-88929
 
 /// On damage or heal, affect our furthest segment
 /datum/component/mob_chain/proc/on_adjust_damage(mob/living/our_mob, type, amount, forced)
 	SIGNAL_HANDLER
 	if (isnull(back) || forced)
 		return
+<<<<<<< HEAD
 	if (type == STAMINA)
 		back.stamina.adjust(-amount, forced)
 		return // Pass stamina changes all the way along so we maintain consistent speed
+=======
+>>>>>>> tg-pr-88929
 	switch (type)
 		if(BRUTE)
 			back.adjustBruteLoss(amount, forced = forced)
@@ -192,8 +212,11 @@
 			back.adjustToxLoss(amount, forced = forced)
 		if(OXY) // If all segments are suffocating we pile damage backwards until our ass starts dying forwards
 			back.adjustOxyLoss(amount, forced = forced)
+<<<<<<< HEAD
 		if(CLONE)
 			back.adjustCloneLoss(amount, forced = forced)
+=======
+>>>>>>> tg-pr-88929
 	return COMPONENT_IGNORE_CHANGE
 
 /// Special handling for if damage is delegated to a mob's limbs instead of its overall damage

@@ -25,12 +25,16 @@
 
 
 /datum/admins/proc/equipAntagOnDummy(mob/living/carbon/human/dummy/mannequin, datum/antagonist/antag)
+<<<<<<< HEAD
 	// MONKESTATION EDIT
 	// Non carbon mobs dont got clothes
 	if(!istype(mannequin))
 		return
 
 	for(var/I in mannequin.get_equipped_items(include_pockets = TRUE))
+=======
+	for(var/I in mannequin.get_equipped_items(INCLUDE_POCKETS))
+>>>>>>> tg-pr-88929
 		qdel(I)
 	if (ispath(antag, /datum/antagonist/ert))
 		var/datum/antagonist/ert/ert = antag
@@ -97,6 +101,8 @@
 	else
 		ertemplate = new /datum/ert/centcom_official
 
+	var/human_authority_setting = CONFIG_GET(string/human_authority)
+
 	var/list/settings = list(
 		"preview_callback" = CALLBACK(src, PROC_REF(makeERTPreviewIcon)),
 		"mainsettings" = list(
@@ -104,12 +110,13 @@
 		"teamsize" = list("desc" = "Team Size", "type" = "number", "value" = ertemplate.teamsize),
 		"mission" = list("desc" = "Mission", "type" = "string", "value" = ertemplate.mission),
 		"polldesc" = list("desc" = "Ghost poll description", "type" = "string", "value" = ertemplate.polldesc),
-		"enforce_human" = list("desc" = "Enforce human authority", "type" = "boolean", "value" = "[(CONFIG_GET(flag/enforce_human_authority) ? "Yes" : "No")]"),
+		"enforce_human" = list("desc" = "Enforce human authority", "type" = "boolean", "value" = "[(human_authority_setting == HUMAN_AUTHORITY_ENFORCED ? "Yes" : "No")]"),
 		"open_armory" = list("desc" = "Open armory doors", "type" = "boolean", "value" = "[(ertemplate.opendoors ? "Yes" : "No")]"),
 		"leader_experience" = list("desc" = "Pick an experienced leader", "type" = "boolean", "value" = "[(ertemplate.leader_experience ? "Yes" : "No")]"),
 		"random_names" = list("desc" = "Randomize names", "type" = "boolean", "value" = "[(ertemplate.random_names ? "Yes" : "No")]"),
 		"spawn_admin" = list("desc" = "Spawn yourself as briefing officer", "type" = "boolean", "value" = "[(ertemplate.spawn_admin ? "Yes" : "No")]"),
 		"use_custom_shuttle" = list("desc" = "Use the ERT's custom shuttle (if it has one)", "type" = "boolean", "value" = "[(ertemplate.use_custom_shuttle ? "Yes" : "No")]"),
+		"mob_type" = list("desc" = "Base Species", "callback" = CALLBACK(src, PROC_REF(makeERTTemplateModified)), "type" = "datum", "path" = "/mob/living/carbon/human", "subtypesonly" = TRUE, "value" = ertemplate.mob_type),
 		)
 	)
 
@@ -137,11 +144,16 @@
 		ertemplate.random_names = prefs["random_names"]["value"] == "Yes"
 		ertemplate.spawn_admin = prefs["spawn_admin"]["value"] == "Yes"
 		ertemplate.use_custom_shuttle = prefs["use_custom_shuttle"]["value"] == "Yes"
+		ertemplate.mob_type = prefs["mob_type"]["value"]
 
 		var/list/spawnpoints = GLOB.emergencyresponseteamspawn
 		var/index = 0
 
+<<<<<<< HEAD
 		var/list/mob/dead/observer/candidates = SSpolling.poll_ghost_candidates("Do you wish to be considered for [ertemplate.polldesc]?", check_jobban = "deathsquad", alert_pic = ertemplate.poll_icon, role_name_text = "[ertemplate.poll_title]") //monkestation edit: adds custom poll titles
+=======
+		var/list/mob/dead/observer/candidates = SSpolling.poll_ghost_candidates("Do you wish to be considered for [span_notice(ertemplate.polldesc)]?", check_jobban = "deathsquad", alert_pic = /obj/item/card/id/advanced/centcom/ert, role_name_text = "emergency response team")
+>>>>>>> tg-pr-88929
 		var/teamSpawned = FALSE
 
 		// This list will take priority over spawnpoints if not empty
@@ -173,7 +185,7 @@
 					spawn_turfs += get_turf(spawner)
 
 				if(!brief_spawn)
-					brief_spawn = locate(/obj/effect/landmark/ert_shuttle_brief_spawn) in affected_turf
+					brief_spawn = get_turf(locate(/obj/effect/landmark/ert_shuttle_brief_spawn) in affected_turf)
 
 			if(!length(spawn_turfs))
 				stack_trace("ERT shuttle loaded but found no spawnpoints, placing the ERT at wherever inside the shuttle instead.")
@@ -215,10 +227,21 @@
 		var/leader_spawned = FALSE // just in case the earmarked leader disconnects or becomes unavailable, we can try giving leader to the last guy to get chosen
 
 		if(ertemplate.leader_experience)
+<<<<<<< HEAD
 			// monkestation edit: fix runtime with using wrong sort proc
 			var/list/candidate_living_exps = sort_list(candidates, cmp=/proc/cmp_mob_playtime_dsc)
 			if(length(candidate_living_exps) > ERT_EXPERIENCED_LEADER_CHOOSE_TOP)
 				candidate_living_exps = candidate_living_exps.Cut(ERT_EXPERIENCED_LEADER_CHOOSE_TOP+1) // pick from the top ERT_EXPERIENCED_LEADER_CHOOSE_TOP contenders in playtime
+=======
+			var/list/candidate_living_exps = list()
+			for(var/i in candidates)
+				var/mob/dead/observer/potential_leader = i
+				candidate_living_exps[potential_leader] = potential_leader.client?.get_exp_living(TRUE)
+
+			candidate_living_exps = sort_list(candidate_living_exps, cmp=/proc/cmp_numeric_dsc)
+			if(candidate_living_exps.len > ERT_EXPERIENCED_LEADER_CHOOSE_TOP)
+				candidate_living_exps.Cut(ERT_EXPERIENCED_LEADER_CHOOSE_TOP+1) // pick from the top ERT_EXPERIENCED_LEADER_CHOOSE_TOP contenders in playtime
+>>>>>>> tg-pr-88929
 			earmarked_leader = pick(candidate_living_exps)
 		else
 			earmarked_leader = pick(candidates)
@@ -238,6 +261,7 @@
 				continue
 
 			//Spawn the body
+<<<<<<< HEAD
 			var/mob/ert_operative = new ertemplate.mobtype(spawnloc)
 
 			// MONKESTATION EDIT - Non-Carbon compatibility.
@@ -250,6 +274,18 @@
 
 			ert_operative.PossessByPlayer(chosen_candidate.key)
 			// MONKESTATION EDIT END
+=======
+			var/mob/living/carbon/human/ert_operative
+			if(ertemplate.mob_type)
+				ert_operative = new ertemplate.mob_type(spawnloc)
+			else
+				ert_operative = new /mob/living/carbon/human(spawnloc)
+				chosen_candidate.client.prefs.safe_transfer_prefs_to(ert_operative, is_antag = TRUE)
+			ert_operative.key = chosen_candidate.key
+
+			if(ertemplate.enforce_human || !(ert_operative.dna.species.changesource_flags & ERT_SPAWN))
+				ert_operative.set_species(/datum/species/human)
+>>>>>>> tg-pr-88929
 
 			//Give antag datum
 			var/datum/antagonist/ert/ert_antag
@@ -264,7 +300,7 @@
 			ert_antag.random_names = ertemplate.random_names
 
 			ert_operative.mind.add_antag_datum(ert_antag,ert_team)
-			ert_operative.mind.set_assigned_role(SSjob.GetJobType(ert_antag.ert_job_path))
+			ert_operative.mind.set_assigned_role(SSjob.get_job_type(ert_antag.ert_job_path))
 
 			//Logging and cleanup
 			ert_operative.log_message("has been selected as \a [ert_antag.name].", LOG_GAME)
@@ -276,14 +312,18 @@
 
 		//Open the Armory doors
 		if(ertemplate.opendoors)
-			for(var/obj/machinery/door/poddoor/ert/door in GLOB.airlocks)
+			for(var/obj/machinery/door/poddoor/ert/door as anything in SSmachines.get_machines_by_type_and_subtypes(/obj/machinery/door/poddoor/ert))
 				door.open()
 				CHECK_TICK
 		return TRUE
 
 	return
 
+<<<<<<< HEAD
 ADMIN_VERB(summon_ert, R_FUN, FALSE, "Summon ERT", "Summons an emergency response team.", ADMIN_CATEGORY_FUN)
+=======
+ADMIN_VERB(summon_ert, R_FUN, "Summon ERT", "Summons an emergency response team.", ADMIN_CATEGORY_FUN)
+>>>>>>> tg-pr-88929
 	message_admins("[key_name_admin(user)] is creating a CentCom response team...")
 	if(user.holder?.makeEmergencyresponseteam())
 		message_admins("[key_name_admin(user)] created a CentCom response team.")

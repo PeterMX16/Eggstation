@@ -29,6 +29,8 @@ GLOBAL_DATUM_INIT(steal_item_handler, /datum/objective_item_handler, new())
 
 /datum/objective_item_handler/proc/new_item_created(datum/source, obj/item/item)
 	SIGNAL_HANDLER
+	if(HAS_TRAIT(item, TRAIT_ITEM_OBJECTIVE_BLOCKED))
+		return
 	if(!generated_items)
 		item.add_stealing_item_objective()
 		return
@@ -226,6 +228,8 @@ GLOBAL_DATUM_INIT(steal_item_handler, /datum/objective_item_handler, new())
 
 /datum/traitor_objective/steal_item/proc/handle_special_case(obj/item/source, obj/item/target)
 	SIGNAL_HANDLER
+	if(HAS_TRAIT(target, TRAIT_ITEM_OBJECTIVE_BLOCKED))
+		return COMPONENT_FORCE_FAIL_PLACEMENT
 	if(istype(target, target_item.targetitem))
 		if(!target_item.check_special_completion(target))
 			return COMPONENT_FORCE_FAIL_PLACEMENT
@@ -253,9 +257,13 @@ GLOBAL_DATUM_INIT(steal_item_handler, /datum/objective_item_handler, new())
 /obj/item/traitor_bug
 	name = "suspicious device"
 	desc = "It looks dangerous."
+<<<<<<< HEAD
 	item_flags = NOBLUDGEON
+=======
+	item_flags = EXAMINE_SKIP|NOBLUDGEON
+>>>>>>> tg-pr-88929
 
-	icon = 'icons/obj/device_syndie.dmi'
+	icon = 'icons/obj/antags/syndicate_tools.dmi'
 	icon_state = "bug"
 
 	/// The object on which this bug can be planted on. Has to be a type.
@@ -294,7 +302,11 @@ GLOBAL_DATUM_INIT(steal_item_handler, /datum/objective_item_handler, new())
 		if(result & COMPONENT_FORCE_FAIL_PLACEMENT || !istype(target, target_object_type))
 			balloon_alert(user, "you can't attach this onto here!")
 			return ITEM_INTERACT_BLOCKING
+<<<<<<< HEAD
 	if(!do_after(user, deploy_time, src))
+=======
+	if(!do_after(user, deploy_time, src, hidden = TRUE))
+>>>>>>> tg-pr-88929
 		return ITEM_INTERACT_BLOCKING
 	if(planted_on)
 		return ITEM_INTERACT_BLOCKING

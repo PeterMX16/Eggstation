@@ -75,7 +75,11 @@ SUBSYSTEM_DEF(atoms)
 	rustg_file_write(json_encode(mapload_init_times), "[GLOB.log_directory]/init_times.json")
 	#endif
 
+<<<<<<< HEAD
 /// Actually creates the list of atoms. Exists soley so a runtime in the creation logic doesn't cause initalized to totally break
+=======
+/// Actually creates the list of atoms. Exists solely so a runtime in the creation logic doesn't cause initialized to totally break
+>>>>>>> tg-pr-88929
 /datum/controller/subsystem/atoms/proc/CreateAtoms(list/atoms, list/atoms_to_return = null, mapload_source = null)
 	if (atoms_to_return)
 		LAZYINITLIST(created_atoms)
@@ -126,36 +130,51 @@ SUBSYSTEM_DEF(atoms)
 					stoplag()
 					if(mapload_source)
 						set_tracked_initalized(INITIALIZATION_INNEW_MAPLOAD, mapload_source)
+<<<<<<< HEAD
 #ifndef DISABLE_DEMOS
 		SSdemo.mark_multiple_new(atoms_to_mark) // monkestation edit: replays
 #endif
+=======
+>>>>>>> tg-pr-88929
 
 	testing("Initialized [count] atoms")
 
-/// Init this specific atom
-/datum/controller/subsystem/atoms/proc/InitAtom(atom/A, from_template = FALSE, list/arguments)
-	var/the_type = A.type
+/datum/controller/subsystem/atoms/proc/map_loader_begin(source)
+	set_tracked_initalized(INITIALIZATION_INSSATOMS, source)
 
-	if(QDELING(A))
-		// Check init_start_time to not worry about atoms created before the atoms SS that are cleaned up before this
-		if (A.gc_destroyed > init_start_time)
-			BadInitializeCalls[the_type] |= BAD_INIT_QDEL_BEFORE
-		return TRUE
+/datum/controller/subsystem/atoms/proc/map_loader_stop(source)
+	clear_tracked_initalize(source)
 
-	// This is handled and battle tested by dreamchecker. Limit to UNIT_TESTS just in case that ever fails.
-	#ifdef UNIT_TESTS
-	var/start_tick = world.time
-	#endif
+/// Returns the source currently modifying SSatom's init behavior
+/datum/controller/subsystem/atoms/proc/get_initialized_source()
+	var/state_length = length(initialized_state)
+	if(!state_length)
+		return null
+	return initialized_state[state_length][1]
 
-	var/result = A.Initialize(arglist(arguments))
+/// Use this to set initialized to prevent error states where the old initialized is overridden, and we end up losing all context
+/// Accepts a state and a source, the most recent state is used, sources exist to prevent overriding old values accidentally
+/datum/controller/subsystem/atoms/proc/set_tracked_initalized(state, source)
+	if(!length(initialized_state))
+		base_initialized = initialized
+	initialized_state += list(list(source, state))
+	initialized = state
 
-	#ifdef UNIT_TESTS
-	if(start_tick != world.time)
-		BadInitializeCalls[the_type] |= BAD_INIT_SLEPT
-	#endif
+/datum/controller/subsystem/atoms/proc/clear_tracked_initalize(source)
+	if(!length(initialized_state))
+		return
+	for(var/i in length(initialized_state) to 1 step -1)
+		if(initialized_state[i][1] == source)
+			initialized_state.Cut(i, i+1)
+			break
 
-	var/qdeleted = FALSE
+	if(!length(initialized_state))
+		initialized = base_initialized
+		base_initialized = INITIALIZATION_INNEW_REGULAR
+		return
+	initialized = initialized_state[length(initialized_state)][2]
 
+<<<<<<< HEAD
 	switch(result)
 		if (INITIALIZE_HINT_NORMAL)
 			EMPTY_BLOCK_GUARD // Pass
@@ -221,6 +240,8 @@ SUBSYSTEM_DEF(atoms)
 		return
 	initialized = initialized_state[length(initialized_state)][2]
 
+=======
+>>>>>>> tg-pr-88929
 /// Returns TRUE if anything is currently being initialized
 /datum/controller/subsystem/atoms/proc/initializing_something()
 	return length(initialized_state) > 1
@@ -235,9 +256,6 @@ SUBSYSTEM_DEF(atoms)
 /datum/controller/subsystem/atoms/proc/setupGenetics()
 	var/list/mutations = subtypesof(/datum/mutation)
 	shuffle_inplace(mutations)
-	for(var/A in subtypesof(/datum/generecipe))
-		var/datum/generecipe/GR = A
-		GLOB.mutation_recipes[initial(GR.required)] = initial(GR.result)
 	for(var/i in 1 to LAZYLEN(mutations))
 		var/path = mutations[i] //byond gets pissy when we do it in one line
 		var/datum/mutation/B = new path ()
@@ -265,7 +283,7 @@ SUBSYSTEM_DEF(atoms)
 		if(fails & BAD_INIT_NO_HINT)
 			. += "- Didn't return an Initialize hint\n"
 		if(fails & BAD_INIT_QDEL_BEFORE)
-			. += "- Qdel'd in New()\n"
+			. += "- Qdel'd before Initialize proc ran\n"
 		if(fails & BAD_INIT_SLEPT)
 			. += "- Slept during Initialize()\n"
 

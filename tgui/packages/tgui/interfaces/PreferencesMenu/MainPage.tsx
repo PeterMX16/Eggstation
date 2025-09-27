@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { classes } from 'common/react';
 import { sendAct, useBackend, useLocalState } from '../../backend';
 import {
@@ -18,9 +19,42 @@ import {
   RandomSetting,
 } from './data';
 import { DeleteCharacterPopup } from './DeleteCharacterPopup';
+=======
+import { filter, map, sortBy } from 'common/collections';
+import { ReactNode, useState } from 'react';
+import {
+  Autofocus,
+  Box,
+  Button,
+  Flex,
+  Input,
+  LabeledList,
+  Popper,
+  Stack,
+} from 'tgui-core/components';
+import { classes } from 'tgui-core/react';
+import { createSearch } from 'tgui-core/string';
+
+import { sendAct, useBackend } from '../../backend';
+>>>>>>> tg-pr-88929
 import { CharacterPreview } from '../common/CharacterPreview';
+import {
+  createSetPreference,
+  PreferencesMenuData,
+  RandomSetting,
+  ServerData,
+} from './data';
+import { DeleteCharacterPopup } from './DeleteCharacterPopup';
+import { MultiNameInput, NameInput } from './names';
+import features from './preferences/features';
+import {
+  FeatureChoicedServerData,
+  FeatureValueInput,
+} from './preferences/features/base';
+import { Gender, GENDERS } from './preferences/gender';
 import { RandomizationButton } from './RandomizationButton';
 import { ServerPreferencesFetcher } from './ServerPreferencesFetcher';
+<<<<<<< HEAD
 import { MultiNameInput, NameInput } from './names';
 import { Gender, GENDERS } from './preferences/gender';
 import features from './preferences/features';
@@ -29,6 +63,8 @@ import {
   FeatureValueInput,
 } from './preferences/features/base';
 import { filterMap, sortBy } from 'common/collections';
+=======
+>>>>>>> tg-pr-88929
 import { useRandomToggleState } from './useRandomToggleState';
 import { createSearch } from 'common/string';
 import { InfernoNode } from 'inferno';
@@ -99,6 +135,7 @@ const ChoicedSelection = (props: {
   name: string;
   catalog: FeatureChoicedServerData;
   selected: string;
+<<<<<<< HEAD
   supplementalFeatures?: string[]; // Now an array of features
   supplementalValues?: unknown[]; // Now an array of values
   onClose: () => void;
@@ -115,6 +152,17 @@ const ChoicedSelection = (props: {
     searchText,
     setSearchText,
   } = props;
+=======
+  supplementalFeature?: string;
+  supplementalValue?: unknown;
+  onClose: () => void;
+  onSelect: (value: string) => void;
+}) => {
+  const { act } = useBackend<PreferencesMenuData>();
+
+  const { catalog, supplementalFeature, supplementalValue } = props;
+  const [getSearchText, searchTextSet] = useState('');
+>>>>>>> tg-pr-88929
 
   if (!catalog.icons) {
     return <Box color="red">Provided catalog had no icons!</Box>;
@@ -126,14 +174,22 @@ const ChoicedSelection = (props: {
 
   return (
     <Box
+<<<<<<< HEAD
       className="theme-generic"
       style={{
+=======
+      className="ChoicedSelection"
+      style={{
+        padding: '5px',
+
+>>>>>>> tg-pr-88929
         height: `${
           CLOTHING_SELECTION_CELL_SIZE * CLOTHING_SELECTION_MULTIPLIER
         }px`,
         width: `${CLOTHING_SELECTION_CELL_SIZE * CLOTHING_SELECTION_WIDTH}px`,
       }}
     >
+<<<<<<< HEAD
       <Box
         className="PopupWindow"
         style={{ padding: '5px' }}
@@ -209,6 +265,57 @@ const ChoicedSelection = (props: {
               {Object.entries(catalog.icons)
                 .filter(([n, _]) => searchText?.length < 1 || search(n))
                 .map(([name, image], index) => {
+=======
+      <Stack vertical fill>
+        <Stack.Item>
+          <Stack fill>
+            {supplementalFeature && (
+              <Stack.Item>
+                <FeatureValueInput
+                  act={act}
+                  feature={features[supplementalFeature]}
+                  featureId={supplementalFeature}
+                  shrink
+                  value={supplementalValue}
+                />
+              </Stack.Item>
+            )}
+
+            <Stack.Item grow>
+              <Box
+                style={{
+                  borderBottom: '1px solid #888',
+                  fontWeight: 'bold',
+                  fontSize: '14px',
+                  textAlign: 'center',
+                }}
+              >
+                Select {props.name.toLowerCase()}
+              </Box>
+            </Stack.Item>
+
+            <Stack.Item>
+              <Button color="red" onClick={props.onClose}>
+                X
+              </Button>
+            </Stack.Item>
+          </Stack>
+        </Stack.Item>
+
+        <Stack.Item overflowX="hidden" overflowY="scroll">
+          <Autofocus>
+            <Input
+              placeholder="Search..."
+              style={{
+                margin: '0px 5px',
+                width: '95%',
+              }}
+              onInput={(_, value) => searchTextSet(value)}
+            />
+            <Flex wrap>
+              {searchInCatalog(getSearchText, catalog.icons).map(
+                ([name, image], index) => {
+>>>>>>> tg-pr-88929
                   return (
                     <Flex.Item
                       key={index}
@@ -222,6 +329,11 @@ const ChoicedSelection = (props: {
                           props.onSelect(name);
                         }}
                         selected={name === props.selected}
+<<<<<<< HEAD
+=======
+                        tooltip={name}
+                        tooltipPosition="right"
+>>>>>>> tg-pr-88929
                         style={{
                           height: `${CLOTHING_SELECTION_CELL_SIZE}px`,
                           width: `${CLOTHING_SELECTION_CELL_SIZE}px`,
@@ -233,6 +345,7 @@ const ChoicedSelection = (props: {
                             image,
                             'centered-image',
                           ])}
+<<<<<<< HEAD
                           style={{
                             transform:
                               'translateX(-50%) translateY(-50%) scale(1.4)',
@@ -250,6 +363,14 @@ const ChoicedSelection = (props: {
                     </Flex.Item>
                   );
                 })}
+=======
+                        />
+                      </Button>
+                    </Flex.Item>
+                  );
+                },
+              )}
+>>>>>>> tg-pr-88929
             </Flex>
           </Stack.Item>
           {/* Handle larger supplemental features */}
@@ -291,24 +412,42 @@ const ChoicedSelection = (props: {
   );
 };
 
+<<<<<<< HEAD
+=======
+const searchInCatalog = (searchText = '', catalog: Record<string, string>) => {
+  let items = Object.entries(catalog);
+  if (searchText) {
+    items = filter(
+      items,
+      createSearch(searchText, ([name, _icon]) => name),
+    );
+  }
+  return items;
+};
+
+>>>>>>> tg-pr-88929
 const GenderButton = (props: {
   handleSetGender: (gender: Gender) => void;
   gender: Gender;
 }) => {
+<<<<<<< HEAD
   const [genderMenuOpen, setGenderMenuOpen] = useLocalState(
     'genderMenuOpen',
     false,
   );
+=======
+  const [genderMenuOpen, setGenderMenuOpen] = useState(false);
+>>>>>>> tg-pr-88929
 
   return (
     <Popper
-      options={{
-        placement: 'right-end',
-      }}
-      popperContent={
-        genderMenuOpen && (
-          <Stack backgroundColor="white" ml={0.5} p={0.3}>
-            {[Gender.Male, Gender.Female, Gender.Other].map((gender) => {
+      isOpen={genderMenuOpen}
+      onClickOutside={() => setGenderMenuOpen(false)}
+      placement="right-end"
+      content={
+        <Stack backgroundColor="white" ml={0.5} p={0.3}>
+          {[Gender.Male, Gender.Female, Gender.Other, Gender.Other2].map(
+            (gender) => {
               return (
                 <Stack.Item key={gender}>
                   <Button
@@ -324,9 +463,15 @@ const GenderButton = (props: {
                   />
                 </Stack.Item>
               );
+<<<<<<< HEAD
             })}
           </Stack>
         )
+=======
+            },
+          )}
+        </Stack>
+>>>>>>> tg-pr-88929
       }
     >
       <Button
@@ -345,7 +490,11 @@ const GenderButton = (props: {
 const MainFeature = (props: {
   catalog: FeatureChoicedServerData & {
     name: string;
+<<<<<<< HEAD
     supplemental_feature?: string | string[]; // Allow string or array of strings
+=======
+    supplemental_feature?: string;
+>>>>>>> tg-pr-88929
   };
   currentValue: string;
   isOpen: boolean;
@@ -393,6 +542,7 @@ const MainFeature = (props: {
 
   return (
     <Popper
+<<<<<<< HEAD
       options={{
         placement: 'bottom-start',
       }}
@@ -412,10 +562,32 @@ const MainFeature = (props: {
             />
           </TrackOutsideClicks>
         )
+=======
+      placement="bottom-start"
+      isOpen={isOpen}
+      onClickOutside={handleClose}
+      baseZIndex={1} // Below the default popper at z 2
+      content={
+        <ChoicedSelection
+          name={catalog.name}
+          catalog={catalog}
+          selected={currentValue}
+          supplementalFeature={supplementalFeature}
+          supplementalValue={
+            supplementalFeature &&
+            data.character_preferences.supplemental_features[
+              supplementalFeature
+            ]
+          }
+          onClose={handleClose}
+          onSelect={handleSelect}
+        />
+>>>>>>> tg-pr-88929
       }
     >
       <Button
-        onClick={() => {
+        onClick={(event) => {
+          event.stopPropagation();
           if (isOpen) {
             handleCloseInternal();
           } else {
@@ -475,16 +647,22 @@ const createSetRandomization =
     });
   };
 
-const sortPreferences = sortBy<[string, unknown]>(([featureId, _]) => {
-  const feature = features[featureId];
-  return feature?.name;
-});
+const sortPreferences = (array: [string, unknown][]) =>
+  sortBy(array, ([featureId, _]) => {
+    const feature = features[featureId];
+    return feature?.name;
+  });
 
-const PreferenceList = (props: {
+export const PreferenceList = (props: {
   act: typeof sendAct;
   preferences: Record<string, unknown>;
   randomizations: Record<string, RandomSetting>;
+<<<<<<< HEAD
   children?: InfernoNode;
+=======
+  maxHeight: string;
+  children?: ReactNode;
+>>>>>>> tg-pr-88929
 }) => {
   return (
     <Stack.Item
@@ -495,7 +673,12 @@ const PreferenceList = (props: {
         padding: '4px',
       }}
       overflowX="hidden"
+<<<<<<< HEAD
       overflowY="scroll"
+=======
+      overflowY="auto"
+      maxHeight={props.maxHeight}
+>>>>>>> tg-pr-88929
     >
       <LabeledList>
         {sortPreferences(Object.entries(props.preferences)).map(
@@ -542,11 +725,16 @@ const PreferenceList = (props: {
           },
         )}
       </LabeledList>
+<<<<<<< HEAD
+=======
+
+>>>>>>> tg-pr-88929
       {props.children}
     </Stack.Item>
   );
 };
 
+<<<<<<< HEAD
 export const MainPage = (props: { openSpecies: () => void }) => {
   const { act, data } = useBackend<PreferencesMenuData>();
   const [currentClothingMenu, setCurrentClothingMenu] = useLocalState<
@@ -560,6 +748,44 @@ export const MainPage = (props: { openSpecies: () => void }) => {
     'multiNameInputOpen',
     false,
   );
+=======
+export const getRandomization = (
+  preferences: Record<string, unknown>,
+  serverData: ServerData | undefined,
+  randomBodyEnabled: boolean,
+): Record<string, RandomSetting> => {
+  if (!serverData) {
+    return {};
+  }
+
+  const { data } = useBackend<PreferencesMenuData>();
+
+  if (!randomBodyEnabled) {
+    return {};
+  }
+
+  return Object.fromEntries(
+    map(
+      filter(Object.keys(preferences), (key) =>
+        serverData.random.randomizable.includes(key),
+      ),
+      (key) => [
+        key,
+        data.character_preferences.randomization[key] || RandomSetting.Disabled,
+      ],
+    ),
+  );
+};
+
+export const MainPage = (props: { openSpecies: () => void }) => {
+  const { act, data } = useBackend<PreferencesMenuData>();
+  const [currentClothingMenu, setCurrentClothingMenu] = useState<string | null>(
+    null,
+  );
+  const [deleteCharacterPopupOpen, setDeleteCharacterPopupOpen] =
+    useState(false);
+  const [multiNameInputOpen, setMultiNameInputOpen] = useState(false);
+>>>>>>> tg-pr-88929
   const [randomToggleEnabled] = useRandomToggleState();
 
   return (
@@ -591,6 +817,7 @@ export const MainPage = (props: { openSpecies: () => void }) => {
           data.character_preferences.non_contextual.random_body !==
             RandomSetting.Disabled || randomToggleEnabled;
 
+<<<<<<< HEAD
         const getRandomization = (
           preferences: Record<string, unknown>,
         ): Record<string, RandomSetting> => {
@@ -621,6 +848,12 @@ export const MainPage = (props: { openSpecies: () => void }) => {
 
         const randomizationOfMainFeatures = getRandomization(
           Object.fromEntries(mainFeatures),
+=======
+        const randomizationOfMainFeatures = getRandomization(
+          Object.fromEntries(mainFeatures),
+          serverData,
+          randomBodyEnabled,
+>>>>>>> tg-pr-88929
         );
 
         const nonContextualPreferences = {
@@ -663,7 +896,7 @@ export const MainPage = (props: { openSpecies: () => void }) => {
             )}
 
             <Stack height={`${CLOTHING_SIDEBAR_ROWS * CLOTHING_CELL_SIZE}px`}>
-              <Stack.Item fill>
+              <Stack.Item>
                 <Stack vertical fill>
                   <Stack.Item>
                     <CharacterControls
@@ -709,7 +942,7 @@ export const MainPage = (props: { openSpecies: () => void }) => {
                 </Stack>
               </Stack.Item>
 
-              <Stack.Item fill width={`${CLOTHING_CELL_SIZE * 2 + 15}px`}>
+              <Stack.Item width={`${CLOTHING_CELL_SIZE * 2 + 15}px`}>
                 <Stack height="100%" vertical wrap>
                   {mainFeatures.map(([clothingKey, clothing]) => {
                     const catalog =
@@ -751,15 +984,39 @@ export const MainPage = (props: { openSpecies: () => void }) => {
                 <Stack vertical fill>
                   <PreferenceList
                     act={act}
-                    randomizations={getRandomization(contextualPreferences)}
+                    randomizations={getRandomization(
+                      contextualPreferences,
+                      serverData,
+                      randomBodyEnabled,
+                    )}
                     preferences={contextualPreferences}
+                    maxHeight="auto"
                   />
 
                   <PreferenceList
                     act={act}
-                    randomizations={getRandomization(nonContextualPreferences)}
+                    randomizations={getRandomization(
+                      nonContextualPreferences,
+                      serverData,
+                      randomBodyEnabled,
+                    )}
                     preferences={nonContextualPreferences}
-                  />
+                    maxHeight="auto"
+                  >
+                    <Box my={0.5}>
+                      <Button
+                        color="red"
+                        disabled={
+                          Object.values(data.character_profiles).filter(
+                            (name) => name,
+                          ).length < 2
+                        } // check if existing chars more than one
+                        onClick={() => setDeleteCharacterPopupOpen(true)}
+                      >
+                        Delete Character
+                      </Button>
+                    </Box>
+                  </PreferenceList>
                 </Stack>
               </Stack.Item>
             </Stack>

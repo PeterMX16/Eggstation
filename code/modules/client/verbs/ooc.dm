@@ -10,12 +10,15 @@ GLOBAL_VAR_INIT(normal_ooc_colour, "#002eb8")
 		to_chat(usr, span_danger("Speech is currently admin-disabled."))
 		return
 
-	if(!mob)
+	var/client_initalized = VALIDATE_CLIENT_INITIALIZATION(src)
+	if(isnull(mob) || !client_initalized)
+		if(!client_initalized)
+			unvalidated_client_error() // we only want to throw this warning message when it's directly related to client failure.
+
+		to_chat(usr, span_warning("Failed to send your OOC message. You attempted to send the following message:\n[span_big(msg)]"))
 		return
 
-	VALIDATE_CLIENT(src)
-
-	if(!holder)
+	if(isnull(holder))
 		if(!GLOB.ooc_allowed)
 			to_chat(src, span_danger("OOC is globally muted."))
 			return
@@ -63,12 +66,12 @@ GLOBAL_VAR_INIT(normal_ooc_colour, "#002eb8")
 		if(handle_spam_prevention(msg,MUTE_OOC))
 			return
 		if(findtext(msg, "byond://"))
-			to_chat(src, span_boldannounce("<B>Advertising other servers is not allowed.</B>"))
+			to_chat(src, span_boldannounce("Advertising other servers is not allowed."))
 			log_admin("[key_name(src)] has attempted to advertise in OOC: [msg]")
 			message_admins("[key_name_admin(src)] has attempted to advertise in OOC: [msg]")
 			return
 
-	if(!(prefs.chat_toggles & CHAT_OOC))
+	if(!(get_chat_toggles(src) & CHAT_OOC))
 		to_chat(src, span_danger("You have OOC muted."))
 		return
 	mob.log_talk(raw_msg, LOG_OOC)
@@ -76,7 +79,7 @@ GLOBAL_VAR_INIT(normal_ooc_colour, "#002eb8")
 	var/keyname = key
 	if(!!IsByondMember())
 		if(prefs.toggles & MEMBER_PUBLIC)
-			keyname = "<font color='[prefs.read_preference(/datum/preference/color/ooc_color) || GLOB.normal_ooc_colour]'>[icon2html('icons/ui_icons/chat/member_content.dmi', world, "blag")][keyname]</font>"
+			keyname = "<font color='[prefs.read_preference(/datum/preference/color/ooc_color) || GLOB.normal_ooc_colour]'>[icon2html('icons/ui/chat/member_content.dmi', world, "blag")][keyname]</font>"
 	if(prefs.hearted)
 		var/datum/asset/spritesheet_batched/chat/sheet = get_asset_datum(/datum/asset/spritesheet_batched/chat)
 		keyname = "[sheet.icon_tag("emoji-heart")][keyname]"
@@ -100,7 +103,7 @@ GLOBAL_VAR_INIT(normal_ooc_colour, "#002eb8")
 	for(var/client/receiver as anything in GLOB.clients)
 		if(!receiver.prefs) // Client being created or deleted. Despite all, this can be null.
 			continue
-		if(!(receiver.prefs.chat_toggles & CHAT_OOC))
+		if(!(get_chat_toggles(receiver) & CHAT_OOC))
 			continue
 		if(holder?.fakekey in receiver.prefs.ignoring)
 			continue
@@ -156,8 +159,13 @@ GLOBAL_VAR_INIT(normal_ooc_colour, "#002eb8")
 	if(IsAdminAdvancedProcCall())
 		return
 
+<<<<<<< HEAD
 ADMIN_VERB(set_ooc_color, R_FUN, FALSE, "Set Player OOC Color", "Modifies the global OOC color.", ADMIN_CATEGORY_SERVER)
 	var/newColor = input(user, "Please select the new player OOC color.", "OOC color") as color | null
+=======
+ADMIN_VERB(set_ooc_color, R_FUN, "Set Player OOC Color", "Modifies the global OOC color.", ADMIN_CATEGORY_SERVER)
+	var/newColor = input(user, "Please select the new player OOC color.", "OOC color") as color|null
+>>>>>>> tg-pr-88929
 	if(isnull(newColor))
 		return
 	var/new_color = sanitize_color(newColor)
@@ -165,14 +173,22 @@ ADMIN_VERB(set_ooc_color, R_FUN, FALSE, "Set Player OOC Color", "Modifies the gl
 	log_admin("[key_name_admin(user)] has set the player ooc color to [new_color].")
 	GLOB.OOC_COLOR = new_color
 
+<<<<<<< HEAD
 /client/proc/reset_ooc() // MONKE EDIT Why were these kept?
+=======
+/client/proc/reset_ooc()
+>>>>>>> tg-pr-88929
 	set name = "Reset Player OOC Color"
 	set desc = "Returns player OOC Color to default"
 	set category = "Server"
 	if(IsAdminAdvancedProcCall())
 		return
 
+<<<<<<< HEAD
 ADMIN_VERB(reset_ooc_color, R_FUN, FALSE, "Reset Player OOC Color", "Returns player OOC color to default.", ADMIN_CATEGORY_SERVER)
+=======
+ADMIN_VERB(reset_ooc_color, R_FUN, "Reset Player OOC Color", "Returns player OOC color to default.", ADMIN_CATEGORY_SERVER)
+>>>>>>> tg-pr-88929
 	if(tgui_alert(user, "Are you sure you want to reset the OOC color of all players?", "Reset Player OOC Color", list("Yes", "No")) != "Yes")
 		return
 	message_admins("[key_name_admin(user)] has reset the players' ooc color.")
@@ -272,7 +288,7 @@ ADMIN_VERB(reset_ooc_color, R_FUN, FALSE, "Reset Player OOC Color", "Returns pla
 	// Check if the list is empty
 	if(!length(players))
 		// Express that there are no players we can ignore in chat
-		to_chat(src, "<span class='infoplain'>There are no other players you can ignore!</span>")
+		to_chat(src, span_infoplain("There are no other players you can ignore!"))
 
 		// Stop running
 		return
@@ -293,7 +309,7 @@ ADMIN_VERB(reset_ooc_color, R_FUN, FALSE, "Reset Player OOC Color", "Returns pla
 	// Check if the selected player is on our ignore list
 	if(selection in prefs.ignoring)
 		// Express that the selected player is already on our ignore list in chat
-		to_chat(src, "<span class='infoplain'>You are already ignoring [selection]!</span>")
+		to_chat(src, span_infoplain("You are already ignoring [selection]!"))
 
 		// Stop running
 		return
@@ -305,7 +321,7 @@ ADMIN_VERB(reset_ooc_color, R_FUN, FALSE, "Reset Player OOC Color", "Returns pla
 	prefs.save_preferences()
 
 	// Express that we've ignored the selected player in chat
-	to_chat(src, "<span class='infoplain'>You are now ignoring [selection] on the OOC channel.</span>")
+	to_chat(src, span_infoplain("You are now ignoring [selection] on the OOC channel."))
 
 // Unignore verb
 /client/verb/select_unignore()
@@ -316,7 +332,7 @@ ADMIN_VERB(reset_ooc_color, R_FUN, FALSE, "Reset Player OOC Color", "Returns pla
 	// Check if we've ignored any players
 	if(!length(prefs.ignoring))
 		// Express that we haven't ignored any players in chat
-		to_chat(src, "<span class='infoplain'>You haven't ignored any players!</span>")
+		to_chat(src, span_infoplain("You haven't ignored any players!"))
 
 		// Stop running
 		return
@@ -331,7 +347,7 @@ ADMIN_VERB(reset_ooc_color, R_FUN, FALSE, "Reset Player OOC Color", "Returns pla
 	// Check if the selected player is not on our ignore list
 	if(!(selection in prefs.ignoring))
 		// Express that the selected player is not on our ignore list in chat
-		to_chat(src, "<span class='infoplain'>You are not ignoring [selection]!</span>")
+		to_chat(src, span_infoplain("You are not ignoring [selection]!"))
 
 		// Stop running
 		return
@@ -343,7 +359,7 @@ ADMIN_VERB(reset_ooc_color, R_FUN, FALSE, "Reset Player OOC Color", "Returns pla
 	prefs.save_preferences()
 
 	// Express that we've unignored the selected player in chat
-	to_chat(src, "<span class='infoplain'>You are no longer ignoring [selection] on the OOC channel.</span>")
+	to_chat(src, span_infoplain("You are no longer ignoring [selection] on the OOC channel."))
 
 /client/proc/show_previous_roundend_report()
 	set name = "Your Last Round"
@@ -393,7 +409,7 @@ ADMIN_VERB(reset_ooc_color, R_FUN, FALSE, "Reset Player OOC Color", "Returns pla
 
 	var/desired_width = 0
 	if(zoom_value)
-		desired_width = round(view_size[1] * zoom_value * world.icon_size)
+		desired_width = round(view_size[1] * zoom_value * ICON_SIZE_X)
 	else
 
 		// Looks like we expect mapwindow.size to be "ixj" where i and j are numbers.

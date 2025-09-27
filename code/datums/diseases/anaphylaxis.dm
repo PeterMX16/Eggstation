@@ -54,8 +54,13 @@
 			if(affected_mob.num_legs >= 1 && SPT_PROB(5, seconds_per_tick))
 				to_chat(affected_mob, span_warning("You feel your leg[affected_mob.num_hands == 1 ? "":"s"] shake violently."))
 				affected_mob.adjust_jitter_up_to(8 SECONDS * seconds_per_tick, 1 MINUTES)
+<<<<<<< HEAD
 				if(prob(40) && affected_mob.stamina.loss_as_percent < 75)
 					affected_mob.stamina.adjust(-15)
+=======
+				if(prob(40) && affected_mob.getStaminaLoss() < 75)
+					affected_mob.adjustStaminaLoss(15)
+>>>>>>> tg-pr-88929
 			if(affected_mob.get_organ_slot(ORGAN_SLOT_EYES) && SPT_PROB(4, seconds_per_tick))
 				affected_mob.adjust_eye_blur(4 SECONDS * seconds_per_tick)
 				to_chat(affected_mob, span_warning("It's getting harder to see clearly."))
@@ -69,7 +74,11 @@
 				affected_mob.adjust_dizzy_up_to(5 SECONDS * seconds_per_tick, 1 MINUTES)
 				affected_mob.adjust_confusion_up_to(1 SECONDS * seconds_per_tick, 10 SECONDS)
 			if(SPT_PROB(2, seconds_per_tick))
+<<<<<<< HEAD
 				affected_mob.vomit()
+=======
+				affected_mob.vomit(MOB_VOMIT_MESSAGE|MOB_VOMIT_HARM)
+>>>>>>> tg-pr-88929
 				affected_mob.Stun(2 SECONDS) // The full 20 second vomit stun would be lethal
 			if(SPT_PROB(1, seconds_per_tick))
 				affected_mob.emote("cough")

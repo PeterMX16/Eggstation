@@ -1,6 +1,10 @@
+<<<<<<< HEAD
 import { BooleanLike } from 'common/react';
 import { multiline } from 'common/string';
 import { useBackend, useLocalState } from '../backend';
+=======
+import { ReactNode } from 'react';
+>>>>>>> tg-pr-88929
 import {
   Box,
   Button,
@@ -12,9 +16,17 @@ import {
   ProgressBar,
   Section,
   Stack,
+<<<<<<< HEAD
 } from '../components';
 import { Window } from '../layouts';
 import { InfernoNode } from 'inferno';
+=======
+} from 'tgui-core/components';
+import { BooleanLike } from 'tgui-core/react';
+
+import { useBackend, useLocalState } from '../backend';
+import { Window } from '../layouts';
+>>>>>>> tg-pr-88929
 
 enum SpellCategory {
   Offensive = 'Offensive',
@@ -22,6 +34,10 @@ enum SpellCategory {
   Mobility = 'Mobility',
   Assistance = 'Assistance',
   Rituals = 'Rituals',
+<<<<<<< HEAD
+=======
+  Perks = 'Perks',
+>>>>>>> tg-pr-88929
 }
 
 type byondRef = string;
@@ -60,7 +76,11 @@ type Data = {
 type TabType = {
   title: string;
   blurb?: string;
+<<<<<<< HEAD
   component?: () => InfernoNode;
+=======
+  component?: () => ReactNode;
+>>>>>>> tg-pr-88929
   locked?: boolean;
   scrollable?: boolean;
 };
@@ -124,6 +144,19 @@ const TAB2NAME: TabType[] = [
       "If you didn't like the loadouts offered, you can embrace chaos. Not recommended for newer wizards.",
     component: () => <Randomize />,
   },
+<<<<<<< HEAD
+=======
+  {
+    title: 'Perks',
+    blurb:
+      'Perks are useful (and not so useful) improvements to the soul and body collected from all corners of the universe.',
+    scrollable: true,
+  },
+  {
+    title: 'Table of Contents',
+    component: () => <TableOfContents />,
+  },
+>>>>>>> tg-pr-88929
 ];
 
 enum Buywords {
@@ -158,7 +191,11 @@ const EnscribedName = (props) => {
   );
 };
 
+<<<<<<< HEAD
 const lineHeightToc = '34.6px';
+=======
+const lineHeightToc = '30.6px';
+>>>>>>> tg-pr-88929
 
 const TableOfContents = (props) => {
   const [tabIndex, setTabIndex] = useLocalState('tab-index', 1);
@@ -238,6 +275,17 @@ const TableOfContents = (props) => {
         content="Arcane Randomizer"
         onClick={() => setTabIndex(9)}
       />
+<<<<<<< HEAD
+=======
+      <Divider />
+      <Button
+        lineHeight={lineHeightToc}
+        fluid
+        icon="cog"
+        content="Perks"
+        onClick={() => setTabIndex(11)}
+      />
+>>>>>>> tg-pr-88929
     </Box>
   );
 };
@@ -339,7 +387,11 @@ const Loadouts = (props) => {
             name="The Classic Wizard"
             icon="fire"
             author="Archchancellor Gray"
+<<<<<<< HEAD
             blurb={multiline`
+=======
+            blurb={`
+>>>>>>> tg-pr-88929
                 This is the classic wizard, crazy popular in
                 the 2550's. Comes with Fireball, Magic Missile,
                 Ei Nath, and Ethereal Jaunt. The key here is that
@@ -352,7 +404,11 @@ const Loadouts = (props) => {
             loadoutId="loadout_hammer"
             loadoutColor="green"
             author="Jegudiel Worldshaker"
+<<<<<<< HEAD
             blurb={multiline`
+=======
+            blurb={`
+>>>>>>> tg-pr-88929
                 The power of the mighty Mjolnir! Best not to lose it.
                 This loadout has Summon Item, Mutate, Blink, Force Wall,
                 Tesla Blast, and Mjolnir. Mutate is your utility in this case:
@@ -369,7 +425,11 @@ const Loadouts = (props) => {
             loadoutId="loadout_army"
             loadoutColor="yellow"
             author="Prospero Spellstone"
+<<<<<<< HEAD
             blurb={multiline`
+=======
+            blurb={`
+>>>>>>> tg-pr-88929
                 Why kill when others will gladly do it for you?
                 Embrace chaos with your kit: Soulshards, Staff of Change,
                 Necro Stone, Teleport, and Jaunt! Remember, no offense spells!
@@ -381,7 +441,11 @@ const Loadouts = (props) => {
             loadoutId="loadout_tap"
             loadoutColor="white"
             author="Tom the Empty"
+<<<<<<< HEAD
             blurb={multiline`
+=======
+            blurb={`
+>>>>>>> tg-pr-88929
                 Embrace the dark, and tap into your soul.
                 You can recharge very long recharge spells
                 like Ei Nath by jumping into new bodies with
@@ -731,7 +795,11 @@ export const Spellbook = (props) => {
                           <Button
                             mr={0}
                             icon="arrow-right"
+<<<<<<< HEAD
                             disabled={tabIndex === 9}
+=======
+                            disabled={tabIndex === 11}
+>>>>>>> tg-pr-88929
                             content="Next Page"
                             onClick={() => setTabIndex(tabIndex + 2)}
                           />
@@ -760,7 +828,10 @@ export const Spellbook = (props) => {
                   <Input
                     width={15}
                     placeholder="Search for a spell..."
+<<<<<<< HEAD
                     icon="search"
+=======
+>>>>>>> tg-pr-88929
                     onInput={(e, val) => setSpellSearch(val)}
                   />
                 </Stack.Item>

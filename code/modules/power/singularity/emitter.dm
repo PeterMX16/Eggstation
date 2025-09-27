@@ -1,7 +1,7 @@
 /obj/machinery/power/emitter
 	name = "emitter"
 	desc = "A heavy-duty industrial laser, often used in containment fields and power generation."
-	icon = 'icons/obj/engine/singularity.dmi'
+	icon = 'icons/obj/machines/engine/singularity.dmi'
 	icon_state = "emitter"
 	base_icon_state = "emitter"
 
@@ -40,7 +40,7 @@
 	///What projectile type are we shooting?
 	var/projectile_type = /obj/projectile/beam/emitter/hitscan
 	///What's the projectile sound?
-	var/projectile_sound = 'sound/weapons/emitter.ogg'
+	var/projectile_sound = 'sound/items/weapons/emitter.ogg'
 	///Sparks emitted with every shot
 	var/datum/effect_system/spark_spread/sparks
 	///Stores the type of gun we are using inside the emitter
@@ -68,6 +68,8 @@
 
 /obj/machinery/power/emitter/Initialize(mapload)
 	. = ..()
+	//Add to the early process queue to prioritize power draw
+	SSmachines.processing_early += src
 	RefreshParts()
 	set_wires(new /datum/wires/emitter(src))
 	if(welded)
@@ -85,11 +87,21 @@
 	welded = TRUE
 	. = ..()
 
+<<<<<<< HEAD
 /obj/machinery/power/emitter/cable_layer_change_checks(mob/living/user, obj/item/tool)
 	if(welded)
 		balloon_alert(user, "unweld first!")
 		return FALSE
 	return TRUE
+=======
+/obj/machinery/power/emitter/cable_layer_act(mob/living/user, obj/item/tool)
+	if(panel_open)
+		return NONE
+	if(welded)
+		balloon_alert(user, "unweld first!")
+		return ITEM_INTERACT_BLOCKING
+	return ..()
+>>>>>>> tg-pr-88929
 
 /obj/machinery/power/emitter/set_anchored(anchorvalue)
 	. = ..()
@@ -118,8 +130,8 @@
 	maximum_fire_delay = max_fire_delay
 	minimum_fire_delay = min_fire_delay
 	fire_delay = fire_shoot_delay
-	for(var/datum/stock_part/manipulator/manipulator in component_parts)
-		power_usage -= 50 * manipulator.tier
+	for(var/datum/stock_part/servo/servo in component_parts)
+		power_usage -= 50 * servo.tier
 	update_mode_power_usage(ACTIVE_POWER_USE, power_usage)
 
 /obj/machinery/power/emitter/examine(mob/user)
@@ -157,6 +169,9 @@
 /obj/machinery/power/emitter/update_icon_state()
 	if(!active || !powernet)
 		icon_state = base_icon_state
+		return ..()
+	if(panel_open)
+		icon_state = "[base_icon_state]_open"
 		return ..()
 	icon_state = avail(active_power_usage) ? icon_state_on : icon_state_underpowered
 	return ..()
@@ -199,7 +214,11 @@
 	togglelock(user)
 	return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
+<<<<<<< HEAD
 /obj/machinery/power/emitter/process(seconds_per_tick)
+=======
+/obj/machinery/power/emitter/process_early(seconds_per_tick)
+>>>>>>> tg-pr-88929
 	var/power_usage = active_power_usage * seconds_per_tick
 	if(machine_stat & (BROKEN))
 		return
@@ -299,7 +318,7 @@
 		return TRUE
 
 	if(welded)
-		if(!item.tool_start_check(user, amount=0))
+		if(!item.tool_start_check(user, amount=1))
 			return TRUE
 		user.visible_message(span_notice("[user.name] starts to cut the [name] free from the floor."), \
 			span_notice("You start to cut [src] free from the floor..."), \
@@ -315,7 +334,7 @@
 	if(!anchored)
 		to_chat(user, span_warning("[src] needs to be wrenched to the floor!"))
 		return TRUE
-	if(!item.tool_start_check(user, amount=0))
+	if(!item.tool_start_check(user, amount=1))
 		return TRUE
 	user.visible_message(span_notice("[user.name] starts to weld the [name] to the floor."), \
 		span_notice("You start to weld [src] to the floor..."), \
@@ -337,7 +356,11 @@
 /obj/machinery/power/emitter/screwdriver_act(mob/living/user, obj/item/item)
 	if(..())
 		return TRUE
+<<<<<<< HEAD
 	default_deconstruction_screwdriver(user, "emitter-open", "emitter", item) //monkestation edit
+=======
+	default_deconstruction_screwdriver(user, "[base_icon_state]_open", base_icon_state, item)
+>>>>>>> tg-pr-88929
 	return TRUE
 
 /// Attempt to toggle the controls lock of the emitter
@@ -367,8 +390,6 @@
 			return
 	return ..()
 
-/obj/machinery/power/emitter/AltClick(mob/user)
-	return ..() // This hotkey is BLACKLISTED since it's used by /datum/component/simple_rotation
 
 /obj/machinery/power/emitter/proc/integrate(obj/item/gun/energy/energy_gun, mob/user)
 	if(!istype(energy_gun, /obj/item/gun/energy))
@@ -407,8 +428,12 @@
 		return FALSE
 	locked = FALSE
 	obj_flags |= EMAGGED
+<<<<<<< HEAD
 	balloon_alert(user, "id lock shorted out and lasers overloaded") //monkestation edit
 	RefreshParts() //monkestation edit
+=======
+	balloon_alert(user, "id lock shorted out")
+>>>>>>> tg-pr-88929
 	return TRUE
 
 
@@ -429,7 +454,7 @@
 //BUCKLE HOOKS
 
 /obj/machinery/power/emitter/prototype/unbuckle_mob(mob/living/buckled_mob, force = FALSE, can_fall = TRUE)
-	playsound(src,'sound/mecha/mechmove01.ogg', 50, TRUE)
+	playsound(src,'sound/vehicles/mecha/mechmove01.ogg', 50, TRUE)
 	manual = FALSE
 	for(var/obj/item/item in buckled_mob.held_items)
 		if(istype(item, /obj/item/turret_control))
@@ -443,14 +468,14 @@
 	. = ..()
 
 /obj/machinery/power/emitter/prototype/user_buckle_mob(mob/living/buckled_mob, mob/user, check_loc = TRUE)
-	if(user.incapacitated() || !istype(user))
+	if(user.incapacitated || !istype(user))
 		return
 	for(var/atom/movable/atom in get_turf(src))
 		if(atom.density && (atom != src && atom != buckled_mob))
 			return
 	buckled_mob.forceMove(get_turf(src))
 	..()
-	playsound(src,'sound/mecha/mechmove01.ogg', 50, TRUE)
+	playsound(src, 'sound/vehicles/mecha/mechmove01.ogg', 50, TRUE)
 	buckled_mob.pixel_y = 14
 	layer = 4.1
 	if(buckled_mob.client)
@@ -460,7 +485,7 @@
 	auto.Grant(buckled_mob, src)
 
 /datum/action/innate/proto_emitter
-	check_flags = AB_CHECK_HANDS_BLOCKED | AB_CHECK_IMMOBILE | AB_CHECK_CONSCIOUS | AB_CHECK_INCAPACITATED
+	check_flags = AB_CHECK_HANDS_BLOCKED | AB_CHECK_CONSCIOUS | AB_CHECK_INCAPACITATED
 	///Stores the emitter the user is currently buckled on
 	var/obj/machinery/power/emitter/prototype/proto_emitter
 	///Stores the mob instance that is buckled to the emitter
@@ -483,7 +508,7 @@
 
 /datum/action/innate/proto_emitter/firing/Activate()
 	if(proto_emitter.manual)
-		playsound(proto_emitter,'sound/mecha/mechmove01.ogg', 50, TRUE)
+		playsound(proto_emitter,'sound/vehicles/mecha/mechmove01.ogg', 50, TRUE)
 		proto_emitter.manual = FALSE
 		name = "Switch to Manual Firing"
 		desc = "The emitter will only fire on your command and at your designated target"
@@ -493,7 +518,7 @@
 				qdel(item)
 		build_all_button_icons()
 		return
-	playsound(proto_emitter,'sound/mecha/mechmove01.ogg', 50, TRUE)
+	playsound(proto_emitter,'sound/vehicles/mecha/mechmove01.ogg', 50, TRUE)
 	name = "Switch to Automatic Firing"
 	desc = "Emitters will switch to periodic firing at your last target"
 	button_icon_state = "mech_zoom_off"
@@ -575,7 +600,11 @@
 		emitter.fire_beam(user)
 		delay = world.time + 10
 	else if (emitter.charge < 10)
+<<<<<<< HEAD
 		playsound(src,'sound/machines/buzz-sigh.ogg', 50, TRUE)
+=======
+		playsound(src,'sound/machines/buzz/buzz-sigh.ogg', 50, TRUE)
+>>>>>>> tg-pr-88929
 	return ITEM_INTERACT_SUCCESS
 
 /obj/machinery/power/emitter/ctf

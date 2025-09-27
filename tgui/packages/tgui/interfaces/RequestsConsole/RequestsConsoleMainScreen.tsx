@@ -1,14 +1,29 @@
+<<<<<<< HEAD
 import { useBackend, useSharedState } from '../../backend';
 import { Icon, Stack, Tabs } from '../../components';
 import { RequestsData, RequestTabs } from './types';
 import { MessageViewTab } from './MessageViewTab';
 import { MessageWriteTab } from './MessageWriteTab';
 import { AnnouncementTab } from './AnnouncementTab';
+=======
+import { Icon, Stack, Tabs } from 'tgui-core/components';
+
+import { useBackend, useSharedState } from '../../backend';
+import { AnnouncementTab } from './AnnouncementTab';
+import { MessageViewTab } from './MessageViewTab';
+import { MessageWriteTab } from './MessageWriteTab';
+import { RequestsData, RequestTabs } from './types';
+>>>>>>> tg-pr-88929
 
 export const RequestMainScreen = (props) => {
   const { act, data } = useBackend<RequestsData>();
   const { can_send_announcements } = data;
+<<<<<<< HEAD
   const [tab, setTab] = useSharedState('tab', 1);
+=======
+  const [tab, setTab] = useSharedState('tab', RequestTabs.MESSAGE_VIEW);
+
+>>>>>>> tg-pr-88929
   return (
     <Stack.Item grow>
       <Stack vertical fill>

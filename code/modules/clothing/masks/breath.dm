@@ -12,7 +12,11 @@
 	flags_cover = MASKCOVERSMOUTH
 	visor_flags_cover = MASKCOVERSMOUTH
 	resistance_flags = NONE
+<<<<<<< HEAD
 	supports_variations_flags = CLOTHING_SNOUTED_VARIATION
+=======
+	interaction_flags_click = NEED_DEXTERITY|ALLOW_RESTING
+>>>>>>> tg-pr-88929
 
 /datum/armor/mask_breath
 	bio = 50
@@ -22,12 +26,11 @@
 	return OXYLOSS
 
 /obj/item/clothing/mask/breath/attack_self(mob/user)
-	adjustmask(user)
+	adjust_visor(user)
 
-/obj/item/clothing/mask/breath/AltClick(mob/user)
-	..()
-	if(user.can_perform_action(src, NEED_DEXTERITY))
-		adjustmask(user)
+/obj/item/clothing/mask/breath/click_alt(mob/user)
+	adjust_visor(user)
+	return CLICK_ACTION_SUCCESS
 
 /obj/item/clothing/mask/breath/examine(mob/user)
 	. = ..()

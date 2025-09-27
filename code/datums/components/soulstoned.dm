@@ -11,7 +11,11 @@
 
 	stoned.forceMove(container)
 	stoned.fully_heal()
+<<<<<<< HEAD
 	stoned.add_traits(list(TRAIT_IMMOBILIZED, TRAIT_HANDS_BLOCKED, TRAIT_GODMODE), SOULSTONE_TRAIT)
+=======
+	stoned.add_traits(list(TRAIT_GODMODE, TRAIT_IMMOBILIZED, TRAIT_HANDS_BLOCKED), SOULSTONE_TRAIT)
+>>>>>>> tg-pr-88929
 
 	RegisterSignal(stoned, COMSIG_MOVABLE_MOVED, PROC_REF(free_prisoner))
 
@@ -23,4 +27,9 @@
 		qdel(src)
 
 /datum/component/soulstoned/UnregisterFromParent()
+<<<<<<< HEAD
 	parent.remove_traits(list(TRAIT_IMMOBILIZED, TRAIT_HANDS_BLOCKED, TRAIT_GODMODE), SOULSTONE_TRAIT)
+=======
+	var/mob/living/stoned = parent
+	stoned.remove_traits(list(TRAIT_GODMODE, TRAIT_IMMOBILIZED, TRAIT_HANDS_BLOCKED), SOULSTONE_TRAIT)
+>>>>>>> tg-pr-88929

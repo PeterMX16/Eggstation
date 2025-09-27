@@ -6,12 +6,22 @@
 	icon = 'icons/obj/tools.dmi'
 	icon_state = "spess_knife"
 	worn_icon_state = "spess_knife"
+<<<<<<< HEAD
 	belt_icon_state = "spess_knife"
 	inhand_icon_state = "spess_knife"
 	lefthand_file = 'icons/mob/inhands/equipment/tools_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/tools_righthand.dmi'
 	w_class = WEIGHT_CLASS_TINY
 	flags_1 = CONDUCT_1
+=======
+	inside_belt_icon_state = "spess_knife"
+	inhand_icon_state = "spess_knife"
+	icon_angle = -90
+	lefthand_file = 'icons/mob/inhands/equipment/tools_lefthand.dmi'
+	righthand_file = 'icons/mob/inhands/equipment/tools_righthand.dmi'
+	w_class = WEIGHT_CLASS_TINY
+	obj_flags = CONDUCTS_ELECTRICITY
+>>>>>>> tg-pr-88929
 	slot_flags = ITEM_SLOT_BELT
 	resistance_flags = FIRE_PROOF
 	tool_behaviour = null
@@ -23,6 +33,12 @@
 	///Chance to select wrong tool
 	var/wrong_tool_prob = 10
 
+<<<<<<< HEAD
+=======
+/obj/item/spess_knife/get_all_tool_behaviours()
+	return list(TOOL_KNIFE, TOOL_SCREWDRIVER, TOOL_WIRECUTTER)
+
+>>>>>>> tg-pr-88929
 /obj/item/spess_knife/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/butchering, \
@@ -57,15 +73,26 @@
 		mistake_occured = TRUE
 
 	if(isnull(tool_behaviour))
+<<<<<<< HEAD
 		w_class = WEIGHT_CLASS_TINY
 		balloon_alert(user, "folded")
 	else
 		w_class = WEIGHT_CLASS_SMALL
+=======
+		update_weight_class(WEIGHT_CLASS_TINY)
+		balloon_alert(user, "folded")
+	else
+		update_weight_class(WEIGHT_CLASS_SMALL)
+>>>>>>> tg-pr-88929
 		balloon_alert(user, mistake_occured ? "oops! [tool_behaviour] out" : "[tool_behaviour] out")
 
 	update_tool_parameters()
 	update_appearance(UPDATE_ICON_STATE)
+<<<<<<< HEAD
 	playsound(src, 'sound/weapons/empty.ogg', 50, TRUE)
+=======
+	playsound(src, 'sound/items/weapons/empty.ogg', 50, TRUE)
+>>>>>>> tg-pr-88929
 
 /// Used to pick random tool behavior for the knife
 /obj/item/spess_knife/proc/pick_tool()

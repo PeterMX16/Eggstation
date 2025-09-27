@@ -17,7 +17,7 @@ GLOBAL_LIST_INIT(summoned_guns, list(
 	/obj/item/gun/energy/e_gun/advtaser,
 	/obj/item/gun/energy/laser,
 	/obj/item/gun/ballistic/revolver,
-	/obj/item/gun/ballistic/revolver/syndicate,
+	/obj/item/gun/ballistic/revolver/badass,
 	/obj/item/gun/ballistic/revolver/c38/detective,
 	/obj/item/gun/ballistic/automatic/pistol/deagle/camo,
 	/obj/item/gun/ballistic/automatic/gyropistol,
@@ -42,7 +42,6 @@ GLOBAL_LIST_INIT(summoned_guns, list(
 	/obj/item/gun/energy/e_gun/dragnet,
 	/obj/item/gun/energy/e_gun/turret,
 	/obj/item/gun/energy/pulse/carbine,
-	/obj/item/gun/energy/decloner,
 	/obj/item/gun/energy/mindflayer,
 	/obj/item/gun/energy/recharge/kinetic_accelerator,
 	/obj/item/gun/energy/plasmacutter/adv,
@@ -126,7 +125,7 @@ GLOBAL_LIST_INIT(summoned_magic_objectives, list(
 	var/obj/item/gun/spawned_gun = new gun_type(get_turf(to_equip))
 	if (istype(spawned_gun)) // The list may contain some non-gun type guns which do not have this proc
 		spawned_gun.unlock()
-	playsound(get_turf(to_equip), 'sound/magic/summon_guns.ogg', 50, TRUE)
+	playsound(get_turf(to_equip), 'sound/effects/magic/summon_guns.ogg', 50, TRUE)
 
 	var/in_hand = to_equip.put_in_hands(spawned_gun) // not always successful
 
@@ -150,7 +149,7 @@ GLOBAL_LIST_INIT(summoned_magic_objectives, list(
 	var/magic_type = prob(SPECIALIST_MAGIC_PROB) ? pick(GLOB.summoned_special_magic) : pick(GLOB.summoned_magic)
 
 	var/obj/item/spawned_magic = new magic_type(get_turf(to_equip))
-	playsound(get_turf(to_equip), 'sound/magic/summon_magic.ogg', 50, TRUE)
+	playsound(get_turf(to_equip), 'sound/effects/magic/summon_magic.ogg', 50, TRUE)
 
 	var/in_hand = to_equip.put_in_hands(spawned_magic)
 
@@ -178,7 +177,7 @@ GLOBAL_LIST_INIT(summoned_magic_objectives, list(
 		if(user)
 			to_chat(user, span_warning("You... try to summon ghosts, but nothing seems to happen. Shame."))
 
-/*
+/**
  * Triggers Summon Magic from [user].
  * Can optionally be passed [survivor_probability], to set the chance of creating survivalists.
  * If Summon Magic has already been triggered, gives out magic to everyone again.
@@ -231,9 +230,12 @@ GLOBAL_LIST_INIT(summoned_magic_objectives, list(
 
 		SSevents.reschedule()
 		if(user)
-			to_chat(user, span_warning("You have intensified summon events, causing them to occur more often!"))
-			message_admins("[ADMIN_LOOKUPFLW(user)] intensified summon events!")
-			user.log_message("intensified events!", LOG_GAME)
+			message_admins("[ADMIN_LOOKUPFLW(user)] [ismob(user) ? "":"admin triggered "]intensified summon events!")
+			if(ismob(user))
+				to_chat(user, span_warning("You have intensified summon events, causing them to occur more often!"))
+				user.log_message("intensified events!", LOG_GAME)
+			else //admin triggered
+				log_admin("[key_name(user)] intensified summon events.")
 		else
 			log_game("Summon Events was intensified!")
 
@@ -246,9 +248,12 @@ GLOBAL_LIST_INIT(summoned_magic_objectives, list(
 		SSevents.toggleWizardmode()
 		SSevents.reschedule()
 		if(user)
-			to_chat(user, span_warning("You have cast summon events!"))
-			message_admins("[ADMIN_LOOKUPFLW(user)] summoned events!")
-			user.log_message("summoned events!", LOG_GAME)
+			message_admins("[ADMIN_LOOKUPFLW(user)] [ismob(user) ? "summoned":"admin triggered summon"] events!")
+			if(ismob(user))
+				to_chat(user, span_warning("You have cast summon events!"))
+				user.log_message("summoned events!", LOG_GAME)
+			else //admin triggered
+				log_admin("[key_name(user)] summoned events.")
 		else
 			message_admins("Summon Events was triggered!")
 			log_game("Summon Events was triggered!")
@@ -355,6 +360,7 @@ GLOBAL_LIST_INIT(summoned_magic_objectives, list(
 
 /datum/summon_things_controller/spellbook_entry/proc/grant_entry(mob/to_who)
 	var/gained = used_entry.buy_spell(to_who, log_buy = FALSE)
+<<<<<<< HEAD
 	// Give humans robes, otherwise make the spell robeless
 	if(istype(gained, /datum/action/cooldown/spell))
 		if(!ishuman(to_who))
@@ -389,3 +395,12 @@ GLOBAL_LIST_INIT(summoned_magic_objectives, list(
 
 #undef ROBE_SET_LIST
 //monkestation edit end
+=======
+	// Make spells castable without robes
+	if(istype(gained, /datum/action/cooldown/spell))
+		var/datum/action/cooldown/spell/given_out = gained
+		given_out.spell_requirements &= ~SPELL_REQUIRES_WIZARD_GARB
+
+	// Makes staffs and related items usable without penalty
+	ADD_TRAIT(to_who.mind, TRAIT_MAGICALLY_GIFTED, INNATE_TRAIT)
+>>>>>>> tg-pr-88929

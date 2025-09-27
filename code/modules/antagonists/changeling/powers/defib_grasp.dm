@@ -38,12 +38,21 @@
 	changeling.set_resting(FALSE)
 	changeling.adjust_jitter(20 SECONDS)
 	changeling.emote("scream")
+<<<<<<< HEAD
 	playsound(changeling, 'sound/magic/demon_consume.ogg', 50, TRUE)
 
 	// Mimics some real defib stuff (wish this was more generalized)
 	playsound(defib, SFX_BODYFALL, 50, TRUE)
 	playsound(defib, 'sound/machines/defib_zap.ogg', 75, TRUE, -1)
 	playsound(defib, 'sound/machines/defib_success.ogg', 50, FALSE) // I guess
+=======
+	playsound(changeling, 'sound/effects/magic/demon_consume.ogg', 50, TRUE)
+
+	// Mimics some real defib stuff (wish this was more generalized)
+	playsound(defib, SFX_BODYFALL, 50, TRUE)
+	playsound(defib, 'sound/machines/defib/defib_zap.ogg', 75, TRUE, -1)
+	playsound(defib, 'sound/machines/defib/defib_success.ogg', 50, FALSE) // I guess
+>>>>>>> tg-pr-88929
 	defib.shock_pulling(30, changeling)
 
 /// Removes the arms of the defibber if they're a carbon, and stuns them for a bit.

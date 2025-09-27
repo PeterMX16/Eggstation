@@ -7,11 +7,16 @@
 /obj/item/bitrunning_disk
 	name = "generic bitrunning program"
 	desc = "A disk containing source code."
+<<<<<<< HEAD
 	icon = 'icons/obj/assemblies/module.dmi'
+=======
+	icon = 'icons/obj/devices/circuitry_n_data.dmi'
+>>>>>>> tg-pr-88929
 	base_icon_state = "datadisk"
 	icon_state = "datadisk0"
 	/// Name of the choice made
 	var/choice_made
+<<<<<<< HEAD
 	w_class = WEIGHT_CLASS_TINY
 
 	var/monkeystation_override = FALSE // monkeystation change, override for disks with single powers/items
@@ -41,6 +46,28 @@
 
 /obj/item/bitrunning_disk/ability
 	desc = "A disk containing source code. It can be used to preload abilities into the virtual domain."
+=======
+
+/obj/item/bitrunning_disk/Initialize(mapload)
+	. = ..()
+
+	icon_state = "[base_icon_state][rand(0, 7)]"
+	update_icon()
+
+/obj/item/bitrunning_disk/examine(mob/user)
+	. = ..()
+	. += span_infoplain("This disk must be carried on your person into a netpod to be used.")
+
+	if(isnull(choice_made))
+		. += span_notice("To make a selection, toggle the disk in hand.")
+		return
+
+	. += span_info("It has been used to select: <b>[choice_made]</b>.")
+	. += span_notice("It cannot make another selection.")
+
+/obj/item/bitrunning_disk/ability
+	desc = "A disk containing source code. It can be used to preload abilities into the virtual domain. Duplicate abilities will be ignored."
+>>>>>>> tg-pr-88929
 	/// The selected ability that this grants
 	var/datum/action/granted_action
 	/// The list of actions that this can grant
@@ -57,7 +84,11 @@
 		names += initial(thing.name)
 
 	var/choice = tgui_input_list(user, message = "Select an ability",  title = "Bitrunning Program", items = names)
+<<<<<<< HEAD
 	if(isnull(choice))
+=======
+	if(isnull(choice) || !user.is_holding(src))
+>>>>>>> tg-pr-88929
 		return
 
 	for(var/datum/action/thing as anything in selectable_actions)
@@ -68,7 +99,11 @@
 		return
 
 	balloon_alert(user, "selected")
+<<<<<<< HEAD
 	playsound(user, 'sound/machines/click.ogg', 50, TRUE)
+=======
+	playsound(user, 'sound/items/click.ogg', 50, TRUE)
+>>>>>>> tg-pr-88929
 	choice_made = choice
 
 /// Tier 1 programs. Simple, funny, or helpful.
@@ -114,7 +149,11 @@
 		names += initial(thing.name)
 
 	var/choice = tgui_input_list(user, message = "Select an ability",  title = "Bitrunning Program", items = names)
+<<<<<<< HEAD
 	if(isnull(choice))
+=======
+	if(isnull(choice) || !user.is_holding(src))
+>>>>>>> tg-pr-88929
 		return
 
 	for(var/obj/thing as anything in selectable_items)
@@ -122,7 +161,11 @@
 			granted_item = thing
 
 	balloon_alert(user, "selected")
+<<<<<<< HEAD
 	playsound(user, 'sound/machines/click.ogg', 50, TRUE)
+=======
+	playsound(user, 'sound/items/click.ogg', 50, TRUE)
+>>>>>>> tg-pr-88929
 	choice_made = choice
 
 /// Tier 1 items. Simple, funny, or helpful.
@@ -138,16 +181,77 @@
 /obj/item/bitrunning_disk/item/tier2
 	name = "bitrunning gear: complex"
 	selectable_items = list(
+<<<<<<< HEAD
 		/obj/item/chainsaw,
 		/obj/item/gun/ballistic/automatic/pistol,
 		/obj/item/melee/energy/blade/hardlight,
+=======
+		/obj/item/reagent_containers/hypospray/medipen/survival/luxury,
+		/obj/item/gun/ballistic/automatic/pistol,
+		/obj/item/clothing/suit/armor/vest,
+>>>>>>> tg-pr-88929
 	)
 
 /// Tier 3 items. Very powerful, game breaking.
 /obj/item/bitrunning_disk/item/tier3
 	name = "bitrunning gear: advanced"
 	selectable_items = list(
+<<<<<<< HEAD
 		/obj/item/gun/energy/tesla_cannon,
 		/obj/item/dualsaber/green,
 		/obj/item/melee/beesword,
+=======
+		/obj/item/gun/energy/e_gun/nuclear,
+		/obj/item/dualsaber/green,
+		/obj/item/grenade/syndieminibomb,
+	)
+
+///proto-kinetic accelerator mods, to be applied to pka's given inside domains
+/obj/item/bitrunning_disk/item/pka_mods
+	name = "bitrunning gear: proto-kinetic accelerator mods"
+	selectable_items = list(
+		/obj/item/borg/upgrade/modkit/range,
+		/obj/item/borg/upgrade/modkit/damage,
+		/obj/item/borg/upgrade/modkit/cooldown,
+		/obj/item/borg/upgrade/modkit/aoe/mobs,
+		/obj/item/borg/upgrade/modkit/human_passthrough,
+	)
+
+/obj/item/bitrunning_disk/item/pka_mods/premium
+	name = "bitrunning gear: premium proto-kinetic accelerator mods"
+	selectable_items = list(
+		/obj/item/borg/upgrade/modkit/cooldown/repeater,
+		/obj/item/borg/upgrade/modkit/lifesteal,
+		/obj/item/borg/upgrade/modkit/resonator_blasts,
+		/obj/item/borg/upgrade/modkit/bounty,
+		/obj/item/borg/upgrade/modkit/indoors,
+	)
+
+///proto-kinetic crusher trophies, to be applied to pkc's given inside domains
+/obj/item/bitrunning_disk/item/pkc_mods
+	name = "bitrunning gear: proto-kinetic crusher mods"
+	selectable_items = list(
+		/obj/item/crusher_trophy/watcher_wing,
+		/obj/item/crusher_trophy/blaster_tubes/magma_wing,
+		/obj/item/crusher_trophy/legion_skull,
+		/obj/item/crusher_trophy/wolf_ear,
+	)
+
+/obj/item/bitrunning_disk/item/pkc_mods/premium
+	name = "bitrunning gear: premium proto-kinetic crusher mods"
+	selectable_items = list(
+		/obj/item/crusher_trophy/watcher_wing/ice_wing,
+		/obj/item/crusher_trophy/blaster_tubes,
+		/obj/item/crusher_trophy/miner_eye,
+		/obj/item/crusher_trophy/tail_spike,
+		/obj/item/crusher_trophy/demon_claws,
+		/obj/item/crusher_trophy/vortex_talisman,
+		/obj/item/crusher_trophy/ice_demon_cube,
+	)
+
+/obj/item/bitrunning_disk/item/mini_uzi
+	name = "bitrunning gear: mini-uzi"
+	selectable_items = list(
+		/obj/item/gun/ballistic/automatic/mini_uzi,
+>>>>>>> tg-pr-88929
 	)

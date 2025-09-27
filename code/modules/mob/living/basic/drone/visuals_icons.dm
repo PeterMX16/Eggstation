@@ -1,11 +1,19 @@
 // Drone overlays and visuals
 
+<<<<<<< HEAD
 /mob/living/basic/drone/apply_overlay(cache_index)
+=======
+/mob/living/basic/drone/proc/apply_overlay(cache_index)
+>>>>>>> tg-pr-88929
 	if((. = drone_overlays[cache_index]))
 		add_overlay(.)
 
 
+<<<<<<< HEAD
 /mob/living/basic/drone/remove_overlay(cache_index)
+=======
+/mob/living/basic/drone/proc/remove_overlay(cache_index)
+>>>>>>> tg-pr-88929
 	var/overlay = drone_overlays[cache_index]
 	if(overlay)
 		cut_overlay(overlay)
@@ -27,7 +35,11 @@
 		client.screen += internal_storage
 
 
+<<<<<<< HEAD
 /mob/living/basic/drone/update_worn_head()
+=======
+/mob/living/basic/drone/update_worn_head(update_obscured = TRUE)
+>>>>>>> tg-pr-88929
 	remove_overlay(DRONE_HEAD_LAYER)
 
 	if(head)
@@ -44,7 +56,11 @@
 
 	apply_overlay(DRONE_HEAD_LAYER)
 
+<<<<<<< HEAD
 /mob/living/basic/drone/update_worn_mask()
+=======
+/mob/living/basic/drone/update_worn_mask(update_obscured = TRUE)
+>>>>>>> tg-pr-88929
 	update_worn_head()
 
 /mob/living/basic/drone/regenerate_icons()
@@ -108,7 +124,7 @@
 /mob/living/basic/drone/proc/check_menu()
 	if(!istype(src))
 		return FALSE
-	if(incapacitated())
+	if(incapacitated)
 		return FALSE
 	return TRUE
 

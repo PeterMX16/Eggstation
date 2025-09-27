@@ -4,7 +4,12 @@
 	desc = "Dust from a brimdemon. It is considered valuable for its' botanical abilities."
 	icon_state = "brimdust"
 	icon = 'icons/obj/mining.dmi'
+<<<<<<< HEAD
 	layer = FLOOR_CLEAN_LAYER
+=======
+	plane = GAME_PLANE
+	layer = CLEANABLE_OBJECT_LAYER
+>>>>>>> tg-pr-88929
 	mergeable_decal = FALSE
 
 /obj/effect/decal/cleanable/brimdust/Initialize(mapload)
@@ -37,4 +42,8 @@
 	if(!COOLDOWN_FINISHED(src, ore_sensing_cooldown))
 		return
 	COOLDOWN_START(src, ore_sensing_cooldown, cooldown)
+<<<<<<< HEAD
 	mineral_scan_pulse(get_turf(src), range)
+=======
+	mineral_scan_pulse(get_turf(src), range, src)
+>>>>>>> tg-pr-88929

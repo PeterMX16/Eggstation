@@ -1,12 +1,15 @@
+<<<<<<< HEAD
 // zap needs to be over this amount to get power
 #define TESLA_COIL_THRESHOLD 80
 // each zap power unit produces 400 joules
 #define ZAP_TO_ENERGY(p) (power_to_energy((p) * 400))
 
+=======
+>>>>>>> tg-pr-88929
 /obj/machinery/power/energy_accumulator/tesla_coil
 	name = "tesla coil"
 	desc = "For the union!"
-	icon = 'icons/obj/engine/tesla_coil.dmi'
+	icon = 'icons/obj/machines/engine/tesla_coil.dmi'
 	icon_state = "coil0"
 
 	// Executing a traitor caught releasing tesla was never this fun!
@@ -39,11 +42,21 @@
 	. = ..()
 	set_wires(new /datum/wires/tesla_coil(src))
 
+<<<<<<< HEAD
 /obj/machinery/power/energy_accumulator/tesla_coil/cable_layer_change_checks(mob/living/user, obj/item/tool)
 	if(anchored)
 		balloon_alert(user, "unanchor first!")
 		return FALSE
 	return TRUE
+=======
+/obj/machinery/power/energy_accumulator/tesla_coil/cable_layer_act(mob/living/user, obj/item/tool)
+	if(panel_open)
+		return NONE
+	if(anchored)
+		balloon_alert(user, "unanchor first!")
+		return ITEM_INTERACT_BLOCKING
+	return ..()
+>>>>>>> tg-pr-88929
 
 /obj/machinery/power/energy_accumulator/tesla_coil/RefreshParts()
 	. = ..()
@@ -117,14 +130,14 @@
 	var/power = (powernet.avail) * 0.2 * input_power_multiplier  //Always always always use more then you output for the love of god
 	power = min(surplus(), power) //Take the smaller of the two
 	add_load(power)
-	playsound(src.loc, 'sound/magic/lightningshock.ogg', zap_sound_volume, TRUE, zap_sound_range)
-	tesla_zap(src, 10, power, zap_flags)
+	playsound(src.loc, 'sound/effects/magic/lightningshock.ogg', zap_sound_volume, TRUE, zap_sound_range)
+	tesla_zap(source = src, zap_range = 10, power = power, cutoff = 1e3, zap_flags = zap_flags)
 	zap_buckle_check(power)
 
 /obj/machinery/power/energy_accumulator/grounding_rod
 	name = "grounding rod"
 	desc = "Keeps an area from being fried by Edison's Bane."
-	icon = 'icons/obj/engine/tesla_coil.dmi'
+	icon = 'icons/obj/machines/engine/tesla_coil.dmi'
 	icon_state = "grounding_rod0"
 	anchored = FALSE
 	density = TRUE
@@ -172,10 +185,15 @@
 	if(anchored && !panel_open)
 		flick("grounding_rodhit", src)
 		zap_buckle_check(energy)
+<<<<<<< HEAD
 		stored_energy += ZAP_TO_ENERGY(energy)
+=======
+		stored_energy += energy
+>>>>>>> tg-pr-88929
 		return 0
 	else
 		. = ..()
-
-#undef TESLA_COIL_THRESHOLD
-#undef ZAP_TO_ENERGY
+/obj/machinery/power/energy_accumulator/grounding_rod/release_energy(joules = 0)
+	stored_energy -= joules
+	processed_energy = joules
+	return FALSE //Grounding rods don't release energy to the grid.

@@ -20,6 +20,7 @@ GLOBAL_PROTECT(##log_var_name);\
 	}\
 }
 
+<<<<<<< HEAD
 #define DECLARE_LOG(log_name, start) DECLARE_LOG_NAMED(##log_name, "[copytext(#log_name, 1, length(#log_name) - 4)]", start)
 #define START_LOG TRUE
 #define DONT_START_LOG FALSE
@@ -42,6 +43,31 @@ DECLARE_LOG_NAMED(harddel_log, "harddels", START_LOG)
 #if defined(UNIT_TESTS) || defined(SPACEMAN_DMM)
 DECLARE_LOG_NAMED(test_log, "tests", START_LOG)
 #endif
+=======
+#define DECLARE_LOG(log_name, start) DECLARE_LOG_NAMED(##log_name, "[copytext(#log_name, 1, length(#log_name) - 3)]", start)
+#define START_LOG TRUE
+#define DONT_START_LOG FALSE
+
+/// Populated by log declaration macros to set log file names and start messages
+/world/proc/_initialize_log_files(temp_log_override = null)
+	// Needs to be here to avoid compiler warnings
+	SHOULD_CALL_PARENT(TRUE)
+	return
+
+// All individual log files.
+// These should be used where the log category cannot easily be a json log file.
+DECLARE_LOG(config_error_log, DONT_START_LOG)
+DECLARE_LOG(perf_log, DONT_START_LOG) // Declared here but name is set in time_track subsystem
+
+#ifdef REFERENCE_TRACKING_LOG_APART
+DECLARE_LOG_NAMED(harddel_log, "harddels", START_LOG)
+#endif
+
+#if defined(UNIT_TESTS) || defined(SPACEMAN_DMM)
+DECLARE_LOG_NAMED(test_log, "tests", START_LOG)
+#endif
+
+>>>>>>> tg-pr-88929
 
 /// Picture logging
 GLOBAL_VAR(picture_log_directory)
@@ -77,11 +103,14 @@ GLOBAL_PROTECT(investigate_signaler)
 GLOBAL_LIST_EMPTY(lawchanges)
 GLOBAL_PROTECT(lawchanges)
 
+<<<<<<< HEAD
 //Monkestation Edit: REPLAYS
 GLOBAL_VAR(demo_log)
 GLOBAL_PROTECT(demo_log)
 //Monkestation Edit: REPLAYS
 
+=======
+>>>>>>> tg-pr-88929
 #undef DECLARE_LOG
 #undef DECLARE_LOG_NAMED
 #undef START_LOG

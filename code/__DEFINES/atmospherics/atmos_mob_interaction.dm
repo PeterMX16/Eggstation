@@ -17,6 +17,9 @@
 /// Useful for doing "we're done" effects without duped code
 #define BREATH_LOST 1
 
+//The proportion of oxygen needed for metabolism compared to pluoxium. (Pluoxium is this many times efficient as oxygen)
+#define PLUOXIUM_PROPORTION 8
+
 //Defines for N2O and Healium euphoria moodlets
 #define EUPHORIA_INACTIVE 0
 #define EUPHORIA_ACTIVE 1
@@ -41,6 +44,7 @@
 /// This is used in handle_temperature_damage() for humans, and in reagents that affect body temperature. Temperature damage is multiplied by this amount.
 #define TEMPERATURE_DAMAGE_COEFFICIENT 1.5
 
+<<<<<<< HEAD
 // Defines the cap on fast your body normalizes to the environment
 /// Max negative change in temperature during natural body temperature stabilization
 #define BODYTEMP_ENVIRONMENT_COOLING_MAX -30 KELVIN // needs to be relatively high, as otherwise you will make space not deadly
@@ -74,6 +78,12 @@
 // Mobs can override these to have whatever they want
 // That means in a lot of situations (namely mob code) you should not directly use these,
 // and instead use the relevant mob vars UNLESS you intentionally are using defaults over reality
+=======
+/// The maximum temperature of Lavaland
+#define LAVALAND_MAX_TEMPERATURE 350
+/// The minimum temperature of Icebox
+#define ICEBOX_MIN_TEMPERATURE 180
+>>>>>>> tg-pr-88929
 
 /// The natural temperature for a body
 #define BODYTEMP_NORMAL CELCIUS_TO_KELVIN(37 CELCIUS)
@@ -83,6 +93,7 @@
 #define HYPOTHERMIA (BODYTEMP_NORMAL - 10 CELCIUS)
 
 /// The body temperature limit the human body can take before it starts taking damage from heat.
+<<<<<<< HEAD
 /// This also affects how fast the body normalises it's temperature when hot.
 #define BODYTEMP_HEAT_DAMAGE_LIMIT CELCIUS_TO_KELVIN(45 CELCIUS)
 /// The body temperature limit the human body can take before it starts taking damage from cold.
@@ -126,11 +137,46 @@
 /// A cold drink will decrease body temperature by this much
 #define COLD_DRINK -0.25 KELVIN
 
+=======
+/// This also affects how fast the body normalises its temperature when hot.
+/// 340k is about 66c, and rather high for a human.
+#define BODYTEMP_HEAT_DAMAGE_LIMIT (BODYTEMP_NORMAL + 30)
+/// A temperature limit which is above the maximum lavaland temperature
+#define BODYTEMP_HEAT_LAVALAND_SAFE (LAVALAND_MAX_TEMPERATURE + 5)
+/// The body temperature limit the human body can take before it starts taking damage from cold.
+/// This also affects how fast the body normalises its temperature when cold.
+/// 270k is about -3c, that is below freezing and would hurt over time.
+#define BODYTEMP_COLD_DAMAGE_LIMIT (BODYTEMP_NORMAL - 40)
+/// A temperature limit which is above the minimum icebox temperature
+#define BODYTEMP_COLD_ICEBOX_SAFE (ICEBOX_MIN_TEMPERATURE - 5)
+/// The body temperature limit the human body can take before it will take wound damage.
+#define BODYTEMP_HEAT_WOUND_LIMIT (BODYTEMP_NORMAL + 90) // 400.5 k
+>>>>>>> tg-pr-88929
 /// The modifier on cold damage limit hulks get ontop of their regular limit
 #define BODYTEMP_HULK_COLD_DAMAGE_LIMIT_MODIFIER 25 KELVIN
 /// The modifier on cold damage hulks get.
 #define HULK_COLD_DAMAGE_MOD 2
 
+<<<<<<< HEAD
+=======
+// Body temperature warning icons
+/// The temperature the red icon is displayed.
+#define BODYTEMP_HEAT_WARNING_3 (BODYTEMP_HEAT_DAMAGE_LIMIT + 360) //+700k
+/// The temperature the orange icon is displayed.
+#define BODYTEMP_HEAT_WARNING_2 (BODYTEMP_HEAT_DAMAGE_LIMIT + 120) //460K
+/// The temperature the yellow icon is displayed.
+#define BODYTEMP_HEAT_WARNING_1 (BODYTEMP_HEAT_DAMAGE_LIMIT) //340K
+/// The temperature the light green icon is displayed.
+#define BODYTEMP_COLD_WARNING_1 (BODYTEMP_COLD_DAMAGE_LIMIT) //270k
+/// The temperature the cyan icon is displayed.
+#define BODYTEMP_COLD_WARNING_2 (BODYTEMP_COLD_DAMAGE_LIMIT - 70) //200k
+/// The temperature the blue icon is displayed.
+#define BODYTEMP_COLD_WARNING_3 (BODYTEMP_COLD_DAMAGE_LIMIT - 150) //120k
+
+/// Beyond this temperature, being on fire will increase body temperature by less and less
+#define BODYTEMP_FIRE_TEMP_SOFTCAP 1200
+
+>>>>>>> tg-pr-88929
 /// The amount of pressure damage someone takes is equal to (pressure / HAZARD_HIGH_PRESSURE)*PRESSURE_DAMAGE_COEFFICIENT, with the maximum of MAX_PRESSURE_DAMAGE
 #define PRESSURE_DAMAGE_COEFFICIENT 2
 #define MAX_HIGH_PRESSURE_DAMAGE 2
@@ -181,4 +227,11 @@
 /// For gloves
 #define SHOES_MIN_TEMP_PROTECT 2.0 KELVIN
 /// For gloves
+<<<<<<< HEAD
 #define SHOES_MAX_TEMP_PROTECT 1500 KELVIN
+=======
+#define SHOES_MAX_TEMP_PROTECT 1500
+
+///Minimum temperature for items on fire
+#define BURNING_ITEM_MINIMUM_TEMPERATURE (150+T0C)
+>>>>>>> tg-pr-88929

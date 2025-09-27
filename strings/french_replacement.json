@@ -1,4 +1,8 @@
 {
+<<<<<<< HEAD
+=======
+
+>>>>>>> tg-pr-88929
 	"french": {
 		"yes": "oui",
 		"no": "non",
@@ -12,6 +16,7 @@
 		"with": "avec",
 		"of": "de",
 
+<<<<<<< HEAD
 		"assistant": "ravageur",
 		"assistants": "ravageurs",
 		"baby": ["enfant", "petit baguette"],
@@ -21,6 +26,29 @@
 		"captain": "capitaine",
 		"changeling": "changeur",
 		"cheese": ["brie", "roquefort", "camembert"],
+=======
+
+		"assistant": "ravageur",
+		"assistants": "ravageurs",
+		"baby": [
+			"enfant",
+			"petit baguette"
+		],
+		"bad": "mal",
+		"bye": [
+			"bon voyage",
+			"adieu",
+			"au revoir"
+		],
+		"cake": "gateau",
+		"captain": "capitaine",
+		"changeling": "changeur",
+		"cheese": [
+			"brie",
+			"roquefort",
+			"camembert"
+		],
+>>>>>>> tg-pr-88929
 		"cigarette": "clope",
 		"cook": "cuisinier",
 		"dad": "papa",
@@ -31,12 +59,31 @@
 		"greytider": "les gitans",
 		"greytiders": "les gitans",
 		"modsuit": "burkini",
+<<<<<<< HEAD
 		"hello": ["'allo", "bonjour", "salut"],
 		"maint": "les banlieues",
 		"meat": ["coq au vin", "boeuf"],
 		"mom": "maman",
 		"my": "mon",
 		"nuke": ["grand bombe", "la baguette ultime"],
+=======
+		"hello": [
+			"'allo",
+			"bonjour",
+			"salut"
+		],
+		"maint": "les banlieues",
+		"meat": [
+			"coq au vin",
+			"boeuf"
+		],
+		"mom": "maman",
+		"my": "mon",
+		"nuke": [
+			"grand bombe",
+			"la baguette ultime"
+		],
+>>>>>>> tg-pr-88929
 		"op": "boche",
 		"operative": "boche",
 		"operatives": "boches",
@@ -44,8 +91,19 @@
 		"urity": "urite",
 		"security": "securite",
 		"shit": "merde",
+<<<<<<< HEAD
 		"shitcurity": ["gendarmerie", "les keufs"],
 		"shitsec": ["gendarmerie", "les keufs"],
+=======
+		"shitcurity": [
+			"gendarmerie",
+			"les keufs"
+		],
+		"shitsec": [
+			"gendarmerie",
+			"les keufs"
+		],
+>>>>>>> tg-pr-88929
 		"spaghetti": "macaroni",
 		"spicy": "epice",
 		"thanks": "merci",

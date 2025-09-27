@@ -1,9 +1,12 @@
+<<<<<<< HEAD
 GLOBAL_LIST_INIT(scryer_auto_link_freqs, zebra_typecacheof(list(
 	/area/station = MODLINK_FREQ_NANOTRASEN,
 	/area/ruin/space/ancientstation = MODLINK_FREQ_CHARLIE,
 	/area/ruin/space/has_grav/syndicate_depot = MODLINK_FREQ_SYNDICATE,
 )))
 
+=======
+>>>>>>> tg-pr-88929
 /proc/make_link_visual_generic(datum/mod_link/mod_link, proc_path)
 	var/mob/living/user = mod_link.get_user_callback.Invoke()
 	var/obj/effect/overlay/link_visual = new()
@@ -21,8 +24,13 @@ GLOBAL_LIST_INIT(scryer_auto_link_freqs, zebra_typecacheof(list(
 
 /proc/get_link_visual_generic(datum/mod_link/mod_link, atom/movable/visuals, proc_path)
 	var/mob/living/user = mod_link.get_user_callback.Invoke()
+<<<<<<< HEAD
 	playsound(mod_link.holder, 'sound/machines/terminal_processing.ogg', 50, vary = TRUE)
 	visuals.add_overlay(mutable_appearance('icons/effects/effects.dmi', "static_base", TURF_LAYER))
+=======
+	playsound(mod_link.holder, 'sound/machines/terminal/terminal_processing.ogg', 50, vary = TRUE)
+	visuals.add_overlay(mutable_appearance('icons/effects/effects.dmi', "static_base", ABOVE_NORMAL_TURF_LAYER))
+>>>>>>> tg-pr-88929
 	visuals.add_overlay(mutable_appearance('icons/effects/effects.dmi', "modlink", ABOVE_ALL_MOB_LAYER))
 	visuals.add_filter("crop_square", 1, alpha_mask_filter(icon = icon('icons/effects/effects.dmi', "modlink_filter")))
 	visuals.maptext_height = 6
@@ -36,18 +44,28 @@ GLOBAL_LIST_INIT(scryer_auto_link_freqs, zebra_typecacheof(list(
 
 /proc/delete_link_visual_generic(datum/mod_link/mod_link)
 	var/mob/living/user = mod_link.get_user_callback.Invoke()
+<<<<<<< HEAD
 	playsound(mod_link.get_other().holder, 'sound/machines/terminal_processing.ogg', 50, vary = TRUE, frequency = -1)
+=======
+	playsound(mod_link.get_other().holder, 'sound/machines/terminal/terminal_processing.ogg', 50, vary = TRUE, frequency = -1)
+>>>>>>> tg-pr-88929
 	LAZYREMOVE(mod_link.holder.update_on_z, mod_link.visual)
 	mod_link.holder.lose_hearing_sensitivity(REF(mod_link))
 	mod_link.holder.UnregisterSignal(user, list(COMSIG_CARBON_APPLY_OVERLAY, COMSIG_CARBON_REMOVE_OVERLAY, COMSIG_ATOM_DIR_CHANGE))
 	QDEL_NULL(mod_link.visual)
 
 /proc/on_user_set_dir_generic(datum/mod_link/mod_link, newdir)
+<<<<<<< HEAD
 	if(!newdir) //can sometimes be null or 0
 		return
 	var/atom/other_visual = mod_link.get_other()?.visual
 	if(QDELETED(other_visual))
 		return
+=======
+	var/atom/other_visual = mod_link.get_other().visual
+	if(!newdir) //can sometimes be null or 0
+		return
+>>>>>>> tg-pr-88929
 	other_visual.setDir(SOUTH)
 	other_visual.pixel_x = 0
 	other_visual.pixel_y = 0
@@ -55,27 +73,40 @@ GLOBAL_LIST_INIT(scryer_auto_link_freqs, zebra_typecacheof(list(
 	if(newdir & NORTH)
 		other_visual.pixel_y = 13
 		other_visual.layer = BELOW_MOB_LAYER
+<<<<<<< HEAD
 		SET_PLANE_IMPLICIT(other_visual, GAME_PLANE_FOV_HIDDEN)
 	if(newdir & SOUTH)
 		other_visual.pixel_y = -24
 		other_visual.layer = ABOVE_ALL_MOB_LAYER
 		SET_PLANE_IMPLICIT(other_visual, GAME_PLANE_UPPER_FOV_HIDDEN)
+=======
+	if(newdir & SOUTH)
+		other_visual.pixel_y = -24
+		other_visual.layer = ABOVE_ALL_MOB_LAYER
+>>>>>>> tg-pr-88929
 		new_transform.Scale(-1, 1)
 		new_transform.Translate(-1, 0)
 	if(newdir & EAST)
 		other_visual.pixel_x = 14
 		other_visual.layer = BELOW_MOB_LAYER
+<<<<<<< HEAD
 		SET_PLANE_IMPLICIT(other_visual, GAME_PLANE_FOV_HIDDEN)
+=======
+>>>>>>> tg-pr-88929
 		new_transform.Shear(0.5, 0)
 		new_transform.Scale(0.65, 1)
 	if(newdir & WEST)
 		other_visual.pixel_x = -14
 		other_visual.layer = BELOW_MOB_LAYER
+<<<<<<< HEAD
 		SET_PLANE_IMPLICIT(other_visual, GAME_PLANE_FOV_HIDDEN)
+=======
+>>>>>>> tg-pr-88929
 		new_transform.Shear(-0.5, 0)
 		new_transform.Scale(0.65, 1)
 	other_visual.transform = new_transform
 
+<<<<<<< HEAD
 /// Shared checks for if someone can be called via modlink.
 /proc/base_mod_link_checks(mob/living/link_caller)
 	// ensure it's a valid caller at all
@@ -96,6 +127,8 @@ GLOBAL_LIST_INIT(scryer_auto_link_freqs, zebra_typecacheof(list(
 			return FALSE
 	return TRUE
 
+=======
+>>>>>>> tg-pr-88929
 /obj/item/mod/control/Initialize(mapload, datum/mod_theme/new_theme, new_skin, obj/item/mod/core/new_core)
 	. = ..()
 	mod_link = new(
@@ -139,9 +172,13 @@ GLOBAL_LIST_INIT(scryer_auto_link_freqs, zebra_typecacheof(list(
 				. = ITEM_INTERACT_SUCCESS
 
 /obj/item/mod/control/proc/can_call()
+<<<<<<< HEAD
 	if(!get_charge())
 		return FALSE
 	return base_mod_link_checks(wearer)
+=======
+	return get_charge() && wearer && wearer.stat < DEAD
+>>>>>>> tg-pr-88929
 
 /obj/item/mod/control/proc/make_link_visual()
 	return make_link_visual_generic(mod_link, PROC_REF(on_overlay_change))
@@ -156,10 +193,14 @@ GLOBAL_LIST_INIT(scryer_auto_link_freqs, zebra_typecacheof(list(
 	. = ..()
 	if(speaker != wearer && speaker != ai_assistant)
 		return
+<<<<<<< HEAD
 	var/old_name = mod_link.visual.name
 	mod_link.visual.name = speaker.GetVoice()
 	mod_link.visual.say(raw_message, sanitize = FALSE, language = message_language, message_range = 2)
 	mod_link.visual.name = old_name
+=======
+	mod_link.visual.say(raw_message, sanitize = FALSE, message_range = 2)
+>>>>>>> tg-pr-88929
 
 /obj/item/mod/control/proc/on_overlay_change(atom/source, cache_index, overlay)
 	SIGNAL_HANDLER
@@ -182,7 +223,11 @@ GLOBAL_LIST_INIT(scryer_auto_link_freqs, zebra_typecacheof(list(
 	icon_state = "modlink"
 	actions_types = list(/datum/action/item_action/call_link)
 	/// The installed power cell.
+<<<<<<< HEAD
 	var/obj/item/stock_parts/power_store/cell/cell
+=======
+	var/obj/item/stock_parts/power_store/cell
+>>>>>>> tg-pr-88929
 	/// The MODlink datum we operate.
 	var/datum/mod_link/mod_link
 	/// Initial frequency of the MODlink.
@@ -229,6 +274,11 @@ GLOBAL_LIST_INIT(scryer_auto_link_freqs, zebra_typecacheof(list(
 
 /obj/item/clothing/neck/link_scryer/attack_self(mob/user, modifiers)
 	var/new_label = reject_bad_text(tgui_input_text(user, "Change the visible name", "Set Name", label, MAX_NAME_LEN))
+<<<<<<< HEAD
+=======
+	if(!user.is_holding(src))
+		return
+>>>>>>> tg-pr-88929
 	if(!new_label)
 		balloon_alert(user, "invalid name!")
 		return
@@ -239,7 +289,11 @@ GLOBAL_LIST_INIT(scryer_auto_link_freqs, zebra_typecacheof(list(
 /obj/item/clothing/neck/link_scryer/process(seconds_per_tick)
 	if(!mod_link.link_call)
 		return
+<<<<<<< HEAD
 	cell.use(min(20 * seconds_per_tick, cell.charge))
+=======
+	cell.use(0.02 * STANDARD_CELL_RATE * seconds_per_tick, force = TRUE)
+>>>>>>> tg-pr-88929
 
 /obj/item/clothing/neck/link_scryer/attackby(obj/item/attacked_by, mob/user, params)
 	. = ..()
@@ -248,7 +302,11 @@ GLOBAL_LIST_INIT(scryer_auto_link_freqs, zebra_typecacheof(list(
 	if(!user.transferItemToLoc(attacked_by, src))
 		return
 	cell = attacked_by
+<<<<<<< HEAD
 	balloon_alert(user, "installed [cell.name]")
+=======
+	balloon_alert(user, "cell installed")
+>>>>>>> tg-pr-88929
 
 /obj/item/clothing/neck/link_scryer/update_name(updates)
 	. = ..()
@@ -262,7 +320,11 @@ GLOBAL_LIST_INIT(scryer_auto_link_freqs, zebra_typecacheof(list(
 /obj/item/clothing/neck/link_scryer/attack_hand_secondary(mob/user, list/modifiers)
 	if(!cell)
 		return SECONDARY_ATTACK_CONTINUE_CHAIN
+<<<<<<< HEAD
 	balloon_alert(user, "removed [cell.name]")
+=======
+	balloon_alert(user, "cell removed")
+>>>>>>> tg-pr-88929
 	user.put_in_hands(cell)
 	return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
@@ -304,10 +366,13 @@ GLOBAL_LIST_INIT(scryer_auto_link_freqs, zebra_typecacheof(list(
 /obj/item/clothing/neck/link_scryer/ui_action_click(mob/user)
 	if(mod_link.link_call)
 		mod_link.end_call()
+<<<<<<< HEAD
 	else if(QDELETED(cell))
 		user.balloon_alert(user, "no cell installed!")
 	else if(!cell.charge)
 		user.balloon_alert(user, "no charge!")
+=======
+>>>>>>> tg-pr-88929
 	else
 		call_link(user, mod_link)
 
@@ -316,9 +381,14 @@ GLOBAL_LIST_INIT(scryer_auto_link_freqs, zebra_typecacheof(list(
 	return istype(user) && user.wear_neck == src ? user : null
 
 /obj/item/clothing/neck/link_scryer/proc/can_call()
+<<<<<<< HEAD
 	if(!cell?.charge)
 		return FALSE
 	return base_mod_link_checks(loc)
+=======
+	var/mob/living/user = loc
+	return istype(user) && cell?.charge && user.stat < DEAD
+>>>>>>> tg-pr-88929
 
 /obj/item/clothing/neck/link_scryer/proc/make_link_visual()
 	var/mob/living/user = mod_link.get_user_callback.Invoke()
@@ -338,10 +408,14 @@ GLOBAL_LIST_INIT(scryer_auto_link_freqs, zebra_typecacheof(list(
 	. = ..()
 	if(speaker != loc)
 		return
+<<<<<<< HEAD
 	var/old_name = mod_link.visual.name
 	mod_link.visual.name = speaker.GetVoice()
 	mod_link.visual.say(raw_message, sanitize = FALSE, language = message_language, message_range = 2)
 	mod_link.visual.name = old_name
+=======
+	mod_link.visual.say(raw_message, sanitize = FALSE, message_range = 3)
+>>>>>>> tg-pr-88929
 
 /obj/item/clothing/neck/link_scryer/proc/on_overlay_change(atom/source, cache_index, overlay)
 	SIGNAL_HANDLER
@@ -369,6 +443,7 @@ GLOBAL_LIST_INIT(scryer_auto_link_freqs, zebra_typecacheof(list(
 /obj/item/clothing/neck/link_scryer/loaded/charlie
 	starting_frequency = MODLINK_FREQ_CHARLIE
 
+<<<<<<< HEAD
 /// Scryer that automatically links based on area/Z-level
 /obj/item/clothing/neck/link_scryer/auto_link/Initialize(mapload)
 	. = ..()
@@ -382,6 +457,8 @@ GLOBAL_LIST_INIT(scryer_auto_link_freqs, zebra_typecacheof(list(
 	if(!isnull(GLOB.scryer_auto_link_freqs[area.type]))
 		mod_link.frequency = GLOB.scryer_auto_link_freqs[area.type]
 
+=======
+>>>>>>> tg-pr-88929
 /// A MODlink datum, used to handle unique functions that will be used in the MODlink call.
 /datum/mod_link
 	/// Generic name for multitool buffers.
@@ -443,6 +520,13 @@ GLOBAL_LIST_INIT(scryer_auto_link_freqs, zebra_typecacheof(list(
 	GLOB.mod_link_ids -= id
 	if(link_call)
 		end_call()
+<<<<<<< HEAD
+=======
+	get_user_callback = null
+	make_visual_callback = null
+	get_visual_callback = null
+	delete_visual_callback = null
+>>>>>>> tg-pr-88929
 	return ..()
 
 /datum/mod_link/proc/get_other()
@@ -461,7 +545,11 @@ GLOBAL_LIST_INIT(scryer_auto_link_freqs, zebra_typecacheof(list(
 	if(!link_user)
 		return
 	if(HAS_TRAIT(link_user, TRAIT_IN_CALL))
+<<<<<<< HEAD
 		holder.balloon_alert(user, "user already in call!")
+=======
+		holder.balloon_alert(user, "already calling!")
+>>>>>>> tg-pr-88929
 		return
 	var/mob/living/link_target = called.get_user_callback.Invoke()
 	if(!link_target)
@@ -473,7 +561,11 @@ GLOBAL_LIST_INIT(scryer_auto_link_freqs, zebra_typecacheof(list(
 	if(!can_call_callback.Invoke() || !called.can_call_callback.Invoke())
 		holder.balloon_alert(user, "can't call!")
 		return
+<<<<<<< HEAD
 	link_target.playsound_local(get_turf(called.holder), 'sound/weapons/ring.ogg', 15, vary = TRUE)
+=======
+	link_target.playsound_local(get_turf(called.holder), 'sound/items/weapons/ring.ogg', 15, vary = TRUE)
+>>>>>>> tg-pr-88929
 	var/atom/movable/screen/alert/modlink_call/alert = link_target.throw_alert("[REF(src)]_modlink", /atom/movable/screen/alert/modlink_call)
 	alert.desc = "[holder] ([id]) is calling you! Left-click this to accept the call. Right-click to deny it."
 	alert.link_caller_ref = WEAKREF(src)
@@ -563,6 +655,10 @@ GLOBAL_LIST_INIT(scryer_auto_link_freqs, zebra_typecacheof(list(
 	desc = "Someone is calling you! Left-click this to accept the call. Right-click to deny it."
 	icon_state = "called"
 	timeout = 10 SECONDS
+<<<<<<< HEAD
+=======
+	clickable_glow = TRUE
+>>>>>>> tg-pr-88929
 	var/end_message = "call timed out!"
 	/// A weak reference to the MODlink that is calling.
 	var/datum/weakref/link_caller_ref

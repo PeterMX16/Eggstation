@@ -1,7 +1,12 @@
+<<<<<<< HEAD
 import { InfernoNode } from 'inferno';
 import { Button } from '../../components';
 import { useBackend } from '../../backend';
 import { PreferencesMenuData } from './data';
+=======
+import { ReactNode } from 'react';
+import { Button } from 'tgui-core/components';
+>>>>>>> tg-pr-88929
 
 export const PageButton = <P extends unknown>(props: {
   currentPage: P;
@@ -9,7 +14,12 @@ export const PageButton = <P extends unknown>(props: {
   otherActivePages?: P[];
 
   setPage: (page: P) => void;
+<<<<<<< HEAD
   children?: InfernoNode;
+=======
+
+  children?: ReactNode;
+>>>>>>> tg-pr-88929
 }) => {
   const { act } = useBackend<PreferencesMenuData>();
   const pageIsActive =
@@ -23,9 +33,13 @@ export const PageButton = <P extends unknown>(props: {
       fontSize="1.2em"
       fluid
       selected={pageIsActive}
+<<<<<<< HEAD
       onClick={() => {
         props.setPage(props.page);
       }}
+=======
+      onClick={() => props.setPage(props.page)}
+>>>>>>> tg-pr-88929
     >
       {props.children}
     </Button>

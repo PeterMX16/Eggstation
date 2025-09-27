@@ -4,14 +4,16 @@
 	icon_state = "engivend"
 	icon_deny = "engivend-deny"
 	panel_type = "panel10"
-	req_access = list(ACCESS_ENGINE_EQUIP)
 	products = list(
 		/obj/item/clothing/glasses/meson/engine = 2,
 		/obj/item/clothing/glasses/welding = 3,
 		/obj/item/multitool = 4,
 		/obj/item/grenade/chem_grenade/smart_metal_foam = 10,
 		/obj/item/geiger_counter = 5,
+<<<<<<< HEAD
 		/obj/item/storage/bag/construction = 5, //monkestation edit
+=======
+>>>>>>> tg-pr-88929
 		/obj/item/stock_parts/power_store/cell/high = 10,
 		/obj/item/stock_parts/power_store/battery/high = 10,
 		/obj/item/electronics/airlock = 10,

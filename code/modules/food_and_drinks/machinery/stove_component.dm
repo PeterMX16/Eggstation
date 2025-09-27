@@ -13,6 +13,9 @@
 	VAR_FINAL/obj/item/container
 	/// Typepath of particles to use for the particle holder.
 	VAR_FINAL/particle_type = /particles/smoke/steam/mild
+	/// Ref to our looping sound played when cooking
+	VAR_FINAL/datum/looping_sound/soup/soup_sound
+
 	/// The color of the flames around the burner.
 	var/flame_color = "#006eff"
 	/// Container's pixel x when placed on the stove
@@ -40,10 +43,20 @@
 		spawn_container.forceMove(parent)
 		add_container(spawn_container)
 
+	soup_sound = new(parent)
+
+/datum/component/stove/Destroy()
+	QDEL_NULL(soup_sound)
+	return ..()
+
 /datum/component/stove/RegisterWithParent()
+<<<<<<< HEAD
 	RegisterSignal(parent, COMSIG_CLICK_ALT, PROC_REF(switch_temp))
+=======
+>>>>>>> tg-pr-88929
 	RegisterSignal(parent, COMSIG_ATOM_ATTACKBY, PROC_REF(on_attackby))
 	RegisterSignal(parent, COMSIG_ATOM_ATTACK_HAND_SECONDARY, PROC_REF(on_attack_hand_secondary))
+	RegisterSignal(parent, COMSIG_ATOM_ATTACK_ROBOT_SECONDARY, PROC_REF(on_attack_robot_secondary))
 	RegisterSignal(parent, COMSIG_ATOM_EXITED, PROC_REF(on_exited))
 	RegisterSignal(parent, COMSIG_ATOM_UPDATE_OVERLAYS, PROC_REF(on_overlay_update))
 	RegisterSignal(parent, COMSIG_OBJ_DECONSTRUCT, PROC_REF(on_deconstructed))
@@ -104,25 +117,43 @@
 /datum/component/stove/proc/on_attack_hand_secondary(obj/machinery/source)
 	SIGNAL_HANDLER
 
+	toggle_mode()
+
+	return COMPONENT_SECONDARY_CANCEL_ATTACK_CHAIN
+
+/datum/component/stove/proc/on_attack_robot_secondary(obj/machinery/source)
+	SIGNAL_HANDLER
+
+	toggle_mode()
+
+	return COMPONENT_SECONDARY_CANCEL_ATTACK_CHAIN
+
+/datum/component/stove/proc/toggle_mode()
 	var/obj/machinery/real_parent = parent
 	if(on)
 		turn_off()
 
 	else if(real_parent.machine_stat & (BROKEN|NOPOWER))
 		real_parent.balloon_alert_to_viewers("no power!")
-		return COMPONENT_SECONDARY_CANCEL_ATTACK_CHAIN
+		return
 
 	else
 		turn_on()
 
 	real_parent.balloon_alert_to_viewers("burners [on ? "on" : "off"]")
 	playsound(real_parent, 'sound/machines/click.ogg', 30, TRUE)
-	playsound(real_parent, on ? 'sound/items/welderactivate.ogg' : 'sound/items/welderdeactivate.ogg', 15, TRUE)
-
-	return COMPONENT_SECONDARY_CANCEL_ATTACK_CHAIN
+	playsound(real_parent, on ? 'sound/items/tools/welderactivate.ogg' : 'sound/items/tools/welderdeactivate.ogg', 15, TRUE)
 
 /datum/component/stove/proc/on_attackby(obj/machinery/source, obj/item/attacking_item, mob/user, params)
 	SIGNAL_HANDLER
+
+	if(istype(source, /obj/machinery/oven/range) && istype(attacking_item, /obj/item/storage/bag/tray) && container)
+		var/obj/machinery/oven/range/range = source
+		var/obj/item/reagent_containers/cup/soup_pot/soup_pot = container
+
+		if(!range.open)
+			soup_pot.transfer_from_container_to_pot(attacking_item, user)
+			return COMPONENT_NO_AFTERATTACK
 
 	if(!attacking_item.is_open_container())
 		return
@@ -253,12 +284,24 @@
 		obj_parent.remove_shared_particles("[old_type]_stove_[container_x]")
 
 	if(!on || !container?.reagents.total_volume)
+<<<<<<< HEAD
+=======
+		soup_sound?.stop()
+>>>>>>> tg-pr-88929
 		if (!isnull(particle_type))
 			obj_parent.remove_shared_particles("[particle_type]_stove_[container_x]")
 		return
 
+<<<<<<< HEAD
 	if(isnull(particle_type))
 		return
 	var/obj/effect/abstract/shared_particle_holder/soup_smoke = obj_parent.add_shared_particles(particle_type, "[particle_type]_stove_[container_x]")
 	soup_smoke.particles.position = list(container_x, round(world.icon_size * 0.66), 0)
+=======
+	soup_sound.start()
+	if(isnull(particle_type))
+		return
+	var/obj/effect/abstract/shared_particle_holder/soup_smoke = obj_parent.add_shared_particles(particle_type, "[particle_type]_stove_[container_x]")
+	soup_smoke.particles.position = list(container_x, round(ICON_SIZE_Y * 0.66), 0)
+>>>>>>> tg-pr-88929
 

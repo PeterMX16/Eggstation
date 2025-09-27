@@ -1,10 +1,15 @@
-import { Component, createRef, InfernoNode, RefObject } from 'inferno';
-import { Button, Section, Stack } from '../../components';
-import { FlexProps } from '../../components/Flex';
+import {
+  Component,
+  ComponentProps,
+  createRef,
+  ReactNode,
+  RefObject,
+} from 'react';
+import { Button, Flex, Section, Stack } from 'tgui-core/components';
 
 type TabbedMenuProps = {
-  categoryEntries: [string, InfernoNode][];
-  contentProps?: FlexProps;
+  categoryEntries: [string, ReactNode][];
+  contentProps?: ComponentProps<typeof Flex>;
 };
 
 export class TabbedMenu extends Component<TabbedMenuProps> {

@@ -21,6 +21,7 @@
 	max_integrity = 200
 	obj_flags = CAN_BE_HIT
 	armor_type = /datum/armor/machinery_atmospherics
+	interaction_flags_atom = parent_type::interaction_flags_atom | INTERACT_ATOM_IGNORE_MOBILITY
 
 	///Check if the object can be unwrenched
 	var/can_unwrench = FALSE
@@ -33,7 +34,7 @@
 	///The flags of the pipe/component (PIPING_ALL_LAYER | PIPING_ONE_PER_TURF | PIPING_DEFAULT_LAYER_ONLY | PIPING_CARDINAL_AUTONORMALIZE)
 	var/pipe_flags = NONE
 
-	///This only works on pipes, because they have 1000 subtypes wich need to be visible and invisible under tiles, so we track this here
+	///This only works on pipes, because they have 1000 subtypes which need to be visible and invisible under tiles, so we track this here
 	var/hide = TRUE
 
 	///The image of the pipe/device used for ventcrawling
@@ -53,6 +54,10 @@
 
 	///Whether it can be painted
 	var/paintable = TRUE
+	///Whether it will generate cap sprites when hidden
+	var/has_cap_visuals = FALSE
+	///Cap overlay that is being added to turf's `vis_contents`, `null` if pipe was never hidden or has no valid connections
+	var/obj/effect/overlay/cap_visual/cap_overlay
 
 	///Is the thing being rebuilt by SSair or not. Prevents list bloat
 	var/rebuilding = FALSE
@@ -76,7 +81,7 @@
 	fire = 100
 	acid = 70
 
-/obj/machinery/atmospherics/LateInitialize()
+/obj/machinery/atmospherics/post_machine_initialize()
 	. = ..()
 	update_name()
 
@@ -105,6 +110,10 @@
 	if(isturf(loc))
 		turf_loc = loc
 		turf_loc.add_blueprints_preround(src)
+
+	if(hide)
+		setup_hiding()
+
 	SSspatial_grid.add_grid_awareness(src, SPATIAL_GRID_CONTENTS_TYPE_ATMOS)
 	SSspatial_grid.add_grid_membership(src, turf_loc, SPATIAL_GRID_CONTENTS_TYPE_ATMOS)
 	if(init_processing)
@@ -118,10 +127,55 @@
 	SSair.stop_processing_machine(src)
 	SSair.rebuild_queue -= src
 
+<<<<<<< HEAD
 	pipe_vision_img = null
+=======
+	QDEL_NULL(pipe_vision_img)
+	QDEL_NULL(cap_overlay)
+>>>>>>> tg-pr-88929
 
 	return ..()
-	//return QDEL_HINT_FINDREFERENCE
+
+/**
+ * Sets up our pipe hiding logic, consolidated in one place so subtypes may override it.
+ * This lets subtypes implement their own hiding logic without needing to worry about conflicts with the parent hiding logic.
+ */
+/obj/machinery/atmospherics/proc/setup_hiding()
+	// Register pipe cap updating when hidden/unhidden
+	RegisterSignal(src, COMSIG_OBJ_HIDE, PROC_REF(on_hide))
+
+/**
+ * Signal handler. Updates both our pipe cap visuals and those of adjacent nodes.
+ * We update adjacent nodes as their pipe caps are based partially on our state, so they need updating as well.
+ */
+/obj/machinery/atmospherics/proc/on_hide(datum/source)
+	SHOULD_CALL_PARENT(TRUE)
+	SIGNAL_HANDLER
+
+	for(var/obj/machinery/atmospherics/node in nodes)
+		node.update_cap_visuals()
+
+	update_cap_visuals()
+
+/**
+ * Run when you update the conditions in which an /atom might want to start reacting to its turf's air
+ */
+/atom/proc/atmos_conditions_changed()
+	return
+
+/atom/movable/atmos_conditions_changed()
+	var/turf/open/open_loc = loc
+	if(!isopenturf(open_loc))
+		return
+	var/datum/gas_mixture/turf_gas = open_loc.air
+	if(isnull(turf_gas))
+		return
+	check_atmos_process(open_loc, turf_gas, turf_gas.temperature)
+
+/turf/open/atmos_conditions_changed()
+	if(isnull(air))
+		return
+	check_atmos_process(src, air, air.temperature)
 
 /**
  * Run when you update the conditions in which an /atom might want to start reacting to its turf's air
@@ -203,8 +257,9 @@
 	update_appearance()
 
 /obj/machinery/atmospherics/update_icon()
-	. = ..()
 	update_layer()
+	update_cap_visuals()
+	return ..()
 
 /**
  * Find a connecting /obj/machinery/atmospherics in specified direction, called by relaymove()
@@ -299,7 +354,7 @@
 	if(isnull(given_layer))
 		given_layer = piping_layer
 
-	// you cant place the machine on the same location as the target cause it blocks
+	// you can't place the machine on the same location as the target cause it blocks
 	if(target.loc == loc)
 		return FALSE
 
@@ -353,9 +408,9 @@
 	return
 
 /**
- * Similar to set_pipenet() but instead of setting a network to a pipeline, it replaces the old pipeline with a new one, called by Merge() in datum_pipeline.dm
+ * Replaces the connection to the old_pipenet with the new_pipenet
  */
-/obj/machinery/atmospherics/proc/replace_pipenet()
+/obj/machinery/atmospherics/proc/replace_pipenet(datum/pipeline/old_pipenet, datum/pipeline/new_pipenet)
 	return
 
 /**
@@ -399,6 +454,9 @@
 			var/datum/gas_mixture/gas_mix = all_gas_mixes[gas_mix_number]
 			if(!gas_mix.total_moles())
 				empty_mixes++
+			if(!nodes[gas_mix_number] || (istype(nodes[gas_mix_number], /obj/machinery/atmospherics/components/unary/portables_connector) && !portable_device_connected(gas_mix_number)))
+				var/pressure_delta = all_gas_mixes[gas_mix_number].return_pressure() - env_air.return_pressure()
+				internal_pressure = internal_pressure > pressure_delta ? internal_pressure : pressure_delta
 		if(empty_mixes == device_type)
 			empty_pipe = TRUE
 	if(!int_air.total_moles())
@@ -443,7 +501,7 @@
  * Called by wrench_act() before deconstruct()
  * Arguments:
  * * mob_user - the mob doing the act
- * * pressures - it can be passed on from wrench_act(), it's the pressure difference between the enviroment pressure and the pipe internal pressure
+ * * pressures - it can be passed on from wrench_act(), it's the pressure difference between the environment pressure and the pipe internal pressure
  */
 /obj/machinery/atmospherics/proc/unsafe_pressure_release(mob/user, pressures = null)
 	if(!user)
@@ -466,23 +524,23 @@
  *
  * Called by wrench_act(), create a pipe fitting and remove the pipe
  */
-/obj/machinery/atmospherics/deconstruct(disassembled = TRUE)
-	if(!(flags_1 & NODECONSTRUCT_1))
-		if(can_unwrench)
-			var/obj/item/pipe/stored = new construction_type(loc, null, dir, src, pipe_color)
-			stored.set_piping_layer(piping_layer)
-			if(!disassembled)
-				stored.take_damage(stored.max_integrity * 0.5, sound_effect=FALSE)
-			transfer_fingerprints_to(stored)
-			. = stored
-	..()
+/obj/machinery/atmospherics/on_deconstruction(disassembled = TRUE)
+	if(!can_unwrench)
+		return
+
+	var/obj/item/pipe/stored = new construction_type(loc, null, dir, src, pipe_color)
+	stored.set_piping_layer(piping_layer)
+	if(!disassembled)
+		stored.take_damage(stored.max_integrity * 0.5, sound_effect=FALSE)
+	transfer_fingerprints_to(stored)
+	. = stored
 
 /**
  * Getter for piping layer shifted, pipe colored overlays
  *
  * Creates the image for the pipe underlay that all components use, called by get_pipe_underlay() in components_base.dm
  * Arguments:
- * * iconfile  - path of the iconstate we are using (ex: 'icons/obj/atmospherics/components/thermomachine.dmi')
+ * * iconfile  - path of the iconstate we are using (ex: 'icons/obj/machines/atmospherics/thermomachine.dmi')
  * * iconstate - the image we are using inside the file
  * * direction - the direction of our device
  * * color - the color (in hex value, like #559900) that the pipe should have
@@ -525,7 +583,7 @@
 		L.ventcrawl_layer = piping_layer
 	return ..()
 
-/obj/machinery/atmospherics/singularity_pull(S, current_size)
+/obj/machinery/atmospherics/singularity_pull(atom/singularity, current_size)
 	if(current_size >= STAGE_FIVE)
 		deconstruct(FALSE)
 	return ..()
@@ -534,7 +592,7 @@
 
 // Handles mob movement inside a pipenet
 /obj/machinery/atmospherics/relaymove(mob/living/user, direction)
-	if(!direction) //cant go this way.
+	if(!direction) //can't go this way.
 		return
 	if(user in buckled_mobs)// fixes buckle ventcrawl edgecase fuck bug
 		return
@@ -579,16 +637,11 @@
 	our_client.set_eye(target_move)
 	// Let's smooth out that movement with an animate yeah?
 	// If the new x is greater (move is left to right) we get a negative offset. vis versa
-	our_client.pixel_x = (x - target_move.x) * world.icon_size
-	our_client.pixel_y = (y - target_move.y) * world.icon_size
+	our_client.pixel_x = (x - target_move.x) * ICON_SIZE_X
+	our_client.pixel_y = (y - target_move.y) * ICON_SIZE_Y
 	animate(our_client, pixel_x = 0, pixel_y = 0, time = 0.05 SECONDS)
 	our_client.move_delay = world.time + 0.05 SECONDS
 
-/obj/machinery/atmospherics/AltClick(mob/living/L)
-	if(vent_movement & VENTCRAWL_ALLOWED && istype(L))
-		L.handle_ventcrawl(src)
-		return
-	return ..()
 
 /**
  * Getter of a list of pipenets
@@ -614,17 +667,75 @@
 	return
 
 /**
- * Called by the RPD.dm pre_attack(), overriden by pipes.dm
+ * Handles cap overlay addition and removal, won't do anything if `has_cap_visuals` is set to `FALSE`
+ */
+/obj/machinery/atmospherics/proc/update_cap_visuals()
+	if(!has_cap_visuals)
+		return
+
+	cap_overlay?.moveToNullspace()
+
+	if(!HAS_TRAIT(src, TRAIT_UNDERFLOOR))
+		return
+
+	var/connections = NONE
+	for(var/obj/machinery/atmospherics/node in nodes)
+		if(HAS_TRAIT(node, TRAIT_UNDERFLOOR))
+			continue
+
+		var/turf/node_turf = get_turf(node)
+		if(node_turf.underfloor_accessibility > UNDERFLOOR_HIDDEN)
+			continue
+
+		var/connected_dir = get_dir(src, node)
+		connections |= connected_dir
+
+	if(connections == NONE)
+		return
+
+	var/bitfield = CARDINAL_TO_PIPECAPS(connections) | (~connections) & ALL_CARDINALS
+	var/turf/our_turf = get_turf(src)
+
+	if(isnull(cap_overlay))
+		cap_overlay = new
+
+	SET_PLANE_EXPLICIT(cap_overlay, initial(plane), our_turf)
+
+	cap_overlay.color = pipe_color
+	cap_overlay.layer = initial(layer)
+	cap_overlay.icon_state = "[bitfield]_[piping_layer]"
+
+	cap_overlay.forceMove(our_turf)
+
+/obj/effect/overlay/cap_visual
+	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
+	icon = 'icons/obj/pipes_n_cables/!pipes_bitmask.dmi'
+	vis_flags = NONE
+	anchored = TRUE
+
+/**
+ * Called by the RPD.dm pre_attack()
  * Arguments:
  * * paint_color - color that the pipe will be painted in (colors in hex like #4f4f4f)
  */
 /obj/machinery/atmospherics/proc/paint(paint_color)
-	return FALSE
+	if(paintable)
+		add_atom_colour(paint_color, FIXED_COLOUR_PRIORITY)
+		set_pipe_color(paint_color)
+		update_node_icon()
+	return paintable
 
 /// Setter for pipe color, so we can ensure it's all uniform and save cpu time
 /obj/machinery/atmospherics/proc/set_pipe_color(pipe_colour)
 	src.pipe_color = uppertext(pipe_colour)
 	update_name()
+
+/// Return TRUE if there is device connected to portables_connector
+/obj/machinery/atmospherics/proc/portable_device_connected(node)
+	var/obj/machinery/atmospherics/components/unary/portables_connector/portable_devices_connector = nodes[node]
+	if(portable_devices_connector.connected_device)
+		return TRUE
+	return FALSE
 
 #undef PIPE_VISIBLE_LEVEL
 #undef PIPE_HIDDEN_LEVEL

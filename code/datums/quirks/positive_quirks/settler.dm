@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /* /datum/quirk/item_quirk/settler - monkestation disabled for now
+=======
+/datum/quirk/item_quirk/settler
+>>>>>>> tg-pr-88929
 	name = "Settler"
 	desc = "You are from a lineage of the earliest space settlers! While your family's generational exposure to varying gravity \
 		has resulted in a ... smaller height than is typical for your species, you make up for it by being much better at outdoorsmanship and \
@@ -8,20 +12,46 @@
 	icon = FA_ICON_HOUSE
 	value = 4
 	mob_trait = TRAIT_SETTLER
+<<<<<<< HEAD
 	quirk_flags = QUIRK_HUMAN_ONLY | QUIRK_CHANGES_APPEARANCE
 	medical_record_text = "Patient appears to be abnormally stout."
+=======
+	quirk_flags = QUIRK_HUMAN_ONLY|QUIRK_CHANGES_APPEARANCE
+	medical_record_text = "Patient has been exposed to planetary conditions for extended periods, resulting in an excessively stout build."
+>>>>>>> tg-pr-88929
 	mail_goodies = list(
 		/obj/item/clothing/shoes/workboots/mining,
 		/obj/item/gps,
 	)
+<<<<<<< HEAD
 
 /datum/quirk/item_quirk/settler/add_unique(client/client_source)
 	give_item_to_holder(/obj/item/storage/box/papersack/wheat, list(LOCATION_BACKPACK = ITEM_SLOT_BACKPACK, LOCATION_HANDS = ITEM_SLOT_HANDS))
 	give_item_to_holder(/obj/item/storage/toolbox/fishing/small, list(LOCATION_BACKPACK = ITEM_SLOT_BACKPACK, LOCATION_HANDS = ITEM_SLOT_HANDS))
+=======
+	/// Most of the behavior of settler is from these traits, rather than exclusively the quirk
+	var/list/settler_traits = list(
+		TRAIT_EXPERT_FISHER,
+		TRAIT_ROUGHRIDER,
+		TRAIT_STUBBY_BODY,
+		TRAIT_BEAST_EMPATHY,
+		TRAIT_STURDY_FRAME,
+	)
+
+/datum/quirk/item_quirk/settler/add(client/client_source)
+>>>>>>> tg-pr-88929
 	var/mob/living/carbon/human/human_quirkholder = quirk_holder
 	human_quirkholder.set_mob_height(HUMAN_HEIGHT_SHORTEST)
 	human_quirkholder.add_movespeed_modifier(/datum/movespeed_modifier/settler)
 	human_quirkholder.physiology.hunger_mod *= 0.5 //good for you, shortass, you don't get hungry nearly as often
+<<<<<<< HEAD
+=======
+	human_quirkholder.add_traits(settler_traits, QUIRK_TRAIT)
+
+/datum/quirk/item_quirk/settler/add_unique(client/client_source)
+	give_item_to_holder(/obj/item/storage/box/papersack/wheat, list(LOCATION_BACKPACK = ITEM_SLOT_BACKPACK, LOCATION_HANDS = ITEM_SLOT_HANDS))
+	give_item_to_holder(/obj/item/storage/toolbox/fishing/small, list(LOCATION_BACKPACK = ITEM_SLOT_BACKPACK, LOCATION_HANDS = ITEM_SLOT_HANDS))
+>>>>>>> tg-pr-88929
 
 /datum/quirk/item_quirk/settler/remove()
 	if(QDELING(quirk_holder))
@@ -30,4 +60,8 @@
 	human_quirkholder.set_mob_height(HUMAN_HEIGHT_MEDIUM)
 	human_quirkholder.remove_movespeed_modifier(/datum/movespeed_modifier/settler)
 	human_quirkholder.physiology.hunger_mod *= 2
+<<<<<<< HEAD
  */
+=======
+	human_quirkholder.remove_traits(settler_traits, QUIRK_TRAIT)
+>>>>>>> tg-pr-88929

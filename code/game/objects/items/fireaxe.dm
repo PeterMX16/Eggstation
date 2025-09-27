@@ -4,22 +4,22 @@ GLOBAL_DATUM(bridge_axe, /obj/item/fireaxe)
  * Fireaxe
  */
 /obj/item/fireaxe  // DEM AXES MAN, marker -Agouri
+	name = "fire axe"
+	desc = "Truly, the weapon of a madman. Who would think to fight fire with an axe?"
 	icon = 'icons/obj/weapons/fireaxe.dmi'
 	icon_state = "fireaxe0"
 	base_icon_state = "fireaxe"
 	lefthand_file = 'icons/mob/inhands/weapons/axes_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/weapons/axes_righthand.dmi'
-	name = "fire axe"
-	desc = "Truly, the weapon of a madman. Who would think to fight fire with an axe?"
 	force = 5
 	throwforce = 15
 	demolition_mod = 1.25
 	w_class = WEIGHT_CLASS_BULKY
-	flags_1 = CONDUCT_1
+	obj_flags = CONDUCTS_ELECTRICITY
 	slot_flags = ITEM_SLOT_BACK
 	attack_verb_continuous = list("attacks", "chops", "cleaves", "tears", "lacerates", "cuts")
 	attack_verb_simple = list("attack", "chop", "cleave", "tear", "lacerate", "cut")
-	hitsound = 'sound/weapons/bladeslice.ogg'
+	hitsound = 'sound/items/weapons/bladeslice.ogg'
 	sharpness = SHARP_EDGED
 	armor_type = /datum/armor/item_fireaxe
 	resistance_flags = FIRE_PROOF
@@ -48,6 +48,11 @@ GLOBAL_DATUM(bridge_axe, /obj/item/fireaxe)
 	//axes are not known for being precision butchering tools
 	AddComponent(/datum/component/two_handed, force_unwielded=force_unwielded, force_wielded=force_wielded, icon_wielded="[base_icon_state]1")
 
+/obj/item/fireaxe/Destroy()
+	if(GLOB.bridge_axe == src)
+		GLOB.bridge_axe = null
+	return ..()
+
 /obj/item/fireaxe/update_icon_state()
 	icon_state = "[base_icon_state]0"
 	return ..()
@@ -66,21 +71,31 @@ GLOBAL_DATUM(bridge_axe, /obj/item/fireaxe)
 		return
 	if(target.resistance_flags & INDESTRUCTIBLE)
 		return
+<<<<<<< HEAD
 	if(istype(target, /obj/structure/window) || istype(target, /obj/structure/grille) || istype(target, /obj/structure/window_sill))
+=======
+	if(istype(target, /obj/structure/window) || istype(target, /obj/structure/grille))
+>>>>>>> tg-pr-88929
 		target.atom_destruction("fireaxe")
 
 /*
  * Bone Axe
  */
 /obj/item/fireaxe/boneaxe  // Blatant imitation of the fireaxe, but made out of bone.
+<<<<<<< HEAD
 	icon = 'monkestation/icons/obj/items_and_weapons.dmi' //Monkestation Edit
 	worn_icon = 'monkestation/icons/mob/clothing/back.dmi'
 	lefthand_file = 'monkestation/icons/mob/inhands/weapons/melee_lefthand.dmi'
 	righthand_file = 'monkestation/icons/mob/inhands/weapons/melee_righthand.dmi' //End Of Monke Edit
 	icon_state = "bone_axe0"
 	base_icon_state = "bone_axe"
+=======
+>>>>>>> tg-pr-88929
 	name = "bone axe"
 	desc = "A large, vicious axe crafted out of several sharpened bone plates and crudely tied together. Made of monsters, by killing monsters, for killing monsters."
+	icon_state = "bone_axe0"
+	base_icon_state = "bone_axe"
+	icon_angle = 180
 	force_unwielded = 5
 	force_wielded = 23
 
@@ -88,15 +103,17 @@ GLOBAL_DATUM(bridge_axe, /obj/item/fireaxe)
  * Metal Hydrogen Axe
  */
 /obj/item/fireaxe/metal_h2_axe
+	name = "metallic hydrogen axe"
+	desc = "A lightweight crowbar with an extreme sharp fire axe head attached. It trades its heft as a weapon by making it easier to carry around when holstered to suits without having to sacrifice your backpack."
 	icon_state = "metalh2_axe0"
 	base_icon_state = "metalh2_axe"
-	name = "metallic hydrogen axe"
-	desc = "A lightweight crowbar with an extreme sharp fire axe head attached. It trades it's hefty as a weapon by making it easier to carry around when holstered to suits without having to sacrifice your backpack."
+	icon_angle = -45
 	force_unwielded = 5
 	force_wielded = 20
 	demolition_mod = 2
 	tool_behaviour = TOOL_CROWBAR
 	toolspeed = 1
+<<<<<<< HEAD
 	usesound = 'sound/items/crowbar.ogg'
 
 /*
@@ -133,3 +150,16 @@ GLOBAL_DATUM(bridge_axe, /obj/item/fireaxe)
 	. = span_warning("[user] holds [user.p_their()] axe edge to the [atom.name]. [user.p_they(TRUE)] light[user.p_s()] [user.p_their()] [atom.name] in the process. Holy fuck.")
 	playsound(loc, hitsound, get_clamped_volume(), TRUE, -1)
 	add_fingerprint(user)
+=======
+	usesound = 'sound/items/tools/crowbar.ogg'
+
+//boarding axe
+/obj/item/fireaxe/boardingaxe
+	name = "boarding axe"
+	desc = "A hulking cleaver that feels like a burden just looking at it. Seems excellent at halving obstacles like windows, airlocks, barricades and people."
+	icon_state = "boarding_axe0"
+	base_icon_state = "boarding_axe"
+	force_unwielded = 5
+	force_wielded = 30
+	demolition_mod = 3
+>>>>>>> tg-pr-88929

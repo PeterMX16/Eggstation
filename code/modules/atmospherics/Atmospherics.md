@@ -4,7 +4,7 @@
 
 This file will be written in the first person in the interest of having a laid back style, as some of the concepts here would be ass to read as technical writing. Understand that this isn't the work of one person, but the combined efforts of several contributors. It is a living document, and one you should strive to keep up to date.
 
-I have ~~stolen~~ adapted this document from the work of duncathan, an off and on maintainer who is responsible for the majority of the quality of the current atmos system. He pushed through several code cleanliness and sanity refactors to the system, and wrote the rundown of gas mixtures you'll find in this document. See the [original](https://gist.github.com/duncathan/77d918748d153b4f31a8f76f6085b91a) for his draft.
+I have ~~stolen~~ adapted this document from the work of duncathan, an off and on maintainer who is responsible for the majority of the quality of the current atmos system. Hii pushed through several code cleanliness and sanity refactors to the system, and wrote the rundown of gas mixtures you'll find in this document. See the [original](https://gist.github.com/duncathan/77d918748d153b4f31a8f76f6085b91a) for his draft.
 
 Now, the purpose of this bit of documentation.
 
@@ -39,8 +39,13 @@ _Figure 3.1: The structure of one air controller tick. Not totally accurate, but
 The air controller is, at its core, quite simple, yet it is absolutely fundamental to the atmospheric system. The air controller is the clock which triggers all continuous actions within the atmos system, such as vents distributing air or gas moving between tiles. The actions taken by the air controller are quite simple, and will be enumerated here. Much of the substance of the air ticker is due to the game's master controller, whose intricacies I will not delve into for this document. I will however go into more detail about how SSAir in particular works in Chapter 6. In any case, this is a simplified list of the air controller's actions in a single tick:
 
 1. Rebuild Pipenets
+<<<<<<< HEAD
    - Runs each time SSAir processes, sometimes out of order. It ensures that no pipeline sit unresolved or unbuilt
    - Processes the `rebuild_queue` list into the `expansion_queue` list, and then builds a full pipeline piecemeal. We do a ton of fenagling here to reduce overrun
+=======
+    - Runs each time SSAir processes, sometimes out of order. It ensures that no pipeline sit unresolved or unbuilt
+    - Processes the `rebuild_queue` list into the `expansion_queue` list, and then builds a full pipeline piecemeal. We do a ton of fenagling here to reduce overrun
+>>>>>>> tg-pr-88929
 2. Pipenets
    - Updates the internal gasmixes of attached pipe machinery, and reacts the gases in a pipeline
    - Calls `process()` on each `/datum/pipenet` in the `networks` list
@@ -277,7 +282,7 @@ I've been talking kinda abstractly about turfs sleeping. That's because turfs on
 
 ### A brief romp to talk about excited groups and LAST_SHARE_CHECK
 
-Excited groups can tell the amount of diff being shared by hooking into a value `share()` sets on gasmixes, the absolute amount of gas shared by each tile. The issue is this isn't pressure, it's molar count. So heat being shared in a sealed room causes excited groups to break down, then reform from sources. This isn't a major issue due to how breakdown evens things out, but it's worth knowing.
+Excited groups can tell the amount of diff being shared by hooking into a value `share()` sets on gasmixes, the absolute amount of gas shared by each tile. The issue is this isn't pressure, its molar count. So heat being shared in a sealed room causes excited groups to break down, then reform from sources. This isn't a major issue due to how breakdown evens things out, but it's worth knowing.
 
 ### Back to the main thread
 

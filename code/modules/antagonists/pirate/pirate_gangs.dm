@@ -27,7 +27,7 @@ GLOBAL_LIST_INIT(heavy_pirate_gangs, init_pirate_gangs(is_heavy = TRUE))
 	var/ship_template_id = "ERROR"
 	///the key to the json list of pirate names
 	var/ship_name_pool = "some_json_key"
-	///inbound message title the station recieves
+	///inbound message title the station receives
 	var/threat_title = "Pay away the Space Bugs"
 	///the contents of the message sent to the station.
 	///%SHIPNAME in the content will be replaced with the pirate ship's name
@@ -77,9 +77,9 @@ GLOBAL_LIST_INIT(heavy_pirate_gangs, init_pirate_gangs(is_heavy = TRUE))
 	threat_title = "Sector protection offer"
 	threat_content = "Hey, pal, this is the %SHIPNAME. Can't help but notice you're rocking a wild \
 		and crazy shuttle there with NO INSURANCE! Crazy. What if something happened to it, huh?! We've \
-		done a quick evaluation on your rates in this sector and we're offering %PAYOFF to cover for your \
+		done a quick evaluation of your rates in this sector, and we're offering %PAYOFF to cover your \
 		shuttle in case of any disaster."
-	arrival_announcement = "Do you want to reconsider our offer? Unfortunately, the time for negotiations has passed. Open up, we're coming aboard soon."
+	arrival_announcement = "Do you want to reconsider our offer? Unfortunately, the time for negotiations has passed. Open up; we're coming aboard soon."
 	possible_answers = list("Purchase Insurance.","Reject Offer.")
 
 	response_received = "Sweet, free cash. Let's get outta here, boys."
@@ -115,7 +115,7 @@ GLOBAL_LIST_INIT(heavy_pirate_gangs, init_pirate_gangs(is_heavy = TRUE))
 
 	threat_title = "Transfer of goods"
 	threat_content = "Ahoy! This be the %SHIPNAME. Cough up %PAYOFF credits or you'll walk the plank."
-	arrival_announcement = "The Jolly Roger won't wait forever, maties; we're laying alongside ready to send you some gifts."
+	arrival_announcement = "The Jolly Roger won't wait forever, maties; we're lying alongside, ready to send you some gifts."
 	possible_answers = list("We'll pay.","We will not be extorted.")
 
 	response_received = "Thanks for the credits, landlubbers."
@@ -125,7 +125,11 @@ GLOBAL_LIST_INIT(heavy_pirate_gangs, init_pirate_gangs(is_heavy = TRUE))
 
 ///Expirienced formed employes of Interdyne Pharmaceutics now in a path of thievery and reckoning
 /datum/pirate_gang/interdyne
+<<<<<<< HEAD
 	name = "Expharmacist Unrest"
+=======
+	name = "Restless Ex-Pharmacists"
+>>>>>>> tg-pr-88929
 
 	is_heavy_threat = TRUE
 	ship_template_id = "ex_interdyne"
@@ -141,6 +145,10 @@ GLOBAL_LIST_INIT(heavy_pirate_gangs, init_pirate_gangs(is_heavy = TRUE))
 	response_rejected = "Oh, you're not a station, you're a tumor. Well, we're gonna have to cut it out."
 	response_too_late = "We hope you like skin cancer!"
 	response_not_enough = "This is not nearly enough for our operations. I'm afraid we'll have to borrow some."
+<<<<<<< HEAD
+=======
+	announcement_color = "purple"
+>>>>>>> tg-pr-88929
 
 ///Previous Nanotrasen Assitant workers fired for many reasons now looking for revenge and your bank account.
 /datum/pirate_gang/grey
@@ -159,10 +167,18 @@ GLOBAL_LIST_INIT(heavy_pirate_gangs, init_pirate_gangs(is_heavy = TRUE))
 	response_rejected = "The answer to the law? We are the law! And you will be held responsible!"
 	response_too_late = "Nothing, huh? Looks like the Tide's coming aboard!"
 	response_not_enough = "You trying to cheat us? That's fine, we'll take your station as collateral."
+<<<<<<< HEAD
 
 ///Agents from the space I.R.S. heavily armed to stea- I mean, collect the station's tax dues
 /datum/pirate_gang/irs
 	name = "Space IRS"
+=======
+	announcement_color = "yellow"
+
+///Agents from the space I.R.S. heavily armed to stea- I mean, collect the station's tax dues
+/datum/pirate_gang/irs
+	name = "Space IRS Agents"
+>>>>>>> tg-pr-88929
 
 	is_heavy_threat = TRUE
 	ship_template_id = "irs"
@@ -182,6 +198,10 @@ GLOBAL_LIST_INIT(heavy_pirate_gangs, init_pirate_gangs(is_heavy = TRUE))
 	response_too_late = "Too late, A team has already been sent out resolve this matter directly."
 	response_not_enough = "You filed your taxes incorrectly, A team has been sent to assist in liquidating assets and arrest you for tax fraud. \
 		Nothing personel kid."
+<<<<<<< HEAD
+=======
+	announcement_color = "yellow"
+>>>>>>> tg-pr-88929
 
 //Mutated Ethereals who have adopted bluespace technology in all the wrong ways.
 /datum/pirate_gang/lustrous
@@ -201,3 +221,29 @@ GLOBAL_LIST_INIT(heavy_pirate_gangs, init_pirate_gangs(is_heavy = TRUE))
 	response_rejected = "The rudeness in your speech needs to be neutralized. And we can help you with that right now."
 	response_too_late = "You were not ready then, and now that time has passed. We can only go forward, never back."
 	response_not_enough = "You have insulted us, but there shall be no feud, only swift justice!"
+<<<<<<< HEAD
+=======
+	announcement_color = "purple"
+
+//medieval militia, from OUTER SPACE!
+/datum/pirate_gang/medieval
+	name = "Medieval Warmongers"
+
+	is_heavy_threat = TRUE
+	ship_template_id = "medieval"
+	ship_name_pool = "medieval_names"
+
+	threat_title = "HOMAGE PAYMENT REQUEST"
+	threat_content = "SALUTATIONS, THIS IS %SHIPNAME AND WE ARE COLLECTING MONEY \
+		FROM THE VASSALS IN OUR TERRITORY, YOU JUST SO HAPPEN TO BE IN IT TOO!! NORMALLY \
+		WE SLAUGHTER WEAKLINGS LIKE YOU FOR TRESPASING ON OUR LAND, BUT WE ARE WILLING \
+		TO WELCOME YOU INTO OUR SPACE IF YOU PAY %PAYOFF AS HOMAGE TO OUR LAW. BE WISE ON YOUR CHOICE!! \
+		(send message. send message. why message not sent?)."
+	arrival_announcement = "I FIGURED OUT HOW TO FLY MY SHIP, WE WILL BE DOCKING NEXT TO YOU IN A MINUTE!!"
+	possible_answers = list("Alright, i like my skull intact.","You are dumb, go larp somewhere else.")
+
+	response_received = "THIS WILL SUFFICE, REMEMBER WHO OWNS YOU!!"
+	response_rejected = "FOOLISH DECISION, I'LL MAKE AN EXAMPLE OUT OF YOUR CARCASS!! (does anyone remember how to pilot our ship?)"
+	response_too_late = "YOU ARE ALREADY UNDER SIEGE YOU BUFFON, ARE YOU BRAINSICK OR IGNORANT?!!"
+	response_not_enough = "DO THINK OF ME AS A JESTER? YOU ARE DEAD MEAT!! (i forgot how to fly the ship, tarnation.)"
+>>>>>>> tg-pr-88929

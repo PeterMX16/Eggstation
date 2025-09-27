@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+import { useState } from 'react';
+>>>>>>> tg-pr-88929
 import {
   Button,
   Divider,
@@ -6,11 +10,19 @@ import {
   Section,
   Stack,
   Tabs,
+<<<<<<< HEAD
 } from '../components';
 import { useBackend, useLocalState } from '../backend';
 
 import { Window } from '../layouts';
 import { createSearch } from '../../common/string';
+=======
+} from 'tgui-core/components';
+import { createSearch } from 'tgui-core/string';
+
+import { useBackend } from '../backend';
+import { Window } from '../layouts';
+>>>>>>> tg-pr-88929
 
 type Data = {
   netsuit: string;
@@ -32,11 +44,16 @@ type Outfit = {
 export const NetpodOutfits = (props) => {
   const { act, data } = useBackend<Data>();
   const { netsuit, collections = [] } = data;
+<<<<<<< HEAD
   const [selectedType, setSelectedType] = useLocalState<Collection>(
     'selectedType',
     collections[0],
   );
   const [search, setSearch] = useLocalState<string>('outfitSearch', '');
+=======
+  const [selectedType, setSelectedType] = useState(collections[0]);
+  const [search, setSearch] = useState('');
+>>>>>>> tg-pr-88929
 
   const searchFn = createSearch(search, (outfit: Outfit) => outfit.name);
 
@@ -59,7 +76,11 @@ export const NetpodOutfits = (props) => {
               buttons={
                 <Input
                   autoFocus
+<<<<<<< HEAD
                   onInput={(event, value) => setSearch(value)}
+=======
+                  onChange={(event, value) => setSearch(value)}
+>>>>>>> tg-pr-88929
                   placeholder="Search"
                   value={search}
                 />

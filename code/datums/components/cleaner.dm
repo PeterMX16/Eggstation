@@ -90,15 +90,24 @@
  */
 /datum/component/cleaner/proc/clean(datum/source, atom/target, mob/living/user, clean_target = TRUE)
 	//make sure we don't attempt to clean something while it's already being cleaned
-	if(HAS_TRAIT(target, TRAIT_CURRENTLY_CLEANING))
+	if(HAS_TRAIT(target, TRAIT_CURRENTLY_CLEANING) || (SEND_SIGNAL(target, COMSIG_ATOM_PRE_CLEAN, user) & COMSIG_ATOM_CANCEL_CLEAN))
 		return
-
 	//add the trait and overlay
 	ADD_TRAIT(target, TRAIT_CURRENTLY_CLEANING, REF(src))
 	// We need to update our planes on overlay changes
 	RegisterSignal(target, COMSIG_MOVABLE_Z_CHANGED, PROC_REF(cleaning_target_moved))
+<<<<<<< HEAD
 	var/mutable_appearance/low_bubble = mutable_appearance('icons/effects/effects.dmi', "bubbles", FLOOR_CLEAN_LAYER, target, GAME_PLANE, appearance_flags = RESET_COLOR) // Monkestation edit BLOOD_DATUM
 	var/mutable_appearance/high_bubble = mutable_appearance('icons/effects/effects.dmi', "bubbles", FLOOR_CLEAN_LAYER, target, ABOVE_GAME_PLANE, appearance_flags = RESET_COLOR)  // Monkestation edit BLOOD_DATUM
+=======
+	var/mutable_appearance/low_bubble = mutable_appearance('icons/effects/effects.dmi', "bubbles", CLEANABLE_OBJECT_LAYER, target, GAME_PLANE)
+	var/mutable_appearance/high_bubble = mutable_appearance('icons/effects/effects.dmi', "bubbles", CLEANABLE_OBJECT_LAYER, target, ABOVE_GAME_PLANE)
+	var/list/icon_offsets = target.get_oversized_icon_offsets()
+	low_bubble.pixel_x = icon_offsets["x"]
+	low_bubble.pixel_y = icon_offsets["y"]
+	high_bubble.pixel_x = icon_offsets["x"]
+	high_bubble.pixel_y = icon_offsets["y"]
+>>>>>>> tg-pr-88929
 	if(target.plane > low_bubble.plane) //check if the higher overlay is necessary
 		target.add_overlay(high_bubble)
 	else if(target.plane == low_bubble.plane)
@@ -116,16 +125,23 @@
 		cleaning_duration = (cleaning_duration * min(user.mind.get_skill_modifier(/datum/skill/cleaning, SKILL_SPEED_MODIFIER)+skill_duration_modifier_offset, 1))
 
 	//do the cleaning
+<<<<<<< HEAD
 	user.visible_message(span_notice("[user] starts to clean [target]!"), span_notice("You start to clean [target]..."))
 	var/clean_succeeded = FALSE
 	if(do_after(user, cleaning_duration, target = target))
 		clean_succeeded = TRUE
 		user.visible_message(span_notice("[user] finishes cleaning [target]!"), span_notice("You finish cleaning [target]."))
+=======
+	var/clean_succeeded = FALSE
+	if(do_after(user, cleaning_duration, target = target))
+		clean_succeeded = TRUE
+>>>>>>> tg-pr-88929
 		if(clean_target)
 			var/exp_gained = 0
 			for(var/obj/effect/decal/cleanable/cleanable_decal in target.contents + target) //it's important to do this before you wash all of the cleanables off
 				exp_gained += round(cleanable_decal.beauty / CLEAN_SKILL_BEAUTY_ADJUSTMENT, 1)
 			if(target.wash(cleaning_strength))
+<<<<<<< HEAD
 				exp_gained += round(CLEAN_SKILL_GENERIC_WASH_XP, 1)
 			if(exp_gained)
 				user.mind?.adjust_experience(/datum/skill/cleaning, exp_gained)
@@ -136,7 +152,11 @@
 					item.remove_disease(D)
 
 	on_cleaned_callback?.Invoke(source, target, user, clean_succeeded)
+=======
+				user.mind?.adjust_experience(/datum/skill/cleaning, round(CLEAN_SKILL_GENERIC_WASH_XP))
+>>>>>>> tg-pr-88929
 
+	on_cleaned_callback?.Invoke(source, target, user, clean_succeeded)
 	//remove the cleaning overlay
 	target.cut_overlay(low_bubble)
 	target.cut_overlay(high_bubble)
@@ -149,13 +169,23 @@
 	if(same_z_layer)
 		return
 	// First, get rid of the old overlay
+<<<<<<< HEAD
 	var/mutable_appearance/old_low_bubble = mutable_appearance('icons/effects/effects.dmi', "bubbles", FLOOR_CLEAN_LAYER, old_turf, GAME_PLANE, appearance_flags = RESET_COLOR) // NON-MODULE CHANGE
 	var/mutable_appearance/old_high_bubble = mutable_appearance('icons/effects/effects.dmi', "bubbles", FLOOR_CLEAN_LAYER, old_turf, ABOVE_GAME_PLANE, appearance_flags = RESET_COLOR) // NON-MODULE CHANGE
+=======
+	var/mutable_appearance/old_low_bubble = mutable_appearance('icons/effects/effects.dmi', "bubbles", CLEANABLE_OBJECT_LAYER, old_turf, GAME_PLANE)
+	var/mutable_appearance/old_high_bubble = mutable_appearance('icons/effects/effects.dmi', "bubbles", CLEANABLE_OBJECT_LAYER, old_turf, ABOVE_GAME_PLANE)
+>>>>>>> tg-pr-88929
 	source.cut_overlay(old_low_bubble)
 	source.cut_overlay(old_high_bubble)
 
 	// Now, add the new one
+<<<<<<< HEAD
 	var/mutable_appearance/new_low_bubble = mutable_appearance('icons/effects/effects.dmi', "bubbles", FLOOR_CLEAN_LAYER, new_turf, GAME_PLANE, appearance_flags = RESET_COLOR) // NON-MODULE CHANGE
 	var/mutable_appearance/new_high_bubble = mutable_appearance('icons/effects/effects.dmi', "bubbles", FLOOR_CLEAN_LAYER, new_turf, ABOVE_GAME_PLANE, appearance_flags = RESET_COLOR) // NON-MODULE CHANGE
+=======
+	var/mutable_appearance/new_low_bubble = mutable_appearance('icons/effects/effects.dmi', "bubbles", CLEANABLE_OBJECT_LAYER, new_turf, GAME_PLANE)
+	var/mutable_appearance/new_high_bubble = mutable_appearance('icons/effects/effects.dmi', "bubbles", CLEANABLE_OBJECT_LAYER, new_turf, ABOVE_GAME_PLANE)
+>>>>>>> tg-pr-88929
 	source.add_overlay(new_low_bubble)
 	source.add_overlay(new_high_bubble)

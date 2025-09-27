@@ -10,4 +10,8 @@
 		if(id in id_list) //no dupes
 			continue
 		id_list += id
+<<<<<<< HEAD
 		insert_icon(id, uni_icon(fish_icon, fish_icon_state))
+=======
+		Insert(id, fish_icon, fish_icon_state)
+>>>>>>> tg-pr-88929

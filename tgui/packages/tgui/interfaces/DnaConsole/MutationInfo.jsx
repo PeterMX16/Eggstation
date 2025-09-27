@@ -1,7 +1,16 @@
 import { filter, uniqBy } from 'common/collections';
-import { flow } from 'common/fp';
+import {
+  Box,
+  Button,
+  Divider,
+  Dropdown,
+  LabeledList,
+  Stack,
+} from 'tgui-core/components';
+
 import { useBackend } from '../../backend';
 import {
+<<<<<<< HEAD
   Box,
   Button,
   Divider,
@@ -10,6 +19,8 @@ import {
   Stack,
 } from '../../components';
 import {
+=======
+>>>>>>> tg-pr-88929
   CHROMOSOME_NEVER,
   CHROMOSOME_NONE,
   CHROMOSOME_USED,
@@ -127,10 +138,10 @@ export const MutationInfo = (props) => {
     isSameMutation(x, mutation),
   );
   const savedToDisk = diskMutations.find((x) => isSameMutation(x, mutation));
-  const combinedMutations = flow([
-    uniqBy((mutation) => mutation.Name),
-    filter((x) => x.Name !== mutation.Name),
-  ])([...diskMutations, ...mutationStorage]);
+  const combinedMutations = filter(
+    uniqBy([...diskMutations, ...mutationStorage], (mutation) => mutation.Name),
+    (x) => x.Name !== mutation.Name,
+  );
   return (
     <>
       <LabeledList>

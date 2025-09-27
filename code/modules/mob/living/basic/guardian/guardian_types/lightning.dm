@@ -6,8 +6,13 @@
 	attack_verb_continuous = "shocks"
 	attack_verb_simple = "shock"
 	melee_damage_type = BURN
+<<<<<<< HEAD
 	attack_sound = 'sound/machines/defib_zap.ogg'
 	damage_coeff = list(BRUTE = 0.7, BURN = 0.7, TOX = 0.7, CLONE = 0.7, STAMINA = 0, OXY = 0.7)
+=======
+	attack_sound = 'sound/machines/defib/defib_zap.ogg'
+	damage_coeff = list(BRUTE = 0.7, BURN = 0.7, TOX = 0.7, STAMINA = 0, OXY = 0.7)
+>>>>>>> tg-pr-88929
 	range = 7
 	playstyle_string = span_holoparasite("As a <b>lightning</b> type, you will apply lightning chains to targets on attack and have a lightning chain to your summoner. Lightning chains will shock anyone near them.")
 	creator_name = "Lightning"
@@ -92,4 +97,7 @@
 /obj/effect/ebeam/chain
 	name = "lightning chain"
 	layer = LYING_MOB_LAYER
+<<<<<<< HEAD
 	plane = GAME_PLANE_FOV_HIDDEN
+=======
+>>>>>>> tg-pr-88929

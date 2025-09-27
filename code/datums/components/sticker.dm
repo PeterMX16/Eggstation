@@ -111,11 +111,17 @@
 /datum/component/sticker/proc/on_clean(datum/source, clean_types)
 	SIGNAL_HANDLER
 
+<<<<<<< HEAD
 	. = NONE
 
 	peel()
 
 	return COMPONENT_CLEANED|COMPONENT_CLEANED_GAIN_XP
+=======
+	peel()
+
+	return COMPONENT_CLEANED
+>>>>>>> tg-pr-88929
 
 /datum/component/sticker/proc/on_turf_expose(datum/source, datum/gas_mixture/air, exposed_temperature)
 	SIGNAL_HANDLER

@@ -164,12 +164,15 @@
 /obj/effect/turf_decal/tile/neutral/fourcorners,
 /turf/open/floor/iron,
 /area/shuttle/arrival)
+<<<<<<< HEAD
 "as" = (
 /obj/machinery/holopad,
 /obj/effect/turf_decal/bot,
 /obj/machinery/light/directional/south,
 /turf/open/floor/iron,
 /area/shuttle/arrival)
+=======
+>>>>>>> tg-pr-88929
 "au" = (
 /obj/structure/chair/comfy/shuttle{
 	dir = 4
@@ -211,12 +214,15 @@
 /obj/structure/sign/nanotrasen,
 /turf/closed/wall/mineral/titanium,
 /area/shuttle/arrival)
+<<<<<<< HEAD
 "aB" = (
 /obj/structure/table/reinforced,
 /obj/item/clipboard,
 /obj/effect/turf_decal/delivery,
 /turf/open/floor/iron,
 /area/shuttle/arrival)
+=======
+>>>>>>> tg-pr-88929
 "aC" = (
 /obj/machinery/computer{
 	dir = 1;
@@ -225,6 +231,7 @@
 /obj/effect/turf_decal/tile/blue/fourcorners,
 /turf/open/floor/iron,
 /area/shuttle/arrival)
+<<<<<<< HEAD
 "aD" = (
 /obj/structure/table/reinforced,
 /obj/item/folder,
@@ -232,6 +239,8 @@
 /obj/effect/turf_decal/delivery,
 /turf/open/floor/iron,
 /area/shuttle/arrival)
+=======
+>>>>>>> tg-pr-88929
 "aG" = (
 /obj/structure/table/reinforced,
 /obj/item/paper_bin,
@@ -263,7 +272,7 @@
 	pixel_x = 3;
 	pixel_y = 3
 	},
-/obj/item/storage/secure/briefcase,
+/obj/item/storage/briefcase/secure,
 /obj/effect/turf_decal/bot,
 /turf/open/floor/iron,
 /area/shuttle/arrival)
@@ -297,6 +306,7 @@
 	},
 /turf/open/floor/iron,
 /area/shuttle/arrival)
+<<<<<<< HEAD
 "aW" = (
 /obj/structure/table/reinforced,
 /obj/structure/extinguisher_cabinet{
@@ -310,6 +320,8 @@
 /obj/effect/turf_decal/bot,
 /turf/open/floor/iron,
 /area/shuttle/arrival)
+=======
+>>>>>>> tg-pr-88929
 "aX" = (
 /obj/effect/turf_decal/tile/blue/half/contrasted,
 /turf/open/floor/iron,
@@ -328,6 +340,13 @@
 	},
 /turf/open/floor/iron,
 /area/shuttle/arrival)
+"gS" = (
+/obj/structure/table/reinforced,
+/obj/item/clipboard,
+/obj/effect/turf_decal/delivery,
+/obj/machinery/light/directional/east,
+/turf/open/floor/iron,
+/area/shuttle/arrival)
 "he" = (
 /obj/effect/turf_decal/tile/neutral/half/contrasted{
 	dir = 4
@@ -340,51 +359,69 @@
 	},
 /turf/open/floor/iron,
 /area/shuttle/arrival)
-"on" = (
-/obj/machinery/status_display/evac{
-	pixel_x = -32
+"sq" = (
+/obj/machinery/status_display/ai{
+	pixel_x = 32
 	},
-/obj/item/kirbyplants{
-	icon_state = "plant-21"
-	},
+/obj/item/kirbyplants/organic/plant21,
 /obj/effect/turf_decal/tile/neutral/half/contrasted{
-	dir = 8
+	dir = 4
 	},
 /turf/open/floor/iron,
 /area/shuttle/arrival)
-"uU" = (
-/obj/machinery/light/directional/north,
+"uH" = (
 /obj/machinery/vending/wallmed/directional/north{
 	use_power = 0
 	},
 /obj/effect/turf_decal/tile/neutral/fourcorners,
 /turf/open/floor/iron,
 /area/shuttle/arrival)
-"zb" = (
-/obj/machinery/status_display/ai{
-	pixel_x = 32
+"wG" = (
+/obj/item/kirbyplants/organic/plant21,
+/obj/effect/turf_decal/tile/neutral/half/contrasted{
+	dir = 8
 	},
-/obj/item/kirbyplants{
-	icon_state = "plant-21"
-	},
+/turf/open/floor/iron,
+/area/shuttle/arrival)
+"DV" = (
+/obj/machinery/holopad,
+/obj/effect/turf_decal/bot,
+/turf/open/floor/iron,
+/area/shuttle/arrival)
+"HM" = (
+/obj/structure/table/reinforced,
+/obj/item/folder,
+/obj/item/storage/dice,
+/obj/effect/turf_decal/delivery,
+/obj/machinery/light/directional/west,
+/turf/open/floor/iron,
+/area/shuttle/arrival)
+"My" = (
+/obj/item/kirbyplants/organic/plant21,
 /obj/effect/turf_decal/tile/neutral/half/contrasted{
 	dir = 4
 	},
 /turf/open/floor/iron,
 /area/shuttle/arrival)
-"Ns" = (
-/obj/item/kirbyplants{
-	icon_state = "plant-21"
+"Nn" = (
+/obj/structure/table/reinforced,
+/obj/structure/extinguisher_cabinet{
+	pixel_y = 32
 	},
-/obj/effect/turf_decal/tile/neutral/half/contrasted{
-	dir = 4
+/obj/item/storage/medkit/regular{
+	pixel_x = 3;
+	pixel_y = 3
 	},
+/obj/item/storage/medkit/regular,
+/obj/effect/turf_decal/bot,
+/obj/machinery/light/directional/north,
 /turf/open/floor/iron,
 /area/shuttle/arrival)
-"ZZ" = (
-/obj/item/kirbyplants{
-	icon_state = "plant-21"
+"QU" = (
+/obj/machinery/status_display/evac{
+	pixel_x = -32
 	},
+/obj/item/kirbyplants/organic/plant21,
 /obj/effect/turf_decal/tile/neutral/half/contrasted{
 	dir = 8
 	},
@@ -416,12 +453,12 @@ ad
 ag
 ai
 hW
-on
+QU
 au
 au
 au
 au
-ZZ
+wG
 hW
 aG
 ag
@@ -459,7 +496,7 @@ av
 av
 av
 av
-aB
+gS
 ap
 aI
 aN
@@ -471,15 +508,15 @@ ah
 ac
 ad
 af
-aW
+Nn
 ap
-as
+DV
 aw
 ax
 ay
 ax
 af
-uU
+uH
 aX
 aO
 aZ
@@ -497,7 +534,7 @@ au
 au
 au
 au
-aD
+HM
 ap
 aK
 aP
@@ -530,12 +567,12 @@ ad
 ag
 ai
 he
-zb
+sq
 av
 av
 av
 av
-Ns
+My
 he
 aM
 ag

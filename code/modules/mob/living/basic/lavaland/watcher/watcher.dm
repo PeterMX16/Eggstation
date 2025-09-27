@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 /// A floating eyeball which keeps its distance and sometimes makes you look away.
+=======
+/// A floating eyeball which keeps its distance and sometimes make you look away.
+>>>>>>> tg-pr-88929
 /mob/living/basic/mining/watcher
 	name = "watcher"
 	desc = "A levitating, monocular creature held aloft by wing-like veins. A sharp spine of crystal protrudes from its body."
@@ -13,6 +17,12 @@
 	speed = 3
 	maxHealth = 160
 	health = 160
+<<<<<<< HEAD
+=======
+	melee_damage_lower = 15
+	melee_damage_upper = 15
+	attack_sound = 'sound/items/weapons/bladeslice.ogg'
+>>>>>>> tg-pr-88929
 	attack_verb_continuous = "buffets"
 	attack_verb_simple = "buffet"
 	crusher_loot = /obj/item/crusher_trophy/watcher_wing
@@ -29,7 +39,11 @@
 	/// Icon state for our eye overlay
 	var/eye_glow = "ice_glow"
 	/// Sound to play when we shoot
+<<<<<<< HEAD
 	var/shoot_sound = 'sound/weapons/pierce.ogg'
+=======
+	var/shoot_sound = 'sound/items/weapons/pierce.ogg'
+>>>>>>> tg-pr-88929
 	/// Typepath of our gaze ability
 	var/gaze_attack = /datum/action/cooldown/mob_cooldown/watcher_gaze
 	// We attract and eat these things for some reason
@@ -66,6 +80,11 @@
 
 /mob/living/basic/mining/watcher/update_overlays()
 	. = ..()
+<<<<<<< HEAD
+=======
+	if (stat == DEAD)
+		return
+>>>>>>> tg-pr-88929
 	. += emissive_appearance(icon, "watcher_emissive", src)
 
 /// I love eating diamonds yum

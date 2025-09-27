@@ -1,7 +1,7 @@
 /obj/machinery/gulag_item_reclaimer
 	name = "equipment reclaimer station"
 	desc = "Used to reclaim your items after you finish your sentence at the labor camp."
-	icon = 'icons/obj/terminals.dmi'
+	icon = 'icons/obj/machines/wallmounts.dmi'
 	icon_state = "gulag_off"
 	req_access = list(ACCESS_BRIG) //REQACCESS TO ACCESS ALL STORED ITEMS
 	density = FALSE
@@ -11,10 +11,10 @@
 	///Icon of the current screen status
 	var/screen_icon = "gulag_on"
 
-/obj/machinery/gulag_item_reclaimer/handle_atom_del(atom/deleting_atom)
+/obj/machinery/gulag_item_reclaimer/Exited(atom/movable/gone, direction)
+	. = ..()
 	for(var/person in stored_items)
-		stored_items[person] -= deleting_atom
-	return ..()
+		stored_items[person] -= gone
 
 /obj/machinery/gulag_item_reclaimer/update_overlays()
 	. = ..()

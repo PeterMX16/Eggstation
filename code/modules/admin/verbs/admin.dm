@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 ADMIN_VERB(show_tip, R_ADMIN, FALSE, "Show Tip", "Sends a tip to all players.", ADMIN_CATEGORY_MAIN)
 	var/input = input(user, "Please specify your tip that you want to send to the players.", "Tip", "") as message | null
+=======
+ADMIN_VERB(show_tip, R_ADMIN, "Show Tip", "Sends a tip to all players.", ADMIN_CATEGORY_MAIN)
+	var/input = input(user, "Please specify your tip that you want to send to the players.", "Tip", "") as message|null
+>>>>>>> tg-pr-88929
 	if(!input)
 		return
 
@@ -16,18 +21,33 @@ ADMIN_VERB(show_tip, R_ADMIN, FALSE, "Show Tip", "Sends a tip to all players.", 
 	log_admin("[key_name(user)] sent \"[input]\" as the Tip of the Round.")
 	BLACKBOX_LOG_ADMIN_VERB("Show Tip")
 
+<<<<<<< HEAD
 ADMIN_VERB(announce, R_ADMIN, FALSE, "Announce", "Announce your desires to the world.", ADMIN_CATEGORY_MAIN)
 	var/message = input(user, "Global message to send:", "Admin Announce")  as message | null
+=======
+ADMIN_VERB(announce, R_ADMIN, "Announce", "Announce your desires to the world.", ADMIN_CATEGORY_MAIN)
+	var/message = input(user, "Global message to send:", "Admin Announce")  as message|null
+>>>>>>> tg-pr-88929
 	if(!message)
 		return
 	if(!user.holder.check_for_rights(R_SERVER))
 		message = adminscrub(message,500)
 
+<<<<<<< HEAD
 	send_formatted_announcement(message, "From [user.holder.fakekey ? "Administrator" : user.key]") // tg uses send_ooc_announcement
 	log_admin("Announce: [key_name(user)] : [message]")
 	BLACKBOX_LOG_ADMIN_VERB("Announce")
 
 ADMIN_VERB(unprison, R_ADMIN, FALSE, "UnPrison", ADMIN_VERB_NO_DESCRIPTION, ADMIN_CATEGORY_HIDDEN, mob/prisoner)
+=======
+	if(!user.holder.check_for_rights(R_SERVER))
+		message = adminscrub(message,500)
+	send_ooc_announcement(message, "From [user.holder.fakekey ? "Administrator" : user.key]")
+	log_admin("Announce: [key_name(user)] : [message]")
+	BLACKBOX_LOG_ADMIN_VERB("Announce")
+
+ADMIN_VERB(unprison, R_ADMIN, "UnPrison", ADMIN_VERB_NO_DESCRIPTION, ADMIN_CATEGORY_HIDDEN, mob/prisoner in GLOB.mob_list)
+>>>>>>> tg-pr-88929
 	if(!is_centcom_level(prisoner.z))
 		tgui_alert(user, "[prisoner.name] is not prisoned.")
 		return
@@ -36,7 +56,16 @@ ADMIN_VERB(unprison, R_ADMIN, FALSE, "UnPrison", ADMIN_VERB_NO_DESCRIPTION, ADMI
 	log_admin("[key_name(user)] has unprisoned [key_name(prisoner)]")
 	BLACKBOX_LOG_ADMIN_VERB("Unprison")
 
+<<<<<<< HEAD
 ADMIN_VERB(cmd_admin_check_player_exp, R_ADMIN, FALSE, "Player Playtime", "View player playtime.", ADMIN_CATEGORY_MAIN)
+=======
+	SSjob.send_to_late_join(prisoner)
+	message_admins("[key_name_admin(user)] has unprisoned [key_name_admin(prisoner)]")
+	log_admin("[key_name(user)] has unprisoned [key_name(prisoner)]")
+	BLACKBOX_LOG_ADMIN_VERB("Unprison")
+
+ADMIN_VERB(cmd_admin_check_player_exp, R_ADMIN, "Player Playtime", "View player playtime.", ADMIN_CATEGORY_MAIN)
+>>>>>>> tg-pr-88929
 	if(!CONFIG_GET(flag/use_exp_tracking))
 		to_chat(user, span_warning("Tracking is disabled in the server configuration file."), confidential = TRUE)
 		return
@@ -108,14 +137,21 @@ ADMIN_VERB(cmd_admin_check_player_exp, R_ADMIN, FALSE, "Player Playtime", "View 
 
 	switch(add_or_remove)
 		if("Add")
-			for(var/key in GLOB.traits_by_type)
+			for(var/key in GLOB.admin_visible_traits)
 				if(istype(D,key))
-					available_traits += GLOB.traits_by_type[key]
+					available_traits += GLOB.admin_visible_traits[key]
 		if("Remove")
+<<<<<<< HEAD
 			if(!GLOB.global_trait_name_map)
 				GLOB.global_trait_name_map = generate_global_trait_name_map()
 			for(var/trait in D._status_traits)
 				var/name = GLOB.global_trait_name_map[trait] || trait
+=======
+			if(!GLOB.admin_trait_name_map)
+				GLOB.admin_trait_name_map = generate_admin_trait_name_map()
+			for(var/trait in D._status_traits)
+				var/name = GLOB.admin_trait_name_map[trait] || trait
+>>>>>>> tg-pr-88929
 				available_traits[name] = trait
 
 	var/chosen_trait = input("Select trait to modify", "Trait") as null|anything in sort_list(available_traits)
@@ -145,11 +181,16 @@ monkestation end */
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
+<<<<<<< HEAD
 ADMIN_VERB(drop_everything, R_ADMIN, FALSE, "Drop Everything", ADMIN_VERB_NO_DESCRIPTION, ADMIN_CATEGORY_HIDDEN, mob/dropee)
+=======
+ADMIN_VERB(drop_everything, R_ADMIN, "Drop Everything", ADMIN_VERB_NO_DESCRIPTION, ADMIN_CATEGORY_HIDDEN, mob/living/dropee in GLOB.mob_list)
+>>>>>>> tg-pr-88929
 	var/confirm = tgui_alert(user, "Make [dropee] drop everything?", "Message", list("Yes", "No"))
 	if(confirm != "Yes")
 		return
 
+<<<<<<< HEAD
 	for(var/obj/item/W in dropee)
 		if(!dropee.dropItemToGround(W))
 			qdel(W)
@@ -158,6 +199,14 @@ ADMIN_VERB(drop_everything, R_ADMIN, FALSE, "Drop Everything", ADMIN_VERB_NO_DES
 	var/msg = "[key_name(user)] made [key_name(dropee)] drop everything!"
 	log_admin(msg)
 	message_admins("[key_name_admin(user)] made [ADMIN_LOOKUPFLW(dropee)] drop everything!")
+=======
+	dropee.drop_everything(del_on_drop = FALSE, force = TRUE, del_if_nodrop = TRUE)
+	dropee.regenerate_icons()
+
+	log_admin("[key_name(user)] made [key_name(dropee)] drop everything!")
+	var/msg = "[key_name_admin(user)] made [ADMIN_LOOKUPFLW(dropee)] drop everything!"
+	message_admins(msg)
+>>>>>>> tg-pr-88929
 	admin_ticket_log(dropee, msg)
 	BLACKBOX_LOG_ADMIN_VERB("Drop Everything")
 
@@ -223,7 +272,7 @@ ADMIN_VERB(drop_everything, R_ADMIN, FALSE, "Drop Everything", ADMIN_VERB_NO_DES
 		message_admins("SPAM AUTOMUTE: [muteunmute] [key_name_admin(whom)] from [mute_string].")
 		if(C)
 			to_chat(C, "You have been [muteunmute] from [mute_string] by the SPAM AUTOMUTE system. Contact an admin.", confidential = TRUE)
-		SSblackbox.record_feedback("nested tally", "admin_toggle", 1, list("Auto Mute [feedback_string]", "1")) //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
+		SSblackbox.record_feedback("nested tally", "admin_toggle", 1, list("Auto Mute [feedback_string]", "1")) // If you are copy-pasting this, ensure the 4th parameter is unique to the new proc!
 		return
 
 	if(P.muted & mute_type)
@@ -237,7 +286,7 @@ ADMIN_VERB(drop_everything, R_ADMIN, FALSE, "Drop Everything", ADMIN_VERB_NO_DES
 	message_admins("[key_name_admin(usr)] has [muteunmute] [key_name_admin(whom)] from [mute_string].")
 	if(C)
 		to_chat(C, "You have been [muteunmute] from [mute_string] by [key_name(usr, include_name = FALSE)].", confidential = TRUE)
-	SSblackbox.record_feedback("nested tally", "admin_toggle", 1, list("Mute [feedback_string]", "[P.muted & mute_type]")) //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
+	SSblackbox.record_feedback("nested tally", "admin_toggle", 1, list("Mute [feedback_string]", "[P.muted & mute_type]")) // If you are copy-pasting this, ensure the 4th parameter is unique to the new proc!
 
 /proc/immerse_player(mob/living/carbon/target, toggle=TRUE, remove=FALSE)
 	var/list/immersion_components = list(/datum/component/manual_breathing, /datum/component/manual_blinking)

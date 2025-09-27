@@ -1,8 +1,17 @@
+<<<<<<< HEAD
 import { Color } from 'common/color';
 import { multiline, decodeHtmlEntities } from 'common/string';
 import { Component, createRef, RefObject } from 'inferno';
 import { useBackend } from '../backend';
 import { Tooltip, Icon, Box, Button, Flex } from '../components';
+=======
+import { Component, createRef, RefObject } from 'react';
+import { Color } from 'tgui-core/color';
+import { Box, Button, Flex, Icon, Tooltip } from 'tgui-core/components';
+import { decodeHtmlEntities } from 'tgui-core/string';
+
+import { useBackend } from '../backend';
+>>>>>>> tg-pr-88929
 import { Window } from '../layouts';
 
 const LEFT_CLICK = 0;
@@ -19,6 +28,10 @@ type PaintCanvasProps = Partial<{
   drawing_color: string | null;
   has_palette: boolean;
   show_grid: boolean;
+<<<<<<< HEAD
+=======
+  zoom: number;
+>>>>>>> tg-pr-88929
 }>;
 
 type PointData = {
@@ -44,6 +57,7 @@ class PaintCanvas extends Component<PaintCanvasProps> {
   onCanvasDropper: (x: number, y: number) => void;
   drawing: boolean;
   drawing_color: string;
+  zoom: number;
 
   constructor(props) {
     super(props);
@@ -51,6 +65,7 @@ class PaintCanvas extends Component<PaintCanvasProps> {
     this.modifiedElements = [];
     this.is_grid_shown = false;
     this.drawing = false;
+    this.zoom = props.zoom;
     this.onCanvasModified = props.onCanvasModifiedHandler;
     this.onCanvasDropper = props.onCanvasDropperHandler;
 
@@ -66,8 +81,16 @@ class PaintCanvas extends Component<PaintCanvasProps> {
   }
 
   componentDidUpdate() {
+    if (this.zoom !== this.props.zoom) {
+      this.prepareCanvas();
+      this.syncCanvas();
+    }
     // eslint-disable-next-line max-len
+<<<<<<< HEAD
     if (
+=======
+    else if (
+>>>>>>> tg-pr-88929
       (this.props.value !== undefined &&
         JSON.stringify(this.baseImageData) !==
           JSON.stringify(fromDM(this.props.value))) ||
@@ -78,6 +101,7 @@ class PaintCanvas extends Component<PaintCanvasProps> {
   }
 
   prepareCanvas() {
+    this.zoom = this.props.zoom as number;
     const canvas = this.canvasRef.current!;
     const ctx = canvas.getContext('2d');
     const width = this.props.width || canvas.width || 360;
@@ -123,8 +147,10 @@ class PaintCanvas extends Component<PaintCanvasProps> {
     const y_resolution = this.props.imageHeight || 36;
     const x_scale = Math.round(width / x_resolution);
     const y_scale = Math.round(height / y_resolution);
-    const x = Math.floor(event.offsetX / x_scale);
-    const y = Math.floor(event.offsetY / y_scale);
+
+    const rect = canvas.getBoundingClientRect();
+    const x = Math.floor((event.clientX - rect.left) / x_scale);
+    const y = Math.floor((event.clientY - rect.top) / y_scale);
     return { x, y };
   }
 
@@ -202,11 +228,19 @@ class PaintCanvas extends Component<PaintCanvasProps> {
         width={width}
         height={height}
         {...rest}
+<<<<<<< HEAD
         onMouseDown={this.handleStartDrawing}
         onMouseMove={this.handleDrawing}
         onMouseUp={this.handleEndDrawing}
         onMouseOut={this.handleEndDrawing}
         onContextMenu={this.handleDropper}
+=======
+        onMouseDown={this.handleStartDrawing as any}
+        onMouseMove={this.handleDrawing as any}
+        onMouseUp={this.handleEndDrawing as any}
+        onMouseOut={this.handleEndDrawing as any}
+        onContextMenu={this.handleDropper as any}
+>>>>>>> tg-pr-88929
       >
         Canvas failed to render.
       </canvas>
@@ -239,22 +273,31 @@ type CanvasData = {
   date: string | null;
   show_plaque: boolean;
   show_grid: boolean;
+<<<<<<< HEAD
+=======
+  zoom: number;
+  max_zoom: number;
+>>>>>>> tg-pr-88929
 };
 
 export const Canvas = (props) => {
   const { act, data } = useBackend<CanvasData>();
   const [width, height] = getImageSize(data.grid);
-  const scaled_width = width * data.px_per_unit;
-  const scaled_height = height * data.px_per_unit;
+  const scaled_width = width * data.px_per_unit * data.zoom;
+  const scaled_height = height * data.px_per_unit * data.zoom;
   const average_plaque_height = 90;
+<<<<<<< HEAD
   const palette_height = 44;
+=======
+  const palette_height = 38;
+>>>>>>> tg-pr-88929
   const griddy = !!data.show_grid && !!data.editable && !!data.paint_tool_color;
   return (
     <Window
-      width={scaled_width + 72}
+      width={Math.max(scaled_width + 72, 280)}
       height={
         scaled_height +
-        75 +
+        94 +
         (data.show_plaque ? average_plaque_height : 0) +
         (data.editable && data.paint_tool_palette ? palette_height : 0)
       }
@@ -265,6 +308,7 @@ export const Canvas = (props) => {
             <Flex.Item>
               <Tooltip
                 content={
+<<<<<<< HEAD
                   multiline`
                   You can Right-Click the canvas to change the color of
                   the painting tool to that of the clicked pixel.
@@ -273,6 +317,15 @@ export const Canvas = (props) => {
                     ? multiline`
                   \n You can also select a color from the
                   palette at the bottom of the UI,
+=======
+                  `
+                  Right-Click a pixel on the canvas to copy its color.
+                ` +
+                  (data.editable
+                    ? `
+                  \n Left-Click the palette at the
+                  bottom of the UI to select a color,
+>>>>>>> tg-pr-88929
                   or input a new one with Right-Click.
                 `
                     : '')
@@ -285,15 +338,23 @@ export const Canvas = (props) => {
           {!!data.editable && !!data.paint_tool_color && (
             <Flex.Item>
               <Button
+<<<<<<< HEAD
                 title="Grid Toggle"
                 icon="th-large"
                 backgroundColor={data.show_grid ? 'green' : 'red'}
                 onClick={() => act('toggle_grid')}
                 size={1.5}
+=======
+                tooltip="Grid Toggle"
+                icon="th-large"
+                backgroundColor={data.show_grid ? 'green' : 'red'}
+                onClick={() => act('toggle_grid')}
+>>>>>>> tg-pr-88929
                 m={0.5}
               />
             </Flex.Item>
           )}
+<<<<<<< HEAD
         </Flex>
         <Box textAlign="center">
           <PaintCanvas
@@ -313,7 +374,49 @@ export const Canvas = (props) => {
             editable={data.editable}
             has_palette={!!data.paint_tool_palette}
           />
+=======
+          <Flex.Item>
+            <Button
+              tooltip="Zoom Out"
+              icon="search-minus"
+              disabled={data.zoom <= 1}
+              onClick={() => act('zoom_out')}
+              m={0.5}
+            />
+          </Flex.Item>
+          <Flex.Item>
+            <Button
+              tooltip="Zoom In"
+              icon="search-plus"
+              disabled={data.zoom >= data.max_zoom}
+              onClick={() => act('zoom_in')}
+              m={0.5}
+            />
+          </Flex.Item>
+        </Flex>
+        <Box textAlign="center">
+>>>>>>> tg-pr-88929
           <Flex align="center" justify="center" direction="column">
+            <Flex.Item>
+              <PaintCanvas
+                value={data.grid}
+                imageWidth={width}
+                imageHeight={height}
+                width={scaled_width}
+                height={scaled_height}
+                drawing_color={data.paint_tool_color}
+                show_grid={griddy}
+                zoom={data.zoom}
+                onCanvasModifiedHandler={(changed) =>
+                  act('paint', { data: toMassPaintFormat(changed) })
+                }
+                onCanvasDropperHandler={(x, y) =>
+                  act('select_color_from_coords', { px: x, py: y })
+                }
+                editable={data.editable}
+                has_palette={!!data.paint_tool_palette}
+              />
+            </Flex.Item>
             {!!data.editable && !!data.paint_tool_palette && (
               <Flex.Item>
                 {data.paint_tool_palette.map((element, index) => (
@@ -323,18 +426,28 @@ export const Canvas = (props) => {
                     style={{
                       width: '24px',
                       height: '24px',
+<<<<<<< HEAD
                       'border-style': 'solid',
                       'border-color': element.is_selected
                         ? 'lightblue'
                         : 'black',
                       'border-width': '2px',
+=======
+                      borderStyle: 'solid',
+                      borderColor: element.is_selected ? 'lightblue' : 'black',
+                      borderWidth: '2px',
+>>>>>>> tg-pr-88929
                     }}
                     onClick={() =>
                       act('select_color', {
                         selected_color: element.color,
                       })
                     }
+<<<<<<< HEAD
                     oncontextmenu={(e) => {
+=======
+                    onContextMenu={(e) => {
+>>>>>>> tg-pr-88929
                       e.preventDefault();
                       act('change_palette', {
                         color_index: index + 1,
@@ -361,7 +474,11 @@ export const Canvas = (props) => {
                 textColor="black"
                 textAlign="left"
                 backgroundColor="white"
+<<<<<<< HEAD
                 style={{ 'border-style': 'inset' }}
+=======
+                style={{ borderStyle: 'inset' }}
+>>>>>>> tg-pr-88929
               >
                 <Box mb={1} fontSize="18px" bold>
                   {decodeHtmlEntities(data.name)}

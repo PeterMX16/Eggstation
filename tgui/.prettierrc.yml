@@ -1,6 +1,9 @@
 singleQuote: true
+<<<<<<< HEAD
 overrides:
   - files: 'packages/tgui-setup/helpers.js'
     options:
       trailingComma: es5
       arrowParens: always
+=======
+>>>>>>> tg-pr-88929

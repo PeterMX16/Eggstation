@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { useBackend, useLocalState } from '../backend';
 import { capitalizeAll } from 'common/string';
 import { BooleanLike, classes } from 'common/react';
@@ -5,6 +6,24 @@ import { Window } from '../layouts';
 import { Section, Tabs, Button, LabeledList, Stack, Box } from '../components';
 import { ColorItem } from './RapidPipeDispenser';
 import { SiloItem, MatterItem } from './RapidConstructionDevice';
+=======
+import { useState } from 'react';
+import {
+  Box,
+  Button,
+  LabeledList,
+  Section,
+  Stack,
+  Tabs,
+} from 'tgui-core/components';
+import { BooleanLike, classes } from 'tgui-core/react';
+import { capitalizeAll } from 'tgui-core/string';
+
+import { useBackend } from '../backend';
+import { Window } from '../layouts';
+import { MatterItem, SiloItem } from './RapidConstructionDevice';
+import { ColorItem } from './RapidPipeDispenser';
+>>>>>>> tg-pr-88929
 
 type Data = {
   silo_upgraded: BooleanLike;
@@ -22,7 +41,10 @@ type Category = {
 };
 
 type Recipe = {
+<<<<<<< HEAD
   index: number;
+=======
+>>>>>>> tg-pr-88929
   icon: string;
   selected: BooleanLike;
   name: string;
@@ -31,6 +53,7 @@ type Recipe = {
 const PlumbingTypeSection = (props) => {
   const { act, data } = useBackend<Data>();
   const { categories = [], selected_category, selected_recipe } = data;
+<<<<<<< HEAD
   const [categoryName, setCategoryName] = useLocalState(
     'categoryName',
     selected_category,
@@ -38,12 +61,22 @@ const PlumbingTypeSection = (props) => {
   const shownCategory =
     categories.find((category) => category.cat_name === categoryName) ||
     categories[0];
+=======
+  const [categoryName, setCategoryName] = useState(selected_category);
+  const shownCategory =
+    categories.find((category) => category.cat_name === categoryName) ||
+    categories[0];
+
+>>>>>>> tg-pr-88929
   return (
     <Section fill scrollable>
       <Tabs>
         {categories.map((category) => (
           <Tabs.Tab
+<<<<<<< HEAD
             fluid
+=======
+>>>>>>> tg-pr-88929
             key={category.cat_name}
             selected={category.cat_name === shownCategory.cat_name}
             onClick={() => setCategoryName(category.cat_name)}
@@ -52,16 +85,28 @@ const PlumbingTypeSection = (props) => {
           </Tabs.Tab>
         ))}
       </Tabs>
+<<<<<<< HEAD
       {shownCategory?.recipes.map((recipe) => (
         <Button
           key={recipe.index}
           fluid
           ellipsis
+=======
+      {shownCategory?.recipes.map((recipe, index) => (
+        <Button
+          key={index}
+          fluid
+>>>>>>> tg-pr-88929
           color="transparent"
           selected={recipe.name === selected_recipe}
           onClick={() =>
             act('recipe', {
+<<<<<<< HEAD
               id: recipe.index,
+=======
+              category: shownCategory.cat_name,
+              id: index,
+>>>>>>> tg-pr-88929
             })
           }
         >
@@ -69,11 +114,18 @@ const PlumbingTypeSection = (props) => {
             inline
             verticalAlign="middle"
             mr="20px"
+<<<<<<< HEAD
             className={classes(['plumbing-tgui32x32', recipe.icon])}
             style={{
               transform: 'scale(1.5) translate(9.5%, 9.5%)',
               '-ms-interpolation-mode': 'nearest-neighbor',
               'image-rendering': 'pixelated',
+=======
+            mb="10px"
+            className={classes(['plumbing-tgui32x32', recipe.icon])}
+            style={{
+              transform: 'scale(1.3) translate(9.5%, 11.2%)',
+>>>>>>> tg-pr-88929
             }}
           />
           <span>{capitalizeAll(recipe.name)}</span>
@@ -83,7 +135,10 @@ const PlumbingTypeSection = (props) => {
   );
 };
 
+<<<<<<< HEAD
 // MONKESTATION ADDITION -- added context to layer select and useBackend<Data>()
+=======
+>>>>>>> tg-pr-88929
 export const LayerSelect = (props) => {
   const { act, data } = useBackend<Data>();
   const { piping_layer } = data;
@@ -114,8 +169,11 @@ const LayerIconSection = (props) => {
       className={classes(['plumbing-tgui32x32', layer_icon])}
       style={{
         transform: 'scale(2)',
+<<<<<<< HEAD
         '-ms-interpolation-mode': 'nearest-neighbor',
         'image-rendering': 'pixelated',
+=======
+>>>>>>> tg-pr-88929
       }}
     />
   );

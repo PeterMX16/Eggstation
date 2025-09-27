@@ -1,8 +1,15 @@
 /// UI helper for converting the associative list to a list of lists
 /datum/lootpanel/proc/get_contents()
+<<<<<<< HEAD
 	. = list()
 	for(var/datum/search_object/index as anything in contents)
 		UNTYPED_LIST_ADD(., list(
+=======
+	var/list/items = list()
+
+	for(var/datum/search_object/index as anything in contents)
+		UNTYPED_LIST_ADD(items, list(
+>>>>>>> tg-pr-88929
 			"icon_state" = index.icon_state,
 			"icon" = index.icon,
 			"name" = index.name,
@@ -10,6 +17,12 @@
 			"ref" = REF(index),
 		))
 
+<<<<<<< HEAD
+=======
+	return items
+
+
+>>>>>>> tg-pr-88929
 /// Clicks an object from the contents. Validates the object and the user
 /datum/lootpanel/proc/grab(mob/user, list/params)
 	var/ref = params["ref"]
@@ -21,7 +34,11 @@
 	if(QDELETED(index) || QDELETED(thing)) // Obj is gone
 		return FALSE
 
+<<<<<<< HEAD
 	if(thing != source_turf && !(thing in source_turf.contents))
+=======
+	if(thing != source_turf && !(locate(thing) in source_turf.contents))
+>>>>>>> tg-pr-88929
 		qdel(index) // Item has moved
 		return TRUE
 

@@ -5,6 +5,10 @@
  * * amount The amount that will be used to adjust the mob's health
  * * updating_health If the mob's health should be immediately updated to the new value
  * * forced If we should force update the adjustment of the mob's health no matter the restrictions, like TRAIT_GODMODE
+<<<<<<< HEAD
+=======
+ * returns the net change in bruteloss after applying the damage amount
+>>>>>>> tg-pr-88929
  */
 /mob/living/basic/proc/adjust_health(amount, updating_health = TRUE, forced = FALSE)
 	. = FALSE
@@ -54,6 +58,7 @@
 	else if(damage_coeff[TOX])
 		. = adjust_health(amount * damage_coeff[TOX] * CONFIG_GET(number/damage_multiplier), updating_health, forced)
 
+<<<<<<< HEAD
 /mob/living/basic/adjustCloneLoss(amount, updating_health = TRUE, forced = FALSE, required_biotype)
 	if(!can_adjust_clone_loss(amount, forced, required_biotype))
 		return 0
@@ -64,3 +69,19 @@
 
 /mob/living/basic/pre_stamina_change(diff as num, forced)
 	return diff * damage_coeff[STAMINA]
+=======
+/mob/living/basic/adjustStaminaLoss(amount, updating_stamina = TRUE, forced = FALSE, required_biotype)
+	if(!can_adjust_stamina_loss(amount, forced, required_biotype))
+		return 0
+	. = staminaloss
+	if(forced)
+		staminaloss = max(0, min(BASIC_MOB_MAX_STAMINALOSS, staminaloss + amount))
+	else
+		staminaloss = max(0, min(BASIC_MOB_MAX_STAMINALOSS, staminaloss + (amount * damage_coeff[STAMINA])))
+	if(updating_stamina)
+		update_stamina()
+	. -= staminaloss
+
+/mob/living/basic/received_stamina_damage(current_level, amount_actual, amount)
+	return
+>>>>>>> tg-pr-88929

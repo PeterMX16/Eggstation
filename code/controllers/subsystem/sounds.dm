@@ -26,6 +26,7 @@ SUBSYSTEM_DEF(sounds)
 	/// All valid sound files in the sound directory
 	var/list/all_sounds
 
+<<<<<<< HEAD
 	/**
 	# assoc list of datum by key
 	* k = SFX_KEY (see below)
@@ -33,11 +34,34 @@ SUBSYSTEM_DEF(sounds)
 	* initialized in SSsounds init
 	*/
 	var/alist/sfx_datum_by_key
+=======
+	// || Sound caching ||
+	/// k:v list of file_path : length
+	VAR_PRIVATE/list/sound_lengths
+	/// A list of sounds to cache upon initialize.
+	VAR_PRIVATE/list/sounds_to_precache = list()
+	/// Any errors from precaching.
+	VAR_PRIVATE/list/precache_errors = list()
+>>>>>>> tg-pr-88929
 
 /datum/controller/subsystem/sounds/Initialize()
 	setup_available_channels()
 	find_all_available_sounds()
+<<<<<<< HEAD
 	init_sound_keys()
+=======
+
+	if(!(RUST_G))
+		to_chat(world, span_boldnotice("Sounds subsystem: No rust_g detected."))
+		return ..()
+
+	// Precache ambience sounds
+	for(var/key in GLOB.ambience_assoc)
+		sounds_to_precache |= GLOB.ambience_assoc[key]
+
+	precache_sounds()
+
+>>>>>>> tg-pr-88929
 	return SS_INIT_SUCCESS
 
 /datum/controller/subsystem/sounds/Recover()
@@ -175,11 +199,63 @@ SUBSYSTEM_DEF(sounds)
 /datum/controller/subsystem/sounds/proc/available_channels_left()
 	return length(channel_list) - random_channels_min
 
+<<<<<<< HEAD
 /datum/controller/subsystem/sounds/proc/init_sound_keys()
 	sfx_datum_by_key = alist()
 	for(var/datum/sound_effect/sfx as anything in subtypesof(/datum/sound_effect))
 		// this is for the assoc subtype
 		if(!isnull(sfx.key))
 			sfx_datum_by_key[sfx.key] = new sfx()
+=======
+/datum/controller/subsystem/sounds/proc/precache_sounds()
+	if(!length(sounds_to_precache))
+		return
+
+	var/list/lengths = rustg_sound_length_list(sounds_to_precache)
+	precache_errors = lengths[RUSTG_SOUNDLEN_ERRORS]
+	sound_lengths = lengths[RUSTG_SOUNDLEN_SUCCESSES]
+	for(var/sound_path in sound_lengths)
+		sound_lengths[sound_path] = text2num(sound_lengths[sound_path])
+
+	sounds_to_precache = null
+
+/// Cache a list of sound lengths.
+/datum/controller/subsystem/sounds/proc/cache_sounds(list/paths)
+	var/list/reconstructed = list()
+	reconstructed.len = length(paths)
+
+	for(var/i in 1 to length(paths))
+		reconstructed[i] = "[paths[i]]"
+
+	var/list/out = rustg_sound_length_list(paths)
+	var/list/successes = out[RUSTG_SOUNDLEN_SUCCESSES]
+	for(var/sound_path in successes)
+		sound_lengths[sound_path] = text2num(successes[sound_path])
+
+/// Cache and return a single sound.
+/datum/controller/subsystem/sounds/proc/get_sound_length(file_path)
+	. = 0
+	if(!istext(file_path))
+		if(!isfile(file_path))
+			CRASH("rustg_sound_length error: Passed non-text object")
+
+		if(length("[file_path]")) // Runtime generated RSC references stringify into 0-length strings.
+			file_path = "[file_path]"
+		else
+			CRASH("rustg_sound_length does not support non-static file refs.")
+
+	var/cached_length = sound_lengths[file_path]
+	if(!isnull(cached_length))
+		return cached_length
+
+	var/ret = RUSTG_CALL(RUST_G, "sound_len")(file_path)
+	var/as_num = text2num(ret)
+	if(isnull(ret))
+		. = 0
+		CRASH("rustg_sound_length error: [ret]")
+
+	sound_lengths[file_path] = as_num
+	return as_num
+>>>>>>> tg-pr-88929
 
 #undef DATUMLESS

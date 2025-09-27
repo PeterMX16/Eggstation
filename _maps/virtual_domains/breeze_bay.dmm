@@ -1,6 +1,7 @@
 //MAP CONVERTED BY dmm2tgm.py THIS HEADER COMMENT PREVENTS RECONVERSION, DO NOT REMOVE
 "a" = (
 /turf/closed/indestructible/binary,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
 "d" = (
 /obj/structure/chair/wood,
@@ -20,6 +21,39 @@
 /obj/effect/landmark/bitrunning/loot_signal,
 /turf/open/misc/beach/sand,
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain/fullbright)
+"c" = (
+/obj/structure/flora/coconuts,
+/turf/open/misc/beach/sand,
+/area/virtual_domain/fullbright)
+"d" = (
+/obj/structure/chair/wood,
+/turf/open/floor/wood/large,
+/area/virtual_domain/fullbright)
+"e" = (
+/turf/open/floor/carpet/red,
+/area/virtual_domain/fullbright)
+"f" = (
+/obj/effect/baseturf_helper/virtual_domain,
+/turf/open/water/beach,
+/area/virtual_domain/fullbright)
+"g" = (
+/obj/item/toy/beach_ball/branded,
+/turf/open/misc/beach/sand,
+/area/virtual_domain/fullbright)
+"h" = (
+/obj/machinery/light/small/directional/south,
+/turf/open/misc/beach/sand,
+/area/virtual_domain/fullbright)
+"i" = (
+/turf/open/water/beach,
+/area/virtual_domain/fullbright)
+"k" = (
+/obj/effect/landmark/bitrunning/loot_signal,
+/turf/open/misc/beach/sand,
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "m" = (
 /obj/item/fishing_rod{
 	pixel_x = 5;
@@ -32,6 +66,7 @@
 	},
 /obj/structure/table/wood,
 /turf/open/misc/beach/sand,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
 "o" = (
 /obj/structure/flora/tree/jungle/style_5,
@@ -54,11 +89,35 @@
 "v" = (
 /obj/effect/baseturf_helper/virtual_domain,
 /obj/effect/landmark/bitrunning/safehouse_spawn,
+=======
+/area/virtual_domain/fullbright)
+"o" = (
+/obj/structure/flora/tree/jungle/style_5,
+/turf/open/misc/beach/sand,
+/area/virtual_domain/fullbright)
+"p" = (
+/turf/open/floor/carpet/blue,
+/area/virtual_domain/fullbright)
+"s" = (
+/obj/structure/fluff/beach_umbrella/cap,
+/turf/open/misc/beach/sand,
+/area/virtual_domain/fullbright)
+"t" = (
+/obj/structure/fluff/beach_umbrella/syndi,
+/turf/open/misc/beach/sand,
+/area/virtual_domain/fullbright)
+"v" = (
+/obj/effect/baseturf_helper/virtual_domain,
+/obj/modular_map_root/safehouse{
+	key = "wood"
+	},
+>>>>>>> tg-pr-88929
 /turf/template_noop,
 /area/virtual_domain/safehouse)
 "y" = (
 /obj/structure/flora/bush/sparsegrass/style_random,
 /turf/open/misc/beach/sand,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
 "z" = (
 /mob/living/basic/crab,
@@ -87,16 +146,54 @@
 /obj/structure/flora/tree/jungle/style_4,
 /turf/open/misc/beach/sand,
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain/fullbright)
+"z" = (
+/mob/living/basic/crab,
+/turf/open/misc/beach/sand,
+/area/virtual_domain/fullbright)
+"B" = (
+/obj/structure/flora/tree/jungle/style_6,
+/turf/open/misc/beach/sand,
+/area/virtual_domain/fullbright)
+"C" = (
+/obj/structure/flora/tree/jungle/style_2,
+/turf/open/misc/beach/sand,
+/area/virtual_domain/fullbright)
+"D" = (
+/turf/open/floor/carpet/green,
+/area/virtual_domain/fullbright)
+"F" = (
+/obj/structure/fluff/beach_umbrella/engine,
+/turf/open/misc/beach/sand,
+/area/virtual_domain/fullbright)
+"G" = (
+/obj/structure/flora/bush/jungle/a/style_random,
+/turf/open/misc/beach/sand,
+/area/virtual_domain/fullbright)
+"H" = (
+/obj/structure/flora/tree/jungle/style_4,
+/turf/open/misc/beach/sand,
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "I" = (
 /turf/template_noop,
 /area/virtual_domain/safehouse)
 "J" = (
 /turf/open/misc/beach/sand,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
 "K" = (
 /obj/structure/flora/tree/jungle,
 /turf/open/misc/beach/sand,
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain/fullbright)
+"K" = (
+/obj/structure/flora/tree/jungle,
+/turf/open/misc/beach/sand,
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "L" = (
 /obj/item/fishing_line,
 /obj/item/fishing_hook,
@@ -104,6 +201,7 @@
 /obj/item/fishing_hook,
 /obj/structure/closet/crate,
 /obj/item/bait_can/worm,
+<<<<<<< HEAD
 /turf/open/misc/beach/sand,
 /area/virtual_domain/powered)
 "O" = (
@@ -117,6 +215,27 @@
 /obj/structure/flora/bush/stalky/style_random,
 /turf/open/water/beach,
 /area/virtual_domain/powered)
+=======
+/obj/item/bait_can/worm,
+/obj/item/bait_can/worm,
+/turf/open/misc/beach/sand,
+/area/virtual_domain/fullbright)
+"N" = (
+/obj/machinery/light/small/directional/north,
+/turf/open/misc/beach/sand,
+/area/virtual_domain/fullbright)
+"O" = (
+/obj/structure/flora/rock/style_random,
+/turf/open/misc/beach/sand,
+/area/virtual_domain/fullbright)
+"P" = (
+/turf/open/misc/beach/coast,
+/area/virtual_domain/fullbright)
+"Q" = (
+/obj/structure/flora/bush/stalky/style_random,
+/turf/open/water/beach,
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 "R" = (
 /obj/structure/closet/crate/freezer{
 	name = "Cooler"
@@ -141,6 +260,7 @@
 /obj/item/reagent_containers/cup/glass/bottle/beer/light,
 /obj/item/clothing/head/soft/fishing_hat,
 /turf/open/misc/beach/sand,
+<<<<<<< HEAD
 /area/virtual_domain/powered)
 "S" = (
 /obj/structure/flora/tree/jungle/style_3,
@@ -157,6 +277,28 @@
 /obj/effect/baseturf_helper/virtual_domain,
 /turf/closed/indestructible/binary,
 /area/virtual_domain/powered)
+=======
+/area/virtual_domain/fullbright)
+"S" = (
+/obj/structure/flora/tree/jungle/style_3,
+/turf/open/misc/beach/sand,
+/area/virtual_domain/fullbright)
+"T" = (
+/obj/machinery/light/small/directional/east,
+/turf/open/misc/beach/sand,
+/area/virtual_domain/fullbright)
+"U" = (
+/obj/structure/flora/tree/palm/style_random,
+/turf/open/misc/beach/sand,
+/area/virtual_domain/fullbright)
+"X" = (
+/turf/open/floor/wood/large,
+/area/virtual_domain/fullbright)
+"Y" = (
+/obj/machinery/light/small/directional/west,
+/turf/open/misc/beach/sand,
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 
 (1,1,1) = {"
 a
@@ -183,7 +325,11 @@ a
 a
 a
 a
+<<<<<<< HEAD
 Z
+=======
+a
+>>>>>>> tg-pr-88929
 "}
 (2,1,1) = {"
 a
@@ -191,12 +337,20 @@ K
 G
 y
 J
+<<<<<<< HEAD
+=======
+T
+>>>>>>> tg-pr-88929
 J
 J
 J
 J
+<<<<<<< HEAD
 J
 J
+=======
+T
+>>>>>>> tg-pr-88929
 z
 P
 i
@@ -209,7 +363,11 @@ i
 Q
 i
 i
+<<<<<<< HEAD
 i
+=======
+f
+>>>>>>> tg-pr-88929
 a
 "}
 (3,1,1) = {"
@@ -217,14 +375,22 @@ a
 J
 O
 J
+<<<<<<< HEAD
 J
+=======
+h
+>>>>>>> tg-pr-88929
 I
 I
 I
 I
 I
 v
+<<<<<<< HEAD
 J
+=======
+N
+>>>>>>> tg-pr-88929
 P
 Q
 i
@@ -271,7 +437,11 @@ a
 J
 y
 J
+<<<<<<< HEAD
 q
+=======
+J
+>>>>>>> tg-pr-88929
 I
 I
 I
@@ -298,7 +468,11 @@ a
 S
 J
 J
+<<<<<<< HEAD
 q
+=======
+J
+>>>>>>> tg-pr-88929
 I
 I
 I
@@ -325,7 +499,11 @@ a
 G
 G
 J
+<<<<<<< HEAD
 q
+=======
+J
+>>>>>>> tg-pr-88929
 I
 I
 I
@@ -379,14 +557,22 @@ a
 G
 y
 J
+<<<<<<< HEAD
 J
+=======
+h
+>>>>>>> tg-pr-88929
 I
 I
 I
 I
 I
 I
+<<<<<<< HEAD
 J
+=======
+N
+>>>>>>> tg-pr-88929
 P
 i
 i
@@ -407,12 +593,20 @@ o
 J
 J
 J
+<<<<<<< HEAD
+=======
+Y
+>>>>>>> tg-pr-88929
 J
 J
 J
 J
+<<<<<<< HEAD
 J
 J
+=======
+Y
+>>>>>>> tg-pr-88929
 J
 P
 i
@@ -464,7 +658,11 @@ J
 J
 J
 U
+<<<<<<< HEAD
 J
+=======
+c
+>>>>>>> tg-pr-88929
 J
 J
 J
@@ -708,7 +906,11 @@ J
 J
 J
 J
+<<<<<<< HEAD
 J
+=======
+c
+>>>>>>> tg-pr-88929
 J
 J
 P

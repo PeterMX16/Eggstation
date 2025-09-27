@@ -1,6 +1,7 @@
 /datum/crafting_recipe/improv_explosive
 	name = "Improvised Explosive"
 	result = /obj/item/grenade/iedcasing/spawned
+<<<<<<< HEAD
 	reqs = list(
 		/datum/reagent/fuel = 20,
 		/obj/item/stack/cable_coil = 5, //Monke, only takes 5 coils.
@@ -22,6 +23,16 @@
 		/obj/item/shard = 3, //Monke, NOOBS who don't know about the ADVANCED crafting still get shrapnel.
 	)
 	time = 6 SECONDS
+=======
+	tool_behaviors = list(TOOL_WELDER, TOOL_SCREWDRIVER)
+	reqs = list(
+		/datum/reagent/fuel = 20,
+		/obj/item/stack/cable_coil = 15,
+		/obj/item/assembly/timer = 1,
+		/obj/item/pipe/quaternary/pipe = 1,
+	)
+	time = 6 SECONDS
+>>>>>>> tg-pr-88929
 	category = CAT_CHEMISTRY
 
 /datum/crafting_recipe/molotov
@@ -64,7 +75,7 @@
 	result = /obj/item/burner
 	time = 5 SECONDS
 	reqs = list(
-		/obj/item/reagent_containers/cup/beaker = 1,
+		/obj/item/reagent_containers/cup = 1,
 		/datum/reagent/consumable/ethanol = 15,
 		/obj/item/paper = 1,
 	)
@@ -75,7 +86,7 @@
 	result = /obj/item/burner/oil
 	time = 5 SECONDS
 	reqs = list(
-		/obj/item/reagent_containers/cup/beaker = 1,
+		/obj/item/reagent_containers/cup = 1,
 		/datum/reagent/fuel/oil = 15,
 		/obj/item/paper = 1,
 	)
@@ -86,7 +97,7 @@
 	result = /obj/item/burner/fuel
 	time = 5 SECONDS
 	reqs = list(
-		/obj/item/reagent_containers/cup/beaker = 1,
+		/obj/item/reagent_containers/cup = 1,
 		/datum/reagent/fuel = 15,
 		/obj/item/paper = 1,
 	)
@@ -133,6 +144,20 @@
 	)
 	category = CAT_CHEMISTRY
 
+
+/datum/crafting_recipe/chem_separator
+	name = "chemical separator"
+	result = /obj/structure/chem_separator
+	tool_behaviors = list(TOOL_WELDER)
+	time = 5 SECONDS
+	reqs = list(
+		/obj/item/stack/sheet/mineral/wood = 1,
+		/obj/item/stack/sheet/glass = 1,
+		/obj/item/burner = 1,
+		/obj/item/thermometer = 1,
+	)
+	category = CAT_CHEMISTRY
+
 /datum/crafting_recipe/improvised_chem_heater
 	name = "Improvised chem heater"
 	result = /obj/machinery/space_heater/improvised_chem_heater
@@ -149,6 +174,11 @@
 	category = CAT_CHEMISTRY
 
 /datum/crafting_recipe/improvised_chem_heater/on_craft_completion(mob/user, atom/result)
+<<<<<<< HEAD
+=======
+	if(!istype(user))
+		return
+>>>>>>> tg-pr-88929
 	var/obj/item/stock_parts/power_store/cell/cell = locate(/obj/item/stock_parts/power_store/cell) in range(1)
 	if(!cell)
 		return

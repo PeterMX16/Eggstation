@@ -1,12 +1,22 @@
+<<<<<<< HEAD
 import { useBackend } from '../../backend';
+=======
+>>>>>>> tg-pr-88929
 import {
   AnimatedNumber,
   Box,
   Button,
   LabeledList,
   Section,
+<<<<<<< HEAD
 } from '../../components';
 
+=======
+} from 'tgui-core/components';
+
+import { useBackend } from '../../backend';
+
+>>>>>>> tg-pr-88929
 export const PortableBasicInfo = (props) => {
   const { act, data } = useBackend();
   const {

@@ -15,12 +15,20 @@
 	src.target = target
 	testing_matrix = matrix(target.transform)
 
+<<<<<<< HEAD
 /datum/nobody_wants_to_learn_matrix_math/Destroy(force, ...)
+=======
+/datum/nobody_wants_to_learn_matrix_math/Destroy(force)
+>>>>>>> tg-pr-88929
 	QDEL_NULL(testing_matrix)
 	return ..()
 
 /datum/nobody_wants_to_learn_matrix_math/ui_state(mob/user)
+<<<<<<< HEAD
 	return ADMIN_STATE(R_ADMIN)
+=======
+	return GLOB.admin_state
+>>>>>>> tg-pr-88929
 
 /datum/nobody_wants_to_learn_matrix_math/ui_close(mob/user)
 	qdel(src)
@@ -52,7 +60,11 @@
 			var/matrix_var_name = params["var_name"]
 			var/matrix_var_value = params["var_value"]
 			if(testing_matrix.vv_edit_var(matrix_var_name, matrix_var_value) == FALSE)
+<<<<<<< HEAD
 				to_chat(src, "Your edit was rejected by the object. This is a bug with the matrix tester, not your fault, so report it on github.", confidential = TRUE)
+=======
+				to_chat(src, "Your edit was rejected by the object. This is a bug with the matrix tester, not your fault, so report it on GitHub.", confidential = TRUE)
+>>>>>>> tg-pr-88929
 				return
 			set_transform()
 		if("scale")

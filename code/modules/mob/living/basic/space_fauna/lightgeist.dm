@@ -34,12 +34,21 @@
 	verb_exclaim = "zaps"
 	verb_yell = "bangs"
 	initial_language_holder = /datum/language_holder/lightbringer
+<<<<<<< HEAD
 	damage_coeff = list(BRUTE = 1, BURN = 1, TOX = 0, CLONE = 0, STAMINA = 0, OXY = 0)
 	light_outer_range = 4
 	faction = list(FACTION_NEUTRAL)
 	unsuitable_atmos_damage = 0
 	bodytemp_cold_damage_limit = -1
 	bodytemp_heat_damage_limit = 1500
+=======
+	damage_coeff = list(BRUTE = 1, BURN = 1, TOX = 0, STAMINA = 0, OXY = 0)
+	light_range = 4
+	faction = list(FACTION_NEUTRAL)
+	unsuitable_atmos_damage = 0
+	minimum_survivable_temperature = 0
+	maximum_survivable_temperature = 1500
+>>>>>>> tg-pr-88929
 	obj_damage = 0
 	environment_smash = ENVIRONMENT_SMASH_NONE
 

@@ -7,7 +7,11 @@
 	gain_text = span_danger("You just want people to leave you alone.")
 	lose_text = span_notice("You could use a big hug.")
 	medical_record_text = "Patient has disdain for being touched. Potentially has undiagnosed haphephobia."
+<<<<<<< HEAD
 	quirk_flags = QUIRK_HUMAN_ONLY | QUIRK_MOODLET_BASED
+=======
+	quirk_flags = QUIRK_HUMAN_ONLY|QUIRK_MOODLET_BASED
+>>>>>>> tg-pr-88929
 	hardcore_value = 1
 	mail_goodies = list(/obj/item/reagent_containers/spray/pepper) // show me on the doll where the bad man touched you
 

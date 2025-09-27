@@ -84,7 +84,6 @@
 /obj/effect/turf_decal/bot,
 /obj/structure/chair/comfy/shuttle,
 /obj/machinery/status_display/evac/directional/north,
-/obj/machinery/light/directional/north,
 /turf/open/floor/mineral/plastitanium,
 /area/shuttle/arrival)
 "an" = (
@@ -134,6 +133,7 @@
 	},
 /turf/open/floor/plating/airless,
 /area/shuttle/arrival)
+<<<<<<< HEAD
 "ax" = (
 /obj/effect/turf_decal/bot,
 /obj/structure/chair/comfy/shuttle{
@@ -142,6 +142,8 @@
 /obj/machinery/light/directional/south,
 /turf/open/floor/mineral/plastitanium,
 /area/shuttle/arrival)
+=======
+>>>>>>> tg-pr-88929
 "ay" = (
 /obj/machinery/requests_console{
 	department = "Arrival shuttle";
@@ -242,7 +244,8 @@
 /area/shuttle/arrival)
 "aT" = (
 /obj/machinery/requests_console/directional/east{
-	department = "Arrivals shuttle"
+	department = "Arrivals shuttle";
+	name = "Arrival Shuttle Requests Console"
 	},
 /obj/effect/turf_decal/tile/blue/opposingcorners,
 /turf/open/floor/mineral/titanium/white,
@@ -308,6 +311,11 @@
 	},
 /turf/open/floor/mineral/plastitanium,
 /area/shuttle/arrival)
+"lA" = (
+/obj/effect/spawner/structure/window/reinforced/shuttle,
+/obj/structure/fans/tiny/invisible,
+/turf/open/floor/plating,
+/area/shuttle/arrival)
 "rV" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
@@ -364,7 +372,11 @@ aX
 aW
 aQ
 aY
+<<<<<<< HEAD
 NS
+=======
+lA
+>>>>>>> tg-pr-88929
 "}
 (5,1,1) = {"
 ae
@@ -372,7 +384,7 @@ aj
 rV
 aT
 aV
-ax
+aN
 ae
 "}
 (6,1,1) = {"
@@ -382,7 +394,11 @@ rV
 ay
 aV
 aN
+<<<<<<< HEAD
 NS
+=======
+lA
+>>>>>>> tg-pr-88929
 "}
 (7,1,1) = {"
 af
@@ -391,7 +407,11 @@ rV
 az
 aV
 aN
+<<<<<<< HEAD
 NS
+=======
+lA
+>>>>>>> tg-pr-88929
 "}
 (8,1,1) = {"
 af
@@ -400,7 +420,11 @@ rV
 ab
 aV
 aN
+<<<<<<< HEAD
 NS
+=======
+lA
+>>>>>>> tg-pr-88929
 "}
 (9,1,1) = {"
 ac
@@ -450,9 +474,15 @@ ag
 (14,1,1) = {"
 ag
 ac
+<<<<<<< HEAD
 NS
 NS
 NS
+=======
+lA
+lA
+lA
+>>>>>>> tg-pr-88929
 ac
 ag
 "}

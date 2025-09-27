@@ -24,7 +24,11 @@ GLOBAL_LIST_EMPTY(shared_particles)
 	particles = new particle_path()
 
 /obj/effect/abstract/shared_particle_holder/Destroy(force)
+<<<<<<< HEAD
 	particles = null
+=======
+	QDEL_NULL(particles)
+>>>>>>> tg-pr-88929
 	return ..()
 
 /* Adds (or creates and adds) a shared particle holder

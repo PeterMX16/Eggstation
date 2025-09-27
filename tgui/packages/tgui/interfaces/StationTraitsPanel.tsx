@@ -1,8 +1,17 @@
-import { filterMap } from 'common/collections';
-import { exhaustiveCheck } from 'common/exhaustive';
-import { BooleanLike } from 'common/react';
-import { useBackend, useLocalState } from '../backend';
-import { Box, Button, Divider, Dropdown, Stack, Tabs } from '../components';
+import { filter, map } from 'common/collections';
+import { useState } from 'react';
+import {
+  Box,
+  Button,
+  Divider,
+  Dropdown,
+  Stack,
+  Tabs,
+} from 'tgui-core/components';
+import { exhaustiveCheck } from 'tgui-core/exhaustive';
+import { BooleanLike } from 'tgui-core/react';
+
+import { useBackend } from '../backend';
 import { Window } from '../layouts';
 
 type CurrentStationTrait = {
@@ -32,10 +41,14 @@ const FutureStationTraitsPage = (props) => {
   const { act, data } = useBackend<StationTraitsData>();
   const { future_station_traits } = data;
 
+<<<<<<< HEAD
   const [selectedTrait, setSelectedTrait] = useLocalState<string | null>(
     'selectedFutureTrait',
     null,
   );
+=======
+  const [selectedTrait, setSelectedTrait] = useState<string>('');
+>>>>>>> tg-pr-88929
 
   const traitsByName = Object.fromEntries(
     data.valid_station_traits.map((trait) => {
@@ -51,9 +64,9 @@ const FutureStationTraitsPage = (props) => {
       <Stack fill>
         <Stack.Item grow>
           <Dropdown
-            displayText={!selectedTrait && 'Select trait to add...'}
             onSelected={setSelectedTrait}
             options={traitNames}
+            placeholder="Select trait to add..."
             selected={selectedTrait}
             width="100%"
           />
@@ -111,6 +124,7 @@ const FutureStationTraitsPage = (props) => {
                       icon="times"
                       onClick={() => {
                         act('setup_future_traits', {
+<<<<<<< HEAD
                           station_traits: filterMap(
                             future_station_traits,
                             (otherTrait) => {
@@ -120,6 +134,11 @@ const FutureStationTraitsPage = (props) => {
                                 return otherTrait.path;
                               }
                             },
+=======
+                          station_traits: filter(
+                            map(future_station_traits, (t) => t.path),
+                            (p) => p !== trait.path,
+>>>>>>> tg-pr-88929
                           ),
                         });
                       }}
@@ -209,10 +228,14 @@ const ViewStationTraitsPage = (props) => {
 };
 
 export const StationTraitsPanel = (props) => {
+<<<<<<< HEAD
   const [currentTab, setCurrentTab] = useLocalState(
     'station_traits_tab',
     Tab.ViewStationTraits,
   );
+=======
+  const [currentTab, setCurrentTab] = useState(Tab.ViewStationTraits);
+>>>>>>> tg-pr-88929
 
   let currentPage;
 

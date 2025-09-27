@@ -2,12 +2,21 @@
 /// Mostly just does something spooky when it is removed
 /datum/element/corrupted_organ
 
+<<<<<<< HEAD
 /datum/element/corrupted_organ/Attach(datum/target)
 	. = ..()
 	if (!isinternalorgan(target))
 		return ELEMENT_INCOMPATIBLE
 
 	RegisterSignal(target, COMSIG_ORGAN_REMOVED, PROC_REF(on_removed))
+=======
+/datum/element/corrupted_organ/Attach(obj/item/organ/target)
+	. = ..()
+	if (!istype(target) || (target.organ_flags & ORGAN_EXTERNAL))
+		return ELEMENT_INCOMPATIBLE
+
+	RegisterSignal(target, COMSIG_ORGAN_SURGICALLY_REMOVED, PROC_REF(on_removed))
+>>>>>>> tg-pr-88929
 
 	var/atom/atom_parent = target
 	atom_parent.color = COLOR_VOID_PURPLE
@@ -23,11 +32,19 @@
 	animate(offset = 0, time = 2 MINUTES) // I sure hope duration of animate doesnt have any performance effect
 
 /datum/element/corrupted_organ/Detach(datum/source)
+<<<<<<< HEAD
 	UnregisterSignal(source, list(COMSIG_ORGAN_REMOVED))
 	return ..()
 
 /// When we're taken out of someone, do something spooky
 /datum/element/corrupted_organ/proc/on_removed(atom/organ, mob/living/carbon/loser)
+=======
+	UnregisterSignal(source, list(COMSIG_ORGAN_SURGICALLY_REMOVED))
+	return ..()
+
+/// When we're taken out of someone, do something spooky
+/datum/element/corrupted_organ/proc/on_removed(atom/organ, mob/living/remover, mob/living/carbon/loser)
+>>>>>>> tg-pr-88929
 	SIGNAL_HANDLER
 	if (loser.has_reagent(/datum/reagent/water/holywater) || loser.can_block_magic(MAGIC_RESISTANCE|MAGIC_RESISTANCE_HOLY) || prob(20))
 		return
@@ -41,7 +58,11 @@
 		)
 		return
 	var/turf/origin_turf = get_turf(organ)
+<<<<<<< HEAD
 	playsound(organ, 'sound/magic/forcewall.ogg', vol = 100)
+=======
+	playsound(organ, 'sound/effects/magic/forcewall.ogg', vol = 100)
+>>>>>>> tg-pr-88929
 	new /obj/effect/temp_visual/curse_blast(origin_turf)
 	organ.visible_message(span_revenwarning("[organ] explodes in a burst of dark energy!"))
 	for(var/mob/living/target in range(1, origin_turf))

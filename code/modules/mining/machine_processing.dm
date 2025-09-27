@@ -70,6 +70,7 @@
 	icon = 'icons/obj/machines/mining_machines.dmi'
 	icon_state = "console"
 	density = TRUE
+	interaction_flags_machine = INTERACT_MACHINE_WIRES_IF_OPEN|INTERACT_MACHINE_ALLOW_SILICON|INTERACT_MACHINE_OPEN_SILICON
 	/// Connected ore processing machine.
 	var/obj/machinery/mineral/processing_unit/processing_machine
 
@@ -142,6 +143,11 @@
 	var/datum/proximity_monitor/proximity_monitor
 	///Material container for materials
 	var/datum/component/material_container/materials
+<<<<<<< HEAD
+=======
+	/// What can be input into the machine?
+	var/accepted_type = /obj/item/stack
+>>>>>>> tg-pr-88929
 
 /obj/machinery/mineral/processing_unit/Initialize(mapload)
 	. = ..()
@@ -152,7 +158,11 @@
 		SSmaterials.materials_by_category[MAT_CATEGORY_SILO], \
 		INFINITY, \
 		MATCONTAINER_EXAMINE, \
+<<<<<<< HEAD
 		allowed_items = /obj/item/stack \
+=======
+		allowed_items = accepted_type \
+>>>>>>> tg-pr-88929
 	)
 	if(!GLOB.autounlock_techwebs[/datum/techweb/autounlocking/smelter])
 		GLOB.autounlock_techwebs[/datum/techweb/autounlocking/smelter] = new /datum/techweb/autounlocking/smelter
@@ -165,7 +175,7 @@
 	stored_research = null
 	return ..()
 
-/obj/machinery/mineral/processing_unit/proc/process_ore(obj/item/stack/ore/O)
+/obj/machinery/mineral/processing_unit/proc/process_ore(obj/item/stack/O)
 	if(QDELETED(O))
 		return
 	var/material_amount = materials.get_item_material_amount(O)
@@ -173,6 +183,7 @@
 		unload_mineral(O)
 	else
 		materials.insert_item(O)
+<<<<<<< HEAD
 		if(mineral_machine)
 			mineral_machine.updateUsrDialog()
 
@@ -186,11 +197,23 @@
 		else
 			dat += " <A href='byond://?src=[REF(mineral_machine)];material=[REF(all_materials)]'><b>Not Smelting</b></A> "
 		dat += "<br>"
+=======
 
-	dat += "<br><br>"
-	dat += "<b>Smelt Alloys</b><br>"
+/obj/machinery/mineral/processing_unit/ui_static_data()
+	var/list/data = list()
+>>>>>>> tg-pr-88929
+
+	for(var/datum/material/material as anything in materials.materials)
+		var/obj/display = initial(material.sheet_type)
+		data["materialIcons"] += list(
+			list(
+				"id" = REF(material),
+				"icon" = icon2base64(icon(initial(display.icon), icon_state = initial(display.icon_state), frame = 1)),
+				)
+			)
 
 	for(var/research in stored_research.researched_designs)
+<<<<<<< HEAD
 		var/datum/design/designs = SSresearch.techweb_design_by_id(research)
 		dat += "<span class=\"res_name\">[designs.name] "
 		if (selected_alloy == designs.id)
@@ -206,29 +229,56 @@
 		dat += "<A href='byond://?src=[REF(mineral_machine)];set_on=off'>On</A> "
 	else
 		dat += "<A href='byond://?src=[REF(mineral_machine)];set_on=on'>Off</A> "
+=======
+		var/datum/design/design = SSresearch.techweb_design_by_id(research)
+		var/obj/display = initial(design.build_path)
+		data["alloyIcons"] += list(
+			list(
+				"id" = design.id,
+				"icon" = icon2base64(icon(initial(display.icon), icon_state = initial(display.icon_state), frame = 1)),
+				)
+			)
 
-	return dat
+	data += materials.ui_static_data()
+>>>>>>> tg-pr-88929
+
+	return data
+
+/obj/machinery/mineral/processing_unit/ui_data()
+	var/list/data = list()
+
+	data["materials"] = materials.ui_data()
+	data["selectedMaterial"] = selected_material?.name
+
+	data["alloys"] = list()
+	for(var/research in stored_research.researched_designs)
+		var/datum/design/design = SSresearch.techweb_design_by_id(research)
+		data["alloys"] += list(
+			list(
+				"name" = design.name,
+				"id" = design.id,
+				)
+			)
+	data["selectedAlloy"] = selected_alloy
+
+	data["state"] = on
+
+	return data
 
 /obj/machinery/mineral/processing_unit/pickup_item(datum/source, atom/movable/target, direction)
 	if(QDELETED(target))
 		return
-	if(istype(target, /obj/item/stack/ore))
+	if(istype(target, accepted_type))
 		process_ore(target)
 
 /obj/machinery/mineral/processing_unit/process(seconds_per_tick)
 	if(!on)
-		end_processing()
-		if(mineral_machine)
-			mineral_machine.updateUsrDialog()
-		return
+		return PROCESS_KILL
 
 	if(selected_material)
 		smelt_ore(seconds_per_tick)
 	else if(selected_alloy)
 		smelt_alloy(seconds_per_tick)
-
-	if(mineral_machine)
-		mineral_machine.updateUsrDialog()
 
 /obj/machinery/mineral/processing_unit/proc/smelt_ore(seconds_per_tick = 2)
 	var/datum/material/mat = selected_material
@@ -275,4 +325,11 @@
 	var/O = new P(src)
 	unload_mineral(O)
 
+<<<<<<< HEAD
+=======
+/// Only accepts ore, for the work camp
+/obj/machinery/mineral/processing_unit/gulag
+	accepted_type = /obj/item/stack/ore
+
+>>>>>>> tg-pr-88929
 #undef SMELT_AMOUNT

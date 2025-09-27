@@ -1,10 +1,14 @@
 /obj/item/clothing/under/rank/medical
 	icon = 'icons/obj/clothing/under/medical.dmi'
 	worn_icon = 'icons/mob/clothing/under/medical.dmi'
+<<<<<<< HEAD
 	worn_icon_digitigrade = 'icons/mob/clothing/under/medical_digi.dmi'
 	armor_type = /datum/armor/rank_medical
+=======
+	armor_type = /datum/armor/clothing_under/rank_medical
+>>>>>>> tg-pr-88929
 
-/datum/armor/rank_medical
+/datum/armor/clothing_under/rank_medical
 	bio = 50
 
 /obj/item/clothing/under/rank/medical/doctor
@@ -45,6 +49,10 @@
 	icon_state = "scrubscmo"
 	inhand_icon_state = "w_suit"
 
+/obj/item/clothing/under/rank/medical/chief_medical_officer/scrubs/Initialize(mapload)
+	. = ..()
+	AddComponent(/datum/component/adjust_fishing_difficulty, -3) //FISH DOCTOR?!
+
 /obj/item/clothing/under/rank/medical/chief_medical_officer/turtleneck
 	name = "chief medical officer's turtleneck"
 	desc = "A light blue turtleneck and tan khakis, for a chief medical officer with a superior sense of style."
@@ -83,6 +91,10 @@
 /obj/item/clothing/under/rank/medical/scrubs
 	name = "medical scrubs"
 
+/obj/item/clothing/under/rank/medical/scrubs/Initialize(mapload)
+	. = ..()
+	AddComponent(/datum/component/adjust_fishing_difficulty, -3) //FISH DOCTOR?!
+
 /obj/item/clothing/under/rank/medical/scrubs/blue
 	desc = "It's made of a special fiber that provides minor protection against biohazards. This one is in baby blue."
 	icon_state = "scrubsblue"
@@ -95,15 +107,35 @@
 	desc = "It's made of a special fiber that provides minor protection against biohazards. This one is in deep purple."
 	icon_state = "scrubswine"
 
+/obj/item/clothing/under/rank/medical/coroner
+	desc = "It's made of a special fiber that provides minor protection against biohazards. It has a white cross turned sideways on the chest, denoting that the wearer is a trained coroner."
+	name = "coroner jumpsuit"
+	icon_state = "coroner"
+	inhand_icon_state = "w_suit"
+
+/obj/item/clothing/under/rank/medical/coroner/skirt
+	name = "coroner jumpskirt"
+	desc = "It's made of a special fiber that provides minor protection against biohazards. It has a white cross turned sideways on the chest, denoting that the wearer is a trained coroner."
+	icon_state = "coroner_skirt"
+	inhand_icon_state = "w_suit"
+	body_parts_covered = CHEST|GROIN|ARMS
+	dying_key = DYE_REGISTRY_JUMPSKIRT
+	female_sprite_flags = FEMALE_UNIFORM_TOP_ONLY
+	supports_variations_flags = CLOTHING_DIGITIGRADE_VARIATION_NO_NEW_ICON
+
+/obj/item/clothing/under/rank/medical/scrubs/coroner
+	name = "coroner scrubs"
+	desc = "It's made of a special fiber that provides minor protection against biohazards. This one is as dark as an emo's poetry."
+	icon_state = "scrubsblack"
+
 /obj/item/clothing/under/rank/medical/chemist
 	desc = "It's made of a special fiber that gives special protection against biohazards. It has a chemist rank stripe on it."
 	name = "chemist's jumpsuit"
 	icon_state = "chemistry"
 	inhand_icon_state = "w_suit"
-	armor_type = /datum/armor/medical_chemist
+	armor_type = /datum/armor/clothing_under/medical_chemist
 
-/datum/armor/medical_chemist
-	bio = 10
+/datum/armor/clothing_under/medical_chemist
 	fire = 50
 	acid = 65
 

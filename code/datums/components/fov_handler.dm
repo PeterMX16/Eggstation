@@ -10,8 +10,6 @@
 	var/fov_angle = FOV_180_DEGREES
 	/// The blocker mask applied to a client's screen
 	var/atom/movable/screen/fov_blocker/blocker_mask
-	/// The shadow mask applied to a client's screen
-	var/atom/movable/screen/fov_shadow/visual_shadow
 
 /datum/component/fov_handler/Initialize(fov_type = FOV_180_DEGREES)
 	if(!isliving(parent))
@@ -22,12 +20,9 @@
 		qdel(src) //no QDEL hint for components, and we dont want this to print a warning regarding bad component application
 		return
 
-	for(var/atom/movable/screen/plane_master/plane_master as anything in mob_parent.hud_used.get_true_plane_masters(FIELD_OF_VISION_BLOCKER_PLANE))
-		plane_master.unhide_plane(mob_parent)
+	ADD_TRAIT(mob_parent, TRAIT_FOV_APPLIED, REF(src))
 
 	blocker_mask = new
-	visual_shadow = new
-	visual_shadow.alpha = parent_client?.prefs.read_preference(/datum/preference/numeric/fov_darkness)
 	set_fov_angle(fov_type)
 	on_dir_change(mob_parent, mob_parent.dir, mob_parent.dir)
 	update_fov_size()
@@ -35,21 +30,22 @@
 
 /datum/component/fov_handler/Destroy()
 	var/mob/living/mob_parent = parent
-	for(var/atom/movable/screen/plane_master/plane_master as anything in mob_parent.hud_used.get_true_plane_masters(FIELD_OF_VISION_BLOCKER_PLANE))
-		plane_master.hide_plane(mob_parent)
 
+	REMOVE_TRAIT(mob_parent, TRAIT_FOV_APPLIED, REF(src))
 	if(applied_mask)
 		remove_mask()
 	if(blocker_mask) // In a case of early deletion due to volatile client
 		QDEL_NULL(blocker_mask)
-	if(visual_shadow) // In a case of early deletion due to volatile client
-		QDEL_NULL(visual_shadow)
 	return ..()
 
 /datum/component/fov_handler/proc/set_fov_angle(new_angle)
 	fov_angle = new_angle
+<<<<<<< HEAD
 	blocker_mask?.icon_state = "[fov_angle]"
 	visual_shadow?.icon_state = "[fov_angle]_v"
+=======
+	blocker_mask.icon_state = "[fov_angle]"
+>>>>>>> tg-pr-88929
 
 /// Updates the size of the FOV masks by comparing them to client view size.
 /datum/component/fov_handler/proc/update_fov_size()
@@ -72,8 +68,8 @@
 	var/y_scale = view_size[2] / current_fov_y
 	current_fov_x = view_size[1]
 	current_fov_y = view_size[2]
-	visual_shadow.transform = blocker_mask.transform = new_matrix.Scale(x_scale, y_scale)
-	visual_shadow.transform = blocker_mask.transform = new_matrix.Translate(x_shift * 16, y_shift * 16)
+	blocker_mask.transform = new_matrix.Scale(x_scale, y_scale)
+	blocker_mask.transform = new_matrix.Translate(x_shift * 16, y_shift * 16)
 
 /// Updates the mask application to client by checking `stat` and `eye`
 /datum/component/fov_handler/proc/update_mask()
@@ -102,12 +98,15 @@
 	var/client/parent_client = parent_mob.client
 	// Prevents stupid ass hard deletes
 	parent_mob.hud_used.always_visible_inventory -= blocker_mask
-	parent_mob.hud_used.always_visible_inventory -= visual_shadow
 	if(!parent_client) //Love client volatility!!
 		return
 	applied_mask = FALSE
+<<<<<<< HEAD
 	parent_client?.screen -= blocker_mask
 	parent_client?.screen -= visual_shadow
+=======
+	parent_client.screen -= blocker_mask
+>>>>>>> tg-pr-88929
 
 /datum/component/fov_handler/proc/add_mask()
 	if(QDELETED(src) || QDELETED(parent))
@@ -117,20 +116,27 @@
 	if(!parent_client) //Love client volatility!!
 		return
 	applied_mask = TRUE
+<<<<<<< HEAD
 	parent_client?.screen += blocker_mask
 	parent_client?.screen += visual_shadow
+=======
+	parent_client.screen += blocker_mask
+>>>>>>> tg-pr-88929
 	parent_mob.hud_used.always_visible_inventory += blocker_mask
-	parent_mob.hud_used.always_visible_inventory += visual_shadow
 
 /// When a direction of the user changes, so do the masks
 /datum/component/fov_handler/proc/on_dir_change(mob/source, old_dir, new_dir)
 	SIGNAL_HANDLER
+<<<<<<< HEAD
 	if(QDELETED(src) || QDELETED(parent))
 		return
 	if(!QDELETED(blocker_mask))
 		blocker_mask.setDir(new_dir)
 	if(!QDELETED(visual_shadow))
 		visual_shadow.setDir(new_dir)
+=======
+	blocker_mask.dir = new_dir
+>>>>>>> tg-pr-88929
 
 /// When a mob logs out, delete the component
 /datum/component/fov_handler/proc/mob_logout(mob/source)

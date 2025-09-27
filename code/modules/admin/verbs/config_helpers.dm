@@ -1,6 +1,10 @@
 #define GENERATE_JOB_CONFIG_VERB_DESC "Generate a job configuration (jobconfig.toml) file for the server. If TOML file already exists, will re-generate it based off the already existing config values. Will migrate from the old jobs.txt format if necessary."
 
+<<<<<<< HEAD
 ADMIN_VERB(generate_job_config, R_SERVER, FALSE, "Generate Job Configuration", GENERATE_JOB_CONFIG_VERB_DESC, ADMIN_CATEGORY_SERVER)
+=======
+ADMIN_VERB(generate_job_config, R_SERVER, "Generate Job Configuration", GENERATE_JOB_CONFIG_VERB_DESC, ADMIN_CATEGORY_SERVER)
+>>>>>>> tg-pr-88929
 	if(tgui_alert(user, "This verb is not at all useful if you are not a server operator with access to the configuration folder. Do you wish to proceed?", "Generate jobconfig.toml for download", list("Yes", "No")) != "Yes")
 		return
 

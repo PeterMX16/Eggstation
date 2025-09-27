@@ -17,14 +17,18 @@
 /obj/machinery/computer/slot_machine
 	name = "slot machine"
 	desc = "Gambling for the antisocial."
-	icon = 'icons/obj/computer.dmi'
+	icon = 'icons/obj/machines/computer.dmi'
 	icon_state = "slots"
 	icon_keyboard = null
 	icon_screen = "slots_screen"
 	density = TRUE
 	circuit = /obj/item/circuitboard/computer/slot_machine
 	light_color = LIGHT_COLOR_BROWN
+<<<<<<< HEAD
 	interaction_flags_machine = INTERACT_MACHINE_ALLOW_SILICON | INTERACT_MACHINE_SET_MACHINE // don't need to be literate to play slots
+=======
+	interaction_flags_machine = INTERACT_MACHINE_ALLOW_SILICON // don't need to be literate to play slots
+>>>>>>> tg-pr-88929
 	var/money = 3000 //How much money it has CONSUMED
 	var/plays = 0
 	var/working = FALSE
@@ -94,17 +98,26 @@
 	return ..()
 
 
+<<<<<<< HEAD
 /obj/machinery/computer/slot_machine/attackby(obj/item/inserted, mob/living/user, params)
+=======
+/obj/machinery/computer/slot_machine/item_interaction(mob/living/user, obj/item/inserted, list/modifiers)
+>>>>>>> tg-pr-88929
 	if(istype(inserted, /obj/item/coin))
 		var/obj/item/coin/inserted_coin = inserted
 		if(paymode == COIN)
 			if(prob(2))
 				if(!user.transferItemToLoc(inserted_coin, drop_location(), silent = FALSE))
+<<<<<<< HEAD
 					return
+=======
+					return ITEM_INTERACT_BLOCKING
+>>>>>>> tg-pr-88929
 				inserted_coin.throw_at(user, 3, 10)
 				if(prob(10))
 					balance = max(balance - SPIN_PRICE, 0)
 				to_chat(user, span_warning("[src] spits your coin back out!"))
+<<<<<<< HEAD
 				return
 			else
 				if(!user.temporarilyRemoveItemFromInventory(inserted_coin))
@@ -131,6 +144,39 @@
 	if(balance > 0)
 		visible_message("<b>[src]</b> says, 'ERROR! Please empty the machine balance before altering paymode'") //Prevents converting coins into holocredits and vice versa
 		return NONE
+=======
+				return ITEM_INTERACT_BLOCKING
+			else
+				if(!user.temporarilyRemoveItemFromInventory(inserted_coin))
+					return ITEM_INTERACT_BLOCKING
+				balloon_alert(user, "coin inserted")
+				balance += inserted_coin.value
+				qdel(inserted_coin)
+				return ITEM_INTERACT_SUCCESS
+		else
+			balloon_alert(user, "holochips only!")
+		return ITEM_INTERACT_BLOCKING
+
+	if(istype(inserted, /obj/item/holochip))
+		if(paymode == HOLOCHIP)
+			var/obj/item/holochip/inserted_chip = inserted
+			if(!user.temporarilyRemoveItemFromInventory(inserted_chip))
+				return ITEM_INTERACT_BLOCKING
+			balloon_alert(user, "[inserted_chip.credits] credit[inserted_chip.credits == 1 ? "" : "s"] inserted")
+			balance += inserted_chip.credits
+			qdel(inserted_chip)
+			return ITEM_INTERACT_SUCCESS
+		else
+			balloon_alert(user, "coins only!")
+		return ITEM_INTERACT_BLOCKING
+
+	return NONE
+
+/obj/machinery/computer/slot_machine/multitool_act(mob/living/user, obj/item/tool)
+	if(balance > 0)
+		visible_message("<b>[src]</b> says, 'ERROR! Please empty the machine balance before altering paymode'") //Prevents converting coins into holocredits and vice versa
+		return ITEM_INTERACT_BLOCKING
+>>>>>>> tg-pr-88929
 
 	if(paymode == HOLOCHIP)
 		paymode = COIN
@@ -330,14 +376,22 @@
 
 	else
 		balloon_alert(user, "no luck!")
+<<<<<<< HEAD
 		playsound(src, 'sound/machines/buzz-sigh.ogg', 50)
+=======
+		playsound(src, 'sound/machines/buzz/buzz-sigh.ogg', 50)
+>>>>>>> tg-pr-88929
 		did_player_win = FALSE
 
 	if(did_player_win)
 		add_filter("jackpot_rays", 3, ray_filter)
 		animate(get_filter("jackpot_rays"), offset = 10, time = 3 SECONDS, loop = -1)
 		addtimer(CALLBACK(src, TYPE_PROC_REF(/datum, remove_filter), "jackpot_rays"), 3 SECONDS)
+<<<<<<< HEAD
 		playsound(src, 'sound/machines/roulettejackpot.ogg', 50, TRUE)
+=======
+		playsound(src, 'sound/machines/roulette/roulettejackpot.ogg', 50, TRUE)
+>>>>>>> tg-pr-88929
 
 /// Checks for a jackpot (5 matching icons in the middle row) with the given icon name
 /obj/machinery/computer/slot_machine/proc/check_jackpot(name)

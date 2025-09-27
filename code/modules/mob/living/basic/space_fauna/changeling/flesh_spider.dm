@@ -16,7 +16,11 @@
 	response_help_simple = "pet"
 	response_disarm_continuous = "gently pushes aside"
 	response_disarm_simple = "gently push aside"
+<<<<<<< HEAD
 	damage_coeff = list(BRUTE = 1, BURN = 1.25, TOX = 1, CLONE = 1, STAMINA = 1, OXY = 1)
+=======
+	damage_coeff = list(BRUTE = 1, BURN = 1.25, TOX = 1, STAMINA = 1, OXY = 1)
+>>>>>>> tg-pr-88929
 	basic_mob_flags = FLAMMABLE_MOB
 	status_flags = NONE
 	speed = -0.1
@@ -28,11 +32,19 @@
 	melee_attack_cooldown = CLICK_CD_MELEE
 	attack_verb_continuous = "bites"
 	attack_verb_simple = "bite"
+<<<<<<< HEAD
 	attack_sound = 'sound/weapons/bite.ogg'
 	attack_vis_effect = ATTACK_EFFECT_BITE
 	unsuitable_cold_damage = 4
 	unsuitable_heat_damage = 4
 //	combat_mode = TRUE //monkestation removal
+=======
+	attack_sound = 'sound/items/weapons/bite.ogg'
+	attack_vis_effect = ATTACK_EFFECT_BITE
+	unsuitable_cold_damage = 4
+	unsuitable_heat_damage = 4
+	combat_mode = TRUE
+>>>>>>> tg-pr-88929
 	faction = list() // No allies but yourself
 	pass_flags = PASSTABLE
 	unique_name = TRUE
@@ -47,7 +59,11 @@
 	ADD_TRAIT(src, TRAIT_WEB_SURFER, INNATE_TRAIT)
 	AddElement(/datum/element/cliff_walking)
 	AddElement(/datum/element/footstep, FOOTSTEP_MOB_CLAW)
+<<<<<<< HEAD
 	AddElement(/datum/element/venomous, /datum/reagent/toxin/hunterspider, 5)
+=======
+	AddElement(/datum/element/venomous, /datum/reagent/toxin/hunterspider, 5, injection_flags = INJECT_CHECK_PENETRATE_THICK)
+>>>>>>> tg-pr-88929
 	AddElement(/datum/element/web_walker, /datum/movespeed_modifier/fast_web)
 	AddElement(/datum/element/nerfed_pulling, GLOB.typecache_general_bad_things_to_easily_move)
 	AddElement(/datum/element/prevent_attacking_of_types, GLOB.typecache_general_bad_hostile_attack_targets, "this tastes awful!")
@@ -63,6 +79,7 @@
 		outline_colour = COLOR_PINK,\
 	)
 
+<<<<<<< HEAD
 	var/datum/action/cooldown/mob_cooldown/lay_web/webbing = new(src)
 	webbing.webbing_time *= 0.7
 	webbing.Grant(src)
@@ -73,3 +90,14 @@
 
 	var/datum/action/cooldown/mob_cooldown/lay_web/sticky_web/web_sticky = new(src)
 	web_sticky.Grant(src)
+=======
+	var/static/list/innate_actions = list(
+		/datum/action/cooldown/mob_cooldown/lay_web = BB_SPIDER_WEB_ACTION,
+		/datum/action/cooldown/mob_cooldown/lay_web/sticky_web = null,
+		/datum/action/cooldown/mob_cooldown/lay_web/web_spikes = null,
+	)
+	grant_actions_by_list(innate_actions)
+
+/datum/action/cooldown/mob_cooldown/lay_web/flesh
+	webbing_time = 3 SECONDS
+>>>>>>> tg-pr-88929

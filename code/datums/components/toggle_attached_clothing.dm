@@ -208,8 +208,12 @@
 
 /// Removes an equipped deployable atom upon its retraction or destruction
 /datum/component/toggle_attached_clothing/proc/unequip_deployable()
+<<<<<<< HEAD
 	if (QDELETED(deployable))
 		deployable = null
+=======
+	if (!deployable)
+>>>>>>> tg-pr-88929
 		return
 	if (!ishuman(deployable.loc))
 		deployable.forceMove(parent)

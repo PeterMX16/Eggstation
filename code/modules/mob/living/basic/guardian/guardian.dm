@@ -12,14 +12,24 @@
 	icon_dead = "magicbase"
 	gender = NEUTER
 	basic_mob_flags = DEL_ON_DEATH
+<<<<<<< HEAD
 	sentience_type = SENTIENCE_HUMANOID
 	hud_type = /datum/hud/guardian
 	weather_immunities = list(TRAIT_ASHSTORM_IMMUNE) // Monkestation addition
+=======
+	mob_biotypes = MOB_SPECIAL
+	sentience_type = SENTIENCE_HUMANOID
+	hud_type = /datum/hud/guardian
+>>>>>>> tg-pr-88929
 	faction = list()
 	speed = 0
 	maxHealth = INFINITY // The spirit itself is invincible and passes damage to its host
 	health = INFINITY
+<<<<<<< HEAD
 	damage_coeff = list(BRUTE = 1, BURN = 1, TOX = 1, CLONE = 1, STAMINA = 0, OXY = 1)
+=======
+	damage_coeff = list(BRUTE = 1, BURN = 1, TOX = 1, STAMINA = 0, OXY = 1)
+>>>>>>> tg-pr-88929
 	unsuitable_atmos_damage = 0
 	unsuitable_cold_damage = 0
 	unsuitable_heat_damage = 0
@@ -31,16 +41,27 @@
 	response_disarm_simple = "flail at"
 	response_harm_continuous = "punches"
 	response_harm_simple = "punch"
+<<<<<<< HEAD
 	attack_sound = 'sound/weapons/punch1.ogg'
 	attack_verb_continuous = "punches"
 	attack_verb_simple = "punch"
 	istate = ISTATE_HARM
+=======
+	attack_sound = 'sound/items/weapons/punch1.ogg'
+	attack_verb_continuous = "punches"
+	attack_verb_simple = "punch"
+	combat_mode = TRUE
+>>>>>>> tg-pr-88929
 	obj_damage = 40
 	melee_damage_lower = 15
 	melee_damage_upper = 15
 	melee_attack_cooldown = CLICK_CD_MELEE
 	light_system = OVERLAY_LIGHT
+<<<<<<< HEAD
 	light_outer_range = 3
+=======
+	light_range = 3
+>>>>>>> tg-pr-88929
 	light_on = FALSE
 
 	/// The summoner of the guardian, we share health with them and can't move too far away (usually)
@@ -137,7 +158,11 @@
 /mob/living/basic/guardian/proc/guardian_recolour()
 	if (isnull(client))
 		return
+<<<<<<< HEAD
 	var/chosen_guardian_colour = tgui_color_picker(src, "What would you like your colour to be?", "Choose Your Colour", "#ffffff")
+=======
+	var/chosen_guardian_colour = input(src, "What would you like your colour to be?", "Choose Your Colour", "#ffffff") as color|null
+>>>>>>> tg-pr-88929
 	if (isnull(chosen_guardian_colour)) //redo proc until we get a color
 		to_chat(src, span_warning("Invalid colour, please try again."))
 		return guardian_recolour()
@@ -197,7 +222,11 @@
 
 	return TRUE
 
+<<<<<<< HEAD
 /mob/living/basic/guardian/gib(no_brain, no_organs, no_bodyparts, safe_gib = TRUE)
+=======
+/mob/living/basic/guardian/gib()
+>>>>>>> tg-pr-88929
 	death(TRUE)
 
 /mob/living/basic/guardian/dust(just_ash, drop_items, force)

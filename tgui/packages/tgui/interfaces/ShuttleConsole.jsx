@@ -1,4 +1,16 @@
+import {
+  Box,
+  Button,
+  Dropdown,
+  Flex,
+  Icon,
+  LabeledList,
+  Modal,
+  Section,
+} from 'tgui-core/components';
+
 import { useBackend } from '../backend';
+<<<<<<< HEAD
 import {
   Box,
   Button,
@@ -9,6 +21,8 @@ import {
   Modal,
   Section,
 } from '../components';
+=======
+>>>>>>> tg-pr-88929
 import { Window } from '../layouts';
 
 export const ShuttleConsole = (props) => {

@@ -41,6 +41,7 @@
 		datum/callback/expiration,
 	)
 
+<<<<<<< HEAD
 	if(isitem(parent))
 		RegisterSignal(parent, COMSIG_ITEM_EQUIPPED, PROC_REF(on_equip))
 		RegisterSignal(parent, COMSIG_ITEM_DROPPED, PROC_REF(on_drop))
@@ -48,6 +49,29 @@
 	else if(ismob(parent))
 		register_antimagic_signals(parent)
 	else
+=======
+
+	var/atom/movable/movable = parent
+	if(!istype(movable))
+		return COMPONENT_INCOMPATIBLE
+
+	var/compatible = FALSE
+	if(isitem(movable))
+		RegisterSignal(movable, COMSIG_ITEM_EQUIPPED, PROC_REF(on_equip))
+		RegisterSignal(movable, COMSIG_ITEM_DROPPED, PROC_REF(on_drop))
+		RegisterSignals(movable, list(COMSIG_ITEM_ATTACK, COMSIG_ITEM_ATTACK_ATOM), PROC_REF(on_attack))
+		compatible = TRUE
+	else if(ismob(movable))
+		register_antimagic_signals(movable)
+		compatible = TRUE
+
+	if(movable.can_buckle)
+		RegisterSignal(movable, COMSIG_MOVABLE_BUCKLE, PROC_REF(on_buckle))
+		RegisterSignal(movable, COMSIG_MOVABLE_UNBUCKLE, PROC_REF(on_unbuckle))
+		compatible = TRUE
+
+	if(!compatible)
+>>>>>>> tg-pr-88929
 		return COMPONENT_INCOMPATIBLE
 
 	src.antimagic_flags = antimagic_flags
@@ -68,6 +92,17 @@
 /datum/component/anti_magic/proc/unregister_antimagic_signals(datum/on_what)
 	UnregisterSignal(on_what, list(COMSIG_MOB_RECEIVE_MAGIC, COMSIG_MOB_RESTRICT_MAGIC))
 
+<<<<<<< HEAD
+=======
+/datum/component/anti_magic/proc/on_buckle(atom/movable/source, mob/living/bucklee)
+	SIGNAL_HANDLER
+	register_antimagic_signals(bucklee)
+
+/datum/component/anti_magic/proc/on_unbuckle(atom/movable/source, mob/living/bucklee)
+	SIGNAL_HANDLER
+	unregister_antimagic_signals(bucklee)
+
+>>>>>>> tg-pr-88929
 /datum/component/anti_magic/proc/on_equip(atom/movable/source, mob/equipper, slot)
 	SIGNAL_HANDLER
 

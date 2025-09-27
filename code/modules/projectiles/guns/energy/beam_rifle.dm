@@ -1,32 +1,23 @@
-
-#define ZOOM_LOCK_AUTOZOOM_FREEMOVE 0
-#define ZOOM_LOCK_AUTOZOOM_ANGLELOCK 1
-#define ZOOM_LOCK_CENTER_VIEW 2
-#define ZOOM_LOCK_OFF 3
-
-#define AUTOZOOM_PIXEL_STEP_FACTOR 48
-
-#define AIMING_BEAM_ANGLE_CHANGE_THRESHOLD 0.1
-
-/obj/item/gun/energy/beam_rifle
-	name = "particle acceleration rifle"
-	desc = "An energy-based anti material marksman rifle that uses highly charged particle beams moving at extreme velocities to decimate whatever is unfortunate enough to be targeted by one."
-	desc_controls = "Hold down left click while scoped to aim, when weapon is fully aimed (Tracer goes from red to green as it charges), release to fire. Moving while aiming or changing where you're pointing at while aiming will delay the aiming process depending on how much you changed."
+/obj/item/gun/energy/event_horizon
+	name = "\improper Event Horizon anti-existential beam rifle"
+	desc = "The deranged minds of Nanotrasen, in their great hubris and spite, have birthed forth the definitive conclusion to the arms race. Weaponized black holes, and a platform to deliver them.\
+		To look upon this existential maleficence is to know that the pursuit of profit has consigned all life to this pathetic conclusion; the destruction of reality itself."
 	icon = 'icons/obj/weapons/guns/energy.dmi'
 	icon_state = "esniper"
 	inhand_icon_state = null
 	worn_icon_state = null
-	fire_sound = 'sound/weapons/beam_sniper.ogg'
+	fire_sound = 'sound/items/weapons/beam_sniper.ogg'
 	slot_flags = ITEM_SLOT_BACK
-	force = 15
+	force = 20 //This is maybe the sanest part of this weapon.
 	custom_materials = null
-	recoil = 4
+	recoil = 2
 	ammo_x_offset = 3
 	ammo_y_offset = 3
 	modifystate = FALSE
 	charge_sections = 1
 	weapon_weight = WEAPON_HEAVY
 	w_class = WEIGHT_CLASS_BULKY
+<<<<<<< HEAD
 	ammo_type = list(/obj/item/ammo_casing/energy/beam_rifle/hitscan)
 	actions_types = list(/datum/action/item_action/zoom_lock_action)
 	cell_type = /obj/item/stock_parts/power_store/cell/beam_rifle
@@ -173,40 +164,32 @@
 	. = ..()
 	fire_delay = delay
 	current_tracers = list()
+=======
+	ammo_type = list(/obj/item/ammo_casing/energy/event_horizon)
+	selfcharge = TRUE
+	self_charge_amount = STANDARD_ENERGY_GUN_SELF_CHARGE_RATE * 10
 
-/obj/item/gun/energy/beam_rifle/Destroy()
-	STOP_PROCESSING(SSfastprocess, src)
-	set_user(null)
-	QDEL_LIST(current_tracers)
-	listeningTo = null
-	return ..()
-
-/obj/item/gun/energy/beam_rifle/emp_act(severity)
+/obj/item/gun/energy/event_horizon/Initialize(mapload)
 	. = ..()
-	if(. & EMP_PROTECT_SELF)
-		return
-	chambered = null
-	recharge_newshot()
+	AddComponent(/datum/component/scope, range_modifier = 4)
+>>>>>>> tg-pr-88929
 
-/obj/item/gun/energy/beam_rifle/proc/aiming_beam(force_update = FALSE)
-	var/diff = abs(aiming_lastangle - lastangle)
-	if(!check_user())
-		return
-	if(diff < AIMING_BEAM_ANGLE_CHANGE_THRESHOLD && !force_update)
-		return
-	aiming_lastangle = lastangle
-	var/obj/projectile/beam/beam_rifle/hitscan/aiming_beam/P = new
-	P.gun = src
-	P.wall_pierce_amount = wall_pierce_amount
-	P.structure_pierce_amount = structure_piercing
-	P.do_pierce = projectile_setting_pierce
-	if(aiming_time)
-		var/percent = ((100/aiming_time)*aiming_time_left)
-		P.color = rgb(255 * percent,255 * ((100 - percent) / 100),0)
-	else
-		P.color = rgb(0, 255, 0)
-	var/turf/curloc = get_turf(src)
+/obj/item/gun/energy/event_horizon/process_fire(atom/target, mob/living/user, message, params, zone_override, bonus_spread)
 
+	if(!HAS_TRAIT(user, TRAIT_USER_SCOPED))
+		balloon_alert(user, "must be scoped!")
+		return
+
+	. = ..()
+	message_admins("[ADMIN_LOOKUPFLW(user)] has fired an anti-existential beam at [ADMIN_VERBOSEJMP(user)].")
+
+/obj/item/ammo_casing/energy/event_horizon
+	projectile_type = /obj/projectile/beam/event_horizon
+	select_name = "doomsday"
+	e_cost = LASER_SHOTS(1, STANDARD_CELL_CHARGE)
+	fire_sound = 'sound/items/weapons/beam_sniper.ogg'
+
+<<<<<<< HEAD
 	var/atom/target_atom = current_user.client.mouse_object_ref?.resolve()
 	var/turf/targloc = get_turf(target_atom)
 	if(!istype(targloc))
@@ -433,13 +416,18 @@
 
 /obj/projectile/beam/beam_rifle
 	name = "particle beam"
+=======
+/obj/projectile/beam/event_horizon
+	name = "anti-existential beam"
+>>>>>>> tg-pr-88929
 	icon = null
-	hitsound = 'sound/effects/explosion3.ogg'
-	damage = 0 //Handled manually.
+	hitsound = 'sound/effects/explosion/explosion3.ogg'
+	damage = 100 // Does it matter?
 	damage_type = BURN
 	armor_flag = ENERGY
 	range = 150
 	jitter = 20 SECONDS
+<<<<<<< HEAD
 	var/obj/item/gun/energy/beam_rifle/gun
 	var/structure_pierce_amount = 0 //All set to 0 so the gun can manually set them during firing.
 	var/structure_bleed_coeff = 0
@@ -524,10 +512,12 @@
 
 /obj/projectile/beam/beam_rifle/hitscan
 	icon_state = ""
+=======
+>>>>>>> tg-pr-88929
 	hitscan = TRUE
 	tracer_type = /obj/effect/projectile/tracer/tracer/beam_rifle
-	var/constant_tracer = FALSE
 
+<<<<<<< HEAD
 /obj/projectile/beam/beam_rifle/hitscan/generate_hitscan_tracers(cleanup = TRUE, duration = 5, impacting = TRUE, highlander)
 	set waitfor = FALSE
 	if(isnull(highlander))
@@ -573,3 +563,15 @@
 #undef ZOOM_LOCK_AUTOZOOM_FREEMOVE
 #undef ZOOM_LOCK_CENTER_VIEW
 #undef ZOOM_LOCK_OFF
+=======
+/obj/projectile/beam/event_horizon/on_hit(atom/target, blocked, pierce_hit)
+	. = ..()
+
+	// Where we droppin' boys?
+	var/turf/rift_loc = get_turf(target)
+
+	// Spawn our temporary rift, then activate it.
+	var/obj/reality_tear/temporary/tear = new(rift_loc)
+	tear.start_disaster()
+	message_admins("[ADMIN_LOOKUPFLW(target)] has been hit by an anti-existential beam at [ADMIN_VERBOSEJMP(rift_loc)], creating a singularity.")
+>>>>>>> tg-pr-88929

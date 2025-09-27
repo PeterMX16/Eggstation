@@ -33,13 +33,13 @@
 #define FACTION_HELL "hell"
 /// Hivebots
 #define FACTION_HIVEBOT "hivebot"
-/// Illusionary creaturs
+/// Illusionary creatures
 #define FACTION_ILLUSION "illusion"
 /// Creatures of the never finished jungle planet, and gorillas
 #define FACTION_JUNGLE "jungle"
 /// Small lizards
 #define FACTION_LIZARD "lizard"
-/// Maint creatures have mutual respect for eachother.
+/// Maint creatures have mutual respect for each other.
 #define FACTION_MAINT_CREATURES "maint_creatures"
 /// Animated objects and statues
 #define FACTION_MIMIC "mimic"
@@ -83,6 +83,7 @@
 #define FACTION_TURRET "turret"
 /// Vines, lots of overlap with plants
 #define FACTION_VINES "vines"
+<<<<<<< HEAD
 /// Tamed creatures
 #define FACTION_TAMED "tamed"
 ///Creates associated with plague doctor
@@ -91,6 +92,11 @@
 #define FACTION_BINGLE "bingle"
 /// Darkspawn
 #define FACTION_DARKSPAWN "darkspawn"
+=======
+///raptor factions
+#define FACTION_RAPTOR "raptor"
+// Antagonist factions
+>>>>>>> tg-pr-88929
 
 /// Cultists and their constructs
 #define FACTION_CULT "cult"

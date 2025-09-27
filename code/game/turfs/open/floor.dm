@@ -9,17 +9,21 @@
 	barefootstep = FOOTSTEP_HARD_BAREFOOT
 	clawfootstep = FOOTSTEP_HARD_CLAW
 	heavyfootstep = FOOTSTEP_GENERIC_HEAVY
-	flags_1 = NO_SCREENTIPS_1
-	turf_flags = CAN_BE_DIRTY_1 | IS_SOLID
+	flags_1 = NO_SCREENTIPS_1 | CAN_BE_DIRTY_1
+	turf_flags = IS_SOLID
 	smoothing_groups = SMOOTH_GROUP_TURF_OPEN + SMOOTH_GROUP_OPEN_FLOOR
 	canSmoothWith = SMOOTH_GROUP_TURF_OPEN + SMOOTH_GROUP_OPEN_FLOOR
 
-	thermal_conductivity = 0.04
-	heat_capacity = 10000
+	thermal_conductivity = 0.02
+	heat_capacity = 20000
 	tiled_dirt = TRUE
 
 
 	overfloor_placed = TRUE
+<<<<<<< HEAD
+=======
+	damaged_dmi = 'icons/turf/damaged.dmi'
+>>>>>>> tg-pr-88929
 	/// Path of the tile that this floor drops
 	var/floor_tile = null
 	/// Determines if you can deconstruct this with a RCD
@@ -83,6 +87,8 @@
 				src.break_tile()
 				src.hotspot_expose(1000,CELL_VOLUME)
 
+	return FALSE
+
 /turf/open/floor/is_shielded()
 	for(var/obj/structure/A in contents)
 		return 1
@@ -139,7 +145,7 @@
 /turf/open/floor/proc/try_replace_tile(obj/item/stack/tile/T, mob/user, params)
 	if(T.turf_type == type && T.turf_dir == dir)
 		return
-	var/obj/item/crowbar/CB = user.is_holding_item_of_type(/obj/item/crowbar)
+	var/obj/item/crowbar/CB = user.is_holding_tool_quality(TOOL_CROWBAR)
 	if(!CB)
 		return
 	var/turf/open/floor/plating/P = pry_tile(CB, user, TRUE)
@@ -176,7 +182,7 @@
 		return null
 	return new floor_tile(src)
 
-/turf/open/floor/singularity_pull(S, current_size)
+/turf/open/floor/singularity_pull(atom/singularity, current_size)
 	..()
 	var/sheer = FALSE
 	switch(current_size)
@@ -202,17 +208,21 @@
 /turf/open/floor/acid_melt()
 	ScrapeAway(flags = CHANGETURF_INHERIT_AIR)
 
-/// if you are updating this make to to update /turf/open/misc/rcd_vals() too
 /turf/open/floor/rcd_vals(mob/user, obj/item/construction/rcd/the_rcd)
 	switch(the_rcd.mode)
-		if(RCD_FLOORWALL)
+		if(RCD_TURF)
+			if(the_rcd.rcd_design_path != /turf/open/floor/plating/rcd)
+				return FALSE
+
 			var/obj/structure/girder/girder = locate() in src
 			if(girder)
 				return girder.rcd_vals(user, the_rcd)
+
 			return rcd_result_with_memory(
-				list("mode" = RCD_FLOORWALL, "delay" = 2 SECONDS, "cost" = 16),
+				list("delay" = 2 SECONDS, "cost" = 16),
 				src, RCD_MEMORY_WALL,
 			)
+<<<<<<< HEAD
 		if(RCD_REFLECTOR)
 			return list("mode" = RCD_REFLECTOR, "delay" = 2 SECONDS, "cost" = 20)
 		if(RCD_AIRLOCK)
@@ -222,10 +232,13 @@
 				return list("mode" = RCD_AIRLOCK, "delay" = 5 SECONDS, "cost" = 16)
 		if(RCD_DECONSTRUCT)
 			return list("mode" = RCD_DECONSTRUCT, "delay" = 5 SECONDS, "cost" = 33)
+=======
+>>>>>>> tg-pr-88929
 		if(RCD_WINDOWGRILLE)
 			//default cost for building a grill for fulltile windows
 			var/cost = 4
 			var/delay = 1 SECONDS
+<<<<<<< HEAD
 			if(the_rcd.window_type  == /obj/structure/window)
 				cost = 4
 				delay = 2 SECONDS
@@ -268,26 +281,89 @@
 			if(cost == 0)
 				return FALSE
 			return list("mode" = RCD_FURNISHING, "delay" = cost, "cost" = delay)
+=======
+			if(the_rcd.rcd_design_path  == /obj/structure/window)
+				cost = 4
+				delay = 2 SECONDS
+			else if(the_rcd.rcd_design_path  == /obj/structure/window/reinforced)
+				cost = 6
+				delay = 2.5 SECONDS
+			return rcd_result_with_memory(
+				list("delay" = delay, "cost" = cost),
+				src, RCD_MEMORY_WINDOWGRILLE,
+			)
+		if(RCD_AIRLOCK)
+			if(ispath(the_rcd.rcd_design_path, /obj/machinery/door/airlock/glass))
+				return list("delay" = 5 SECONDS, "cost" = 20)
+			else
+				return list("delay" = 5 SECONDS, "cost" = 16)
+		if(RCD_STRUCTURE)
+			var/static/list/structure_costs = list(
+				/obj/structure/reflector = list("delay" = 2 SECONDS, "cost" = 20),
+				/obj/structure/girder = list("delay" = 1.3 SECONDS, "cost" = 8),
+				/obj/structure/frame/machine/secured = list("delay" = 2 SECONDS, "cost" = 20),
+				/obj/structure/frame/computer/rcd = list("delay" = 2 SECONDS, "cost" = 20),
+				/obj/structure/floodlight_frame = list("delay" = 3 SECONDS, "cost" = 20),
+				/obj/structure/chair = list("delay" = 1 SECONDS, "cost" = 4),
+				/obj/structure/chair/stool/bar = list("delay" = 0.5 SECONDS, "cost" = 4),
+				/obj/structure/table = list("delay" = 2 SECONDS, "cost" = 8),
+				/obj/structure/bed = list("delay" = 2.5 SECONDS, "cost" = 8),
+				/obj/structure/rack = list("delay" = 2.5 SECONDS, "cost" = 4),
+			)
+
+			var/list/design_data = structure_costs[the_rcd.rcd_design_path]
+			if(!isnull(design_data))
+				return design_data
+
+			for(var/structure in structure_costs)
+				if(ispath(the_rcd.rcd_design_path, structure))
+					return structure_costs[structure]
+
+			return FALSE
+		if(RCD_DECONSTRUCT)
+			return list("mode" = RCD_DECONSTRUCT, "delay" = 5 SECONDS, "cost" = 33)
+
+>>>>>>> tg-pr-88929
 	return FALSE
 
 /// if you are updating this make to to update /turf/open/misc/rcd_act() too
-/turf/open/floor/rcd_act(mob/user, obj/item/construction/rcd/the_rcd, passed_mode)
-	switch(passed_mode)
-		if(RCD_FLOORWALL)
+/turf/open/floor/rcd_act(mob/user, obj/item/construction/rcd/the_rcd, list/rcd_data)
+	switch(rcd_data["[RCD_DESIGN_MODE]"])
+		if(RCD_TURF)
+			if(rcd_data["[RCD_DESIGN_PATH]"] != /turf/open/floor/plating/rcd)
+				return FALSE
+
 			var/obj/structure/girder/girder = locate() in src
 			if(girder)
-				return girder.rcd_act(user, the_rcd, passed_mode)
+				return girder.rcd_act(user, the_rcd, rcd_data)
 
-			PlaceOnTop(/turf/closed/wall)
+			place_on_top(/turf/closed/wall)
 			return TRUE
-		if(RCD_REFLECTOR)
-			if(locate(/obj/structure/reflector) in src)
+		if(RCD_WINDOWGRILLE)
+			//check if we are building a window
+			var/obj/structure/window/window_path = rcd_data["[RCD_DESIGN_PATH]"]
+			if(!ispath(window_path))
+				CRASH("Invalid window path type in RCD: [window_path]")
+
+			//allow directional windows to be built without grills
+			if(!initial(window_path.fulltile))
+				if(!valid_build_direction(src, user.dir, is_fulltile = FALSE))
+					balloon_alert(user, "window already here!")
+					return FALSE
+				var/obj/structure/window/WD = new window_path(src, user.dir)
+				WD.set_anchored(TRUE)
+				return TRUE
+
+			//build grills to deal with full tile windows
+			if(locate(/obj/structure/grille) in src)
 				return FALSE
-			var/obj/structure/reflector/reflector_base = new(src)
-			reflector_base.set_anchored(TRUE)
+			var/obj/structure/grille/new_grille = new(src)
+			new_grille.set_anchored(TRUE)
 			return TRUE
 		if(RCD_AIRLOCK)
-			if(ispath(the_rcd.airlock_type, /obj/machinery/door/window))
+			var/obj/machinery/door/airlock_type = rcd_data["[RCD_DESIGN_PATH]"]
+
+			if(ispath(airlock_type, /obj/machinery/door/window))
 				if(!valid_build_direction(src, user.dir, is_fulltile = FALSE))
 					balloon_alert(user, "there's already a windoor!")
 					return FALSE
@@ -297,8 +373,13 @@
 					balloon_alert(user, "there's already a door!")
 					return FALSE
 				//create the assembly and let it finish itself
+<<<<<<< HEAD
 				var/obj/structure/windoor_assembly/assembly = new /obj/structure/windoor_assembly(src, user.dir)
 				assembly.secure = ispath(the_rcd.airlock_type, /obj/machinery/door/window/brigdoor)
+=======
+				var/obj/structure/windoor_assembly/assembly = new (src, user.dir)
+				assembly.secure = ispath(airlock_type, /obj/machinery/door/window/brigdoor)
+>>>>>>> tg-pr-88929
 				assembly.electronics = the_rcd.airlock_electronics.create_copy(assembly)
 				assembly.finish_door()
 				return TRUE
@@ -310,6 +391,7 @@
 				return FALSE
 			//create the assembly and let it finish itself
 			var/obj/structure/door_assembly/assembly = new (src)
+<<<<<<< HEAD
 			if(ispath(the_rcd.airlock_type, /obj/machinery/door/airlock/glass))
 				assembly.glass = TRUE
 				assembly.glass_type = the_rcd.airlock_type
@@ -317,6 +399,39 @@
 				assembly.airlock_type = the_rcd.airlock_type
 			assembly.electronics = the_rcd.airlock_electronics.create_copy(assembly)
 			assembly.finish_door()
+=======
+			if(initial(airlock_type.glass))
+				assembly.glass = TRUE
+				assembly.glass_type = airlock_type
+			else
+				assembly.airlock_type = airlock_type
+			assembly.electronics = the_rcd.airlock_electronics.create_copy(assembly)
+			assembly.finish_door()
+			return TRUE
+		if(RCD_STRUCTURE)
+			var/atom/movable/design_type = rcd_data["[RCD_DESIGN_PATH]"]
+
+			//map absolute types to basic subtypes
+			var/atom/movable/locate_type = design_type
+			if(ispath(locate_type, /obj/structure/frame/machine/secured))
+				locate_type = /obj/structure/frame/machine
+			if(ispath(locate_type, /obj/structure/frame/computer/rcd))
+				locate_type = /obj/structure/frame/computer
+			if(ispath(locate_type, /obj/structure/floodlight_frame/completed))
+				locate_type = /obj/structure/floodlight_frame
+			if(locate(locate_type) in src)
+				return FALSE
+
+			var/atom/movable/design = new design_type(src)
+			var/static/list/dir_types = list(
+				/obj/structure/chair,
+				/obj/structure/table,
+				/obj/structure/rack,
+				/obj/structure/bed,
+			)
+			if(is_path_in_list(locate_type, dir_types))
+				design.setDir(user.dir)
+>>>>>>> tg-pr-88929
 			return TRUE
 		if(RCD_DECONSTRUCT)
 			if(rcd_proof)
@@ -325,6 +440,7 @@
 			if(!ScrapeAway(flags = CHANGETURF_INHERIT_AIR))
 				return FALSE
 			return TRUE
+<<<<<<< HEAD
 		if(RCD_WINDOWGRILLE)
 			//check if we are building a window
 			var/obj/structure/window/window_path = the_rcd.window_type
@@ -382,7 +498,15 @@
 			var/atom/new_furnish = new the_rcd.furnish_type(src)
 			new_furnish.setDir(user.dir)
 			return TRUE
+=======
+>>>>>>> tg-pr-88929
 	return FALSE
+
+/turf/open/floor/rust_turf()
+	if(HAS_TRAIT(src, TRAIT_RUSTY))
+		return
+	ChangeTurf(/turf/open/floor/plating)
+	return ..()
 
 /turf/open/floor/material
 	name = "floor"
@@ -397,4 +521,4 @@
 	. = ..()
 	if(.)
 		var/obj/item/stack/tile = .
-		tile.set_mats_per_unit(custom_materials, 1)
+		tile.set_custom_materials(custom_materials)

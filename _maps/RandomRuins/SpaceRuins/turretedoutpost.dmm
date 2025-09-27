@@ -1,4 +1,5 @@
 //MAP CONVERTED BY dmm2tgm.py THIS HEADER COMMENT PREVENTS RECONVERSION, DO NOT REMOVE
+<<<<<<< HEAD
 "am" = (
 /obj/effect/spawner/random/trash/grime,
 /obj/effect/decal/cleanable/dirt,
@@ -13,6 +14,143 @@
 "aH" = (
 /obj/effect/turf_decal/trimline/red/line{
 	dir = 1
+=======
+"aa" = (
+/turf/template_noop,
+/area/template_noop)
+"ab" = (
+/obj/structure/lattice,
+/turf/template_noop,
+/area/template_noop)
+"ac" = (
+/obj/structure/grille,
+/turf/open/floor/plating/airless,
+/area/ruin/space/has_grav/turretedoutpost)
+"ad" = (
+/turf/closed/wall/r_wall,
+/area/ruin/space/has_grav/turretedoutpost)
+"ae" = (
+/obj/structure/table/reinforced,
+/obj/item/stock_parts/power_store/cell/hyper,
+/turf/open/floor/iron,
+/area/ruin/space/has_grav/turretedoutpost)
+"af" = (
+/obj/structure/frame/computer,
+/turf/open/floor/iron,
+/area/ruin/space/has_grav/turretedoutpost)
+"ag" = (
+/turf/open/floor/iron,
+/area/ruin/space/has_grav/turretedoutpost)
+"aj" = (
+/obj/machinery/light/directional/north,
+/turf/open/floor/plating,
+/area/ruin/space/has_grav/turretedoutpost)
+"ak" = (
+/turf/open/floor/plating,
+/area/ruin/space/has_grav/turretedoutpost)
+"al" = (
+/turf/open/floor/plating/airless,
+/area/ruin/space/has_grav/turretedoutpost)
+"an" = (
+/obj/structure/chair/office{
+	dir = 8
+	},
+/turf/open/floor/iron,
+/area/ruin/space/has_grav/turretedoutpost)
+"ao" = (
+/obj/machinery/porta_turret,
+/turf/open/floor/plating/airless,
+/area/ruin/space/has_grav/turretedoutpost)
+"ap" = (
+/obj/structure/filingcabinet,
+/turf/open/floor/iron,
+/area/ruin/space/has_grav/turretedoutpost)
+"ar" = (
+/obj/machinery/power/apc/auto_name/directional/south,
+/turf/open/floor/iron,
+/area/ruin/space/has_grav/turretedoutpost)
+"as" = (
+/obj/structure/rack,
+/obj/effect/spawner/random/exotic/syndie,
+/obj/effect/turf_decal/tile/neutral/half/contrasted{
+	dir = 1
+	},
+/turf/open/floor/iron/dark,
+/area/ruin/space/has_grav/turretedoutpost)
+"at" = (
+/obj/item/rack_parts,
+/obj/effect/turf_decal/tile/neutral/half/contrasted{
+	dir = 1
+	},
+/turf/open/floor/iron/dark,
+/area/ruin/space/has_grav/turretedoutpost)
+"av" = (
+/obj/structure/rack,
+/obj/item/firing_pin,
+/obj/effect/turf_decal/tile/neutral/half/contrasted{
+	dir = 1
+	},
+/turf/open/floor/iron/dark,
+/area/ruin/space/has_grav/turretedoutpost)
+"aw" = (
+/obj/machinery/door/airlock/public/glass,
+/turf/open/floor/iron,
+/area/ruin/space/has_grav/turretedoutpost)
+"ax" = (
+/obj/machinery/door/airlock,
+/turf/open/floor/iron,
+/area/ruin/space/has_grav/turretedoutpost)
+"ay" = (
+/obj/item/rack_parts,
+/obj/effect/turf_decal/tile/neutral/half/contrasted{
+	dir = 8
+	},
+/turf/open/floor/iron/dark,
+/area/ruin/space/has_grav/turretedoutpost)
+"az" = (
+/turf/open/floor/iron/dark,
+/area/ruin/space/has_grav/turretedoutpost)
+"aA" = (
+/obj/structure/tank_dispenser/oxygen,
+/turf/open/floor/iron/dark,
+/area/ruin/space/has_grav/turretedoutpost)
+"aB" = (
+/obj/structure/table/reinforced,
+/obj/item/clothing/head/costume/ushanka,
+/obj/effect/turf_decal/tile/red/fourcorners,
+/turf/open/floor/iron,
+/area/ruin/space/has_grav/turretedoutpost)
+"aC" = (
+/obj/structure/table/reinforced,
+/obj/structure/reagent_dispensers/wall/peppertank/directional/north,
+/obj/item/gps/spaceruin,
+/turf/open/floor/iron,
+/area/ruin/space/has_grav/turretedoutpost)
+"aE" = (
+/obj/machinery/vending/clothing,
+/turf/open/floor/iron,
+/area/ruin/space/has_grav/turretedoutpost)
+"aG" = (
+/obj/structure/rack,
+/obj/effect/turf_decal/tile/neutral/fourcorners,
+/turf/open/floor/iron/dark,
+/area/ruin/space/has_grav/turretedoutpost)
+"aH" = (
+/obj/structure/rack,
+/obj/item/ammo_box/c9mm,
+/obj/effect/turf_decal/tile/neutral/fourcorners,
+/turf/open/floor/iron/dark,
+/area/ruin/space/has_grav/turretedoutpost)
+"aI" = (
+/obj/machinery/door/airlock/public/glass,
+/turf/open/floor/iron/dark,
+/area/ruin/space/has_grav/turretedoutpost)
+"aL" = (
+/obj/structure/rack,
+/obj/effect/spawner/random/exotic/syndie,
+/obj/effect/turf_decal/tile/neutral/half/contrasted{
+	dir = 8
+>>>>>>> tg-pr-88929
 	},
 /obj/effect/turf_decal/trimline/red/filled/line,
 /obj/structure/window/reinforced/spawner/directional/south,
@@ -35,6 +173,7 @@
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron/dark,
 /area/ruin/space/has_grav/turretedoutpost)
+<<<<<<< HEAD
 "bU" = (
 /obj/structure/lattice,
 /turf/template_noop,
@@ -44,6 +183,16 @@
 	dir = 4
 	},
 /obj/effect/decal/cleanable/fuel_pool,
+=======
+"aP" = (
+/obj/structure/bed,
+/obj/item/bedsheet/orange,
+/turf/open/floor/iron,
+/area/ruin/space/has_grav/turretedoutpost)
+"aQ" = (
+/obj/structure/rack,
+/obj/item/grenade/chem_grenade/teargas,
+>>>>>>> tg-pr-88929
 /turf/open/floor/iron/dark,
 /area/ruin/space/has_grav/turretedoutpost)
 "cD" = (
@@ -85,6 +234,7 @@
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron,
 /area/ruin/space/has_grav/turretedoutpost)
+<<<<<<< HEAD
 "gn" = (
 /obj/effect/turf_decal/tile/red/opposingcorners,
 /obj/structure/guncase{
@@ -140,6 +290,11 @@
 /obj/structure/chair/plastic{
 	dir = 8
 	},
+=======
+"aT" = (
+/obj/structure/table/reinforced,
+/obj/item/paper_bin,
+>>>>>>> tg-pr-88929
 /turf/open/floor/iron,
 /area/ruin/space/has_grav/turretedoutpost)
 "jM" = (
@@ -376,6 +531,7 @@
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron/dark,
 /area/ruin/space/has_grav/turretedoutpost)
+<<<<<<< HEAD
 "wQ" = (
 /obj/effect/turf_decal/siding/thinplating_new/dark,
 /obj/effect/decal/cleanable/dirt/dust,
@@ -422,11 +578,68 @@
 /area/ruin/space/has_grav/turretedoutpost)
 "Aw" = (
 /obj/machinery/door/airlock/external/glass,
+=======
+"aZ" = (
+/obj/structure/rack,
+/obj/effect/spawner/random/exotic/syndie,
+/obj/effect/turf_decal/tile/neutral/half/contrasted,
+/turf/open/floor/iron/dark,
+/area/ruin/space/has_grav/turretedoutpost)
+"df" = (
+/obj/structure/chair/comfy/beige{
+	dir = 4
+	},
+/obj/machinery/light/small/directional/west,
+/turf/open/floor/iron,
+/area/ruin/space/has_grav/turretedoutpost)
+"fk" = (
+/obj/structure/table/wood,
+/obj/item/food/breadslice/meat,
+/turf/open/floor/iron,
+/area/ruin/space/has_grav/turretedoutpost)
+"iq" = (
+/obj/structure/rack,
+/obj/effect/spawner/random/exotic/syndie,
+/obj/effect/turf_decal/tile/neutral/half/contrasted{
+	dir = 8
+	},
+/obj/machinery/light/directional/west,
+/turf/open/floor/iron/dark,
+/area/ruin/space/has_grav/turretedoutpost)
+"kK" = (
+/obj/structure/bed,
+/obj/item/bedsheet/orange,
+/obj/machinery/light/small/directional/east,
+/turf/open/floor/iron,
+/area/ruin/space/has_grav/turretedoutpost)
+"tK" = (
+/obj/effect/turf_decal/tile/red/fourcorners,
+/turf/open/floor/iron,
+/area/ruin/space/has_grav/turretedoutpost)
+"vd" = (
+/obj/structure/table/reinforced,
+/obj/item/clipboard,
+/obj/item/radio,
+/turf/open/floor/iron,
+/area/ruin/space/has_grav/turretedoutpost)
+"Ar" = (
+/obj/machinery/light/directional/east,
+/turf/open/floor/iron,
+/area/ruin/space/has_grav/turretedoutpost)
+"Iq" = (
+/obj/structure/table/reinforced,
+/obj/item/computer_disk/syndicate/camera_app,
+/turf/open/floor/iron,
+/area/ruin/space/has_grav/turretedoutpost)
+"LS" = (
+/obj/machinery/door/airlock/external/ruin,
+>>>>>>> tg-pr-88929
 /obj/effect/mapping_helpers/airlock/cyclelink_helper_multi{
 	cycle_id = "turret_outpost"
 	},
 /turf/open/floor/plating,
 /area/ruin/space/has_grav/turretedoutpost)
+<<<<<<< HEAD
 "Bl" = (
 /obj/structure/dresser,
 /turf/open/floor/wood/parquet,
@@ -774,6 +987,13 @@
 /area/ruin/space/has_grav/turretedoutpost)
 "Yy" = (
 /obj/effect/turf_decal/siding/thinplating_new/dark,
+=======
+"WF" = (
+/obj/structure/table/reinforced,
+/obj/item/folder,
+/obj/item/radio,
+/obj/machinery/light/directional/west,
+>>>>>>> tg-pr-88929
 /turf/open/floor/iron,
 /area/ruin/space/has_grav/turretedoutpost)
 
@@ -902,6 +1122,7 @@ jM
 jM
 "}
 (5,1,1) = {"
+<<<<<<< HEAD
 jM
 jM
 jM
@@ -931,6 +1152,26 @@ jM
 jM
 jM
 jM
+=======
+aa
+aa
+aa
+aa
+aa
+al
+ad
+ad
+ay
+iq
+iq
+aL
+ad
+ad
+al
+ab
+aa
+aa
+>>>>>>> tg-pr-88929
 "}
 (6,1,1) = {"
 jM
@@ -995,6 +1236,7 @@ jM
 jM
 "}
 (8,1,1) = {"
+<<<<<<< HEAD
 jM
 jM
 jM
@@ -1024,6 +1266,26 @@ jM
 jM
 jM
 jM
+=======
+aa
+aa
+ab
+ab
+aa
+al
+ad
+at
+az
+aH
+aM
+az
+aZ
+ad
+al
+aa
+aa
+aa
+>>>>>>> tg-pr-88929
 "}
 (9,1,1) = {"
 jM
@@ -1150,6 +1412,7 @@ jM
 jM
 "}
 (13,1,1) = {"
+<<<<<<< HEAD
 jM
 Ci
 jM
@@ -1241,6 +1504,66 @@ rK
 jM
 jM
 jM
+=======
+aa
+aa
+ac
+ad
+ae
+WF
+ap
+ad
+aC
+ag
+ag
+Iq
+ad
+al
+ab
+aa
+aa
+aa
+"}
+(14,1,1) = {"
+aa
+aa
+ac
+ad
+af
+an
+ag
+ad
+vd
+ag
+aN
+aT
+ad
+al
+aa
+aa
+aa
+aa
+"}
+(15,1,1) = {"
+aa
+aa
+ac
+ad
+af
+ag
+ag
+aw
+ag
+Ar
+ag
+aU
+ad
+ac
+ac
+ab
+ab
+ab
+>>>>>>> tg-pr-88929
 "}
 (16,1,1) = {"
 jM
@@ -1274,6 +1597,7 @@ jM
 jM
 "}
 (17,1,1) = {"
+<<<<<<< HEAD
 jM
 jM
 jM
@@ -1396,6 +1720,86 @@ jM
 jM
 jM
 jM
+=======
+aa
+aa
+ac
+ad
+ag
+ag
+ag
+ax
+ag
+ag
+df
+aV
+fk
+ad
+ac
+ab
+ab
+aa
+"}
+(18,1,1) = {"
+aa
+ab
+ac
+ad
+ag
+ag
+ar
+ad
+aE
+ag
+ag
+ag
+ag
+ad
+ac
+aa
+aa
+aa
+"}
+(19,1,1) = {"
+ab
+aa
+ac
+ad
+LS
+LS
+ad
+ad
+ad
+ag
+ag
+ag
+ag
+ad
+ac
+aa
+aa
+aa
+"}
+(20,1,1) = {"
+ab
+ab
+ac
+ad
+aj
+ak
+ad
+al
+ad
+aP
+kK
+aP
+aP
+ad
+ac
+aa
+aa
+aa
+>>>>>>> tg-pr-88929
 "}
 (21,1,1) = {"
 jM
@@ -1429,6 +1833,7 @@ jM
 jM
 "}
 (22,1,1) = {"
+<<<<<<< HEAD
 jM
 jM
 jM
@@ -1520,4 +1925,24 @@ jM
 jM
 jM
 jM
+=======
+ab
+ab
+ac
+ad
+LS
+LS
+ad
+ac
+ac
+ac
+ac
+ac
+ac
+ac
+ac
+aa
+ab
+aa
+>>>>>>> tg-pr-88929
 "}

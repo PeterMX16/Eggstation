@@ -122,7 +122,7 @@
 	return TRUE
 
 /**
- * Called when the wizard rod reaches it's maximum distance
+ * Called when the wizard rod reaches its maximum distance
  * or is otherwise stopped by something.
  * Dumps out the wizard, and deletes.
  */
@@ -138,7 +138,11 @@
 	our_wizard = WEAKREF(wizard)
 
 	wizard.forceMove(src)
+<<<<<<< HEAD
 	wizard.add_traits(list(TRAIT_MAGICALLY_PHASED, TRAIT_NO_TRANSFORM, TRAIT_GODMODE), REF(src))
+=======
+	wizard.add_traits(list(TRAIT_GODMODE, TRAIT_MAGICALLY_PHASED, TRAIT_NO_TRANSFORM), REF(src))
+>>>>>>> tg-pr-88929
 
 /**
  * Eject our current wizard, removing them from the rod
@@ -149,7 +153,11 @@
 	if(QDELETED(wizard))
 		return
 
+<<<<<<< HEAD
 	wizard.remove_traits(list(TRAIT_MAGICALLY_PHASED, TRAIT_NO_TRANSFORM, TRAIT_GODMODE), REF(src))
+=======
+	wizard.remove_traits(list(TRAIT_GODMODE, TRAIT_MAGICALLY_PHASED, TRAIT_NO_TRANSFORM), REF(src))
+>>>>>>> tg-pr-88929
 	wizard.forceMove(get_turf(src))
 	our_wizard = null
 

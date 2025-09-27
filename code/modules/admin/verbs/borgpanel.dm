@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 ADMIN_VERB(borg_panel, R_ADMIN, FALSE, "Show Borg Panel", ADMIN_VERB_NO_DESCRIPTION, ADMIN_CATEGORY_HIDDEN, mob/living/silicon/robot/borgo)
+=======
+ADMIN_VERB(borg_panel, R_ADMIN, "Show Borg Panel", ADMIN_VERB_NO_DESCRIPTION, ADMIN_CATEGORY_HIDDEN, mob/living/silicon/robot/borgo)
+>>>>>>> tg-pr-88929
 	var/datum/borgpanel/borgpanel = new(user.mob, borgo)
 	borgpanel.ui_interact(user.mob)
 
@@ -36,9 +40,10 @@ ADMIN_VERB(borg_panel, R_ADMIN, FALSE, "Show Borg Panel", ADMIN_VERB_NO_DESCRIPT
 		"scrambledcodes" = borg.scrambledcodes
 	)
 	.["upgrades"] = list()
-	for (var/upgradetype in subtypesof(/obj/item/borg/upgrade)-/obj/item/borg/upgrade/hypospray) //hypospray is a dummy parent for hypospray upgrades
+	var/static/list/not_shown_upgrades = list(/obj/item/borg/upgrade/hypospray)
+	for (var/upgradetype in subtypesof(/obj/item/borg/upgrade)-not_shown_upgrades) //hypospray is a dummy parent for hypospray upgrades
 		var/obj/item/borg/upgrade/upgrade = upgradetype
-		if (initial(upgrade.model_type) && !is_type_in_list(borg.model, initial(upgrade.model_type))) // Upgrade requires a different model
+		if (initial(upgrade.model_type) && !is_type_in_list(borg.model, initial(upgrade.model_type))) // Upgrade requires a different model //HEY ASSHOLE, INITIAL DOESNT WORK WITH LISTS
 			continue
 		var/installed = FALSE
 		if (locate(upgradetype) in borg)
@@ -133,32 +138,34 @@ ADMIN_VERB(borg_panel, R_ADMIN, FALSE, "Show Borg Panel", ADMIN_VERB_NO_DESCRIPT
 			borg.fully_replace_character_name(borg.real_name,new_name)
 		if ("toggle_upgrade")
 			var/upgradepath = text2path(params["upgrade"])
-			var/obj/item/borg/upgrade/installedupgrade = locate(upgradepath) in borg
+			var/obj/item/borg/upgrade/installedupgrade = locate(upgradepath) in borg.upgrades
 			if (installedupgrade)
 				message_admins("[key_name_admin(user)] removed the [installedupgrade] upgrade from [ADMIN_LOOKUPFLW(borg)].")
 				log_silicon("[key_name(user)] removed the [installedupgrade] upgrade from [key_name(borg)].")
 				qdel(installedupgrade) // see [mob/living/silicon/robot/on_upgrade_deleted()].
 			else
 				var/obj/item/borg/upgrade/upgrade = new upgradepath(borg)
-				upgrade.action(borg, user)
-				borg.upgrades += upgrade
 				message_admins("[key_name_admin(user)] added the [upgrade] borg upgrade to [ADMIN_LOOKUPFLW(borg)].")
 				log_silicon("[key_name(user)] added the [upgrade] borg upgrade to [key_name(borg)].")
+				if(upgrade.action(borg, user))
+					borg.add_to_upgrades(upgrade)
+				else
+					qdel(upgrade)
 		if ("toggle_radio")
 			var/channel = params["channel"]
 			if (channel in borg.radio.channels) // We're removing a channel
 				if (!borg.radio.keyslot) // There's no encryption key. This shouldn't happen but we can cope
 					borg.radio.channels -= channel
 					if (channel == RADIO_CHANNEL_SYNDICATE)
-						borg.radio.syndie = FALSE
+						borg.radio.special_channels &= ~RADIO_SPECIAL_SYNDIE
 					else if (channel == "CentCom")
-						borg.radio.independent = FALSE
+						borg.radio.special_channels &= ~RADIO_SPECIAL_CENTCOM
 				else
 					borg.radio.keyslot.channels -= channel
 					if (channel == RADIO_CHANNEL_SYNDICATE)
-						borg.radio.keyslot.syndie = FALSE
+						borg.radio.keyslot.special_channels &= ~RADIO_SPECIAL_SYNDIE
 					else if (channel == "CentCom")
-						borg.radio.keyslot.independent = FALSE
+						borg.radio.keyslot.special_channels &= ~RADIO_SPECIAL_CENTCOM
 				message_admins("[key_name_admin(user)] removed the [channel] radio channel from [ADMIN_LOOKUPFLW(borg)].")
 				log_silicon("[key_name(user)] removed the [channel] radio channel from [key_name(borg)].")
 			else // We're adding a channel
@@ -166,9 +173,9 @@ ADMIN_VERB(borg_panel, R_ADMIN, FALSE, "Show Borg Panel", ADMIN_VERB_NO_DESCRIPT
 					borg.radio.keyslot = new()
 				borg.radio.keyslot.channels[channel] = 1
 				if (channel == RADIO_CHANNEL_SYNDICATE)
-					borg.radio.keyslot.syndie = TRUE
+					borg.radio.keyslot.special_channels |= RADIO_SPECIAL_SYNDIE
 				else if (channel == "CentCom")
-					borg.radio.keyslot.independent = TRUE
+					borg.radio.keyslot.special_channels |= RADIO_SPECIAL_CENTCOM
 				message_admins("[key_name_admin(user)] added the [channel] radio channel to [ADMIN_LOOKUPFLW(borg)].")
 				log_silicon("[key_name(user)] added the [channel] radio channel to [key_name(borg)].")
 			borg.radio.recalculateChannels()

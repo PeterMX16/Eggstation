@@ -21,7 +21,11 @@
 /datum/quirk/item_quirk/bald/add_unique(client/client_source)
 	var/obj/item/clothing/head/wig/natural/baldie_wig = new(get_turf(quirk_holder))
 	if(old_hair == "Bald")
+<<<<<<< HEAD
 		baldie_wig.hairstyle = pick(GLOB.hairstyles_list - "Bald")
+=======
+		baldie_wig.hairstyle = pick(SSaccessories.hairstyles_list - "Bald")
+>>>>>>> tg-pr-88929
 	else
 		baldie_wig.hairstyle = old_hair
 
@@ -32,7 +36,12 @@
 /datum/quirk/item_quirk/bald/remove()
 	. = ..()
 	var/mob/living/carbon/human/human_holder = quirk_holder
+<<<<<<< HEAD
 	human_holder.set_hairstyle(old_hair, update = TRUE)
+=======
+	human_holder.hairstyle = old_hair
+	human_holder.update_body_parts()
+>>>>>>> tg-pr-88929
 	UnregisterSignal(human_holder, list(COMSIG_CARBON_EQUIP_HAT, COMSIG_CARBON_UNEQUIP_HAT))
 	human_holder.clear_mood_event("bad_hair_day")
 

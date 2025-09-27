@@ -17,7 +17,11 @@
 	slot_flags = NONE
 	light_system = OVERLAY_LIGHT
 	light_color = COLOR_SOFT_RED
+<<<<<<< HEAD
 	light_outer_range = 1
+=======
+	light_range = 1
+>>>>>>> tg-pr-88929
 	light_power = 0.3
 	light_on = FALSE
 	/// Is camera streaming
@@ -35,6 +39,10 @@
 
 /obj/item/broadcast_camera/Initialize(mapload)
 	. = ..()
+<<<<<<< HEAD
+=======
+
+>>>>>>> tg-pr-88929
 	AddElement(/datum/element/empprotection, EMP_PROTECT_ALL)
 
 /obj/item/broadcast_camera/Destroy(force)
@@ -46,22 +54,37 @@
 	icon_state = "[base_icon_state][active]"
 	return ..()
 
+<<<<<<< HEAD
 /obj/item/broadcast_camera/attack_self(mob/living/user, modifiers)
+=======
+/obj/item/broadcast_camera/attack_self(mob/user, modifiers)
+>>>>>>> tg-pr-88929
 	. = ..()
 	active = !active
 	if(active)
 		on_activating()
 	else
+<<<<<<< HEAD
 		user.remove_status_effect(/datum/status_effect/streamer, internal_camera)
+=======
+>>>>>>> tg-pr-88929
 		on_deactivating()
 
 /obj/item/broadcast_camera/attack_self_secondary(mob/user, modifiers)
 	. = ..()
+<<<<<<< HEAD
 	broadcast_name = tgui_input_text(user = user, title = "Broadcast Name", message = "What will be the name of your broadcast?", default = "[broadcast_name]", max_length = MAX_CHARTER_LEN, encode = FALSE)
 
 /obj/item/broadcast_camera/examine(mob/user)
 	. = ..()
 	. += span_notice("Broadcast name is <b>[html_encode(broadcast_name)]</b>")
+=======
+	broadcast_name = tgui_input_text(user = user, title = "Broadcast Name", message = "What will be the name of your broadcast?", default = "[broadcast_name]", max_length = MAX_CHARTER_LEN)
+
+/obj/item/broadcast_camera/examine(mob/user)
+	. = ..()
+	. += span_notice("Broadcast name is <b>[broadcast_name]</b>")
+>>>>>>> tg-pr-88929
 	. += span_notice("The microphone is <b>[active_microphone ? "On" : "Off"]</b>")
 
 /obj/item/broadcast_camera/on_enter_storage(datum/storage/master_storage)
@@ -69,14 +92,21 @@
 	if(active)
 		on_deactivating()
 
+<<<<<<< HEAD
 /obj/item/broadcast_camera/dropped(mob/living/user, silent)
 	. = ..()
 	if(active)
 		user?.remove_status_effect(/datum/status_effect/streamer, internal_camera)
+=======
+/obj/item/broadcast_camera/dropped(mob/user, silent)
+	. = ..()
+	if(active)
+>>>>>>> tg-pr-88929
 		on_deactivating()
 
 /// When activating the camera
 /obj/item/broadcast_camera/proc/on_activating()
+<<<<<<< HEAD
 	if(!isliving(loc))
 		return
 	/// The mob who wielded the camera, allegedly
@@ -93,6 +123,20 @@
 	internal_camera.c_tag = "LIVE: [broadcast_name]"
 	wielder.apply_status_effect(/datum/status_effect/streamer, internal_camera, CALLBACK(src, PROC_REF(ensure_still_active)))
 	wielder.log_message("started a Spess.tv stream named \"[broadcast_name]\" at [loc_name(wielder)]", LOG_GAME)
+=======
+	if(!iscarbon(loc))
+		return
+	active = TRUE
+	update_icon_state()
+	/// The carbon who wielded the camera, allegedly
+	var/mob/living/carbon/wielding_carbon = loc
+
+	// INTERNAL CAMERA
+	internal_camera = new(wielding_carbon) // Cameras for some reason do not work inside of obj's
+	internal_camera.internal_light = FALSE
+	internal_camera.network = camera_networks
+	internal_camera.c_tag = "LIVE: [broadcast_name]"
+>>>>>>> tg-pr-88929
 	start_broadcasting_network(camera_networks, "[broadcast_name] is now LIVE!")
 
 	// INTERNAL RADIO
@@ -101,7 +145,11 @@
 	set_microphone_state()
 
 	set_light_on(TRUE)
+<<<<<<< HEAD
 	playsound(source = src, soundin = 'sound/machines/terminal_processing.ogg', vol = 20, vary = FALSE, ignore_walls = FALSE)
+=======
+	playsound(source = src, soundin = 'sound/machines/terminal/terminal_processing.ogg', vol = 20, vary = FALSE, ignore_walls = FALSE)
+>>>>>>> tg-pr-88929
 	balloon_alert_to_viewers("live!")
 
 /// When deactivating the camera
@@ -114,6 +162,7 @@
 	stop_broadcasting_network(camera_networks)
 
 	set_light_on(FALSE)
+<<<<<<< HEAD
 	playsound(source = src, soundin = 'sound/machines/terminal_prompt_deny.ogg', vol = 20, vary = FALSE, ignore_walls = FALSE)
 	balloon_alert_to_viewers("offline")
 
@@ -130,6 +179,12 @@
 /obj/item/broadcast_camera/AltClick(mob/user)
 	if(!user.can_perform_action(src, NEED_DEXTERITY|FORBID_TELEKINESIS_REACH))
 		return
+=======
+	playsound(source = src, soundin = 'sound/machines/terminal/terminal_prompt_deny.ogg', vol = 20, vary = FALSE, ignore_walls = FALSE)
+	balloon_alert_to_viewers("offline")
+
+/obj/item/broadcast_camera/click_alt(mob/user)
+>>>>>>> tg-pr-88929
 	active_microphone = !active_microphone
 
 	/// Text popup for letting the user know that the microphone has changed state
@@ -139,5 +194,10 @@
 	if(active)
 		set_microphone_state()
 
+<<<<<<< HEAD
+=======
+	return CLICK_ACTION_SUCCESS
+
+>>>>>>> tg-pr-88929
 /obj/item/broadcast_camera/proc/set_microphone_state()
 	internal_radio.set_broadcasting(active_microphone)

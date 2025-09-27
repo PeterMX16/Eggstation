@@ -7,7 +7,7 @@
 /obj/item/nuke_core
 	name = "plutonium core"
 	desc = "Extremely radioactive. Wear goggles."
-	icon = 'icons/obj/nuke_tools.dmi'
+	icon = 'icons/obj/antags/syndicate_tools.dmi'
 	icon_state = "plutonium_core"
 	inhand_icon_state = "plutoniumcore"
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | ACID_PROOF
@@ -43,7 +43,7 @@
 /obj/item/nuke_core_container
 	name = "nuke core container"
 	desc = "Solid container for radioactive objects."
-	icon = 'icons/obj/nuke_tools.dmi'
+	icon = 'icons/obj/antags/syndicate_tools.dmi'
 	icon_state = "core_container_empty"
 	inhand_icon_state = "tile"
 	lefthand_file = 'icons/mob/inhands/items/tiles_lefthand.dmi'
@@ -61,7 +61,7 @@
 	core = ncore
 	icon_state = "core_container_loaded"
 	to_chat(user, span_warning("Container is sealing..."))
-	addtimer(CALLBACK(src, PROC_REF(seal)), 50)
+	addtimer(CALLBACK(src, PROC_REF(seal)), 5 SECONDS)
 	return TRUE
 
 /obj/item/nuke_core_container/proc/seal()
@@ -86,7 +86,7 @@
 /obj/item/screwdriver/nuke
 	name = "screwdriver"
 	desc = "A screwdriver with an ultra thin tip that's carefully designed to boost screwing speed."
-	icon = 'icons/obj/nuke_tools.dmi'
+	icon = 'icons/obj/antags/syndicate_tools.dmi'
 	icon_state = "screwdriver_nuke"
 	inhand_icon_state = "screwdriver_nuke"
 	toolspeed = 0.5
@@ -129,7 +129,7 @@
 /obj/item/computer_disk/hdd_theft
 	name = "r&d server hard disk drive"
 	desc = "For some reason, people really seem to want to steal this. The source code on this drive is probably used for something awful!"
-	icon = 'icons/obj/nuke_tools.dmi'
+	icon = 'icons/obj/antags/syndicate_tools.dmi'
 	icon_state = "something_awful"
 	max_capacity = 512
 	w_class = WEIGHT_CLASS_NORMAL
@@ -157,14 +157,23 @@
 	inhand_icon_state = null //touching it dusts you, so no need for an inhand icon.
 	pulseicon = "supermatter_sliver_pulse"
 	layer = ABOVE_MOB_LAYER
-	plane = GAME_PLANE_UPPER
 
+/obj/item/nuke_core/supermatter_sliver/Initialize(mapload)
+	. = ..()
+	RegisterSignal(src, COMSIG_FISHING_ROD_CAST, PROC_REF(on_hook))
+
+/obj/item/nuke_core/supermatter_sliver/proc/on_hook(obj/item/nuke_core/supermatter_sliver/source, obj/item/fishing_rod/rod, mob/user)
+	SIGNAL_HANDLER
+
+	//hook gets dusted but the rod remains intact
+	attackby(rod.hook, user)
+
+	return FISHING_ROD_CAST_HANDLED
 
 /obj/item/nuke_core/supermatter_sliver/attack_tk(mob/user) // no TK dusting memes
 	return
 
-
-/obj/item/nuke_core/supermatter_sliver/can_be_pulled(user) // no drag memes
+/obj/item/nuke_core/supermatter_sliver/can_be_pulled(user, force) // no drag memes
 	return FALSE
 
 /obj/item/nuke_core/supermatter_sliver/attackby(obj/item/attacking_item, mob/user, list/modifiers, list/attack_modifiers)
@@ -192,11 +201,11 @@
 	var/mob/living/victim = hit_atom
 	if(victim.incorporeal_move || HAS_TRAIT(victim, TRAIT_GODMODE)) //try to keep this in sync with supermatter's consume fail conditions
 		return ..()
-	if(throwingdatum?.thrower)
-		var/mob/user = throwingdatum.thrower
-		log_combat(throwingdatum?.thrower, hit_atom, "consumed", src)
-		message_admins("[src] has consumed [key_name_admin(victim)] [ADMIN_JMP(src)], thrown by [key_name_admin(user)].")
-		investigate_log("has consumed [key_name(victim)], thrown by [key_name(user)]", INVESTIGATE_ENGINE)
+	var/mob/thrower = throwingdatum?.get_thrower()
+	if(thrower)
+		log_combat(thrower, hit_atom, "consumed", src)
+		message_admins("[src] has consumed [key_name_admin(victim)] [ADMIN_JMP(src)], thrown by [key_name_admin(thrower)].")
+		investigate_log("has consumed [key_name(victim)], thrown by [key_name(thrower)]", INVESTIGATE_ENGINE)
 	else
 		message_admins("[src] has consumed [key_name_admin(victim)] [ADMIN_JMP(src)] via throw impact.")
 		investigate_log("has consumed [key_name(victim)] via throw impact.", INVESTIGATE_ENGINE)
@@ -239,7 +248,7 @@
 	T.icon_state = "supermatter_tongs"
 	icon_state = "core_container_loaded"
 	to_chat(user, span_warning("Container is sealing..."))
-	addtimer(CALLBACK(src, PROC_REF(seal)), 50)
+	addtimer(CALLBACK(src, PROC_REF(seal)), 5 SECONDS)
 	return TRUE
 
 /obj/item/nuke_core_container/supermatter/seal()
@@ -253,11 +262,11 @@
 /obj/item/scalpel/supermatter
 	name = "supermatter scalpel"
 	desc = "A scalpel with a fragile tip of condensed hyper-noblium gas, searingly cold to the touch, that can safely shave a sliver off a supermatter crystal."
-	icon = 'icons/obj/nuke_tools.dmi'
+	icon = 'icons/obj/antags/syndicate_tools.dmi'
 	icon_state = "supermatter_scalpel"
 	toolspeed = 0.5
 	damtype = BURN
-	usesound = 'sound/weapons/bladeslice.ogg'
+	usesound = 'sound/items/weapons/bladeslice.ogg'
 	var/usesLeft
 
 /obj/item/scalpel/supermatter/Initialize(mapload)
@@ -267,7 +276,7 @@
 /obj/item/hemostat/supermatter
 	name = "supermatter extraction tongs"
 	desc = "A pair of tongs made from condensed hyper-noblium gas, searingly cold to the touch, that can safely grip a supermatter sliver."
-	icon = 'icons/obj/nuke_tools.dmi'
+	icon = 'icons/obj/antags/syndicate_tools.dmi'
 	icon_state = "supermatter_tongs"
 	lefthand_file = 'icons/mob/inhands/items_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/items_righthand.dmi'
@@ -291,7 +300,11 @@
 
 /obj/item/hemostat/supermatter/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
 	if(!sliver)
+<<<<<<< HEAD
 		return NONE
+=======
+		return ..()
+>>>>>>> tg-pr-88929
 	if (istype(interacting_with, /obj/item/nuke_core_container/supermatter))
 		var/obj/item/nuke_core_container/supermatter/container = interacting_with
 		container.load(src, user)
@@ -299,7 +312,11 @@
 	if(ismovable(interacting_with) && interacting_with != sliver)
 		Consume(interacting_with, user)
 		return ITEM_INTERACT_SUCCESS
+<<<<<<< HEAD
 	return NONE
+=======
+	return ..()
+>>>>>>> tg-pr-88929
 
 /obj/item/hemostat/supermatter/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum) // no instakill supermatter javelins
 	if(sliver)

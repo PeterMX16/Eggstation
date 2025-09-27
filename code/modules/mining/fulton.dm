@@ -21,7 +21,16 @@ GLOBAL_LIST_EMPTY(total_extraction_beacons)
 
 /obj/item/extraction_pack/examine()
 	. = ..()
-	. += "It has [uses_left] use\s remaining."
+	. += span_infoplain("It has [uses_left] use\s remaining.")
+
+	var/obj/structure/extraction_point/beacon = beacon_ref?.resolve()
+
+	if(isnull(beacon))
+		beacon_ref = null
+		. += span_infoplain("It is not linked to a beacon.")
+		return
+
+	. += span_infoplain("It is linked to [beacon.name].")
 
 	var/obj/structure/extraction_point/beacon = beacon_ref?.resolve()
 
@@ -40,12 +49,17 @@ GLOBAL_LIST_EMPTY(total_extraction_beacons)
 /obj/item/extraction_pack/proc/choose_beacon(mob/user)
 	. = FALSE
 	var/list/possible_beacons = list()
-	for(var/obj/structure/extraction_point/extraction_point as anything in GLOB.total_extraction_beacons)
+	for(var/datum/weakref/point_ref as anything in GLOB.total_extraction_beacons)
+		var/obj/structure/extraction_point/extraction_point = point_ref.resolve()
+		if(isnull(extraction_point))
+			GLOB.total_extraction_beacons.Remove(point_ref)
+			continue
 		if(extraction_point.beacon_network in beacon_networks)
 			possible_beacons += extraction_point
 	if(!length(possible_beacons))
-		to_chat(user, span_warning("There are no extraction beacons in existence!"))
+		balloon_alert(user, "no beacons")
 		return
+<<<<<<< HEAD
 	var/chosen_beacon = tgui_input_list(user, "Beacon to connect to", "Balloon Extraction Pack", sort_names(possible_beacons))
 	if(isnull(chosen_beacon))
 		return
@@ -53,6 +67,16 @@ GLOBAL_LIST_EMPTY(total_extraction_beacons)
 	balloon_alert(user, "linked!")
 	return TRUE
 
+=======
+
+	var/chosen_beacon = tgui_input_list(user, "Beacon to connect to", "Balloon Extraction Pack", sort_names(possible_beacons))
+	if(isnull(chosen_beacon))
+		return
+
+	beacon_ref = WEAKREF(chosen_beacon)
+	balloon_alert(user, "linked!")
+
+>>>>>>> tg-pr-88929
 /obj/item/extraction_pack/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
 	if(!ismovable(interacting_with))
 		return NONE
@@ -62,10 +86,15 @@ GLOBAL_LIST_EMPTY(total_extraction_beacons)
 	if(thing.anchored)
 		return NONE
 
+<<<<<<< HEAD
+=======
+	. = ITEM_INTERACT_BLOCKING
+>>>>>>> tg-pr-88929
 	var/obj/structure/extraction_point/beacon = beacon_ref?.resolve()
 	if(isnull(beacon))
 		balloon_alert(user, "not linked!")
 		beacon_ref = null
+<<<<<<< HEAD
 		return ITEM_INTERACT_BLOCKING
 	var/area/area = get_area(thing)
 	if(!can_use_indoors)
@@ -86,6 +115,21 @@ GLOBAL_LIST_EMPTY(total_extraction_beacons)
 	if(thing.move_resist > max_force_fulton)
 		balloon_alert(user, "too heavy!")
 		return ITEM_INTERACT_BLOCKING
+=======
+		return .
+	if(!can_use_indoors)
+		var/area/area = get_area(thing)
+		if(!area.outdoors)
+			balloon_alert(user, "not outdoors!")
+			return .
+	if(!safe_for_living_creatures && check_for_living_mobs(thing))
+		to_chat(user, span_warning("[src] is not safe for use with living creatures, they wouldn't survive the trip back!"))
+		balloon_alert(user, "not safe!")
+		return .
+	if(thing.move_resist > max_force_fulton)
+		balloon_alert(user, "too heavy!")
+		return .
+>>>>>>> tg-pr-88929
 	balloon_alert_to_viewers("attaching...")
 	playsound(thing, 'sound/items/zip/zip.ogg', vol = 50, vary = TRUE)
 	if(isliving(thing))
@@ -94,11 +138,20 @@ GLOBAL_LIST_EMPTY(total_extraction_beacons)
 			to_chat(thing, span_userdanger("You are being extracted! Stand still to proceed."))
 
 	if(!do_after(user, 5 SECONDS, target = thing))
+<<<<<<< HEAD
 		return ITEM_INTERACT_BLOCKING
 
 	balloon_alert_to_viewers("extracting!")
 	if(get(loc, /mob/living/carbon/human) == user && thing == user) // Self extraction
 		user.quick_equip()
+=======
+		return .
+
+	balloon_alert_to_viewers("extracting!")
+	if(loc == user && ishuman(user))
+		var/mob/living/carbon/human/human_user = user
+		human_user.back?.atom_storage?.attempt_insert(src, user, force = STORAGE_SOFT_LOCKED)
+>>>>>>> tg-pr-88929
 	uses_left--
 
 	if(uses_left <= 0)
@@ -117,15 +170,27 @@ GLOBAL_LIST_EMPTY(total_extraction_beacons)
 	var/obj/effect/extraction_holder/holder_obj = new(get_turf(thing))
 	holder_obj.appearance = thing.appearance
 	thing.forceMove(holder_obj)
+<<<<<<< HEAD
 	var/mutable_appearance/balloon2 = mutable_appearance('icons/obj/fulton_balloon.dmi', "fulton_expand", layer = VEHICLE_LAYER, appearance_flags = RESET_COLOR | RESET_ALPHA | RESET_TRANSFORM | KEEP_APART)
 	balloon2.pixel_z = 10
+=======
+	var/mutable_appearance/balloon2 = mutable_appearance('icons/effects/fulton_balloon.dmi', "fulton_expand", layer = VEHICLE_LAYER)
+	balloon2.pixel_y = 10
+	balloon2.appearance_flags = RESET_COLOR | RESET_ALPHA | RESET_TRANSFORM
+>>>>>>> tg-pr-88929
 	holder_obj.add_overlay(balloon2)
 	addtimer(CALLBACK(src, PROC_REF(create_balloon), thing, user, holder_obj, balloon2), 0.4 SECONDS)
 	return ITEM_INTERACT_SUCCESS
 
 /obj/item/extraction_pack/proc/create_balloon(atom/movable/thing, mob/living/user, obj/effect/extraction_holder/holder_obj, mutable_appearance/balloon2)
+<<<<<<< HEAD
 	var/mutable_appearance/balloon = mutable_appearance('icons/obj/fulton_balloon.dmi', "fulton_balloon", layer = VEHICLE_LAYER, appearance_flags = RESET_COLOR | RESET_ALPHA | RESET_TRANSFORM | KEEP_APART)
 	balloon.pixel_z = 10
+=======
+	var/mutable_appearance/balloon = mutable_appearance('icons/effects/fulton_balloon.dmi', "fulton_balloon", layer = VEHICLE_LAYER)
+	balloon.pixel_y = 10
+	balloon.appearance_flags = RESET_COLOR | RESET_ALPHA | RESET_TRANSFORM
+>>>>>>> tg-pr-88929
 	holder_obj.cut_overlay(balloon2)
 	holder_obj.add_overlay(balloon)
 	playsound(holder_obj.loc, 'sound/items/fulton/fultext_deploy.ogg', vol = 50, vary = TRUE, extrarange = -3)
@@ -166,8 +231,14 @@ GLOBAL_LIST_EMPTY(total_extraction_beacons)
 
 	sleep(7 SECONDS)
 
+<<<<<<< HEAD
 	var/mutable_appearance/balloon3 = mutable_appearance('icons/obj/fulton_balloon.dmi', "fulton_retract", layer = VEHICLE_LAYER, appearance_flags = RESET_COLOR | RESET_ALPHA | RESET_TRANSFORM | KEEP_APART)
 	balloon3.pixel_z = 10
+=======
+	var/mutable_appearance/balloon3 = mutable_appearance('icons/effects/fulton_balloon.dmi', "fulton_retract", layer = VEHICLE_LAYER)
+	balloon3.pixel_y = 10
+	balloon3.appearance_flags = RESET_COLOR | RESET_ALPHA | RESET_TRANSFORM
+>>>>>>> tg-pr-88929
 	holder_obj.cut_overlay(balloon)
 	holder_obj.add_overlay(balloon3)
 
@@ -192,11 +263,15 @@ GLOBAL_LIST_EMPTY(total_extraction_beacons)
 	icon_state = "folded_extraction"
 
 /obj/item/fulton_core/attack_self(mob/user)
+<<<<<<< HEAD
 	if(istype(get_area(user), /area/misc/hilbertshotel))
 		to_chat(user, span_userdanger("Something about this place is interfering with the beacon. The warning reads unsafe to deploy."))
 		return
 
 	if(do_after(user,15,target = user) && !QDELETED(src))
+=======
+	if(do_after(user, 1.5 SECONDS, target = user) && !QDELETED(src))
+>>>>>>> tg-pr-88929
 		new /obj/structure/extraction_point(get_turf(user))
 		playsound(src, 'sound/items/deconstruct.ogg', vol = 50, vary = TRUE, extrarange = MEDIUM_RANGE_SOUND_EXTRARANGE)
 		qdel(src)
@@ -208,17 +283,23 @@ GLOBAL_LIST_EMPTY(total_extraction_beacons)
 	icon_state = "extraction_point"
 	anchored = TRUE
 	density = FALSE
+	obj_flags = CAN_BE_HIT | UNIQUE_RENAME
 	var/beacon_network = "station"
 
 /obj/structure/extraction_point/Initialize(mapload)
 	. = ..()
 	name += " ([rand(100,999)]) ([get_area_name(src, TRUE)])"
-	GLOB.total_extraction_beacons += src
+	GLOB.total_extraction_beacons.Add(WEAKREF(src))
 	update_appearance(UPDATE_OVERLAYS)
 
-/obj/structure/extraction_point/Destroy()
-	GLOB.total_extraction_beacons -= src
-	return ..()
+/obj/structure/extraction_point/attack_hand(mob/living/user, list/modifiers)
+	. = ..()
+	balloon_alert_to_viewers("undeploying...")
+	if(!do_after(user, 1.5 SECONDS, src))
+		return
+	new /obj/item/fulton_core(drop_location())
+	playsound(src, 'sound/items/deconstruct.ogg', vol = 50, vary = TRUE, extrarange = MEDIUM_RANGE_SOUND_EXTRARANGE)
+	qdel(src)
 
 /obj/structure/extraction_point/update_overlays()
 	. = ..()
@@ -246,5 +327,9 @@ GLOBAL_LIST_EMPTY(total_extraction_beacons)
 /obj/effect/extraction_holder/singularity_act()
 	return
 
-/obj/effect/extraction_holder/singularity_pull()
+/obj/effect/extraction_holder/singularity_pull(atom/singularity, current_size)
 	return
+
+/obj/item/extraction_pack/syndicate
+	name = "syndicate fulton extraction pack"
+	can_use_indoors = TRUE

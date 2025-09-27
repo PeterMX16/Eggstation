@@ -46,13 +46,21 @@ SUBSYSTEM_DEF(machines)
 	all_machines -= machine
 
 /// Gets a list of all machines that are either the passed type or a subtype.
+<<<<<<< HEAD
 /datum/controller/subsystem/machines/proc/get_machines_by_type_and_subtypes(obj/machinery/machine_type, list/type_exclusions) //monkestation edit: adds type_exclusions
+=======
+/datum/controller/subsystem/machines/proc/get_machines_by_type_and_subtypes(obj/machinery/machine_type)
+>>>>>>> tg-pr-88929
 	if(!ispath(machine_type))
 		machine_type = machine_type.type
 	if(!ispath(machine_type, /obj/machinery))
 		CRASH("called get_machines_by_type_and_subtypes with a non-machine type [machine_type]")
 	var/list/machines = list()
+<<<<<<< HEAD
 	for(var/next_type in typesof(machine_type) - type_exclusions) //monkestation edit: adds type_exclusions
+=======
+	for(var/next_type in typesof(machine_type))
+>>>>>>> tg-pr-88929
 		var/list/found_machines = machines_by_type[next_type]
 		if(found_machines)
 			machines += found_machines
@@ -84,7 +92,11 @@ SUBSYSTEM_DEF(machines)
 			propagate_network(power_cable, power_cable.powernet)
 
 /datum/controller/subsystem/machines/stat_entry(msg)
+<<<<<<< HEAD
 	msg = "\n  M:[length(all_machines)]|MT:[length(machines_by_type)]|PM:[length(processing)]|PN:[length(powernets)]"
+=======
+	msg = "M:[length(all_machines)]|MT:[length(machines_by_type)]|PM:[length(processing)]|PN:[length(powernets)]"
+>>>>>>> tg-pr-88929
 	return ..()
 
 /datum/controller/subsystem/machines/fire(resumed = FALSE)

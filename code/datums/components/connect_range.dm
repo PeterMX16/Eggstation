@@ -1,6 +1,6 @@
 /**
  * This component behaves similar to connect_loc_behalf but for all turfs in range, hooking into a signal on each of them.
- * Just like connect_loc_behalf, It can react to that signal on behalf of a seperate listener.
+ * Just like connect_loc_behalf, It can react to that signal on behalf of a separate listener.
  * Good for components, though it carries some overhead. Can't be an element as that may lead to bugs.
  */
 /datum/component/connect_range
@@ -94,6 +94,17 @@
 		//Keep track of possible movement of all movables the target is in.
 		for(var/atom/movable/container as anything in get_nested_locs(target))
 			RegisterSignal(container, COMSIG_MOVABLE_MOVED, PROC_REF(on_moved))
+<<<<<<< HEAD
+=======
+
+	//Only register/unregister turf signals if it's moved to a new turf.
+	if(current_turf == get_turf(old_loc))
+		unregister_signals(old_loc, null)
+		return
+	var/list/old_turfs = turfs
+	turfs = RANGE_TURFS(range, current_turf)
+	unregister_signals(old_loc, old_turfs - turfs)
+>>>>>>> tg-pr-88929
 	for(var/turf/target_turf as anything in turfs - old_turfs)
 		for(var/signal in connections)
 			parent.RegisterSignal(target_turf, signal, connections[signal])

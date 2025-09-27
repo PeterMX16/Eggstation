@@ -3,6 +3,7 @@
 /obj/item/assembly/flash
 	name = "flash"
 	desc = "A powerful and versatile flashbulb device, with applications ranging from disorienting attackers to acting as visual receptors in robot production."
+	icon = 'icons/obj/devices/flash.dmi'
 	icon_state = "flash"
 	inhand_icon_state = "flashtool"
 	lefthand_file = 'icons/mob/inhands/equipment/security_lefthand.dmi'
@@ -11,7 +12,11 @@
 	w_class = WEIGHT_CLASS_TINY
 	custom_materials = list(/datum/material/iron = SMALL_MATERIAL_AMOUNT*3, /datum/material/glass = SMALL_MATERIAL_AMOUNT*3)
 	light_system = OVERLAY_LIGHT //Used as a flash here.
+<<<<<<< HEAD
 	light_outer_range = FLASH_LIGHT_RANGE
+=======
+	light_range = FLASH_LIGHT_RANGE
+>>>>>>> tg-pr-88929
 	light_color = COLOR_WHITE
 	light_power = FLASH_LIGHT_POWER
 	light_on = FALSE
@@ -42,7 +47,7 @@
 	flashing = flash
 	. = ..()
 	if(flash)
-		addtimer(CALLBACK(src, TYPE_PROC_REF(/atom/, update_icon)), 5)
+		addtimer(CALLBACK(src, TYPE_PROC_REF(/atom/, update_icon)), 0.5 SECONDS)
 	holder?.update_icon(updates)
 
 /obj/item/assembly/flash/update_overlays()
@@ -108,7 +113,7 @@
 	if(burnt_out || (world.time < last_trigger + cooldown))
 		return FALSE
 	last_trigger = world.time
-	playsound(src, 'sound/weapons/flash.ogg', 100, TRUE)
+	playsound(src, 'sound/items/weapons/flash.ogg', 100, TRUE)
 	set_light_on(TRUE)
 	addtimer(CALLBACK(src, PROC_REF(flash_end)), FLASH_LIGHT_DURATION, TIMER_OVERRIDE|TIMER_UNIQUE)
 	times_used++
@@ -127,7 +132,7 @@
 /**
  * Handles actual flashing part of the attack
  *
- * This proc is awful in every sense of the way, someone should definately refactor this whole code.
+ * This proc is awful in every sense of the way, someone should definitely refactor this whole code.
  * Arguments:
  * * M - Victim
  * * user - Attacker
@@ -160,7 +165,7 @@
 		else if(sigreturn & DEVIATION_OVERRIDE_NONE)
 			deviation = DEVIATION_NONE
 
-	//If you face away from someone they shouldnt notice any effects.
+	//If you face away from someone they shouldn't notice any effects.
 	if(deviation == DEVIATION_FULL)
 		return
 
@@ -172,6 +177,7 @@
 			flashed.set_confusion_if_lower(confusion_duration * CONFUSION_STACK_MAX_MULTIPLIER)
 			visible_message(span_danger("[user] blinds [flashed] with the flash!"), span_userdanger("[user] blinds you with the flash!"))
 			//easy way to make sure that you can only long stun someone who is facing in your direction
+<<<<<<< HEAD
 			flashed.stamina.adjust(-rand(40, 90) * (1 - (deviation * 0.5)))
 			var/paralyze_duration = 2 SECONDS
 			if(ishuman(flashed))
@@ -179,6 +185,10 @@
 				if(ismoth(flashed_human))
 					paralyze_duration = 6 SECONDS
 			flashed.Disorient(7 SECONDS, 110, paralyze = paralyze_duration)
+=======
+			flashed.adjustStaminaLoss(rand(80, 120) * (1 - (deviation * 0.5)))
+			flashed.Knockdown(rand(25, 50) * (1 - (deviation * 0.5)))
+>>>>>>> tg-pr-88929
 			SEND_SIGNAL(user, COMSIG_MOB_SUCCESSFUL_FLASHED_CARBON, flashed, src, deviation)
 		else if(user)
 			visible_message(span_warning("[user] fails to blind [flashed] with the flash!"), span_danger("[user] fails to blind you with the flash!"))
@@ -193,7 +203,7 @@
 /**
  * Handles the directionality of the attack
  *
- * Returns the amount of 'deviation', 0 being facing eachother, 1 being sideways, 2 being facing away from eachother.
+ * Returns the amount of 'deviation', 0 being facing each other, 1 being sideways, 2 being facing away from each other.
  * Arguments:
  * * victim - Victim
  * * attacker - Attacker
@@ -202,7 +212,7 @@
 	// Tactical combat emote-spinning should not counter intended gameplay mechanics.
 	// This trumps same-loc checks to discourage floor spinning in general to counter flashes.
 	// In short, combat spinning is silly and you should feel silly for doing it.
-	if(victim.flags_1 & IS_SPINNING_1)
+	if(HAS_TRAIT(victim, TRAIT_SPINNING))
 		return DEVIATION_NONE
 
 	if(iscarbon(victim))
@@ -252,12 +262,25 @@
 		var/mob/living/silicon/robot/flashed_borgo = M
 		log_combat(user, flashed_borgo, "flashed", src)
 		update_icon(ALL, TRUE)
-		if(!flashed_borgo.flash_act(affect_silicon = TRUE))
+		if(flashed_borgo.flash_act(affect_silicon = TRUE))
+			if(flashed_borgo.is_blind())
+				var/flash_duration = rand(8,12) SECONDS
+				flashed_borgo.Paralyze(flash_duration)
+				flashed_borgo.set_temp_blindness_if_lower(flash_duration)
+				user.visible_message(span_warning("[user] overloads [flashed_borgo]'s sensors and computing with the flash!"), span_danger("You overload [flashed_borgo]'s sensors and computing with the flash!"))
+			else
+				user.visible_message(span_warning("[user] blinds [flashed_borgo] with the flash!"), span_danger("You blind [flashed_borgo] with the flash!"))
+			flashed_borgo.set_temp_blindness_if_lower( (rand(5,15) SECONDS))
+			flashed_borgo.set_confusion_if_lower(5 SECONDS * CONFUSION_STACK_MAX_MULTIPLIER)
+		else
 			user.visible_message(span_warning("[user] fails to blind [flashed_borgo] with the flash!"), span_warning("You fail to blind [flashed_borgo] with the flash!"))
+<<<<<<< HEAD
 			return
 		flashed_borgo.Paralyze(7 SECONDS)
 		flashed_borgo.set_confusion_if_lower(5 SECONDS * CONFUSION_STACK_MAX_MULTIPLIER)
 		user.visible_message(span_warning("[user] overloads [flashed_borgo]'s sensors with the flash!"), span_danger("You overload [flashed_borgo]'s sensors with the flash!"))
+=======
+>>>>>>> tg-pr-88929
 		return
 
 	user.visible_message(span_warning("[user] fails to blind [M] with the flash!"), span_warning("You fail to blind [M] with the flash!"))
@@ -299,7 +322,6 @@
 /obj/item/assembly/flash/memorizer
 	name = "memorizer"
 	desc = "If you see this, you're not likely to remember it any time soon."
-	icon = 'icons/obj/device.dmi'
 	icon_state = "memorizer"
 	inhand_icon_state = "nullrod"
 	lefthand_file = 'icons/mob/inhands/weapons/melee_lefthand.dmi'
@@ -316,7 +338,11 @@
 	var/datum/weakref/arm
 
 /obj/item/assembly/flash/armimplant/burn_out()
+<<<<<<< HEAD
 	var/obj/item/organ/internal/cyberimp/arm/item_set/flash/real_arm = arm.resolve()
+=======
+	var/obj/item/organ/cyberimp/arm/flash/real_arm = arm.resolve()
+>>>>>>> tg-pr-88929
 	if(real_arm?.owner)
 		to_chat(real_arm.owner, span_warning("Your photon projector implant overheats and deactivates!"))
 		real_arm.Retract()
@@ -325,13 +351,17 @@
 
 /obj/item/assembly/flash/armimplant/try_use_flash(mob/user = null)
 	if(overheat)
+<<<<<<< HEAD
 		var/obj/item/organ/internal/cyberimp/arm/item_set/flash/real_arm = arm.resolve()
+=======
+		var/obj/item/organ/cyberimp/arm/flash/real_arm = arm.resolve()
+>>>>>>> tg-pr-88929
 		if(real_arm?.owner)
 			to_chat(real_arm.owner, span_warning("Your photon projector is running too hot to be used again so quickly!"))
 		return FALSE
 	overheat = TRUE
 	addtimer(CALLBACK(src, PROC_REF(cooldown)), flashcd)
-	playsound(src, 'sound/weapons/flash.ogg', 100, TRUE)
+	playsound(src, 'sound/items/weapons/flash.ogg', 100, TRUE)
 	update_icon(ALL, TRUE)
 	return TRUE
 
@@ -345,7 +375,7 @@
 
 /obj/item/assembly/flash/hypnotic
 	desc = "A modified flash device, programmed to emit a sequence of subliminal flashes that can send a vulnerable target into a hypnotic trance."
-	flashing_overlay = "flash-hypno"
+	flashing_overlay = "mindflash"
 	light_color = LIGHT_COLOR_PINK
 	cooldown = 20
 

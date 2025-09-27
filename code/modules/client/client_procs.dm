@@ -1,14 +1,14 @@
 	////////////
 	//SECURITY//
 	////////////
+<<<<<<< HEAD
 #define UPLOAD_LIMIT 524288 //Restricts client uploads to the server to 0.5MB
 #define UPLOAD_LIMIT_ADMIN 16777216 //Restricts admin client uploads to the server to 16MB
+=======
+>>>>>>> tg-pr-88929
 
 GLOBAL_LIST_INIT(blacklisted_builds, list(
-	"1407" = "bug preventing client display overrides from working leads to clients being able to see things/mobs they shouldn't be able to see",
-	"1408" = "bug preventing client display overrides from working leads to clients being able to see things/mobs they shouldn't be able to see",
-	"1428" = "bug causing right-click menus to show too many verbs that's been fixed in version 1429",
-
+	"1622" = "Bug breaking rendering can lead to wallhacks.",
 	))
 
 #define LIMITER_SIZE 5
@@ -39,7 +39,7 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 		return
 
 #ifndef TESTING
-	if (lowertext(hsrc_command) == "_debug") //disable the integrated byond vv in the client side debugging tools since it doesn't respect vv read protections
+	if (LOWER_TEXT(hsrc_command) == "_debug") //disable the integrated byond vv in the client side debugging tools since it doesn't respect vv read protections
 		return
 #endif
 
@@ -112,6 +112,20 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 	if (href_list["player_ticket_panel"])
 		view_latest_ticket()
 		return
+<<<<<<< HEAD
+=======
+	// Admin message
+	if(href_list["messageread"])
+		var/message_id = round(text2num(href_list["messageread"]), 1)
+		if(!isnum(message_id))
+			return
+		var/datum/db_query/query_message_read = SSdbcore.NewQuery(
+			"UPDATE [format_table_name("messages")] SET type = 'message sent' WHERE targetckey = :player_key AND id = :id",
+			list("id" = message_id, "player_key" = usr.ckey)
+		)
+		query_message_read.warn_execute()
+		return
+>>>>>>> tg-pr-88929
 
 	// TGUIless adminhelp
 	if(href_list["tguiless_adminhelp"])
@@ -121,11 +135,14 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 	if(href_list["commandbar_typing"])
 		handle_commandbar_typing(href_list)
 
+<<<<<<< HEAD
 	//Monkestation Edit Begin
 	if(mentor_friend(href_list))
 		return
 	//Monkestation Edit End
 
+=======
+>>>>>>> tg-pr-88929
 	switch(href_list["_src_"])
 		if("holder")
 			hsrc = holder
@@ -222,7 +239,8 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 			return TRUE
 		if(src.last_message_count >= SPAM_TRIGGER_WARNING)
 			//"auto-ban" sends the message that the cold and uncaring gamecode has been designed to quiash you like a bug in short measure should you continue, and it's quite intentional that the user isn't told exactly what that entails.
-			to_chat(src, span_danger("You are nearing the auto-ban limit for identical messages."))
+			to_chat(src, span_userdanger("You are nearing the auto-ban limit for identical messages."))
+			mob.balloon_alert(mob, "stop spamming!")
 			return FALSE
 	else
 		last_message = message
@@ -231,12 +249,14 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 
 //This stops files larger than UPLOAD_LIMIT being sent from client to server via input(), client.Import() etc.
 /client/AllowUpload(filename, filelength)
+	var/client_max_file_size = CONFIG_GET(number/upload_limit)
 	if (holder)
-		if(filelength > UPLOAD_LIMIT_ADMIN)
-			to_chat(src, "<font color='red'>Error: AllowUpload(): File Upload too large. Upload Limit: [UPLOAD_LIMIT_ADMIN/1024]KiB.</font>")
+		var/admin_max_file_size = CONFIG_GET(number/upload_limit_admin)
+		if(filelength > admin_max_file_size)
+			to_chat(src, span_warning("Error: AllowUpload(): File Upload too large. Upload Limit: [admin_max_file_size/1024]KiB."))
 			return FALSE
-	else if(filelength > UPLOAD_LIMIT)
-		to_chat(src, "<font color='red'>Error: AllowUpload(): File Upload too large. Upload Limit: [UPLOAD_LIMIT/1024]KiB.</font>")
+	else if(filelength > client_max_file_size)
+		to_chat(src, span_warning("Error: AllowUpload(): File Upload too large. Upload Limit: [client_max_file_size/1024]KiB."))
 		return FALSE
 	return TRUE
 
@@ -259,6 +279,7 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 	GLOB.clients += src
 	GLOB.directory[ckey] = src
 
+<<<<<<< HEAD
 	var/reconnecting = FALSE
 	if(GLOB.persistent_clients_by_ckey[ckey])
 		reconnecting = TRUE
@@ -268,6 +289,10 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 	persistent_client.set_client(src)
 
 	winset(src, null, list("browser-options" = "find,refresh,byondstorage"))
+=======
+	if(byond_version >= 516)
+		winset(src, null, list("browser-options" = "find,refresh,byondstorage"))
+>>>>>>> tg-pr-88929
 
 	// Instantiate stat panel
 	stat_panel = new(src, "statbrowser")
@@ -280,15 +305,22 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 
 	initialize_commandbar_spy()
 
+<<<<<<< HEAD
 	set_right_click_menu_mode()
+=======
+	set_right_click_menu_mode(TRUE)
+>>>>>>> tg-pr-88929
 
 	GLOB.ahelp_tickets.ClientLogin(src)
 	GLOB.interviews.client_login(src)
 	GLOB.requests.client_login(src)
+<<<<<<< HEAD
 
 	if(src.ckey in GLOB.interviews.cooldown_ckeys)
 		qdel(src)
 
+=======
+>>>>>>> tg-pr-88929
 	//preferences datum - also holds some persistent data for the client (because we may as well keep these datums to a minimum)
 	prefs = GLOB.preferences_datums[ckey]
 	if(prefs)
@@ -349,12 +381,39 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 				else
 					message_admins(span_danger("<B>[message_type]: </B></span><span class='notice'>Connecting player [key_name_admin(src)] has the same [matches] as [joined_player_ckey](no longer logged in)<b>[in_round]</b>. "))
 					log_admin_private("[message_type]: Connecting player [key_name(src)] has the same [matches] as [joined_player_ckey](no longer logged in)[in_round].")
+<<<<<<< HEAD
+=======
+	var/reconnecting = FALSE
+	if(GLOB.player_details[ckey])
+		reconnecting = TRUE
+		player_details = GLOB.player_details[ckey]
+		var/old_version = player_details.byond_version
+		player_details.byond_version = byond_version
+		player_details.byond_build = byond_build
+
+#if MIN_COMPILER_VERSION > 516
+	#warn Fully change default relay_loc to "1,1", rather than changing it based on client version
+#endif
+		if(old_version != byond_version)
+			rebuild_plane_masters = TRUE
+
+	else
+		player_details = new(ckey)
+		player_details.byond_version = byond_version
+		player_details.byond_build = byond_build
+		GLOB.player_details[ckey] = player_details
+
+>>>>>>> tg-pr-88929
 
 	. = ..() //calls mob.Login()
 
 	// Admin Verbs need the client's mob to exist. Must be after ..()
 	var/connecting_admin = FALSE //because de-admined admins connecting should be treated like admins.
+<<<<<<< HEAD
 	//Admin Authorization
+=======
+	//Admin Authorisation
+>>>>>>> tg-pr-88929
 	var/datum/admins/admin_datum = GLOB.admin_datums[ckey]
 	if (!isnull(admin_datum))
 		admin_datum.associate(src)
@@ -374,6 +433,7 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 		var/datum/admin_rank/localhost_rank = new("!localhost!", R_EVERYTHING, R_DBRANKS, R_EVERYTHING) //+EVERYTHING -DBRANKS *EVERYTHING
 		new /datum/admins(list(localhost_rank), ckey, 1, 1)
 
+<<<<<<< HEAD
 	//MONKE EDIT START
 	// Mentor Verbs need the client's mob to exist. Must be after ..() and admin_datum setups. A lot of checks require admins to load first.
 	//var/connecting_mentor = FALSE //because de-mentored mentors connecting should be treated like mentors. Might not be needed as of 3/31/25
@@ -387,6 +447,8 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 	//	connecting_mentor = TRUE
 	//MONKE EDIT END
 
+=======
+>>>>>>> tg-pr-88929
 	if (length(GLOB.stickybanadminexemptions))
 		GLOB.stickybanadminexemptions -= ckey
 		if (!length(GLOB.stickybanadminexemptions))
@@ -490,9 +552,13 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 
 	if(holder)
 		add_admin_verbs()
+<<<<<<< HEAD
 		var/memo_message = get_message_output("memo")
 		if(memo_message)
 			to_chat(src, memo_message, type = MESSAGE_TYPE_ADMINLOG, confidential = TRUE)
+=======
+		display_admin_memos(src)
+>>>>>>> tg-pr-88929
 		adminGreet()
 	if (mob && reconnecting)
 		var/stealth_admin = mob.client?.holder?.fakekey
@@ -509,12 +575,16 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 	if(query_last_connected.warn_execute() && length(query_last_connected.rows))
 		query_last_connected.NextRow()
 		var/time_stamp = query_last_connected.item[1]
+<<<<<<< HEAD
 		var/unread_notes = get_message_output("note", ckey, FALSE, time_stamp)
 		if(unread_notes)
 			to_chat(src, unread_notes, type = MESSAGE_TYPE_ADMINPM, confidential = TRUE)
+=======
+		display_unread_notes(src, time_stamp)
+>>>>>>> tg-pr-88929
 	qdel(query_last_connected)
 
-	var/cached_player_age = set_client_age_from_db(tdata) //we have to cache this because other shit may change it and we need it's current value now down below.
+	var/cached_player_age = set_client_age_from_db(tdata) //we have to cache this because other shit may change it and we need its current value now down below.
 	if (isnum(cached_player_age) && cached_player_age == -1) //first connection
 		if(!SSdbcore.Connect())
 			player_age = -1
@@ -538,9 +608,14 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 	var/nnpa = CONFIG_GET(number/notify_new_player_age)
 	if (isnum(cached_player_age) && cached_player_age == -1) //first connection
 		if (nnpa >= 0)
+			log_admin_private("New login: [key_name(key, FALSE, TRUE)] (IP: [address], ID: [computer_id]) logged onto the servers for the first time.")
 			message_admins("New user: [key_name_admin(src)] is connecting here for the first time.")
 			if (CONFIG_GET(flag/irc_first_connection_alert))
-				send2tgs_adminless_only("New-user", "[key_name(src)] is connecting for the first time!")
+				var/new_player_alert_role = CONFIG_GET(string/new_player_alert_role_id)
+				send2tgs_adminless_only(
+					"New-user",
+					"[key_name(src)] is connecting for the first time![new_player_alert_role ? " <@&[new_player_alert_role]>" : ""]"
+				)
 	else if (isnum(cached_player_age) && cached_player_age < nnpa)
 		message_admins("New user: [key_name_admin(src)] just connected with an age of [cached_player_age] day[(player_age == 1?"":"s")]")
 	if(CONFIG_GET(flag/use_account_age_for_jobs) && account_age >= 0)
@@ -548,9 +623,18 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 	if(account_age >= 0 && account_age < nnpa)
 		message_admins("[key_name_admin(src)] (IP: [address], ID: [computer_id]) is a new BYOND account [account_age] day[(account_age == 1?"":"s")] old, created on [account_join_date].")
 		if (CONFIG_GET(flag/irc_first_connection_alert))
+<<<<<<< HEAD
 			send2tgs_adminless_only("new_byond_user", "[key_name(src)] (IP: [address], ID: [computer_id]) is a new BYOND account [account_age] day[(account_age == 1?"":"s")] old, created on [account_join_date].")
 	if(check_overwatch() && CONFIG_GET(flag/vpn_kick))
 		return
+=======
+			var/new_player_alert_role = CONFIG_GET(string/new_player_alert_role_id)
+			send2tgs_adminless_only(
+				"new_byond_user",
+				"[key_name(src)] (IP: [address], ID: [computer_id]) is a new BYOND account [account_age] day[(account_age == 1?"":"s")] old, created on [account_join_date].[new_player_alert_role ? " <@&[new_player_alert_role]>" : ""]"
+			)
+	scream_about_watchlists(src)
+>>>>>>> tg-pr-88929
 	validate_key_in_db()
 	// If we aren't already generating a ban cache, fire off a build request
 	// This way hopefully any users of request_ban_cache will never need to yield
@@ -575,6 +659,7 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 
 	if(CONFIG_GET(flag/autoconvert_notes))
 		convert_notes_sql(ckey)
+<<<<<<< HEAD
 	var/user_messages = get_message_output("message", ckey)
 	if(user_messages)
 		to_chat(src, user_messages, type = MESSAGE_TYPE_ADMINPM, confidential = TRUE)
@@ -582,6 +667,14 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 		to_chat(src, span_warning("Unable to access asset cache browser, if you are using a custom skin file, please allow DS to download the updated version, if you are not, then make a bug report. This is not a critical issue but can cause issues with resource downloading, as it is impossible to know when extra resources arrived to you."))
 
 	update_ambience_pref(prefs.read_preference(/datum/preference/toggle/sound_ambience))
+=======
+	display_admin_messages(src)
+	if(!winexists(src, "asset_cache_browser")) // The client is using a custom skin, tell them.
+		to_chat(src, span_warning("Unable to access asset cache browser, if you are using a custom skin file, please allow DS to download the updated version, if you are not, then make a bug report. This is not a critical issue but can cause issues with resource downloading, as it is impossible to know when extra resources arrived to you."))
+
+	update_ambience_pref(prefs.read_preference(/datum/preference/numeric/sound_ambience_volume))
+	check_ip_intel()
+>>>>>>> tg-pr-88929
 
 	//This is down here because of the browse() calls in tooltip/New()
 	if(!tooltips)
@@ -619,7 +712,11 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 		// Yes this is the same as what's found in qdel(). Yes it does need to be here
 		// Get off my back
 		SEND_SIGNAL(src, COMSIG_QDELETING, TRUE)
+<<<<<<< HEAD
 		UNLINT(Destroy()) //Clean up signals and timers.
+=======
+		Destroy() //Clean up signals and timers.
+>>>>>>> tg-pr-88929
 	return ..()
 
 /client/Destroy()
@@ -640,7 +737,12 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 	GLOB.interviews.client_logout(src)
 	GLOB.requests.client_logout(src)
 	SSserver_maint.UpdateHubStatus()
+<<<<<<< HEAD
 	QDEL_LAZYLIST(credits)
+=======
+	if(credits)
+		QDEL_LIST(credits)
+>>>>>>> tg-pr-88929
 	if(holder)
 		holder.owner = null
 		GLOB.admins -= src
@@ -648,7 +750,6 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 
 	QDEL_LIST_ASSOC_VAL(char_render_holders)
 
-	active_mousedown_item = null
 	SSambience.remove_ambience_client(src)
 	SSmouse_entered.hovers -= src
 	SSping.currentrun -= src
@@ -656,7 +757,10 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 	QDEL_NULL(void)
 	QDEL_NULL(tooltips)
 	QDEL_NULL(loot_panel)
+<<<<<<< HEAD
 	QDEL_NULL(xp_menu)
+=======
+>>>>>>> tg-pr-88929
 	QDEL_NULL(parallax_rock)
 	QDEL_LIST(parallax_layers_cached)
 	parallax_layers = null
@@ -790,7 +894,14 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 		)
 	if(!account_join_date)
 		account_join_date = "Error"
+<<<<<<< HEAD
 	log_client_to_db_connection_log()
+=======
+	SSdbcore.FireAndForget({"
+		INSERT INTO `[format_table_name("connection_log")]` (`id`,`datetime`,`server_ip`,`server_port`,`round_id`,`ckey`,`ip`,`computerid`)
+		VALUES(null,Now(),INET_ATON(:internet_address),:port,:round_id,:ckey,INET_ATON(:ip),:computerid)
+	"}, list("internet_address" = world.internet_address || "0", "port" = world.port, "round_id" = GLOB.round_id, "ckey" = ckey, "ip" = address, "computerid" = computer_id))
+>>>>>>> tg-pr-88929
 
 	SSserver_maint.UpdateHubStatus()
 
@@ -887,6 +998,7 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 	qdel(query_get_notes)
 	create_message("note", key, system_ckey, message, null, null, 0, 0, null, 0, 0)
 
+<<<<<<< HEAD
 
 /client/proc/check_overwatch()
 	var/failed = FALSE
@@ -915,6 +1027,8 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 
 	return failed
 
+=======
+>>>>>>> tg-pr-88929
 /client/Click(atom/object, atom/location, control, params)
 	SEND_SIGNAL(src, COMSIG_CLIENT_CLICK_DIRTY, object, location, control, params, usr)
 	if(click_intercept_time)
@@ -926,11 +1040,13 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 	var/ab = FALSE
 	var/list/modifiers = params2list(params)
 
+	var/button_clicked = LAZYACCESS(modifiers, "button")
+
 	var/dragged = LAZYACCESS(modifiers, DRAG)
-	if(dragged && !LAZYACCESS(modifiers, dragged)) //I don't know what's going on here, but I don't trust it
+	if(dragged && button_clicked != dragged)
 		return
 
-	if (object && IS_WEAKREF_OF(object, middle_drag_atom_ref) && LAZYACCESS(modifiers, LEFT_CLICK))
+	if (object && IS_WEAKREF_OF(object, middle_drag_atom_ref) && button_clicked == LEFT_CLICK)
 		ab = max(0, 5 SECONDS-(world.time-middragtime)*0.1)
 
 	var/mcl = CONFIG_GET(number/minute_click_limit)
@@ -1003,8 +1119,6 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 	if(!CONFIG_GET(flag/forbid_preferences_export))
 		add_verb(src, /client/proc/export_preferences)
 
-
-#undef UPLOAD_LIMIT
 
 //checks if a client is afk
 //3000 frames = 5 minutes
@@ -1096,6 +1210,7 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 					movement_keys[key] = WEST
 				if("South")
 					movement_keys[key] = SOUTH
+<<<<<<< HEAD
 				if(SAY_CHANNEL)
 					var/say = tgui_say_create_open_command(SAY_CHANNEL)
 					winset(src, "default-[REF(key)]", "parent=default;name=[key];command=[say]")
@@ -1111,18 +1226,23 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 				if(LOOC_CHANNEL) // monke edit: looc
 					var/looc = tgui_say_create_open_command(LOOC_CHANNEL)
 					winset(src, "default-[REF(key)]", "parent=default;name=[key];command=[looc]")
+=======
+>>>>>>> tg-pr-88929
 				if(ADMIN_CHANNEL)
 					if(holder)
 						var/asay = tgui_say_create_open_command(ADMIN_CHANNEL)
 						winset(src, "default-[REF(key)]", "parent=default;name=[key];command=[asay]")
 					else
 						winset(src, "default-[REF(key)]", "parent=default;name=[key];command=")
+<<<<<<< HEAD
 				if(MENTOR_CHANNEL)
 					if(mentor_datum?.check_for_rights(R_MENTOR))
 						var/msay = tgui_say_create_open_command(MENTOR_CHANNEL)
 						winset(src, "default-[REF(key)]", "parent=default;name=[key];command=[msay]")
 					else
 						winset(src, "default-[REF(key)]", "parent=default;name=[key];command=")
+=======
+>>>>>>> tg-pr-88929
 	calculate_move_dir()
 
 /client/proc/change_view(new_size)
@@ -1151,8 +1271,13 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 	void.UpdateGreed(actualview[1],actualview[2])
 
 /client/proc/AnnouncePR(announcement)
+<<<<<<< HEAD
 	if(prefs?.chat_toggles & CHAT_PULLR)
 		to_chat(src, announcement, type = MESSAGE_TYPE_OOC)
+=======
+	if(get_chat_toggles(src) & CHAT_PULLR)
+		to_chat(src, announcement)
+>>>>>>> tg-pr-88929
 
 ///Redirect proc that makes it easier to call the unlock achievement proc. Achievement type is the typepath to the award, user is the mob getting the award, and value is an optional variable used for leaderboard value increments
 /client/proc/give_award(achievement_type, mob/user, value = 1)
@@ -1241,6 +1366,7 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 	else
 		rclick_type = context_menu_requires_shift
 
+<<<<<<< HEAD
 	switch(rclick_type)
 		if(RIGHTCLICK_NOSHIFT) //Right click opens context menu
 			winset(src, "mapwindow.map", "right-click=false")
@@ -1255,6 +1381,8 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 			winset(src, "ShiftUp", "command=\".winset :map.right-click=false\"")
 			winset(src, "Shift", "command=\".winset :map.right-click=false\"")
 
+=======
+>>>>>>> tg-pr-88929
 /client/proc/update_ambience_pref(value)
 	if(value)
 		if(SSambience.ambience_listening_clients[src] > world.time)
@@ -1287,8 +1415,8 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 	if(!CONFIG_GET(flag/use_age_restriction_for_jobs))
 		return 0
 
-	if(!isnum(player_age))
-		return 0 //This is only a number if the db connection is established, otherwise it is text: "Requires database", meaning these restrictions cannot be enforced
+	if(!isnum(player_age) || player_age < 0)
+		return 0
 
 	if(!isnum(days_needed))
 		return 0
@@ -1322,7 +1450,23 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 
 	fullscreen = !fullscreen
 
+<<<<<<< HEAD
 	winset(src, "mainwindow", "menu=;is-fullscreen=[fullscreen ? "true" : "false"]")
+=======
+	if (fullscreen)
+		winset(usr, "mainwindow", "on-size=")
+		winset(usr, "mainwindow", "titlebar=false")
+		winset(usr, "mainwindow", "can-resize=false")
+		winset(usr, "mainwindow", "menu=")
+		winset(usr, "mainwindow", "is-maximized=false")
+		winset(usr, "mainwindow", "is-maximized=true")
+	else
+		winset(usr, "mainwindow", "menu=menu")
+		winset(usr, "mainwindow", "titlebar=true")
+		winset(usr, "mainwindow", "can-resize=true")
+		winset(usr, "mainwindow", "is-maximized=false")
+		winset(usr, "mainwindow", "on-size=attempt_auto_fit_viewport")
+>>>>>>> tg-pr-88929
 	attempt_auto_fit_viewport()
 
 /client/verb/toggle_status_bar()
@@ -1376,16 +1520,18 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 
 	send2adminchat("Server", jointext(message_to_send, " "))
 
+<<<<<<< HEAD
 /// This grabs the DPI of the user per their skin
 /client/proc/acquire_dpi()
 	window_scaling = text2num(winget(src, null, "dpi"))
 
 	debug_admins("scalies: [window_scaling]")
 
+=======
+>>>>>>> tg-pr-88929
 #undef ADMINSWARNED_AT
 #undef CURRENT_MINUTE
 #undef CURRENT_SECOND
 #undef LIMITER_SIZE
 #undef MINUTE_COUNT
 #undef SECOND_COUNT
-#undef UPLOAD_LIMIT_ADMIN

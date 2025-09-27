@@ -1,8 +1,15 @@
 /// Allows us to roll for and apply a wound without actually dealing damage. Used for aggregate wounding power with pellet clouds
+<<<<<<< HEAD
 /obj/item/bodypart/proc/painless_wound_roll(wounding_type, wounding_dmg, wound_bonus, bare_wound_bonus, sharpness=NONE)
 	SHOULD_CALL_PARENT(TRUE)
 
 	if(!owner || wounding_dmg <= WOUND_MINIMUM_DAMAGE || wound_bonus == CANT_WOUND || (HAS_TRAIT(owner, TRAIT_GODMODE)))
+=======
+/obj/item/bodypart/proc/painless_wound_roll(wounding_type, wounding_dmg, wound_bonus, bare_wound_bonus, sharpness=NONE, wound_clothing)
+	SHOULD_CALL_PARENT(TRUE)
+
+	if(!owner || wounding_dmg <= WOUND_MINIMUM_DAMAGE || wound_bonus == CANT_WOUND || HAS_TRAIT(owner, TRAIT_GODMODE))
+>>>>>>> tg-pr-88929
 		return
 
 	var/mangled_state = get_mangled_state()
@@ -34,7 +41,11 @@
 			wounding_type = WOUND_BLUNT
 		if ((dismemberable_by_wound() || dismemberable_by_total_damage()) && try_dismember(wounding_type, wounding_dmg, wound_bonus, bare_wound_bonus))
 			return
+<<<<<<< HEAD
 	return check_wounding(wounding_type, wounding_dmg, wound_bonus, bare_wound_bonus)
+=======
+	return check_wounding(wounding_type, wounding_dmg, wound_bonus, bare_wound_bonus, wound_clothing)
+>>>>>>> tg-pr-88929
 
 /**
  * check_wounding() is where we handle rolling for, selecting, and applying a wound if we meet the criteria
@@ -47,12 +58,17 @@
  * * damage- How much damage is tied to this attack, since wounding potential scales with damage in an attack (see: WOUND_DAMAGE_EXPONENT)
  * * wound_bonus- The wound_bonus of an attack
  * * bare_wound_bonus- The bare_wound_bonus of an attack
+ * * wound_clothing- If this should damage clothing.
  */
+<<<<<<< HEAD
 /obj/item/bodypart/proc/check_wounding(woundtype, damage, wound_bonus, bare_wound_bonus, attack_direction, damage_source)
+=======
+/obj/item/bodypart/proc/check_wounding(woundtype, damage, wound_bonus, bare_wound_bonus, attack_direction, damage_source, wound_clothing)
+>>>>>>> tg-pr-88929
 	SHOULD_CALL_PARENT(TRUE)
 	RETURN_TYPE(/datum/wound)
 
-	if(HAS_TRAIT(owner, TRAIT_NEVER_WOUNDED))
+	if(HAS_TRAIT(owner, TRAIT_NEVER_WOUNDED) || HAS_TRAIT(owner, TRAIT_GODMODE))
 		return
 
 	// note that these are fed into an exponent, so these are magnified
@@ -69,9 +85,16 @@
 	if(HAS_TRAIT(owner, TRAIT_EASYDISMEMBER))
 		damage *= 1.1
 
+	if(HAS_TRAIT(owner, TRAIT_EASYBLEED) && ((woundtype == WOUND_PIERCE) || (woundtype == WOUND_SLASH)))
+		damage *= 1.5
+
 	var/base_roll = rand(1, round(damage ** WOUND_DAMAGE_EXPONENT))
 	var/injury_roll = base_roll
+<<<<<<< HEAD
 	injury_roll += check_woundings_mods(woundtype, damage, wound_bonus, bare_wound_bonus)
+=======
+	injury_roll += check_woundings_mods(woundtype, damage, wound_bonus, bare_wound_bonus, wound_clothing)
+>>>>>>> tg-pr-88929
 	var/list/series_wounding_mods = check_series_wounding_mods()
 
 	if(injury_roll > WOUND_DISMEMBER_OUTRIGHT_THRESH && prob(get_damage() / max_damage * 100) && can_dismember())
@@ -177,14 +200,21 @@
  * * max_severity: The maximum severity that will be considered.
  * * severity_pick_mode: The "pick mode" to be used. See get_corresponding_wound_type's documentation
  * * wound_source: The source of the wound to be applied. Nullable.
+<<<<<<< HEAD
  * * smited: If the wound is to be applied from a smite.
+=======
+>>>>>>> tg-pr-88929
  *
  * For the rest of the args, refer to get_corresponding_wound_type().
  *
  * Returns:
  * A new wound instance if the application was successful, null otherwise.
 */
+<<<<<<< HEAD
 /mob/living/carbon/proc/cause_wound_of_type_and_severity(wounding_type, obj/item/bodypart/limb, min_severity, max_severity = min_severity, severity_pick_mode = WOUND_PICK_HIGHEST_SEVERITY, wound_source, smited = FALSE)
+=======
+/mob/living/carbon/proc/cause_wound_of_type_and_severity(wounding_type, obj/item/bodypart/limb, min_severity, max_severity = min_severity, severity_pick_mode = WOUND_PICK_HIGHEST_SEVERITY, wound_source)
+>>>>>>> tg-pr-88929
 	if (isnull(limb))
 		limb = pick(bodyparts)
 
@@ -194,7 +224,11 @@
 
 	var/datum/wound/corresponding_typepath = get_corresponding_wound_type(type_list, limb, min_severity, max_severity, severity_pick_mode)
 	if (corresponding_typepath)
+<<<<<<< HEAD
 		return limb.force_wound_upwards(corresponding_typepath, smited = smited, wound_source = wound_source)
+=======
+		return limb.force_wound_upwards(corresponding_typepath, wound_source = wound_source)
+>>>>>>> tg-pr-88929
 
 /// Limb is nullable, but picks a random one. Defers to limb.get_wound_threshold_of_wound_type, see it for documentation.
 /mob/living/carbon/proc/get_wound_threshold_of_wound_type(wounding_type, severity, default, obj/item/bodypart/limb, wound_source)
@@ -240,7 +274,7 @@
  * Arguments:
  * * It's the same ones on [/obj/item/bodypart/proc/receive_damage]
  */
-/obj/item/bodypart/proc/check_woundings_mods(wounding_type, damage, wound_bonus, bare_wound_bonus)
+/obj/item/bodypart/proc/check_woundings_mods(wounding_type, damage, wound_bonus, bare_wound_bonus, wound_clothing)
 	SHOULD_CALL_PARENT(TRUE)
 
 	var/armor_ablation = 0
@@ -252,10 +286,12 @@
 		for(var/obj/item/clothing/clothes as anything in clothing)
 			// unlike normal armor checks, we tabluate these piece-by-piece manually so we can also pass on appropriate damage the clothing's limbs if necessary
 			armor_ablation += clothes.get_armor_rating(WOUND)
-			if(wounding_type == WOUND_SLASH)
-				clothes.take_damage_zone(body_zone, damage, BRUTE)
-			else if(wounding_type == WOUND_BURN && damage >= 10) // lazy way to block freezing from shredding clothes without adding another var onto apply_damage()
-				clothes.take_damage_zone(body_zone, damage, BURN)
+			// Should attack also cause damage to the clothes?
+			if (wound_clothing)
+				if(wounding_type == WOUND_SLASH)
+					clothes.take_damage_zone(body_zone, damage, BRUTE)
+				else if(wounding_type == WOUND_BURN)
+					clothes.take_damage_zone(body_zone, damage, BURN)
 
 		if(!armor_ablation)
 			injury_mod += bare_wound_bonus
@@ -310,14 +346,14 @@
 /obj/item/bodypart/proc/update_wounds(replaced = FALSE)
 	SHOULD_CALL_PARENT(TRUE)
 
-	var/dam_mul = 1 //initial(wound_damage_multiplier)
+	var/dam_mul = 1
 
 	// we can (normally) only have one wound per type, but remember there's multiple types (smites like :B:loodless can generate multiple cuts on a limb)
 	for(var/datum/wound/iter_wound as anything in wounds)
 		dam_mul *= iter_wound.damage_multiplier_penalty
 
 	if(!LAZYLEN(wounds) && current_gauze && !replaced) // no more wounds = no need for the gauze anymore
-		owner.visible_message(span_notice("\The [current_gauze.name] on [owner]'s [name] falls away."), span_notice("The [current_gauze.name] on your [parse_zone(body_zone)] falls away."))
+		owner.visible_message(span_notice("\The [current_gauze.name] on [owner]'s [name] falls away."), span_notice("The [current_gauze.name] on your [plaintext_zone] falls away."))
 		QDEL_NULL(current_gauze)
 
 	wound_damage_multiplier = dam_mul

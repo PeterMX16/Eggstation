@@ -20,15 +20,19 @@ SUBSYSTEM_DEF(ticker)
 	/// Boolean to track and check if our subsystem setup is done.
 	var/setup_done = FALSE
 
+<<<<<<< HEAD
 	var/datum/game_mode/mode = null
 
 	var/login_music_done = FALSE // monkestation edit: : fix-lobby-music
+=======
+	var/login_music //music played in pregame lobby
+>>>>>>> tg-pr-88929
 	var/round_end_sound //music/jingle played when the world reboots
 	var/round_end_sound_sent = TRUE //If all clients have loaded it
 
 	var/list/datum/mind/minds = list() //The characters in the game. Used for objective tracking.
 
-	var/delay_end = FALSE //if set true, the round will not restart on it's own
+	var/delay_end = FALSE //if set true, the round will not restart on its own
 	var/admin_delay_notice = "" //a message to display to anyone who tries to restart the world after a delay
 	var/ready_for_reboot = FALSE //all roundend preparation done with, all that's left is reboot
 
@@ -74,6 +78,7 @@ SUBSYSTEM_DEF(ticker)
 	/// ID of round reboot timer, if it exists
 	var/reboot_timer = null
 
+<<<<<<< HEAD
 	///add bitflags to this that should be rewarded monkecoins, example: DEPARTMENT_BITFLAG_SECURITY
 	var/list/bitflags_to_reward = list(DEPARTMENT_BITFLAG_SECURITY, DEPARTMENT_BITFLAG_SILICON)
 	///add jobs to this that should get rewarded monkecoins, example: JOB_SECURITY_OFFICER
@@ -87,6 +92,8 @@ SUBSYSTEM_DEF(ticker)
 	/// (monkestation addition) The station integrity at roundend.
 	var/roundend_station_integrity
 
+=======
+>>>>>>> tg-pr-88929
 /datum/controller/subsystem/ticker/Initialize()
 	// monkestation start: fix-lobby-music
 	var/old_login_music = trim(file2text("data/last_round_lobby_music.txt"))
@@ -127,7 +134,7 @@ SUBSYSTEM_DEF(ticker)
 	var/use_rare_music = prob(1)
 
 	for(var/S in provisional_title_music)
-		var/lower = lowertext(S)
+		var/lower = LOWER_TEXT(S)
 		var/list/L = splittext(lower,"+")
 		switch(L.len)
 			if(3) //rare+MAP+sound.ogg or MAP+rare.sound.ogg -- Rare Map-specific sounds
@@ -151,7 +158,7 @@ SUBSYSTEM_DEF(ticker)
 	for(var/S in music)
 		var/list/L = splittext(S,".")
 		if(L.len >= 2)
-			var/ext = lowertext(L[L.len]) //pick the real extension, no 'honk.ogg.exe' nonsense here
+			var/ext = LOWER_TEXT(L[L.len]) //pick the real extension, no 'honk.ogg.exe' nonsense here
 			if(byond_sound_formats[ext])
 				continue
 		music -= S
@@ -249,20 +256,39 @@ SUBSYSTEM_DEF(ticker)
 				SEND_SIGNAL(src, COMSIG_TICKER_ERROR_SETTING_UP)
 
 		if(GAME_STATE_PLAYING)
-			mode.process(wait * 0.1)
 			check_queue()
 
+<<<<<<< HEAD
 			if(!roundend_check_paused && (mode.check_finished() || force_ending))
+=======
+			if(!roundend_check_paused && (check_finished() || force_ending))
+>>>>>>> tg-pr-88929
 				current_state = GAME_STATE_FINISHED
 				toggle_ooc(TRUE) // Turn it on
 				toggle_dooc(TRUE)
 				declare_completion(force_ending)
 				Master.SetRunLevel(RUNLEVEL_POSTGAME)
 
+<<<<<<< HEAD
+=======
+/// Checks if the round should be ending, called every ticker tick
+/datum/controller/subsystem/ticker/proc/check_finished()
+	if(!setup_done)
+		return FALSE
+	if(SSshuttle.emergency && (SSshuttle.emergency.mode == SHUTTLE_ENDGAME))
+		return TRUE
+	if(GLOB.station_was_nuked)
+		return TRUE
+	if(GLOB.revolutionary_win)
+		return TRUE
+	return FALSE
+
+>>>>>>> tg-pr-88929
 /datum/controller/subsystem/ticker/proc/setup()
 	to_chat(world, span_boldannounce("Starting game..."))
 	var/init_start = world.timeofday
 
+<<<<<<< HEAD
 	mode = new /datum/game_mode/dynamic
 	SSgamemode.init_storyteller() //monkestation addition
 	CHECK_TICK
@@ -273,16 +299,22 @@ SUBSYSTEM_DEF(ticker)
 	CHECK_TICK
 	//monkestation addition end
 	can_continue = src.mode.pre_setup() //Choose antagonists
+=======
 	CHECK_TICK
-	can_continue = can_continue && SSjob.DivideOccupations() //Distribute jobs
+	//Configure mode and assign player to antagonists
+	var/can_continue = FALSE
+	can_continue = SSdynamic.pre_setup() //Choose antagonists
+>>>>>>> tg-pr-88929
+	CHECK_TICK
+	SEND_GLOBAL_SIGNAL(COMSIG_GLOB_PRE_JOBS_ASSIGNED, src)
+	can_continue = can_continue && SSjob.divide_occupations() //Distribute jobs
 	CHECK_TICK
 
 	if(!GLOB.Debug2)
 		if(!can_continue)
 			log_game("Game failed pre_setup")
-			QDEL_NULL(mode)
 			to_chat(world, "<B>Error setting up game.</B> Reverting to pre-game lobby.")
-			SSjob.ResetOccupations()
+			SSjob.reset_occupations()
 			return FALSE
 	else
 		message_admins(span_notice("DEBUG: Bypassing prestart checks..."))
@@ -320,10 +352,15 @@ SUBSYSTEM_DEF(ticker)
 	log_world("Game start took [(world.timeofday - init_start)/10]s")
 	INVOKE_ASYNC(SSdbcore, TYPE_PROC_REF(/datum/controller/subsystem/dbcore,SetRoundStart))
 
+<<<<<<< HEAD
 	to_chat(world, span_notice("<B>Welcome to [station_name()], enjoy your stay!</B>"))
 
 	for(var/mob/player as anything in GLOB.player_list)
 		welcome_player(player)
+=======
+	to_chat(world, span_notice(span_bold("Welcome to [station_name()], enjoy your stay!")))
+	SEND_SOUND(world, sound(SSstation.announcer.get_rand_welcome_sound()))
+>>>>>>> tg-pr-88929
 
 	current_state = GAME_STATE_PLAYING
 	Master.SetRunLevel(RUNLEVEL_GAME)
@@ -349,6 +386,7 @@ SUBSYSTEM_DEF(ticker)
 
 /datum/controller/subsystem/ticker/proc/PostSetup()
 	set waitfor = FALSE
+<<<<<<< HEAD
 	if(!CONFIG_GET(flag/disable_storyteller))
 		SSgamemode.current_storyteller.round_started = TRUE
 		if(!SSgamemode.halted_storyteller)
@@ -356,6 +394,9 @@ SUBSYSTEM_DEF(ticker)
 	mode.post_setup()
 	addtimer(CALLBACK(src, PROC_REF(fade_all_splashes)), 1 SECONDS) // extra second to make SURE all antags are setup
 
+=======
+	SSdynamic.post_setup()
+>>>>>>> tg-pr-88929
 	GLOB.start_state = new /datum/station_state()
 	GLOB.start_state.count()
 
@@ -476,7 +517,7 @@ SUBSYSTEM_DEF(ticker)
 			continue
 		var/datum/job/player_assigned_role = new_player_living.mind.assigned_role
 		if(player_assigned_role.job_flags & JOB_EQUIP_RANK)
-			SSjob.EquipRank(new_player_living, player_assigned_role, new_player_mob.client)
+			SSjob.equip_rank(new_player_living, player_assigned_role, new_player_mob.client)
 		player_assigned_role.after_roundstart_spawn(new_player_living, new_player_mob.client)
 		if(picked_spare_id_candidate == new_player_mob)
 			captainless = FALSE
@@ -555,9 +596,22 @@ SUBSYSTEM_DEF(ticker)
 /datum/controller/subsystem/ticker/proc/transfer_characters()
 	var/list/livings = list()
 	for(var/mob/dead/new_player/player as anything in GLOB.new_player_list)
+<<<<<<< HEAD
 		livings += transfer_single_character(player)
 	list_clear_nulls(livings)
 	if(length(livings))
+=======
+		var/mob/living = player.transfer_character()
+		if(living)
+			qdel(player)
+			ADD_TRAIT(living, TRAIT_NO_TRANSFORM, SS_TICKER_TRAIT)
+			if(living.client)
+				var/atom/movable/screen/splash/fade_out = new(null, living.client, TRUE)
+				fade_out.Fade(TRUE)
+				living.client.init_verbs()
+			livings += living
+	if(livings.len)
+>>>>>>> tg-pr-88929
 		addtimer(CALLBACK(src, PROC_REF(release_characters), livings), 3 SECONDS, TIMER_CLIENT_TIME)
 
 /datum/controller/subsystem/ticker/proc/release_characters(list/livings)
@@ -572,7 +626,11 @@ SUBSYSTEM_DEF(ticker)
 		list_clear_nulls(queued_players)
 		for (var/mob/dead/new_player/new_player in queued_players)
 			to_chat(new_player, span_userdanger("The alive players limit has been released!<br><a href='byond://?src=[REF(new_player)];late_join=override'>[html_encode(">>Join Game<<")]</a>"))
+<<<<<<< HEAD
 			SEND_SOUND(new_player, sound('sound/misc/notice1.ogg'))
+=======
+			SEND_SOUND(new_player, sound('sound/announcer/notice/notice1.ogg'))
+>>>>>>> tg-pr-88929
 			GLOB.latejoin_menu.ui_interact(new_player)
 		queued_players.len = 0
 		queue_delay = 0
@@ -587,7 +645,11 @@ SUBSYSTEM_DEF(ticker)
 			if(living_player_count() < hard_popcap)
 				if(next_in_line?.client)
 					to_chat(next_in_line, span_userdanger("A slot has opened! You have approximately 20 seconds to join. <a href='byond://?src=[REF(next_in_line)];late_join=override'>\>\>Join Game\<\<</a>"))
+<<<<<<< HEAD
 					SEND_SOUND(next_in_line, sound('sound/misc/notice1.ogg'))
+=======
+					SEND_SOUND(next_in_line, sound('sound/announcer/notice/notice1.ogg'))
+>>>>>>> tg-pr-88929
 					next_in_line.ui_interact(next_in_line)
 					return
 				queued_players -= next_in_line //Client disconnected, remove he
@@ -597,11 +659,14 @@ SUBSYSTEM_DEF(ticker)
 			queued_players -= next_in_line
 			queue_delay = 0
 
+<<<<<<< HEAD
 /datum/controller/subsystem/ticker/proc/fade_all_splashes()
 	for(var/atom/movable/screen/splash/splash in roundstart_splashes)
 		splash.Fade(TRUE)
 	LAZYNULL(roundstart_splashes)
 
+=======
+>>>>>>> tg-pr-88929
 /datum/controller/subsystem/ticker/proc/HasRoundStarted()
 	return current_state >= GAME_STATE_PLAYING
 
@@ -611,7 +676,6 @@ SUBSYSTEM_DEF(ticker)
 /datum/controller/subsystem/ticker/Recover()
 	current_state = SSticker.current_state
 	force_ending = SSticker.force_ending
-	mode = SSticker.mode
 
 	//monkestation removal start: fix-lobby-music
 	// login_music = SSticker.login_music
@@ -720,7 +784,7 @@ SUBSYSTEM_DEF(ticker)
 		if(STATION_NUKED)
 			// There was a blob on board, guess it was nuked to stop it
 			if(length(GLOB.overminds))
-				for(var/mob/camera/blob/overmind as anything in GLOB.overminds)
+				for(var/mob/eye/blob/overmind as anything in GLOB.overminds)
 					if(overmind.max_count < overmind.announcement_size)
 						continue
 
@@ -781,6 +845,7 @@ SUBSYSTEM_DEF(ticker)
 
 	to_chat(world, span_boldannounce("Rebooting World in [DisplayTimeText(delay)]. [reason]"))
 
+<<<<<<< HEAD
 	var/start_wait = world.time
 	UNTIL(round_end_sound_sent || (world.time - start_wait) > (delay * 2)) //don't wait forever
 	reboot_timer = addtimer(CALLBACK(src, PROC_REF(reboot_callback), reason, end_string), delay - (world.time - start_wait), TIMER_STOPPABLE)
@@ -790,12 +855,23 @@ SUBSYSTEM_DEF(ticker)
 	if(end_string)
 		end_state = end_string
 
+=======
+>>>>>>> tg-pr-88929
 	var/statspage = CONFIG_GET(string/roundstatsurl)
 	var/gamelogloc = CONFIG_GET(string/gamelogurl)
 	if(statspage)
 		to_chat(world, span_info("Round statistics and logs can be viewed <a href=\"[statspage][GLOB.round_id]\">at this website!</a>"))
 	else if(gamelogloc)
 		to_chat(world, span_info("Round logs can be located <a href=\"[gamelogloc]\">at this website!</a>"))
+
+	var/start_wait = world.time
+	UNTIL(round_end_sound_sent || (world.time - start_wait) > (delay * 2)) //don't wait forever
+	reboot_timer = addtimer(CALLBACK(src, PROC_REF(reboot_callback), reason, end_string), delay - (world.time - start_wait), TIMER_STOPPABLE)
+
+
+/datum/controller/subsystem/ticker/proc/reboot_callback(reason, end_string)
+	if(end_string)
+		end_state = end_string
 
 	log_game(span_boldannounce("Rebooting World. [reason]"))
 
@@ -818,9 +894,12 @@ SUBSYSTEM_DEF(ticker)
 
 /datum/controller/subsystem/ticker/Shutdown()
 	gather_newscaster() //called here so we ensure the log is created even upon admin reboot
+<<<<<<< HEAD
 	save_admin_data()
 	update_everything_flag_in_db()
 	save_mentor_data() //MONKE EDIT
+=======
+>>>>>>> tg-pr-88929
 	if(!round_end_sound)
 		round_end_sound = choose_round_end_song()
 	///The reference to the end of round sound that we have chosen.

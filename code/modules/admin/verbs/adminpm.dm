@@ -13,20 +13,32 @@
 // We also make SURE to fail loud, IE: if something stops the message from reaching the recipient, the sender HAS to know
 // If you "refactor" this to make it "cleaner" I will send you to hell
 
+<<<<<<< HEAD
 /// Allows right clicking mobs to send an admin PM to their client, forwards the selected mob's client to cmd_admin_pm
 ADMIN_VERB_ONLY_CONTEXT_MENU(cmd_admin_pm_context, R_NONE, FALSE, "Admin PM Mob", mob/target in world)
+=======
+ADMIN_VERB_ONLY_CONTEXT_MENU(cmd_admin_pm_context, R_NONE, "Admin PM Mob", mob/target in world)
+>>>>>>> tg-pr-88929
 	if(!ismob(target))
 		to_chat(
 			src,
 			type = MESSAGE_TYPE_ADMINPM,
 			html = span_danger("Error: Admin-PM-Context: Target mob is not a mob, somehow."),
+<<<<<<< HEAD
 			confidential = TRUE
+=======
+			confidential = TRUE,
+>>>>>>> tg-pr-88929
 		)
 		return
 	user.cmd_admin_pm(target.client, null)
 	BLACKBOX_LOG_ADMIN_VERB("Admin PM Mob")
 
+<<<<<<< HEAD
 ADMIN_VERB(cmd_admin_pm_panel, R_NONE, FALSE, "Admin PM", "Show a list of clients to PM", ADMIN_CATEGORY_MAIN)
+=======
+ADMIN_VERB(cmd_admin_pm_panel, R_NONE, "Admin PM", "Show a list of clients to PM", ADMIN_CATEGORY_MAIN)
+>>>>>>> tg-pr-88929
 	var/list/targets = list()
 	for(var/client/client in GLOB.clients)
 		var/nametag = ""
@@ -81,8 +93,13 @@ ADMIN_VERB(cmd_admin_pm_panel, R_NONE, FALSE, "Admin PM", "Show a list of client
 	// The ticket our recipient is using
 	var/datum/admin_help/recipient_ticket = recipient?.current_ticket
 	// Any past interactions with the recipient ticket
+<<<<<<< HEAD
 	var/datum/admin_help/recipient_interactions = recipient_ticket?._interactions // MONKESTATION EDIT - tgui tickets
 	// Any opening interactions with the recipient ticket, IE: interactions started before the ticket first recieves a response
+=======
+	var/datum/admin_help/recipient_interactions = recipient_ticket?.ticket_interactions
+	// Any opening interactions with the recipient ticket, IE: interactions started before the ticket first receives a response
+>>>>>>> tg-pr-88929
 	var/datum/admin_help/opening_interactions = recipient_ticket?.opening_responders
 	// Our recipient's admin holder, if one exists
 	var/datum/admins/recipient_holder = recipient?.holder
@@ -104,7 +121,7 @@ ADMIN_VERB(cmd_admin_pm_panel, R_NONE, FALSE, "Admin PM", "Show a list of client
 		if(length(recipient_interactions) == 1)
 			if(length(opening_interactions)) // Inform the admin that they aren't the first
 				var/printable_interators = english_list(opening_interactions)
-				SEND_SOUND(src, sound('sound/machines/buzz-sigh.ogg', volume=30))
+				SEND_SOUND(src, sound('sound/machines/buzz/buzz-sigh.ogg', volume=30))
 				message_prompt += "\n\n**This ticket is already being responded to by: [printable_interators]**"
 			// add the admin who is currently responding to the list of people responding
 			LAZYADD(recipient_ticket.opening_responders, src)
@@ -247,7 +264,7 @@ ADMIN_VERB(cmd_admin_pm_panel, R_NONE, FALSE, "Admin PM", "Show a list of client
 			request = "[request] an Administrator."
 		else
 			request = "[request] [recipient_print_key]."
-		//get message text, limit it's length.and clean/escape html
+		//get message text, limit its length.and clean/escape html
 		msg = input(src,"Message:", request) as message|null
 		msg = trim(msg)
 
@@ -387,16 +404,20 @@ ADMIN_VERB(cmd_admin_pm_panel, R_NONE, FALSE, "Admin PM", "Show a list of client
 			ticket_id = ticket?.id
 			recipient_ticket_id = recipient_ticket?.id
 			SSblackbox.LogAhelp(recipient_ticket_id, "Ticket Opened", send_message, recipient.ckey, src.ckey)
+<<<<<<< HEAD
 		// MONKESTATION START
 		if(!recipient_ticket.handling_admin_ckey)
 			recipient_ticket.Administer(FALSE)
 		// MONKESTATION END
+=======
+>>>>>>> tg-pr-88929
 
 		recipient.receive_ahelp(
 			link_to_us,
 			span_linkify(send_message),
 		)
 
+<<<<<<< HEAD
 		// monkestation start: PLEXORA
 		if (!ticket || recipient_ticket)
 			var/datum/admin_help = GLOB.ahelp_tickets.TicketByID(recipient_ticket_id)
@@ -405,6 +426,8 @@ ADMIN_VERB(cmd_admin_pm_panel, R_NONE, FALSE, "Admin PM", "Show a list of client
 		else
 			SSplexora.aticket_pm(ticket || recipient_ticket, raw_send_message, src.ckey) // monkestation edit: PLEXORA
 		// monkestation end: PLEXORA
+=======
+>>>>>>> tg-pr-88929
 		to_chat(src,
 			type = MESSAGE_TYPE_ADMINPM,
 			html = span_notice("Admin PM to-<b>[their_name_with_link]</b>: [span_linkify(send_message)]"),
@@ -508,7 +531,7 @@ ADMIN_VERB(cmd_admin_pm_panel, R_NONE, FALSE, "Admin PM", "Show a list of client
 
 	return TRUE
 
-/// Notifies all admins about the existance of an admin pm, then logs the pm
+/// Notifies all admins about the existence of an admin pm, then logs the pm
 /// message_target here can be either [EXTERNAL_PM_USER], indicating that this message is intended for some external chat channel
 /// or a /client, in which case we send in the standard form
 /// log_message is the raw message to send, it will be filtered and treated to ensure we do not break any text handling
@@ -618,7 +641,7 @@ ADMIN_VERB(cmd_admin_pm_panel, R_NONE, FALSE, "Admin PM", "Show a list of client
 	// The ticket's id
 	var/ticket_id = ticket?.id
 
-	var/compliant_msg = trim(lowertext(message))
+	var/compliant_msg = trim(LOWER_TEXT(message))
 	var/tgs_tagged = "[sender](TGS/External)"
 	var/list/splits = splittext(compliant_msg, " ")
 	var/split_size = length(splits)

@@ -1,4 +1,20 @@
+import {
+  Box,
+  Button,
+  ColorBox,
+  Divider,
+  Flex,
+  Icon,
+  Image,
+  Input,
+  LabeledList,
+  Section,
+  Stack,
+  Table,
+} from 'tgui-core/components';
+
 import { useBackend } from '../backend';
+<<<<<<< HEAD
 import {
   Box,
   Button,
@@ -12,6 +28,8 @@ import {
   Table,
   Divider,
 } from '../components';
+=======
+>>>>>>> tg-pr-88929
 import { Window } from '../layouts';
 
 type ColorEntry = {
@@ -214,6 +232,7 @@ const PreviewDisplay = (props) => {
           </Table.Cell>
           {data.sprites?.finished ? (
             <Table.Cell>
+<<<<<<< HEAD
               <Box
                 as="img"
                 src={data.sprites.finished}
@@ -238,6 +257,14 @@ const PreviewDisplay = (props) => {
                     'image-rendering': 'pixelated',
                   }}
                 />
+=======
+              <Image m={0} mx="10%" src={data.sprites.finished} width="75%" />
+            </Table.Cell>
+          ) : (
+            <Table.Cell>
+              <Box>
+                <Icon name="image" ml="25%" size={5} />
+>>>>>>> tg-pr-88929
               </Box>
             </Table.Cell>
           )}
@@ -283,6 +310,7 @@ const PreviewDisplay = (props) => {
 
 const SingleSprite = (props) => {
   const { source } = props;
+<<<<<<< HEAD
   return (
     <Box
       as="img"
@@ -294,6 +322,9 @@ const SingleSprite = (props) => {
       }}
     />
   );
+=======
+  return <Image src={source} />;
+>>>>>>> tg-pr-88929
 };
 
 const LoadingAnimation = () => {

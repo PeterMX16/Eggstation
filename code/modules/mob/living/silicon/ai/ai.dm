@@ -1,17 +1,5 @@
 #define CALL_BOT_COOLDOWN 900
 
-//Not sure why this is necessary...
-/proc/AutoUpdateAI(obj/subject)
-	var/is_in_use = 0
-	if (subject != null)
-		for(var/A in GLOB.ai_list)
-			var/mob/living/silicon/ai/M = A
-			if ((M.client && M.machine == subject))
-				is_in_use = 1
-				subject.attack_ai(M)
-	return is_in_use
-
-
 /mob/living/silicon/ai
 	name = "AI"
 	real_name = "AI"
@@ -23,14 +11,12 @@
 	istate = ISTATE_HARM|ISTATE_BLOCKING //so we always get pushed instead of trying to swap
 	sight = SEE_TURFS | SEE_MOBS | SEE_OBJS
 	hud_type = /datum/hud/ai
-	med_hud = DATA_HUD_MEDICAL_BASIC
-	sec_hud = DATA_HUD_SECURITY_BASIC
-	d_hud = DATA_HUD_DIAGNOSTIC_ADVANCED
+	silicon_huds = list(DATA_HUD_MEDICAL_BASIC, DATA_HUD_SECURITY_BASIC, DATA_HUD_DIAGNOSTIC, DATA_HUD_BOT_PATH)
 	mob_size = MOB_SIZE_LARGE
 	radio = /obj/item/radio/headset/silicon/ai
 	can_buckle_to = FALSE
 	var/battery = 200 //emergency power if the AI's APC is off
-	var/list/network = list("ss13")
+	var/list/network = list(CAMERANET_NETWORK_SS13)
 	var/obj/machinery/camera/current
 	var/list/connected_robots = list()
 	var/list/connected_ipcs = list () // monkestation edit PR #5133 from infected IPCs
@@ -53,14 +39,14 @@
 	var/can_dominate_mechs = FALSE
 	var/shunted = FALSE //1 if the AI is currently shunted. Used to differentiate between shunted and ghosted/braindead
 	var/obj/machinery/ai_voicechanger/ai_voicechanger = null // reference to machine that holds the voicechanger
-	var/control_disabled = FALSE // Set to 1 to stop AI from interacting via Click()
 	var/malfhacking = FALSE // More or less a copy of the above var, so that malf AIs can hack and still get new cyborgs -- NeoFite
+	/// List of hacked APCs
+	var/list/hacked_apcs = list()
 	var/malf_cooldown = 0 //Cooldown var for malf modules, stores a worldtime + cooldown
 
 	var/obj/machinery/power/apc/malfhack
 	var/explosive = FALSE //does the AI explode when it dies?
 
-	var/mob/living/silicon/ai/parent
 	var/camera_light_on = FALSE
 	var/list/obj/machinery/camera/lit_cameras = list()
 
@@ -77,7 +63,7 @@
 	var/nuking = FALSE
 	var/obj/machinery/doomsday_device/doomsday_device
 
-	var/mob/camera/ai_eye/eyeobj
+	var/mob/eye/camera/ai/eyeobj
 	var/sprint = 10
 	var/last_moved = 0
 	var/acceleration = TRUE
@@ -108,7 +94,7 @@
 
 	var/atom/movable/screen/ai/modpc/interfaceButton
 	///whether its mmi is a posibrain or regular mmi when going ai mob to ai core structure
-	var/posibrain_inside = FALSE
+	var/posibrain_inside = TRUE
 	///whether its cover is opened, so you can wirecut it for deconstruction
 	var/opened = FALSE
 	///whether AI is anchored or not, used for checks
@@ -138,7 +124,9 @@
 		for (var/law in laws.inherent)
 			lawcheck += law
 
-	if(target_ai.mind)
+	create_eye()
+
+	if((target_ai.mind && target_ai.mind.active) || SSticker.current_state == GAME_STATE_SETTING_UP)
 		target_ai.mind.transfer_to(src)
 		if(mind.special_role)
 			to_chat(src, span_userdanger("You have been installed as an AI! "))
@@ -158,8 +146,6 @@
 	to_chat(src, span_bold("These laws may be changed by other players, random events, or by you becoming malfunctioning."))
 
 	job = "AI"
-
-	create_eye()
 
 	create_modularInterface()
 
@@ -195,7 +181,7 @@
 	GLOB.shuttle_caller_list += src
 
 	builtInCamera = new (src)
-	builtInCamera.network = list("ss13")
+	builtInCamera.network = list(CAMERANET_NETWORK_SS13)
 
 	ai_tracking_tool = new(src)
 	RegisterSignal(ai_tracking_tool, COMSIG_TRACKABLE_TRACKING_TARGET, PROC_REF(on_track_target))
@@ -206,6 +192,12 @@
 	alert_control = new(src, list(ALARM_ATMOS, ALARM_FIRE, ALARM_POWER, ALARM_CAMERA, ALARM_BURGLAR, ALARM_MOTION), list(z), camera_view = TRUE)
 	RegisterSignal(alert_control.listener, COMSIG_ALARM_LISTENER_TRIGGERED, PROC_REF(alarm_triggered))
 	RegisterSignal(alert_control.listener, COMSIG_ALARM_LISTENER_CLEARED, PROC_REF(alarm_cleared))
+
+/mob/living/silicon/ai/weak_syndie
+	radio = /obj/item/radio/headset/silicon/ai/evil
+	radio_enabled = TRUE
+	interaction_range = 1
+	sprint = 5
 
 /mob/living/silicon/ai/key_down(_key, client/user)
 	if(findtext(_key, "numpad")) //if it's a numpad number, we can convert it to just the number
@@ -295,14 +287,18 @@
 
 /// Apply an emote to all AI status displays on the station
 /mob/living/silicon/ai/proc/apply_emote_display(emote)
+<<<<<<< HEAD
 	for(var/obj/machinery/status_display/ai/ai_display as anything in GLOB.ai_status_displays)
+=======
+	for(var/obj/machinery/status_display/ai/ai_display as anything in SSmachines.get_machines_by_type_and_subtypes(/obj/machinery/status_display/ai))
+>>>>>>> tg-pr-88929
 		ai_display.emotion = emote
 		ai_display.update()
 
 /mob/living/silicon/ai/verb/pick_icon()
 	set category = "AI Commands"
 	set name = "Set AI Core Display"
-	if(incapacitated())
+	if(incapacitated)
 		return
 	icon = initial(icon)
 	icon_state = "ai"
@@ -320,7 +316,7 @@
 	view_core()
 	var/ai_core_icon = show_radial_menu(src, src , iconstates, radius = 42)
 
-	if(!ai_core_icon || incapacitated())
+	if(!ai_core_icon || incapacitated)
 		return
 
 	display_icon_override = ai_core_icon
@@ -345,7 +341,7 @@
 		else if(!connected_robot.cell || connected_robot.cell.charge <= 0)
 			robot_status = "DEPOWERED"
 		//Name, Health, Battery, Model, Area, and Status! Everything an AI wants to know about its borgies!
-		. += "[connected_robot.name] | S.Integrity: [connected_robot.health]% | Cell: [connected_robot.cell ? "[connected_robot.cell.charge]/[connected_robot.cell.maxcharge]" : "Empty"] | \
+		. += "[connected_robot.name] | S.Integrity: [connected_robot.health]% | Cell: [connected_robot.cell ? "[display_energy(connected_robot.cell.charge)]/[display_energy(connected_robot.cell.maxcharge)]" : "Empty"] | \
 		Model: [connected_robot.designation] | Loc: [get_area_name(connected_robot, TRUE)] | Status: [robot_status]"
 
 	// monkestation edit start PR #5133
@@ -372,9 +368,19 @@
 		to_chat(usr, span_alert("[can_evac_or_fail_reason]"))
 		return
 
+<<<<<<< HEAD
 	var/reason = tgui_input_text(src, "What is the nature of your emergency? ([CALL_SHUTTLE_REASON_LENGTH] characters required.)", "Confirm Shuttle Call", encode = FALSE) // monkestation edit: fix double-encoded ai shuttle call reasons
+=======
+	var/reason = tgui_input_text(
+		src,
+		"What is the nature of your emergency? ([CALL_SHUTTLE_REASON_LENGTH] characters required.)",
+		"Confirm Shuttle Call",
+		max_length = MAX_MESSAGE_LEN,
+		encode = FALSE,
+	)
+>>>>>>> tg-pr-88929
 
-	if(incapacitated())
+	if(incapacitated)
 		return
 
 	if(trim(reason))
@@ -436,7 +442,7 @@
 		return // stop
 	if(stat == DEAD)
 		return
-	if(incapacitated())
+	if(incapacitated)
 		if(battery < 50)
 			to_chat(src, span_warning("Insufficient backup power!"))
 			return
@@ -461,10 +467,13 @@
 	disconnect_shell()
 	ShutOffDoomsdayDevice()
 	var/obj/structure/ai_core/deactivated/ai_core = new(get_turf(src), /* skip_mmi_creation = */ TRUE)
-	if(!make_mmi_drop_and_transfer(ai_core.core_mmi, the_core = ai_core))
-		return FALSE
-	qdel(src)
-	return TRUE
+	if(make_mmi_drop_and_transfer(ai_core.core_mmi, the_core = ai_core))
+		qdel(src)
+	return ai_core
+
+/mob/living/silicon/ai/proc/break_core_link()
+	to_chat(src, span_danger("Your core has been destroyed!"))
+	linked_core = null
 
 /mob/living/silicon/ai/proc/make_mmi_drop_and_transfer(obj/item/mmi/the_mmi, the_core)
 	// monkestation edit start
@@ -477,7 +486,7 @@
 	if(hack_software)
 		new/obj/item/malf_upgrade(get_turf(src))
 	the_mmi = mmi_type
-	the_mmi.brain = new /obj/item/organ/internal/brain(the_mmi)
+	the_mmi.brain = new /obj/item/organ/brain(the_mmi)
 	the_mmi.brain.organ_flags |= ORGAN_FROZEN
 	the_mmi.brain.name = "[real_name]'s brain"
 	the_mmi.name = "[initial(the_mmi.name)]: [real_name]"
@@ -519,20 +528,16 @@
 	if(usr != src)
 		return
 
-	if(href_list["emergencyAPC"]) //This check comes before incapacitated() because the only time it would be useful is when we have no power.
+	if(href_list["emergencyAPC"]) //This check comes before incapacitated because the only time it would be useful is when we have no power.
 		if(!apc_override)
 			to_chat(src, span_notice("APC backdoor is no longer available."))
 			return
 		apc_override.ui_interact(src)
 		return
 
-	if(incapacitated())
+	if(incapacitated)
 		return
 
-	if (href_list["mach_close"])
-		var/t1 = "window=[href_list["mach_close"]]"
-		unset_machine()
-		src << browse(null, t1)
 	if (href_list["switchcamera"])
 		switchCamera(locate(href_list["switchcamera"]) in GLOB.cameranet.cameras)
 	if (href_list["showalerts"])
@@ -542,14 +547,14 @@
 			src << browse(last_tablet_note_seen, "window=show_tablet")
 	//Carn: holopad requests
 	if(href_list["jump_to_holopad"])
-		var/obj/machinery/holopad/Holopad = locate(href_list["jump_to_holopad"]) in GLOB.machines
+		var/obj/machinery/holopad/Holopad = locate(href_list["jump_to_holopad"]) in SSmachines.get_machines_by_type_and_subtypes(/obj/machinery/holopad)
 		if(Holopad)
 			cam_prev = get_turf(eyeobj)
 			eyeobj.setLoc(Holopad)
 		else
 			to_chat(src, span_notice("Unable to locate the holopad."))
 	if(href_list["project_to_holopad"])
-		var/obj/machinery/holopad/Holopad = locate(href_list["project_to_holopad"]) in GLOB.machines
+		var/obj/machinery/holopad/Holopad = locate(href_list["project_to_holopad"]) in SSmachines.get_machines_by_type(/obj/machinery/holopad)
 		if(Holopad)
 			lastloc = get_turf(eyeobj)
 			Holopad.attack_ai_secondary(src) //may as well recycle
@@ -650,12 +655,20 @@
 	if (length(cameras))
 		var/obj/machinery/camera/cam = cameras[1]
 		if (cam.can_use())
+<<<<<<< HEAD
 			queueAlarm("--- [alarm_type] alarm detected in [home_name]! (<A HREF='byond://?src=[REF(src)];switchcamera=[REF(cam)]'>[cam.c_tag]</A>)", alarm_type)
+=======
+			queueAlarm("--- [alarm_type] alarm detected in [home_name]! (<A href=byond://?src=[REF(src)];switchcamera=[REF(cam)]>[cam.c_tag]</A>)", alarm_type)
+>>>>>>> tg-pr-88929
 		else
 			var/first_run = FALSE
 			var/dat2 = ""
 			for (var/obj/machinery/camera/camera as anything in cameras)
+<<<<<<< HEAD
 				dat2 += "[(!first_run) ? "" : " | "]<A HREF='byond://?src=[REF(src)];switchcamera=[REF(camera)]'>[camera.c_tag]</A>"
+=======
+				dat2 += "[(!first_run) ? "" : " | "]<A href=byond://?src=[REF(src)];switchcamera=[REF(camera)]>[camera.c_tag]</A>"
+>>>>>>> tg-pr-88929
 				first_run = TRUE
 			queueAlarm("--- [alarm_type] alarm detected in [home_name]! ([dat2])", alarm_type)
 	else
@@ -672,11 +685,14 @@
 /mob/living/silicon/ai/proc/ai_network_change()
 	set category = "AI Commands"
 	set name = "Jump To Network"
+<<<<<<< HEAD
 	unset_machine()
+=======
+>>>>>>> tg-pr-88929
 	ai_tracking_tool.reset_tracking()
 	var/cameralist[0]
 
-	if(incapacitated())
+	if(incapacitated)
 		return
 
 	var/mob/living/silicon/ai/U = usr
@@ -685,11 +701,11 @@
 		var/turf/camera_turf = get_turf(C) //get camera's turf in case it's built into something so we don't get z=0
 
 		var/list/tempnetwork = C.network
-		if(!camera_turf || !(is_station_level(camera_turf.z) || is_mining_level(camera_turf.z) || ("ss13" in tempnetwork)))
+		if(!camera_turf || !(is_station_level(camera_turf.z) || is_mining_level(camera_turf.z) || (CAMERANET_NETWORK_SS13 in tempnetwork)))
 			continue
 		if(!C.can_use())
 			continue
-		tempnetwork.Remove("rd", "ordnance", "prison")
+		tempnetwork.Remove(CAMERANET_NETWORK_RD, CAMERANET_NETWORK_ORDNANCE, CAMERANET_NETWORK_PRISON)
 		if(length(tempnetwork))
 			for(var/i in C.network)
 				cameralist[i] = i
@@ -718,7 +734,7 @@
 	set desc = "Change the default hologram available to AI to something else."
 	set category = "AI Commands"
 
-	if(incapacitated())
+	if(incapacitated)
 		return
 	var/input
 	switch(tgui_input_list(usr, "Would you like to select a hologram based on a custom character, an animal, or switch to a unique avatar?", "Customize", list("Custom Character","Unique","Animal")))
@@ -727,7 +743,7 @@
 				if("Station Member")
 					var/list/personnel_list = list()
 
-					for(var/datum/record/crew/record in GLOB.manifest.locked)//Look in data core locked.
+					for(var/datum/record/locked/record in GLOB.manifest.locked)//Look in data core locked.
 						personnel_list["[record.name]: [record.rank]"] = record.character_appearance//Pull names, rank, and image.
 
 					if(!length(personnel_list))
@@ -760,7 +776,7 @@
 			"carp" = 'icons/mob/simple/carp.dmi',
 			"chicken" = 'icons/mob/simple/animal.dmi',
 			"corgi" = 'icons/mob/simple/pets.dmi',
-			"cow" = 'icons/mob/simple/animal.dmi',
+			"cow" = 'icons/mob/simple/cows.dmi',
 			"crab" = 'icons/mob/simple/animal.dmi',
 			"fox" = 'icons/mob/simple/pets.dmi',
 			"goat" = 'icons/mob/simple/animal.dmi',
@@ -768,7 +784,7 @@
 			"cat2" = 'icons/mob/simple/pets.dmi',
 			"poly" = 'icons/mob/simple/animal.dmi',
 			"pug" = 'icons/mob/simple/pets.dmi',
-			"spider" = 'icons/mob/simple/animal.dmi'
+			"spider" = 'icons/mob/simple/arachnoid.dmi'
 			)
 
 			input = tgui_input_list(usr, "Select a hologram", "Hologram", sort_list(icon_list))
@@ -816,12 +832,26 @@
 	button_icon = 'icons/mob/actions/actions_AI.dmi'
 	button_icon_state = "ai_malf_core"
 
+/datum/action/innate/core_return/Grant(mob/new_owner)
+	. = ..()
+	RegisterSignal(new_owner, COMSIG_SILICON_AI_VACATE_APC, PROC_REF(returned_to_core))
+
+/datum/action/innate/core_return/proc/returned_to_core(datum/source)
+	SIGNAL_HANDLER
+
+	Remove(source)
+	UnregisterSignal(source, COMSIG_SILICON_AI_VACATE_APC)
+
 /datum/action/innate/core_return/Activate()
 	var/obj/machinery/power/apc/apc = owner.loc
 	if(!istype(apc))
 		to_chat(owner, span_notice("You are already in your Main Core."))
 		return
-	apc.malfvacate()
+	if(SEND_SIGNAL(owner, COMSIG_SILICON_AI_CORE_STATUS) & COMPONENT_CORE_ALL_GOOD)
+		apc.malfvacate()
+	else
+		to_chat(owner, span_danger("Linked core not detected!"))
+		return
 	qdel(src)
 
 /mob/living/silicon/ai/proc/toggle_camera_light()
@@ -849,12 +879,17 @@
 	var/list/obj/machinery/camera/visible = list()
 	for (var/datum/camerachunk/chunk as anything in eyeobj.visibleCameraChunks)
 		for (var/z_key in chunk.cameras)
+<<<<<<< HEAD
 			var/list/z_cameras = chunk.cameras[z_key]
 			list_clear_nulls(z_cameras)
 			for(var/obj/machinery/camera/camera as anything in z_cameras)
 				if(QDELETED(camera))
 					continue
 				if(!camera.can_use() || get_dist(camera, eyeobj) > 7 || !camera.internal_light)
+=======
+			for(var/obj/machinery/camera/camera as anything in chunk.cameras[z_key])
+				if(isnull(camera) || !camera.can_use() || get_dist(camera, eyeobj) > 7 || !camera.internal_light)
+>>>>>>> tg-pr-88929
 					continue
 				visible |= camera
 
@@ -873,7 +908,7 @@
 	set desc = "Allows you to change settings of your radio."
 	set category = "AI Commands"
 
-	if(incapacitated())
+	if(incapacitated)
 		return
 
 	to_chat(src, "Accessing Subspace Transceiver control...")
@@ -889,34 +924,34 @@
 	set desc = "Modify the default radio setting for your automatic announcements."
 	set category = "AI Commands"
 
-	if(incapacitated())
+	if(incapacitated)
 		return
 	set_autosay()
 
 /mob/living/silicon/ai/transfer_ai(interaction, mob/user, mob/living/silicon/ai/AI, obj/item/aicard/card)
 	if(!..())
 		return
-	if(interaction == AI_TRANS_TO_CARD)//The only possible interaction. Upload AI mob to a card.
-		if(!can_be_carded)
-			to_chat(user, span_boldwarning("Transfer failed."))
-			return
-		disconnect_shell() //If the AI is controlling a borg, force the player back to core!
-		if(!mind)
-			to_chat(user, span_warning("No intelligence patterns detected."))
-			return
-		ShutOffDoomsdayDevice()
-		var/obj/structure/ai_core/new_core = new /obj/structure/ai_core/deactivated(loc, posibrain_inside)//Spawns a deactivated terminal at AI location.
-		new_core.circuit.battery = battery
-		ai_restore_power()//So the AI initially has power.
-		control_disabled = TRUE //Can't control things remotely if you're stuck in a card!
-		interaction_range = 0
-		radio_enabled = FALSE //No talking on the built-in radio for you either!
-		forceMove(card)
-		card.AI = src
-		to_chat(src, "You have been downloaded to a mobile storage device. Remote device connection severed.")
-		to_chat(user, "[span_boldnotice("Transfer successful")]: [name] ([rand(1000,9999)].exe) removed from host terminal and stored within local memory.")
+	if(interaction != AI_TRANS_TO_CARD)//The only possible interaction. Upload AI mob to a card.
+		return
+	if(!can_be_carded)
+		balloon_alert(user, "transfer failed!")
+		return
+	disconnect_shell() //If the AI is controlling a borg, force the player back to core!
+	if(!mind)
+		balloon_alert(user, "no intelligence detected!") // average tg coder am i right
+		return
+	ShutOffDoomsdayDevice()
+	var/obj/structure/ai_core/new_core = new /obj/structure/ai_core/deactivated(loc, posibrain_inside)//Spawns a deactivated terminal at AI location.
+	new_core.circuit.battery = battery
+	ai_restore_power()//So the AI initially has power.
+	control_disabled = TRUE //Can't control things remotely if you're stuck in a card!
+	radio_enabled = FALSE //No talking on the built-in radio for you either!
+	forceMove(card)
+	card.AI = src
+	to_chat(src, "You have been downloaded to a mobile storage device. Remote device connection severed.")
+	to_chat(user, "[span_boldnotice("Transfer successful")]: [name] ([rand(1000,9999)].exe) removed from host terminal and stored within local memory.")
 
-/mob/living/silicon/ai/can_perform_action(atom/movable/target, action_bitflags)
+/mob/living/silicon/ai/can_perform_action(atom/target, action_bitflags)
 	if(control_disabled)
 		to_chat(src, span_warning("You can't do that right now!"))
 		return FALSE
@@ -933,12 +968,19 @@
 	return get_dist(src, A) <= max(viewscale[1]*0.5,viewscale[2]*0.5)
 
 /mob/living/silicon/ai/proc/relay_speech(message, atom/movable/speaker, datum/language/message_language, raw_message, radio_freq, list/spans, list/message_mods = list())
-	var/raw_translation = translate_language(speaker, message_language, raw_message)
+	var/raw_translation = translate_language(speaker, message_language, raw_message, spans, message_mods)
 	var/atom/movable/source = speaker.GetSource() || speaker // is the speaker virtual/radio
 	var/treated_message = source.say_quote(raw_translation, spans, message_mods)
 
 	var/start = "Relayed Speech: "
+<<<<<<< HEAD
 	var/namepart = "[speaker.GetVoice()][speaker.get_alt_name()]"
+=======
+	var/namepart
+	var/list/stored_name = list(null)
+	SEND_SIGNAL(speaker, COMSIG_MOVABLE_MESSAGE_GET_NAME_PART, stored_name, FALSE)
+	namepart = stored_name[NAME_PART_INDEX] || "[speaker.GetVoice()]"
+>>>>>>> tg-pr-88929
 	var/hrefpart = "<a href='byond://?src=[REF(src)];track=[html_encode(namepart)]'>"
 	var/jobpart = "Unknown"
 
@@ -989,6 +1031,9 @@
 	module_picker.ui_interact(owner)
 
 /mob/living/silicon/ai/proc/add_malf_picker()
+	if (malf_picker)
+		stack_trace("Attempted to give malf AI malf picker to \[[src]\], who already has a malf picker.")
+		return
 	to_chat(src, "In the top left corner of the screen you will find the Malfunction Modules button, where you can purchase various abilities, from upgraded surveillance to station ending doomsday devices.")
 	to_chat(src, "You are also capable of hacking APCs, which grants you more points to spend on your Malfunction powers. The drawback is that a hacked APC will give you away if spotted by the crew. Hacking an APC takes 60 seconds.")
 	view_core() //A BYOND bug requires you to be viewing your core before your verbs update
@@ -1026,7 +1071,7 @@
 	update_sight()
 	if(client.eye != src)
 		var/atom/AT = client.eye
-		AT.get_remote_view_fullscreens(src)
+		AT?.get_remote_view_fullscreens(src)
 	else
 		clear_fullscreen("remote_view", 0)
 
@@ -1048,11 +1093,11 @@
 
 	if(!istype(apc) || QDELETED(apc) || apc.machine_stat & BROKEN)
 		to_chat(src, span_danger("Hack aborted. The designated APC no longer exists on the power network."))
-		playsound(get_turf(src), 'sound/machines/buzz-two.ogg', 50, TRUE, ignore_walls = FALSE)
+		playsound(get_turf(src), 'sound/machines/buzz/buzz-two.ogg', 50, TRUE, ignore_walls = FALSE)
 		return
 	if(apc.aidisabled)
 		to_chat(src, span_danger("Hack aborted. [apc] is no longer responding to our systems."))
-		playsound(get_turf(src), 'sound/machines/buzz-sigh.ogg', 50, TRUE, ignore_walls = FALSE)
+		playsound(get_turf(src), 'sound/machines/buzz/buzz-sigh.ogg', 50, TRUE, ignore_walls = FALSE)
 		return
 
 	malf_picker.processing_time += 10
@@ -1066,21 +1111,24 @@
 			malf_ai_datum.update_static_data_for_all_viewers()
 		else //combat software AIs use a different UI
 			malf_picker.update_static_data_for_all_viewers()
-
-	apc.malfai = parent || src
+	if(apc.malfai) // another malf hacked this one; counter-hack!
+		to_chat(apc.malfai, span_warning("An adversarial subroutine has counter-hacked [apc]!"))
+		apc.malfai.hacked_apcs -= apc
+	apc.malfai = src
 	apc.malfhack = TRUE
 	apc.locked = TRUE
 	apc.coverlocked = TRUE
-
+	apc.flicker_hacked_icon()
+	apc.set_hacked_hud()
+	hacked_apcs += apc
 	playsound(get_turf(src), 'sound/machines/ding.ogg', 50, TRUE, ignore_walls = FALSE)
 	to_chat(src, "Hack complete. [apc] is now under your exclusive control.")
-	apc.update_appearance()
 
 /mob/living/silicon/ai/verb/deploy_to_shell(mob/living/silicon/robot/target)
 	set category = "AI Commands"
 	set name = "Deploy to Shell"
 
-	if(incapacitated())
+	if(incapacitated)
 		return
 	if(control_disabled)
 		to_chat(src, span_warning("Wireless networking module is offline."))
@@ -1154,8 +1202,8 @@
 		target_ai = src //cheat! just give... ourselves as the spawned AI, because that's technically correct
 	. = ..()
 
-/mob/living/silicon/ai/proc/camera_visibility(mob/camera/ai_eye/moved_eye)
-	GLOB.cameranet.visibility(moved_eye, client, all_eyes, TRUE)
+/mob/living/silicon/ai/proc/camera_visibility(mob/eye/camera/ai/moved_eye)
+	GLOB.cameranet.visibility(moved_eye)
 
 /mob/living/silicon/ai/forceMove(atom/destination)
 	. = ..()
@@ -1189,6 +1237,7 @@
 		REMOVE_TRAIT(src, TRAIT_INCAPACITATED, POWER_LACK_TRAIT)
 
 /mob/living/silicon/ai/proc/show_camera_list()
+<<<<<<< HEAD
 	var/list/cameras = GLOB.cameranet.get_available_camera_by_tag_list(network)
 	var/camera_tag = tgui_input_list(src, "Choose which camera you want to view", "Cameras", cameras)
 	if(isnull(camera_tag))
@@ -1199,6 +1248,15 @@
 		return
 
 	switchCamera(chosen_camera)
+=======
+	var/list/cameras = get_camera_list(network)
+	var/camera = tgui_input_list(src, "Choose which camera you want to view", "Cameras", cameras)
+	if(isnull(camera))
+		return
+	if(isnull(cameras[camera]))
+		return
+	switchCamera(cameras[camera])
+>>>>>>> tg-pr-88929
 
 /mob/living/silicon/on_handsblocked_start()
 	return // AIs have no hands
@@ -1209,7 +1267,7 @@
 /mob/living/silicon/ai/get_exp_list(minutes)
 	. = ..()
 
-	var/datum/job/ai/ai_job_ref = SSjob.GetJobType(/datum/job/ai)
+	var/datum/job/ai/ai_job_ref = SSjob.get_job_type(/datum/job/ai)
 
 	.[ai_job_ref.title] = minutes
 

@@ -1,6 +1,6 @@
 /// Deals extra damage to mobs of a certain type, species, or biotype.
-/// This doesn't directly modify the normal damage of the weapon, instead it applies it's own damage seperatedly ON TOP of normal damage
-/// ie. a sword that does 10 damage with a bane elment attacthed that has a 0.5 damage_multiplier will do:
+/// This doesn't directly modify the normal damage of the weapon, instead it applies its own damage separately ON TOP of normal damage
+/// ie. a sword that does 10 damage with a bane element attached that has a 0.5 damage_multiplier will do:
 /// 10 damage from the swords normal attack + 5 damage (50%) from the bane element
 /datum/element/bane
 	element_flags = ELEMENT_BESPOKE
@@ -27,6 +27,7 @@
 	src.added_damage = added_damage
 	src.requires_combat_mode = requires_combat_mode
 	src.mob_biotypes = mob_biotypes
+<<<<<<< HEAD
 	target.AddComponent(/datum/component/on_hit_effect, CALLBACK(src, PROC_REF(do_bane)), CALLBACK(src, PROC_REF(check_bane)))
 
 /datum/element/bane/Detach(datum/target)
@@ -35,12 +36,60 @@
 
 /datum/element/bane/proc/check_bane(mob/living/bane_applier, atom/target, bane_weapon)
 	if(!isliving(target))
+=======
+	target.AddElementTrait(TRAIT_ON_HIT_EFFECT, REF(src), /datum/element/on_hit_effect)
+	RegisterSignal(target, COMSIG_ON_HIT_EFFECT, PROC_REF(do_bane))
+
+/datum/element/bane/Detach(datum/source)
+	UnregisterSignal(source, COMSIG_ON_HIT_EFFECT)
+	REMOVE_TRAIT(source, TRAIT_ON_HIT_EFFECT, REF(src))
+	return ..()
+
+/datum/element/bane/proc/do_bane(datum/element_owner, mob/living/bane_applier, mob/living/baned_target, hit_zone, throw_hit)
+	if(!check_biotype_path(bane_applier, baned_target))
+		return
+	if(SEND_SIGNAL(element_owner, COMSIG_OBJECT_PRE_BANING, baned_target) & COMPONENT_CANCEL_BANING)
+>>>>>>> tg-pr-88929
 		return
 	var/atom/movable/atom_owner = bane_weapon
 	if(SEND_SIGNAL(atom_owner, COMSIG_OBJECT_PRE_BANING, target) & COMPONENT_CANCEL_BANING)
 		return
 	return TRUE
 
+<<<<<<< HEAD
+=======
+	var/force_boosted
+	var/applied_dam_type
+
+	if(isitem(element_owner))
+		var/obj/item/item_owner = element_owner
+		force_boosted = item_owner.force
+		applied_dam_type = item_owner.damtype
+	else if(isprojectile(element_owner))
+		var/obj/projectile/projectile_owner = element_owner
+		force_boosted = projectile_owner.damage
+		applied_dam_type = projectile_owner.damage_type
+	else if (isliving(element_owner))
+		var/mob/living/living_owner = element_owner
+		force_boosted = (living_owner.melee_damage_lower + living_owner.melee_damage_upper) / 2
+		//commence crying. yes, these really are the same check. FUCK.
+		if(isbasicmob(living_owner))
+			var/mob/living/basic/basic_owner = living_owner
+			applied_dam_type = basic_owner.melee_damage_type
+		else if(isanimal(living_owner))
+			var/mob/living/simple_animal/simple_owner = living_owner
+			applied_dam_type = simple_owner.melee_damage_type
+		else
+			return
+	else
+		return
+
+	var/extra_damage = max(0, (force_boosted * damage_multiplier) + added_damage)
+	baned_target.apply_damage(extra_damage, applied_dam_type, hit_zone)
+	SEND_SIGNAL(baned_target, COMSIG_LIVING_BANED, bane_applier, baned_target) // for extra effects when baned.
+	SEND_SIGNAL(element_owner, COMSIG_OBJECT_ON_BANING, baned_target)
+
+>>>>>>> tg-pr-88929
 /**
  * Checks typepaths and the mob's biotype, returning TRUE if correct and FALSE if wrong.
  * Additionally checks if combat mode is required, and if so whether it's enabled or not.
@@ -50,7 +99,11 @@
 		return FALSE
 	var/mob/living/living_target = target
 	if(bane_applier)
+<<<<<<< HEAD
 		if(requires_combat_mode && !(bane_applier.istate & ISTATE_HARM))
+=======
+		if(requires_combat_mode && !bane_applier.combat_mode)
+>>>>>>> tg-pr-88929
 			return FALSE
 	var/is_correct_biotype = living_target.mob_biotypes & mob_biotypes
 	if(mob_biotypes && !(is_correct_biotype))
@@ -59,6 +112,7 @@
 		return istype(living_target, target_type)
 	else //species type
 		return is_species(living_target, target_type)
+<<<<<<< HEAD
 
 /datum/element/bane/proc/do_bane(datum/element_owner, mob/living/bane_applier, mob/living/baned_target, hit_zone)
 	if(!check_biotype_path(bane_applier, baned_target)) // monkestation edit: added check that is present on tg master but wasnt here
@@ -93,3 +147,5 @@
 	baned_target.apply_damage(extra_damage, applied_dam_type, hit_zone)
 	SEND_SIGNAL(baned_target, COMSIG_LIVING_BANED, bane_applier, baned_target) // for extra effects when baned.
 	SEND_SIGNAL(element_owner, COMSIG_OBJECT_ON_BANING, baned_target)
+=======
+>>>>>>> tg-pr-88929

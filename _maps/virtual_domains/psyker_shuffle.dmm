@@ -2,16 +2,28 @@
 "a" = (
 /obj/structure/closet/crate/secure,
 /turf/open/indestructible/dark,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "b" = (
 /obj/item/restraints/legcuffs/beartrap/prearmed,
 /turf/open/indestructible/dark,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+"b" = (
+/obj/item/restraints/legcuffs/beartrap/prearmed,
+/turf/open/indestructible/dark,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "e" = (
 /obj/item/gun/ballistic/shotgun/lethal,
 /obj/structure/closet/crate/preopen,
 /turf/open/indestructible/dark,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "h" = (
 /obj/structure/closet/crate/preopen,
 /obj/item/gun/ballistic/automatic/mini_uzi,
@@ -49,16 +61,24 @@
 /obj/item/gun/ballistic/revolver,
 /turf/template_noop,
 /area/virtual_domain/safehouse)
+<<<<<<< HEAD
 "k" = (
 /obj/effect/baseturf_helper/virtual_domain,
 /turf/closed/indestructible/binary,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+"i" = (
+/obj/effect/landmark/bitrunning/crate_replacer,
+/turf/open/indestructible/dark,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "m" = (
 /obj/item/toy/gun{
 	pixel_y = 3
 	},
 /obj/structure/closet/crate/wooden,
 /turf/open/indestructible/dark,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "o" = (
 /turf/template_noop,
@@ -81,19 +101,52 @@
 /obj/structure/closet/crate/hydroponics,
 /turf/open/indestructible/dark,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+"o" = (
+/turf/template_noop,
+/area/template_noop)
+"r" = (
+/mob/living/simple_animal/hostile/mimic,
+/turf/open/indestructible/dark,
+/area/virtual_domain)
+"s" = (
+/mob/living/simple_animal/hostile/mimic/crate,
+/turf/open/indestructible/dark,
+/area/virtual_domain)
+"t" = (
+/turf/template_noop,
+/area/virtual_domain/safehouse)
+"u" = (
+/obj/effect/baseturf_helper/virtual_domain,
+/turf/open/indestructible/dark,
+/area/virtual_domain)
+"v" = (
+/obj/structure/closet/crate/hydroponics,
+/turf/open/indestructible/dark,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "x" = (
 /obj/item/gun/ballistic/shotgun/lethal,
 /obj/item/gun/ballistic/revolver/mateba,
 /obj/structure/closet/crate/preopen,
 /turf/open/indestructible/dark,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "B" = (
 /turf/template_noop,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+"B" = (
+/turf/open/space,
+/area/space/virtual_domain)
+>>>>>>> tg-pr-88929
 "F" = (
 /obj/structure/closet/crate/internals,
 /obj/item/gun/ballistic/revolver/mateba,
 /turf/open/indestructible/dark,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "G" = (
 /obj/structure/closet/crate,
@@ -107,6 +160,17 @@
 /obj/machinery/door/airlock/abductor,
 /turf/open/indestructible/dark,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+"K" = (
+/obj/structure/closet/crate/eva,
+/turf/open/indestructible/dark,
+/area/virtual_domain)
+"M" = (
+/obj/machinery/door/airlock/abductor,
+/turf/open/indestructible/dark,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "N" = (
 /obj/effect/baseturf_helper/virtual_domain,
 /turf/template_noop,
@@ -114,11 +178,16 @@
 "O" = (
 /obj/structure/closet/crate/freezer/surplus_limbs,
 /turf/open/indestructible/dark,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "P" = (
 /obj/structure/closet/crate/wooden,
 /obj/item/gun/ballistic/revolver/mateba,
 /turf/open/indestructible/dark,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "Q" = (
 /turf/open/indestructible/dark,
@@ -133,6 +202,24 @@
 /area/ruin/space/has_grav/powered/virtual_domain)
 "U" = (
 /obj/effect/landmark/bitrunning/safehouse_spawn,
+=======
+/area/virtual_domain)
+"Q" = (
+/turf/open/indestructible/dark,
+/area/virtual_domain)
+"R" = (
+/obj/structure/closet/crate/secure/loot,
+/turf/open/indestructible/dark,
+/area/virtual_domain)
+"S" = (
+/obj/structure/closet/crate/secure/bitrunning/encrypted,
+/turf/open/indestructible/dark,
+/area/virtual_domain)
+"U" = (
+/obj/modular_map_root/safehouse{
+	key = "bathroom"
+	},
+>>>>>>> tg-pr-88929
 /turf/template_noop,
 /area/virtual_domain/safehouse)
 "X" = (
@@ -142,15 +229,23 @@
 /obj/projectile/bullet/shotgun_frag12,
 /obj/projectile/bullet/shotgun_frag12,
 /turf/open/indestructible/dark,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "Y" = (
 /turf/closed/indestructible/binary,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+"Y" = (
+/turf/closed/indestructible/binary,
+/area/virtual_domain/fullbright)
+>>>>>>> tg-pr-88929
 
 (1,1,1) = {"
 o
 o
 o
+<<<<<<< HEAD
 o
 o
 o
@@ -164,6 +259,21 @@ o
 o
 o
 o
+=======
+Y
+Y
+Y
+Y
+Y
+Y
+Y
+Y
+Y
+Y
+Y
+Y
+Y
+>>>>>>> tg-pr-88929
 o
 o
 o
@@ -179,6 +289,7 @@ o
 o
 o
 o
+<<<<<<< HEAD
 o
 o
 o
@@ -193,6 +304,22 @@ o
 o
 o
 o
+=======
+Y
+Q
+Q
+Q
+Q
+Q
+Q
+Q
+Q
+Q
+Q
+a
+Y
+Y
+>>>>>>> tg-pr-88929
 o
 o
 o
@@ -207,6 +334,7 @@ o
 o
 o
 o
+<<<<<<< HEAD
 o
 o
 o
@@ -319,6 +447,8 @@ o
 o
 o
 Y
+=======
+>>>>>>> tg-pr-88929
 Y
 Y
 K
@@ -331,8 +461,12 @@ Q
 Q
 Q
 Q
+<<<<<<< HEAD
 Q
 Y
+=======
+u
+>>>>>>> tg-pr-88929
 Y
 o
 o
@@ -342,8 +476,14 @@ o
 o
 o
 o
+<<<<<<< HEAD
 "}
 (8,1,1) = {"
+=======
+o
+"}
+(4,1,1) = {"
+>>>>>>> tg-pr-88929
 o
 o
 Y
@@ -361,7 +501,11 @@ Q
 Q
 Q
 Y
+<<<<<<< HEAD
 Y
+=======
+o
+>>>>>>> tg-pr-88929
 o
 o
 o
@@ -371,7 +515,11 @@ o
 o
 o
 "}
+<<<<<<< HEAD
 (9,1,1) = {"
+=======
+(5,1,1) = {"
+>>>>>>> tg-pr-88929
 o
 o
 Y
@@ -385,7 +533,11 @@ Q
 K
 Y
 Q
+<<<<<<< HEAD
 s
+=======
+r
+>>>>>>> tg-pr-88929
 Y
 Q
 Y
@@ -399,7 +551,11 @@ o
 o
 o
 "}
+<<<<<<< HEAD
 (10,1,1) = {"
+=======
+(6,1,1) = {"
+>>>>>>> tg-pr-88929
 o
 o
 Y
@@ -427,7 +583,11 @@ o
 o
 o
 "}
+<<<<<<< HEAD
 (11,1,1) = {"
+=======
+(7,1,1) = {"
+>>>>>>> tg-pr-88929
 o
 o
 Y
@@ -455,7 +615,11 @@ o
 o
 o
 "}
+<<<<<<< HEAD
 (12,1,1) = {"
+=======
+(8,1,1) = {"
+>>>>>>> tg-pr-88929
 o
 o
 Y
@@ -483,7 +647,11 @@ o
 o
 o
 "}
+<<<<<<< HEAD
 (13,1,1) = {"
+=======
+(9,1,1) = {"
+>>>>>>> tg-pr-88929
 o
 o
 Y
@@ -511,12 +679,20 @@ Y
 Y
 o
 "}
+<<<<<<< HEAD
 (14,1,1) = {"
+=======
+(10,1,1) = {"
+>>>>>>> tg-pr-88929
 o
 o
 Y
 a
+<<<<<<< HEAD
 a
+=======
+Q
+>>>>>>> tg-pr-88929
 Y
 Q
 Q
@@ -539,7 +715,11 @@ U
 Y
 Y
 "}
+<<<<<<< HEAD
 (15,1,1) = {"
+=======
+(11,1,1) = {"
+>>>>>>> tg-pr-88929
 o
 o
 Y
@@ -547,7 +727,11 @@ Y
 Y
 Y
 Q
+<<<<<<< HEAD
 G
+=======
+Q
+>>>>>>> tg-pr-88929
 Q
 Y
 Y
@@ -567,11 +751,19 @@ t
 B
 Y
 "}
+<<<<<<< HEAD
 (16,1,1) = {"
 o
 o
 Y
 s
+=======
+(12,1,1) = {"
+o
+o
+Y
+r
+>>>>>>> tg-pr-88929
 Q
 Q
 Q
@@ -585,7 +777,11 @@ Q
 Q
 Q
 Q
+<<<<<<< HEAD
 r
+=======
+Q
+>>>>>>> tg-pr-88929
 t
 h
 t
@@ -595,7 +791,11 @@ t
 B
 Y
 "}
+<<<<<<< HEAD
 (17,1,1) = {"
+=======
+(13,1,1) = {"
+>>>>>>> tg-pr-88929
 o
 o
 Y
@@ -613,7 +813,11 @@ Q
 Q
 Q
 Q
+<<<<<<< HEAD
 r
+=======
+Q
+>>>>>>> tg-pr-88929
 t
 t
 t
@@ -623,7 +827,11 @@ t
 B
 Y
 "}
+<<<<<<< HEAD
 (18,1,1) = {"
+=======
+(14,1,1) = {"
+>>>>>>> tg-pr-88929
 o
 o
 Y
@@ -641,7 +849,11 @@ Q
 Q
 Q
 Q
+<<<<<<< HEAD
 r
+=======
+Q
+>>>>>>> tg-pr-88929
 t
 t
 t
@@ -651,7 +863,11 @@ t
 B
 Y
 "}
+<<<<<<< HEAD
 (19,1,1) = {"
+=======
+(15,1,1) = {"
+>>>>>>> tg-pr-88929
 o
 o
 Y
@@ -679,7 +895,11 @@ t
 B
 Y
 "}
+<<<<<<< HEAD
 (20,1,1) = {"
+=======
+(16,1,1) = {"
+>>>>>>> tg-pr-88929
 o
 o
 Y
@@ -707,7 +927,11 @@ N
 B
 Y
 "}
+<<<<<<< HEAD
 (21,1,1) = {"
+=======
+(17,1,1) = {"
+>>>>>>> tg-pr-88929
 o
 o
 Y
@@ -735,7 +959,11 @@ Y
 B
 Y
 "}
+<<<<<<< HEAD
 (22,1,1) = {"
+=======
+(18,1,1) = {"
+>>>>>>> tg-pr-88929
 o
 o
 Y
@@ -763,7 +991,11 @@ Y
 B
 Y
 "}
+<<<<<<< HEAD
 (23,1,1) = {"
+=======
+(19,1,1) = {"
+>>>>>>> tg-pr-88929
 o
 o
 o
@@ -791,7 +1023,11 @@ Y
 Y
 Y
 "}
+<<<<<<< HEAD
 (24,1,1) = {"
+=======
+(20,1,1) = {"
+>>>>>>> tg-pr-88929
 o
 o
 Y
@@ -819,7 +1055,11 @@ o
 o
 o
 "}
+<<<<<<< HEAD
 (25,1,1) = {"
+=======
+(21,1,1) = {"
+>>>>>>> tg-pr-88929
 Y
 Y
 Y
@@ -847,7 +1087,11 @@ o
 o
 o
 "}
+<<<<<<< HEAD
 (26,1,1) = {"
+=======
+(22,1,1) = {"
+>>>>>>> tg-pr-88929
 Y
 a
 Q
@@ -875,7 +1119,11 @@ o
 o
 o
 "}
+<<<<<<< HEAD
 (27,1,1) = {"
+=======
+(23,1,1) = {"
+>>>>>>> tg-pr-88929
 Y
 Q
 Q
@@ -903,7 +1151,11 @@ o
 o
 o
 "}
+<<<<<<< HEAD
 (28,1,1) = {"
+=======
+(24,1,1) = {"
+>>>>>>> tg-pr-88929
 Y
 Y
 Q
@@ -918,10 +1170,17 @@ Q
 F
 Q
 Y
+<<<<<<< HEAD
 s
 Q
 Q
 a
+=======
+Q
+Q
+Q
+Q
+>>>>>>> tg-pr-88929
 Y
 o
 o
@@ -931,7 +1190,11 @@ o
 o
 o
 "}
+<<<<<<< HEAD
 (29,1,1) = {"
+=======
+(25,1,1) = {"
+>>>>>>> tg-pr-88929
 Y
 Y
 Q
@@ -959,9 +1222,15 @@ o
 o
 o
 "}
+<<<<<<< HEAD
 (30,1,1) = {"
 Y
 Q
+=======
+(26,1,1) = {"
+Y
+i
+>>>>>>> tg-pr-88929
 Q
 Q
 Q
@@ -987,7 +1256,11 @@ o
 o
 o
 "}
+<<<<<<< HEAD
 (31,1,1) = {"
+=======
+(27,1,1) = {"
+>>>>>>> tg-pr-88929
 Y
 a
 Q
@@ -1015,9 +1288,15 @@ o
 o
 o
 "}
+<<<<<<< HEAD
 (32,1,1) = {"
 Y
 a
+=======
+(28,1,1) = {"
+Y
+Q
+>>>>>>> tg-pr-88929
 Y
 Y
 Y
@@ -1025,7 +1304,12 @@ o
 Y
 Y
 Q
+<<<<<<< HEAD
 a
+=======
+Q
+Y
+>>>>>>> tg-pr-88929
 Y
 Y
 Y
@@ -1033,7 +1317,10 @@ Y
 Y
 Y
 Y
+<<<<<<< HEAD
 q
+=======
+>>>>>>> tg-pr-88929
 o
 o
 o
@@ -1043,7 +1330,11 @@ o
 o
 o
 "}
+<<<<<<< HEAD
 (33,1,1) = {"
+=======
+(29,1,1) = {"
+>>>>>>> tg-pr-88929
 Y
 Y
 Y

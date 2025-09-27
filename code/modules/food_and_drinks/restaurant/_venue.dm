@@ -278,7 +278,10 @@
 	if(tool.type == projector?.type && !linked_venue.linked_seats[src])
 		qdel(src)
 		return ITEM_INTERACT_SUCCESS
+<<<<<<< HEAD
 	return NONE
+=======
+>>>>>>> tg-pr-88929
 
 /obj/structure/holosign/robot_seat/Destroy()
 	linked_venue.linked_seats -= src

@@ -1,10 +1,15 @@
+<<<<<<< HEAD
 import { BooleanLike } from 'common/react';
 import { multiline } from 'common/string';
 import { useBackend, useSharedState } from '../backend';
+=======
+import { useState } from 'react';
+>>>>>>> tg-pr-88929
 import {
   Button,
   Dimmer,
   Dropdown,
+<<<<<<< HEAD
   Section,
   Stack,
   NoticeBox,
@@ -13,6 +18,19 @@ import { Window } from '../layouts';
 import {
   ObjectivePrintout,
   Objective,
+=======
+  NoticeBox,
+  Section,
+  Stack,
+} from 'tgui-core/components';
+import { BooleanLike } from 'tgui-core/react';
+
+import { useBackend } from '../backend';
+import { Window } from '../layouts';
+import {
+  Objective,
+  ObjectivePrintout,
+>>>>>>> tg-pr-88929
   ReplaceObjectivesButton,
 } from './common/Objectives';
 
@@ -211,8 +229,12 @@ const AbilitiesSection = (props) => {
 const MemoriesSection = (props) => {
   const { data } = useBackend<Info>();
   const { memories } = data;
+<<<<<<< HEAD
   const [selectedMemory, setSelectedMemory] = useSharedState(
     'memory',
+=======
+  const [selectedMemory, setSelectedMemory] = useState(
+>>>>>>> tg-pr-88929
     (!!memories && memories[0]) || null,
   );
   const memoryMap = {};
@@ -220,6 +242,7 @@ const MemoriesSection = (props) => {
     const memory = memories[index];
     memoryMap[memory.name] = memory;
   }
+
   return (
     <Section
       fill
@@ -229,7 +252,7 @@ const MemoriesSection = (props) => {
         <Button
           icon="info"
           tooltipPosition="left"
-          tooltip={multiline`
+          tooltip={`
             Absorbing targets allows
             you to collect their memories. They should
             help you impersonate your target!

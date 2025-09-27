@@ -1,4 +1,19 @@
+import {
+  Box,
+  Button,
+  Collapsible,
+  Icon,
+  LabeledList,
+  ProgressBar,
+  Section,
+  Stack,
+  Tooltip,
+} from 'tgui-core/components';
+import { BooleanLike, classes } from 'tgui-core/react';
+import { capitalize } from 'tgui-core/string';
+
 import { useBackend } from '../backend';
+<<<<<<< HEAD
 import {
   LabeledList,
   Section,
@@ -10,20 +25,31 @@ import {
   Tooltip,
   Button,
 } from '../components';
+=======
+>>>>>>> tg-pr-88929
 import { Window } from '../layouts';
-import { capitalize } from 'common/string';
-import { Design, MaterialMap } from './Fabrication/Types';
 import { DesignBrowser } from './Fabrication/DesignBrowser';
-import { BooleanLike, classes } from 'common/react';
 import { MaterialCostSequence } from './Fabrication/MaterialCostSequence';
+import { Design, MaterialMap } from './Fabrication/Types';
 import { Material } from './Fabrication/Types';
 
+<<<<<<< HEAD
+=======
+type AutolatheDesign = Design & {
+  customMaterials: BooleanLike;
+};
+
+>>>>>>> tg-pr-88929
 type AutolatheData = {
   materials: Material[];
   materialtotal: number;
   materialsmax: number;
   SHEET_MATERIAL_AMOUNT: number;
+<<<<<<< HEAD
   designs: Design[];
+=======
+  designs: AutolatheDesign[];
+>>>>>>> tg-pr-88929
   active: BooleanLike;
 };
 
@@ -182,7 +208,42 @@ const AutolatheRecipe = (props: AutolatheRecipeProps) => {
   const { act } = useBackend<AutolatheData>();
   const { design, availableMaterials, SHEET_MATERIAL_AMOUNT } = props;
 
+<<<<<<< HEAD
   const maxmult = design.maxmult;
+=======
+  let maxmult = 0;
+  if (design.customMaterials) {
+    const largest_mat =
+      Object.entries(availableMaterials).reduce(
+        (accumulator: number, [material, amount]) => {
+          return Math.max(accumulator, amount);
+        },
+        0,
+      ) || 0;
+
+    if (largest_mat > 0) {
+      maxmult = Object.entries(design.cost).reduce(
+        (accumulator: number, [material, required]) => {
+          return Math.min(accumulator, largest_mat / required);
+        },
+        Infinity,
+      );
+    } else {
+      maxmult = 0;
+    }
+  } else {
+    maxmult = Object.entries(design.cost).reduce(
+      (accumulator: number, [material, required]) => {
+        return Math.min(
+          accumulator,
+          (availableMaterials[material] || 0) / required,
+        );
+      },
+      Infinity,
+    );
+  }
+  maxmult = Math.min(Math.floor(maxmult), 50);
+>>>>>>> tg-pr-88929
   const canPrint = maxmult > 0;
 
   return (
@@ -251,16 +312,22 @@ const AutolatheRecipe = (props: AutolatheRecipeProps) => {
         ])}
       >
         <Button.Input
+<<<<<<< HEAD
           content={'[Max: ' + maxmult + ']'}
           color={'transparent'}
           maxValue={maxmult}
+=======
+          color="transparent"
+>>>>>>> tg-pr-88929
           onCommit={(_e, value: string) =>
             act('make', {
               id: design.id,
               multiplier: value,
             })
           }
-        />
+        >
+          [Max: {maxmult}]
+        </Button.Input>
       </div>
     </div>
   );

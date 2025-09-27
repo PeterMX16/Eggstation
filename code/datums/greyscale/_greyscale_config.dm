@@ -60,12 +60,17 @@
 	if(!json_config)
 		stack_trace("Greyscale config object [DebugName()] is missing a json configuration, make sure `json_config` has been assigned a value.")
 	string_json_config = "[json_config]"
+<<<<<<< HEAD
 
 	if(findtext(string_json_config, "code/datums/greyscale/json_configs/") != 1)
 		// legacy modularization stuff, too lazy to move all of it out now
 		if(findtext(string_json_config, "monkestation/code/modules/blueshift/gags") != 1 && findtext(string_json_config, "monkestation/code/modules/donator/code/greyscale") != 1)
 			stack_trace("All greyscale json configuration files should be located within 'code/datums/greyscale/json_configs/'")
 
+=======
+	if(findtext(string_json_config, "code/datums/greyscale/json_configs/") != 1)
+		stack_trace("All greyscale json configuration files should be located within 'code/datums/greyscale/json_configs/'")
+>>>>>>> tg-pr-88929
 	if(!icon_file)
 		stack_trace("Greyscale config object [DebugName()] is missing an icon file, make sure `icon_file` has been assigned a value.")
 	string_icon_file = "[icon_file]"
@@ -195,7 +200,11 @@
 
 /// Reads layer configurations to take out some useful overall information
 /datum/greyscale_config/proc/ReadMetadata()
+<<<<<<< HEAD
 	var/alist/icon_dimensions = get_icon_dimensions(icon_file)
+=======
+	var/list/icon_dimensions = get_icon_dimensions(icon_file)
+>>>>>>> tg-pr-88929
 	height = icon_dimensions["width"]
 	width = icon_dimensions["height"]
 

@@ -1,5 +1,12 @@
+import {
+  Box,
+  Button,
+  LabeledList,
+  ProgressBar,
+  Section,
+} from 'tgui-core/components';
+
 import { useBackend } from '../backend';
-import { Box, Button, LabeledList, ProgressBar, Section } from '../components';
 import { Window } from '../layouts';
 
 const damageTypes = [
@@ -75,12 +82,15 @@ export const Sleeper = (props) => {
                   </LabeledList.Item>
                 ))}
                 <LabeledList.Item
+<<<<<<< HEAD
                   label="Cells"
                   color={occupant.cloneLoss ? 'bad' : 'good'}
                 >
                   {occupant.cloneLoss ? 'Damaged' : 'Healthy'}
                 </LabeledList.Item>
                 <LabeledList.Item
+=======
+>>>>>>> tg-pr-88929
                   label="Brain"
                   color={occupant.brainLoss ? 'bad' : 'good'}
                 >

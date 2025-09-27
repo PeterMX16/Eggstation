@@ -13,7 +13,11 @@
 	var/gaming_withdrawal_timer = TIMER_ID_NULL
 
 /datum/quirk/gamer/add(client/client_source)
+<<<<<<< HEAD
 	var/obj/item/organ/internal/tongue/tongue = quirk_holder.get_organ_slot(ORGAN_SLOT_TONGUE)
+=======
+	var/obj/item/organ/tongue/tongue = quirk_holder.get_organ_slot(ORGAN_SLOT_TONGUE)
+>>>>>>> tg-pr-88929
 	if(tongue)
 		// Gamer diet
 		tongue.liked_foodtypes = JUNKFOOD
@@ -26,7 +30,11 @@
 	gaming_withdrawal_timer = addtimer(CALLBACK(src, PROC_REF(enter_withdrawal)), GAMING_WITHDRAWAL_TIME, TIMER_STOPPABLE)
 
 /datum/quirk/gamer/remove()
+<<<<<<< HEAD
 	var/obj/item/organ/internal/tongue/tongue = quirk_holder.get_organ_slot(ORGAN_SLOT_TONGUE)
+=======
+	var/obj/item/organ/tongue/tongue = quirk_holder.get_organ_slot(ORGAN_SLOT_TONGUE)
+>>>>>>> tg-pr-88929
 	if(tongue)
 		tongue.liked_foodtypes = initial(tongue.liked_foodtypes)
 	UnregisterSignal(quirk_holder, COMSIG_MOB_WON_VIDEOGAME)
@@ -81,7 +89,11 @@
 /datum/quirk/gamer/proc/gamer_moment()
 	// It was a heated gamer moment...
 	var/mob/living/carbon/human/human_holder = quirk_holder
+<<<<<<< HEAD
 	human_holder.say(";[pick("SHIT", "PISS", "FUCK")]!!", forced = name)
+=======
+	human_holder.say(";[pick("SHIT", "PISS", "FUCK", "CUNT", "COCKSUCKER", "MOTHERFUCKER")]!!", forced = name)
+>>>>>>> tg-pr-88929
 
 /datum/quirk/gamer/proc/enter_withdrawal()
 	var/mob/living/carbon/human/human_holder = quirk_holder

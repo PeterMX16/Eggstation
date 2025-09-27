@@ -5,11 +5,19 @@
 	icon = 'icons/obj/machines/gravity_generator.dmi'
 	icon_state = "portagrav"
 	base_icon_state = "portagrav"
+<<<<<<< HEAD
 	name = "\improper Portable Gravity Unit"
+=======
+	name = "Portable Gravity Unit"
+>>>>>>> tg-pr-88929
 	desc = "Generates gravity around itself. Powered by wire or cell. Must be anchored before use."
 	max_integrity = 250
 	circuit = /obj/item/circuitboard/machine/portagrav
 	armor_type = /datum/armor/portable_gravity
+<<<<<<< HEAD
+=======
+	interaction_flags_click = ALLOW_SILICON_REACH
+>>>>>>> tg-pr-88929
 	//We don't use area power
 	use_power = NO_POWER_USE
 	///The cell we spawn with
@@ -62,7 +70,11 @@
 	if(anchored)
 		. += "portagrav_anchors"
 	if(on)
+<<<<<<< HEAD
 		. += "portagrav_o"
+=======
+		. += "portagrav_lights"
+>>>>>>> tg-pr-88929
 		. += "activated"
 
 /obj/machinery/power/portagrav/examine(mob/user)
@@ -87,7 +99,11 @@
 
 /obj/machinery/power/portagrav/screwdriver_act(mob/living/user, obj/item/tool)
 	. = NONE
+<<<<<<< HEAD
 	if(default_deconstruction_screwdriver(user, "[base_icon_state]_open", base_icon_state, tool))
+=======
+	if(default_deconstruction_screwdriver(user, "[base_icon_state]_o", base_icon_state, tool))
+>>>>>>> tg-pr-88929
 		return ITEM_INTERACT_SUCCESS
 
 /obj/machinery/power/portagrav/crowbar_act(mob/living/user, obj/item/tool)
@@ -95,12 +111,17 @@
 	if(default_deconstruction_crowbar(tool))
 		return ITEM_INTERACT_SUCCESS
 
+<<<<<<< HEAD
 /obj/machinery/power/portagrav/attackby(obj/item/tool, mob/living/user, params)
+=======
+/obj/machinery/power/portagrav/item_interaction(mob/living/user, obj/item/tool, list/modifiers)
+>>>>>>> tg-pr-88929
 	. = NONE
 	if(!istype(tool, /obj/item/stock_parts/power_store/cell))
 		return
 	if(!panel_open)
 		balloon_alert(user, "must open panel!")
+<<<<<<< HEAD
 		return
 	if(cell)
 		balloon_alert(user, "already has a cell!")
@@ -109,6 +130,16 @@
 		return
 	cell = tool
 	return TRUE
+=======
+		return ITEM_INTERACT_BLOCKING
+	if(cell)
+		balloon_alert(user, "already has a cell!")
+		return ITEM_INTERACT_BLOCKING
+	if(!user.transferItemToLoc(tool, src))
+		return ITEM_INTERACT_FAILURE
+	cell = tool
+	return ITEM_INTERACT_SUCCESS
+>>>>>>> tg-pr-88929
 
 /obj/machinery/power/portagrav/should_have_node()
 	return anchored
@@ -136,7 +167,11 @@
 
 /obj/machinery/power/portagrav/attack_hand(mob/living/carbon/user, list/modifiers)
 	. = ..()
+<<<<<<< HEAD
 	if(!panel_open || isnull(cell) || !istype(user) || (user.istate & ISTATE_HARM))
+=======
+	if(!panel_open || isnull(cell) || !istype(user) || user.combat_mode)
+>>>>>>> tg-pr-88929
 		return
 	if(user.put_in_hands(cell))
 		cell = null
@@ -228,7 +263,11 @@
 	. = ..()
 	if(.)
 		return
+<<<<<<< HEAD
 	playsound(src, 'sound/machines/terminal_button07.ogg', 45, TRUE)
+=======
+	playsound(src, 'sound/machines/terminal/terminal_button07.ogg', 45, TRUE)
+>>>>>>> tg-pr-88929
 	switch(action)
 		if("adjust_grav")
 			var/adjustment = text2num(params["adjustment"])

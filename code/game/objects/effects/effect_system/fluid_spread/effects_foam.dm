@@ -17,7 +17,6 @@
 	anchored = TRUE
 	density = FALSE
 	layer = EDGED_TURF_LAYER
-	plane = GAME_PLANE_UPPER
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
 	animate_movement = NO_STEPS
 	/// The types of turfs that this foam cannot spread to.
@@ -41,7 +40,7 @@
 	if(slippery_foam)
 		AddComponent(/datum/component/slippery, 100)
 	create_reagents(1000, REAGENT_HOLDER_INSTANT_REACT)
-	playsound(src, 'sound/effects/bubbles2.ogg', 80, TRUE, -3)
+	playsound(src, 'sound/effects/bubbles/bubbles2.ogg', 80, TRUE, -3)
 	AddElement(/datum/element/atmos_sensitive, mapload)
 	SSfoam.start_processing(src)
 
@@ -303,7 +302,6 @@
 	opacity = TRUE // changed in New()
 	anchored = TRUE
 	layer = EDGED_TURF_LAYER
-	plane = GAME_PLANE_UPPER
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	name = "foamed metal"
 	desc = "A lightweight foamed metal wall that can be used as base to construct a wall."
@@ -331,7 +329,7 @@
 	return attack_hand(user, modifiers)
 
 /obj/structure/foamedmetal/play_attack_sound(damage_amount, damage_type = BRUTE, damage_flag = 0)
-	playsound(src.loc, 'sound/weapons/tap.ogg', 100, TRUE)
+	playsound(src.loc, 'sound/items/weapons/tap.ogg', 100, TRUE)
 
 /obj/structure/foamedmetal/attack_hand(mob/user, list/modifiers)
 	. = ..()
@@ -340,7 +338,7 @@
 	user.changeNext_move(CLICK_CD_MELEE)
 	user.do_attack_animation(src, ATTACK_EFFECT_PUNCH)
 	to_chat(user, span_warning("You hit [src] but bounce off it!"))
-	playsound(src.loc, 'sound/weapons/tap.ogg', 100, TRUE)
+	playsound(src.loc, 'sound/items/weapons/tap.ogg', 100, TRUE)
 
 /obj/structure/foamedmetal/attackby(obj/item/attacking_item, mob/user, list/modifiers, list/attack_modifiers)
 	///A speed modifier for how fast the wall is build
@@ -366,7 +364,7 @@
 				return
 			to_chat(user, span_notice("You add the plating."))
 			var/turf/T = get_turf(src)
-			T.PlaceOnTop(/turf/closed/wall/metal_foam_base)
+			T.place_on_top(/turf/closed/wall/metal_foam_base)
 			transfer_fingerprints_to(T)
 			qdel(src)
 		return
@@ -398,7 +396,7 @@
 /obj/effect/particle_effect/fluid/foam/metal/smart/make_result() //Smart foam adheres to area borders for walls
 	var/turf/open/location = loc
 	if(isspaceturf(location))
-		location.PlaceOnTop(/turf/open/floor/plating/foam)
+		location.place_on_top(/turf/open/floor/plating/foam)
 
 	for(var/cardinal in GLOB.cardinals)
 		var/turf/cardinal_turf = get_step(location, cardinal)
@@ -423,6 +421,12 @@
 	alpha = 120
 	max_integrity = 10
 	pass_flags_self = PASSGLASS
+	var/static/list/ignored_gases = typecacheof(list(
+		/datum/gas/nitrogen,
+		/datum/gas/oxygen,
+		/datum/gas/pluoxium,
+		/datum/gas/halon,
+	))
 
 /obj/structure/foamedmetal/resin/Initialize(mapload)
 	. = ..()
@@ -431,19 +435,17 @@
 		return
 
 	location.ClearWet()
+	location.temperature = T20C
 	if(location.air)
 		var/datum/gas_mixture/air = location.air
-		air.temperature = 293.15
+		air.temperature = T20C
 		for(var/obj/effect/hotspot/fire in location)
 			qdel(fire)
 
 		var/list/gases = air.gases
 		for(var/gas_type in gases)
-			switch(gas_type)
-				if(/datum/gas/oxygen, /datum/gas/nitrogen)
-					continue
-				else
-					gases[gas_type][MOLES] = 0
+			if(!(ignored_gases[gas_type]))
+				gases[gas_type][MOLES] = 0
 		air.garbage_collect()
 
 	for(var/obj/machinery/atmospherics/components/unary/comp in location)

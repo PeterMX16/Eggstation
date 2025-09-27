@@ -1,4 +1,5 @@
-import { BlockQuote, LabeledList, Section, Stack } from '../components';
+import { BlockQuote, LabeledList, Section, Stack } from 'tgui-core/components';
+
 import { Window } from '../layouts';
 
 const tipstyle = {
@@ -11,7 +12,11 @@ const noticestyle = {
 
 export const AntagInfoNightmare = (props) => {
   return (
+<<<<<<< HEAD
     <Window width={620} height={470}>
+=======
+    <Window width={620} height={380}>
+>>>>>>> tg-pr-88929
       <Window.Content backgroundColor="#0d0d0d">
         <Stack fill>
           <Stack.Item width="46.2%">
@@ -74,9 +79,14 @@ export const AntagInfoNightmare = (props) => {
                 </LabeledList.Item>
                 <LabeledList.Item label="Light Eater">
                   Your twisted appendage. It will consume the light of what it
+<<<<<<< HEAD
                   touches, be it victim or object. When unobstructed by bright
                   light, it&apos;ll lash out at anything dim in your vicinity,
                   completely hiding you in the shadows.
+=======
+                  touches, be it victim or object. After 7 seconds of being in
+                  jaunt, stabbing a foe will stun them or do extra damage.
+>>>>>>> tg-pr-88929
                 </LabeledList.Item>
               </LabeledList>
             </Section>

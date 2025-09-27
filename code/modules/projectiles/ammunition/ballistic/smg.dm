@@ -69,6 +69,7 @@
 	desc = "A 4.6x30mm saltshot bullet casing."
 	projectile_type = /obj/projectile/bullet/c46x30mm/salt
 
+<<<<<<< HEAD
 
 
 // .27-54 Cesarzowa
@@ -93,3 +94,22 @@
 	icon_state = "27-54cesarzowa_rubber"
 	projectile_type = /obj/projectile/bullet/c27_54cesarzowa/rubber
 
+=======
+/obj/item/ammo_casing/c45/spent
+	projectile_type = null
+
+/obj/item/ammo_casing/c45/ap
+	name = ".45 armor-piercing bullet casing"
+	desc = "A .45 bullet casing."
+	projectile_type = /obj/projectile/bullet/c45/ap
+
+/obj/item/ammo_casing/c45/hp
+	name = ".45 hollow point bullet casing"
+	desc = "A .45 bullet casing."
+	projectile_type = /obj/projectile/bullet/c45/hp
+
+/obj/item/ammo_casing/c45/inc
+	name = ".45 incendiary bullet casing"
+	desc = "A .45 bullet casing."
+	projectile_type = /obj/projectile/bullet/incendiary/c45
+>>>>>>> tg-pr-88929

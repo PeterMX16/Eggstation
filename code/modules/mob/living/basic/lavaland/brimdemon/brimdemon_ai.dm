@@ -31,7 +31,11 @@
 	var/datum/action/cooldown/ability = controller.blackboard[BB_TARGETED_ACTION]
 	if(QDELETED(target) || QDELETED(controller.pawn) || !ability?.IsAvailable())
 		return
+<<<<<<< HEAD
 	ability.InterceptClickOn(user = controller.pawn, target = target)
+=======
+	ability.InterceptClickOn(clicker = controller.pawn, target = target)
+>>>>>>> tg-pr-88929
 
 /datum/ai_planning_subtree/targeted_mob_ability/brimbeam
 	use_ability_behaviour = /datum/ai_behavior/targeted_mob_ability/brimbeam
@@ -43,6 +47,10 @@
 /datum/ai_behavior/targeted_mob_ability/brimbeam/perform(seconds_per_tick, datum/ai_controller/controller, ability_key, target_key)
 	var/mob/living/target = controller.blackboard[target_key]
 	if (QDELETED(target) || !(get_dir(controller.pawn, target) in GLOB.cardinals) || get_dist(controller.pawn, target) > max_target_distance)
+<<<<<<< HEAD
 		finish_action(controller, succeeded = FALSE, ability_key = ability_key, target_key = target_key)
 		return
+=======
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
+>>>>>>> tg-pr-88929
 	return ..()

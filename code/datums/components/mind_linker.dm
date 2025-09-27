@@ -22,8 +22,11 @@
 	var/speech_action_background_icon_state = "bg_alien"
 	/// The border icon state for the speech action handed out.
 	var/speech_action_overlay_state = "bg_alien_border"
+<<<<<<< HEAD
 	/// Whether messages should show a balloon alert or not.
 	var/show_balloon_alert = FALSE
+=======
+>>>>>>> tg-pr-88929
 	/// The master's speech action. The owner of the link shouldn't lose this as long as the link remains.
 	VAR_FINAL/datum/action/innate/linked_speech/master_speech
 	/// An assoc list of [mob/living]s to [datum/action/innate/linked_speech]s. All the mobs that are linked to our network.
@@ -40,7 +43,10 @@
 	// Optional
 	signals_which_destroy_us,
 	datum/callback/post_unlink_callback,
+<<<<<<< HEAD
 	show_balloon_alert,
+=======
+>>>>>>> tg-pr-88929
 )
 
 	if(!isliving(parent))
@@ -59,6 +65,7 @@
 	if(post_unlink_callback)
 		src.post_unlink_callback = post_unlink_callback
 
+<<<<<<< HEAD
 	src.speech_action_icon = speech_action_icon
 	src.speech_action_icon_state = speech_action_icon_state
 	src.speech_action_background_icon_state = speech_action_background_icon_state
@@ -72,6 +79,11 @@
 
 	to_chat(owner, span_boldnotice("You establish a [network_name], allowing you to link minds to communicate telepathically."))
 
+=======
+	master_speech = new(src)
+	master_speech.Grant(owner)
+
+>>>>>>> tg-pr-88929
 /datum/component/mind_linker/Destroy(force)
 	for(var/mob/living/remaining_mob as anything in linked_mobs)
 		unlink_mob(remaining_mob)
@@ -96,6 +108,7 @@
 /datum/component/mind_linker/proc/link_mob(mob/living/to_link)
 	if(QDELETED(to_link) || to_link.stat == DEAD)
 		return FALSE
+<<<<<<< HEAD
 /*
 	if(HAS_TRAIT(to_link, TRAIT_MINDSHIELD)) // Mindshield implant - no dice
 		return FALSE
@@ -110,6 +123,8 @@
 		return FALSE
 //MONKESTATION EDIT END
 
+=======
+>>>>>>> tg-pr-88929
 	if(linked_mobs[to_link])
 		return FALSE
 
@@ -183,7 +198,10 @@
 	// Optional
 	signals_which_destroy_us,
 	datum/callback/post_unlink_callback,
+<<<<<<< HEAD
 	show_balloon_alert,
+=======
+>>>>>>> tg-pr-88929
 	// Optional for this subtype
 	link_message,
 	unlink_message,
@@ -212,7 +230,11 @@
 	return ..()
 
 /datum/component/mind_linker/active_linking/link_mob(mob/living/to_link)
+<<<<<<< HEAD
 	if(HAS_TRAIT(to_link, TRAIT_MINDSHIELD)) // Mindshield implant - no dice
+=======
+	if(HAS_MIND_TRAIT(to_link, TRAIT_UNCONVERTABLE)) // Protected mind, so they can't be added to the mindlink
+>>>>>>> tg-pr-88929
 		return FALSE
 	if(to_link.can_block_magic(MAGIC_RESISTANCE_MIND, charge_cost = 0))
 		return FALSE
@@ -270,7 +292,11 @@
 	var/datum/component/mind_linker/linker = target
 	var/mob/living/linker_parent = linker.parent
 
+<<<<<<< HEAD
 	var/message = tgui_input_text(owner, "Enter a message to transmit.", "[linker.network_name] Telepathy")
+=======
+	var/message = tgui_input_text(owner, "Enter a message to transmit.", "[linker.network_name] Telepathy", max_length = MAX_MESSAGE_LEN)
+>>>>>>> tg-pr-88929
 	if(!message || QDELETED(src) || QDELETED(owner) || owner.stat == DEAD)
 		return
 
@@ -286,8 +312,11 @@
 	for(var/mob/living/recipient as anything in all_who_can_hear)
 		var/avoid_highlighting = (recipient == owner) || (recipient == linker_parent)
 		to_chat(recipient, formatted_message, type = MESSAGE_TYPE_RADIO, avoid_highlighting = avoid_highlighting)
+<<<<<<< HEAD
 		if(linker.show_balloon_alert && recipient != owner)
 			recipient.balloon_alert(recipient, "you hear a voice from your [linker.network_name]")
+=======
+>>>>>>> tg-pr-88929
 
 	for(var/mob/recipient as anything in GLOB.dead_mob_list)
 		to_chat(recipient, "[FOLLOW_LINK(recipient, owner)] [formatted_message]", type = MESSAGE_TYPE_RADIO)

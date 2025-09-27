@@ -22,7 +22,11 @@
 //monkestation edit end
 
 /datum/round_event_control/pirates/preRunEvent()
+<<<<<<< HEAD
 	if(!(length(GLOB.light_pirate_gangs) + length(GLOB.heavy_pirate_gangs))) //monkestation edit: adds the pirate gangs check, as well as a redundant planetary check
+=======
+	if (SSmapping.is_planetary())
+>>>>>>> tg-pr-88929
 		return EVENT_CANT_RUN
 	return ..()
 
@@ -64,7 +68,7 @@
 	priority_announce("Incoming subspace communication. Secure channel opened at all communication consoles.", "Incoming Message", SSstation.announcer.get_rand_report_sound())
 	threat.answer_callback = CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(pirates_answered), threat, chosen_gang, payoff, world.time)
 	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(spawn_pirates), threat, chosen_gang), RESPONSE_MAX_TIME)
-	SScommunications.send_message(threat, unique = TRUE)
+	GLOB.communications_controller.send_message(threat, unique = TRUE)
 
 /proc/pirates_answered(datum/comm_message/threat, datum/pirate_gang/chosen_gang, payoff, initial_send_time)
 	if(world.time > initial_send_time + RESPONSE_MAX_TIME)
@@ -88,7 +92,11 @@
 	if(chosen_gang.paid_off)
 		return
 
+<<<<<<< HEAD
 	var/list/candidates = SSpolling.poll_ghost_candidates("Do you wish to be considered for a pirate crew of [chosen_gang.name]?", check_jobban = ROLE_SPACE_PIRATE, alert_pic = /obj/item/claymore/cutlass, role_name_text = "pirate crew")
+=======
+	var/list/candidates = SSpolling.poll_ghost_candidates("Do you wish to be considered for a [span_notice("pirate crew of [chosen_gang.name]?")]", check_jobban = ROLE_TRAITOR, alert_pic = /obj/item/claymore/cutlass, role_name_text = "pirate crew")
+>>>>>>> tg-pr-88929
 	shuffle_inplace(candidates)
 
 	var/template_key = "pirate_[chosen_gang.ship_template_id]"
@@ -105,21 +113,31 @@
 
 	for(var/turf/area_turf as anything in ship.get_affected_turfs(T))
 		for(var/obj/effect/mob_spawn/ghost_role/human/pirate/spawner in area_turf)
+<<<<<<< HEAD
 			if(length(candidates) > 0)
+=======
+			if(candidates.len > 0)
+>>>>>>> tg-pr-88929
 				var/mob/our_candidate = candidates[1]
 				var/mob/spawned_mob = spawner.create_from_ghost(our_candidate)
 				candidates -= our_candidate
 				notify_ghosts(
 					"The [chosen_gang.ship_name] has an object of interest: [spawned_mob]!",
 					source = spawned_mob,
+<<<<<<< HEAD
 					action = NOTIFY_ORBIT,
+=======
+>>>>>>> tg-pr-88929
 					header = "Pirates!",
 				)
 			else
 				notify_ghosts(
 					"The [chosen_gang.ship_name] has an object of interest: [spawner]!",
 					source = spawner,
+<<<<<<< HEAD
 					action = NOTIFY_ORBIT,
+=======
+>>>>>>> tg-pr-88929
 					header = "Pirate Spawn Here!",
 				)
 

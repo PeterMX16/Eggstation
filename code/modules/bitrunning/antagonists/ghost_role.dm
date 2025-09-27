@@ -5,7 +5,10 @@
 	show_to_ghosts = TRUE
 	suicide_cry = "FATAL ERROR"
 	ui_name = "AntagInfoGlitch"
+<<<<<<< HEAD
 	antag_flags = FLAG_ANTAG_CAP_IGNORE
+=======
+>>>>>>> tg-pr-88929
 
 /datum/antagonist/domain_ghost_actor/on_gain()
 	. = ..()

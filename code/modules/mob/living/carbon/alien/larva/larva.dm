@@ -30,6 +30,7 @@
 
 
 //This is fine right now, if we're adding organ specific damage this needs to be updated
+<<<<<<< HEAD
 /mob/living/carbon/alien/larva/Initialize(mapload, neuter)
 	// If a larva is neutered or not it gets a different ability and trait
 	if(neuter)
@@ -44,10 +45,19 @@
 		evolution.Grant(src)
 	var/datum/action/cooldown/alien/hide/hide = new(src)
 	hide.Grant(src)
+=======
+/mob/living/carbon/alien/larva/Initialize(mapload)
+	var/static/list/innate_actions = list(
+		/datum/action/cooldown/alien/hide,
+		/datum/action/cooldown/alien/larva_evolve,
+	)
+	grant_actions_by_list(innate_actions)
+
+>>>>>>> tg-pr-88929
 	return ..()
 
 /mob/living/carbon/alien/larva/create_internal_organs()
-	organs += new /obj/item/organ/internal/alien/plasmavessel/small/tiny
+	organs += new /obj/item/organ/alien/plasmavessel/small/tiny
 	..()
 
 //This needs to be fixed

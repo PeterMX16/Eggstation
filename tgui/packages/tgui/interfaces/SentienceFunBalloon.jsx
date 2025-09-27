@@ -1,4 +1,14 @@
+import {
+  Button,
+  Input,
+  LabeledList,
+  NumberInput,
+  Section,
+  Stack,
+} from 'tgui-core/components';
+
 import { useBackend } from '../backend';
+<<<<<<< HEAD
 import {
   Button,
   NumberInput,
@@ -7,13 +17,19 @@ import {
   Input,
   LabeledList,
 } from '../components';
+=======
+>>>>>>> tg-pr-88929
 import { Window } from '../layouts';
 
 export const SentienceFunBalloon = (props) => {
   const { act, data } = useBackend();
+<<<<<<< HEAD
   const { group_name, range } = data;
+=======
+  const { group_name, range, antag } = data;
+>>>>>>> tg-pr-88929
   return (
-    <Window title={'Sentience Fun Balloon'} width={400} height={175}>
+    <Window title={'Sentience Fun Balloon'} width={400} height={200}>
       <Window.Content>
         <Stack vertical>
           <Section title="Configure balloon effect:">
@@ -35,12 +51,21 @@ export const SentienceFunBalloon = (props) => {
                   value={range}
                   minValue={1}
                   maxValue={100}
+                  step={1}
                   stepPixelSize={15}
-                  onDrag={(e, value) =>
+                  onDrag={(value) =>
                     act('effect_range', {
                       updated_range: value,
                     })
                   }
+                />
+              </LabeledList.Item>
+              <LabeledList.Item label="Make group into antagonists?">
+                <Button.Checkbox
+                  icon={data.antag ? 'user-secret' : 'times'}
+                  content={data.antag ? 'Yes' : 'No'}
+                  selected={data.antag}
+                  onClick={() => act('select_antag')}
                 />
               </LabeledList.Item>
             </LabeledList>

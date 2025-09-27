@@ -36,11 +36,16 @@
 	desc = "Airtight cabin preserves internal air and can be pressurized with a mounted air tank."
 
 /datum/action/vehicle/sealed/mecha/mech_toggle_cabin_seal/Trigger(trigger_flags)
+<<<<<<< HEAD
 	if(!..())
 		return
 	if(!chassis || !(owner in chassis.occupants))
 		return
 
+=======
+	if(!owner || !chassis || !(owner in chassis.occupants))
+		return
+>>>>>>> tg-pr-88929
 	chassis.set_cabin_seal(owner, !chassis.cabin_sealed)
 
 /datum/action/vehicle/sealed/mecha/mech_toggle_lights
@@ -52,7 +57,10 @@
 		return
 	if(!chassis || !(owner in chassis.occupants))
 		return
+<<<<<<< HEAD
 
+=======
+>>>>>>> tg-pr-88929
 	chassis.toggle_lights(user = owner)
 
 /datum/action/vehicle/sealed/mecha/mech_view_stats
@@ -103,23 +111,17 @@
 
 	chassis.toggle_strafe()
 
-/obj/vehicle/sealed/mecha/AltClick(mob/living/user)
-	if(!(user in occupants) || !user.can_perform_action(src))
-		return
-	if(!(user in return_controllers_with_flag(VEHICLE_CONTROL_DRIVE)))
-		to_chat(user, span_warning("You're in the wrong seat to control movement."))
-		return
-
-	toggle_strafe()
 
 /obj/vehicle/sealed/mecha/proc/toggle_strafe()
-	if(!(mecha_flags & CANSTRAFE))
+	if(!(mecha_flags & CAN_STRAFE))
 		to_chat(occupants, "this mecha doesn't support strafing!")
 		return
 
 	strafe = !strafe
 
-	to_chat(occupants, "strafing mode [strafe?"on":"off"].")
+	for(var/mob/occupant in occupants)
+		balloon_alert(occupant, "strafing [strafe?"on":"off"]")
+		occupant.playsound_local(src, 'sound/machines/terminal/terminal_eject.ogg', 50, TRUE)
 	log_message("Toggled strafing mode [strafe?"on":"off"].", LOG_MECHA)
 
 	for(var/occupant in occupants)
@@ -163,11 +165,17 @@
 	button_icon_state = "mech_overload_off"
 
 /datum/action/vehicle/sealed/mecha/mech_overclock/Trigger(trigger_flags, forced_state = null)
+<<<<<<< HEAD
 	if(!..())
 		return
 	if(!chassis || !(owner in chassis.occupants))
 		return
 	chassis.toggle_overclock(forced_state)
 	chassis.balloon_alert(owner, chassis.overclock_mode ? "started overclocking" : "stopped overclocking")
+=======
+	if(!owner || !chassis || !(owner in chassis.occupants))
+		return
+	chassis.toggle_overclock(forced_state)
+>>>>>>> tg-pr-88929
 	button_icon_state = "mech_overload_[chassis.overclock_mode ? "on" : "off"]"
 	build_all_button_icons()

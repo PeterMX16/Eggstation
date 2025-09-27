@@ -42,6 +42,10 @@
 #define RADIO_CHANNEL_ENTERTAINMENT "Entertainment"
 #define RADIO_KEY_ENTERTAINMENT "p"
 #define RADIO_TOKEN_ENTERTAINMENT ":p"
+<<<<<<< HEAD
+=======
+
+>>>>>>> tg-pr-88929
 
 #define RADIO_CHANNEL_SYNDICATE "Syndicate"
 #define RADIO_KEY_SYNDICATE "t"
@@ -82,8 +86,12 @@
 #define FREQ_ENGINEERING 1357 // Engineering comms frequency, orange
 #define FREQ_SECURITY 1359 // Security comms frequency, red
 #define FREQ_ENTERTAINMENT 1415 // Used by entertainment monitors, cyan
+<<<<<<< HEAD
 #define FREQ_RADIO 1361 //monkestation edit
 #define FREQ_UNCOMMON 1363 //monkestation addition, Light gray
+=======
+
+>>>>>>> tg-pr-88929
 #define FREQ_HOLOGRID_SOLUTION 1433
 #define FREQ_STATUS_DISPLAYS 1435
 
@@ -96,6 +104,7 @@
 #define FREQ_ELECTROPACK 1449
 #define FREQ_MAGNETS 1449
 #define FREQ_LOCATOR_IMPLANT 1451
+#define FREQ_RADIO_NAV_BEACON 1455
 #define FREQ_SIGNALER 1457 // the default for new signalers
 #define FREQ_COMMON 1459 // Common comms frequency, dark green
 #define MIN_UNUSED_FREQ 1461 // Prevents rolling AI Private or Common
@@ -138,3 +147,10 @@
 #define RADIO_FREQENCY_LOCKED 1
 /// Radio frequency is locked and unchangeable, but can be unlocked by an emag
 #define RADIO_FREQENCY_EMAGGABLE_LOCK 2
+
+///Bitflag for if a headset can use the syndicate radio channel
+#define RADIO_SPECIAL_SYNDIE (1<<0)
+///Bitflag for if a headset can use the centcom radio channel
+#define RADIO_SPECIAL_CENTCOM (1<<1)
+///Bitflag for if a headset can use the binary radio channel
+#define RADIO_SPECIAL_BINARY (1<<2)

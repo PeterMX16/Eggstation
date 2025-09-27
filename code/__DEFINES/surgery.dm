@@ -2,8 +2,11 @@
 #define IS_ORGANIC_ORGAN(organ) (organ.organ_flags & ORGAN_ORGANIC)
 /// Helper to figure out if an organ is robotic
 #define IS_ROBOTIC_ORGAN(organ) (organ.organ_flags & ORGAN_ROBOTIC)
+<<<<<<< HEAD
 /// Helper to figure out if an organ is unremovable
 #define IS_ORGAN_UNREMOVABLE(organ) (organ.organ_flags & ORGAN_UNREMOVABLE)
+=======
+>>>>>>> tg-pr-88929
 
 // Flags for the organ_flags var on /obj/item/organ
 /// Organic organs, the default. Don't get affected by EMPs.
@@ -27,20 +30,39 @@
 /// Can't be seen by scanners, doesn't anger body purists
 #define ORGAN_HIDDEN (1<<9)
 /// Has the organ already been inserted inside someone
+<<<<<<< HEAD
 #define ORGAN_VIRGIN (1<<10) // Not used yet just a placeholder as of monkepr#6802.
+=======
+#define ORGAN_VIRGIN (1<<10)
+>>>>>>> tg-pr-88929
 /// ALWAYS show this when scanned by advanced scanners, even if it is totally healthy
 #define ORGAN_PROMINENT (1<<11)
 /// An organ that is ostensibly dangerous when inside a body
 #define ORGAN_HAZARDOUS (1<<12)
+<<<<<<< HEAD
 /// Synthetic organ granted by a species (for use for organ replacements between species)
 #define ORGAN_SYNTHETIC_FROM_SPECIES (1<<13)
 /// This organ has no impact on conversion via flash, such as revs or bbs. Doesn't affect hypnosis and whatnot, though. MONKESTATION EDIT
 #define ORGAN_DOESNT_PROTECT_AGAINST_CONVERSION (1<<14)
+=======
+/// This is an external organ, not an inner one. Used in several checks.
+#define ORGAN_EXTERNAL (1<<13)
+
+/// Scarring on the right eye
+#define RIGHT_EYE_SCAR (1<<0)
+/// Scarring on the left eye
+#define LEFT_EYE_SCAR (1<<1)
+>>>>>>> tg-pr-88929
 
 /// Helper to figure out if a limb is organic
 #define IS_ORGANIC_LIMB(limb) (limb.bodytype & BODYTYPE_ORGANIC)
 /// Helper to figure out if a limb is robotic
 #define IS_ROBOTIC_LIMB(limb) (limb.bodytype & BODYTYPE_ROBOTIC)
+<<<<<<< HEAD
+=======
+/// Helper to figure out if a limb is a peg limb
+#define IS_PEG_LIMB(limb) (limb.bodytype & BODYTYPE_PEG)
+>>>>>>> tg-pr-88929
 
 // Flags for the bodypart_flags var on /obj/item/bodypart
 /// Bodypart cannot be dismembered or amputated
@@ -49,6 +71,8 @@
 #define BODYPART_PSEUDOPART (1<<1)
 /// Bodypart did not match the owner's default bodypart limb_id when surgically implanted
 #define BODYPART_IMPLANTED (1<<2)
+/// Bodypart never displays as a husk
+#define BODYPART_UNHUSKABLE (1<<3)
 
 // Bodypart change blocking flags
 ///Bodypart does not get replaced during set_species()
@@ -88,6 +112,15 @@
 #define SURGERY_REQUIRES_REAL_LIMB (1<<4)
 ///Will grant a bonus during surgery steps to users with TRAIT_MORBID while they're using tools with CRUEL_IMPLEMENT
 #define SURGERY_MORBID_CURIOSITY (1<<5)
+<<<<<<< HEAD
+=======
+/**
+ * Instead of checking if the tool used is an actual surgery tool to avoid accidentally whacking patients with the wrong tool,
+ * it'll check if it has a defined tool behaviour instead. Useful for surgeries that use mechanical tools instead of medical ones,
+ * like hardware manipulation.
+ */
+#define SURGERY_CHECK_TOOL_BEHAVIOUR (1<<6)
+>>>>>>> tg-pr-88929
 
 ///Return true if target is not in a valid body position for the surgery
 #define IS_IN_INVALID_SURGICAL_POSITION(target, surgery) ((surgery.surgery_flags & SURGERY_REQUIRE_RESTING) && (target.mobility_flags & MOBILITY_LIEDOWN && target.body_position != LYING_DOWN))

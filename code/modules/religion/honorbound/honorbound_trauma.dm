@@ -56,7 +56,11 @@
 		return
 	if(weapon?.item_flags & NOBLUDGEON)
 		return
+<<<<<<< HEAD
 	if(!(honorbound.istate & ISTATE_HARM) && (HAS_TRAIT(clicked_mob, TRAIT_ALLOWED_HONORBOUND_ATTACK) || ((!weapon || !weapon.force) && !(honorbound.istate & ISTATE_SECONDARY))))
+=======
+	if(!honorbound.combat_mode && (HAS_TRAIT(clicked_mob, TRAIT_ALLOWED_HONORBOUND_ATTACK) || ((!weapon || !weapon.force) && !LAZYACCESS(modifiers, RIGHT_CLICK))))
+>>>>>>> tg-pr-88929
 		return
 	if(!(clicked_mob in guilty))
 		check_visible_guilt(clicked_mob)
@@ -74,7 +78,11 @@
 	if(HAS_TRAIT(attacked_mob, TRAIT_CULT_HALO))
 		guilty(attacked_mob, "for blasphemous worship!")
 	if(HAS_TRAIT(attacked_mob, TRAIT_EVIL))
+<<<<<<< HEAD
 		guilty(attacked_mob, "for an almost fanatical commitment to EEEEVIL!")
+=======
+		guilty(attacked_mob, "an almost fanatical commitment to EEEEVIL!")
+>>>>>>> tg-pr-88929
 	if(attacked_mob.mind)
 		var/datum/mind/guilty_conscience = attacked_mob.mind
 		if(guilty_conscience.has_antag_datum(/datum/antagonist/abductor))
@@ -151,7 +159,7 @@
 	SIGNAL_HANDLER
 	punishment(user, spell_cast.school)
 
-/datum/brain_trauma/special/honorbound/proc/staff_check(mob/user, obj/item/gun/gun_fired, target, params, zone_override)
+/datum/brain_trauma/special/honorbound/proc/staff_check(mob/user, obj/item/gun/gun_fired, target, params, zone_override, list/bonus_spread_values)
 	SIGNAL_HANDLER
 	if(!istype(gun_fired, /obj/item/gun/magic))
 		return

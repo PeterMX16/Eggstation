@@ -41,6 +41,7 @@
 
 /obj/structure/mop_bucket/attackby_secondary(obj/item/weapon, mob/user, params)
 	if(istype(weapon, /obj/item/mop))
+<<<<<<< HEAD
 		if(!weapon.reagents.total_volume)
 			if(weapon.reagents.total_volume >= weapon.reagents.maximum_volume)
 				balloon_alert(user, "mop is already soaked!")
@@ -55,6 +56,17 @@
 			var/obj/item/mop/attacked_mop = weapon
 			to_chat(user, "You completly wring out the [attacked_mop.name] into the waste bucket of the cart.")
 			attacked_mop.reagents.remove_all(attacked_mop.max_reagent_volume)
+=======
+		if(weapon.reagents.total_volume >= weapon.reagents.maximum_volume)
+			balloon_alert(user, "already soaked!")
+			return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
+		if(!CART_HAS_MINIMUM_REAGENT_VOLUME)
+			balloon_alert(user, "empty!")
+			return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
+		reagents.trans_to(weapon, weapon.reagents.maximum_volume, transferred_by = user)
+		balloon_alert(user, "doused mop")
+		playsound(src, 'sound/effects/slosh.ogg', 25, vary = TRUE)
+>>>>>>> tg-pr-88929
 
 	if(istype(weapon, /obj/item/reagent_containers) || istype(weapon, /obj/item/mop))
 		update_appearance(UPDATE_OVERLAYS)
@@ -82,7 +94,11 @@
 
 /obj/structure/mop_bucket/janitorialcart/Initialize(mapload)
 	. = ..()
+<<<<<<< HEAD
 	reagents.maximum_volume *= 2.5 //monkestation edit
+=======
+	reagents.maximum_volume *= 2.5
+>>>>>>> tg-pr-88929
 	GLOB.janitor_devices += src
 
 /obj/structure/mop_bucket/janitorialcart/Destroy()
@@ -346,7 +362,7 @@
  * * user The mob interacting with a menu
  */
 /obj/structure/mop_bucket/janitorialcart/proc/check_menu(mob/living/user)
-	return istype(user) && !user.incapacitated()
+	return istype(user) && !user.incapacitated
 
 /obj/structure/mop_bucket/janitorialcart/update_overlays()
 	. = ..()

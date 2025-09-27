@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 ADMIN_VERB_ONLY_CONTEXT_MENU(select_equipment, R_FUN, FALSE, "Select Equipment", mob/target in world)
+=======
+ADMIN_VERB_ONLY_CONTEXT_MENU(select_equipment, R_FUN, "Select Equipment", mob/target in world)
+>>>>>>> tg-pr-88929
 	var/datum/select_equipment/ui = new(user, target)
 	ui.ui_interact(user.mob)
 
@@ -205,15 +209,21 @@ ADMIN_VERB_ONLY_CONTEXT_MENU(select_equipment, R_FUN, FALSE, "Select Equipment",
 	else
 		human_target = target
 		if(human_target.l_store || human_target.r_store || human_target.s_store) //saves a lot of time for admins and coders alike
-			if(tgui_alert(usr,"Drop Items in Pockets? No will delete them.", "Robust quick dress shop", list("Yes", "No")) == "No")
+			if(tgui_alert(usr,"Do you need the items in your pockets?", "Pocket Items", list("Delete Them", "Drop Them")) == "Delete Them")
 				delete_pocket = TRUE
 
+<<<<<<< HEAD
 
 	BLACKBOX_LOG_ADMIN_VERB("Select Equipment")
 	for(var/obj/item/item in human_target.get_equipped_items(include_pockets = delete_pocket))
+=======
+	BLACKBOX_LOG_ADMIN_VERB("Select Equipment")
+	var/includes_flags = delete_pocket ? INCLUDE_POCKETS : NONE
+	for(var/obj/item/item in human_target.get_equipped_items(includes_flags))
+>>>>>>> tg-pr-88929
 		qdel(item)
 
-	var/obj/item/organ/internal/brain/human_brain = human_target.get_organ_slot(BRAIN)
+	var/obj/item/organ/brain/human_brain = human_target.get_organ_slot(BRAIN)
 	human_brain.destroy_all_skillchips() // get rid of skillchips to prevent runtimes
 
 	if(dresscode != "Naked")

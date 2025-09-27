@@ -12,19 +12,25 @@
 	},
 	"traits": [
 		{
+<<<<<<< HEAD
 			"Up": true,
+=======
+>>>>>>> tg-pr-88929
 			"Baseturf": "/turf/open/misc/asteroid/airless",
 			"Linkage": "Cross"
 		},
 		{
+<<<<<<< HEAD
 			"Down": true,
+=======
+>>>>>>> tg-pr-88929
 			"Baseturf": "/turf/open/openspace",
 			"Linkage": "Cross"
 		}
 	],
 	"job_changes": {
 		"Cook": {
-			"additional_cqc_areas": ["/area/station/service/kitchen/diner"]
+			"additional_cqc_areas": ["/area/station/commons/lounge"]
 		},
 		"Captain": {
 			"special_charter": "asteroid"

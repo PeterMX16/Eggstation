@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 import { useBackend } from '../../backend';
+=======
+>>>>>>> tg-pr-88929
 import {
   Box,
   Button,
@@ -7,8 +10,15 @@ import {
   Icon,
   LabeledList,
   Tooltip,
+<<<<<<< HEAD
 } from '../../components';
 
+=======
+} from 'tgui-core/components';
+
+import { useBackend } from '../../backend';
+
+>>>>>>> tg-pr-88929
 export const RecipeLookup = (props) => {
   const { recipe, bookmarkedReactions } = props;
   const { act, data } = useBackend();
@@ -184,7 +194,11 @@ export const RecipeLookup = (props) => {
           height="50px"
           position="relative"
           style={{
+<<<<<<< HEAD
             'background-color': 'black',
+=======
+            backgroundColor: 'black',
+>>>>>>> tg-pr-88929
           }}
         >
           <Chart.Line

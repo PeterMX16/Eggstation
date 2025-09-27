@@ -1,6 +1,6 @@
 /mob/living/basic/mouse
 	name = "mouse"
-	desc = "This cute little guy just loves the taste of uninsulated electrical cables. Isn't he adorable?"
+	desc = "This cute little guy just loves the taste of insulated electrical cables. Isn't he adorable?"
 	icon_state = "mouse_gray"
 	icon_living = "mouse_gray"
 	icon_dead = "mouse_gray_dead"
@@ -40,7 +40,15 @@
 	var/contributes_to_ratcap = TRUE
 	/// Probability that, if we successfully bite a shocked cable, that we will die to it.
 	var/cable_zap_prob = 85
+	///list of pet commands we follow
+	var/static/list/pet_commands = list(
+		/datum/pet_command/idle,
+		/datum/pet_command/free,
+		/datum/pet_command/follow,
+		/datum/pet_command/perform_trick_sequence,
+	)
 
+<<<<<<< HEAD
 	var/chooses_bodycolor = TRUE
 
 	///can they heal for eating non-cheese
@@ -52,6 +60,19 @@
 /mob/living/basic/mouse/get_laugh_sound()
 	return 'sound/effects/mousesqueek.ogg'
 //MONKESTATION EDIT STOP
+=======
+/datum/emote/mouse
+	mob_type_allowed_typecache = /mob/living/basic/mouse
+	mob_type_blacklist_typecache = list()
+
+/datum/emote/mouse/squeak
+	key = "squeak"
+	key_third_person = "squeaks"
+	message = "squeak!"
+	emote_type = EMOTE_VISIBLE | EMOTE_AUDIBLE
+	vary = TRUE
+	sound = 'sound/mobs/non-humanoids/mouse/mousesqueek.ogg'
+>>>>>>> tg-pr-88929
 
 /mob/living/basic/mouse/Initialize(mapload, tame = FALSE, new_body_color)
 	. = ..()
@@ -65,17 +86,27 @@
 	ADD_TRAIT(src, TRAIT_VENTCRAWLER_ALWAYS, INNATE_TRAIT)
 
 	src.tame = tame
+<<<<<<< HEAD
 	if(chooses_bodycolor)
 		body_color = new_body_color
 		if(isnull(body_color))
 			body_color = pick("brown", "gray", "white")
 		held_state = "mouse_[body_color]" // not handled by variety element
 		AddElement(/datum/element/animal_variety, "mouse", body_color, FALSE)
+=======
+	if(!isnull(new_body_color))
+		body_color = new_body_color
+	if(isnull(body_color))
+		body_color = pick("brown", "gray", "white")
+	held_state = "mouse_[body_color]" // not handled by variety element
+	AddElement(/datum/element/animal_variety, "mouse", body_color, FALSE)
+>>>>>>> tg-pr-88929
 	AddElement(/datum/element/swabable, CELL_LINE_TABLE_MOUSE, CELL_VIRUS_TABLE_GENERIC_MOB, 1, 10)
-	AddComponent(/datum/component/squeak, list('sound/effects/mousesqueek.ogg' = 1), 100, extrarange = SHORT_RANGE_SOUND_EXTRARANGE) //as quiet as a mouse or whatever
+	AddComponent(/datum/component/squeak, list('sound/mobs/non-humanoids/mouse/mousesqueek.ogg' = 1), 100, extrarange = SHORT_RANGE_SOUND_EXTRARANGE) //as quiet as a mouse or whatever
 	var/static/list/loc_connections = list(
 		COMSIG_ATOM_ENTERED = PROC_REF(on_entered),
 	)
+	AddComponent(/datum/component/obeys_commands, pet_commands)
 	AddElement(/datum/element/connect_loc, loc_connections)
 	make_tameable()
 	AddComponent(/datum/component/swarming, 16, 16) //max_x, max_y
@@ -84,7 +115,12 @@
 	if (tame)
 		faction |= FACTION_NEUTRAL
 	else
+<<<<<<< HEAD
 		AddComponent(/datum/component/tameable, food_types = list(/obj/item/food/cheese), tame_chance = 100)
+=======
+		var/static/list/food_types = list(/obj/item/food/cheese)
+		AddComponent(/datum/component/tameable, food_types = food_types, tame_chance = 100)
+>>>>>>> tg-pr-88929
 
 /mob/living/basic/mouse/Destroy()
 	SSmobs.cheeserats -= src
@@ -138,6 +174,7 @@
 	. = ..(TRUE)
 	// Now if we were't ACTUALLY gibbed, spawn the dead mouse
 	if(!gibbed)
+<<<<<<< HEAD
 		var/obj/item/food/deadmouse/mouse = new(loc)
 		mouse.name = name
 		mouse.icon_state = icon_dead
@@ -153,6 +190,21 @@
 		if(HAS_TRAIT(src, TRAIT_BEING_SHOCKED))
 			mouse.desc = "They're toast."
 			mouse.add_atom_colour("#3A3A3A", FIXED_COLOUR_PRIORITY)
+=======
+		var/make_a_corpse = TRUE
+		var/place_to_make_corpse = loc
+		if(istype(loc, /obj/item/clothing/head/mob_holder))//If our mouse is dying in place holder we want to put the dead mouse where the place holder was
+			var/obj/item/clothing/head/mob_holder/found_holder = loc
+			place_to_make_corpse = found_holder.loc
+			if(istype(found_holder.loc, /obj/machinery/microwave))//Microwaves gib things that die when cooked, so we don't need to make a dead body too
+				make_a_corpse = FALSE
+		if(make_a_corpse)
+			var/obj/item/food/deadmouse/mouse = new(place_to_make_corpse)
+			mouse.copy_corpse(src)
+			if(HAS_TRAIT(src, TRAIT_BEING_SHOCKED))
+				mouse.desc = "They're toast."
+				mouse.add_atom_colour("#3A3A3A", FIXED_COLOUR_PRIORITY)
+>>>>>>> tg-pr-88929
 	qdel(src)
 
 /mob/living/basic/mouse/UnarmedAttack(atom/attack_target, proximity_flag)
@@ -275,7 +327,7 @@
 			span_notice("You chew through \the [cable]."),
 		)
 
-	playsound(cable, 'sound/effects/sparks2.ogg', 100, TRUE)
+	playsound(cable, 'sound/effects/sparks/sparks2.ogg', 100, TRUE)
 	cable.deconstruct()
 
 /mob/living/basic/mouse/white
@@ -313,7 +365,7 @@
 	. = ..()
 	// Tom fears no cable.
 	ADD_TRAIT(src, TRAIT_SHOCKIMMUNE, INNATE_TRAIT)
-	AddElement(/datum/element/pet_bonus, "squeaks happily!")
+	AddElement(/datum/element/pet_bonus, "squeak")
 
 /mob/living/basic/mouse/brown/tom/create_a_new_rat()
 	new /mob/living/basic/mouse/brown(loc, /* tame = */ tame) // dominant gene
@@ -322,6 +374,7 @@
 	name = "rat"
 	desc = "They're a nasty, ugly, evil, disease-ridden rodent with anger issues."
 
+	gold_core_spawnable = NO_SPAWN
 	melee_damage_lower = 3
 	melee_damage_upper = 5
 	obj_damage = 5
@@ -362,11 +415,34 @@
 		icon_state = dead_critter.icon_dead
 	AddElement(/datum/element/swabable, CELL_LINE_TABLE_MOUSE, CELL_VIRUS_TABLE_GENERIC_MOB, 1, 10)
 	RegisterSignal(src, COMSIG_ATOM_ON_LAZARUS_INJECTOR, PROC_REF(use_lazarus))
+<<<<<<< HEAD
+=======
+
+/// Copy properties from an imminently dead mouse
+/obj/item/food/deadmouse/proc/copy_corpse(mob/living/basic/mouse/dead_critter)
+	body_color = dead_critter.body_color
+	critter_type = dead_critter.type
+	name = dead_critter.name
+	icon_state = dead_critter.icon_dead
+>>>>>>> tg-pr-88929
 
 /obj/item/food/deadmouse/examine(mob/user)
 	. = ..()
 	if (reagents?.has_reagent(/datum/reagent/yuck) || reagents?.has_reagent(/datum/reagent/fuel))
-		. += span_warning("[p_theyre(TRUE)] dripping with fuel and smells terrible.")
+		. += span_warning("[p_Theyre()] dripping with fuel and smells terrible.")
+
+///Spawn a new mouse from this dead mouse item when hit by a lazarus injector and conditions are met.
+/obj/item/food/deadmouse/proc/use_lazarus(datum/source, obj/item/lazarus_injector/injector, mob/user)
+	SIGNAL_HANDLER
+	if(injector.revive_type != SENTIENCE_ORGANIC)
+		balloon_alert(user, "invalid creature!")
+		return
+	var/mob/living/basic/mouse/revived_critter = new critter_type (drop_location(), FALSE, body_color)
+	revived_critter.name = name
+	revived_critter.lazarus_revive(user, injector.malfunctioning)
+	injector.expend(revived_critter, user)
+	qdel(src)
+	return LAZARUS_INJECTOR_USED
 
 ///Spawn a new mouse from this dead mouse item when hit by a lazarus injector and conditions are met.
 /obj/item/food/deadmouse/proc/use_lazarus(datum/source, obj/item/lazarus_injector/injector, mob/user)
@@ -423,6 +499,7 @@
 /// The mouse AI controller
 /datum/ai_controller/basic_controller/mouse
 	blackboard = list( // Always cowardly
+<<<<<<< HEAD
 		BB_CURRENT_HUNTING_TARGET = null, // cheese
 		BB_LOW_PRIORITY_HUNTING_TARGET = null, // cable
 		BB_TARGETING_STRATEGY = /datum/targeting_strategy/basic, // Use this to find people to run away from
@@ -434,12 +511,18 @@
 			"MY LIEGE! NO!!",
 			"*me offers a crumb of cheese to cheer you up.",
 		)
+=======
+		BB_TARGETING_STRATEGY = /datum/targeting_strategy/basic, // Use this to find people to run away from
+		BB_PET_TARGETING_STRATEGY = /datum/targeting_strategy/basic/not_friends,
+		BB_BASIC_MOB_FLEE_DISTANCE = 3,
+>>>>>>> tg-pr-88929
 	)
 
 	ai_traits = STOP_MOVING_WHEN_PULLED
 	ai_movement = /datum/ai_movement/basic_avoidance
 	idle_behavior = /datum/idle_behavior/idle_random_walk
 	planning_subtrees = list(
+		/datum/ai_planning_subtree/pet_planning,
 		// Top priority is to look for and execute hunts for cheese even if someone is looking at us
 		/datum/ai_planning_subtree/find_and_hunt_target/look_for_cheese,
 		// Next priority is see if anyone is looking at us
@@ -469,6 +552,11 @@
 		BB_BASIC_MOB_CURRENT_TARGET = null, // heathen
 		BB_CURRENT_HUNTING_TARGET = null, // cheese
 		BB_LOW_PRIORITY_HUNTING_TARGET = null, // cable
+		BB_OWNER_SELF_HARM_RESPONSES = list(
+			"*me cleans its whiskers in disapproval.",
+			"*me squeaks sadly.",
+			"*me sheds a single small tear."
+		)
 	)
 
 	ai_traits = STOP_MOVING_WHEN_PULLED

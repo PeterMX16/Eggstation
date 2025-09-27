@@ -10,7 +10,11 @@
  *
  * Arguuments:
  * * damage - Amount of damage
+<<<<<<< HEAD
  * * damagetype - What type of damage to do. one of [BRUTE], [BURN], [TOX], [OXY], [CLONE], [STAMINA], [BRAIN].
+=======
+ * * damagetype - What type of damage to do. one of [BRUTE], [BURN], [TOX], [OXY], [STAMINA], [BRAIN].
+>>>>>>> tg-pr-88929
  * * def_zone - What body zone is being hit. Or a reference to what bodypart is being hit.
  * * blocked - Percent modifier to damage. 100 = 100% less damage dealt, 50% = 50% less damage dealt.
  * * forced - "Force" exactly the damage dealt. This means it skips damage modifier from blocked.
@@ -20,6 +24,10 @@
  * * sharpness - Sharpness of the weapon.
  * * attack_direction - Direction of the attack from the attacker to [src].
  * * attacking_item - Item that is attacking [src].
+<<<<<<< HEAD
+=======
+ * * wound_clothing - If this should cause damage to clothing.
+>>>>>>> tg-pr-88929
  *
  * Returns the amount of damage dealt.
  */
@@ -34,13 +42,19 @@
 	bare_wound_bonus = 0,
 	sharpness = NONE,
 	attack_direction = null,
+<<<<<<< HEAD
 	obj/item/attacking_item,
+=======
+	attacking_item,
+	wound_clothing = TRUE,
+>>>>>>> tg-pr-88929
 )
 	SHOULD_CALL_PARENT(TRUE)
 	var/damage_amount = damage
 	if(!forced)
 		damage_amount *= ((100 - blocked) / 100)
 		damage_amount *= get_incoming_damage_modifier(damage_amount, damagetype, def_zone, sharpness, attack_direction, attacking_item)
+<<<<<<< HEAD
 		if(attacking_item)
 			var/damage_multiplier = 1
 			SEND_SIGNAL(attacking_item, COMSIG_ITEM_DAMAGE_MULTIPLIER, &damage_multiplier, src, def_zone)
@@ -51,6 +65,12 @@
 		return 0
 
 	SEND_SIGNAL(src, COMSIG_MOB_APPLY_DAMAGE, damage_amount, damagetype, def_zone, blocked, wound_bonus, bare_wound_bonus, sharpness, attack_direction, attacking_item)
+=======
+	if(damage_amount <= 0)
+		return 0
+
+	SEND_SIGNAL(src, COMSIG_MOB_APPLY_DAMAGE, damage_amount, damagetype, def_zone, blocked, wound_bonus, bare_wound_bonus, sharpness, attack_direction, attacking_item, wound_clothing)
+>>>>>>> tg-pr-88929
 
 	var/damage_dealt = 0
 	switch(damagetype)
@@ -67,6 +87,10 @@
 					sharpness = sharpness,
 					attack_direction = attack_direction,
 					damage_source = attacking_item,
+<<<<<<< HEAD
+=======
+					wound_clothing = wound_clothing,
+>>>>>>> tg-pr-88929
 				))
 					update_damage_overlays()
 				damage_dealt = actual_hit.get_damage() - delta // Unfortunately bodypart receive_damage doesn't return damage dealt so we do it manually
@@ -85,6 +109,10 @@
 					sharpness = sharpness,
 					attack_direction = attack_direction,
 					damage_source = attacking_item,
+<<<<<<< HEAD
+=======
+					wound_clothing = wound_clothing,
+>>>>>>> tg-pr-88929
 				))
 					update_damage_overlays()
 				damage_dealt = actual_hit.get_damage() - delta // See above
@@ -94,6 +122,7 @@
 			damage_dealt = -1 * adjustToxLoss(damage_amount, forced = forced)
 		if(OXY)
 			damage_dealt = -1 * adjustOxyLoss(damage_amount, forced = forced)
+<<<<<<< HEAD
 		if(CLONE)
 			damage_dealt = -1 *  adjustCloneLoss(damage_amount, forced = forced)
 		if(STAMINA)
@@ -121,6 +150,14 @@
 			damage_dealt = -1 * adjustOrganLoss(ORGAN_SLOT_BRAIN, damage_amount)
 
 	SEND_SIGNAL(src, COMSIG_MOB_AFTER_APPLY_DAMAGE, damage_dealt, damagetype, def_zone, blocked, wound_bonus, bare_wound_bonus, sharpness, attack_direction, attacking_item)
+=======
+		if(STAMINA)
+			damage_dealt = -1 * adjustStaminaLoss(damage_amount, forced = forced)
+		if(BRAIN)
+			damage_dealt = -1 * adjustOrganLoss(ORGAN_SLOT_BRAIN, damage_amount)
+
+	SEND_SIGNAL(src, COMSIG_MOB_AFTER_APPLY_DAMAGE, damage_dealt, damagetype, def_zone, blocked, wound_bonus, bare_wound_bonus,sharpness, attack_direction, attacking_item, wound_clothing)
+>>>>>>> tg-pr-88929
 	return damage_dealt
 
 /**
@@ -158,6 +195,7 @@
 		if(BURN)
 			return adjustFireLoss(heal_amount)
 		if(TOX)
+<<<<<<< HEAD
 			return adjustToxLoss(heal_amount, forced = TRUE) // monkestation edit: we're gonna assume anything using this proc intends to do true healing, so, let's not kill oozelings
 		if(OXY)
 			return adjustOxyLoss(heal_amount)
@@ -165,6 +203,13 @@
 			return adjustCloneLoss(heal_amount)
 		if(STAMINA)
 			return stamina.adjust(heal_amount)
+=======
+			return adjustToxLoss(heal_amount)
+		if(OXY)
+			return adjustOxyLoss(heal_amount)
+		if(STAMINA)
+			return adjustStaminaLoss(heal_amount)
+>>>>>>> tg-pr-88929
 
 /// return the damage amount for the type given
 /**
@@ -181,18 +226,26 @@
 			return getToxLoss()
 		if(OXY)
 			return getOxyLoss()
-		if(CLONE)
-			return getCloneLoss()
 		if(STAMINA)
 			return stamina.loss
 
+<<<<<<< HEAD
+=======
+/// return the total damage of all types which update your health
+/mob/living/proc/get_total_damage(precision = DAMAGE_PRECISION)
+	return round(getBruteLoss() + getFireLoss() + getToxLoss() + getOxyLoss(), precision)
+
+>>>>>>> tg-pr-88929
 /// Applies multiple damages at once via [apply_damage][/mob/living/proc/apply_damage]
 /mob/living/proc/apply_damages(
 	brute = 0,
 	burn = 0,
 	tox = 0,
 	oxy = 0,
+<<<<<<< HEAD
 	clone = 0,
+=======
+>>>>>>> tg-pr-88929
 	def_zone = null,
 	blocked = 0,
 	stamina = 0,
@@ -207,8 +260,11 @@
 		total_damage += apply_damage(tox, TOX, def_zone, blocked)
 	if(oxy)
 		total_damage += apply_damage(oxy, OXY, def_zone, blocked)
+<<<<<<< HEAD
 	if(clone)
 		total_damage += apply_damage(clone, CLONE, def_zone, blocked)
+=======
+>>>>>>> tg-pr-88929
 	if(stamina)
 		total_damage += apply_damage(stamina, STAMINA, def_zone, blocked)
 	if(brain)
@@ -275,7 +331,11 @@
 	if(drowsy)
 		adjust_drowsiness(drowsy)
 	if(eyeblur)
+<<<<<<< HEAD
 		set_eye_blur_if_lower(eyeblur)
+=======
+		adjust_eye_blur(eyeblur)
+>>>>>>> tg-pr-88929
 	if(jitter && !check_stun_immunity(CANSTUN))
 		adjust_jitter(jitter)
 	if(slur)
@@ -300,10 +360,13 @@
 	return bruteloss
 
 /mob/living/proc/can_adjust_brute_loss(amount, forced, required_bodytype)
+<<<<<<< HEAD
 	var/area/target_area = get_area(src)
 	if(target_area)
 		if((target_area.area_flags & PASSIVE_AREA) && amount > 0)
 			return FALSE
+=======
+>>>>>>> tg-pr-88929
 	if(!forced && HAS_TRAIT(src, TRAIT_GODMODE))
 		return FALSE
 	if(SEND_SIGNAL(src, COMSIG_LIVING_ADJUST_BRUTE_DAMAGE, BRUTE, amount, forced) & COMPONENT_IGNORE_CHANGE)
@@ -320,29 +383,46 @@
 		return 0
 	if(updating_health)
 		updatehealth()
-	return amount
 
+<<<<<<< HEAD
 /mob/living/proc/setBruteLoss(amount, updating_health = TRUE, forced = FALSE, required_bodytype)
 	if(!forced && HAS_TRAIT(src, TRAIT_GODMODE))
 		return
+=======
+
+/mob/living/proc/setBruteLoss(amount, updating_health = TRUE, forced = FALSE, required_bodytype = ALL)
+	if(!forced && HAS_TRAIT(src, TRAIT_GODMODE))
+		return FALSE
+>>>>>>> tg-pr-88929
 	. = bruteloss
 	bruteloss = amount
+
+	if(!.) // no change, no need to update
+		return FALSE
 	if(updating_health)
 		updatehealth()
+	. -= bruteloss
 
 /mob/living/proc/getOxyLoss()
 	return oxyloss
 
 /mob/living/proc/can_adjust_oxy_loss(amount, forced, required_biotype, required_respiration_type)
+<<<<<<< HEAD
 	var/area/target_area = get_area(src)
 	if(target_area)
 		if((target_area.area_flags & PASSIVE_AREA) && amount > 0)
 			return FALSE
+=======
+>>>>>>> tg-pr-88929
 	if(!forced)
 		if(HAS_TRAIT(src, TRAIT_GODMODE))
 			return FALSE
 		if (required_respiration_type)
+<<<<<<< HEAD
 			var/obj/item/organ/internal/lungs/affected_lungs = get_organ_slot(ORGAN_SLOT_LUNGS)
+=======
+			var/obj/item/organ/lungs/affected_lungs = get_organ_slot(ORGAN_SLOT_LUNGS)
+>>>>>>> tg-pr-88929
 			if(isnull(affected_lungs))
 				if(!(mob_respiration_type & required_respiration_type))  // if the mob has no lungs, use mob_respiration_type
 					return FALSE
@@ -358,31 +438,40 @@
 		return 0
 	. = oxyloss
 	oxyloss = clamp((oxyloss + (amount * CONFIG_GET(number/damage_multiplier))), 0, maxHealth * 2)
+	. -= oxyloss
+	if(!.) // no change, no need to update
+		return FALSE
 	if(updating_health)
 		updatehealth()
 
-
-/mob/living/proc/setOxyLoss(amount, updating_health = TRUE, forced = FALSE, required_biotype, required_respiration_type = ALL)
+/mob/living/proc/setOxyLoss(amount, updating_health = TRUE, forced = FALSE, required_biotype = ALL, required_respiration_type = ALL)
 	if(!forced)
 		if(HAS_TRAIT(src, TRAIT_GODMODE))
+<<<<<<< HEAD
 			return
+=======
+			return FALSE
+>>>>>>> tg-pr-88929
 
-		var/obj/item/organ/internal/lungs/affected_lungs = get_organ_slot(ORGAN_SLOT_LUNGS)
+		var/obj/item/organ/lungs/affected_lungs = get_organ_slot(ORGAN_SLOT_LUNGS)
 		if(isnull(affected_lungs))
 			if(!(mob_respiration_type & required_respiration_type))
-				return
+				return FALSE
 		else
 			if(!(affected_lungs.respiration_type & required_respiration_type))
-				return
+				return FALSE
 	. = oxyloss
 	oxyloss = amount
+	. -= oxyloss
+	if(!.) // no change, no need to update
+		return FALSE
 	if(updating_health)
 		updatehealth()
-
 
 /mob/living/proc/getToxLoss()
 	return toxloss
 
+<<<<<<< HEAD
 /mob/living/proc/can_adjust_tox_loss(amount, forced, required_biotype)
 	if(!forced && (HAS_TRAIT(src, TRAIT_GODMODE) || !(mob_biotypes & required_biotype)))
 		return FALSE
@@ -413,13 +502,55 @@
 
 /mob/living/proc/setToxLoss(amount, updating_health = TRUE, forced = FALSE, required_biotype)
 	if(!forced && HAS_TRAIT(src, TRAIT_GODMODE))
+=======
+/mob/living/proc/can_adjust_tox_loss(amount, forced, required_biotype = ALL)
+	if(!forced && (HAS_TRAIT(src, TRAIT_GODMODE) || !(mob_biotypes & required_biotype)))
 		return FALSE
-	if(!forced && !(mob_biotypes & required_biotype))
-		return
-	toxloss = amount
+	if(SEND_SIGNAL(src, COMSIG_LIVING_ADJUST_TOX_DAMAGE, TOX, amount, forced) & COMPONENT_IGNORE_CHANGE)
+		return FALSE
+	return TRUE
+
+/mob/living/proc/adjustToxLoss(amount, updating_health = TRUE, forced = FALSE, required_biotype = ALL)
+	if(!can_adjust_tox_loss(amount, forced, required_biotype))
+		return 0
+
+	if(!forced && HAS_TRAIT(src, TRAIT_TOXINLOVER)) //damage becomes healing and healing becomes damage
+		amount = -amount
+		if(HAS_TRAIT(src, TRAIT_TOXIMMUNE)) //Prevents toxin damage, but not healing
+			amount = min(amount, 0)
+		if(blood_volume)
+			if(amount > 0)
+				blood_volume = max(blood_volume - (5 * amount), 0)
+			else
+				blood_volume = max(blood_volume - amount, 0)
+
+	else if(!forced && HAS_TRAIT(src, TRAIT_TOXIMMUNE)) //Prevents toxin damage, but not healing
+		amount = min(amount, 0)
+
+	. = toxloss
+	toxloss = clamp((toxloss + (amount * CONFIG_GET(number/damage_multiplier))), 0, maxHealth * 2)
+	. -= toxloss
+
+	if(!.) // no change, no need to update
+		return FALSE
+
 	if(updating_health)
 		updatehealth()
-	return amount
+
+
+/mob/living/proc/setToxLoss(amount, updating_health = TRUE, forced = FALSE, required_biotype = ALL)
+	if(!forced && HAS_TRAIT(src, TRAIT_GODMODE))
+		return FALSE
+	if(!forced && !(mob_biotypes & required_biotype))
+		return FALSE
+	. = toxloss
+	toxloss = amount
+	. -= toxloss
+	if(!.) // no change, no need to update
+>>>>>>> tg-pr-88929
+		return FALSE
+	if(updating_health)
+		updatehealth()
 
 /mob/living/proc/getFireLoss()
 	return fireloss
@@ -432,10 +563,13 @@
 	return TRUE
 
 /mob/living/proc/adjustFireLoss(amount, updating_health = TRUE, forced = FALSE, required_bodytype = ALL)
+<<<<<<< HEAD
 	var/area/target_area = get_area(src)
 	if(target_area)
 		if((target_area.area_flags & PASSIVE_AREA) && amount > 0)
 			return FALSE
+=======
+>>>>>>> tg-pr-88929
 	if(!can_adjust_fire_loss(amount, forced, required_bodytype))
 		return 0
 	. = fireloss
@@ -445,9 +579,12 @@
 		return
 	if(updating_health)
 		updatehealth()
-	return amount
 
+<<<<<<< HEAD
 /mob/living/proc/setFireLoss(amount, updating_health = TRUE, forced = FALSE, required_bodytype)
+=======
+/mob/living/proc/setFireLoss(amount, updating_health = TRUE, forced = FALSE, required_bodytype = ALL)
+>>>>>>> tg-pr-88929
 	if(!forced && HAS_TRAIT(src, TRAIT_GODMODE))
 		return 0
 	. = fireloss
@@ -458,6 +595,7 @@
 	if(updating_health)
 		updatehealth()
 
+<<<<<<< HEAD
 /mob/living/proc/getCloneLoss()
 	return cloneloss
 
@@ -492,6 +630,8 @@
 		updatehealth()
 	return amount
 
+=======
+>>>>>>> tg-pr-88929
 /mob/living/proc/adjustOrganLoss(slot, amount, maximum, required_organ_flag)
 	return
 
@@ -501,11 +641,63 @@
 /mob/living/proc/get_organ_loss(slot)
 	return
 
+<<<<<<< HEAD
 /mob/living/proc/pre_stamina_change(diff as num, forced)
 	return diff
 
 /mob/living/proc/setStaminaLoss(amount, updating_stamina = TRUE, forced = FALSE, required_biotype)
 	return
+=======
+/mob/living/proc/getStaminaLoss()
+	return staminaloss
+
+/mob/living/proc/can_adjust_stamina_loss(amount, forced, required_biotype = ALL)
+	if(!forced && (!(mob_biotypes & required_biotype) || HAS_TRAIT(src, TRAIT_GODMODE)))
+		return FALSE
+	if(SEND_SIGNAL(src, COMSIG_LIVING_ADJUST_STAMINA_DAMAGE, STAMINA, amount, forced) & COMPONENT_IGNORE_CHANGE)
+		return FALSE
+	return TRUE
+
+/mob/living/proc/adjustStaminaLoss(amount, updating_stamina = TRUE, forced = FALSE, required_biotype = ALL)
+	if(!can_adjust_stamina_loss(amount, forced, required_biotype))
+		return 0
+	var/old_amount = staminaloss
+	staminaloss = clamp((staminaloss + (amount * CONFIG_GET(number/damage_multiplier))), 0, max_stamina)
+	var/delta = old_amount - staminaloss
+	if(delta <= 0)
+		// need to check for stamcrit AFTER canadjust but BEFORE early return here
+		received_stamina_damage(staminaloss, -1 * delta)
+	if(delta == 0) // no change, no need to update
+		return 0
+	if(updating_stamina)
+		updatehealth()
+	return delta
+
+/mob/living/proc/setStaminaLoss(amount, updating_stamina = TRUE, forced = FALSE, required_biotype = ALL)
+	if(!forced && HAS_TRAIT(src, TRAIT_GODMODE))
+		return 0
+	if(!forced && !(mob_biotypes & required_biotype))
+		return 0
+	var/old_amount = staminaloss
+	staminaloss = amount
+	var/delta = old_amount - staminaloss
+	if(delta <= 0 && amount >= DAMAGE_PRECISION)
+		received_stamina_damage(staminaloss, -1 * delta, amount)
+	if(delta == 0) // no change, no need to update
+		return 0
+	if(updating_stamina)
+		updatehealth()
+	return delta
+
+/// The mob has received stamina damage
+///
+/// - current_level: The mob's current stamina damage amount (to save unnecessary getStaminaLoss() calls)
+/// - amount_actual: The amount of stamina damage received, in actuality
+/// For example, if you are taking 50 stamina damage but are at 90, you would actually only receive 30 stamina damage (due to the cap)
+/// - amount: The amount of stamina damage received, raw
+/mob/living/proc/received_stamina_damage(current_level, amount_actual, amount)
+	addtimer(CALLBACK(src, PROC_REF(setStaminaLoss), 0, TRUE, TRUE), stamina_regen_time, TIMER_UNIQUE|TIMER_OVERRIDE)
+>>>>>>> tg-pr-88929
 
 /**
  * heal ONE external organ, organ gets randomly selected from damaged ones.
@@ -513,7 +705,11 @@
  * returns the net change in damage
  */
 /mob/living/proc/heal_bodypart_damage(brute = 0, burn = 0, updating_health = TRUE, required_bodytype = NONE, target_zone = null)
+<<<<<<< HEAD
 	. = (adjustBruteLoss(-brute, FALSE) + adjustFireLoss(-burn, FALSE)) //zero as argument for no instant health update
+=======
+	. = (adjustBruteLoss(-abs(brute), updating_health = FALSE) + adjustFireLoss(-abs(burn), updating_health = FALSE))
+>>>>>>> tg-pr-88929
 	if(!.) // no change, no need to update
 		return FALSE
 	if(updating_health)
@@ -521,11 +717,13 @@
 
 /// damage ONE external organ, organ gets randomly selected from damaged ones.
 /mob/living/proc/take_bodypart_damage(brute = 0, burn = 0, updating_health = TRUE, required_bodytype, check_armor = FALSE, wound_bonus = 0, bare_wound_bonus = 0, sharpness = NONE)
-	adjustBruteLoss(brute, FALSE) //zero as argument for no instant health update
-	adjustFireLoss(burn, FALSE)
+	. = (adjustBruteLoss(abs(brute), updating_health = FALSE) + adjustFireLoss(abs(burn), updating_health = FALSE))
+	if(!.) // no change, no need to update
+		return FALSE
 	if(updating_health)
 		updatehealth()
 
+<<<<<<< HEAD
 /// heal MANY bodyparts, in random order
 /mob/living/proc/heal_overall_damage(brute = 0, burn = 0, stamina = 0, required_bodytype, updating_health = TRUE)
 	adjustBruteLoss(-brute, FALSE) //zero as argument for no instant health update
@@ -539,6 +737,25 @@
 	adjustBruteLoss(brute, FALSE) //zero as argument for no instant health update
 	adjustFireLoss(burn, FALSE)
 	src.stamina.adjust(-stamina, FALSE)
+=======
+/// heal MANY bodyparts, in random order. note: stamina arg nonfunctional for carbon mobs
+/mob/living/proc/heal_overall_damage(brute = 0, burn = 0, stamina = 0, required_bodytype, updating_health = TRUE, forced = FALSE)
+	. = (adjustBruteLoss(-abs(brute), updating_health = FALSE, forced = forced) + \
+			adjustFireLoss(-abs(burn), updating_health = FALSE, forced = forced) + \
+			adjustStaminaLoss(-abs(stamina), updating_stamina = FALSE, forced = forced))
+	if(!.) // no change, no need to update
+		return FALSE
+	if(updating_health)
+		updatehealth()
+
+/// damage MANY bodyparts, in random order. note: stamina arg nonfunctional for carbon mobs
+/mob/living/proc/take_overall_damage(brute = 0, burn = 0, stamina = 0, updating_health = TRUE, forced = FALSE, required_bodytype)
+	. = (adjustBruteLoss(abs(brute), updating_health = FALSE, forced = forced) + \
+			adjustFireLoss(abs(burn), updating_health = FALSE, forced = forced) + \
+			adjustStaminaLoss(abs(stamina), updating_stamina = FALSE, forced = forced))
+	if(!.) // no change, no need to update
+		return FALSE
+>>>>>>> tg-pr-88929
 	if(updating_health)
 		updatehealth()
 

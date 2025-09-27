@@ -1,5 +1,7 @@
-import { useBackend, useLocalState } from '../backend';
-import { Icon, ProgressBar, Tabs } from '../components';
+import { useState } from 'react';
+import { Icon, ProgressBar, Tabs } from 'tgui-core/components';
+
+import { useBackend } from '../backend';
 import { Window } from '../layouts';
 
 type Data = {
@@ -25,28 +27,48 @@ const DIRECTION_TO_ICON = {
   northwest: 315,
 } as const;
 
+<<<<<<< HEAD
 export const BluespaceLocator = (props) => {
   const [tab, setTab] = useLocalState('tab', 'implant');
+=======
+enum TAB {
+  Implant,
+  Beacon,
+}
+
+export const BluespaceLocator = (props) => {
+  const [tab, setTab] = useState(TAB.Implant);
+>>>>>>> tg-pr-88929
 
   return (
     <Window width={300} height={300}>
       <Window.Content scrollable>
         <Tabs>
           <Tabs.Tab
+<<<<<<< HEAD
             selected={tab === 'implant'}
             onClick={() => setTab('implant')}
+=======
+            selected={tab === TAB.Implant}
+            onClick={() => setTab(TAB.Implant)}
+>>>>>>> tg-pr-88929
           >
             Implants
           </Tabs.Tab>
           <Tabs.Tab
+<<<<<<< HEAD
             selected={tab === 'beacon'}
             onClick={() => setTab('beacon')}
+=======
+            selected={tab === TAB.Beacon}
+            onClick={() => setTab(TAB.Beacon)}
+>>>>>>> tg-pr-88929
           >
             Teleporter Beacons
           </Tabs.Tab>
         </Tabs>
-        {(tab === 'beacon' && <TeleporterBeacons />) ||
-          (tab === 'implant' && <TrackingImplants />)}
+        {tab === TAB.Beacon && <TeleporterBeacons />}
+        {tab === TAB.Implant && <TrackingImplants />}
       </Window.Content>
     </Window>
   );

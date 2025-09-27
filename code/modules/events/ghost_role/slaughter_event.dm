@@ -16,13 +16,15 @@
 	role_name = "slaughter demon"
 
 /datum/round_event/ghost_role/slaughter/spawn_role()
+<<<<<<< HEAD
 	var/list/candidates = SSpolling.poll_ghost_candidates(check_jobban = ROLE_SLAUGHTER_DEMON, alert_pic = /mob/living/basic/demon/slaughter, role_name_text = role_name)
 	if(!length(candidates))
+=======
+	var/mob/chosen_one = SSpolling.poll_ghost_candidates(check_jobban = ROLE_ALIEN, role = ROLE_ALIEN, alert_pic = /mob/living/basic/demon/slaughter, role_name_text = role_name, amount_to_pick = 1)
+	if(isnull(chosen_one))
+>>>>>>> tg-pr-88929
 		return NOT_ENOUGH_PLAYERS
-
-	var/mob/dead/selected = pick_n_take(candidates)
-
-	var/datum/mind/player_mind = new /datum/mind(selected.key)
+	var/datum/mind/player_mind = new /datum/mind(chosen_one.key)
 	player_mind.active = TRUE
 
 	var/spawn_location = find_space_spawn()

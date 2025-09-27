@@ -6,8 +6,9 @@
 	name = "baseturf editor"
 	icon = 'icons/effects/mapping_helpers.dmi'
 	icon_state = ""
-
+	/// Replacing a specific turf
 	var/list/baseturf_to_replace
+	/// The desired bottom turf
 	var/baseturf
 
 	plane = POINT_PLANE
@@ -33,9 +34,16 @@
 
 	qdel(src)
 
+/// Replaces all the requested baseturfs (usually space/baseturfbottom) with the desired baseturf. Skips if its already there
 /obj/effect/baseturf_helper/proc/replace_baseturf(turf/thing)
 	thing.remove_baseturfs_from_typecache(baseturf_to_replace)
-	thing.PlaceOnBottom(fake_turf_type = baseturf)
+
+	if(length(thing.baseturfs))
+		var/turf/tile = thing.baseturfs[1]
+		if(tile == baseturf)
+			return
+
+	thing.place_on_bottom(baseturf)
 
 /obj/effect/baseturf_helper/space
 	name = "space baseturf editor"
@@ -99,10 +107,19 @@
 		return
 	return ..(ceiling)
 
+///Used for marking mapping errors. These should only be created by cases explicitly caught by unit tests, and should NEVER actually appear in production.
+/obj/effect/mapping_error
+	name = "I AM ERROR"
+	desc = "IF YOU SEE ME, YELL AT A MAPPER!!!"
+	icon = 'icons/effects/mapping_helpers.dmi'
+	icon_state = "mapping_error"
 
 /obj/effect/mapping_helpers
 	icon = 'icons/effects/mapping_helpers.dmi'
 	icon_state = ""
+	anchored = TRUE
+	// Unless otherwise specified, layer above everything
+	layer = ABOVE_ALL_MOB_LAYER
 	var/late = FALSE
 
 /obj/effect/mapping_helpers/Initialize(mapload)
@@ -129,8 +146,12 @@
 */
 
 /obj/effect/mapping_helpers/airlock/LateInitialize()
+<<<<<<< HEAD
 	. = ..()
 	var/obj/machinery/door/airlock/airlock = locate(/obj/machinery/door/airlock) in (offset_dir ?  get_step(src, offset_dir) : loc) //monkestation edit: adds offset_dir check
+=======
+	var/obj/machinery/door/airlock/airlock = locate(/obj/machinery/door/airlock) in loc
+>>>>>>> tg-pr-88929
 	if(!airlock)
 		qdel(src)
 		return
@@ -144,16 +165,17 @@
 			if(1 to 9)
 				var/turf/here = get_turf(src)
 				for(var/turf/closed/T in range(2, src))
-					here.PlaceOnTop(T.type)
+					here.place_on_top(T.type)
 					qdel(airlock)
 					qdel(src)
 					return
-				here.PlaceOnTop(/turf/closed/wall)
+				here.place_on_top(/turf/closed/wall)
 				qdel(airlock)
 				qdel(src)
 				return
 			if(9 to 11)
 				airlock.lights = FALSE
+				// These do not use airlock.bolt() because we want to pretend it was always locked. That means no sound effects.
 				airlock.locked = TRUE
 			if(12 to 15)
 				airlock.locked = TRUE
@@ -202,6 +224,7 @@
 	if(airlock.locked)
 		log_mapping("[src] at [AREACOORD(src)] tried to bolt [airlock] but it's already locked!")
 	else
+		// Used instead of bolt so that we can pretend it was always locked, i.e. no sound effects on init.
 		airlock.locked = TRUE
 
 /obj/effect/mapping_helpers/airlock/unres
@@ -251,10 +274,26 @@
 	else
 		airlock.autoname = TRUE
 
+<<<<<<< HEAD
 //air alarm helpers
 /obj/effect/mapping_helpers/airalarm
 	desc = "You shouldn't see this. Report it please."
 	layer = ABOVE_OBJ_LAYER
+=======
+/obj/effect/mapping_helpers/airlock/inaccessible
+	name = "airlock inaccessible helper"
+	icon_state = "airlock_inaccessible"
+
+/obj/effect/mapping_helpers/airlock/inaccessible/payload(obj/machinery/door/airlock/airlock)
+	if(airlock.req_one_access != null)
+		log_mapping("[src] at [AREACOORD(src)] tried to set req_access, but req__one_access was already set!")
+	else
+		airlock.req_access += list(ACCESS_INACCESSIBLE)
+
+//air alarm helpers
+/obj/effect/mapping_helpers/airalarm
+	desc = "You shouldn't see this. Report it please."
+>>>>>>> tg-pr-88929
 	late = TRUE
 
 /obj/effect/mapping_helpers/airalarm/Initialize(mapload)
@@ -273,7 +312,10 @@
 	return INITIALIZE_HINT_LATELOAD
 
 /obj/effect/mapping_helpers/airalarm/LateInitialize()
+<<<<<<< HEAD
 	. = ..()
+=======
+>>>>>>> tg-pr-88929
 	var/obj/machinery/airalarm/target = locate(/obj/machinery/airalarm) in loc
 
 	if(isnull(target))
@@ -302,9 +344,12 @@
 	if(target.syndicate_access + target.away_general_access + target.engine_access + target.mixingchamber_access + target.all_access > 1)
 		CRASH("Tried to combine incompatible air alarm access helpers!")
 
+<<<<<<< HEAD
 	if(target.air_sensor_chamber_id)
 		target.setup_chamber_link()
 
+=======
+>>>>>>> tg-pr-88929
 	target.update_appearance()
 	qdel(src)
 
@@ -350,7 +395,10 @@
 		var/area/area = get_area(target)
 		log_mapping("[src] at [AREACOORD(src)] [(area.type)] tried to adjust [target]'s access to engine_access but it's already changed!")
 	target.engine_access = TRUE
+<<<<<<< HEAD
 	target.stop_ac() // monkestation addition: prevents the air conditioning from heating up the SM
+=======
+>>>>>>> tg-pr-88929
 
 /obj/effect/mapping_helpers/airalarm/mixingchamber_access
 	name = "airalarm mixingchamber access helper"
@@ -395,6 +443,10 @@
 /obj/effect/mapping_helpers/airalarm/link
 	name = "airalarm link helper"
 	icon_state = "airalarm_link_helper"
+<<<<<<< HEAD
+=======
+	late = TRUE
+>>>>>>> tg-pr-88929
 	var/chamber_id = ""
 	var/allow_link_change = FALSE
 
@@ -404,18 +456,28 @@
 		log_mapping("[src] spawned outside of mapload!")
 		return INITIALIZE_HINT_QDEL
 
+<<<<<<< HEAD
+=======
+/obj/effect/mapping_helpers/airalarm/link/LateInitialize(mapload)
+>>>>>>> tg-pr-88929
 	var/obj/machinery/airalarm/alarm = locate(/obj/machinery/airalarm) in loc
 	if(!isnull(alarm))
 		alarm.air_sensor_chamber_id = chamber_id
 		alarm.allow_link_change = allow_link_change
+<<<<<<< HEAD
 	else
 		log_mapping("[src] failed to find air alarm at [AREACOORD(src)].")
 		return INITIALIZE_HINT_QDEL
+=======
+		alarm.setup_chamber_link()
+	else
+		log_mapping("[src] failed to find air alarm at [AREACOORD(src)].")
+	qdel(src)
+>>>>>>> tg-pr-88929
 
 //apc helpers
 /obj/effect/mapping_helpers/apc
 	desc = "You shouldn't see this. Report it please."
-	layer = DOOR_HELPER_LAYER
 	late = TRUE
 
 /obj/effect/mapping_helpers/apc/Initialize(mapload)
@@ -426,7 +488,7 @@
 
 	var/obj/machinery/power/apc/target = locate(/obj/machinery/power/apc) in (offset_dir ?  get_step(src, offset_dir) : loc) //monkestation edit: adds offset_dir check
 	if(isnull(target))
-		var/area/target_area = get_area(target)
+		var/area/target_area = get_area(src)
 		log_mapping("[src] failed to find an apc at [AREACOORD(src)] ([target_area.type]).")
 	else
 		payload(target)
@@ -434,8 +496,12 @@
 	return INITIALIZE_HINT_LATELOAD
 
 /obj/effect/mapping_helpers/apc/LateInitialize()
+<<<<<<< HEAD
 	. = ..()
 	var/obj/machinery/power/apc/target = locate(/obj/machinery/power/apc) in (offset_dir ?  get_step(src, offset_dir) : loc) //monkestation edit: adds offset_dir check
+=======
+	var/obj/machinery/power/apc/target = locate(/obj/machinery/power/apc) in loc
+>>>>>>> tg-pr-88929
 
 	if(isnull(target))
 		qdel(src)
@@ -548,6 +614,28 @@
 		log_mapping("[src] at [AREACOORD(src)] [(apc_area.type)] tried to set [target]'s charge to 100 but it's already at 100!")
 	target.full_charge = TRUE
 
+//Used to turn off lights with lightswitch in areas.
+/obj/effect/mapping_helpers/turn_off_lights_with_lightswitch
+	name = "area turned off lights helper"
+	icon_state = "lights_off"
+
+/obj/effect/mapping_helpers/turn_off_lights_with_lightswitch/Initialize(mapload)
+	. = ..()
+	if(!mapload)
+		log_mapping("[src] spawned outside of mapload!")
+		return INITIALIZE_HINT_QDEL
+	return INITIALIZE_HINT_LATELOAD
+
+/obj/effect/mapping_helpers/turn_off_lights_with_lightswitch/LateInitialize()
+	var/area/needed_area = get_area(src)
+	if(!needed_area.lightswitch)
+		stack_trace("[src] at [AREACOORD(src)] [(needed_area.type)] tried to turn lights off but they are already off!")
+	var/obj/machinery/light_switch/light_switch = locate(/obj/machinery/light_switch) in needed_area
+	if(!light_switch)
+		CRASH("Trying to turn off lights with lightswitch in area without lightswitches. In [(needed_area.type)] to be precise.")
+	light_switch.set_lights(FALSE)
+	qdel(src)
+
 //needs to do its thing before spawn_rivers() is called
 INITIALIZE_IMMEDIATE(/obj/effect/mapping_helpers/no_lava)
 
@@ -558,6 +646,15 @@ INITIALIZE_IMMEDIATE(/obj/effect/mapping_helpers/no_lava)
 	. = ..()
 	var/turf/T = get_turf(src)
 	T.turf_flags |= NO_LAVA_GEN
+
+INITIALIZE_IMMEDIATE(/obj/effect/mapping_helpers/no_atoms_ontop)
+/obj/effect/mapping_helpers/no_atoms_ontop
+	icon_state = "no_atoms_ontop"
+
+/obj/effect/mapping_helpers/no_atoms_ontop/Initialize(mapload)
+	. = ..()
+	var/turf/loc_turf = get_turf(src)
+	loc_turf.turf_flags |= TURF_BLOCKS_POPULATE_TERRAIN_FLORAFEATURES
 
 ///Helpers used for injecting stuff into atoms on the map.
 /obj/effect/mapping_helpers/atom_injector
@@ -822,11 +919,16 @@ INITIALIZE_IMMEDIATE(/obj/effect/mapping_helpers/no_lava)
 	var/admin_spawned
 	///number of bodies to spawn
 	var/bodycount = 3
+<<<<<<< HEAD
 	/// These species IDs will be barred from spawning if morgue_cadaver_disable_nonhumans is disabled (In the future, we can also dehardcode this)
 	var/list/blacklisted_from_rng_placement = list(
 		SPECIES_ETHEREAL, // they revive on death which is bad juju
 		SPECIES_HUMAN,  // already have a 50% chance of being selected
 	)
+=======
+	/// Corpse type we spawn thats always human
+	var/datum/corpse_damage_class/morgue_body_class = /datum/corpse_damage_class/station/morgue
+>>>>>>> tg-pr-88929
 
 /obj/effect/mapping_helpers/dead_body_placer/Initialize(mapload)
 	. = ..()
@@ -854,6 +956,7 @@ INITIALIZE_IMMEDIATE(/obj/effect/mapping_helpers/no_lava)
 
 	var/reuse_trays = (numtrays < bodycount) //are we going to spawn more trays than bodies?
 
+<<<<<<< HEAD
 	var/use_species = !(CONFIG_GET(flag/morgue_cadaver_disable_nonhumans))
 	var/species_probability = CONFIG_GET(number/morgue_cadaver_other_species_probability)
 	var/override_species = CONFIG_GET(string/morgue_cadaver_override_species)
@@ -894,12 +997,19 @@ INITIALIZE_IMMEDIATE(/obj/effect/mapping_helpers/no_lava)
 						stack_trace("failed to spawn cadaver with species ID [species_to_pick]") //if it's invalid they'll just be a human, so no need to worry too much aside from yelling at the server owner lol.
 		else
 			guaranteed_human_spawned = TRUE
+=======
+	for (var/i in 1 to bodycount)
+		var/obj/structure/bodycontainer/morgue/morgue_tray = reuse_trays ? pick(trays) : pick_n_take(trays)
+		var/obj/structure/closet/body_bag/body_bag = new(morgue_tray.loc)
+		var/mob/living/carbon/human/new_human = GLOB.lost_crew_manager.create_lost_crew(revivable = FALSE, forced_class = morgue_body_class)
+>>>>>>> tg-pr-88929
 
 		body_bag.insert(new_human, TRUE)
 		body_bag.close()
-		body_bag.handle_tag("[new_human.real_name][species_to_pick ? " - [capitalize(species_to_pick)]" : " - Human"]")
+		body_bag.handle_tag("[new_human.real_name][new_human.dna?.species ? " - [new_human.dna.species.name]" : " - Human"]")
 		body_bag.forceMove(morgue_tray)
 
+<<<<<<< HEAD
 		new_human.death() //here lies the mans, rip in pepperoni.
 		for (var/obj/item/organ/internal/part in new_human.organs) //randomly remove organs from each body, set those we keep to be in stasis
 			if (prob(40))
@@ -907,6 +1017,8 @@ INITIALIZE_IMMEDIATE(/obj/effect/mapping_helpers/no_lava)
 			else
 				part.organ_flags |= ORGAN_FROZEN
 
+=======
+>>>>>>> tg-pr-88929
 		morgue_tray.update_appearance()
 
 	qdel(src)
@@ -1037,8 +1149,13 @@ INITIALIZE_IMMEDIATE(/obj/effect/mapping_helpers/no_lava)
 	var/note_path //if you already have something wrote up in a paper subtype, put the path here
 
 /obj/effect/mapping_helpers/airlock_note_placer/LateInitialize()
+<<<<<<< HEAD
 	var/turf/turf = (offset_dir ?  get_turf(get_step(src, offset_dir)) : get_turf(src)) //monkestation edit: adds offset_dir check
 	if(note_path && !istype(note_path, /obj/item/paper)) //don't put non-paper in the paper slot thank you
+=======
+	var/turf/turf = get_turf(src)
+	if(note_path && !ispath(note_path, /obj/item/paper)) //don't put non-paper in the paper slot thank you
+>>>>>>> tg-pr-88929
 		log_mapping("[src] at [x],[y] had an improper note_path path, could not place paper note.")
 		qdel(src)
 		return
@@ -1077,8 +1194,8 @@ INITIALIZE_IMMEDIATE(/obj/effect/mapping_helpers/no_lava)
  */
 /obj/effect/mapping_helpers/trapdoor_placer
 	name = "trapdoor placer"
-	late = TRUE
 	icon_state = "trapdoor"
+	late = TRUE
 
 /obj/effect/mapping_helpers/trapdoor_placer/LateInitialize()
 	var/turf/component_target = (offset_dir ?  get_turf(get_step(src, offset_dir)) : get_turf(src)) //monkestation edit: adds offset_dir check
@@ -1158,8 +1275,11 @@ INITIALIZE_IMMEDIATE(/obj/effect/mapping_helpers/no_lava)
 	name = "broken floor"
 	icon = 'icons/turf/damaged.dmi'
 	icon_state = "damaged1"
-	late = TRUE
 	layer = ABOVE_NORMAL_TURF_LAYER
+<<<<<<< HEAD
+=======
+	late = TRUE
+>>>>>>> tg-pr-88929
 
 /obj/effect/mapping_helpers/broken_floor/LateInitialize()
 	var/turf/open/floor/floor = (offset_dir ?  get_turf(get_step(src, offset_dir)) : get_turf(src)) //monkestation edit: adds offset_dir check
@@ -1178,6 +1298,217 @@ INITIALIZE_IMMEDIATE(/obj/effect/mapping_helpers/no_lava)
 	floor.burn_tile()
 	qdel(src)
 
+<<<<<<< HEAD
+=======
+///Applies BROKEN flag to the first found machine on a tile
+/obj/effect/mapping_helpers/broken_machine
+	name = "broken machine helper"
+	icon_state = "broken_machine"
+	late = TRUE
+
+/obj/effect/mapping_helpers/broken_machine/Initialize(mapload)
+	. = ..()
+	if(!mapload)
+		log_mapping("[src] spawned outside of mapload!")
+		return INITIALIZE_HINT_QDEL
+
+	var/obj/machinery/target = locate(/obj/machinery) in loc
+	if(isnull(target))
+		var/area/target_area = get_area(src)
+		log_mapping("[src] failed to find a machine at [AREACOORD(src)] ([target_area.type]).")
+	else
+		payload(target)
+
+	return INITIALIZE_HINT_LATELOAD
+
+/obj/effect/mapping_helpers/broken_machine/LateInitialize()
+	var/obj/machinery/target = locate(/obj/machinery) in loc
+
+	if(isnull(target))
+		qdel(src)
+		return
+
+	target.update_appearance()
+	qdel(src)
+
+/obj/effect/mapping_helpers/broken_machine/proc/payload(obj/machinery/airalarm/target)
+	if(target.machine_stat & BROKEN)
+		var/area/area = get_area(target)
+		log_mapping("[src] at [AREACOORD(src)] [(area.type)] tried to break [target] but it's already broken!")
+	target.set_machine_stat(target.machine_stat | BROKEN)
+
+///Deals random damage to the first window found on a tile to appear cracked
+/obj/effect/mapping_helpers/damaged_window
+	name = "damaged window helper"
+	icon_state = "damaged_window"
+	late = TRUE
+	/// Minimum roll of integrity damage in percents needed to show cracks
+	var/integrity_damage_min = 0.25
+	/// Maximum roll of integrity damage in percents needed to show cracks
+	var/integrity_damage_max = 0.85
+
+/obj/effect/mapping_helpers/damaged_window/Initialize(mapload)
+	. = ..()
+	if(!mapload)
+		log_mapping("[src] spawned outside of mapload!")
+		return INITIALIZE_HINT_QDEL
+	return INITIALIZE_HINT_LATELOAD
+
+/obj/effect/mapping_helpers/damaged_window/LateInitialize()
+	var/obj/structure/window/target = locate(/obj/structure/window) in loc
+
+	if(isnull(target))
+		var/area/target_area = get_area(src)
+		log_mapping("[src] failed to find a window at [AREACOORD(src)] ([target_area.type]).")
+		qdel(src)
+		return
+	else
+		payload(target)
+
+	target.update_appearance()
+	qdel(src)
+
+/obj/effect/mapping_helpers/damaged_window/proc/payload(obj/structure/window/target)
+	if(target.get_integrity() < target.max_integrity)
+		var/area/area = get_area(target)
+		log_mapping("[src] at [AREACOORD(src)] [(area.type)] tried to damage [target] but it's already damaged!")
+	target.take_damage(rand(target.max_integrity * integrity_damage_min, target.max_integrity * integrity_damage_max))
+
+//requests console helpers
+/obj/effect/mapping_helpers/requests_console
+	desc = "You shouldn't see this. Report it please."
+	late = TRUE
+
+/obj/effect/mapping_helpers/requests_console/Initialize(mapload)
+	. = ..()
+	if(!mapload)
+		log_mapping("[src] spawned outside of mapload!")
+		return INITIALIZE_HINT_QDEL
+
+	return INITIALIZE_HINT_LATELOAD
+
+/obj/effect/mapping_helpers/requests_console/LateInitialize()
+	var/obj/machinery/airalarm/target = locate(/obj/machinery/requests_console) in loc
+	if(isnull(target))
+		var/area/target_area = get_area(target)
+		log_mapping("[src] failed to find a requests console at [AREACOORD(src)] ([target_area.type]).")
+	else
+		payload(target)
+
+	qdel(src)
+
+/// Fills out the request console's variables
+/obj/effect/mapping_helpers/requests_console/proc/payload(obj/machinery/requests_console/console)
+	return
+
+/obj/effect/mapping_helpers/requests_console/announcement
+	name = "request console announcement helper"
+	icon_state = "requests_console_announcement_helper"
+
+/obj/effect/mapping_helpers/requests_console/announcement/payload(obj/machinery/requests_console/console)
+	console.can_send_announcements = TRUE
+
+/obj/effect/mapping_helpers/requests_console/assistance
+	name = "request console assistance requestable helper"
+	icon_state = "requests_console_assistance_helper"
+
+/obj/effect/mapping_helpers/requests_console/assistance/payload(obj/machinery/requests_console/console)
+	GLOB.req_console_assistance |= console.department
+
+/obj/effect/mapping_helpers/requests_console/supplies
+	name = "request console supplies requestable helper"
+	icon_state = "requests_console_supplies_helper"
+
+/obj/effect/mapping_helpers/requests_console/supplies/payload(obj/machinery/requests_console/console)
+	GLOB.req_console_supplies |= console.department
+
+/obj/effect/mapping_helpers/requests_console/information
+	name = "request console information relayable helper"
+	icon_state = "requests_console_information_helper"
+
+/obj/effect/mapping_helpers/requests_console/information/payload(obj/machinery/requests_console/console)
+	GLOB.req_console_information |= console.department
+
+/obj/effect/mapping_helpers/requests_console/ore_update
+	name = "request console ore update helper"
+	icon_state = "requests_console_ore_update_helper"
+
+/obj/effect/mapping_helpers/requests_console/ore_update/payload(obj/machinery/requests_console/console)
+	console.receive_ore_updates = TRUE
+
+/obj/effect/mapping_helpers/engraving
+	name = "engraving helper"
+	icon = 'icons/turf/wall_overlays.dmi'
+	icon_state = "engraving2"
+	late = TRUE
+	layer = ABOVE_NORMAL_TURF_LAYER
+
+/obj/effect/mapping_helpers/engraving/Initialize(mapload)
+	. = ..()
+	return INITIALIZE_HINT_LATELOAD
+
+/obj/effect/mapping_helpers/engraving/LateInitialize()
+	var/turf/closed/engraved_wall = get_turf(src)
+
+	if(!isclosedturf(engraved_wall) || !SSpersistence.saved_engravings.len || HAS_TRAIT(engraved_wall, TRAIT_NOT_ENGRAVABLE))
+		qdel(src)
+		return
+
+	var/engraving = pick_n_take(SSpersistence.saved_engravings)
+	if(!islist(engraving))
+		stack_trace("something's wrong with the engraving data! one of the saved engravings wasn't a list!")
+		qdel(src)
+		return
+
+	engraved_wall.AddComponent(/datum/component/engraved, engraving["story"], FALSE, engraving["story_value"])
+	qdel(src)
+
+/// Apply to a wall (or floor, technically) to ensure it is instantly destroyed by any explosion, even if usually invulnerable
+/obj/effect/mapping_helpers/bombable_wall
+	name = "bombable wall helper"
+	icon = 'icons/turf/overlays.dmi'
+	icon_state = "explodable"
+
+/obj/effect/mapping_helpers/bombable_wall/Initialize(mapload)
+	. = ..()
+	if(!mapload)
+		log_mapping("[src] spawned outside of mapload!")
+		return
+
+	var/turf/our_turf = get_turf(src) // In case a locker ate us or something
+	our_turf.AddElement(/datum/element/bombable_turf)
+	return INITIALIZE_HINT_QDEL
+
+/// this helper buckles all mobs on the tile to the first buckleable object
+/obj/effect/mapping_helpers/mob_buckler
+	name = "Buckle Mob"
+	icon_state = "buckle"
+	late = TRUE
+	///whether we force a buckle
+	var/force_buckle = FALSE
+
+/obj/effect/mapping_helpers/mob_buckler/Initialize(mapload)
+	. = ..()
+	var/atom/movable/buckle_to
+	var/list/mobs = list()
+	for(var/atom/movable/possible_buckle as anything in loc)
+		if(isnull(buckle_to) && possible_buckle.can_buckle)
+			buckle_to = possible_buckle
+			continue
+
+		if(isliving(possible_buckle))
+			mobs += possible_buckle
+
+	if(isnull(buckle_to))
+		log_mapping("[type] at [x] [y] [z] did not find anything to buckle to")
+		return INITIALIZE_HINT_QDEL
+
+	for(var/mob/living/mob as anything in mobs)
+		buckle_to.buckle_mob(mob, force = force_buckle)
+
+	return INITIALIZE_HINT_QDEL
+
+>>>>>>> tg-pr-88929
 ///Basic mob flag helpers for things like deleting on death.
 /obj/effect/mapping_helpers/basic_mob_flags
 	name = "Basic mob flags helper"
@@ -1194,7 +1525,10 @@ INITIALIZE_IMMEDIATE(/obj/effect/mapping_helpers/no_lava)
 		return INITIALIZE_HINT_QDEL
 
 /obj/effect/mapping_helpers/basic_mob_flags/LateInitialize()
+<<<<<<< HEAD
 	. = ..()
+=======
+>>>>>>> tg-pr-88929
 	var/had_any_mobs = FALSE
 	for(var/mob/living/basic/basic_mobs in loc)
 		had_any_mobs = TRUE
@@ -1227,3 +1561,11 @@ INITIALIZE_IMMEDIATE(/obj/effect/mapping_helpers/no_lava)
 	name = "Basic mob immune to fists flag helper"
 	icon_state = "basic_mob_immune_to_fists"
 	flag_to_give = IMMUNE_TO_FISTS
+<<<<<<< HEAD
+=======
+
+/obj/effect/mapping_helpers/basic_mob_flags/immune_to_getting_wet
+	name = "Basic mob immune to getting wet flag helper"
+	icon_state = "basic_mob_immune_to_getting_wet"
+	flag_to_give = IMMUNE_TO_GETTING_WET
+>>>>>>> tg-pr-88929

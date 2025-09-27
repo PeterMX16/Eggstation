@@ -1,6 +1,19 @@
+<<<<<<< HEAD
 import { Section, Dropdown, Input, Box, TextArea } from '../components';
 import { useBackend, useLocalState } from '../backend';
 import { Button } from '../components/Button';
+=======
+import {
+  Box,
+  Button,
+  Dropdown,
+  Input,
+  Section,
+  TextArea,
+} from 'tgui-core/components';
+
+import { useBackend, useLocalState } from '../backend';
+>>>>>>> tg-pr-88929
 import { Window } from '../layouts';
 
 export const AdminPDA = (props) => {
@@ -33,7 +46,12 @@ const ReceiverChoice = (props) => {
         <Dropdown
           disabled={spam}
           selected={user}
+<<<<<<< HEAD
           displayText={user ? users[user].username : 'Pick a user...'}
+=======
+          displayText={users[user]?.username}
+          placeholder="Pick a user..."
+>>>>>>> tg-pr-88929
           options={receivers
             .filter((rcvr) => showInvisible || !rcvr.invisible)
             .map((rcvr) => ({
@@ -75,7 +93,11 @@ const SenderInfo = (props) => {
         <Input
           placeholder="Sender name..."
           fluid
+<<<<<<< HEAD
           onInput={(e, value) => {
+=======
+          onChange={(e, value) => {
+>>>>>>> tg-pr-88929
             setName(value);
           }}
         />
@@ -84,7 +106,11 @@ const SenderInfo = (props) => {
         <Input
           placeholder="Sender's job..."
           fluid
+<<<<<<< HEAD
           onInput={(e, value) => {
+=======
+          onChange={(e, value) => {
+>>>>>>> tg-pr-88929
             setJob(value);
           }}
         />
@@ -125,7 +151,11 @@ const MessageInput = (props) => {
           placeholder="Type the message you want to send..."
           height="200px"
           mb={1}
+<<<<<<< HEAD
           onInput={(e, value) => {
+=======
+          onChange={(e, value) => {
+>>>>>>> tg-pr-88929
             setMessageText(value);
           }}
         />

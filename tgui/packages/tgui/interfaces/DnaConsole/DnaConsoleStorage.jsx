@@ -1,6 +1,17 @@
 import { uniqBy } from 'common/collections';
+import {
+  Box,
+  Button,
+  Collapsible,
+  LabeledList,
+  Section,
+  Stack,
+  Tabs,
+} from 'tgui-core/components';
+
 import { useBackend } from '../../backend';
 import {
+<<<<<<< HEAD
   Box,
   Button,
   Collapsible,
@@ -20,6 +31,18 @@ import {
   STORAGE_MODE_CONSOLE,
   STORAGE_MODE_DISK,
 } from './constants';
+=======
+  STORAGE_CONS_SUBMODE_CHROMOSOMES,
+  STORAGE_CONS_SUBMODE_MUTATIONS,
+  STORAGE_DISK_SUBMODE_ENZYMES,
+  STORAGE_DISK_SUBMODE_MUTATIONS,
+  STORAGE_MODE_ADVINJ,
+  STORAGE_MODE_CONSOLE,
+  STORAGE_MODE_DISK,
+} from './constants';
+import { GeneticMakeupInfo } from './GeneticMakeupInfo';
+import { MutationInfo } from './MutationInfo';
+>>>>>>> tg-pr-88929
 
 export const DnaConsoleStorage = (props) => {
   const { data, act } = useBackend();
@@ -210,7 +233,7 @@ const StorageButtons = (props) => {
 const StorageChromosomes = (props) => {
   const { data, act } = useBackend();
   const chromos = data.chromoStorage ?? [];
-  const uniqueChromos = uniqBy((chromo) => chromo.Name)(chromos);
+  const uniqueChromos = uniqBy(chromos, (chromo) => chromo.Name);
   const chromoName = data.view.storageChromoName;
   const chromo = chromos.find((chromo) => chromo.Name === chromoName);
 

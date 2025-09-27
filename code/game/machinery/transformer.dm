@@ -2,9 +2,14 @@
 	name = "\improper Automatic Robotic Factory 5000"
 	desc = "A large metallic machine with an entrance and an exit. A sign on \
 		the side reads, 'human go in, robot come out'. The human must be \
+<<<<<<< HEAD
 		lying down and alive. Has a cooldown between each use. Can alternate \
 		between making cyborgs and IPCs" // monkestation edit PR #5133
 	icon = 'icons/obj/recycling.dmi'
+=======
+		lying down and alive. Has a cooldown between each use."
+	icon = 'icons/obj/machines/recycling.dmi'
+>>>>>>> tg-pr-88929
 	icon_state = "separator-AO1"
 	layer = ABOVE_ALL_MOB_LAYER // Overhead
 	plane = ABOVE_GAME_PLANE
@@ -21,9 +26,13 @@
 	/// How long until the next mob can be processed
 	var/cooldown_timer
 	/// The created cyborg's cell chage
+<<<<<<< HEAD
 	var/robot_cell_charge = 5000
 	///Whether this machine transforms mobs to ipcs, else transforms them to cyborgs
 	var/is_ipc_mode = FALSE // monkestation edit PR #5133
+=======
+	var/robot_cell_charge = STANDARD_CELL_CHARGE * 5
+>>>>>>> tg-pr-88929
 	/// The visual countdown effect
 	var/obj/effect/countdown/transformer/countdown
 	/// Who the master AI is that created this factory
@@ -100,7 +109,7 @@
 		return
 
 	if(!transform_dead && victim.stat == DEAD)
-		playsound(src.loc, 'sound/machines/buzz-sigh.ogg', 50, FALSE)
+		playsound(src.loc, 'sound/machines/buzz/buzz-sigh.ogg', 50, FALSE)
 		return
 
 	// Activate the cooldown
@@ -108,7 +117,7 @@
 	cooldown_timer = world.time + cooldown_duration
 	update_appearance()
 
-	playsound(src.loc, 'sound/items/welder.ogg', 50, TRUE)
+	playsound(src.loc, 'sound/items/tools/welder.ogg', 50, TRUE)
 	victim.emote("scream") // It is painful
 	victim.adjustBruteLoss(max(0, 80 - victim.getBruteLoss())) // Hurt the human, don't try to kill them though.
 
@@ -116,6 +125,11 @@
 	sleep(0.5 SECONDS)
 
 	use_energy(active_power_usage) // Use a lot of power.
+<<<<<<< HEAD
+=======
+	var/mob/living/silicon/robot/new_borg = victim.Robotize()
+	new_borg.cell = new /obj/item/stock_parts/power_store/cell/upgraded/plus(new_borg, robot_cell_charge)
+>>>>>>> tg-pr-88929
 
 	// monkestation edit start PR #5133
 	if(is_ipc_mode || HAS_MIND_TRAIT(victim, TRAIT_UNBORGABLE)) // can't escape by just being unborgable

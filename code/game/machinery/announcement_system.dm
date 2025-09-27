@@ -18,13 +18,21 @@ GLOBAL_LIST_EMPTY(announcement_systems)
 
 	///The headset that we use for broadcasting
 	var/obj/item/radio/headset/radio
+<<<<<<< HEAD
 	///The message that we send when someone is joining
+=======
+	///The message that we send when someone is joining.
+>>>>>>> tg-pr-88929
 	var/arrival = "%PERSON has signed up as %RANK"
 	///Whether the arrival message is sent
 	var/arrival_toggle = TRUE
 	///The message that we send when a department head arrives.
 	var/newhead = "%PERSON, %RANK, is the department head."
+<<<<<<< HEAD
 	///Whether the newhead message is sent
+=======
+	///Whether the newhead message is sent.
+>>>>>>> tg-pr-88929
 	var/newhead_toggle = TRUE
 
 	var/greenlight = "Light_Green"
@@ -41,6 +49,9 @@ GLOBAL_LIST_EMPTY(announcement_systems)
 	GLOB.announcement_systems += src
 	radio = new /obj/item/radio/headset/silicon/ai(src)
 	update_appearance()
+
+/obj/machinery/announcement_system/randomize_language_if_on_station()
+	return
 
 /obj/machinery/announcement_system/update_icon_state()
 	icon_state = "[base_icon_state]_[is_operational ? "On" : "Off"][panel_open ? "_Open" : null]"
@@ -147,7 +158,7 @@ GLOBAL_LIST_EMPTY(announcement_systems)
 		return
 	if(machine_stat & BROKEN)
 		visible_message(span_warning("[src] buzzes."), span_hear("You hear a faint buzz."))
-		playsound(src.loc, 'sound/machines/buzz-two.ogg', 50, TRUE)
+		playsound(src.loc, 'sound/machines/buzz/buzz-two.ogg', 50, TRUE)
 		return
 	switch(action)
 		if("ArrivalText")
@@ -193,7 +204,11 @@ GLOBAL_LIST_EMPTY(announcement_systems)
 	arrival = pick("#!@%ERR-34%2 CANNOT LOCAT@# JO# F*LE!", "CRITICAL ERROR 99.", "ERR)#: DA#AB@#E NOT F(*ND!")
 	newhead = pick("OV#RL()D: \[UNKNOWN??\] DET*#CT)D!", "ER)#R - B*@ TEXT F*O(ND!", "AAS.exe is not responding. NanoOS is searching for a solution to the problem.")
 	node_message = pick(list(
+<<<<<<< HEAD
 		replacetext(/obj/machinery/announcement_system::node_message, "%NODE", /datum/techweb_node/clown::display_name),
+=======
+		replacetext(/obj/machinery/announcement_system::node_message, "%NODE", /datum/techweb_node/mech_clown::display_name),
+>>>>>>> tg-pr-88929
 		"R/NT1M3 A= ANNOUN-*#nt_SY!?EM.dm, LI%£ 86: N=0DE NULL!",
 		"BEPIS BEPIS BEPIS",
 	))

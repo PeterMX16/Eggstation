@@ -20,14 +20,22 @@
 	playsound(burrower, 'sound/effects/break_stone.ogg', 50, TRUE)
 	new /obj/effect/temp_visual/mook_dust(get_turf(burrower))
 	ADD_TRAIT(burrower, TRAIT_GODMODE, REF(src))
+<<<<<<< HEAD
 	burrower.invisibility = INVISIBILITY_MAXIMUM
+=======
+	burrower.SetInvisibility(INVISIBILITY_MAXIMUM, id=type)
+>>>>>>> tg-pr-88929
 	burrower.forceMove(unburrow_turf)
 	//not that it's gonna die with godmode but still
 	SLEEP_CHECK_DEATH(rand(0.7 SECONDS, 1.2 SECONDS), burrower)
 	playsound(burrower, 'sound/effects/break_stone.ogg', 50, TRUE)
 	new /obj/effect/temp_visual/mook_dust(unburrow_turf)
 	REMOVE_TRAIT(burrower, TRAIT_GODMODE, REF(src))
+<<<<<<< HEAD
 	burrower.invisibility = 0
+=======
+	burrower.RemoveInvisibility(type)
+>>>>>>> tg-pr-88929
 
 /datum/action/cooldown/mob_cooldown/resurface/proc/get_unburrow_turf(mob/living/burrower, atom/target)
 	//we want the worm to try guaranteeing a hit on a living target if it thinks it can
@@ -53,7 +61,7 @@
 	name = "Spew Bile"
 	desc = "Spews bile everywhere. Must resurface after use to refresh."
 	projectile_type = /obj/projectile/bileworm_acid
-	projectile_sound = 'sound/creatures/bileworm/bileworm_spit.ogg'
+	projectile_sound = 'sound/mobs/non-humanoids/bileworm/bileworm_spit.ogg'
 	shared_cooldown = MOB_SHARED_COOLDOWN_1 | MOB_SHARED_COOLDOWN_2
 
 /datum/action/cooldown/mob_cooldown/projectile_attack/dir_shots/bileworm/Activate(atom/target_atom)
@@ -70,9 +78,9 @@
 /obj/projectile/bileworm_acid
 	name = "acidic bile"
 	icon_state = "neurotoxin"
-	hitsound = 'sound/weapons/sear.ogg'
+	hitsound = 'sound/items/weapons/sear.ogg'
 	damage = 20
-	speed = 2
+	speed = 0.5
 	range = 20
 	jitter = 3 SECONDS
 	stutter = 3 SECONDS
@@ -109,14 +117,22 @@
 	playsound(devourer, 'sound/effects/break_stone.ogg', 50, TRUE)
 	new /obj/effect/temp_visual/mook_dust(get_turf(devourer))
 	ADD_TRAIT(devourer, TRAIT_GODMODE, REF(src))
+<<<<<<< HEAD
 	devourer.invisibility = INVISIBILITY_MAXIMUM
+=======
+	devourer.SetInvisibility(INVISIBILITY_MAXIMUM, id=type)
+>>>>>>> tg-pr-88929
 	devourer.forceMove(devour_turf)
 	//not that it's gonna die with godmode but still
 	SLEEP_CHECK_DEATH(rand(0.7 SECONDS, 1.2 SECONDS), devourer)
 	playsound(devourer, 'sound/effects/break_stone.ogg', 50, TRUE)
 	new /obj/effect/temp_visual/mook_dust(devour_turf)
 	REMOVE_TRAIT(devourer, TRAIT_GODMODE, REF(src))
+<<<<<<< HEAD
 	devourer.invisibility = 0
+=======
+	devourer.RemoveInvisibility(type)
+>>>>>>> tg-pr-88929
 	if(!(target in devour_turf))
 		to_chat(devourer, span_warning("Someone stole your dinner!"))
 		return
@@ -124,5 +140,5 @@
 	devourer.visible_message(span_warning("[devourer] consumes [target]!"))
 	devourer.fully_heal()
 	playsound(devourer, 'sound/effects/splat.ogg', 50, TRUE)
-	//to be recieved on death
+	//to be received on death
 	target.forceMove(devourer)

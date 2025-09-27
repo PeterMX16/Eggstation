@@ -1,4 +1,4 @@
-import { Box, Flex } from '../../components';
+import { Box, Flex } from 'tgui-core/components';
 
 export const calculateProgression = (progression_points: number) => {
   return Math.round(progression_points / 6) / 10;
@@ -88,7 +88,11 @@ export const dangerLevelsTooltip = (
               color="white"
               className={value.gradient}
               style={{
+<<<<<<< HEAD
                 'border-radius': '2px',
+=======
+                borderRadius: '2px',
+>>>>>>> tg-pr-88929
                 display: 'inline-block',
               }}
               px={0.8}
@@ -135,7 +139,11 @@ export const calculateDangerLevel = (
       color="white"
       className={dangerLevel.gradient}
       style={{
+<<<<<<< HEAD
         'border-radius': '2px',
+=======
+        borderRadius: '2px',
+>>>>>>> tg-pr-88929
         display: 'inline-block',
       }}
       px={0.8}

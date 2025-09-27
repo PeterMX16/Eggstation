@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 import { CargoContent } from './Cargo.jsx';
+=======
+>>>>>>> tg-pr-88929
 import { NtosWindow } from '../layouts';
+import { CargoContent } from './Cargo';
 
 export const NtosCargo = (props) => {
   return (

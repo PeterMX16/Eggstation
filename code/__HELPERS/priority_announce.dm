@@ -13,7 +13,11 @@
 #define CHAT_ALERT_DEFAULT_SPAN(string) ("<div class='chat_alert_default'>" + string + "</div>")
 #define CHAT_ALERT_COLORED_SPAN(color, string) ("<div class='chat_alert_" + color + "'>" + string + "</div>")
 
+<<<<<<< HEAD
 #define ANNOUNCEMENT_COLORS list("default", "green", "blue", "pink", "yellow", "orange", "red", "purple", "grey", "amber", "crimson") // monkestation edit
+=======
+#define ANNOUNCEMENT_COLORS list("default", "green", "blue", "pink", "yellow", "orange", "red", "purple")
+>>>>>>> tg-pr-88929
 
 /**
  * Make a big red text announcement to
@@ -37,7 +41,11 @@
  * * encode_title - if TRUE, the title will be HTML encoded
  * * encode_text - if TRUE, the text will be HTML encoded
  */
+<<<<<<< HEAD
 /proc/priority_announce(text, title = "", sound, type, sender_override, has_important_message = FALSE, list/mob/players = GLOB.player_list, encode_title = TRUE, encode_text = TRUE, color_override, append_update = TRUE)
+=======
+/proc/priority_announce(text, title = "", sound, type, sender_override, has_important_message = FALSE, list/mob/players = GLOB.player_list, encode_title = TRUE, encode_text = TRUE, color_override)
+>>>>>>> tg-pr-88929
 	if(!text)
 		return
 
@@ -66,6 +74,7 @@
 			GLOB.news_network.submit_article(text, "Captain's Announcement", "Station Announcements", null)
 		if(ANNOUNCEMENT_TYPE_SYNDICATE)
 			header = MAJOR_ANNOUNCEMENT_TITLE("Syndicate Captain's Announcement")
+<<<<<<< HEAD
 		// MONKESTATION ADDITION START
 		if(ANNOUNCEMENT_TYPE_AI)
 			var/mob/living/silicon/ai/sender = usr
@@ -75,6 +84,10 @@
 		// MONKESTATION ADDITION END
 		else
 			header += generate_unique_announcement_header(title, sender_override, append_update) // Monkestation edit - update append
+=======
+		else
+			header += generate_unique_announcement_header(title, sender_override)
+>>>>>>> tg-pr-88929
 
 	announcement_strings += ANNOUNCEMENT_HEADER(header)
 
@@ -91,6 +104,15 @@
 		finalized_announcement = CHAT_ALERT_DEFAULT_SPAN(jointext(announcement_strings, ""))
 
 	dispatch_announcement_to_players(finalized_announcement, players, sound)
+<<<<<<< HEAD
+=======
+
+	if(isnull(sender_override) && players == GLOB.player_list)
+		if(length(title) > 0)
+			GLOB.news_network.submit_article(title + "<br><br>" + text, "[command_name()]", "Station Announcements", null)
+		else
+			GLOB.news_network.submit_article(text, "[command_name()] Update", "Station Announcements", null)
+>>>>>>> tg-pr-88929
 
 	if(isnull(sender_override) && players == GLOB.player_list)
 		if(length(title) > 0)
@@ -114,7 +136,11 @@
 	message.title = title
 	message.content = text
 
+<<<<<<< HEAD
 	SScommunications.send_message(message, sanitize)// monkestation edit - sanitization
+=======
+	GLOB.communications_controller.send_message(message)
+>>>>>>> tg-pr-88929
 
 /**
  * Sends a minor annoucement to players.
@@ -127,7 +153,11 @@
  * html_encode - if TRUE, we will html encode our title and message before sending it, to prevent player input abuse.
  * players - optional, a list mobs to send the announcement to. If unset, sends to all palyers.
  * sound_override - optional, use the passed sound file instead of the default notice sounds.
+<<<<<<< HEAD
  * should_play_sound - Whether the notice sound should be played or not.
+=======
+ * should_play_sound - Whether the notice sound should be played or not. This can also be a callback, if you only want mobs to hear the sound based off of specific criteria.
+>>>>>>> tg-pr-88929
  * color_override - optional, use the passed color instead of the default notice color.
  */
 /proc/minor_announce(message, title = "Attention:", alert = FALSE, html_encode = TRUE, list/players, sound_override, should_play_sound = TRUE, color_override)
@@ -149,7 +179,11 @@
 	else
 		finalized_announcement = CHAT_ALERT_DEFAULT_SPAN(jointext(minor_announcement_strings, ""))
 
+<<<<<<< HEAD
 	var/custom_sound = sound_override || (alert ? 'sound/misc/notice1.ogg' : 'sound/misc/notice2.ogg')
+=======
+	var/custom_sound = sound_override || (alert ? 'sound/announcer/notice/notice1.ogg' : 'sound/announcer/notice/notice2.ogg')
+>>>>>>> tg-pr-88929
 	dispatch_announcement_to_players(finalized_announcement, players, custom_sound, should_play_sound)
 
 /// Sends an announcement about the level changing to players. Uses the passed in datum and the subsystem's previous security level to generate the message.
@@ -162,6 +196,7 @@
 	var/title
 	var/message
 
+<<<<<<< HEAD
 	if((SSsecurity_level.number_level_to_text(previous_level_number) in GLOB.same_level_alert_levels) && (current_level_name in GLOB.same_level_alert_levels))
 		title = "Attention! Security level switched to [current_level_name]:"
 		message = replacetext_char(selected_level.elevating_to_announcement, "%STATION_NAME%", station_name())
@@ -171,6 +206,14 @@
 	else
 		title = "Attention! Security level lowered to [current_level_name]:"
 		message = replacetext_char(selected_level.lowering_to_announcement, "%STATION_NAME%", station_name()) // monkestation edit: add %STATION_NAME% replacement
+=======
+	if(current_level_number > previous_level_number)
+		title = "Attention! Security level elevated to [current_level_name]:"
+		message = selected_level.elevating_to_announcement
+	else
+		title = "Attention! Security level lowered to [current_level_name]:"
+		message = selected_level.lowering_to_announcement
+>>>>>>> tg-pr-88929
 
 	var/list/level_announcement_strings = list()
 	level_announcement_strings += ANNOUNCEMENT_HEADER(MINOR_ANNOUNCEMENT_TITLE(title))
@@ -182,10 +225,17 @@
 
 /// Proc that just generates a custom header based on variables fed into `priority_announce()`
 /// Will return a string.
+<<<<<<< HEAD
 /proc/generate_unique_announcement_header(title, sender_override, append_update = TRUE)
 	var/list/returnable_strings = list()
 	if(isnull(sender_override))
 		returnable_strings += MAJOR_ANNOUNCEMENT_TITLE("[command_name()][append_update ? " Update" : ""]")
+=======
+/proc/generate_unique_announcement_header(title, sender_override)
+	var/list/returnable_strings = list()
+	if(isnull(sender_override))
+		returnable_strings += MAJOR_ANNOUNCEMENT_TITLE("[command_name()] Update")
+>>>>>>> tg-pr-88929
 	else
 		returnable_strings += MAJOR_ANNOUNCEMENT_TITLE(sender_override)
 
@@ -195,6 +245,7 @@
 	return jointext(returnable_strings, "")
 
 /// Proc that just dispatches the announcement to our applicable audience. Only the announcement is a mandatory arg.
+<<<<<<< HEAD
 /proc/dispatch_announcement_to_players(announcement, list/players = GLOB.player_list, sound_override = null, should_play_sound = TRUE)
 	var/sound_to_play = !isnull(sound_override) ? sound_override : 'sound/misc/notice2.ogg'
 
@@ -214,6 +265,28 @@
 			if(!isnull(target.client))
 				SEND_SOUND(target, mixed_sound)
 			// monkestation end
+=======
+/// `should_play_sound` can also be a callback, if you want to only play the sound to specific players.
+/proc/dispatch_announcement_to_players(announcement, list/players = GLOB.player_list, sound_override = null, should_play_sound = TRUE)
+	var/sound_to_play = !isnull(sound_override) ? sound_override : 'sound/announcer/notice/notice2.ogg'
+
+	// note for later: low-hanging fruit to convert to astype() behind an experiment define whenever the 516 beta releases
+	// var/datum/callback/should_play_sound_callback = astype(should_play_sound)
+	var/datum/callback/should_play_sound_callback
+	if(istype(should_play_sound, /datum/callback))
+		should_play_sound_callback = should_play_sound
+
+	for(var/mob/target in players)
+		if(isnewplayer(target) || !target.can_hear())
+			continue
+
+		to_chat(target, announcement)
+		if(!should_play_sound || (should_play_sound_callback && !should_play_sound_callback.Invoke(target)))
+			continue
+
+		if(target.client?.prefs.read_preference(/datum/preference/toggle/sound_announcements))
+			SEND_SOUND(target, sound(sound_to_play))
+>>>>>>> tg-pr-88929
 
 #undef MAJOR_ANNOUNCEMENT_TITLE
 #undef MAJOR_ANNOUNCEMENT_TEXT

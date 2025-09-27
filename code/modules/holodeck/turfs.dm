@@ -73,24 +73,24 @@
 	gender = PLURAL
 	name = "sand"
 	desc = "This is better than a vacation, since you're still getting paid."
-	icon = 'icons/misc/beach.dmi'
+	icon = 'icons/turf/sand.dmi'
 	icon_state = "sand"
 	bullet_bounce_sound = null
 	tiled_dirt = FALSE
 
-/turf/open/floor/holofloor/beach/coast_t
+/turf/open/floor/holofloor/beach/coast
 	gender = NEUTER
 	name = "coastline"
-	icon_state = "sandwater_t"
+	icon = 'icons/turf/beach.dmi'
+	icon_state = "beach"
 
-/turf/open/floor/holofloor/beach/coast_b
-	gender = NEUTER
-	name = "coastline"
-	icon_state = "sandwater_b"
+/turf/open/floor/holofloor/beach/coast/corner
+	icon_state = "beach-corner"
 
 /turf/open/floor/holofloor/beach/water
 	name = "water"
 	desc = "Gives the impression you can walk on water. Chaplains love it."
+	icon = 'icons/turf/beach.dmi'
 	icon_state = "water"
 	bullet_sizzle = TRUE
 
@@ -120,13 +120,18 @@
 	. = ..()
 	if(prob(15))
 		icon_state = "basalt[rand(0, 12)]"
-		set_basalt_light(src)
+		switch(icon_state)
+			if("basalt1", "basalt2", "basalt3")
+				set_light(BASALT_LIGHT_RANGE_BRIGHT, BASALT_LIGHT_POWER, LIGHT_COLOR_LAVA)
+			if("basalt5", "basalt9")
+				set_light(BASALT_LIGHT_RANGE_DIM, BASALT_LIGHT_POWER, LIGHT_COLOR_LAVA)
 
 /turf/open/floor/holofloor/space
 	name = "\proper space"
 	desc = "Space-looking floor. Thankfully, the deadly aspects of space are not emulated here."
 	icon = 'icons/turf/space.dmi'
 	icon_state = "space"
+	layer = SPACE_LAYER
 	plane = PLANE_SPACE
 
 /turf/open/floor/holofloor/hyperspace
@@ -160,11 +165,11 @@
 
 /turf/open/floor/holofloor/carpet/Initialize(mapload)
 	. = ..()
-	addtimer(CALLBACK(src, TYPE_PROC_REF(/atom/, update_appearance)), 1)
+	addtimer(CALLBACK(src, TYPE_PROC_REF(/atom/, update_appearance)), 0.1 SECONDS)
 
 /turf/open/floor/holofloor/carpet/update_icon(updates=ALL)
 	. = ..()
-	if((updates & UPDATE_SMOOTHING) && overfloor_placed && smoothing_flags & (SMOOTH_CORNERS|SMOOTH_BITMASK))
+	if((updates & UPDATE_SMOOTHING) && overfloor_placed && smoothing_flags & USES_SMOOTHING)
 		QUEUE_SMOOTH(src)
 
 /turf/open/floor/holofloor/wood
@@ -182,9 +187,6 @@
 	bullet_sizzle = TRUE
 	bullet_bounce_sound = null
 	tiled_dirt = FALSE
-
-/turf/open/floor/holofloor/snow/cold
-	initial_gas_mix = "nob=7500;TEMP=2.7"
 
 /turf/open/floor/holofloor/dark
 	icon_state = "darkfull"

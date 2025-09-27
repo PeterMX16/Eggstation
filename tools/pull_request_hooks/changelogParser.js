@@ -41,9 +41,15 @@ function parseChangelogBody(lines, openTag) {
 
       const entry = CHANGELOG_KEYS_TO_ENTRY[type];
 
+<<<<<<< HEAD
       if (!entry || entry.placeholders.includes(description)) {
         continue;
       }
+=======
+			if (!entry || entry.placeholders.includes(description)) {
+				continue;
+			}
+>>>>>>> tg-pr-88929
 
       if (entry) {
         changelog.changes.push({
@@ -63,10 +69,17 @@ function parseChangelogBody(lines, openTag) {
 }
 
 export function parseChangelog(text) {
+<<<<<<< HEAD
   if (text == null) {
     return undefined;
   }
   const lines = text.split("\n").map((line) => line.trim());
+=======
+	if(text == null) {
+		return undefined;
+	}
+	const lines = text.split("\n").map((line) => line.trim());
+>>>>>>> tg-pr-88929
 
   for (let index = 0; index < lines.length; index++) {
     const line = lines[index];

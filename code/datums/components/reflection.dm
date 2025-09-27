@@ -11,6 +11,7 @@
 	 */
 	var/reflected_dir
 	/// the movable which the reflected movables are attached to, in turn added to the vis contents of the parent.
+<<<<<<< HEAD
 	VAR_PRIVATE/obj/effect/abstract/reflection_holder
 	/**
 	 * A lazy assoc list that keeps track of all movables in range that either could be reflected or are reflected.
@@ -18,6 +19,11 @@
 	 * The key is the movable, and the value is the reflection object (or null - the reflection object is also lazy loaded).
 	 */
 	VAR_PRIVATE/list/reflected_movables
+=======
+	var/obj/effect/abstract/reflection_holder
+	/// A lazy assoc list that keeps track of which movables are being reflected and the associated reflections.
+	var/list/reflected_movables
+>>>>>>> tg-pr-88929
 	/// A callback used check to know which movables should be reflected and which not.
 	var/datum/callback/can_reflect
 	///the base matrix used by reflections
@@ -28,6 +34,7 @@
 	var/alpha
 	///A list of signals that when sent to the parent, will force the comp to recalculate the reflected movables.
 	var/list/update_signals
+<<<<<<< HEAD
 	///List of signals registered on reflected atoms to update their reflections.
 	var/list/check_reflect_signals
 
@@ -42,6 +49,10 @@
  * * check_reflect_signals: Optional: Additional signals to provide to check_reflect_signals (to check for when to update a single reflection).
  */
 /datum/component/reflection/Initialize(set_reflected_dir, list/reflection_filter, matrix/reflection_matrix, datum/callback/can_reflect, alpha = 150, list/update_signals, list/check_reflect_signals)
+=======
+
+/datum/component/reflection/Initialize(reflected_dir = NORTH, list/reflection_filter, matrix/reflection_matrix, datum/callback/can_reflect, alpha = 150, list/update_signals)
+>>>>>>> tg-pr-88929
 	if(!ismovable(parent))
 		return COMPONENT_INCOMPATIBLE
 
@@ -51,6 +62,7 @@
 		COMSIG_ATOM_EXITED = PROC_REF(on_movable_exited)
 	)
 	AddComponent(/datum/component/connect_range, parent, connections, 1, works_in_containers = FALSE)
+<<<<<<< HEAD
 	// Always supplied to check_reflect_signals
 	var/list/default_can_reflect_signals = list(
 		COMSIG_ATOM_POST_DIR_CHANGE,
@@ -68,6 +80,12 @@
 	src.reflection_filter = reflection_filter
 	src.can_reflect = can_reflect
 	src.check_reflect_signals = (check_reflect_signals || list()) + default_can_reflect_signals
+=======
+	src.reflected_dir = reflected_dir
+	src.reflection_matrix = reflection_matrix
+	src.reflection_filter = reflection_filter
+	src.can_reflect = can_reflect
+>>>>>>> tg-pr-88929
 	reflection_holder = new(parent)
 	reflection_holder.alpha = alpha
 	reflection_holder.appearance_flags = KEEP_TOGETHER
@@ -78,6 +96,7 @@
 
 	var/atom/movable/mov_parent = parent
 	mov_parent.vis_contents += reflection_holder
+<<<<<<< HEAD
 	set_reflection(set_reflected_dir || REVERSE_DIR(mov_parent.dir))
 
 	if(!set_reflected_dir)
@@ -87,6 +106,16 @@
 /datum/component/reflection/Destroy(force)
 	for(var/atom/movable/tracked in reflected_movables)
 		nuke_reflection(tracked)
+=======
+	set_reflection(new_dir = mov_parent.dir)
+
+	RegisterSignal(parent, COMSIG_ATOM_DIR_CHANGE, PROC_REF(on_dir_change))
+	var/list/reflect_update_signals = list(COMSIG_MOVABLE_MOVED) + update_signals
+	RegisterSignals(parent, reflect_update_signals, PROC_REF(get_reflection_targets))
+
+/datum/component/reflection/Destroy(force)
+	QDEL_LIST_ASSOC_VAL(reflected_movables)
+>>>>>>> tg-pr-88929
 	QDEL_NULL(reflection_holder)
 	can_reflect = null
 	return ..()
@@ -94,6 +123,7 @@
 ///Called when the parent changes its direction.
 /datum/component/reflection/proc/on_dir_change(atom/movable/source, old_dir, new_dir)
 	SIGNAL_HANDLER
+<<<<<<< HEAD
 	set_reflection(REVERSE_DIR(new_dir))
 
 ///Turns the allowed reflected direction alongside the parent's dir. then calls get_reflection_targets.
@@ -103,10 +133,22 @@
 
 	reflected_dir = new_dir
 	get_reflection_targets(parent)
+=======
+	set_reflection(old_dir, new_dir)
+
+///Turns the allowed reflected direction alongside the parent's dir. then calls get_reflection_targets.
+/datum/component/reflection/proc/set_reflection(old_dir = SOUTH, new_dir = SOUTH)
+	if(old_dir == new_dir)
+		return
+
+	reflected_dir = turn(reflected_dir, dir2angle(new_dir) - dir2angle(old_dir))
+	get_reflection_targets()
+>>>>>>> tg-pr-88929
 
 ///Unsets the old reflected movables and sets it with new ones.
 /datum/component/reflection/proc/get_reflection_targets(atom/movable/source)
 	SIGNAL_HANDLER
+<<<<<<< HEAD
 	// clean slate
 	for(var/atom/movable/tracked in reflected_movables)
 		nuke_reflection(tracked)
@@ -117,6 +159,16 @@
 ///Checks if the target movable can be reflected or not.
 /datum/component/reflection/proc/check_can_reflect(atom/movable/target)
 	if(target == parent || !(target in view(1, parent)))
+=======
+	QDEL_LIST_ASSOC_VAL(reflected_movables)
+	for(var/atom/movable/target in view(1, source))
+		if(check_can_reflect(target, FALSE))
+			set_reflected(target)
+
+///Checks if the target movable can be reflected or not.
+/datum/component/reflection/proc/check_can_reflect(atom/movable/target, check_view = TRUE)
+	if(target == parent || (check_view && !(target in view(1, parent))))
+>>>>>>> tg-pr-88929
 		return FALSE
 	var/atom/movable/mov_parent = parent
 	if(target.loc != mov_parent.loc && get_dir(mov_parent, target) != reflected_dir)
@@ -128,6 +180,7 @@
 ///Called when a movable enters a turf within the connected range
 /datum/component/reflection/proc/on_movable_entered_or_initialized(atom/movable/source, atom/movable/arrived)
 	SIGNAL_HANDLER
+<<<<<<< HEAD
 	track_reflection(arrived)
 
 /datum/component/reflection/proc/track_reflection(atom/movable/target, check_view = TRUE)
@@ -153,10 +206,16 @@
 	LAZYREMOVE(reflected_movables, target)
 	UnregisterSignal(target, check_reflect_signals)
 	UnregisterSignal(target, COMSIG_QDELETING)
+=======
+	if(LAZYACCESS(reflected_movables, arrived) || !check_can_reflect(arrived))
+		return
+	set_reflected(arrived)
+>>>>>>> tg-pr-88929
 
 ///Called when a movable exits a turf within the connected range
 /datum/component/reflection/proc/on_movable_exited(atom/movable/source, atom/movable/gone)
 	SIGNAL_HANDLER
+<<<<<<< HEAD
 
 	if(!LAZYFIND(reflected_movables, gone)) // not lazyaccess - value may be null
 		return
@@ -221,3 +280,32 @@
 	// technically redundant (...because copying appearance copies vis flags), but good to be explicit
 	reflection.vis_flags &= ~VIS_HIDE
 	copy_appearance_to_reflection(reflection, source)
+=======
+	var/atom/movable/reflection = LAZYACCESS(reflected_movables, gone)
+	if(!reflection || check_can_reflect(gone))
+		return
+	qdel(reflection)
+	LAZYREMOVE(reflected_movables, gone)
+
+///Sets up a visual overlay of the target movables, which is added to the parent's vis contents.
+/datum/component/reflection/proc/set_reflected(atom/movable/target)
+	SIGNAL_HANDLER
+	/**
+	 * If the loc is null, only a black (or grey depending on alpha) silhouette of the target will be rendered
+	 * Just putting this information here in case you want something like that in the future.
+	 */
+	var/obj/effect/abstract/reflection = new(parent)
+	reflection.vis_flags = VIS_INHERIT_ID
+	if(!target.render_target)
+		target.render_target = REF(target)
+	reflection.render_source = target.render_target
+	///The filter is added to the reflection holder; the matrix is not, otherwise that'd go affecting the filter.
+	if(reflection_matrix)
+		reflection.transform = reflection_matrix
+	if(reflected_dir == NORTH)
+		reflection.transform = reflection.transform.Scale(1, -1)
+	else if(reflected_dir != SOUTH)
+		reflection.transform = reflection.transform.Scale(-1, 1)
+	LAZYSET(reflected_movables, target, reflection)
+	reflection_holder.vis_contents += reflection
+>>>>>>> tg-pr-88929

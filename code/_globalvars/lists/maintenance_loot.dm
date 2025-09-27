@@ -62,7 +62,7 @@ GLOBAL_LIST_INIT(trash_loot, list(//junk: useless, very easy to get, or ghetto c
 
 	list(//tier 1 stock parts
 		/obj/item/stock_parts/capacitor = 1,
-		/obj/item/stock_parts/manipulator = 1,
+		/obj/item/stock_parts/servo = 1,
 		/obj/item/stock_parts/matter_bin = 1,
 		/obj/item/stock_parts/micro_laser = 1,
 		/obj/item/stock_parts/scanning_module = 1,
@@ -161,6 +161,7 @@ monkestation end */
 		/obj/item/stack/spacecash/c10 = 1,
 		/obj/item/stack/sticky_tape = 1,
 		/obj/item/tank/internals/emergency_oxygen = 1,
+		/obj/item/paper/paperslip/fishing_tip = 1,
 
 		//light sources
 		/obj/effect/spawner/random/decoration/glowstick = 1,
@@ -231,7 +232,11 @@ GLOBAL_LIST_INIT(uncommon_loot, list(//uncommon: useful items
 		/obj/item/storage/box/clown = 1,
 		/obj/item/weaponcrafting/receiver = 1,
 		/obj/item/book/granter/crafting_recipe/death_sandwich = 1,
+<<<<<<< HEAD
 		/obj/item/book/granter/crafting_recipe/donk_secret_recipe = 1,
+=======
+		/obj/item/survivalcapsule/fishing = 1,
+>>>>>>> tg-pr-88929
 		) = 8,
 
 	list(//medical and chemicals
@@ -239,6 +244,7 @@ GLOBAL_LIST_INIT(uncommon_loot, list(//uncommon: useful items
 			/obj/item/stack/medical/gauze = 1,
 			/obj/item/stack/medical/mesh = 1,
 			/obj/item/stack/medical/suture = 1,
+			/obj/item/stack/medical/bandage = 1,
 			) = 1,
 		list(//medical chems
 			/obj/item/reagent_containers/cup/bottle/multiver = 1,
@@ -281,6 +287,8 @@ GLOBAL_LIST_INIT(uncommon_loot, list(//uncommon: useful items
 		/obj/item/computer_disk/maintenance/scanner = 1,
 		/obj/item/computer_disk/maintenance/camera = 1,
 		/obj/item/computer_disk/maintenance/modsuit_control = 1,
+		/obj/item/computer_disk/maintenance/spectre_meter = 1,
+		/obj/item/computer_disk/maintenance/arcade = 1,
 		/obj/item/computer_disk/maintenance/theme = 3,
 	) = 4,
 
@@ -327,6 +335,7 @@ GLOBAL_LIST_INIT(rarity_loot, list(//rare: really good items
 		/obj/item/melee/baton/security/cattleprod/teleprod = 1,
 		/obj/item/pen/survival = 1,
 		/obj/item/shield/buckler = 1,
+		/obj/item/shield/improvised = 1,
 		/obj/item/throwing_star = 1,
 		/obj/item/weldingtool/hugetank = 1,
 		/obj/item/fishing_rod/telescopic/master = 1,
@@ -361,6 +370,7 @@ GLOBAL_LIST_INIT(rarity_loot, list(//rare: really good items
 			/obj/item/storage/box/hug/medical = 1,
 			/obj/item/storage/medkit/emergency = 1,
 			/obj/item/storage/medkit/regular = 1,
+			/obj/item/storage/box/bandages = 1,
 			) = 1,
 		list(//medical chems
 			/obj/item/reagent_containers/hypospray/medipen/oxandrolone = 1,
@@ -371,12 +381,20 @@ GLOBAL_LIST_INIT(rarity_loot, list(//rare: really good items
 		) = 1,
 
 	list(//misc
+<<<<<<< HEAD
 		/obj/item/book/granter/crafting_recipe/maint_gun/pipegun_prime = 1, //monkestation edit: added maint_gun
 		/obj/item/book/granter/crafting_recipe/trash_cannon = 1,
 		/obj/item/book/granter/crafting_recipe/maint_gun/laser_musket_prime = 1, //monkestation edit
+=======
+		/obj/item/book/granter/crafting_recipe/dusting/pipegun_prime = 1,
+		/obj/item/book/granter/crafting_recipe/trash_cannon = 1,
+		/obj/item/book/granter/crafting_recipe/dusting/laser_musket_prime = 1,
+>>>>>>> tg-pr-88929
 		/obj/item/book/granter/sign_language = 1,
 		/obj/item/disk/nuclear/fake = 1,
+		/obj/item/disk/surgery/advanced_plastic_surgery = 1,
 		/obj/item/skillchip/brainwashing = 1,
+		/obj/item/skillchip/intj = 1,
 		/obj/item/tattoo_kit = 1,
 		/obj/item/folder/ancient_paperwork = 1,
 		/obj/item/seeds/tree/money = 1, //monkestation edit

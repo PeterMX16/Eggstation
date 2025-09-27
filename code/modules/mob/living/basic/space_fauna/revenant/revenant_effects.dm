@@ -18,7 +18,11 @@
 	owner.orbiting?.end_orbit(src)
 
 	ADD_TRAIT(owner, TRAIT_REVENANT_REVEALED, TRAIT_STATUS_EFFECT(id))
+<<<<<<< HEAD
 	owner.invisibility = 0
+=======
+	owner.SetInvisibility(INVISIBILITY_NONE, id=type, priority=INVISIBILITY_PRIORITY_BASIC_ANTI_INVISIBILITY)
+>>>>>>> tg-pr-88929
 	owner.incorporeal_move = FALSE
 	owner.update_appearance(UPDATE_ICON)
 	owner.update_mob_action_buttons()
@@ -27,7 +31,11 @@
 	REMOVE_TRAIT(owner, TRAIT_REVENANT_REVEALED, TRAIT_STATUS_EFFECT(id))
 
 	owner.incorporeal_move = INCORPOREAL_MOVE_JAUNT
+<<<<<<< HEAD
 	owner.invisibility = INVISIBILITY_REVENANT
+=======
+	owner.RemoveInvisibility(type)
+>>>>>>> tg-pr-88929
 	owner.update_appearance(UPDATE_ICON)
 	owner.update_mob_action_buttons()
 	return ..()

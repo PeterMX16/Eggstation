@@ -7,12 +7,13 @@
 	initial_language_holder = /datum/language_holder/synthetic
 	bubble_icon = "machine"
 	mob_biotypes = MOB_ROBOTIC
-	death_sound = 'sound/voice/borg_deathsound.ogg'
+	death_sound = 'sound/mobs/non-humanoids/cyborg/borg_deathsound.ogg'
 	speech_span = SPAN_ROBOT
 	flags_1 = PREVENT_CONTENTS_EXPLOSION_1
 	examine_cursor_icon = null
 	forced_interaction_mode = /datum/interaction_mode/combat_mode/cyborg
 	fire_stack_decay_rate = -0.55
+	tts_silicon_voice_effect = TRUE
 	var/datum/ai_laws/laws = null//Now... THEY ALL CAN ALL HAVE LAWS
 	var/last_lawchange_announce = 0
 	var/list/alarms_to_show = list()
@@ -24,8 +25,8 @@
 
 	var/obj/item/radio/borg/radio = null  ///If this is a path, this gets created as an object in Initialize.
 
-	var/list/alarm_types_show = list(ALARM_ATMOS = 0, ALARM_ALARM_POWER = 0, ALARM_CAMERA = 0, ALARM_MOTION = 0)
-	var/list/alarm_types_clear = list(ALARM_ATMOS = 0, ALARM_ALARM_POWER = 0, ALARM_CAMERA = 0, ALARM_MOTION = 0)
+	var/list/alarm_types_show = list(ALARM_ATMOS = 0, ALARM_POWER = 0, ALARM_CAMERA = 0, ALARM_MOTION = 0)
+	var/list/alarm_types_clear = list(ALARM_ATMOS = 0, ALARM_POWER = 0, ALARM_CAMERA = 0, ALARM_MOTION = 0)
 
 	//These lists will contain each law that should be announced / set to yes in the state laws menu.
 	///List keeping track of which laws to announce
@@ -37,10 +38,14 @@
 
 	///Are our siliconHUDs on? TRUE for yes, FALSE for no.
 	var/sensors_on = TRUE
+<<<<<<< HEAD
 	var/med_hud = DATA_HUD_MEDICAL_ADVANCED //Determines the med hud to use
 	var/sec_hud = DATA_HUD_SECURITY_ADVANCED //Determines the sec hud to use
 	var/d_hud = DATA_HUD_DIAGNOSTIC_BASIC //Determines the diag hud to use
 	var/crew_hud = DATA_HUD_CREW //MONKE, lets silicons tell who is crew.
+=======
+	var/list/silicon_huds = list(DATA_HUD_MEDICAL_ADVANCED, DATA_HUD_SECURITY_ADVANCED, DATA_HUD_DIAGNOSTIC)
+>>>>>>> tg-pr-88929
 
 	var/law_change_counter = 0
 	var/obj/machinery/camera/builtInCamera = null
@@ -50,11 +55,15 @@
 	var/centcom = FALSE
 	var/hack_software = FALSE //Will be able to use hacking actions
 	interaction_range = 7 //wireless control range
+	var/control_disabled = FALSE // Set to 1 to stop AI from interacting via Click()
 
 	var/obj/item/modular_computer/pda/silicon/modularInterface
 
+
 /mob/living/silicon/Initialize(mapload)
 	. = ..()
+	if(SStts.tts_enabled)
+		voice = pick(SStts.available_speakers)
 	GLOB.silicon_mobs += src
 	faction += FACTION_SILICON
 	if(ispath(radio))
@@ -72,15 +81,27 @@
 		TRAIT_MADNESS_IMMUNE,
 		TRAIT_MARTIAL_ARTS_IMMUNE,
 		TRAIT_NOFIRE_SPREAD,
+<<<<<<< HEAD
 		//TRAIT_BRAWLING_KNOCKDOWN_BLOCKED,
+=======
+		TRAIT_BRAWLING_KNOCKDOWN_BLOCKED,
+>>>>>>> tg-pr-88929
 		TRAIT_FENCE_CLIMBER,
 		TRAIT_SILICON_ACCESS,
 		TRAIT_REAGENT_SCANNER,
 		TRAIT_UNOBSERVANT,
+<<<<<<< HEAD
+=======
+		TRAIT_NO_SLIP_ALL,
+>>>>>>> tg-pr-88929
 	)
 
 	add_traits(traits_to_apply, ROUNDSTART_TRAIT)
 	ADD_TRAIT(src, TRAIT_SILICON_EMOTES_ALLOWED, INNATE_TRAIT)
+<<<<<<< HEAD
+=======
+	RegisterSignal(src, COMSIG_LIVING_ELECTROCUTE_ACT, PROC_REF(on_silicon_shocked))
+>>>>>>> tg-pr-88929
 
 /mob/living/silicon/Destroy()
 	QDEL_NULL(radio)
@@ -91,6 +112,14 @@
 	QDEL_NULL(modularInterface)
 	GLOB.silicon_mobs -= src
 	return ..()
+
+/mob/living/silicon/proc/on_silicon_shocked(datum/source, shock_damage, shock_source, siemens_coeff, flags)
+	SIGNAL_HANDLER
+	for(var/mob/living/living_mob in buckled_mobs)
+		unbuckle_mob(living_mob)
+		living_mob.electrocute_act(shock_damage/100, shock_source, siemens_coeff, flags) //Hard metal shell conducts!
+
+	return COMPONENT_LIVING_BLOCK_SHOCK //So borgs don't die trying to fix wiring
 
 /mob/living/silicon/proc/create_modularInterface()
 	if(!modularInterface)
@@ -144,7 +173,11 @@
 		for(var/alarm_type in alarm_types_show)
 			msg += "[uppertext(alarm_type)]: [alarm_types_show[alarm_type]] alarms detected. - "
 
+<<<<<<< HEAD
 		msg += "<A href='byond://?src=[REF(src)];showalerts=1'>\[Show Alerts\]</a>"
+=======
+		msg += "<A href=byond://?src=[REF(src)];showalerts=1'>\[Show Alerts\]</a>"
+>>>>>>> tg-pr-88929
 		to_chat(src, msg)
 
 	if(length(alarms_to_clear) < 3)
@@ -157,7 +190,11 @@
 		for(var/alarm_type in alarm_types_clear)
 			msg += "[uppertext(alarm_type)]: [alarm_types_clear[alarm_type]] alarms cleared. - "
 
+<<<<<<< HEAD
 		msg += "<A href='byond://?src=[REF(src)];showalerts=1'>\[Show Alerts\]</a>"
+=======
+		msg += "<A href=byond://?src=[REF(src)];showalerts=1'>\[Show Alerts\]</a>"
+>>>>>>> tg-pr-88929
 		to_chat(src, msg)
 
 
@@ -174,7 +211,7 @@
 /mob/living/silicon/try_inject(mob/user, target_zone, injection_flags)
 	. = ..()
 	if(!. && (injection_flags & INJECT_TRY_SHOW_ERROR_MESSAGE))
-		to_chat(user, span_alert("[p_their(TRUE)] outer shell is too tough."))
+		to_chat(user, span_alert("[p_Their()] outer shell is too tough."))
 
 /proc/islinked(mob/living/silicon/robot/bot, mob/living/silicon/ai/ai)
 	if(!istype(bot) || !istype(ai))
@@ -258,7 +295,7 @@
 
 	if (lawcache_zeroth)
 		if (force || (lawcache_zeroth in lawcache_lawcheck))
-			say("[radiomod] 0. [lawcache_zeroth]", forced = forced_log_message)
+			say("[radiomod] 0. [lawcache_zeroth]", forced = forced_log_message, message_mods = list(MODE_SEQUENTIAL = TRUE))
 			sleep(1 SECONDS)
 
 	for (var/index in 1 to length(lawcache_hacked))
@@ -267,7 +304,7 @@
 		if (length(law) <= 0)
 			continue
 		if (force || (law in lawcache_hackedcheck))
-			say("[radiomod] [num]. [law]", forced = forced_log_message)
+			say("[radiomod] [num]. [law]", forced = forced_log_message, message_mods = list(MODE_SEQUENTIAL = TRUE))
 			sleep(1 SECONDS)
 
 	for (var/index in 1 to length(lawcache_ion))
@@ -276,7 +313,7 @@
 		if (length(law) <= 0)
 			return
 		if (force || (law in lawcache_ioncheck))
-			say("[radiomod] [num]. [law]", forced = forced_log_message)
+			say("[radiomod] [num]. [law]", forced = forced_log_message, message_mods = list(MODE_SEQUENTIAL = TRUE))
 			sleep(1 SECONDS)
 
 	var/number = 1
@@ -285,7 +322,7 @@
 		if (length(law) <= 0)
 			continue
 		if (force || (law in lawcache_lawcheck))
-			say("[radiomod] [number]. [law]", forced = forced_log_message)
+			say("[radiomod] [number]. [law]", forced = forced_log_message, message_mods = list(MODE_SEQUENTIAL = TRUE))
 			number++
 			sleep(1 SECONDS)
 
@@ -295,14 +332,14 @@
 		if (length(law) <= 0)
 			continue
 		if (force || (law in lawcache_lawcheck))
-			say("[radiomod] [number]. [law]", forced = forced_log_message)
+			say("[radiomod] [number]. [law]", forced = forced_log_message, message_mods = list(MODE_SEQUENTIAL = TRUE))
 			number++
 			sleep(1 SECONDS)
 
 ///Gives you a link-driven interface for deciding what laws the statelaws() proc will share with the crew.
 /mob/living/silicon/proc/checklaws()
 	laws_sanity_check()
-	var/list = "<b>Which laws do you want to include when stating them for the crew?</b><br><br>"
+	var/list = "<meta charset='UTF-8'><b>Which laws do you want to include when stating them for the crew?</b><br><br>"
 
 	var/law_display = "Yes"
 	if (laws.zeroth)
@@ -355,10 +392,7 @@
 		return
 	client.crew_manifest_delay = world.time + (1 SECONDS)
 
-	if(!GLOB.crew_manifest_tgui)
-		GLOB.crew_manifest_tgui = new /datum/crew_manifest(src)
-
-	GLOB.crew_manifest_tgui.ui_interact(src)
+	GLOB.manifest.ui_interact(src)
 
 /mob/living/silicon/proc/set_autosay() //For allowing the AI and borgs to set the radio behavior of auto announcements (state laws, arrivals).
 	if(!radio)
@@ -389,6 +423,7 @@
 	return -10
 
 /mob/living/silicon/proc/remove_sensors()
+<<<<<<< HEAD
 	var/datum/atom_hud/secsensor = GLOB.huds[sec_hud]
 	var/datum/atom_hud/medsensor = GLOB.huds[med_hud]
 	var/datum/atom_hud/diagsensor = GLOB.huds[d_hud]
@@ -407,9 +442,19 @@
 	medsensor.show_to(src)
 	diagsensor.show_to(src)
 	crewsensor.show_to(src)
+=======
+	for (var/hud_type in silicon_huds)
+		var/datum/atom_hud/silicon_hud = GLOB.huds[hud_type]
+		silicon_hud.hide_from(src)
+
+/mob/living/silicon/proc/add_sensors()
+	for (var/hud_type in silicon_huds)
+		var/datum/atom_hud/silicon_hud = GLOB.huds[hud_type]
+		silicon_hud.show_to(src)
+>>>>>>> tg-pr-88929
 
 /mob/living/silicon/proc/toggle_sensors()
-	if(incapacitated())
+	if(incapacitated)
 		return
 	sensors_on = !sensors_on
 	if (!sensors_on)
@@ -443,6 +488,9 @@
 
 /mob/living/silicon/on_standing_up()
 	return // Silicons are always standing by default.
+
+/mob/living/silicon/get_butt_sprite()
+	return icon('icons/mob/butts.dmi', BUTT_SPRITE_QR_CODE)
 
 /**
  * Records an IC event log entry in the cyborg's internal tablet.
@@ -481,5 +529,23 @@
 		create_modularInterface()
 	modularInterface.imprint_id(name = newname)
 
+<<<<<<< HEAD
 /mob/living/silicon/get_access()
 	return REGION_ACCESS_ALL_STATION
+=======
+/mob/living/silicon/can_track(mob/living/user)
+	//if their camera is online, it's safe to assume they are in cameranets
+	//since it takes a while for camera vis to update, this lets us bypass that so AIs can always see their borgs,
+	//without making cameras constantly update every time a borg moves.
+	if(builtInCamera && builtInCamera.can_use())
+		return TRUE
+	return ..()
+
+///Places laws on the status panel for silicons
+/mob/living/silicon/get_status_tab_items()
+	. = ..()
+	var/list/law_list = list("Obey these laws:")
+	law_list += laws.get_law_list(include_zeroth = TRUE, render_html = FALSE)
+	for(var/borg_laws in law_list)
+		. += borg_laws
+>>>>>>> tg-pr-88929

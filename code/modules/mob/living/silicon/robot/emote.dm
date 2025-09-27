@@ -1,7 +1,11 @@
 /datum/emote/silicon
+<<<<<<< HEAD
 	// MONKESTATION REMOVAL - Replaced with `/datum/emote/silicon/can_run_emote()`, which is used to
 	// enable silicon emotes for users with synthetic voice boxes.
 	//mob_type_allowed_typecache = list(/mob/living/silicon, /mob/living/simple_animal/bot)
+=======
+	trait_required = TRAIT_SILICON_EMOTES_ALLOWED
+>>>>>>> tg-pr-88929
 	emote_type = EMOTE_AUDIBLE
 	trait_required = TRAIT_SILICON_EMOTES_ALLOWED
 
@@ -15,9 +19,14 @@
 	key_third_person = "beeps"
 	message = "beeps."
 	message_param = "beeps at %t."
+<<<<<<< HEAD
 	sound = 'sound/machines/twobeep.ogg'
 	emote_type = EMOTE_AUDIBLE
 
+=======
+	emote_type = EMOTE_AUDIBLE
+	sound = 'sound/machines/beep/twobeep.ogg'
+>>>>>>> tg-pr-88929
 
 /datum/emote/silicon/buzz
 	key = "buzz"
@@ -25,14 +34,13 @@
 	message = "buzzes."
 	message_param = "buzzes at %t."
 	emote_type = EMOTE_AUDIBLE
-	sound = 'sound/machines/buzz-sigh.ogg'
-
+	sound = 'sound/machines/buzz/buzz-sigh.ogg'
 
 /datum/emote/silicon/buzz2
 	key = "buzz2"
 	message = "buzzes twice."
 	emote_type = EMOTE_AUDIBLE
-	sound = 'sound/machines/buzz-two.ogg'
+	sound = 'sound/machines/buzz/buzz-two.ogg'
 
 /datum/emote/silicon/chime
 	key = "chime"

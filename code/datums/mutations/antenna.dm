@@ -2,16 +2,16 @@
 	name = "Antenna"
 	desc = "The affected person sprouts an antenna. This is known to allow them to access common radio channels passively."
 	quality = POSITIVE
-	text_gain_indication = "<span class='notice'>You feel an antenna sprout from your forehead.</span>"
-	text_lose_indication = "<span class='notice'>Your antenna shrinks back down.</span>"
-	instability = 5
+	text_gain_indication = span_notice("You feel an antenna sprout from your forehead.")
+	text_lose_indication = span_notice("Your antenna shrinks back down.")
+	instability = POSITIVE_INSTABILITY_MINOR
 	difficulty = 8
 	var/datum/weakref/radio_weakref
 
 /obj/item/implant/radio/antenna
 	name = "internal antenna organ"
 	desc = "The internal organ part of the antenna. Science has not yet given it a good name."
-	icon = 'icons/obj/radio.dmi'//maybe make a unique sprite later. not important
+	icon = 'icons/obj/devices/voice.dmi'//maybe make a unique sprite later. not important
 	icon_state = "walkietalkie"
 
 /obj/item/implant/radio/antenna/Initialize(mapload)
@@ -36,7 +36,7 @@
 /datum/mutation/antenna/New(datum/mutation/copymut)
 	..()
 	if(!(type in visual_indicators))
-		visual_indicators[type] = list(mutable_appearance('icons/effects/genetics.dmi', "antenna", -FRONT_MUTATIONS_LAYER+1))//-MUTATIONS_LAYER+1
+		visual_indicators[type] = list(mutable_appearance('icons/mob/effects/genetics.dmi', "antenna", -FRONT_MUTATIONS_LAYER+1))//-MUTATIONS_LAYER+1
 
 /* Moved to 'monkestation/code/datums/mutations/antenna.dm'
 /datum/mutation/antenna/get_visual_indicator()
@@ -47,10 +47,10 @@
 	name = "Mind Reader"
 	desc = "The affected person can look into the recent memories of others."
 	quality = POSITIVE
-	text_gain_indication = "<span class='notice'>You hear distant voices at the corners of your mind.</span>"
-	text_lose_indication = "<span class='notice'>The distant voices fade.</span>"
+	text_gain_indication = span_notice("You hear distant voices at the corners of your mind.")
+	text_lose_indication = span_notice("The distant voices fade.")
 	power_path = /datum/action/cooldown/spell/pointed/mindread
-	instability = 40
+	instability = POSITIVE_INSTABILITY_MINOR
 	difficulty = 8
 	locked = TRUE
 
@@ -64,6 +64,16 @@
 	antimagic_flags = MAGIC_RESISTANCE_MIND
 
 	ranged_mousepointer = 'icons/effects/mouse_pointers/mindswap_target.dmi'
+
+/datum/action/cooldown/spell/pointed/mindread/Grant(mob/grant_to)
+	. = ..()
+	if (!owner)
+		return
+	ADD_TRAIT(grant_to, TRAIT_MIND_READER, GENETIC_MUTATION)
+
+/datum/action/cooldown/spell/pointed/mindread/Remove(mob/remove_from)
+	. = ..()
+	REMOVE_TRAIT(remove_from, TRAIT_MIND_READER, GENETIC_MUTATION)
 
 /datum/action/cooldown/spell/pointed/mindread/is_valid_target(atom/cast_on)
 	if(!isliving(cast_on))
@@ -113,7 +123,7 @@
 /datum/mutation/mindreader/New(datum/mutation/copymut)
 	..()
 	if(!(type in visual_indicators))
-		visual_indicators[type] = list(mutable_appearance('icons/effects/genetics.dmi', "antenna", -FRONT_MUTATIONS_LAYER+1))
+		visual_indicators[type] = list(mutable_appearance('icons/mob/effects/genetics.dmi', "antenna", -FRONT_MUTATIONS_LAYER+1))
 
 /datum/mutation/mindreader/get_visual_indicator()
 	return visual_indicators[type][1]

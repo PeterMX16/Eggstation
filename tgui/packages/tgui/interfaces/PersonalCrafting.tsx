@@ -1,7 +1,5 @@
-import { BooleanLike, classes } from 'common/react';
-import { createSearch } from 'common/string';
-import { flow } from 'common/fp';
 import { filter, sortBy } from 'common/collections';
+<<<<<<< HEAD
 import { useBackend, useLocalState } from '../backend';
 import {
   Divider,
@@ -15,6 +13,26 @@ import {
   Tooltip,
   NoticeBox,
 } from '../components';
+=======
+import { useState } from 'react';
+import {
+  Box,
+  Button,
+  Divider,
+  Icon,
+  Input,
+  NoticeBox,
+  Section,
+  Stack,
+  Tabs,
+  Tooltip,
+  VirtualList,
+} from 'tgui-core/components';
+import { BooleanLike, classes } from 'tgui-core/react';
+import { createSearch } from 'tgui-core/string';
+
+import { useBackend } from '../backend';
+>>>>>>> tg-pr-88929
 import { Window } from '../layouts';
 import { Food } from './PreferencesMenu/data';
 
@@ -37,6 +55,7 @@ const TYPE_ICONS = {
   [Food.Pineapple]: 'apple-alt',
   [Food.Raw]: 'drumstick-bite',
   [Food.Seafood]: 'fish',
+  [Food.Stone]: 'gem',
   [Food.Sugar]: 'candy-cane',
   [Food.Toxic]: 'biohazard',
   [Food.Vegetables]: 'carrot',
@@ -102,10 +121,15 @@ enum TABS {
 type AtomData = {
   name: string;
   is_reagent: BooleanLike;
+  icon: string;
 };
 
 type Atoms = {
   [key: number]: number;
+};
+
+type Icons = {
+  [key: number]: string;
 };
 
 type Material = {
@@ -115,7 +139,7 @@ type Material = {
 
 type Recipe = {
   ref: string;
-  result: number;
+  id: number;
   name: string;
   desc: string;
   category: string;
@@ -129,6 +153,7 @@ type Recipe = {
   structures: string[];
   steps: string[];
   foodtypes: string[];
+  has_food_effect: BooleanLike;
 };
 
 type Diet = {
@@ -148,13 +173,15 @@ type Data = {
   // Static
   diet: Diet;
   atom_data: AtomData[];
+  icon_data: Icons;
   recipes: Recipe[];
   categories: string[];
   material_occurences: Material[];
   foodtypes: string[];
-  nutriments: number;
+  complexity: number;
 };
 
+<<<<<<< HEAD
 interface Item {
   name: string;
   desc?: string;
@@ -179,6 +206,15 @@ interface RecipeContentProps {
   mode: any;
   diet: any;
 }
+=======
+const findIcon = (atom_id: number, data: Data): string => {
+  let icon: string = data.icon_data[atom_id];
+  if (!icon) {
+    icon = (data.mode ? 'cooking32x32' : 'crafting32x32') + ' a' + atom_id;
+  }
+  return icon;
+};
+>>>>>>> tg-pr-88929
 
 export const PersonalCrafting = (props) => {
   const { act, data } = useBackend<Data>();
@@ -191,18 +227,27 @@ export const PersonalCrafting = (props) => {
     craftability,
     diet,
   } = data;
+<<<<<<< HEAD
   const [searchText, setSearchText] = useLocalState('searchText', '');
   const [pages, setPages] = useLocalState('pages', 1);
   const DEFAULT_CAT_CRAFTING = Object.keys(CATEGORY_ICONS_CRAFTING)[1];
   const DEFAULT_CAT_COOKING = Object.keys(CATEGORY_ICONS_COOKING)[1];
   const [activeCategory, setCategory] = useLocalState<string>(
     'category',
+=======
+  const [searchText, setSearchText] = useState('');
+  const [pages, setPages] = useState(1);
+  const DEFAULT_CAT_CRAFTING = Object.keys(CATEGORY_ICONS_CRAFTING)[1];
+  const DEFAULT_CAT_COOKING = Object.keys(CATEGORY_ICONS_COOKING)[1];
+  const [activeCategory, setCategory] = useState(
+>>>>>>> tg-pr-88929
     Object.keys(craftability).length
       ? 'Can Make'
       : mode === MODE.cooking
         ? DEFAULT_CAT_COOKING
         : DEFAULT_CAT_CRAFTING,
   );
+<<<<<<< HEAD
   const [activeType, setFoodType] = useLocalState(
     'foodtype',
     Object.keys(craftability).length ? 'Can Make' : data.foodtypes[0],
@@ -245,8 +290,49 @@ export const PersonalCrafting = (props) => {
       recipe.name.toLowerCase(),
     ]),
   ])(data.recipes);
+=======
+  const [activeType, setFoodType] = useState(
+    Object.keys(craftability).length ? 'Can Make' : data.foodtypes[0],
+  );
+  const material_occurences = sortBy(
+    data.material_occurences,
+    (material) => -material.occurences,
+  );
+  const [activeMaterial, setMaterial] = useState(
+    material_occurences[0].atom_id,
+  );
+  const [tabMode, setTabMode] = useState(0);
+  const searchName = createSearch(searchText, (item: Recipe) => item.name);
+  let recipes = filter(
+    data.recipes,
+    (recipe) =>
+      // If craftable only is selected, then filter by craftability
+      (!display_craftable_only || Boolean(craftability[recipe.ref])) &&
+      // Ignore categories and types when searching
+      (searchText.length > 0 ||
+        // Is foodtype mode and the active type matches
+        (tabMode === TABS.foodtype &&
+          mode === MODE.cooking &&
+          ((activeType === 'Can Make' && Boolean(craftability[recipe.ref])) ||
+            recipe.foodtypes?.includes(activeType))) ||
+        // Is material mode and the active material or catalysts match
+        (tabMode === TABS.material &&
+          Object.keys(recipe.reqs).includes(activeMaterial)) ||
+        // Is category mode and the active categroy matches
+        (tabMode === TABS.category &&
+          ((activeCategory === 'Can Make' &&
+            Boolean(craftability[recipe.ref])) ||
+            recipe.category === activeCategory))),
+  );
+  recipes = sortBy(recipes, (recipe) => [
+    activeCategory === 'Can Make'
+      ? 99 - Object.keys(recipe.reqs).length
+      : Number(craftability[recipe.ref]),
+    recipe.name.toLowerCase(),
+  ]);
+>>>>>>> tg-pr-88929
   if (searchText.length > 0) {
-    recipes = recipes.filter(searchName);
+    recipes = filter(recipes, searchName);
   }
   const canMake = ['Can Make'];
   const categories = canMake
@@ -341,8 +427,13 @@ export const PersonalCrafting = (props) => {
                     </Tabs.Tab>
                   </Tabs>
                 </Stack.Item>
+<<<<<<< HEAD
                 <Stack.Item grow m={-1} style={{ 'overflow-y': 'auto' }}>
                   <Box height={'100%'} p={1}>
+=======
+                <Stack.Item grow m={-1}>
+                  <Box height={'100%'} p={1} style={{ overflowY: 'auto' }}>
+>>>>>>> tg-pr-88929
                     <Tabs vertical>
                       {tabMode === TABS.foodtype &&
                         mode === MODE.cooking &&
@@ -516,11 +607,11 @@ export const PersonalCrafting = (props) => {
           </Stack.Item>
           <Stack.Item grow my={-1}>
             <Box
-              id="content"
-              height={'100%'}
+              height="100%"
               pr={1}
               pt={1}
               mr={-1}
+<<<<<<< HEAD
               style={{ 'overflow-y': 'auto' }}
             >
               {recipes.length > 0 ? (
@@ -550,6 +641,41 @@ export const PersonalCrafting = (props) => {
                       />
                     ),
                   )
+=======
+              style={{ overflowY: 'auto' }}
+            >
+              {recipes.length > 0 ? (
+                <VirtualList>
+                  {recipes
+                    .slice(0, displayLimit)
+                    .map((item) =>
+                      display_compact ? (
+                        <RecipeContentCompact
+                          key={item.ref}
+                          item={item}
+                          craftable={
+                            !item.non_craftable &&
+                            Boolean(craftability[item.ref])
+                          }
+                          busy={busy}
+                          mode={mode}
+                        />
+                      ) : (
+                        <RecipeContent
+                          key={item.ref}
+                          item={item}
+                          craftable={
+                            !item.non_craftable &&
+                            Boolean(craftability[item.ref])
+                          }
+                          busy={busy}
+                          mode={mode}
+                          diet={diet}
+                        />
+                      ),
+                    )}
+                </VirtualList>
+>>>>>>> tg-pr-88929
               ) : (
                 <NoticeBox m={1} p={1}>
                   No recipes found.
@@ -575,10 +701,17 @@ export const PersonalCrafting = (props) => {
 };
 
 const MaterialContent = (props) => {
+<<<<<<< HEAD
   const { atom_id, occurences } = props;
   const { data } = useBackend<Data>();
+=======
+  const { data } = useBackend<Data>();
+
+  const { atom_id, occurences } = props;
+>>>>>>> tg-pr-88929
   const name = data.atom_data[atom_id - 1].name;
-  const mode = data.mode;
+  const icon = findIcon(atom_id, data);
+
   return (
     <Stack>
       <Stack.Item>
@@ -587,11 +720,15 @@ const MaterialContent = (props) => {
           inline
           ml={-1.5}
           mr={-0.5}
+<<<<<<< HEAD
           className={classes([
             mode ? 'cooking32x32' : 'crafting32x32',
             'a' + atom_id,
           ])}
           style={{ 'image-rendering': 'pixelated' }}
+=======
+          className={icon}
+>>>>>>> tg-pr-88929
         />
       </Stack.Item>
       <Stack.Item
@@ -599,10 +736,17 @@ const MaterialContent = (props) => {
         lineHeight="32px"
         grow
         style={{
+<<<<<<< HEAD
           'text-transform': 'capitalize',
           overflow: 'hidden',
           'text-overflow': 'ellipsis',
           'white-space': 'nowrap',
+=======
+          textTransform: 'capitalize',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap',
+>>>>>>> tg-pr-88929
         }}
       >
         {name}
@@ -638,7 +782,7 @@ const FoodtypeContent = (props) => {
       <Stack.Item width="14px" textAlign="center">
         <Icon name={TYPE_ICONS[type] || 'circle'} />
       </Stack.Item>
-      <Stack.Item grow style={{ 'text-transform': 'capitalize' }}>
+      <Stack.Item grow style={{ textTransform: 'capitalize' }}>
         {type.toLowerCase()}
       </Stack.Item>
       <Stack.Item>
@@ -652,6 +796,7 @@ const FoodtypeContent = (props) => {
 
 const RecipeContentCompact = ({ item, craftable, busy, mode }) => {
   const { act, data } = useBackend<Data>();
+<<<<<<< HEAD
 
   // Function to handle pushing steps (unchanged)
   const specialSteps = [
@@ -689,10 +834,13 @@ const RecipeContentCompact = ({ item, craftable, busy, mode }) => {
     pushStep(previousStep, duplicateCount);
   }
 
+=======
+>>>>>>> tg-pr-88929
   return (
     <Section>
       <Stack my={-0.75}>
         <Stack.Item>
+<<<<<<< HEAD
           <Box
             className={classes([
               mode ? 'cooking32x32' : 'crafting32x32',
@@ -700,13 +848,17 @@ const RecipeContentCompact = ({ item, craftable, busy, mode }) => {
             ])}
             style={{ 'image-rendering': 'pixelated' }}
           />
+=======
+          <Box className={findIcon(item.id, data)} />
+>>>>>>> tg-pr-88929
         </Stack.Item>
         <Stack.Item grow>
           <Stack>
             <Stack.Item grow>
-              <Box mb={0.5} bold style={{ 'text-transform': 'capitalize' }}>
+              <Box mb={0.5} bold style={{ textTransform: 'capitalize' }}>
                 {item.name}
               </Box>
+<<<<<<< HEAD
               <Box style={{ 'text-transform': 'capitalize' }} color={'gray'}>
                 {Array.isArray(item.reqs) &&
                   Object.keys(item.reqs).length > 0 &&
@@ -723,6 +875,22 @@ const RecipeContentCompact = ({ item, craftable, busy, mode }) => {
                           : name;
                     })
                     .join(', ')}
+=======
+              <Box style={{ textTransform: 'capitalize' }} color={'gray'}>
+                {Array.from(
+                  Object.keys(item.reqs).map((atom_id) => {
+                    const name = data.atom_data[(atom_id as any) - 1]?.name;
+                    const is_reagent =
+                      data.atom_data[(atom_id as any) - 1]?.is_reagent;
+                    const amount = item.reqs[atom_id];
+                    return is_reagent
+                      ? `${name}\xa0${amount}u`
+                      : amount > 1
+                        ? `${name}\xa0${amount}x`
+                        : name;
+                  }),
+                ).join(', ')}
+>>>>>>> tg-pr-88929
 
                 {item.chem_catalysts &&
                   Object.keys(item.chem_catalysts).length > 0 &&
@@ -787,19 +955,44 @@ const RecipeContentCompact = ({ item, craftable, busy, mode }) => {
                           ? 'utensils'
                           : 'hammer'
                     }
-                    iconSpin={busy ? 1 : 0}
+                    iconSpin={!!busy}
                     onClick={() =>
                       act('make', {
                         recipe: item.ref,
                       })
                     }
                   />
+                  {!!item.mass_craftable && (
+                    <Button
+                      my={0.3}
+                      lineHeight={2.5}
+                      width={'32px'}
+                      align="center"
+                      tooltip={
+                        'Repeat this craft until you run out of ingredients.'
+                      }
+                      tooltipPosition={'top'}
+                      disabled={!craftable || busy}
+                      icon={'repeat'}
+                      iconSpin={!!busy}
+                      onClick={() =>
+                        act('make_mass', {
+                          recipe: item.ref,
+                        })
+                      }
+                    />
+                  )}
                 </Box>
               ) : (
                 item.steps && (
                   <Tooltip
+<<<<<<< HEAD
                     content={groupedSteps.map((step, index) => (
                       <Box key={index}>{step}</Box>
+=======
+                    content={item.steps.map((step) => (
+                      <Box key={step}>{step}</Box>
+>>>>>>> tg-pr-88929
                     ))}
                   >
                     <Box fontSize={1.5} p={1}>
@@ -817,6 +1010,7 @@ const RecipeContentCompact = ({ item, craftable, busy, mode }) => {
 };
 
 const RecipeContent = ({ item, craftable, busy, mode, diet }) => {
+<<<<<<< HEAD
   const { act } = useBackend<Data>();
 
   const specialSteps = [
@@ -939,34 +1133,42 @@ const RecipeContent = ({ item, craftable, busy, mode, diet }) => {
     );
   }
 
+=======
+  const { act, data } = useBackend<Data>();
+>>>>>>> tg-pr-88929
   return (
     <Section>
       <Stack>
         <Stack.Item>
           <Box width={'64px'} height={'64px'} mr={1}>
             <Box
-              width={'32px'}
-              height={'32px'}
               style={{
+<<<<<<< HEAD
                 transform: 'scale(2)',
                 'image-rendering': 'pixelated',
+=======
+                transform: 'scale(1.5)',
+>>>>>>> tg-pr-88929
               }}
               m={'16px'}
-              className={classes([
-                mode ? 'cooking32x32' : 'crafting32x32',
-                'a' + item.result,
-              ])}
+              className={findIcon(item.id, data)}
             />
           </Box>
         </Stack.Item>
         <Stack.Item grow>
           <Stack>
-            <Stack.Item grow>
-              <Box mb={0.5} bold style={{ 'text-transform': 'capitalize' }}>
+            <Stack.Item grow={5}>
+              <Box mb={1} bold style={{ textTransform: 'capitalize' }}>
                 {item.name}
               </Box>
               {item.desc && <Box color={'gray'}>{item.desc}</Box>}
-              <Box style={{ 'text-transform': 'capitalize' }}>
+              {!!item.has_food_effect && (
+                <Box my={2} color={'pink'}>
+                  <Icon name="wand-magic-sparkles" mr={1} />
+                  Special effect on consumption.
+                </Box>
+              )}
+              <Box style={{ textTransform: 'capitalize' }}>
                 {item.reqs && (
                   <Box>
                     <GroupTitle
@@ -1028,50 +1230,89 @@ const RecipeContent = ({ item, craftable, busy, mode, diet }) => {
               {!!item.steps?.length && (
                 <Box>
                   <GroupTitle title="Steps" />
+<<<<<<< HEAD
                   <ul>{groupedSteps}</ul>
+=======
+                  <ul style={{ paddingLeft: '20px' }}>
+                    {item.steps.map((step) => (
+                      <li key={step}>{step}</li>
+                    ))}
+                  </ul>
+>>>>>>> tg-pr-88929
                 </Box>
               )}
             </Stack.Item>
-            <Stack.Item pl={1}>
-              {!item.non_craftable && (
-                <Button
-                  width="104px"
-                  lineHeight={2.5}
-                  align="center"
-                  content="Make"
-                  disabled={!craftable || busy}
-                  icon={
-                    busy
-                      ? 'circle-notch'
-                      : mode === MODE.cooking
-                        ? 'utensils'
-                        : 'hammer'
-                  }
-                  iconSpin={busy ? 1 : 0}
-                  onClick={() =>
-                    act('make', {
-                      recipe: item.ref,
-                    })
-                  }
-                />
-              )}
-              {item.nutriments > 0 && (
-                <Box color={'gray'} width={'104px'} lineHeight={1.5} mt={1}>
-                  Nutrition: {item.nutriments}
-                  <Divider />
-                </Box>
-              )}
-              {item.foodtypes?.length > 0 && (
-                <Box color={'gray'} width={'104px'} lineHeight={1.5} mt={1}>
-                  {item.foodtypes.map((foodtype) => (
-                    <FoodtypeContent
-                      key={item.ref}
-                      type={foodtype}
-                      diet={diet}
-                    />
-                  ))}
-                </Box>
-              )}
+            <Stack.Item pl={1} grow={2}>
+              <Stack vertical>
+                <Stack.Item>
+                  {!item.non_craftable && (
+                    <Stack>
+                      <Stack.Item grow>
+                        <Button
+                          lineHeight={2.5}
+                          align="center"
+                          content="Make"
+                          fluid
+                          disabled={!craftable || busy}
+                          icon={
+                            busy
+                              ? 'circle-notch'
+                              : mode === MODE.cooking
+                                ? 'utensils'
+                                : 'hammer'
+                          }
+                          iconSpin={!!busy}
+                          onClick={() =>
+                            act('make', {
+                              recipe: item.ref,
+                            })
+                          }
+                        />
+                      </Stack.Item>
+                      <Stack.Item>
+                        {!!item.mass_craftable && (
+                          <Button
+                            minWidth="30px"
+                            lineHeight={2.5}
+                            align="center"
+                            tooltip={
+                              'Repeat this craft until you run out of ingredients.'
+                            }
+                            tooltipPosition={'top'}
+                            disabled={!craftable || busy}
+                            icon={'repeat'}
+                            iconSpin={!!busy}
+                            onClick={() =>
+                              act('make_mass', {
+                                recipe: item.ref,
+                              })
+                            }
+                          />
+                        )}
+                      </Stack.Item>
+                    </Stack>
+                  )}
+                </Stack.Item>
+                <Stack.Item>
+                  {!!item.complexity && (
+                    <Box color={'gray'} width={'104px'} lineHeight={1.5} mt={1}>
+                      Complexity: {item.complexity}
+                    </Box>
+                  )}
+                  {item.foodtypes?.length > 0 && (
+                    <Box color={'gray'} width={'104px'} lineHeight={1.5} mt={1}>
+                      <Divider />
+                      {item.foodtypes.map((foodtype) => (
+                        <FoodtypeContent
+                          key={item.ref}
+                          type={foodtype}
+                          diet={diet}
+                        />
+                      ))}
+                    </Box>
+                  )}
+                </Stack.Item>
+              </Stack>
             </Stack.Item>
           </Stack>
         </Stack.Item>
@@ -1082,9 +1323,14 @@ const RecipeContent = ({ item, craftable, busy, mode, diet }) => {
 
 const AtomContent = ({ atom_id, amount }) => {
   const { data } = useBackend<Data>();
+<<<<<<< HEAD
   const name = data.atom_data[atom_id - 1]?.name;
   const is_reagent = data.atom_data[atom_id - 1]?.is_reagent;
   const mode = data.mode;
+=======
+  const atom: AtomData = data.atom_data[atom_id - 1];
+
+>>>>>>> tg-pr-88929
   return (
     <Box my={1}>
       <Box
@@ -1092,15 +1338,19 @@ const AtomContent = ({ atom_id, amount }) => {
         inline
         my={-1}
         mr={0.5}
+<<<<<<< HEAD
         className={classes([
           mode ? 'cooking32x32' : 'crafting32x32',
           'a' + atom_id,
         ])}
         style={{ 'image-rendering': 'pixelated' }}
+=======
+        className={findIcon(atom_id, data)}
+>>>>>>> tg-pr-88929
       />
       <Box inline verticalAlign="middle">
-        {name}
-        {is_reagent ? `\xa0${amount}u` : amount > 1 && `\xa0${amount}x`}
+        {atom.name}
+        {atom.is_reagent ? `\xa0${amount}u` : amount > 1 && `\xa0${amount}x`}
       </Box>
     </Box>
   ) as any;
@@ -1114,8 +1364,12 @@ const ToolContent = ({ tool }) => {
         inline
         my={-1}
         mr={0.5}
+<<<<<<< HEAD
         className={classes(['crafting32x32', tool])}
         style={{ 'image-rendering': 'pixelated' }}
+=======
+        className={classes(['crafting32x32', tool.replace(/ /g, '')])}
+>>>>>>> tg-pr-88929
       />
       <Box inline verticalAlign="middle">
         {tool}

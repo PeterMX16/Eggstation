@@ -91,6 +91,7 @@
 	for(var/i in 1 to 5)
 		new /obj/item/grenade/empgrenade(src)
 
+<<<<<<< HEAD
 /obj/item/storage/box/trackimp
 	name = "boxed tracking implant kit"
 	desc = "Box full of scum-bag tracking utensils."
@@ -145,6 +146,8 @@
 	)
 	generate_items_inside(items_inside,src)
 
+=======
+>>>>>>> tg-pr-88929
 /obj/item/storage/box/prisoner
 	name = "box of prisoner IDs"
 	desc = "Take away their last shred of dignity, their name."
@@ -250,6 +253,22 @@
 	for(var/i in 1 to 7)
 		new /obj/item/ammo_casing/shotgun/buckshot(src)
 
+/obj/item/storage/box/lethalshot/old
+
+/obj/item/storage/box/lethalshot/old/PopulateContents()
+	for(var/i in 1 to 7)
+		new /obj/item/ammo_casing/shotgun/buckshot/old(src)
+
+/obj/item/storage/box/slugs
+	name = "box of shotgun shells (Lethal - Slugs)"
+	desc = "A box full of lethal shotgun slugs, designed for shotguns."
+	icon_state = "breacher_box"
+	illustration = null
+
+/obj/item/storage/box/slugs/PopulateContents()
+	for(var/i in 1 to 7)
+		new /obj/item/ammo_casing/shotgun(src)
+
 /obj/item/storage/box/beanbag
 	name = "box of shotgun shells (Less Lethal - Beanbag)"
 	desc = "A box full of beanbag shotgun shells, designed for shotguns."
@@ -270,6 +289,19 @@
 	for(var/i in 1 to 7)
 		new /obj/item/ammo_casing/shotgun/breacher(src)
 
+<<<<<<< HEAD
+=======
+/obj/item/storage/box/large_dart
+	name = "box of XL shotgun darts"
+	name = "A box full of shotgun darts with increased chemical storage capacity."
+	icon_state = "shotdart_box"
+	illustration = null
+
+/obj/item/storage/box/large_dart/PopulateContents()
+	for(var/i in 1 to 7)
+		new /obj/item/ammo_casing/shotgun/dart/large(src)
+
+>>>>>>> tg-pr-88929
 /obj/item/storage/box/emptysandbags
 	name = "box of empty sandbags"
 	illustration = "sandbag"

@@ -23,7 +23,11 @@
 	/// Callback for special effects upon parrying
 	var/datum/callback/parry_callback
 
+<<<<<<< HEAD
 /datum/component/parriable_projectile/Initialize(parry_speed_mult = 0.8, parry_damage_mult = 1.15, boost_speed_mult = 0.6, boost_damage_mult = 1.5, parry_trait = TRAIT_MINING_PARRYING, grace_period = 0.25 SECONDS, datum/callback/parry_callback = null)
+=======
+/datum/component/parriable_projectile/Initialize(parry_speed_mult = 1.25, parry_damage_mult = 1.15, boost_speed_mult = 1.6, boost_damage_mult = 1.5, parry_trait = TRAIT_MINING_PARRYING, grace_period = 0.25 SECONDS, datum/callback/parry_callback = null)
+>>>>>>> tg-pr-88929
 	if(!isprojectile(parent))
 		return COMPONENT_INCOMPATIBLE
 	src.parry_speed_mult = parry_speed_mult
@@ -41,13 +45,21 @@
 	. = ..()
 
 /datum/component/parriable_projectile/RegisterWithParent()
+<<<<<<< HEAD
 	RegisterSignal(parent, COMSIG_PROJECTILE_PIXEL_STEP, PROC_REF(on_moved))
+=======
+	RegisterSignal(parent, COMSIG_PROJECTILE_MOVE_PROCESS_STEP, PROC_REF(on_moved))
+>>>>>>> tg-pr-88929
 	RegisterSignal(parent, COMSIG_MOVABLE_MOVED, PROC_REF(before_move))
 	RegisterSignal(parent, COMSIG_PROJECTILE_BEFORE_MOVE, PROC_REF(before_move))
 	RegisterSignal(parent, COMSIG_PROJECTILE_SELF_PREHIT, PROC_REF(before_hit))
 
 /datum/component/parriable_projectile/UnregisterFromParent()
+<<<<<<< HEAD
 	UnregisterSignal(parent, list(COMSIG_PROJECTILE_PIXEL_STEP, COMSIG_MOVABLE_MOVED, COMSIG_PROJECTILE_BEFORE_MOVE, COMSIG_PROJECTILE_SELF_PREHIT))
+=======
+	UnregisterSignal(parent, list(COMSIG_PROJECTILE_MOVE_PROCESS_STEP, COMSIG_MOVABLE_MOVED, COMSIG_PROJECTILE_BEFORE_MOVE, COMSIG_PROJECTILE_SELF_PREHIT))
+>>>>>>> tg-pr-88929
 
 /datum/component/parriable_projectile/proc/before_move(obj/projectile/source)
 	SIGNAL_HANDLER
@@ -71,7 +83,11 @@
 
 /datum/component/parriable_projectile/proc/on_moved(obj/projectile/source)
 	SIGNAL_HANDLER
+<<<<<<< HEAD
 	if (!isturf(source.loc))
+=======
+	if (!isturf(source.loc) || parry_turfs[source.loc])
+>>>>>>> tg-pr-88929
 		return
 	parry_turfs[source.loc] = world.time + grace_period
 	RegisterSignal(source.loc, COMSIG_CLICK, PROC_REF(on_turf_click))
@@ -86,10 +102,16 @@
 		return
 	parriers[user] = world.time + grace_period
 
+<<<<<<< HEAD
 /datum/component/parriable_projectile/proc/before_hit(obj/projectile/source, list/bullet_args)
 	SIGNAL_HANDLER
 
 	var/mob/user = bullet_args[2]
+=======
+/datum/component/parriable_projectile/proc/before_hit(obj/projectile/source, mob/living/user)
+	SIGNAL_HANDLER
+
+>>>>>>> tg-pr-88929
 	if (!istype(user) || !parriers[user] || parried)
 		return
 
@@ -97,6 +119,7 @@
 	return attempt_parry(source, user)
 
 /datum/component/parriable_projectile/proc/attempt_parry(obj/projectile/source, mob/user)
+<<<<<<< HEAD
 	if (SEND_SIGNAL(user, COMSIG_LIVING_PROJECTILE_PARRIED, source) & INTERCEPT_PARRY_EFFECTS)
 		return
 
@@ -106,6 +129,20 @@
 			source.set_angle((source.Angle + 180) % 360 + rand(-3, 3))
 		else
 			source.set_angle(dir2angle(user) + rand(-3, 3))
+=======
+	if (QDELETED(source) || source.deletion_queued)
+		return NONE
+
+	if (SEND_SIGNAL(user, COMSIG_LIVING_PROJECTILE_PARRIED, source) & INTERCEPT_PARRY_EFFECTS)
+		return NONE
+
+	parried = TRUE
+	if (source.firer != user)
+		if (abs(source.angle - dir2angle(user.dir)) < 15)
+			source.set_angle((source.angle + 180) % 360 + rand(-3, 3))
+		else
+			source.set_angle(dir2angle(user.dir) + rand(-3, 3))
+>>>>>>> tg-pr-88929
 		user.visible_message(span_warning("[user] expertly parries [source] with [user.p_their()] bare hand!"), span_warning("You parry [source] with your hand!"))
 	else
 		user.visible_message(span_warning("[user] boosts [source] with [user.p_their()] bare hand!"), span_warning("You boost [source] with your hand!"))
@@ -119,4 +156,8 @@
 	user.playsound_local(source.loc, 'sound/effects/parry.ogg', 50, TRUE)
 	user.overlay_fullscreen("projectile_parry", /atom/movable/screen/fullscreen/crit/projectile_parry, 2)
 	addtimer(CALLBACK(user, TYPE_PROC_REF(/mob, clear_fullscreen), "projectile_parry"), 0.25 SECONDS)
+<<<<<<< HEAD
 	return PROJECTILE_INTERRUPT_HIT
+=======
+	return PROJECTILE_INTERRUPT_HIT_PHASE
+>>>>>>> tg-pr-88929

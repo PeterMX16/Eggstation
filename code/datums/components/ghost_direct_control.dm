@@ -145,7 +145,11 @@
 
 	harbinger.log_message("took control of [new_body].", LOG_GAME)
 	// doesn't transfer mind because that transfers antag datum as well
+<<<<<<< HEAD
 	new_body.PossessByPlayer(harbinger.key)
+=======
+	new_body.key = harbinger.key
+>>>>>>> tg-pr-88929
 
 	// Already qdels due to below proc but just in case
 	qdel(src)

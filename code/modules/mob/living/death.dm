@@ -1,19 +1,30 @@
 /**
  * Blow up the mob into giblets
  *
+<<<<<<< HEAD
  * Arguments:
  * * no_brain - Should the mob NOT drop a brain?
  * * no_organs - Should the mob NOT drop organs?
  * * no_bodyparts - Should the mob NOT drop bodyparts?
 */
 /mob/living/proc/gib(no_brain, no_organs, no_bodyparts, safe_gib = TRUE)
+=======
+ * drop_bitflags: (see code/__DEFINES/blood.dm)
+ * * DROP_BRAIN - Gibbed mob will drop a brain
+ * * DROP_ORGANS - Gibbed mob will drop organs
+ * * DROP_BODYPARTS - Gibbed mob will drop bodyparts (arms, legs, etc.)
+ * * DROP_ITEMS - Gibbed mob will drop carried items (otherwise they get deleted)
+ * * DROP_ALL_REMAINS - Gibbed mob will drop everything
+**/
+/mob/living/proc/gib(drop_bitflags=NONE)
+>>>>>>> tg-pr-88929
 	var/prev_lying = lying_angle
-	if(stat != DEAD)
-		death(TRUE)
+	spawn_gibs(drop_bitflags)
 
 	if(!prev_lying)
 		gib_animation()
 
+<<<<<<< HEAD
 	ghostize()
 	spill_organs(no_brain, no_organs, no_bodyparts)
 
@@ -30,32 +41,96 @@
 	blood_particles(2, min_deviation = 161, max_deviation = 200, min_pixel_z = 2, max_pixel_z = 12)
 	///lol
 	SEND_SIGNAL(src, COMSIG_LIVING_GIBBED, no_brain, no_organs, no_bodyparts)
+=======
+	if(stat != DEAD)
+		death(TRUE)
+
+	ghostize()
+	spill_organs(drop_bitflags)
+
+	if(drop_bitflags & DROP_BODYPARTS)
+		spread_bodyparts(drop_bitflags)
+
+	SEND_SIGNAL(src, COMSIG_LIVING_GIBBED, drop_bitflags)
+>>>>>>> tg-pr-88929
 	qdel(src)
+
+// Plays an animation that makes mobs appear to inflate before finally gibbing
+/mob/living/proc/inflate_gib(drop_bitflags=DROP_BRAIN|DROP_ORGANS|DROP_ITEMS, gib_time = 2.5 SECONDS, anim_time = 4 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(gib), drop_bitflags), gib_time)
+	var/matrix/M = matrix()
+	M.Scale(1.8, 1.2)
+	animate(src, time = anim_time, transform = M, easing = SINE_EASING)
 
 /mob/living/proc/gib_animation()
 	return
 
+<<<<<<< HEAD
 /mob/living/proc/spawn_gibs()
+=======
+/**
+ * Spawn bloody gib mess on the floor
+ *
+ * drop_bitflags: (see code/__DEFINES/blood.dm)
+ * * DROP_BODYPARTS - Gibs will spawn with bodypart limbs present
+**/
+/mob/living/proc/spawn_gibs(drop_bitflags=NONE)
+>>>>>>> tg-pr-88929
 	if(flags_1 & HOLOGRAM_1)
 		return
 	new /obj/effect/gibspawner/generic(drop_location(), src, get_static_viruses())
 
+<<<<<<< HEAD
 /mob/living/proc/spill_organs()
 	return
 
 /mob/living/proc/spread_bodyparts(skip_head, skip_organs, violent)
+=======
+/**
+ * Drops a mob's organs on the floor
+ *
+ * drop_bitflags: (see code/__DEFINES/blood.dm)
+ * * DROP_BRAIN - Mob will drop a brain
+ * * DROP_ORGANS - Mob will drop organs
+ * * DROP_BODYPARTS - Mob will drop bodyparts (arms, legs, etc.)
+ * * DROP_ALL_REMAINS - Mob will drop everything
+**/
+/mob/living/proc/spill_organs(drop_bitflags=NONE)
+>>>>>>> tg-pr-88929
 	return
 
 /**
- * This is the proc for turning a mob into ash.
+ * Launches all bodyparts away from the mob
+ *
+ * drop_bitflags: (see code/__DEFINES/blood.dm)
+ * * DROP_BRAIN - Detaches the head from the mob and launches it away from the body
+**/
+/mob/living/proc/spread_bodyparts(drop_bitflags=NONE)
+	return
+
+/// Length of the animation in dust_animation.dmi
+#define DUST_ANIMATION_TIME 1.3 SECONDS
+
+/**
+ * This is the proc for turning an atom into ash.
  * Dusting robots does not eject the MMI, so it's a bit more powerful than gib()
  *
- * Arguments:
+ * Arguments: (Only used for mobs)
  * * just_ash - If TRUE, ash will spawn where the mob was, as opposed to remains
  * * drop_items - Should the mob drop their items before dusting?
  * * force - Should this mob be FORCABLY dusted?
 */
-/mob/living/proc/dust(just_ash, drop_items, force)
+/atom/movable/proc/dust(just_ash, drop_items, force)
+	dust_animation()
+	// since this is sometimes called in the middle of movement, allow half a second for movement to finish, ghosting to happen and animation to play.
+	// Looks much nicer and doesn't cause multiple runtimes.
+	QDEL_IN(src, DUST_ANIMATION_TIME)
+
+/mob/living/dust(just_ash, drop_items, force)
+	..()
+	if(body_position == STANDING_UP)
+		// keep us upright so the animation fits.
+		ADD_TRAIT(src, TRAIT_FORCED_STANDING, TRAIT_GENERIC)
 	death(TRUE)
 
 	if(drop_items)
@@ -64,16 +139,61 @@
 	if(buckled)
 		buckled.unbuckle_mob(src, force = TRUE)
 
+<<<<<<< HEAD
 	dust_animation()
 	spawn_dust(just_ash)
 	ghostize()
 	QDEL_IN(src,5) // since this is sometimes called in the middle of movement, allow half a second for movement to finish, ghosting to happen and animation to play. Looks much nicer and doesn't cause multiple runtimes.
+=======
+	addtimer(CALLBACK(src, PROC_REF(spawn_dust), just_ash), DUST_ANIMATION_TIME - 0.3 SECONDS)
+	ghostize()
+>>>>>>> tg-pr-88929
 
-/mob/living/proc/dust_animation()
-	return
+/// Animates turning into dust.
+/// Does not delete src afterwards, BUT it will become invisible (and grey), so ensure you handle that yourself
+/atom/movable/proc/dust_animation(atom/anim_loc = src.loc)
+	if(isnull(anim_loc)) // the effect breaks if we have a null loc
+		return
+	var/obj/effect/temp_visual/dust_animation_filter/dustfx = new(anim_loc, REF(src))
+	add_filter("dust_animation", 1, displacement_map_filter(render_source = dustfx.render_target, size = 256))
+	add_filter("dust_color", 1, color_matrix_filter())
+	transition_filter("dust_color", color_matrix_filter(COLOR_MATRIX_GRAYSCALE), DUST_ANIMATION_TIME - 0.3 SECONDS)
+	animate(src, alpha = 0, time = DUST_ANIMATION_TIME - 0.1 SECONDS, easing = SINE_EASING | EASE_IN)
 
+/// Holds the dust animation filter effect, so we can animate it
+/obj/effect/temp_visual/dust_animation_filter
+	icon = 'icons/mob/dust_animation.dmi'
+	icon_state = "dust.1"
+	duration = DUST_ANIMATION_TIME
+	randomdir = FALSE
+
+/obj/effect/temp_visual/dust_animation_filter/Initialize(mapload, anim_id = "random_default_anti_collision_text")
+	. = ..()
+	// we manually animate this, rather than just using an animated icon state or flick, to work around byond animated state memes
+	// (normally, all animated icon states are synced to the same time, which would bad here)
+	for(var/i in 2 to duration)
+		if(PERFORM_ALL_TESTS(focus_only/runtime_icon_states) && !icon_exists(icon, "dust.[i]"))
+			stack_trace("Missing dust animation icon state: dust.[i]")
+		animate(src, time = 1, icon_state = "dust.[i]", flags = ANIMATION_CONTINUE)
+	if(PERFORM_ALL_TESTS(focus_only/runtime_icon_states) && icon_exists(icon, "dust.[duration + 1]"))
+		stack_trace("Extra dust animation icon state: dust.[duration + 1]")
+	render_target = "*dust-[anim_id]"
+
+#undef DUST_ANIMATION_TIME
+
+/**
+ * Spawns dust / ash or remains where the mob was
+ *
+ * just_ash: If TRUE, just ash will spawn where the mob was, as opposed to remains
+ */
 /mob/living/proc/spawn_dust(just_ash = FALSE)
-	new /obj/effect/decal/cleanable/ash(loc)
+	var/ash_type = /obj/effect/decal/cleanable/ash
+	if(mob_size >= MOB_SIZE_LARGE)
+		ash_type = /obj/effect/decal/cleanable/ash/large
+
+	var/obj/effect/decal/cleanable/ash/ash = new ash_type(loc)
+	ash.pixel_z = -5
+	ash.pixel_w = rand(-1, 1)
 
 /*
  * Called when the mob dies. Can also be called manually to kill a mob.
@@ -89,9 +209,8 @@
 		INVOKE_ASYNC(src, TYPE_PROC_REF(/mob, emote), "deathgasp")
 
 	set_stat(DEAD)
-	unset_machine()
 	timeofdeath = world.time
-	tod = station_time_timestamp()
+	station_timestamp_timeofdeath = station_time_timestamp()
 	var/turf/death_turf = get_turf(src)
 	var/area/death_area = get_area(src)
 	// Display a death message if the mob is a player mob (has an active mind)
@@ -122,7 +241,11 @@
 
 	if (client)
 		client.move_delay = initial(client.move_delay)
+<<<<<<< HEAD
 
 	persistent_client?.time_of_death = timeofdeath
+=======
+		client.player_details.time_of_death = timeofdeath
+>>>>>>> tg-pr-88929
 
 	return TRUE

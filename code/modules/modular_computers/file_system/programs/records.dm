@@ -18,7 +18,11 @@
 	filename = "medrecords"
 	program_icon = "book-medical"
 	extended_desc = "Allows the user to view several basic medical records from the crew."
+<<<<<<< HEAD
 	download_access = list(ACCESS_MEDICAL, ACCESS_BRIG_PHYSICIAN, ACCESS_FLAG_COMMAND) ///MONKESTATION EDIT: add brig phys to medrecords.
+=======
+	download_access = list(ACCESS_MEDICAL, ACCESS_FLAG_COMMAND)
+>>>>>>> tg-pr-88929
 	program_flags = PROGRAM_ON_NTNET_STORE
 	mode = "medical"
 
@@ -29,6 +33,7 @@
 	download_access = list(ACCESS_SECURITY, ACCESS_FLAG_COMMAND)
 	program_flags = PROGRAM_ON_NTNET_STORE
 	mode = "security"
+	detomatix_resistance = DETOMATIX_RESIST_MINOR
 
 /datum/computer_file/program/records/proc/GetRecordsReadable()
 	var/list/all_records = list()
@@ -45,6 +50,7 @@
 				current_record["rank"] = person.rank
 				current_record["species"] = person.species
 				current_record["wanted"] = person.wanted_status
+				current_record["voice"] = person.voice
 
 				all_records += list(current_record)
 		if("medical")

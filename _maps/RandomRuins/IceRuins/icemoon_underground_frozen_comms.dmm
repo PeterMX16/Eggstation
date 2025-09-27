@@ -10,6 +10,13 @@
 "aU" = (
 /turf/open/genturf,
 /area/icemoon/underground/unexplored/rivers)
+<<<<<<< HEAD
+=======
+"bh" = (
+/mob/living/basic/mining/wolf,
+/turf/open/floor/plating/snowed/smoothed/icemoon,
+/area/icemoon/underground/explored)
+>>>>>>> tg-pr-88929
 "cv" = (
 /obj/structure/flora/rock/pile/icy/style_random,
 /obj/machinery/light/small/directional/north,
@@ -69,8 +76,19 @@
 "oj" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/structure/bed,
+<<<<<<< HEAD
 /obj/item/bedsheet/dorms,
 /turf/open/floor/carpet/grimey{
+=======
+/obj/effect/spawner/random/bedsheet,
+/turf/open/floor/iron/grimy{
+	initial_gas_mix = "ICEMOON_ATMOS"
+	},
+/area/ruin/powered/shuttle)
+"oD" = (
+/mob/living/basic/mining/wolf,
+/turf/open/floor/iron/showroomfloor{
+>>>>>>> tg-pr-88929
 	initial_gas_mix = "ICEMOON_ATMOS"
 	},
 /area/ruin/powered/shuttle)
@@ -98,6 +116,13 @@
 	initial_gas_mix = "ICEMOON_ATMOS"
 	},
 /area/ruin/powered/shuttle)
+<<<<<<< HEAD
+=======
+"rn" = (
+/mob/living/basic/mining/wolf,
+/turf/open/floor/plating/icemoon,
+/area/ruin/powered/shuttle)
+>>>>>>> tg-pr-88929
 "rS" = (
 /obj/structure/flora/tree/pine/style_random,
 /obj/structure/flora/grass/green/style_random,
@@ -229,7 +254,11 @@
 /obj/structure/fence/cut/large,
 /turf/open/misc/asteroid/snow/icemoon,
 /area/icemoon/underground/explored)
+<<<<<<< HEAD
 "DV" = (
+=======
+"CH" = (
+>>>>>>> tg-pr-88929
 /obj/structure/window/reinforced/spawner/directional/south,
 /obj/effect/spawner/structure/window/hollow/reinforced/directional{
 	dir = 1
@@ -251,6 +280,14 @@
 	},
 /turf/open/floor/plating/icemoon,
 /area/ruin/powered/shuttle)
+<<<<<<< HEAD
+=======
+"FK" = (
+/mob/living/basic/mining/wolf,
+/obj/machinery/light/small/broken/directional/north,
+/turf/open/floor/plating/snowed/smoothed/icemoon,
+/area/ruin/powered/shuttle)
+>>>>>>> tg-pr-88929
 "FP" = (
 /obj/effect/spawner/structure/window/hollow/reinforced/middle{
 	dir = 4
@@ -274,10 +311,19 @@
 /obj/effect/decal/cleanable/glass,
 /turf/open/floor/plating/icemoon,
 /area/ruin/powered/shuttle)
+<<<<<<< HEAD
 "GX" = (
 /mob/living/basic/mining/wolf,
 /obj/machinery/light/small/broken/directional/north,
 /turf/open/floor/plating/snowed/smoothed/icemoon,
+=======
+"GQ" = (
+/obj/structure/window/reinforced/spawner/directional/south,
+/obj/structure/grille,
+/obj/item/shard,
+/obj/effect/decal/cleanable/glass,
+/turf/open/floor/plating/icemoon,
+>>>>>>> tg-pr-88929
 /area/ruin/powered/shuttle)
 "HT" = (
 /obj/structure/closet/wardrobe/grey,
@@ -307,7 +353,7 @@
 	},
 /obj/structure/rack,
 /obj/item/wrench,
-/obj/item/crowbar/large/heavy,
+/obj/item/crowbar/large/twenty_force,
 /obj/machinery/light/small/built/directional/south,
 /turf/open/floor/plating/icemoon,
 /area/ruin/powered/shuttle)

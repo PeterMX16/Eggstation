@@ -83,8 +83,13 @@
 	var/power_light = TRUE
 	var/power_environ = TRUE
 	var/power_apc_charge = TRUE
+<<<<<<< HEAD
 
 	var/has_gravity = FALSE
+=======
+	/// The default gravity for the area
+	var/default_gravity = ZERO_GRAVITY
+>>>>>>> tg-pr-88929
 
 	var/parallax_movedir = 0
 
@@ -94,13 +99,13 @@
 	///Does this area immediately play an ambience track upon enter?
 	var/forced_ambience = FALSE
 	///The background droning loop that plays 24/7
-	var/ambient_buzz = 'sound/ambience/shipambience.ogg'
+	var/ambient_buzz = 'sound/ambience/general/shipambience.ogg'
 	///The volume of the ambient buzz
 	var/ambient_buzz_vol = 35
 	///Used to decide what the minimum time between ambience is
-	var/min_ambience_cooldown = 30 SECONDS
+	var/min_ambience_cooldown = 4 SECONDS
 	///Used to decide what the maximum time between ambience is
-	var/max_ambience_cooldown = 60 SECONDS
+	var/max_ambience_cooldown = 10 SECONDS
 
 	flags_1 = CAN_BE_DIRTY_1
 
@@ -131,7 +136,7 @@
  * A list of teleport locations
  *
  * Adding a wizard area teleport list because motherfucking lag -- Urist
- * I am far too lazy to make it a proper list of areas so I'll just make it run the usual telepot routine at the start of the game
+ * I am far too lazy to make it a proper list of areas so I'll just make it run the usual teleport routine at the start of the game
  */
 GLOBAL_LIST_EMPTY(teleportlocs)
 
@@ -171,9 +176,9 @@ GLOBAL_LIST_EMPTY(teleportlocs)
 	return ..()
 
 /*
- * Initalize this area
+ * Initialize this area
  *
- * intializes the dynamic area lighting and also registers the area with the z level via
+ * initializes the dynamic area lighting and also registers the area with the z level via
  * reg_in_areas_in_z
  *
  * returns INITIALIZE_HINT_LATELOAD
@@ -417,7 +422,7 @@ GLOBAL_LIST_EMPTY(teleportlocs)
 /**
  * Update the icon state of the area
  *
- * Im not sure what the heck this does, somethign to do with weather being able to set icon
+ * I'm not sure what the heck this does, something to do with weather being able to set icon
  * states on areas?? where the heck would that even display?
  */
 /area/update_icon_state()
@@ -442,7 +447,7 @@ GLOBAL_LIST_EMPTY(teleportlocs)
 /**
  * Returns int 1 or 0 if the area has power for the given channel
  *
- * evalutes a mixture of variables mappers can set, requires_power, always_unpowered and then
+ * evaluates a mixture of variables mappers can set, requires_power, always_unpowered and then
  * per channel power_equip, power_light, power_environ
  */
 /area/proc/powered(chan) // return true if the area has power to given channel
@@ -554,6 +559,7 @@ GLOBAL_LIST_EMPTY(teleportlocs)
  */
 /area/Exited(atom/movable/gone, direction)
 	SEND_SIGNAL(src, COMSIG_AREA_EXITED, gone, direction)
+	SEND_SIGNAL(gone, COMSIG_MOVABLE_EXITED_AREA, src, direction)
 
 	if(!gone.important_recursive_contents?[RECURSIVE_CONTENTS_AREA_SENSITIVE])
 		return
@@ -569,6 +575,7 @@ GLOBAL_LIST_EMPTY(teleportlocs)
 		beauty = 0
 		return FALSE //Too big
 	beauty = totalbeauty / areasize
+	SEND_SIGNAL(src, COMSIG_AREA_BEAUTY_UPDATED)
 
 /**
  * Setup an area (with the given name)
@@ -581,8 +588,7 @@ GLOBAL_LIST_EMPTY(teleportlocs)
 	power_light = FALSE
 	power_environ = FALSE
 	always_unpowered = FALSE
-	area_flags &= ~VALID_TERRITORY
-	area_flags &= ~BLOBS_ALLOWED
+	area_flags &= ~(VALID_TERRITORY|BLOBS_ALLOWED|CULT_PERMITTED)
 	require_area_resort()
 /**
  * Set the area size of the area
@@ -630,3 +636,10 @@ GLOBAL_LIST_EMPTY(teleportlocs)
 	if(name == initial(name))
 		return name
 	return "[name] ([initial(name)])"
+
+/**
+ * A blank area subtype solely used by the golem area editor for the purpose of
+ * allowing golems to create new areas without suffering from the hazard_area debuffs.
+ */
+/area/golem
+	name = "Golem Territory"

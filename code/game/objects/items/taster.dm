@@ -16,4 +16,8 @@
 	else
 		var/message = interacting_with.reagents.generate_taste_message(user, taste_sensitivity)
 		to_chat(user, span_notice("[src] tastes <i>[message]</i> in [interacting_with]."))
+<<<<<<< HEAD
 	return (user.istate & ISTATE_HARM) ? NONE : ITEM_INTERACT_SUCCESS
+=======
+	return user.combat_mode ? NONE : ITEM_INTERACT_SUCCESS
+>>>>>>> tg-pr-88929

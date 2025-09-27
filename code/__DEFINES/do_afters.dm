@@ -6,8 +6,13 @@
 #define DOAFTER_SOURCE_SPIDER "doafter_spider"
 #define DOAFTER_SOURCE_HEAL_TOUCH "doafter_heal_touch"
 #define DOAFTER_SOURCE_PLANTING_DEVICE "doafter_planting_device"
+<<<<<<< HEAD
 #define DOAFTER_SOURCE_CHARGE_GUNCRANK "doafter_charge_guncrank"
 #define DOAFTER_SOURCE_SEED_MESH "doafter_seed_mesh"
 /* #define DOAFTER_SOURCE_ATM "doafter_atm" */
 #define DOAFTER_SOURCE_EXTINGUISHING_HUG "doafter_extinguishing_hug"
 #define DOAFTER_SOURCE_LAVA_STAFF "doafter_lava_staff"
+=======
+#define DOAFTER_SOURCE_CHARGE_CRANKRECHARGE "doafter_charge_crank_recharge"
+#define DOAFTER_SOURCE_REMOVING_HOOK "doafter_removing_hook"
+>>>>>>> tg-pr-88929

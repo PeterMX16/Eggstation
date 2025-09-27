@@ -2,13 +2,13 @@
 	desc = "A hand-held environmental scanner which reports current gas levels."
 	name = "gas analyzer"
 	custom_price = PAYCHECK_LOWER * 0.9
-	icon = 'icons/obj/device.dmi'
+	icon = 'icons/obj/devices/scanner.dmi'
 	icon_state = "analyzer"
 	inhand_icon_state = "analyzer"
 	lefthand_file = 'icons/mob/inhands/equipment/tools_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/tools_righthand.dmi'
 	w_class = WEIGHT_CLASS_SMALL
-	flags_1 = CONDUCT_1
+	obj_flags = CONDUCTS_ELECTRICITY
 	item_flags = NOBLUDGEON
 	slot_flags = ITEM_SLOT_BELT
 	throwforce = 0
@@ -17,15 +17,35 @@
 	tool_behaviour = TOOL_ANALYZER
 	custom_materials = list(/datum/material/iron=SMALL_MATERIAL_AMOUNT * 0.3, /datum/material/glass=SMALL_MATERIAL_AMOUNT * 0.2)
 	grind_results = list(/datum/reagent/mercury = 5, /datum/reagent/iron = 5, /datum/reagent/silicon = 5)
+	interaction_flags_click = NEED_LITERACY|NEED_LIGHT|ALLOW_RESTING
+	pickup_sound = 'sound/items/handling/gas_analyzer/gas_analyzer_pickup.ogg'
+	drop_sound = 'sound/items/handling/gas_analyzer/gas_analyzer_drop.ogg'
+	/// Boolean whether this has a CD
 	var/cooldown = FALSE
-	var/cooldown_time = 250
-	var/barometer_accuracy // 0 is the best accuracy.
+	/// The time in deciseconds
+	var/cooldown_time = 25 SECONDS
+	/// 0 is best accuracy
+	var/barometer_accuracy
+	/// Cached gasmix data from ui_interact
 	var/list/last_gasmix_data
+<<<<<<< HEAD
+=======
+	/// Max scan distance
+>>>>>>> tg-pr-88929
 	var/ranged_scan_distance = 1
 
 /obj/item/analyzer/Initialize(mapload)
 	. = ..()
 	RegisterSignal(src, COMSIG_TOOL_ATOM_ACTED_PRIMARY(tool_behaviour), PROC_REF(on_analyze))
+
+	if(type != /obj/item/analyzer)
+		return
+	var/static/list/slapcraft_recipe_list = list(/datum/crafting_recipe/material_sniffer)
+
+	AddElement(
+		/datum/element/slapcrafting,\
+		slapcraft_recipes = slapcraft_recipe_list,\
+	)
 
 /obj/item/analyzer/equipped(mob/user, slot, initial)
 	. = ..()
@@ -44,19 +64,14 @@
 	user.visible_message(span_suicide("[user] begins to analyze [user.p_them()]self with [src]! The display shows that [user.p_theyre()] dead!"))
 	return BRUTELOSS
 
-/obj/item/analyzer/AltClick(mob/user) //Barometer output for measuring when the next storm happens
-	..()
-
-	if(!user.can_perform_action(src, NEED_LITERACY|NEED_LIGHT))
-		return
-
+/obj/item/analyzer/click_alt(mob/user) //Barometer output for measuring when the next storm happens
 	if(cooldown)
 		to_chat(user, span_warning("[src]'s barometer function is preparing itself."))
-		return
+		return CLICK_ACTION_BLOCKING
 
 	var/turf/T = get_turf(user)
 	if(!T)
-		return
+		return CLICK_ACTION_BLOCKING
 
 	playsound(src, 'sound/effects/pop.ogg', 100)
 	var/area/user_area = T.loc
@@ -64,7 +79,7 @@
 
 	if(!user_area.outdoors)
 		to_chat(user, span_warning("[src]'s barometer function won't work indoors!"))
-		return
+		return CLICK_ACTION_BLOCKING
 
 	for(var/V in SSweather.processing)
 		var/datum/weather/W = V
@@ -75,7 +90,7 @@
 	if(ongoing_weather)
 		if((ongoing_weather.stage == MAIN_STAGE) || (ongoing_weather.stage == WIND_DOWN_STAGE))
 			to_chat(user, span_warning("[src]'s barometer function can't trace anything while the storm is [ongoing_weather.stage == MAIN_STAGE ? "already here!" : "winding down."]"))
-			return
+			return CLICK_ACTION_BLOCKING
 
 		to_chat(user, span_notice("The next [ongoing_weather] will hit in [butchertime(ongoing_weather.next_hit_time - world.time)]."))
 		if(ongoing_weather.aesthetic)
@@ -89,6 +104,7 @@
 			to_chat(user, span_warning("[src]'s barometer function says a storm will land in approximately [butchertime(fixed)]."))
 	cooldown = TRUE
 	addtimer(CALLBACK(src, TYPE_PROC_REF(/obj/item/analyzer, ping)), cooldown_time)
+	return CLICK_ACTION_SUCCESS
 
 /obj/item/analyzer/proc/ping()
 	if(isliving(loc))
@@ -138,6 +154,7 @@
 	return interact_with_atom(interacting_with, user, modifiers)
 
 /obj/item/analyzer/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
+<<<<<<< HEAD
 	if(can_see(user, interacting_with, ranged_scan_distance))
 		var/turf/target_turf = get_turf(interacting_with)
 		// only do this if we can't reach the anomaly anyways
@@ -149,6 +166,10 @@
 			if(.)
 				return
 		atmos_scan(user, (interacting_with.return_analyzable_air() ? interacting_with : target_turf))
+=======
+	if(!HAS_TRAIT(interacting_with, TRAIT_COMBAT_MODE_SKIP_INTERACTION) && can_see(user, interacting_with, ranged_scan_distance))
+		atmos_scan(user, (interacting_with.return_analyzable_air() ? interacting_with : get_turf(interacting_with)))
+>>>>>>> tg-pr-88929
 	return NONE // Non-blocking
 
 /// Called when our analyzer is used on something
@@ -160,7 +181,7 @@
 	var/list/airs = islist(mixture) ? mixture : list(mixture)
 	var/list/new_gasmix_data = list()
 	for(var/datum/gas_mixture/air as anything in airs)
-		var/mix_name = capitalize(lowertext(target.name))
+		var/mix_name = capitalize(LOWER_TEXT(target.name))
 		if(airs.len != 1) //not a unary gas mixture
 			mix_name += " - Node [airs.Find(air)]"
 		new_gasmix_data += list(gas_mixture_parser(air, mix_name))
@@ -180,12 +201,13 @@
 	var/icon = target
 	var/message = list()
 	if(!silent && isliving(user))
+		playsound(user, SFX_INDUSTRIAL_SCAN, 20, TRUE, -2, TRUE, FALSE)
 		user.visible_message(span_notice("[user] uses the analyzer on [icon2html(icon, viewers(user))] [target]."), span_notice("You use the analyzer on [icon2html(icon, user)] [target]."))
 	message += span_boldnotice("Results of analysis of [icon2html(icon, user)] [target].")
 
 	var/list/airs = islist(mixture) ? mixture : list(mixture)
 	for(var/datum/gas_mixture/air as anything in airs)
-		var/mix_name = capitalize(lowertext(target.name))
+		var/mix_name = capitalize(LOWER_TEXT(target.name))
 		if(airs.len > 1) //not a unary gas mixture
 			var/mix_number = airs.Find(air)
 			message += span_boldnotice("Node [mix_number]")

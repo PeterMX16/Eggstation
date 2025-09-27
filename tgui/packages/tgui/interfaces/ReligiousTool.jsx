@@ -1,4 +1,17 @@
+import {
+  BlockQuote,
+  Box,
+  Button,
+  Collapsible,
+  Dimmer,
+  Icon,
+  Section,
+  Stack,
+  Tabs,
+} from 'tgui-core/components';
+
 import { useBackend, useSharedState } from '../backend';
+<<<<<<< HEAD
 import {
   BlockQuote,
   Box,
@@ -10,6 +23,8 @@ import {
   Stack,
   Tabs,
 } from '../components';
+=======
+>>>>>>> tg-pr-88929
 import { Window } from '../layouts';
 
 const ALIGNMENT2COLOR = {
@@ -22,6 +37,7 @@ export const ReligiousTool = (props) => {
   const { act, data } = useBackend();
   const [tab, setTab] = useSharedState('tab', 1);
   const { sects, alignment, toolname } = data;
+
   return (
     <Window title={toolname} width={560} height={500}>
       <Window.Content scrollable>

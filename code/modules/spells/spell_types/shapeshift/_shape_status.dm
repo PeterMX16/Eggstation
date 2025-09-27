@@ -36,7 +36,11 @@
 	// monkestation end
 	caster_mob.mind?.transfer_to(owner)
 	caster_mob.forceMove(owner)
+<<<<<<< HEAD
 	ADD_TRAIT(caster_mob, TRAIT_NO_TRANSFORM, TRAIT_STATUS_EFFECT(id))
+=======
+	ADD_TRAIT(caster_mob, TRAIT_NO_TRANSFORM, REF(src))
+>>>>>>> tg-pr-88929
 	caster_mob.apply_status_effect(/datum/status_effect/grouped/stasis, STASIS_SHAPECHANGE_EFFECT)
 
 	RegisterSignal(owner, COMSIG_LIVING_PRE_WABBAJACKED, PROC_REF(on_pre_wabbajack))
@@ -90,20 +94,32 @@
 	UnregisterSignal(owner, list(COMSIG_LIVING_PRE_WABBAJACKED, COMSIG_LIVING_DEATH))
 	UnregisterSignal(caster_mob, list(COMSIG_QDELETING, COMSIG_LIVING_DEATH))
 
+<<<<<<< HEAD
 	caster_mob.forceMove(owner.loc)
 	REMOVE_TRAIT(caster_mob, TRAIT_NO_TRANSFORM, TRAIT_STATUS_EFFECT(id))
+=======
+	REMOVE_TRAIT(caster_mob, TRAIT_NO_TRANSFORM, REF(src))
+>>>>>>> tg-pr-88929
 	caster_mob.remove_status_effect(/datum/status_effect/grouped/stasis, STASIS_SHAPECHANGE_EFFECT)
-	owner.mind?.transfer_to(caster_mob)
+
+	var/atom/former_loc = owner.loc
+	owner.moveToNullspace()
+	caster_mob.forceMove(former_loc) // This is to avoid crushing our former cockroach body
 
 	if(kill_caster_after)
 		caster_mob.death()
 
 	after_unchange()
-	caster_mob = null
+
+	// We're about to remove the status effect and clear owner so we need to cache this
+	var/mob/living/former_body = owner
+
+	// Do this late as it will destroy the status effect we are in and null a bunch of values we are trying to use
+	owner.mind?.transfer_to(caster_mob)
 
 	// Destroy the owner after all's said and done, this will also destroy our status effect (src)
 	// retore_caster() should never reach this point while either the owner or the effect is being qdeleted
-	qdel(owner)
+	qdel(former_body)
 
 /// Effects done after the casting mob has reverted to their human form.
 /datum/status_effect/shapechange_mob/proc/after_unchange()
@@ -129,7 +145,7 @@
 
 	// Our caster inside was gibbed, mirror the gib to our mob
 	if(gibbed)
-		owner.gib()
+		owner.gib(DROP_ALL_REMAINS)
 
 	// Otherwise our caster died, just make our mob die
 	else
@@ -168,10 +184,12 @@
 		source_spell.Grant(owner)
 
 		if(source_spell.convert_damage)
-			var/damage_to_apply = owner.maxHealth * ((caster_mob.maxHealth - caster_mob.health) / caster_mob.maxHealth)
+			var/damage_to_apply = owner.maxHealth * (caster_mob.get_total_damage() / caster_mob.maxHealth)
 
-			owner.apply_damage(damage_to_apply, source_spell.convert_damage_type, forced = TRUE, wound_bonus = CANT_WOUND)
-			owner.blood_volume = caster_mob.blood_volume
+			owner.apply_damage(damage_to_apply, source_spell.convert_damage_type, forced = TRUE, spread_damage = TRUE, wound_bonus = CANT_WOUND)
+			// Only transfer blood if both mobs are supposed to have a blood volume
+			if (initial(owner.blood_volume) > 0 && initial(caster_mob.blood_volume) > 0 && !HAS_TRAIT(owner, TRAIT_NOBLOOD) && !HAS_TRAIT(caster_mob, TRAIT_NOBLOOD))
+				owner.blood_volume = caster_mob.blood_volume
 
 	for(var/datum/action/bodybound_action as anything in caster_mob.actions)
 		if(bodybound_action.target != caster_mob)
@@ -186,6 +204,12 @@
 	// is no longer in control of the shapeshifted mob, such as mindswapping out of a shapeshift
 	if(!QDELETED(source_spell) && source_spell.owner == owner)
 		source_spell.Grant(caster_mob)
+	if(owner?.contents)
+		// Prevent round removal and consuming stuff when losing shapeshift
+		for(var/atom/movable/thing as anything in owner.contents)
+			if(thing == caster_mob || HAS_TRAIT(thing, TRAIT_NOT_BARFABLE))
+				continue
+			thing.forceMove(get_turf(owner))
 
 	for(var/datum/action/bodybound_action as anything in owner.actions)
 		if(bodybound_action.target != caster_mob)
@@ -200,6 +224,7 @@
 	if(QDELETED(source_spell) || !source_spell.convert_damage)
 		return
 
+<<<<<<< HEAD
 	if(caster_mob.stat != DEAD)
 		caster_mob.revive(HEAL_DAMAGE)
 
@@ -207,6 +232,13 @@
 		caster_mob.apply_damage(damage_to_apply, source_spell.convert_damage_type, forced = TRUE, wound_bonus = CANT_WOUND)
 
 	if(iscarbon(owner)) // monkestation edit: iscarbon check (fixes slimes instakilling you when you detransform)
+=======
+	caster_mob.fully_heal(HEAL_DAMAGE) // Remove all of our damage before setting our health to a proportion of the former transformed mob's health
+	var/damage_to_apply = caster_mob.maxHealth * (owner.get_total_damage() / owner.maxHealth)
+	caster_mob.apply_damage(damage_to_apply, source_spell.convert_damage_type, forced = TRUE, spread_damage = TRUE, wound_bonus = CANT_WOUND)
+	// Only transfer blood if both mobs are supposed to have a blood volume
+	if (initial(owner.blood_volume) > 0 && initial(caster_mob.blood_volume) > 0 && !HAS_TRAIT(owner, TRAIT_NOBLOOD) && !HAS_TRAIT(caster_mob, TRAIT_NOBLOOD))
+>>>>>>> tg-pr-88929
 		caster_mob.blood_volume = owner.blood_volume
 
 /datum/status_effect/shapechange_mob/from_spell/on_shape_death(datum/source, gibbed)

@@ -32,7 +32,11 @@ GLOBAL_REAL(logger, /datum/log_holder)
 
 GENERAL_PROTECT_DATUM(/datum/log_holder)
 
+<<<<<<< HEAD
 ADMIN_VERB(log_viewer_new, R_ADMIN | R_DEBUG, FALSE, "View Round Logs", "View the rounds logs.", ADMIN_CATEGORY_MAIN)
+=======
+ADMIN_VERB(log_viewer_new, R_ADMIN|R_DEBUG, "View Round Logs", "View the rounds logs.", ADMIN_CATEGORY_MAIN)
+>>>>>>> tg-pr-88929
 	logger.ui_interact(user.mob)
 
 /datum/log_holder/ui_interact(mob/user, datum/tgui/ui)
@@ -46,7 +50,11 @@ ADMIN_VERB(log_viewer_new, R_ADMIN | R_DEBUG, FALSE, "View Round Logs", "View th
 		ui.open()
 
 /datum/log_holder/ui_state(mob/user)
+<<<<<<< HEAD
 	return ADMIN_STATE(R_ADMIN | R_DEBUG)
+=======
+	return GLOB.admin_state
+>>>>>>> tg-pr-88929
 
 /datum/log_holder/ui_static_data(mob/user)
 	var/list/data = list(
@@ -109,7 +117,10 @@ ADMIN_VERB(log_viewer_new, R_ADMIN | R_DEBUG, FALSE, "View Round Logs", "View th
 			cache_ui_data()
 			SStgui.update_uis(src)
 			return TRUE
+<<<<<<< HEAD
 
+=======
+>>>>>>> tg-pr-88929
 		else
 			stack_trace("unknown ui_act action [action] for [type]")
 
@@ -276,16 +287,38 @@ ADMIN_VERB(log_viewer_new, R_ADMIN | R_DEBUG, FALSE, "View Round Logs", "View th
 	category_instance.category_header = category_header
 	init_category_file(category_instance, category_header)
 
+<<<<<<< HEAD
 /datum/log_holder/proc/human_readable_timestamp()
 	return rustg_formatted_timestamp("%Y-%m-%d %H:%M:%S%.3f")
+=======
+/datum/log_holder/proc/human_readable_timestamp(precision = 3)
+	var/start = time2text(world.timeofday, "YYYY-MM-DD hh:mm:ss")
+	// now we grab the millis from the rustg timestamp
+	var/rustg_stamp = rustg_unix_timestamp()
+	var/list/timestamp = splittext(rustg_stamp, ".")
+#ifdef UNIT_TESTS
+	if(length(timestamp) != 2)
+		stack_trace("rustg returned illegally formatted string '[rustg_stamp]'")
+		return start
+#endif
+	var/millis = timestamp[2]
+	if(length(millis) > precision)
+		millis = copytext(millis, 1, precision + 1)
+	return "[start].[millis]"
+>>>>>>> tg-pr-88929
 
 /// Adds an entry to the given category, if the category is disabled it will not be logged.
 /// If the category does not exist, we will CRASH and log to the error category.
 /// the data list is optional and will be recursively json serialized.
+<<<<<<< HEAD
 /datum/log_holder/proc/Log(category, message, list/data, severity = "info")
 	// This is Log because log is a byond internal proc
 	if(shutdown)
 		return
+=======
+/datum/log_holder/proc/Log(category, message, list/data)
+	// This is Log because log is a byond internal proc
+>>>>>>> tg-pr-88929
 
 	// do not include the message because these go into the runtime log and we might be secret!
 	if(!istext(message))
@@ -316,7 +349,11 @@ ADMIN_VERB(log_viewer_new, R_ADMIN | R_DEBUG, FALSE, "View Round Logs", "View th
 	if(length(data))
 		semver_store = list()
 		data = recursive_jsonify(data, semver_store)
+<<<<<<< HEAD
 	log_category.create_entry(message, data, semver_store, severity)
+=======
+	log_category.create_entry(message, data, semver_store)
+>>>>>>> tg-pr-88929
 
 /// Recursively converts an associative list of datums into their jsonified(list) form
 /datum/log_holder/proc/recursive_jsonify(list/data_list, list/semvers)

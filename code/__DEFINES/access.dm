@@ -83,6 +83,8 @@
 #define ACCESS_MEDICAL "medical"
 /// Access to the Morgue.
 #define ACCESS_MORGUE "morgue"
+/// Access to the secure morgue area.
+#define ACCESS_MORGUE_SECURE "morgue_secure"
 /// Access to the Pharmacy, or the smaller room in medical with the multiple chem dispensers and pill pressers. The Chemist's main position.
 #define ACCESS_PHARMACY "pharmacy"
 /// Access to the surgery rooms.
@@ -196,6 +198,13 @@
 /// BLOODCULT
 	//Special, for anything that's basically internal
 #define ACCESS_BLOODCULT "bloodcult"
+/// HUNTERS
+#define ACCESS_HUNTER "hunter"
+
+/// - - - MISC - - -
+	// These don't really fit anywhere else
+/// For things that aren't ever supposed to be accessed
+#define ACCESS_INACCESSIBLE "inaccessible"
 
 /// - - - END ACCESS IDS - - -
 
@@ -297,9 +306,13 @@
 	ACCESS_CREMATORIUM, \
 	ACCESS_DETECTIVE, \
 	ACCESS_ENGINEERING, \
+<<<<<<< HEAD
 	ACCESS_ENGINE_EQUIP, \
+=======
+>>>>>>> tg-pr-88929
 	ACCESS_EVA, \
 	ACCESS_EXTERNAL_AIRLOCKS, \
+	ACCESS_GATEWAY, \
 	ACCESS_GENETICS, \
 	ACCESS_HYDROPONICS, \
 	ACCESS_JANITOR, \
@@ -316,6 +329,7 @@
 	ACCESS_MINERAL_STOREROOM, \
 	ACCESS_MINING, \
 	ACCESS_MINING_STATION, \
+	ACCESS_MORGUE_SECURE, \
 	ACCESS_MORGUE, \
 	ACCESS_NETWORK, \
 	ACCESS_ORDNANCE, \
@@ -324,7 +338,6 @@
 	ACCESS_PHARMACY, \
 	ACCESS_PLUMBING, \
 	ACCESS_PSYCHOLOGY, \
-	ACCESS_QM, \
 	ACCESS_RESEARCH, \
 	ACCESS_ROBOTICS, \
 	ACCESS_SCIENCE, \
@@ -347,7 +360,6 @@
 	ACCESS_CHANGE_IDS, \
 	ACCESS_COMMAND, \
 	ACCESS_EVA, \
-	ACCESS_GATEWAY, \
 	ACCESS_KEYCARD_AUTH, \
 	ACCESS_MINISAT, \
 	ACCESS_RC_ANNOUNCE, \
@@ -406,7 +418,9 @@
 	ACCESS_AWAY_GENERIC4, \
 	ACCESS_AWAY_MAINTENANCE, \
 	ACCESS_AWAY_MEDICAL, \
+	ACCESS_AWAY_SCIENCE, \
 	ACCESS_AWAY_SEC, \
+	ACCESS_AWAY_SUPPLY, \
 )
 
 /// Weird internal Cult access that prevents non-cult from using their doors.  Do not use direct, access via SSid_access.get_flag_access_list(ACCESS_FLAG_SPECIAL)
@@ -461,6 +475,7 @@
 	ACCESS_MECH_MEDICAL, \
 	ACCESS_MEDICAL, \
 	ACCESS_MORGUE, \
+	ACCESS_MORGUE_SECURE, \
 	ACCESS_PHARMACY, \
 	ACCESS_PLUMBING, \
 	ACCESS_PSYCHOLOGY, \
@@ -586,7 +601,7 @@
 	/obj/item/modular_computer/pda/clown = list(REGION_GENERAL), \
 	/obj/item/modular_computer/pda/mime = list(REGION_GENERAL), \
 	/obj/item/modular_computer/pda/medical = list(REGION_MEDBAY), \
-	/obj/item/modular_computer/pda/viro = list(REGION_MEDBAY), \
+	/obj/item/modular_computer/pda/coroner = list(REGION_MEDBAY), \
 	/obj/item/modular_computer/pda/engineering = list(REGION_ENGINEERING), \
 	/obj/item/modular_computer/pda/security = list(REGION_SECURITY), \
 	/obj/item/modular_computer/pda/detective = list(REGION_SECURITY), \

@@ -11,7 +11,6 @@
 	background_icon_state = "bg_fugu"
 	overlay_icon_state = "bg_fugu_border"
 	cooldown_time = 16 SECONDS
-	melee_cooldown_time = 0 SECONDS
 
 /datum/action/cooldown/fugu_expand/IsAvailable(feedback)
 	. = ..()
@@ -59,7 +58,11 @@
 	RegisterSignal(fugu, COMSIG_MOB_STATCHANGE, PROC_REF(check_death))
 	fugu.add_movespeed_modifier(/datum/movespeed_modifier/status_effect/inflated)
 	fugu.add_traits(list(TRAIT_FUGU_GLANDED, TRAIT_GODMODE), TRAIT_STATUS_EFFECT(id))
+<<<<<<< HEAD
 	AddElement(/datum/element/wall_tearer, allow_reinforced = FALSE)
+=======
+	fugu.AddElement(/datum/element/wall_tearer, allow_reinforced = FALSE)
+>>>>>>> tg-pr-88929
 	fugu.mob_size = MOB_SIZE_LARGE
 	fugu.icon_state = "Fugu1"
 	fugu.melee_damage_lower = 15

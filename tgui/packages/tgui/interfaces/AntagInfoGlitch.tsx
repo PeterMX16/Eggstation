@@ -1,5 +1,11 @@
+<<<<<<< HEAD
 import { useBackend } from '../backend';
 import { Divider, Section, Stack } from '../components';
+=======
+import { Divider, Section, Stack } from 'tgui-core/components';
+
+import { useBackend } from '../backend';
+>>>>>>> tg-pr-88929
 import { Window } from '../layouts';
 import { Objective } from './common/Objectives';
 
@@ -38,7 +44,11 @@ export const AntagInfoGlitch = (props) => {
             </Stack.Item>
             <SpecificInfo />
             <Stack.Item>
+<<<<<<< HEAD
               <marquee scrollamount="2">{objectives[0].explanation}</marquee>
+=======
+              <marquee scrollamount="2">{objectives[0]?.explanation}</marquee>
+>>>>>>> tg-pr-88929
             </Stack.Item>
             <Divider />
             <Stack.Item>
@@ -98,7 +108,11 @@ const SpecificInfo = (props) => {
     case 'NetGuardian Prime':
       return (
         <Stack.Item grow>
+<<<<<<< HEAD
           <span style={textStyles.danger}>
+=======
+          <span style={{ ...textStyles.danger, fontSize: '16px' }}>
+>>>>>>> tg-pr-88929
             ORGANIC LIFE MUST BE TERMINATED.
           </span>
         </Stack.Item>

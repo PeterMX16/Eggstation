@@ -257,13 +257,20 @@
 /datum/holiday/april_fools/celebrate()
 	. = ..()
 	SSjob.set_overflow_role(/datum/job/clown)
+<<<<<<< HEAD
 	/* monkestation removal start: fix-lobby-music
 	SSticker.login_music = 'sound/ambience/clown.ogg'
+=======
+	SSticker.login_music = 'sound/music/lobby_music/clown.ogg'
+>>>>>>> tg-pr-88929
 	for(var/i in GLOB.new_player_list)
 		var/mob/dead/new_player/P = i
 		if(P.client)
 			P.client.playtitlemusic()
 	*/ //monkestation removal end
+
+/datum/holiday/april_fools/get_holiday_colors(atom/thing_to_color)
+	return "#[random_short_color()]"
 
 /datum/holiday/april_fools/get_holiday_colors(atom/thing_to_color)
 	return "#[random_short_color()]"
@@ -462,8 +469,8 @@
 /datum/holiday/france/greet()
 	return "Do you hear the people sing?"
 
-/datum/holiday/hotdogday //I have plans for this.
-	name = "National Hot Dog Day"
+/datum/holiday/hotdogday
+	name = HOTDOG_DAY
 	begin_day = 17
 	begin_month = JULY
 
@@ -500,6 +507,18 @@
 
 // AUGUST
 
+<<<<<<< HEAD
+=======
+/datum/holiday/ukraine
+	name = "Independence Day of Ukraine"
+	begin_month = AUGUST
+	begin_day = 24
+	holiday_colors = list(COLOR_TRUE_BLUE, COLOR_TANGERINE_YELLOW)
+
+/datum/holiday/ukraine/getStationPrefix()
+	return pick("Kyiv", "Ukraine")
+
+>>>>>>> tg-pr-88929
 // SEPTEMBER
 
 //Tiziran Unification Day is celebrated on Sept 1st, the day on which lizards were made a roundstart race
@@ -586,6 +605,7 @@
 	begin_month = OCTOBER
 	end_day = 2
 	end_month = NOVEMBER
+	holiday_colors = list(COLOR_MOSTLY_PURE_ORANGE, COLOR_PRISONER_BLACK)
 
 /datum/holiday/halloween/greet()
 	return "Have a spooky Halloween!"
@@ -622,6 +642,12 @@
 	begin_month = NOVEMBER
 	begin_day = 11
 	holiday_hat = /obj/item/food/grown/poppy
+<<<<<<< HEAD
+=======
+
+/datum/holiday/remembrance_day/greet()
+	return "Lest we forget."
+>>>>>>> tg-pr-88929
 
 /datum/holiday/remembrance_day/getStationPrefix()
 	return pick("Peace", "Armistice", "Poppy")
@@ -686,6 +712,13 @@
 	name = MONKEYDAY
 	begin_day = 14
 	begin_month = DECEMBER
+<<<<<<< HEAD
+=======
+
+/datum/holiday/monkey/celebrate()
+	. = ..()
+	SSstation.setup_trait(/datum/station_trait/job/pun_pun)
+>>>>>>> tg-pr-88929
 
 /datum/holiday/doomsday
 	name = "Mayan Doomsday Anniversary"
@@ -694,7 +727,11 @@
 
 /datum/holiday/xmas
 	name = CHRISTMAS
+<<<<<<< HEAD
 	begin_day = 8 // monkestation edit
+=======
+	begin_day = 18
+>>>>>>> tg-pr-88929
 	begin_month = DECEMBER
 	end_day = 27
 	holiday_hat = /obj/item/clothing/head/costume/santa
@@ -703,6 +740,29 @@
 		COLOR_CHRISTMAS_GREEN,
 		COLOR_CHRISTMAS_RED,
 	)
+<<<<<<< HEAD
+=======
+
+/datum/holiday/xmas/getStationPrefix()
+	return pick(
+		"Bible",
+		"Birthday",
+		"Chimney",
+		"Claus",
+		"Crucifixion",
+		"Elf",
+		"Fir",
+		"Ho Ho Ho",
+		"Jesus",
+		"Jolly",
+		"Merry",
+		"Present",
+		"Sack",
+		"Santa",
+		"Sleigh",
+		"Yule",
+	)
+>>>>>>> tg-pr-88929
 
 /datum/holiday/xmas/greet()
 	return "Have a merry Christmas!"
@@ -815,21 +875,21 @@
 	SSticker.OnRoundstart(CALLBACK(src, PROC_REF(roundstart_celebrate)))
 	GLOB.maintenance_loot += list(
 		list(
-			/obj/item/toy/xmas_cracker = 3,
 			/obj/item/clothing/head/costume/santa = 1,
-			/obj/item/a_gift/anything = 1
+			/obj/item/gift/anything = 1,
+			/obj/item/toy/xmas_cracker = 3,
 		) = maint_holiday_weight,
 	)
 
 /datum/holiday/xmas/proc/roundstart_celebrate()
-	for(var/obj/machinery/computer/security/telescreen/entertainment/Monitor in GLOB.machines)
+	for(var/obj/machinery/computer/security/telescreen/entertainment/Monitor as anything in SSmachines.get_machines_by_type_and_subtypes(/obj/machinery/computer/security/telescreen/entertainment))
 		Monitor.icon_state_on = "entertainment_xmas"
 
 	for(var/mob/living/basic/pet/dog/corgi/ian/Ian in GLOB.mob_living_list)
 		Ian.place_on_head(new /obj/item/clothing/head/helmet/space/santahat(Ian))
 
 
-// EASTER (this having it's own spot should be understandable)
+// EASTER (this having its own spot should be understandable)
 
 /datum/holiday/easter
 	name = EASTER

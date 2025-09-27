@@ -1,10 +1,17 @@
 import {
   Action,
+<<<<<<< HEAD
   Reducer,
+=======
+>>>>>>> tg-pr-88929
   applyMiddleware,
   combineReducers,
   createAction,
   createStore,
+<<<<<<< HEAD
+=======
+  Reducer,
+>>>>>>> tg-pr-88929
 } from './redux';
 
 // Dummy Reducer

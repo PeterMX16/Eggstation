@@ -14,14 +14,21 @@
  * Note that the verb args have an injected `client/user` argument that is the user that called the verb.
  * Do not use usr in your verb; technically you can but I'll kill you.
  */
+<<<<<<< HEAD
 #define _ADMIN_VERB(verb_path_name, verb_permissions, exact_permissions, verb_name, verb_desc, verb_category, show_in_context_menu, verb_args...) \
+=======
+#define _ADMIN_VERB(verb_path_name, verb_permissions, verb_name, verb_desc, verb_category, show_in_context_menu, verb_args...) \
+>>>>>>> tg-pr-88929
 /datum/admin_verb/##verb_path_name \
 { \
 	name = ##verb_name; \
 	description = ##verb_desc; \
 	category = ##verb_category; \
 	permissions = ##verb_permissions; \
+<<<<<<< HEAD
 	match_exact_permissions = ##exact_permissions; \
+=======
+>>>>>>> tg-pr-88929
 	verb_path = /client/proc/__avd_##verb_path_name; \
 }; \
 /client/proc/__avd_##verb_path_name(##verb_args) \
@@ -37,6 +44,7 @@
 }; \
 /datum/admin_verb/##verb_path_name/__avd_do_verb(client/user, ##verb_args)
 
+<<<<<<< HEAD
 #define ADMIN_VERB(verb_path_name, verb_permissions, exact_permissions, verb_name, verb_desc, verb_category, verb_args...) \
 _ADMIN_VERB(verb_path_name, verb_permissions, exact_permissions, verb_name, verb_desc, verb_category, FALSE, ##verb_args)
 
@@ -45,6 +53,16 @@ _ADMIN_VERB(verb_path_name, verb_permissions, exact_permissions, verb_name, ADMI
 
 #define ADMIN_VERB_AND_CONTEXT_MENU(verb_path_name, exact_permissions, verb_permissions, verb_name, verb_desc, verb_category, verb_args...) \
 _ADMIN_VERB(verb_path_name, verb_permissions, exact_permissions, verb_name, verb_desc, verb_category, TRUE, ##verb_args)
+=======
+#define ADMIN_VERB(verb_path_name, verb_permissions, verb_name, verb_desc, verb_category, verb_args...) \
+_ADMIN_VERB(verb_path_name, verb_permissions, verb_name, verb_desc, verb_category, FALSE, ##verb_args)
+
+#define ADMIN_VERB_ONLY_CONTEXT_MENU(verb_path_name, verb_permissions, verb_name, verb_args...) \
+_ADMIN_VERB(verb_path_name, verb_permissions, verb_name, ADMIN_VERB_NO_DESCRIPTION, ADMIN_CATEGORY_HIDDEN, TRUE, ##verb_args)
+
+#define ADMIN_VERB_AND_CONTEXT_MENU(verb_path_name, verb_permissions, verb_name, verb_desc, verb_category, verb_args...) \
+_ADMIN_VERB(verb_path_name, verb_permissions, verb_name, verb_desc, verb_category, TRUE, ##verb_args)
+>>>>>>> tg-pr-88929
 
 /// Used to define a special check to determine if the admin verb should exist at all. Useful for verbs such as play sound which require configuration.
 #define ADMIN_VERB_CUSTOM_EXIST_CHECK(verb_path_name) \
@@ -54,7 +72,11 @@ _ADMIN_VERB(verb_path_name, verb_permissions, exact_permissions, verb_name, verb
 #define ADMIN_VERB_VISIBILITY(verb_path_name, verb_visibility) /datum/admin_verb/##verb_path_name/visibility_flag = ##verb_visibility
 
 // These are put here to prevent the "procedure override precedes definition" error.
+<<<<<<< HEAD
 /datum/admin_verb/proc/__avd_get_verb_path() //I have yet to figure out what this is used for.
+=======
+/datum/admin_verb/proc/__avd_get_verb_path()
+>>>>>>> tg-pr-88929
 	CRASH("__avd_get_verb_path not defined. use the macro")
 /datum/admin_verb/proc/__avd_do_verb(...)
 	CRASH("__avd_do_verb not defined. use the macro")
@@ -81,14 +103,24 @@ _ADMIN_VERB(verb_path_name, verb_permissions, exact_permissions, verb_name, verb
 #define ADMIN_CATEGORY_EVENTS "Admin.Events"
 #define ADMIN_CATEGORY_FUN "Admin.Fun"
 #define ADMIN_CATEGORY_GAME "Admin.Game"
+<<<<<<< HEAD
 #define ADMIN_CATEGORY_LOGGING "Admin.Logging" //MONKE EDIT
 
 // Special categories that are seperated
+=======
+#define ADMIN_CATEGORY_SHUTTLE "Admin.Shuttle"
+
+// Special categories that are separated
+>>>>>>> tg-pr-88929
 #define ADMIN_CATEGORY_DEBUG "Debug"
 #define ADMIN_CATEGORY_SERVER "Server"
 #define ADMIN_CATEGORY_OBJECT "Object"
 #define ADMIN_CATEGORY_MAPPING "Mapping"
 #define ADMIN_CATEGORY_PROFILE "Profile"
+<<<<<<< HEAD
+=======
+#define ADMIN_CATEGORY_IPINTEL "Admin.IPIntel"
+>>>>>>> tg-pr-88929
 
 // Visibility flags
 #define ADMIN_VERB_VISIBLITY_FLAG_MAPPING_DEBUG "Map-Debug"

@@ -6,6 +6,7 @@
 
 import { exec } from 'child_process';
 import { promisify } from 'util';
+
 import { createLogger } from './logging.js';
 import { require } from './require.js';
 
@@ -30,7 +31,11 @@ export class DreamSeeker {
         + '=' + encodeURIComponent(params[key]))
       .join('&');
     logger.log(
+<<<<<<< HEAD
       `topic call at ${this.client.defaults.baseURL + '/dummy.htm?' + query}`,
+=======
+      `topic call at ${this.client.defaults.baseURL + '/dummy?' + query}`,
+>>>>>>> tg-pr-88929
     );
     return this.client.get('/dummy.htm?' + query);
   }

@@ -32,7 +32,11 @@ env PKG_CONFIG_ALLOW_CROSS=1 ~/.cargo/bin/cargo build --ignore-rust-version --re
 mv target/i686-unknown-linux-gnu/release/librust_g.so "$1/librust_g.so"
 cd ..
 
+<<<<<<< HEAD
 #
+=======
+# 
+>>>>>>> tg-pr-88929
 cd "$original_dir"
 # update dreamluau
 if [ ! -d "dreamluau" ]; then

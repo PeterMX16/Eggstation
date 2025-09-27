@@ -25,6 +25,7 @@
 		GBACKPACK,
 		GSATCHEL,
 		LSATCHEL,
+<<<<<<< HEAD
 		BSATCHEL,
 		RSATCHEL,
 		GDUFFELBAG,
@@ -48,6 +49,32 @@
 		if (GDUFFELBAG)
 			return /obj/item/storage/backpack/duffelbag
 
+=======
+		GDUFFELBAG,
+		GMESSENGER,
+		DBACKPACK,
+		DSATCHEL,
+		DDUFFELBAG,
+		DMESSENGER,
+	)
+
+/datum/preference/choiced/backpack/create_default_value()
+	return DBACKPACK
+
+/datum/preference/choiced/backpack/icon_for(value)
+	switch (value)
+		if (GBACKPACK)
+			return /obj/item/storage/backpack
+		if (GSATCHEL)
+			return /obj/item/storage/backpack/satchel
+		if (LSATCHEL)
+			return /obj/item/storage/backpack/satchel/leather
+		if (GDUFFELBAG)
+			return /obj/item/storage/backpack/duffelbag
+		if (GMESSENGER)
+			return /obj/item/storage/backpack/messenger
+
+>>>>>>> tg-pr-88929
 		// In a perfect world, these would be your department's backpack.
 		// However, this doesn't factor in assistants, or no high slot, and would
 		// also increase the spritesheet size a lot.
@@ -58,6 +85,11 @@
 			return /obj/item/storage/backpack/satchel/med
 		if (DDUFFELBAG)
 			return /obj/item/storage/backpack/duffelbag/med
+<<<<<<< HEAD
+=======
+		if (DMESSENGER)
+			return /obj/item/storage/backpack/messenger/med
+>>>>>>> tg-pr-88929
 
 /datum/preference/choiced/backpack/apply_to_human(mob/living/carbon/human/target, value)
 	target.backpack = value
@@ -66,6 +98,7 @@
 /datum/preference/choiced/jumpsuit
 	savefile_key = "jumpsuit_style"
 	savefile_identifier = PREFERENCE_CHARACTER
+	priority = PREFERENCE_PRIORITY_BODY_TYPE
 	main_feature_name = "Jumpsuit"
 	category = PREFERENCE_CATEGORY_CLOTHING
 	should_generate_icons = TRUE
@@ -76,6 +109,12 @@
 		PREF_SKIRT,
 	)
 
+<<<<<<< HEAD
+=======
+/datum/preference/choiced/jumpsuit/create_default_value()
+	return PREF_SUIT
+
+>>>>>>> tg-pr-88929
 /datum/preference/choiced/jumpsuit/icon_for(value)
 	switch (value)
 		if (PREF_SUIT)
@@ -93,19 +132,34 @@
 	main_feature_name = "Socks"
 	category = PREFERENCE_CATEGORY_CLOTHING
 	should_generate_icons = TRUE
+	can_randomize = FALSE
 
 /datum/preference/choiced/socks/init_possible_values()
+<<<<<<< HEAD
 	return assoc_to_keys_features(GLOB.socks_list)
+=======
+	return assoc_to_keys_features(SSaccessories.socks_list)
+
+/datum/preference/choiced/socks/create_default_value()
+	return /datum/sprite_accessory/socks/nude::name
+>>>>>>> tg-pr-88929
 
 /datum/preference/choiced/socks/icon_for(value)
 	var/static/icon/lower_half
 
 	if (isnull(lower_half))
 		lower_half = icon('icons/blanks/32x32.dmi', "nothing")
+<<<<<<< HEAD
 		lower_half.Blend(icon('icons/mob/species/human/bodyparts_greyscale.dmi', "human_r_leg"), ICON_OVERLAY)
 		lower_half.Blend(icon('icons/mob/species/human/bodyparts_greyscale.dmi', "human_l_leg"), ICON_OVERLAY)
 
 	return generate_underwear_icon(GLOB.socks_list[value], lower_half)
+=======
+		lower_half.Blend(icon('icons/mob/human/bodyparts_greyscale.dmi', "human_r_leg"), ICON_OVERLAY)
+		lower_half.Blend(icon('icons/mob/human/bodyparts_greyscale.dmi', "human_l_leg"), ICON_OVERLAY)
+
+	return generate_underwear_icon(SSaccessories.socks_list[value], lower_half)
+>>>>>>> tg-pr-88929
 
 /datum/preference/choiced/socks/apply_to_human(mob/living/carbon/human/target, value)
 	target.socks = value
@@ -129,11 +183,14 @@
 /datum/preference/choiced/undershirt
 	savefile_key = "undershirt"
 	savefile_identifier = PREFERENCE_CHARACTER
+	priority = PREFERENCE_PRIORITY_BODY_TYPE
 	main_feature_name = "Undershirt"
 	category = PREFERENCE_CATEGORY_CLOTHING
 	should_generate_icons = TRUE
+	can_randomize = FALSE
 
 /datum/preference/choiced/undershirt/init_possible_values()
+<<<<<<< HEAD
 	return assoc_to_keys_features(GLOB.undershirt_list)
 
 /datum/preference/choiced/undershirt/icon_for(value)
@@ -153,6 +210,39 @@
 		var/datum/sprite_accessory/accessory = GLOB.undershirt_list[value]
 		icon_with_undershirt.Blend(icon('icons/mob/clothing/underwear.dmi', accessory.icon_state), ICON_OVERLAY)
 
+=======
+	return assoc_to_keys_features(SSaccessories.undershirt_list)
+
+/datum/preference/choiced/undershirt/create_default_value()
+	return /datum/sprite_accessory/undershirt/nude::name
+
+/datum/preference/choiced/undershirt/create_informed_default_value(datum/preferences/preferences)
+	switch(preferences.read_preference(/datum/preference/choiced/gender))
+		if(MALE)
+			return /datum/sprite_accessory/undershirt/nude::name
+		if(FEMALE)
+			return /datum/sprite_accessory/undershirt/sports_bra::name
+
+	return ..()
+
+/datum/preference/choiced/undershirt/icon_for(value)
+	var/static/icon/body
+	if (isnull(body))
+		body = icon('icons/mob/human/bodyparts_greyscale.dmi', "human_r_leg")
+		body.Blend(icon('icons/mob/human/bodyparts_greyscale.dmi', "human_l_leg"), ICON_OVERLAY)
+		body.Blend(icon('icons/mob/human/bodyparts_greyscale.dmi', "human_r_arm"), ICON_OVERLAY)
+		body.Blend(icon('icons/mob/human/bodyparts_greyscale.dmi', "human_l_arm"), ICON_OVERLAY)
+		body.Blend(icon('icons/mob/human/bodyparts_greyscale.dmi', "human_r_hand"), ICON_OVERLAY)
+		body.Blend(icon('icons/mob/human/bodyparts_greyscale.dmi', "human_l_hand"), ICON_OVERLAY)
+		body.Blend(icon('icons/mob/human/bodyparts_greyscale.dmi', "human_chest_m"), ICON_OVERLAY)
+
+	var/icon/icon_with_undershirt = icon(body)
+
+	if (value != "Nude")
+		var/datum/sprite_accessory/accessory = SSaccessories.undershirt_list[value]
+		icon_with_undershirt.Blend(icon('icons/mob/clothing/underwear.dmi', accessory.icon_state), ICON_OVERLAY)
+
+>>>>>>> tg-pr-88929
 	icon_with_undershirt.Crop(9, 9, 23, 23)
 	icon_with_undershirt.Scale(32, 32)
 	return icon_with_undershirt
@@ -175,20 +265,36 @@
 	main_feature_name = "Underwear"
 	category = PREFERENCE_CATEGORY_CLOTHING
 	should_generate_icons = TRUE
+	can_randomize = FALSE
 
 /datum/preference/choiced/underwear/init_possible_values()
+<<<<<<< HEAD
 	return assoc_to_keys_features(GLOB.underwear_list)
+=======
+	return assoc_to_keys_features(SSaccessories.underwear_list)
+
+/datum/preference/choiced/underwear/create_default_value()
+	return /datum/sprite_accessory/underwear/male_hearts::name
+>>>>>>> tg-pr-88929
 
 /datum/preference/choiced/underwear/icon_for(value)
 	var/static/icon/lower_half
 
 	if (isnull(lower_half))
 		lower_half = icon('icons/blanks/32x32.dmi', "nothing")
+<<<<<<< HEAD
 		lower_half.Blend(icon('icons/mob/species/human/bodyparts_greyscale.dmi', "human_chest_m"), ICON_OVERLAY)
 		lower_half.Blend(icon('icons/mob/species/human/bodyparts_greyscale.dmi', "human_r_leg"), ICON_OVERLAY)
 		lower_half.Blend(icon('icons/mob/species/human/bodyparts_greyscale.dmi', "human_l_leg"), ICON_OVERLAY)
 
 	return generate_underwear_icon(GLOB.underwear_list[value], lower_half, COLOR_ALMOST_BLACK)
+=======
+		lower_half.Blend(icon('icons/mob/human/bodyparts_greyscale.dmi', "human_chest_m"), ICON_OVERLAY)
+		lower_half.Blend(icon('icons/mob/human/bodyparts_greyscale.dmi', "human_r_leg"), ICON_OVERLAY)
+		lower_half.Blend(icon('icons/mob/human/bodyparts_greyscale.dmi', "human_l_leg"), ICON_OVERLAY)
+
+	return generate_underwear_icon(SSaccessories.underwear_list[value], lower_half, COLOR_ALMOST_BLACK)
+>>>>>>> tg-pr-88929
 
 /datum/preference/choiced/underwear/apply_to_human(mob/living/carbon/human/target, value)
 	target.underwear = value
@@ -198,7 +304,11 @@
 		return FALSE
 
 	var/species_type = preferences.read_preference(/datum/preference/choiced/species)
+<<<<<<< HEAD
 	var/datum/species/species = new species_type
+=======
+	var/datum/species/species = GLOB.species_prototypes[species_type]
+>>>>>>> tg-pr-88929
 	return !(TRAIT_NO_UNDERWEAR in species.inherent_traits)
 
 /datum/preference/choiced/underwear/compile_constant_data()

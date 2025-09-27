@@ -50,7 +50,10 @@
 	heuristic = get_dist_euclidean(tile, node_goal)
 	f_value = number_tiles + heuristic
 
+<<<<<<< HEAD
 /// TODO: Macro this to reduce proc overhead
+=======
+>>>>>>> tg-pr-88929
 /proc/HeapPathWeightCompare(datum/jps_node/a, datum/jps_node/b)
 	return b.f_value - a.f_value
 
@@ -195,7 +198,11 @@
 		if(!CAN_STEP(lag_turf, current_turf, simulated_only, pass_info, avoid))
 			return
 
+<<<<<<< HEAD
 		if(current_turf == end || (mintargetdist && (get_dist(current_turf, end) <= mintargetdist)))
+=======
+		if(current_turf == end || (mintargetdist && (get_dist(current_turf, end) <= mintargetdist) && !diagonally_blocked(current_turf, end)))
+>>>>>>> tg-pr-88929
 			var/datum/jps_node/final_node = new(current_turf, parent_node, steps_taken)
 			found_turfs[current_turf] = TRUE
 			if(parent_node) // if this is a direct lateral scan we can wrap up, if it's a subscan from a diag, we need to let the diag make their node first, then finish
@@ -257,7 +264,11 @@
 		if(!CAN_STEP(lag_turf, current_turf, simulated_only, pass_info, avoid))
 			return
 
+<<<<<<< HEAD
 		if(current_turf == end || (mintargetdist && (get_dist(current_turf, end) <= mintargetdist)))
+=======
+		if(current_turf == end || (mintargetdist && (get_dist(current_turf, end) <= mintargetdist) && !diagonally_blocked(current_turf, end)))
+>>>>>>> tg-pr-88929
 			var/datum/jps_node/final_node = new(current_turf, parent_node, steps_taken)
 			found_turfs[current_turf] = TRUE
 			unwind_path(final_node)

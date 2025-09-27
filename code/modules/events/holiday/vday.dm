@@ -34,8 +34,11 @@
 		return FALSE
 	if(guy.onCentCom())
 		return FALSE
+<<<<<<< HEAD
 	if(guy.mind.has_antag_datum(/datum/antagonist/slasher))
 		return FALSE
+=======
+>>>>>>> tg-pr-88929
 	return TRUE
 
 /datum/round_event/valentines/proc/give_valentines_things(mob/living/guy)

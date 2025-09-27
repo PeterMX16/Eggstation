@@ -1,5 +1,9 @@
 /atom/movable/screen/buildmode
+<<<<<<< HEAD
 	icon = 'icons/misc/buildmode.dmi'
+=======
+	icon = 'icons/hud/buildmode.dmi'
+>>>>>>> tg-pr-88929
 	mouse_over_pointer = MOUSE_HAND_POINTER
 	var/datum/buildmode/bd
 	// If we don't do this, we get occluded by item action buttons
@@ -90,3 +94,8 @@
 /atom/movable/screen/buildmode/quit/Click()
 	bd.quit()
 	return 1
+
+/atom/movable/screen/buildmode/preview_item
+	name = "Selected Item"
+	icon_state = "template"
+	screen_loc = "NORTH,WEST+4"

@@ -13,7 +13,7 @@ GLOBAL_LIST_EMPTY(req_console_ckey_departments)
 /obj/machinery/requests_console
 	name = "requests console"
 	desc = "A console intended to send requests to different departments on the station."
-	icon = 'icons/obj/terminals.dmi'
+	icon = 'icons/obj/machines/wallmounts.dmi'
 	icon_state = "req_comp_off"
 	base_icon_state = "req_comp"
 	active_power_usage = BASE_MACHINE_ACTIVE_CONSUMPTION * 0.15
@@ -49,12 +49,15 @@ GLOBAL_LIST_EMPTY(req_console_ckey_departments)
 	var/emergency
 	/// If ore redemption machines will send an update when it receives new ores.
 	var/receive_ore_updates = FALSE
+<<<<<<< HEAD
 	/// Can others request assistance from this terminal?
 	var/assistance_requestable = FALSE
 	/// Can others request supplies from this terminal?
 	var/supplies_requestable = FALSE
 	/// Can you relay information to this console?
 	var/anon_tips_receiver = FALSE
+=======
+>>>>>>> tg-pr-88929
 	/// Did we error in the last mail?
 	var/has_mail_send_error = FALSE
 	/// Cooldown to prevent announcement spam
@@ -128,6 +131,7 @@ GLOBAL_LIST_EMPTY(req_console_ckey_departments)
 			name = "\improper [department] requests console" // and if we have a 'department', our name should reflect that.
 
 	GLOB.req_console_all += src
+<<<<<<< HEAD
 
 	if((assistance_requestable)) // adding to assistance list if not already present
 		GLOB.req_console_assistance |= department
@@ -137,11 +141,17 @@ GLOBAL_LIST_EMPTY(req_console_ckey_departments)
 
 	if((anon_tips_receiver)) // tips lists
 		GLOB.req_console_information |= department
+=======
+>>>>>>> tg-pr-88929
 
 	GLOB.req_console_ckey_departments[ckey(department)] = department // and then we set ourselves a listed name
 
 	radio = new /obj/item/radio(src)
 	radio.set_listening(FALSE)
+<<<<<<< HEAD
+=======
+	find_and_hang_on_wall()
+>>>>>>> tg-pr-88929
 
 /obj/machinery/requests_console/Destroy()
 	QDEL_NULL(radio)
@@ -158,7 +168,11 @@ GLOBAL_LIST_EMPTY(req_console_ckey_departments)
 		ui.set_autoupdate(FALSE)
 		ui.open()
 
+<<<<<<< HEAD
 /obj/machinery/requests_console/ui_act(action, params)
+=======
+/obj/machinery/requests_console/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
+>>>>>>> tg-pr-88929
 	. = ..()
 	if(.)
 		return
@@ -212,10 +226,16 @@ GLOBAL_LIST_EMPTY(req_console_ckey_departments)
 				return
 			if(isliving(usr))
 				var/mob/living/L = usr
+<<<<<<< HEAD
 //				message = L.treat_message(message)["message"] MONKESTATION EDIT CHANGE OLD -- we dont have TTS
 				message = L.treat_message(message) // MONKESTATION EDIT CHANGE NEW
 
 			minor_announce(message, "[department] Announcement:", html_encode = FALSE, sound_override = 'sound/misc/announce_dig.ogg')
+=======
+				message = L.treat_message(message)["message"]
+
+			minor_announce(message, "[department] Announcement:", html_encode = FALSE, sound_override = 'sound/announcer/announcement/announce_dig.ogg')
+>>>>>>> tg-pr-88929
 			GLOB.news_network.submit_article(message, department, "Station Announcements", null)
 			usr.log_talk(message, LOG_SAY, tag="station announcement from [src]")
 			message_admins("[ADMIN_LOOKUPFLW(usr)] has made a station announcement from [src] at [AREACOORD(usr)].")
@@ -228,6 +248,7 @@ GLOBAL_LIST_EMPTY(req_console_ckey_departments)
 			var/recipient = params["reply_recipient"]
 
 			var/reply_message = reject_bad_text(tgui_input_text(usr, "Write a quick reply to [recipient]", "Awaiting Input"), ascii_only = FALSE)
+<<<<<<< HEAD
 
 			if(!reply_message)
 				has_mail_send_error = TRUE
@@ -271,6 +292,52 @@ GLOBAL_LIST_EMPTY(req_console_ckey_departments)
 		if("cargobay", "mining")
 			radio_freq = FREQ_SUPPLY
 
+=======
+			if(QDELETED(ui) || ui.status != UI_INTERACTIVE)
+				return
+			if(!reply_message)
+				has_mail_send_error = TRUE
+				playsound(src, 'sound/machines/buzz/buzz-two.ogg', 50, TRUE)
+				return TRUE
+
+			send_message(recipient, reply_message, REQ_NORMAL_MESSAGE_PRIORITY, REPLY_REQUEST)
+			return TRUE
+		if("send_message")
+			var/recipient = params["recipient"]
+			if(!recipient)
+				return
+			var/priority = params["priority"]
+			if(!priority)
+				return
+			var/message = reject_bad_text(trim(html_encode(params["message"]), MAX_MESSAGE_LEN), ascii_only = FALSE)
+			if(!message)
+				to_chat(usr, span_alert("Invalid message."))
+				has_mail_send_error = TRUE
+				return TRUE
+			var/request_type = params["request_type"]
+			if(!request_type)
+				return
+			send_message(recipient, message, priority, request_type)
+			return TRUE
+
+///Sends the message from the request console
+/obj/machinery/requests_console/proc/send_message(recipient, message, priority, request_type)
+	var/radio_freq
+	switch(ckey(recipient))
+		if("bridge")
+			radio_freq = FREQ_COMMAND
+		if("medbay")
+			radio_freq = FREQ_MEDICAL
+		if("science")
+			radio_freq = FREQ_SCIENCE
+		if("engineering")
+			radio_freq = FREQ_ENGINEERING
+		if("security")
+			radio_freq = FREQ_SECURITY
+		if("cargobay", "mining")
+			radio_freq = FREQ_SUPPLY
+
+>>>>>>> tg-pr-88929
 	var/datum/signal/subspace/messaging/rc/signal = new(src, list(
 		"sender_department" = department,
 		"recipient_department" = recipient,
@@ -287,9 +354,15 @@ GLOBAL_LIST_EMPTY(req_console_ckey_departments)
 
 	if(!silent)
 		if(has_mail_send_error)
+<<<<<<< HEAD
 			playsound(src, 'sound/machines/buzz-two.ogg', 50, TRUE)
 		else
 			playsound(src, 'sound/machines/twobeep.ogg', 50, TRUE)
+=======
+			playsound(src, 'sound/machines/buzz/buzz-two.ogg', 50, TRUE)
+		else
+			playsound(src, 'sound/machines/beep/twobeep.ogg', 50, TRUE)
+>>>>>>> tg-pr-88929
 
 	message_stamped_by = ""
 	message_verified_by = ""
@@ -364,7 +437,11 @@ GLOBAL_LIST_EMPTY(req_console_ckey_departments)
 	var/alert = new_message.get_alert()
 
 	if(!silent)
+<<<<<<< HEAD
 		playsound(src, 'sound/machines/twobeep_high.ogg', 50, TRUE)
+=======
+		playsound(src, 'sound/machines/beep/twobeep_high.ogg', 50, TRUE)
+>>>>>>> tg-pr-88929
 		say(alert)
 
 	if(new_message.radio_freq)
@@ -395,7 +472,11 @@ GLOBAL_LIST_EMPTY(req_console_ckey_departments)
 		to_chat(user, span_warning("You must open the maintenance panel first!"))
 	return TRUE
 
+<<<<<<< HEAD
 /obj/machinery/requests_console/attackby(obj/item/attacking_item, mob/user, list/modifiers, list/attack_modifiers)
+=======
+/obj/machinery/requests_console/attackby(obj/item/attacking_item, mob/user, params)
+>>>>>>> tg-pr-88929
 	var/obj/item/card/id/ID = attacking_item.GetID()
 	if(ID)
 		message_verified_by = "[ID.registered_name] ([ID.assignment])"
@@ -409,10 +490,8 @@ GLOBAL_LIST_EMPTY(req_console_ckey_departments)
 		return
 	return ..()
 
-/obj/machinery/requests_console/deconstruct(disassembled = TRUE)
-	if(!(flags_1 & NODECONSTRUCT_1))
-		new /obj/item/wallframe/requests_console(loc)
-	qdel(src)
+/obj/machinery/requests_console/on_deconstruction(disassembled)
+	new /obj/item/wallframe/requests_console(loc)
 
 /obj/machinery/requests_console/auto_name // Register an autoname variant and then make the directional helpers before undefing all the magic bits
 	auto_name = TRUE
@@ -423,7 +502,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/requests_console/auto_name, 30)
 /obj/item/wallframe/requests_console
 	name = "requests console"
 	desc = "An unmounted requests console. Attach it to a wall to use."
-	icon = 'icons/obj/terminals.dmi'
+	icon = 'icons/obj/machines/wallmounts.dmi'
 	icon_state = "req_comp_off"
 	result_path = /obj/machinery/requests_console/auto_name
 	pixel_shift = 30

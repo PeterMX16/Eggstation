@@ -12,17 +12,26 @@
 	cargo_cost_multiplier = 0.65
 	express_cost_multiplier = 1
 	purchase_tooltip = @{"Your purchases will arrive at cargo,
+<<<<<<< HEAD
 	and hopefully gets delivered to you by the security.
+=======
+	and hopefully get delivered by them.
+>>>>>>> tg-pr-88929
 	35% cheaper than express delivery."}
 	express_tooltip = @{"Sends your purchases instantly."}
 	credit_type = CREDIT_TYPE_BITRUNNING
 
 	order_categories = list(
 		CATEGORY_BITRUNNING_FLAIR,
+<<<<<<< HEAD
 //		CATEGORY_BITRUNNING_TECH, Monkestation removal: split up into combat gear and abilities tabs
 		CATEGORY_BEPIS,
 		CATEGORY_BITRUNNING_COMBAT_GEAR,
 		CATEGORY_BITRUNNING_ABILITIES,
+=======
+		CATEGORY_BITRUNNING_TECH,
+		CATEGORY_BEPIS,
+>>>>>>> tg-pr-88929
 	)
 	blackbox_key = "bitrunning"
 
@@ -35,7 +44,11 @@
 /obj/machinery/computer/order_console/bitrunning/order_groceries(mob/living/purchaser, obj/item/card/id/card, list/groceries)
 	var/list/things_to_order = list()
 	for(var/datum/orderable_item/item as anything in groceries)
+<<<<<<< HEAD
 		things_to_order[item.item_path] = groceries[item]
+=======
+		things_to_order[item.purchase_path] = groceries[item]
+>>>>>>> tg-pr-88929
 
 	var/datum/supply_pack/bitrunning/pack = new(
 		purchaser = purchaser, \
@@ -57,11 +70,19 @@
 		cost_type = credit_type,
 		can_be_cancelled = FALSE,
 	)
+<<<<<<< HEAD
 	say("Thank you for your purchase! It will arrive on the next cargo shuttle! ")
 	radio.talk_into(src, "A prisoner has ordered equipment which will arrive on the cargo shuttle! Please make sure it gets to them as soon as possible!", radio_channel) //MONKESTATION EDIT
 	SSshuttle.shopping_list += new_order
 
 /obj/machinery/computer/order_console/bitrunning/retrive_points(obj/item/card/id/id_card)
+=======
+	say("Thank you for your purchase! It will arrive on the next cargo shuttle!")
+	radio.talk_into(src, "A bitrunner has ordered equipment which will arrive on the cargo shuttle! Please make sure it gets to them as soon as possible!", radio_channel)
+	SSshuttle.shopping_list += new_order
+
+/obj/machinery/computer/order_console/bitrunning/retrieve_points(obj/item/card/id/id_card)
+>>>>>>> tg-pr-88929
 	return round(id_card.registered_account.bitrunning_points)
 
 /obj/machinery/computer/order_console/bitrunning/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
@@ -73,18 +94,32 @@
 	icon_state = "[initial(icon_state)][powered() ? null : "_off"]"
 	return ..()
 
+<<<<<<< HEAD
 //MONKESTATION EDIT START
 /datum/supply_pack/bitrunning
 	name = "prisoner bitrunning order"
 	hidden = TRUE
 	crate_name = "prisoner bitrunning delivery crate"
+=======
+/datum/supply_pack/bitrunning
+	name = "bitrunning order"
+	hidden = TRUE
+	crate_name = "bitrunning delivery crate"
+>>>>>>> tg-pr-88929
 	access = list(ACCESS_BIT_DEN)
 
 /datum/supply_pack/bitrunning/New(purchaser, cost, list/contains)
 	. = ..()
+<<<<<<< HEAD
 	name = "[purchaser]'s Prisoner Bitrunning Order"
 	src.cost = cost
 	src.contains = contains
 
 //MONKESTATION EDIT END
+=======
+	name = "[purchaser]'s Bitrunning Order"
+	src.cost = cost
+	src.contains = contains
+
+>>>>>>> tg-pr-88929
 #undef CREDIT_TYPE_BITRUNNING

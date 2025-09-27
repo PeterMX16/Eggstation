@@ -2,10 +2,18 @@
 /obj/effect/anomaly/bioscrambler
 	name = "bioscrambler anomaly"
 	icon_state = "bioscrambler"
+<<<<<<< HEAD
 	aSignal = /obj/item/assembly/signaler/anomaly/bioscrambler
 	immortal = TRUE
 	pass_flags = PASSTABLE | PASSGLASS | PASSGRILLE | PASSCLOSEDTURF | PASSMACHINE | PASSSTRUCTURE | PASSDOORS
 	layer = ABOVE_MOB_LAYER
+=======
+	anomaly_core = /obj/item/assembly/signaler/anomaly/bioscrambler
+	pass_flags = PASSTABLE | PASSGLASS | PASSGRILLE | PASSCLOSEDTURF | PASSMACHINE | PASSSTRUCTURE | PASSDOORS
+	layer = ABOVE_MOB_LAYER
+	lifespan = ANOMALY_COUNTDOWN_TIMER * 2
+
+>>>>>>> tg-pr-88929
 	/// Who are we moving towards?
 	var/datum/weakref/pursuit_target
 	/// Cooldown for every anomaly pulse
@@ -25,7 +33,11 @@
 		return
 
 	new /obj/effect/temp_visual/circle_wave/bioscrambler(get_turf(src))
+<<<<<<< HEAD
 	playsound(src, 'sound/magic/cosmic_energy.ogg', vol = 50, vary = TRUE)
+=======
+	playsound(src, 'sound/effects/magic/cosmic_energy.ogg', vol = 50, vary = TRUE)
+>>>>>>> tg-pr-88929
 	COOLDOWN_START(src, pulse_cooldown, pulse_delay)
 	for(var/mob/living/carbon/nearby in hearers(range, src))
 		nearby.bioscramble(name)
@@ -66,8 +78,11 @@
 			continue
 		if (target.stat >= UNCONSCIOUS)
 			continue // Don't just haunt a corpse
+<<<<<<< HEAD
 		if (contained && get_area(target) != impact_area) // monkestation edit: fix "runaway" bioscramblers
 			continue
+=======
+>>>>>>> tg-pr-88929
 		var/distance_from_target = get_dist(src, target)
 		if(distance_from_target >= closest_distance)
 			continue
@@ -81,6 +96,15 @@
 
 /obj/effect/anomaly/bioscrambler/docile/update_target()
 	return
+<<<<<<< HEAD
+=======
+
+/obj/effect/anomaly/bioscrambler/detonate()
+	COOLDOWN_RESET(src, pulse_cooldown)
+	anomalyEffect()
+
+/// Visual effect spawned when the bioscrambler scrambles your bio
+>>>>>>> tg-pr-88929
 /obj/effect/temp_visual/circle_wave
 	icon = 'icons/effects/64x64.dmi'
 	icon_state = "circle_wave"
@@ -95,19 +119,29 @@
 /obj/effect/temp_visual/circle_wave/Initialize(mapload)
 	transform = matrix().Scale(0.1)
 	animate(src, transform = matrix().Scale(amount_to_scale), time = duration, flags = ANIMATION_PARALLEL)
+<<<<<<< HEAD
 	animate(src, alpha = 255, time = duration * 0.6, flags = ANIMATION_PARALLEL)
+=======
+	animate(src, alpha = max_alpha, time = duration * 0.6, flags = ANIMATION_PARALLEL)
+>>>>>>> tg-pr-88929
 	animate(alpha = 0, time = duration * 0.4)
 	apply_wibbly_filters(src)
 	return ..()
 
+<<<<<<< HEAD
 /// Visual effect spawned when the bioscrambler scrambles your bio
+=======
+>>>>>>> tg-pr-88929
 /obj/effect/temp_visual/circle_wave/bioscrambler
 	color = COLOR_LIME
 
 /obj/effect/temp_visual/circle_wave/bioscrambler/light
 	max_alpha = 128
 
+<<<<<<< HEAD
 //void heretic
+=======
+>>>>>>> tg-pr-88929
 /obj/effect/temp_visual/circle_wave/void_conduit
 	color = COLOR_FULL_TONER_BLACK
 	duration = 12 SECONDS

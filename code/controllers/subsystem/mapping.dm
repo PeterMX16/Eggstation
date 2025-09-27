@@ -112,10 +112,13 @@ SUBSYSTEM_DEF(mapping)
 		if(!current_map || current_map.defaulted)
 			to_chat(world, span_boldannounce("Unable to load next or default map config, defaulting to [old_config.map_name]."))
 			current_map = old_config
+<<<<<<< HEAD
 	var/mapping_url = config.Get(/datum/config_entry/string/webmap_url)
 	if(mapping_url != "")
 		var/map_name = replacetext_char(trimtext(current_map.map_name), " ", "")
 		current_map.mapping_url = replacetext_char(mapping_url, "$map", map_name)
+=======
+>>>>>>> tg-pr-88929
 	plane_offset_to_true = list()
 	true_to_offset_planes = list()
 	plane_to_offset = list()
@@ -148,7 +151,10 @@ SUBSYSTEM_DEF(mapping)
 	while (space_levels_so_far < current_map.space_empty_levels + current_map.space_ruin_levels)
 		empty_space = add_new_zlevel("Empty Area [space_levels_so_far+1]", list(ZTRAIT_LINKAGE = CROSSLINKED))
 		++space_levels_so_far
+<<<<<<< HEAD
 	SStitle.add_init_text("Empty Space", "> Space", "<font color='green'>DONE</font>", (REALTIMEOFDAY - start_time) / (1 SECONDS))
+=======
+>>>>>>> tg-pr-88929
 
 	start_time = REALTIMEOFDAY
 	// Pick a random away mission.
@@ -157,11 +163,17 @@ SUBSYSTEM_DEF(mapping)
 		createRandomZlevel(prob(CONFIG_GET(number/config_gateway_chance)))
 		SStitle.add_init_text("Away Mission", "> Away Mission", "<font color='green'>DONE</font>", (REALTIMEOFDAY - start_time) / (1 SECONDS))
 
+<<<<<<< HEAD
 //	else if (SSmapping.current_map.load_all_away_missions) // we're likely in a local testing environment, so punch it.
 //		load_all_away_missions() We don't use away missions, as of now at least
 
 	start_time = REALTIMEOFDAY
 	SStitle.add_init_text("Ruins", "> Ruins", "<font color='yellow'>LOADING...</font>")
+=======
+	else if (SSmapping.current_map.load_all_away_missions) // we're likely in a local testing environment, so punch it.
+		load_all_away_missions()
+
+>>>>>>> tg-pr-88929
 	loading_ruins = TRUE
 	setup_ruins()
 	loading_ruins = FALSE
@@ -266,21 +278,35 @@ SUBSYSTEM_DEF(mapping)
 	// Generate mining ruins
 	var/list/lava_ruins = levels_by_trait(ZTRAIT_LAVA_RUINS)
 	if (lava_ruins.len)
-		seedRuins(lava_ruins, CONFIG_GET(number/lavaland_budget), list(/area/lavaland/surface/outdoors/unexplored), themed_ruins[ZTRAIT_LAVA_RUINS], clear_below = TRUE)
+		seedRuins(lava_ruins, CONFIG_GET(number/lavaland_budget), list(/area/lavaland/surface/outdoors/unexplored), themed_ruins[ZTRAIT_LAVA_RUINS], clear_below = TRUE, mineral_budget = 15, mineral_budget_update = OREGEN_PRESET_LAVALAND, ruins_type = ZTRAIT_LAVA_RUINS)
 
 	var/list/ice_ruins = levels_by_trait(ZTRAIT_ICE_RUINS)
 	if (ice_ruins.len)
 		// needs to be whitelisted for underground too so place_below ruins work
+<<<<<<< HEAD
 		seedRuins(ice_ruins, CONFIG_GET(number/icemoon_budget), list(/area/icemoon/surface/outdoors/unexplored, /area/icemoon/underground/unexplored), themed_ruins[ZTRAIT_ICE_RUINS], clear_below = TRUE)
 
 	var/list/ice_ruins_underground = levels_by_trait(ZTRAIT_ICE_RUINS_UNDERGROUND)
 	if (ice_ruins_underground.len)
 		seedRuins(ice_ruins_underground, CONFIG_GET(number/icemoon_budget), list(/area/icemoon/underground/unexplored), themed_ruins[ZTRAIT_ICE_RUINS_UNDERGROUND], clear_below = TRUE, mineral_budget = 21)
+=======
+		seedRuins(ice_ruins, CONFIG_GET(number/icemoon_budget), list(/area/icemoon/surface/outdoors/unexplored, /area/icemoon/underground/unexplored), themed_ruins[ZTRAIT_ICE_RUINS], clear_below = TRUE, mineral_budget = 4, mineral_budget_update = OREGEN_PRESET_TRIPLE_Z, ruins_type = ZTRAIT_ICE_RUINS)
+
+	var/list/ice_ruins_underground = levels_by_trait(ZTRAIT_ICE_RUINS_UNDERGROUND)
+	if (ice_ruins_underground.len)
+		seedRuins(ice_ruins_underground, CONFIG_GET(number/icemoon_budget), list(/area/icemoon/underground/unexplored), themed_ruins[ZTRAIT_ICE_RUINS_UNDERGROUND], clear_below = TRUE, mineral_budget = 21, ruins_type = ZTRAIT_ICE_RUINS_UNDERGROUND)
+>>>>>>> tg-pr-88929
 
 	// Generate deep space ruins
 	var/list/space_ruins = levels_by_trait(ZTRAIT_SPACE_RUINS)
 	if (space_ruins.len)
+<<<<<<< HEAD
 		seedRuins(space_ruins, CONFIG_GET(number/space_budget), list(/area/space), themed_ruins[ZTRAIT_SPACE_RUINS], mineral_budget = 0)
+=======
+		// Create a proportional budget by multiplying the amount of space ruin levels in the current map over the default amount
+		var/proportional_budget = round(CONFIG_GET(number/space_budget) * (space_ruins.len / DEFAULT_SPACE_RUIN_LEVELS))
+		seedRuins(space_ruins, proportional_budget, list(/area/space), themed_ruins[ZTRAIT_SPACE_RUINS], mineral_budget = 0, ruins_type = ZTRAIT_SPACE_RUINS)
+>>>>>>> tg-pr-88929
 
 /// Sets up rivers, and things that behave like rivers. So lava/plasma rivers, and chasms
 /// It is important that this happens AFTER generating mineral walls and such, since we rely on them for river logic
@@ -292,7 +318,8 @@ SUBSYSTEM_DEF(mapping)
 
 	var/list/ice_ruins = levels_by_trait(ZTRAIT_ICE_RUINS)
 	for (var/ice_z in ice_ruins)
-		spawn_rivers(ice_z, 4, /turf/open/openspace/icemoon, /area/icemoon/surface/outdoors/unexplored/rivers)
+		var/river_type = HAS_TRAIT(SSstation, STATION_TRAIT_FORESTED) ? /turf/open/lava/plasma/ice_moon : /turf/open/openspace/icemoon
+		spawn_rivers(ice_z, 4, river_type, /area/icemoon/surface/outdoors/unexplored/rivers)
 
 	var/list/ice_ruins_underground = levels_by_trait(ZTRAIT_ICE_RUINS_UNDERGROUND)
 	for (var/ice_z in ice_ruins_underground)
@@ -377,20 +404,24 @@ Used by the AI doomsday and the self-destruct nuke.
 	holodeck_templates = SSmapping.holodeck_templates
 	areas_in_z = SSmapping.areas_in_z
 
+<<<<<<< HEAD
 	random_engine_templates = SSmapping.random_engine_templates
 	random_bar_templates = SSmapping.random_bar_templates
 	random_arena_templates = SSmapping.random_arena_templates
 
 	current_map = SSmapping.current_map
 
+=======
+	current_map = SSmapping.current_map
+>>>>>>> tg-pr-88929
 	clearing_reserved_turfs = SSmapping.clearing_reserved_turfs
 
 	z_list = SSmapping.z_list
 	multiz_levels = SSmapping.multiz_levels
 	loaded_lazy_templates = SSmapping.loaded_lazy_templates
 
-#define INIT_ANNOUNCE(X) to_chat(world, span_boldannounce("[X]")); log_world(X)
-/datum/controller/subsystem/mapping/proc/LoadGroup(list/errorList, name, path, files, list/traits, list/default_traits, silent = FALSE)
+#define INIT_ANNOUNCE(X) to_chat(world, span_boldannounce("[X]"), MESSAGE_TYPE_DEBUG); log_world(X)
+/datum/controller/subsystem/mapping/proc/LoadGroup(list/errorList, name, path, files, list/traits, list/default_traits, silent = FALSE, height_autosetup = TRUE)
 	. = list()
 	var/start_time = REALTIMEOFDAY
 	if(!silent)
@@ -414,12 +445,22 @@ Used by the AI doomsday and the self-destruct nuke.
 
 	if (!length(traits))  // null or empty - default
 		for (var/i in 1 to total_z)
-			traits += list(default_traits)
+			traits += list(default_traits.Copy())
 	else if (total_z != traits.len)  // mismatch
 		if (total_z < traits.len)  // ignore extra traits
 			traits.Cut(total_z + 1)
 		while (total_z > traits.len)  // fall back to defaults on extra levels
-			traits += list(default_traits)
+			traits += list(default_traits.Copy())
+
+	if(total_z > 1 && height_autosetup) // it's a multi z map, and we haven't opted out of trait autosetup
+		for(var/z in 1 to total_z)
+			if(z == 1) // bottom z-level
+				traits[z]["Up"] = TRUE
+			else if(z == total_z) // top z-level
+				traits[z]["Down"] = TRUE
+			else
+				traits[z]["Down"] = TRUE
+				traits[z]["Up"] = TRUE
 
 	// preload the relevant space_level datums
 	var/start_z = world.maxz + 1
@@ -538,6 +579,7 @@ Used by the AI doomsday and the self-destruct nuke.
 
 	// load the station
 	station_start = world.maxz + 1
+<<<<<<< HEAD
 	LoadGroup(FailedZs, "Station", current_map.map_path, current_map.map_file, current_map.traits, ZTRAITS_STATION)
 
 	LoadStationRoomTemplates()
@@ -546,6 +588,10 @@ Used by the AI doomsday and the self-destruct nuke.
 	load_random_engines()
 	load_random_bars()
 	load_random_arena()
+=======
+	INIT_ANNOUNCE("Loading [current_map.map_name]...")
+	LoadGroup(FailedZs, "Station", current_map.map_path, current_map.map_file, current_map.traits, ZTRAITS_STATION, height_autosetup = current_map.height_autosetup)
+>>>>>>> tg-pr-88929
 
 	if(SSdbcore.Connect())
 		var/datum/db_query/query_round_map_name = SSdbcore.NewQuery({"
@@ -555,6 +601,7 @@ Used by the AI doomsday and the self-destruct nuke.
 		qdel(query_round_map_name)
 
 #ifndef LOWMEMORYMODE
+<<<<<<< HEAD
 	// TODO: remove this when the DB is prepared for the z-levels getting reordered
 	while (world.maxz < (5 - 1) && space_levels_so_far < current_map.space_ruin_levels)
 		++space_levels_so_far
@@ -568,6 +615,13 @@ Used by the AI doomsday and the self-destruct nuke.
 		INIT_ANNOUNCE("WARNING: An unknown minetype '[current_map.minetype]' was set! This is being ignored! Update the maploader code!")
 	if(CONFIG_GET(flag/eclipse))
 		LoadGroup(FailedZs, "Eclipse", "~monkestation/unique", "eclipse.dmm", traits = ZTRAITS_ECLIPSE)
+=======
+
+	if(current_map.minetype == "lavaland")
+		LoadGroup(FailedZs, "Lavaland", "map_files/Mining", "Lavaland.dmm", default_traits = ZTRAITS_LAVALAND)
+	else if (!isnull(current_map.minetype) && current_map.minetype != "none")
+		INIT_ANNOUNCE("WARNING: An unknown minetype '[current_map.minetype]' was set! This is being ignored! Update the maploader code!")
+>>>>>>> tg-pr-88929
 #endif
 
 	if(LAZYLEN(FailedZs)) //but seriously, unless the server's filesystem is messed up this will never happen
@@ -613,10 +667,15 @@ GLOBAL_LIST_EMPTY(the_station_areas)
 	for(var/area/A as anything in GLOB.areas)
 		A.RunTerrainPopulation()
 
+<<<<<<< HEAD
 /datum/controller/subsystem/mapping/proc/preloadTemplates() //see master controller setup
 	if(IsAdminAdvancedProcCall())
 		return
 	var/list/filelist = flist("[MAP_DIRECTORY_MAPS]/templates/")
+=======
+/datum/controller/subsystem/mapping/proc/preloadTemplates(path = "_maps/templates/") //see master controller setup
+	var/list/filelist = flist(path)
+>>>>>>> tg-pr-88929
 	for(var/map in filelist)
 		var/datum/map_template/T = new(path = "[MAP_DIRECTORY_MAPS]/templates/[map]", rename = "[map]")
 		map_templates[T.name] = T
@@ -723,7 +782,11 @@ GLOBAL_LIST_EMPTY(the_station_areas)
 
 		holodeck_templates[holo_template.template_id] = holo_template
 
+<<<<<<< HEAD
 ADMIN_VERB(load_away_mission, R_FUN, FALSE, "Load Away Mission", "Load a specific away mission for the station.", ADMIN_CATEGORY_EVENTS)
+=======
+ADMIN_VERB(load_away_mission, R_FUN, "Load Away Mission", "Load a specific away mission for the station.", ADMIN_CATEGORY_EVENTS)
+>>>>>>> tg-pr-88929
 	if(!GLOB.the_gateway)
 		if(tgui_alert(user, "There's no home gateway on the station. You sure you want to continue ?", "Uh oh", list("Yes", "No")) != "Yes")
 			return
@@ -734,6 +797,7 @@ ADMIN_VERB(load_away_mission, R_FUN, FALSE, "Load Away Mission", "Load a specifi
 	var/secret = FALSE
 	if(tgui_alert(user, "Do you want your mission secret? (This will prevent ghosts from looking at your map in any way other than through a living player's eyes.)", "Are you $$$ekret?", list("Yes", "No")) == "Yes")
 		secret = TRUE
+<<<<<<< HEAD
 	var/answer = input(user, "What kind?","Away") as null | anything in possible_options
 	switch(answer)
 		if("Custom")
@@ -742,12 +806,22 @@ ADMIN_VERB(load_away_mission, R_FUN, FALSE, "Load Away Mission", "Load a specifi
 				return
 			away_name = "[mapfile] custom"
 			to_chat(user,span_notice("Loading [away_name]..."))
+=======
+	var/answer = input(user, "What kind?","Away") as null|anything in possible_options
+	switch(answer)
+		if("Custom")
+			var/mapfile = input(user, "Pick file:", "File") as null|file
+			if(!mapfile)
+				return
+			away_name = "[mapfile] custom"
+			to_chat(user, span_notice("Loading [away_name]..."), MESSAGE_TYPE_DEBUG)
+>>>>>>> tg-pr-88929
 			var/datum/map_template/template = new(mapfile, "Away Mission")
 			away_level = template.load_new_z(secret)
 		else
 			if(answer in GLOB.potentialRandomZlevels)
 				away_name = answer
-				to_chat(usr,span_notice("Loading [away_name]..."))
+				to_chat(user, span_notice("Loading [away_name]..."), MESSAGE_TYPE_DEBUG)
 				var/datum/map_template/template = new(away_name, "Away Mission")
 				away_level = template.load_new_z(secret)
 			else
@@ -811,6 +885,10 @@ ADMIN_VERB(load_away_mission, R_FUN, FALSE, "Load Away Mission", "Load a specifi
 	for(var/turf/T as anything in block)
 		// No need to empty() these, because they just got created and are already /turf/open/space/basic.
 		T.turf_flags = UNUSED_RESERVATION_TURF
+<<<<<<< HEAD
+=======
+		T.blocks_air = TRUE
+>>>>>>> tg-pr-88929
 		CHECK_TICK
 
 	// Gotta create these suckers if we've not done so already
@@ -953,7 +1031,8 @@ ADMIN_VERB(load_away_mission, R_FUN, FALSE, "Load Away Mission", "Load a specifi
 /datum/controller/subsystem/mapping/proc/generate_offset_lists(gen_from, new_offset)
 	create_plane_offsets(gen_from, new_offset)
 	for(var/offset in gen_from to new_offset)
-		GLOB.fullbright_overlays += create_fullbright_overlay(offset)
+		GLOB.starlight_objects += starlight_object(offset)
+		GLOB.starlight_overlays += starlight_overlay(offset)
 
 	for(var/datum/gas/gas_type as anything in GLOB.meta_gas_info)
 		var/list/gas_info = GLOB.meta_gas_info[gas_type]
@@ -969,7 +1048,7 @@ ADMIN_VERB(load_away_mission, R_FUN, FALSE, "Load Away Mission", "Load a specifi
 			var/offset_plane = GET_NEW_PLANE(plane_to_use, plane_offset)
 			var/string_plane = "[offset_plane]"
 
-			if(!initial(master_type.allows_offsetting))
+			if(initial(master_type.offsetting_flags) & BLOCKS_PLANE_OFFSETTING)
 				plane_offset_blacklist[string_plane] = TRUE
 				var/render_target = initial(master_type.render_target)
 				if(!render_target)
@@ -1031,6 +1110,7 @@ ADMIN_VERB(load_away_mission, R_FUN, FALSE, "Load Away Mission", "Load a specifi
 		GLOB.default_lighting_underlays_by_z.len = z_level
 	GLOB.default_lighting_underlays_by_z[z_level] = mutable_appearance(LIGHTING_ICON, "transparent", z_level * 0.01, null, LIGHTING_PLANE, 255, RESET_COLOR | RESET_ALPHA | RESET_TRANSFORM, offset_const = GET_Z_PLANE_OFFSET(z_level))
 
+<<<<<<< HEAD
 ///Returns the map name, with an openlink action tied to it (if one exists) for the map.
 /datum/map_config/proc/return_map_name(webmap_included)
 	var/text
@@ -1041,3 +1121,82 @@ ADMIN_VERB(load_away_mission, R_FUN, FALSE, "Load Away Mission", "Load a specifi
 	if(webmap_included && !isnull(SSmapping.current_map.mapping_url))
 		text += " | <a href='byond://?action=openWebMap'>(Show Map)</a>"
 	return text
+=======
+/// Returns true if the map we're playing on is on a planet
+/datum/controller/subsystem/mapping/proc/is_planetary()
+	return current_map.planetary
+
+/// For debug purposes, will add every single away mission present in a given directory.
+/// You can optionally pass in a string directory to load from instead of the default.
+/datum/controller/subsystem/mapping/proc/load_all_away_missions(map_directory)
+	if(!map_directory)
+		map_directory = "_maps/RandomZLevels/"
+	var/start_time = null // in case we're doing this at runtime, useful to know how much time we're spending loading all these away missions
+	var/confirmation_alert_result = null
+	var/new_wait = 0 // default to always zeroing out the wait time for away missions to be unlocked due to the unit-testery nature of this map
+
+	if(IsAdminAdvancedProcCall())
+		if(!check_rights(R_DEBUG))
+			return
+		var/confirmation_string = "This will load every single away mission in the [map_directory] directory. This might cause a bit of lag that can only be cleared on a world restart. Are you sure you want to do this?"
+		confirmation_alert_result = tgui_alert(usr, confirmation_string, "DEBUG ONLY!!!", list("Yes", "Cancel"))
+		if(confirmation_alert_result != "Yes")
+			return
+
+		var/current_wait_time = CONFIG_GET(number/gateway_delay)
+		switch(tgui_alert(usr, "Do you want to zero out the cooldown for access to these maps? Currently [DisplayTimeText(current_wait_time)]", "OH FUCK!!!", list("Yes", "No", "Cancel")))
+			if("No")
+				new_wait = current_wait_time
+			if("Cancel")
+				return
+
+	else
+		start_time = REALTIMEOFDAY
+		var/beginning_message = "Loading all away missions..."
+		to_chat(world, span_boldannounce(beginning_message), MESSAGE_TYPE_DEBUG)
+		log_world(beginning_message)
+		log_mapping(beginning_message)
+
+	var/list/all_away_missions = generate_map_list_from_directory(map_directory)
+	var/number_of_away_missions = length(all_away_missions)
+	for(var/entry in all_away_missions)
+		load_new_z_level(entry, entry, secret = FALSE) // entry in both fields so we know if something failed to load since it'll log the full file name of what was loaded.
+
+	for(var/datum/gateway_destination/away_datum in GLOB.gateway_destinations)
+		away_datum.wait = new_wait
+		log_mapping("Now loading [away_datum.name]...")
+
+	validate_z_level_loading(all_away_missions)
+
+	if(!isnull(start_time))
+		var/tracked_time = (REALTIMEOFDAY - start_time) / 10
+		var/finished_message = "Loaded [number_of_away_missions] away missions in [tracked_time] second[tracked_time == 1 ? "" : "s"]!"
+		to_chat(world, span_boldannounce(finished_message), MESSAGE_TYPE_DEBUG)
+		log_world(finished_message)
+		log_mapping(finished_message)
+
+	if(isnull(confirmation_alert_result))
+		log_mapping("All away missions have been loaded. List of away missions paired to corresponding Z-Levels are as follows:")
+		log_mapping(gather_z_level_information())
+		return
+
+	message_admins("[key_name_admin(usr)] has loaded every single away mission in the [map_directory] directory. [ADMIN_SEE_ZLEVEL_LAYOUT]")
+	log_game("[key_name(usr)] has loaded every single away mission in the [map_directory] directory.")
+
+/// Lightweight proc that just checks to make sure that all of the expected z-levels were loaded. Split out for clarity from load_all_away_missions()
+/// Argument "checkable_levels" is just a list of the names (typically the filepaths) of the z-levels we were expected to load, which should correspond to the name on the space level datum.
+/datum/controller/subsystem/mapping/proc/validate_z_level_loading(list/checkable_levels)
+	for(var/z in 1 to max(world.maxz, length(z_list)))
+		var/datum/space_level/level = z_list[z]
+		if(isnull(level))
+			continue
+
+		var/level_name = level.name
+		if(level_name in checkable_levels)
+			checkable_levels -= level_name
+			continue
+
+	var/number_of_remaining_levels = length(checkable_levels)
+	if(number_of_remaining_levels > 0)
+		CRASH("The following [number_of_remaining_levels] away mission(s) were not loaded: [checkable_levels.Join("\n")]")
+>>>>>>> tg-pr-88929

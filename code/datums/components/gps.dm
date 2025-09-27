@@ -50,7 +50,11 @@ GLOBAL_LIST_EMPTY(GPS_list)
 	if(!emp_proof)
 		RegisterSignal(parent, COMSIG_ATOM_EMP_ACT, PROC_REF(on_emp_act))
 	RegisterSignal(parent, COMSIG_ATOM_EXAMINE, PROC_REF(on_examine))
+<<<<<<< HEAD
 	RegisterSignal(parent, COMSIG_CLICK_ALT, PROC_REF(on_AltClick))
+=======
+	RegisterSignal(parent, COMSIG_CLICK_ALT, PROC_REF(on_click_alt))
+>>>>>>> tg-pr-88929
 
 	// monkestation start: require calibration to point to remote z-levels
 	if(!isnull(requires_z_calibration))
@@ -73,9 +77,10 @@ GLOBAL_LIST_EMPTY(GPS_list)
 	examine_list += span_notice("Alt-click to switch it [tracking ? "off":"on"].")
 
 ///Called on COMSIG_ATOM_EMP_ACT
-/datum/component/gps/item/proc/on_emp_act(datum/source, severity)
+/datum/component/gps/item/proc/on_emp_act(datum/source, severity, protection)
 	SIGNAL_HANDLER
-
+	if(protection & EMP_PROTECT_SELF)
+		return
 	emped = TRUE
 	var/atom/A = parent
 	A.cut_overlay("working")
@@ -91,11 +96,15 @@ GLOBAL_LIST_EMPTY(GPS_list)
 	A.add_overlay("working")
 
 ///Calls toggletracking
-/datum/component/gps/item/proc/on_AltClick(datum/source, mob/user)
+/datum/component/gps/item/proc/on_click_alt(datum/source, mob/user)
 	SIGNAL_HANDLER
 
 	toggletracking(user)
+<<<<<<< HEAD
 	return COMPONENT_CANCEL_CLICK_ALT
+=======
+	return CLICK_ACTION_SUCCESS
+>>>>>>> tg-pr-88929
 
 ///Toggles the tracking for the gps
 /datum/component/gps/item/proc/toggletracking(mob/user)
@@ -156,7 +165,11 @@ GLOBAL_LIST_EMPTY(GPS_list)
 		if(pos.z == curr.z)
 			signal["dist"] = max(get_dist(curr, pos), 0) //Distance between the src and remote GPS turfs
 			signal["degrees"] = round(get_angle(curr, pos)) //0-360 degree directional bearing, for more precision.
+<<<<<<< HEAD
 		else if(can_point_to_z_level(pos.z)) // monkestation edit: require calibration to point to remove z-levels
+=======
+		else
+>>>>>>> tg-pr-88929
 			var/angle = get_linked_z_angle(curr.z, pos.z)
 			if(!isnull(angle))
 				signal["degrees"] = angle
@@ -164,7 +177,7 @@ GLOBAL_LIST_EMPTY(GPS_list)
 	data["signals"] = signals
 	return data
 
-/datum/component/gps/item/ui_act(action, params)
+/datum/component/gps/item/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
 	. = ..()
 	if(.)
 		return
@@ -172,8 +185,9 @@ GLOBAL_LIST_EMPTY(GPS_list)
 	switch(action)
 		if("rename")
 			var/atom/parentasatom = parent
-			var/a = tgui_input_text(usr, "Enter the desired tag", "GPS Tag", gpstag, 20)
-
+			var/a = tgui_input_text(usr, "Enter the desired tag", "GPS Tag", gpstag, max_length = 20)
+			if (QDELETED(ui) || ui.status != UI_INTERACTIVE)
+				return
 			if (!a)
 				return
 

@@ -4,18 +4,23 @@
 	pass_flags = PASSTABLE | PASSGLASS | PASSGRILLE
 	damage = 22
 	damage_type = BURN
-	hitsound = 'sound/weapons/sear.ogg'
-	hitsound_wall = 'sound/weapons/effects/searwall.ogg'
+	hitsound = 'sound/items/weapons/sear.ogg'
+	hitsound_wall = 'sound/items/weapons/effects/searwall.ogg'
 	armor_flag = LASER
 	eyeblur = 4 SECONDS
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/red_laser
 	light_system = OVERLAY_LIGHT
+<<<<<<< HEAD
 	light_outer_range = 1
 	light_power = 1
+=======
+	light_range = 1
+	light_power = 1.4
+>>>>>>> tg-pr-88929
 	light_color = COLOR_SOFT_RED
 	ricochets_max = 50 //Honk!
 	ricochet_chance = 80
-	reflectable = REFLECT_NORMAL
+	reflectable = TRUE
 	wound_bonus = -20
 	bare_wound_bonus = 10
 
@@ -25,9 +30,11 @@
 	tracer_type = /obj/effect/projectile/tracer/laser
 	muzzle_type = /obj/effect/projectile/muzzle/laser
 	impact_type = /obj/effect/projectile/impact/laser
-	wound_bonus = -30
+	wound_bonus = -20
+	damage = 25
 	bare_wound_bonus = 40
 
+<<<<<<< HEAD
 /obj/projectile/beam/laser/lasrifle
 	generic_name = "rifle beam"
 	damage = 25
@@ -62,17 +69,35 @@
 	icon_state = "carbine_laser"
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/yellow_laser
 	damage = 9
+=======
+/obj/projectile/beam/laser/carbine
+	icon_state = "carbine_laser"
+	impact_effect_type = /obj/effect/temp_visual/impact_effect/yellow_laser
+	damage = 10
+
+/obj/projectile/beam/laser/carbine/practice
+	name = "practice laser"
+	impact_effect_type = /obj/effect/temp_visual/impact_effect/yellow_laser
+	damage = 0
+
+/obj/projectile/beam/laser/carbine/cybersun
+	name = "red plasma beam"
+	icon_state = "lava"
+	light_color = COLOR_DARK_RED
+	impact_effect_type = /obj/effect/temp_visual/impact_effect/red_laser
+	damage = 9
+	wound_bonus = -40
+	speed = 0.9
+>>>>>>> tg-pr-88929
 
 //overclocked laser, does a bit more damage but has much higher wound power (-0 vs -20)
 /obj/projectile/beam/laser/hellfire
 	name = "hellfire laser"
+	icon_state = "hellfire"
 	wound_bonus = 0
-	damage = 25
-	speed = 0.6 // higher power = faster, that's how light works right
-
-/obj/projectile/beam/laser/hellfire/Initialize(mapload)
-	. = ..()
-	transform *= 2
+	damage = 30
+	speed = 1.6
+	light_color = "#FF969D"
 
 /obj/projectile/beam/laser/heavylaser
 	name = "heavy laser"
@@ -105,6 +130,7 @@
 	stamina = 20
 	weak_against_armour = FALSE
 
+<<<<<<< HEAD
 /obj/projectile/beam/laser/musket/syndicate
 	name = "resonant laser"
 	damage = 30
@@ -115,6 +141,8 @@
 	debilitating = TRUE
 	debilitate_mult = 2
 
+=======
+>>>>>>> tg-pr-88929
 /obj/projectile/beam/weak
 	damage = 15
 
@@ -129,7 +157,20 @@
 /obj/projectile/beam/scatter
 	name = "laser pellet"
 	icon_state = "scatterlaser"
-	damage = 5
+	damage = 7.5
+	wound_bonus = 5
+	bare_wound_bonus = 5
+	damage_falloff_tile = -0.45
+	wound_falloff_tile = -2.5
+
+/obj/projectile/beam/scatter/pathetic
+	name = "extremely weak laser pellet"
+	damage = 1
+	wound_bonus = 0
+	damage_falloff_tile = -0.1
+	color = "#dbc11d"
+	hitsound = 'sound/items/bikehorn.ogg' //honk
+	hitsound_wall = 'sound/items/bikehorn.ogg'
 
 /obj/projectile/beam/xray
 	name = "\improper X-ray beam"
@@ -153,6 +194,10 @@
 	stamina = 35
 	paralyze_timer = 5 SECONDS
 	armor_flag = ENERGY
+<<<<<<< HEAD
+=======
+	hitsound = 'sound/items/weapons/sear_disabler.ogg'
+>>>>>>> tg-pr-88929
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/blue_laser
 	light_color = LIGHT_COLOR_BLUE
 	tracer_type = /obj/effect/projectile/tracer/disabler
@@ -175,6 +220,15 @@
 	weak_against_armour = FALSE
 	stamina = 65 // MONKESTATION EDIT ORG: 30
 	debilitate_mult = 3.5 // MONKESTATION ADDITION
+
+/obj/projectile/beam/disabler/smoothbore
+	name = "unfocused disabler beam"
+	weak_against_armour = TRUE
+
+/obj/projectile/beam/disabler/smoothbore/prime
+	name = "focused disabler beam"
+	weak_against_armour = FALSE
+	damage = 35 //slight increase in damage just for the hell of it
 
 /obj/projectile/beam/pulse
 	name = "pulse"
@@ -221,7 +275,7 @@
 	wound_bonus = -40
 	bare_wound_bonus = 70
 
-/obj/projectile/beam/emitter/singularity_pull()
+/obj/projectile/beam/emitter/singularity_pull(atom/singularity, current_size)
 	return //don't want the emitters to miss
 
 /obj/projectile/beam/emitter/hitscan
@@ -284,6 +338,7 @@
 /obj/projectile/magic/shrink/alien
 	antimagic_flags = NONE
 	shrink_time = 9 SECONDS
+<<<<<<< HEAD
 
 /obj/projectile/beam/laser/plasma_glob
 	name = "plasma globule"
@@ -296,3 +351,5 @@
 	pass_flags = PASSTABLE | PASSGRILLE // His ass does NOT pass through glass!
 	weak_against_armour = TRUE
 
+=======
+>>>>>>> tg-pr-88929

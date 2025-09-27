@@ -40,7 +40,11 @@
 /datum/tgui_say/proc/start_thinking()
 	if(!window_open)
 		return FALSE
+<<<<<<< HEAD
 	return client.start_thinking() // monkestation edit: LOOC thinking indicators
+=======
+	return client.start_thinking()
+>>>>>>> tg-pr-88929
 
 /** Removes typing/thinking indicators and flags the mob as not thinking */
 /datum/tgui_say/proc/stop_thinking()

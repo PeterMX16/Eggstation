@@ -45,7 +45,7 @@
 |||| only by meta_gas_list().            ||||
 \*||||||||||||||||||||||||||||||||||||||||*/
 
-//This is a plot created using the values for gas exports. Each gas has a value that works as it's kind of soft-cap, which limits you from making billions of credits per sale, based on the base_value variable on the gasses themselves. Most of these gasses as a result have a rather low value when sold, like nitrogen and oxygen at 1500 and 600 respectively at their maximum value. The
+//This is a plot created using the values for gas exports. Each gas has a value that works as its kind of soft-cap, which limits you from making billions of credits per sale, based on the base_value variable on the gasses themselves. Most of these gasses as a result have a rather low value when sold, like nitrogen and oxygen at 1500 and 600 respectively at their maximum value. The
 /datum/gas
 	var/id = ""
 	var/specific_heat = 0
@@ -64,28 +64,32 @@
 	///How does a single mole of this gas sell for? Formula to calculate maximum value is in code\modules\cargo\exports\large_objects.dm. Doesn't matter for roundstart gasses.
 	var/base_value = 0
 	var/desc
+	///RGB code for use when a generic color representing the gas is needed. Colors taken from contants.ts
+	var/primary_color
 
 
 /datum/gas/oxygen
-	id = "o2"
+	id = GAS_O2
 	specific_heat = 20
 	name = "Oxygen"
 	rarity = 900
 	purchaseable = TRUE
 	base_value = 0.2
 	desc = "The gas most life forms need to be able to survive. Also an oxidizer."
+	primary_color = "#0000ff"
 
 /datum/gas/nitrogen
-	id = "n2"
+	id = GAS_N2
 	specific_heat = 20
 	name = "Nitrogen"
 	rarity = 1000
 	purchaseable = TRUE
 	base_value = 0.1
-	desc = "A very common gas that used to pad artifical atmospheres to habitable pressure."
+	desc = "A very common gas that used to pad artificial atmospheres to habitable pressure."
+	primary_color = "#ffff00"
 
 /datum/gas/carbon_dioxide //what the fuck is this?
-	id = "co2"
+	id = GAS_CO2
 	specific_heat = 30
 	name = "Carbon Dioxide"
 	dangerous = TRUE
@@ -93,9 +97,10 @@
 	purchaseable = TRUE
 	base_value = 0.2
 	desc = "What the fuck is carbon dioxide?"
+	primary_color = COLOR_GRAY
 
 /datum/gas/plasma
-	id = "plasma"
+	id = GAS_PLASMA
 	specific_heat = 200
 	name = "Plasma"
 	gas_overlay = "plasma"
@@ -103,10 +108,11 @@
 	dangerous = TRUE
 	rarity = 800
 	base_value = 1.5
-	desc = "A flammable gas with many other curious properties. It's research is one of NT's primary objective."
+	desc = "A flammable gas with many other curious properties. Its research is one of NT's primary objective."
+	primary_color = "#ffc0cb"
 
 /datum/gas/water_vapor
-	id = "water_vapor"
+	id = GAS_WATER_VAPOR
 	specific_heat = 40
 	name = "Water Vapor"
 	gas_overlay = "water_vapor"
@@ -116,9 +122,10 @@
 	purchaseable = TRUE
 	base_value = 0.5
 	desc = "Water, in gas form. Makes things slippery."
+	primary_color = "#b0c4de"
 
 /datum/gas/hypernoblium
-	id = "nob"
+	id = GAS_HYPER_NOBLIUM
 	specific_heat = 2000
 	name = "Hyper-noblium"
 	gas_overlay = "freon"
@@ -126,10 +133,11 @@
 	fusion_power = 10
 	rarity = 50
 	base_value = 2.5
-	desc = "The most noble gas of them all. High quantities of hyper-noblium actively prevents reactions from occuring."
+	desc = "The most noble gas of them all. High quantities of hyper-noblium actively prevents reactions from occurring."
+	primary_color = COLOR_TEAL
 
 /datum/gas/nitrous_oxide
-	id = "n2o"
+	id = GAS_N2O
 	specific_heat = 40
 	name = "Nitrous Oxide"
 	gas_overlay = "nitrous_oxide"
@@ -140,9 +148,10 @@
 	purchaseable = TRUE
 	base_value = 1.5
 	desc = "Causes drowsiness, euphoria, and eventually unconsciousness."
+	primary_color = "#ffe4c4"
 
 /datum/gas/nitrium
-	id = "nitrium"
+	id = GAS_NITRIUM
 	specific_heat = 10
 	name = "Nitrium"
 	fusion_power = 7
@@ -152,9 +161,10 @@
 	rarity = 1
 	base_value = 6
 	desc = "An experimental performance enhancing gas. Nitrium can have amplified effects as more of it gets into your bloodstream."
+	primary_color = "#a52a2a"
 
 /datum/gas/tritium
-	id = "tritium"
+	id = GAS_TRITIUM
 	specific_heat = 10
 	name = "Tritium"
 	gas_overlay = "tritium"
@@ -163,10 +173,11 @@
 	fusion_power = 5
 	rarity = 300
 	base_value = 2.5
-	desc = "A highly flammable and radioctive gas."
+	desc = "A highly flammable and radioactive gas."
+	primary_color = "#32cd32"
 
 /datum/gas/bz
-	id = "bz"
+	id = GAS_BZ
 	specific_heat = 20
 	name = "BZ"
 	dangerous = TRUE
@@ -175,18 +186,20 @@
 	purchaseable = TRUE
 	base_value = 1.5
 	desc = "A powerful hallucinogenic nerve agent able to induce cognitive damage."
+	primary_color = "#9370db"
 
 /datum/gas/pluoxium
-	id = "pluox"
+	id = GAS_PLUOXIUM
 	specific_heat = 80
 	name = "Pluoxium"
 	fusion_power = -10
 	rarity = 200
 	base_value = 2.5
 	desc = "A gas that could supply even more oxygen to the bloodstream when inhaled, without being an oxidizer."
+	primary_color = "#7b68ee"
 
 /datum/gas/miasma
-	id = "miasma"
+	id = GAS_MIASMA
 	specific_heat = 20
 	name = "Miasma"
 	dangerous = TRUE
@@ -195,9 +208,10 @@
 	rarity = 250
 	base_value = 1
 	desc = "Not necessarily a gas, miasma refers to biological pollutants found in the atmosphere."
+	primary_color = COLOR_OLIVE
 
 /datum/gas/freon
-	id = "freon"
+	id = GAS_FREON
 	specific_heat = 600
 	name = "Freon"
 	dangerous = TRUE
@@ -206,11 +220,17 @@
 	moles_visible = MOLES_GAS_VISIBLE *30
 	fusion_power = -5
 	rarity = 10
+<<<<<<< HEAD
 	base_value = 1.5 //MONKESTATION EDIT 5 ==> 1.5
 	desc = "A coolant gas. Mainly used for it's endothermic reaction with oxygen."
+=======
+	base_value = 5
+	desc = "A coolant gas. Mainly used for its endothermic reaction with oxygen."
+	primary_color = "#afeeee"
+>>>>>>> tg-pr-88929
 
 /datum/gas/hydrogen
-	id = "hydrogen"
+	id = GAS_HYDROGEN
 	specific_heat = 15
 	name = "Hydrogen"
 	dangerous = TRUE
@@ -219,9 +239,10 @@
 	rarity = 600
 	base_value = 1
 	desc = "A highly flammable gas."
+	primary_color = "#ffffff"
 
 /datum/gas/healium
-	id = "healium"
+	id = GAS_HEALIUM
 	specific_heat = 10
 	name = "Healium"
 	dangerous = TRUE
@@ -230,9 +251,10 @@
 	rarity = 300
 	base_value = 5.5
 	desc = "Causes deep, regenerative sleep."
+	primary_color = "#fa8072"
 
 /datum/gas/proto_nitrate
-	id = "proto_nitrate"
+	id = GAS_PROTO_NITRATE
 	specific_heat = 30
 	name = "Proto Nitrate"
 	dangerous = TRUE
@@ -241,9 +263,10 @@
 	rarity = 200
 	base_value = 2.5
 	desc = "A very volatile gas that reacts differently with various gases."
+	primary_color = "#adff2f"
 
 /datum/gas/zauker
-	id = "zauker"
+	id = GAS_ZAUKER
 	specific_heat = 350
 	name = "Zauker"
 	dangerous = TRUE
@@ -251,10 +274,11 @@
 	moles_visible = MOLES_GAS_VISIBLE
 	rarity = 1
 	base_value = 7
-	desc = "A highly toxic gas, it's production is highly regulated on top of being difficult. It also breaks down when in contact with nitrogen."
+	desc = "A highly toxic gas, its production is highly regulated on top of being difficult. It also breaks down when in contact with nitrogen."
+	primary_color = "#006400"
 
 /datum/gas/halon
-	id = "halon"
+	id = GAS_HALON
 	specific_heat = 175
 	name = "Halon"
 	dangerous = TRUE
@@ -262,19 +286,21 @@
 	moles_visible = MOLES_GAS_VISIBLE
 	rarity = 300
 	base_value = 4
-	desc = "A potent fire supressant. Removes oxygen from high temperature fires and cools down the area"
+	desc = "A potent fire suppressant. Removes oxygen from high temperature fires and cools down the area"
+	primary_color = COLOR_PURPLE
 
 /datum/gas/helium
-	id = "helium"
+	id = GAS_HELIUM
 	specific_heat = 15
 	name = "Helium"
 	fusion_power = 7
 	rarity = 50
 	base_value = 3.5
-	desc = "A very inert gas produced by the fusion of hydrogen and it's derivatives."
+	desc = "A very inert gas produced by the fusion of hydrogen and its derivatives."
+	primary_color = "#f0f8ff"
 
 /datum/gas/antinoblium
-	id = "antinoblium"
+	id = GAS_ANTINOBLIUM
 	specific_heat = 1
 	name = "Antinoblium"
 	dangerous = TRUE
@@ -284,6 +310,7 @@
 	rarity = 1
 	base_value = 10
 	desc = "We still don't know what it does, but it sells for a lot."
+	primary_color = COLOR_MAROON
 
 /obj/effect/overlay/gas
 	icon = 'icons/effects/atmospherics.dmi'
@@ -294,7 +321,11 @@
 	appearance_flags = TILE_BOUND
 	vis_flags = NONE
 	// The visual offset we are "on".
+<<<<<<< HEAD
 	// Can't use the tradtional loc because we are stored in nullspace, and we can't set plane before init because of the helping that SET_PLANE_EXPLICIT does IN init
+=======
+	// Can't use the traditional loc because we are stored in nullspace, and we can't set plane before init because of the helping that SET_PLANE_EXPLICIT does IN init
+>>>>>>> tg-pr-88929
 	var/plane_offset = 0
 
 /obj/effect/overlay/gas/New(state, alph, offset)
@@ -306,3 +337,7 @@
 /obj/effect/overlay/gas/Initialize(mapload)
 	. = ..()
 	SET_PLANE_W_SCALAR(src, initial(plane), plane_offset)
+<<<<<<< HEAD
+=======
+
+>>>>>>> tg-pr-88929

@@ -12,7 +12,11 @@
 
 /obj/item/bot_assembly/attackby(obj/item/attacking_item, mob/user, list/modifiers, list/attack_modifiers)
 	..()
+<<<<<<< HEAD
 	if(IS_WRITING_UTENSIL(attacking_item))
+=======
+	if(IS_WRITING_UTENSIL(I))
+>>>>>>> tg-pr-88929
 		rename_bot()
 		return
 
@@ -44,8 +48,7 @@
 /obj/item/bot_assembly/cleanbot
 	desc = "It's a bucket with a sensor attached."
 	name = "incomplete cleanbot assembly"
-	icon_state = "bucket_proxy"
-	greyscale_config = /datum/greyscale_config/buckets_cleanbot
+	icon_state = "cleanbot_assembly"
 	throwforce = 5
 	created_name = "Cleanbot"
 	var/obj/item/reagent_containers/cup/bucket/bucket_obj
@@ -61,7 +64,6 @@
 		if(bucket_obj && bucket_obj != arrived)
 			qdel(bucket_obj)
 		bucket_obj = arrived
-		set_greyscale(bucket_obj.greyscale_colors)
 	return ..()
 
 /obj/item/bot_assembly/cleanbot/Exited(atom/movable/gone, direction)
@@ -137,8 +139,13 @@
 					build_step++
 
 		if(ASSEMBLY_FIFTH_STEP)
+<<<<<<< HEAD
 			if(istype(attacking_item, /obj/item/clothing/head/helmet))
 				if(!user.temporarilyRemoveItemFromInventory(attacking_item))
+=======
+			if(istype(W, /obj/item/clothing/head/helmet/sec))
+				if(!user.temporarilyRemoveItemFromInventory(W))
+>>>>>>> tg-pr-88929
 					return
 				to_chat(user, span_notice("You add [attacking_item] to [src]."))
 				qdel(attacking_item)
@@ -192,44 +199,42 @@
 					to_chat(user, span_notice("You complete the ED-209."))
 					qdel(src)
 
-//Floorbot assemblies
-/obj/item/bot_assembly/floorbot
+//Repairbot assemblies
+/obj/item/bot_assembly/repairbot
 	desc = "It's a toolbox with tiles sticking out the top."
-	name = "tiles and toolbox"
-	icon_state = "toolbox_tiles"
+	name = "Repairbot Chasis"
+	icon_state = "repairbot_base"
 	throwforce = 10
-	created_name = "Floorbot"
+	created_name = "Repairbot"
+	///the toolbox our repairbot is made of
 	var/toolbox = /obj/item/storage/toolbox/mechanical
-	var/toolbox_color = "" //Blank for blue, r for red, y for yellow, etc.
+	///the color of our toolbox
+	var/toolbox_color = ""
 
-/obj/item/bot_assembly/floorbot/Initialize(mapload)
+/obj/item/bot_assembly/repairbot/Initialize(mapload)
 	. = ..()
 	update_appearance()
 
-/obj/item/bot_assembly/floorbot/update_name()
-	. = ..()
-	switch(build_step)
-		if(ASSEMBLY_SECOND_STEP)
-			name = "incomplete floorbot assembly"
-		else
-			name = initial(name)
+/obj/item/bot_assembly/repairbot/proc/set_color(new_color)
+	add_atom_colour(new_color, FIXED_COLOUR_PRIORITY)
+	toolbox_color = new_color
 
-/obj/item/bot_assembly/floorbot/update_desc()
-	. = ..()
-	switch(build_step)
-		if(ASSEMBLY_SECOND_STEP)
-			desc = "It's a toolbox with tiles sticking out the top and a sensor attached."
-		else
-			desc = initial(desc)
-
-/obj/item/bot_assembly/floorbot/update_icon_state()
+/obj/item/bot_assembly/repairbot/update_desc()
 	. = ..()
 	switch(build_step)
 		if(ASSEMBLY_FIRST_STEP)
-			icon_state = "[toolbox_color]toolbox_tiles"
-		if(ASSEMBLY_SECOND_STEP)
-			icon_state = "[toolbox_color]toolbox_tiles_sensor"
+			desc = "It's a toolbox with a giant monitor sticking out!."
+		else
+			desc = initial(desc)
 
+/obj/item/bot_assembly/repairbot/update_overlays()
+	. = ..()
+	if(build_step >= ASSEMBLY_FIRST_STEP)
+		. += mutable_appearance(icon, "repairbot_base_sensor", appearance_flags = RESET_COLOR)
+	if(build_step >= ASSEMBLY_SECOND_STEP)
+		. += mutable_appearance(icon, "repairbot_base_arms", appearance_flags = RESET_COLOR)
+
+<<<<<<< HEAD
 /obj/item/bot_assembly/floorbot/attackby(obj/item/attacking_item, mob/user, list/modifiers, list/attack_modifiers)
 	..()
 	switch(build_step)
@@ -253,6 +258,34 @@
 				to_chat(user, span_notice("You add [attacking_item] to [src]. Boop beep!"))
 				qdel(attacking_item)
 				qdel(src)
+=======
+/obj/item/bot_assembly/repairbot/attackby(obj/item/item, mob/user, params)
+	..()
+	switch(build_step)
+		if(ASSEMBLY_FIRST_STEP)
+			if(!istype(item, /obj/item/bodypart/arm/left/robot) && !istype(item, /obj/item/bodypart/arm/right/robot))
+				return
+			if(!can_finish_build(item, user))
+				return
+			build_step++
+			to_chat(user, span_notice("You add [item] to [src]. Boop beep!"))
+			qdel(item)
+			update_appearance()
+		if(ASSEMBLY_SECOND_STEP)
+			if(!istype(item, /obj/item/stack/conveyor))
+				return
+			if(!can_finish_build(item, user))
+				return
+			var/mob/living/basic/bot/repairbot/repair = new(drop_location())
+			repair.name = created_name
+			repair.toolbox = toolbox
+			repair.set_color(toolbox_color)
+			to_chat(user, span_notice("You add [item] to [src]. Boop beep!"))
+			var/obj/item/stack/crafting_stack = item
+			var/atom/used_belt = crafting_stack.split_stack(user, 1)
+			qdel(used_belt)
+			qdel(src)
+>>>>>>> tg-pr-88929
 
 
 //Medbot Assembly
@@ -288,7 +321,11 @@
 			if(isprox(attacking_item))
 				if(!can_finish_build(attacking_item, user))
 					return
+<<<<<<< HEAD
 				qdel(attacking_item)
+=======
+				qdel(W)
+>>>>>>> tg-pr-88929
 				var/mob/living/basic/bot/medbot/medbot = new(drop_location(), skin)
 				to_chat(user, span_notice("You complete the Medbot. Beep boop!"))
 				medbot.name = created_name
@@ -325,11 +362,9 @@
 				if(!can_finish_build(attacking_item, user))
 					return
 				to_chat(user, span_notice("You add the [attacking_item] to [src]! Honk!"))
-				var/mob/living/simple_animal/bot/secbot/honkbot/new_honkbot = new(drop_location())
+				var/mob/living/basic/bot/honkbot/new_honkbot = new(drop_location())
 				new_honkbot.name = created_name
-				new_honkbot.limiting_spam = TRUE // only long enough to hear the first ping.
 				playsound(new_honkbot, 'sound/machines/ping.ogg', 50, TRUE, -1)
-				new_honkbot.baton_type = attacking_item.type
 				qdel(attacking_item)
 				qdel(src)
 
@@ -497,10 +532,17 @@
 			if(isprox(attacking_item))
 				if(!can_finish_build(attacking_item, user))
 					return
+<<<<<<< HEAD
 				to_chat(user, span_notice("You add the [attacking_item] to [src]! Beep Boop!"))
 				var/mob/living/simple_animal/bot/firebot/F = new(drop_location())
 				F.name = created_name
 				qdel(attacking_item)
+=======
+				to_chat(user, span_notice("You add the [I] to [src]! Beep Boop!"))
+				var/mob/living/basic/bot/firebot/firebot = new(drop_location())
+				firebot.name = created_name
+				qdel(I)
+>>>>>>> tg-pr-88929
 				qdel(src)
 
 //Get cleaned

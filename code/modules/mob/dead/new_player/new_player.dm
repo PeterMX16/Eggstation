@@ -1,3 +1,5 @@
+///Cooldown for the Reset Lobby Menu HUD verb
+#define RESET_HUD_INTERVAL 15 SECONDS
 /mob/dead/new_player
 	flags_1 = NONE
 	invisibility = INVISIBILITY_ABSTRACT
@@ -16,12 +18,18 @@
 	var/ineligible_for_roles = FALSE
 	/// Used to track if the player's jobs menu sent a message saying it successfully mounted.
 	var/jobs_menu_mounted = FALSE
-
+	///Cooldown for the Reset Lobby Menu HUD verb
+	COOLDOWN_DECLARE(reset_hud_cooldown)
 
 /mob/dead/new_player/Initialize(mapload)
 	if(client && SSticker.state == GAME_STATE_STARTUP)
+<<<<<<< HEAD
 		var/atom/movable/screen/splash/S = new(null, null, client, TRUE, TRUE)
 		S.Fade(TRUE)
+=======
+		var/atom/movable/screen/splash/fade_out = new(null, null, client, TRUE)
+		fade_out.Fade(TRUE)
+>>>>>>> tg-pr-88929
 
 	if(length(GLOB.newplayer_start))
 		forceMove(pick(GLOB.newplayer_start))
@@ -31,6 +39,7 @@
 	. = ..()
 
 	GLOB.new_player_list += src
+	add_verb(src, /mob/dead/new_player/proc/reset_menu_hud)
 
 /mob/dead/new_player/Destroy()
 	GLOB.new_player_list -= src
@@ -98,7 +107,11 @@
 		observer.real_name = observer.client.prefs.read_preference(/datum/preference/name/real_name)
 		observer.name = observer.real_name
 		observer.client.init_verbs()
+<<<<<<< HEAD
 		observer.persistent_client.time_of_death = world.time
+=======
+		observer.client.player_details.time_of_death = world.time
+>>>>>>> tg-pr-88929
 	observer.update_appearance()
 	observer.update_media_source()
 	deadchat_broadcast(" has observed.", "<b>[observer.real_name]</b>", follow_target = observer, turf_target = get_turf(observer), message_type = DEADCHAT_DEATHRATTLE)
@@ -122,15 +135,20 @@
 			return "[jobtitle] is already filled to capacity."
 		if(JOB_UNAVAILABLE_ANTAG_INCOMPAT)
 			return "[jobtitle] is not compatible with some antagonist role assigned to you."
+<<<<<<< HEAD
 		if(JOB_UNAVAILABLE_DONOR_RANK) //MONKESTATION EDIT
 			return "The [jobtitle] job requires a higher donator rank than you have or it is out of season. Go to to https://www.patreon.com/dukeook \"Duke of Ook's Monke Content Creation Fund\" to learn more."
 		if(JOB_UNAVAILABLE_CONDITIONS_UNMET)
 			return "Conditions for [jobtitle] unmet."
+=======
+		if(JOB_UNAVAILABLE_AGE)
+			return "Your character is not old enough for [jobtitle]."
+>>>>>>> tg-pr-88929
 
 	return GENERIC_JOB_UNAVAILABLE_ERROR
 
 /mob/dead/new_player/proc/IsJobUnavailable(rank, latejoin = FALSE)
-	var/datum/job/job = SSjob.GetJob(rank)
+	var/datum/job/job = SSjob.get_job(rank)
 	if(!(job.job_flags & JOB_NEW_PLAYER_JOINABLE))
 		return JOB_UNAVAILABLE_GENERIC
 	if((job.current_positions >= job.total_positions) && job.total_positions != -1)
@@ -152,9 +170,17 @@
 	return JOB_AVAILABLE
 
 /mob/dead/new_player/proc/AttemptLateSpawn(rank)
+<<<<<<< HEAD
 	if(interview_safety(src, "attempting to latejoin"))
 		qdel(client)
 		return FALSE
+=======
+	// Check that they're picking someone new for new character respawning
+	if(CONFIG_GET(flag/allow_respawn) == RESPAWN_FLAG_NEW_CHARACTER)
+		if("[client.prefs.default_slot]" in client.player_details.joined_as_slots)
+			tgui_alert(usr, "You already have played this character in this round!")
+			return FALSE
+>>>>>>> tg-pr-88929
 
 	var/error = IsJobUnavailable(rank)
 	if(error != JOB_AVAILABLE)
@@ -173,9 +199,9 @@
 	SSticker.queued_players -= src
 	SSticker.queue_delay = 4
 
-	var/datum/job/job = SSjob.GetJob(rank)
+	var/datum/job/job = SSjob.get_job(rank)
 
-	if(!SSjob.AssignRole(src, job, TRUE))
+	if(!SSjob.assign_role(src, job, TRUE))
 		tgui_alert(usr, "There was an unexpected error putting you into your requested job. If you cannot join with any job, you should contact an admin.")
 		return FALSE
 
@@ -196,10 +222,14 @@
 		CRASH("Failed to create a character for latejoin.")
 	transfer_character()
 
+<<<<<<< HEAD
 	if(picked_point)
 		destination.JoinLaunchTowards(character, picked_point)
 
 	SSjob.EquipRank(character, job, character.client)
+=======
+	SSjob.equip_rank(character, job, character.client)
+>>>>>>> tg-pr-88929
 	job.after_latejoin_spawn(character)
 
 	var/datum/persistent_client/persistent_client = character.persistent_client
@@ -215,13 +245,21 @@
 	#define IS_ACTING_CAPTAIN 1
 	#define IS_FULL_CAPTAIN 2
 	var/is_captain = IS_NOT_CAPTAIN
+<<<<<<< HEAD
 	var/captain_sound = 'sound/misc/notice2.ogg'
 	// If we already have a captain, are they a "Captain" rank and are we allowing multiple of them to be assigned?
 	if(is_captain_job(job))
 		is_captain = IS_FULL_CAPTAIN
 		captain_sound = 'sound/misc/announce.ogg'
+=======
+	var/captain_sound = 'sound/announcer/notice/notice2.ogg'
+	// If we already have a captain, are they a "Captain" rank and are we allowing multiple of them to be assigned?
+	if(is_captain_job(job))
+		is_captain = IS_FULL_CAPTAIN
+		captain_sound = 'sound/announcer/announcement/announce.ogg'
+>>>>>>> tg-pr-88929
 	// If we don't have an assigned cap yet, check if this person qualifies for some from of captaincy.
-	else if(!SSjob.assigned_captain && ishuman(character) && SSjob.chain_of_command[rank] && !is_banned_from(ckey, list(JOB_CAPTAIN)))
+	else if(!SSjob.assigned_captain && ishuman(character) && SSjob.chain_of_command[rank] && !is_banned_from(character.ckey, list(JOB_CAPTAIN)))
 		is_captain = IS_ACTING_CAPTAIN
 	if(is_captain != IS_NOT_CAPTAIN)
 		minor_announce(job.get_captaincy_announcement(character), sound_override = captain_sound)
@@ -237,8 +275,11 @@
 		humanc = character //Let's retypecast the var to be human,
 
 	if(humanc) //These procs all expect humans
+<<<<<<< HEAD
 		var/chosen_rank = humanc.client?.prefs.alt_job_titles[rank] || rank
 		GLOB.manifest.inject(humanc, humanc.client)
+=======
+>>>>>>> tg-pr-88929
 		if(SSshuttle.arrivals)
 			SSshuttle.arrivals.QueueAnnounce(humanc, chosen_rank)
 		else
@@ -264,14 +305,15 @@
 		if(SSshuttle.emergency)
 			switch(SSshuttle.emergency.mode)
 				if(SHUTTLE_RECALL, SHUTTLE_IDLE)
-					SSticker.mode.make_antag_chance(humanc)
+					SSdynamic.make_antag_chance(humanc)
 				if(SHUTTLE_CALL)
 					if(SSshuttle.emergency.timeLeft(1) > initial(SSshuttle.emergency_call_time)*0.5)
-						SSticker.mode.make_antag_chance(humanc)
+						SSdynamic.make_antag_chance(humanc)
 
 	if((job.job_flags & JOB_ASSIGN_QUIRKS) && humanc && CONFIG_GET(flag/roundstart_traits))
 		SSquirks.AssignQuirks(humanc, humanc.client)
 
+<<<<<<< HEAD
 	var/area/station/arrivals = GLOB.areas_by_type[/area/station/hallway/secondary/entry]
 	if(humanc && arrivals && !arrivals.power_environ) //arrivals depowered
 		humanc.put_in_hands(new /obj/item/crowbar/large/emergency(get_turf(humanc))) //if hands full then just drops on the floor
@@ -282,6 +324,15 @@
 			if (item.restricted_roles && length(item.restricted_roles) && !(job.title in item.restricted_roles))
 				continue
 			item.post_equip_item(humanc.client?.prefs, humanc)
+=======
+	if(humanc) // Quirks may change manifest datapoints, so inject only after assigning quirks
+		GLOB.manifest.inject(humanc)
+
+	var/area/station/arrivals = GLOB.areas_by_type[/area/station/hallway/secondary/entry]
+	if(humanc && arrivals && !arrivals.power_environ) //arrivals depowered
+		humanc.put_in_hands(new /obj/item/crowbar/large/emergency(get_turf(humanc))) //if hands full then just drops on the floor
+	log_manifest(character.mind.key, character.mind, character, latejoin = TRUE)
+>>>>>>> tg-pr-88929
 
 /mob/dead/new_player/proc/AddEmploymentContract(mob/living/carbon/human/employee)
 	//TODO:  figure out a way to exclude wizards/nukeops/demons from this.
@@ -304,7 +355,12 @@
 		preserved_mind.original_character_slot_index = client.prefs.default_slot
 		preserved_mind.transfer_to(spawning_mob) //won't transfer key since the mind is not active
 		preserved_mind.set_original_character(spawning_mob)
+<<<<<<< HEAD
 	LAZYADD(persistent_client.joined_as_slots, "[client.prefs.default_slot]")
+=======
+
+	LAZYADD(client.player_details.joined_as_slots, "[client.prefs.default_slot]")
+>>>>>>> tg-pr-88929
 	client.init_verbs()
 	. = spawning_mob
 	new_character = .
@@ -332,10 +388,7 @@
 		return
 	client.crew_manifest_delay = world.time + (1 SECONDS)
 
-	if(!GLOB.crew_manifest_tgui)
-		GLOB.crew_manifest_tgui = new /datum/crew_manifest(src)
-
-	GLOB.crew_manifest_tgui.ui_interact(src)
+	GLOB.manifest.ui_interact(src)
 
 /mob/dead/new_player/Move()
 	return 0
@@ -391,6 +444,7 @@
 	add_verb(src, /mob/dead/new_player/proc/open_interview)
 	add_verb(client, /client/verb/fix_tgui_panel)
 
+<<<<<<< HEAD
 /client/proc/register_for_interview()
 	// First we detain them by removing all the verbs they have on client
 	for (var/v in verbs)
@@ -410,3 +464,22 @@
 	// Add verb for re-opening the interview panel, fixing chat and re-init the verbs for the stat panel
 	add_verb(mob, /mob/dead/new_player/proc/open_interview)
 	add_verb(src, /client/verb/fix_tgui_panel)
+=======
+///Resets the Lobby Menu HUD, recreating and reassigning it to the new player
+/mob/dead/new_player/proc/reset_menu_hud()
+	set name = "Reset Lobby Menu HUD"
+	set category = "OOC"
+	var/mob/dead/new_player/new_player = usr
+	if(!COOLDOWN_FINISHED(new_player, reset_hud_cooldown))
+		to_chat(new_player, span_warning("You must wait <b>[DisplayTimeText(COOLDOWN_TIMELEFT(new_player, reset_hud_cooldown))]</b> before resetting the Lobby Menu HUD again!"))
+		return
+	if(!new_player?.client)
+		return
+	COOLDOWN_START(new_player, reset_hud_cooldown, RESET_HUD_INTERVAL)
+	qdel(new_player.hud_used)
+	create_mob_hud()
+	to_chat(new_player, span_info("Lobby Menu HUD reset. You may reset the HUD again in <b>[DisplayTimeText(RESET_HUD_INTERVAL)]</b>."))
+	hud_used.show_hud(hud_used.hud_version)
+
+#undef RESET_HUD_INTERVAL
+>>>>>>> tg-pr-88929

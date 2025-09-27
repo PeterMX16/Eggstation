@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
 	"elvis": {
+=======
+    "elvis": {
+>>>>>>> tg-pr-88929
 		"i'm not ": "I ain't ",
 		" girl ": [" honey ", " baby ", " baby doll "],
 		" man ": [" son ", " buddy ", " brother ", " pal ", " friendo "],
@@ -9,5 +13,9 @@
 		" what are you": " whatcha ",
 		" yes": [" sure ", " yea "],
 		" muh valids ": " my kicks "
+<<<<<<< HEAD
 	}
+=======
+		}
+>>>>>>> tg-pr-88929
 }

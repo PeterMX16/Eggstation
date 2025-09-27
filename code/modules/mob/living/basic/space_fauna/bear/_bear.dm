@@ -26,23 +26,33 @@
 	sharpness = SHARP_EDGED
 	attack_verb_continuous = "claws"
 	attack_verb_simple = "claw"
-	attack_sound = 'sound/weapons/bladeslice.ogg'
+	attack_sound = 'sound/items/weapons/bladeslice.ogg'
 	attack_vis_effect = ATTACK_EFFECT_CLAW
 	friendly_verb_continuous = "bear hugs"
 	friendly_verb_simple = "bear hug"
 
 	faction = list(FACTION_RUSSIAN)
 
+<<<<<<< HEAD
 	habitable_atmos = list("min_oxy" = 0, "max_oxy" = 0, "min_plas" = 0, "max_plas" = 0, "min_co2" = 0, "max_co2" = 0, "min_n2" = 0, "max_n2" = 0)
 	bodytemp_cold_damage_limit = TCMB
 	bodytemp_heat_damage_limit = T0C + 1500
+=======
+	habitable_atmos = null
+	minimum_survivable_temperature = TCMB
+	maximum_survivable_temperature = T0C + 1500
+>>>>>>> tg-pr-88929
 	ai_controller = /datum/ai_controller/basic_controller/bear
 	/// is the bear wearing a armor?
 	var/armored = FALSE
 
 /mob/living/basic/bear/Initialize(mapload)
 	. = ..()
+<<<<<<< HEAD
 	add_traits(list(TRAIT_SPACEWALK, TRAIT_FENCE_CLIMBER), INNATE_TRAIT)
+=======
+	add_traits(list(TRAIT_SPACEWALK, TRAIT_FENCE_CLIMBER, TRAIT_SNOWSTORM_IMMUNE), INNATE_TRAIT)
+>>>>>>> tg-pr-88929
 	AddElement(/datum/element/ai_retaliate)
 	AddComponent(/datum/component/tree_climber, climbing_distance = 15)
 	AddElement(/datum/element/swabable, CELL_LINE_TABLE_BEAR, CELL_VIRUS_TABLE_GENERIC_MOB, 1, 5)
@@ -53,8 +63,6 @@
 		return FALSE
 
 	AddElement(/datum/element/ridable, /datum/component/riding/creature/bear)
-	can_buckle = TRUE
-	buckle_lying = 0
 
 /mob/living/basic/bear/update_icons()
 	..()
@@ -62,7 +70,16 @@
 		add_overlay("armor_bear")
 
 /mob/living/basic/bear/proc/extract_combs(obj/structure/beebox/hive)
+<<<<<<< HEAD
 	return
+=======
+	if(!length(hive.honeycombs))
+		return
+	var/obj/item/food/honeycomb/honey_food = pick_n_take(hive.honeycombs)
+	if(isnull(honey_food))
+		return
+	honey_food.forceMove(get_turf(src))
+>>>>>>> tg-pr-88929
 
 //SPACE BEARS! SQUEEEEEEEE~     OW! FUCK! IT BIT MY HAND OFF!!
 /mob/living/basic/bear/hudson
@@ -77,9 +94,30 @@
 	icon_dead = "snowbear_dead"
 	desc = "It's a polar bear, in space, but not actually in space."
 
+<<<<<<< HEAD
 /mob/living/basic/bear/snow/Initialize(mapload)
 	. = ..()
 	ADD_TRAIT(src, TRAIT_SNOWSTORM_IMMUNE, INNATE_TRAIT)
+=======
+/mob/living/basic/bear/snow/misha
+	name = "Misha"
+	real_name = "Misha"
+	desc = "Tamed and trained by the Head of Security. Only beasts are above deceit."
+	gold_core_spawnable = NO_SPAWN
+	maxHealth = 250
+	health = 250
+	faction = list(FACTION_NEUTRAL)
+	status_flags = CANPUSH
+
+/mob/living/basic/bear/snow/ancient
+	name = "ancient polar bear"
+	desc = "A grizzled old polar bear, its hide thick enough to make it impervious to almost all weapons."
+	gold_core_spawnable = NO_SPAWN
+
+/mob/living/basic/bear/snow/ancient/Initialize(mapload)
+	. = ..()
+	ADD_TRAIT(src, TRAIT_GODMODE, INNATE_TRAIT)
+>>>>>>> tg-pr-88929
 
 /mob/living/basic/bear/russian
 	name = "combat bear"
@@ -114,8 +152,8 @@
 	response_harm_simple = "take a bite out of"
 	attacked_sound = 'sound/items/eatfood.ogg'
 	death_message = "loses its false life and collapses!"
-	butcher_results = list(/obj/item/food/butter = 6, /obj/item/food/meat/slab = 3, /obj/item/organ/internal/brain = 1, /obj/item/organ/internal/heart = 1)
-	attack_sound = 'sound/weapons/slap.ogg'
+	butcher_results = list(/obj/item/food/butter = 6, /obj/item/food/meat/slab = 3, /obj/item/organ/brain = 1, /obj/item/organ/heart = 1)
+	attack_sound = 'sound/items/weapons/slap.ogg'
 	attack_vis_effect = ATTACK_EFFECT_DISARM
 	attack_verb_simple = "slap"
 	attack_verb_continuous = "slaps"
@@ -128,19 +166,37 @@
 		brute_per_second = 5,\
 		outline_colour = COLOR_YELLOW,\
 	)
+<<<<<<< HEAD
 
 /mob/living/basic/bear/butter/attack_hand(mob/living/user, list/modifiers) //Borrowed code from Cak, feeds people if they hit you. More nutriment but less vitamin to represent BUTTER.
 	. = ..()
 	if((user.istate & ISTATE_HARM) && user.reagents && !stat)
+=======
+	var/static/list/on_consume = list(
+		/datum/reagent/consumable/nutriment = 1,
+		/datum/reagent/consumable/nutriment/vitamin = 0.1,
+	)
+	AddElement(/datum/element/consumable_mob, reagents_list = on_consume)
+
+/mob/living/basic/bear/butter/attack_hand(mob/living/user, list/modifiers) //Borrowed code from Cak, feeds people if they hit you. More nutriment but less vitamin to represent BUTTER.
+	. = ..()
+	if(user.combat_mode && user.reagents && !stat)
+>>>>>>> tg-pr-88929
 		user.reagents.add_reagent(/datum/reagent/consumable/nutriment, 1)
 		user.reagents.add_reagent(/datum/reagent/consumable/nutriment/vitamin, 0.1)
 
 /mob/living/basic/bear/butter/CheckParts(list/parts) //Borrowed code from Cak, allows the brain used to actually control the bear.
 	. = ..()
+<<<<<<< HEAD
 	var/obj/item/organ/internal/brain/candidate = locate(/obj/item/organ/internal/brain) in contents
+=======
+	var/obj/item/organ/brain/candidate = locate(/obj/item/organ/brain) in contents
+>>>>>>> tg-pr-88929
 	if(!candidate || !candidate.brainmob || !candidate.brainmob.mind)
 		return
-	candidate.brainmob.mind.transfer_to(src)
+	var/datum/mind/candidate_mind = candidate.brainmob.mind
+	candidate_mind.transfer_to(src)
+	candidate_mind.grab_ghost()
 	to_chat(src, "[span_boldbig("You are a butter bear!")]<b> You're a mostly harmless bear/butter hybrid that everyone loves. People can take bites out of you if they're hungry, but you regenerate health \
 	so quickly that it generally doesn't matter. You're remarkably resilient to any damage besides this and it's hard for you to really die at all. You should go around and bring happiness and \
 	free butter to the station!</b>")
@@ -160,4 +216,7 @@
 	victim.Knockdown(20)
 	playsound(loc, 'sound/misc/slip.ogg', 15)
 	victim.visible_message(span_danger("[victim] slips on [src]'s butter!"))
+<<<<<<< HEAD
 
+=======
+>>>>>>> tg-pr-88929

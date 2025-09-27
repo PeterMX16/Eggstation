@@ -1,15 +1,21 @@
-import { exhaustiveCheck } from 'common/exhaustive';
-import { useBackend, useLocalState } from '../../backend';
-import { Button, Stack } from '../../components';
+import { useState } from 'react';
+import { Button, Stack } from 'tgui-core/components';
+import { exhaustiveCheck } from 'tgui-core/exhaustive';
+
+import { useBackend } from '../../backend';
 import { Window } from '../../layouts';
-import { PreferencesMenuData } from './data';
-import { PageButton } from './PageButton';
 import { AntagsPage } from './AntagsPage';
+import { PreferencesMenuData } from './data';
 import { JobsPage } from './JobsPage';
+import { LoadoutPage } from './loadout/index';
 import { MainPage } from './MainPage';
-import { SpeciesPage } from './SpeciesPage';
+import { PageButton } from './PageButton';
 import { QuirksPage } from './QuirksPage';
+<<<<<<< HEAD
 import { LoadoutManager } from './LoadoutPage';
+=======
+import { SpeciesPage } from './SpeciesPage';
+>>>>>>> tg-pr-88929
 
 enum Page {
   Antags,
@@ -18,6 +24,7 @@ enum Page {
   Jobs,
   Species,
   Quirks,
+  Loadout,
 }
 
 const CharacterProfiles = (props: {
@@ -49,7 +56,11 @@ const CharacterProfiles = (props: {
 export const CharacterPreferenceWindow = (props) => {
   const { act, data } = useBackend<PreferencesMenuData>();
 
+<<<<<<< HEAD
   const [currentPage, setCurrentPage] = useLocalState('currentPage', Page.Main);
+=======
+  const [currentPage, setCurrentPage] = useState(Page.Main);
+>>>>>>> tg-pr-88929
 
   let pageContents;
 
@@ -78,6 +89,11 @@ export const CharacterPreferenceWindow = (props) => {
     case Page.Quirks:
       pageContents = <QuirksPage />;
       break;
+
+    case Page.Loadout:
+      pageContents = <LoadoutPage />;
+      break;
+
     default:
       exhaustiveCheck(currentPage);
   }
@@ -102,6 +118,14 @@ export const CharacterPreferenceWindow = (props) => {
               profiles={data.character_profiles}
             />
           </Stack.Item>
+<<<<<<< HEAD
+=======
+          {!data.content_unlocked && (
+            <Stack.Item align="center">
+              Buy BYOND premium for more slots!
+            </Stack.Item>
+          )}
+>>>>>>> tg-pr-88929
           <Stack.Divider />
           <Stack.Item>
             <Stack fill>
@@ -122,10 +146,13 @@ export const CharacterPreferenceWindow = (props) => {
                   page={Page.Loadout}
                   setPage={setCurrentPage}
                 >
+<<<<<<< HEAD
                   {/*
                     Fun fact: This isn't "Jobs" so that it intentionally
                     catches your eyes, because it's really important!
                   */}
+=======
+>>>>>>> tg-pr-88929
                   Loadout
                 </PageButton>
               </Stack.Item>

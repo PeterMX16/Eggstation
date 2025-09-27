@@ -32,9 +32,17 @@
 		for(var/datum/mind/crew_mind in get_crewmember_minds())
 			if(crew_mind.current)
 				humans += crew_mind.current
+<<<<<<< HEAD
 		if(!length(humans))
 			return FALSE
 		speaker = pick(humans)
+=======
+		if(humans.len)
+			speaker = pick(humans)
+
+	if(!speaker)
+		return
+>>>>>>> tg-pr-88929
 
 	if(!speaker)
 		return FALSE
@@ -88,7 +96,7 @@
 		hallucinator.create_chat_message(speaker, understood_language, chosen, spans)
 
 	// And actually show them the message, for real.
-	var/message = hallucinator.compose_message(speaker, understood_language, chosen, is_radio ? "[FREQ_COMMON]" : null, spans, face_name = TRUE)
+	var/message = hallucinator.compose_message(speaker, understood_language, chosen, is_radio ? "[FREQ_COMMON]" : null, spans, visible_name = TRUE)
 	to_chat(hallucinator, message)
 
 	// Then clean up.

@@ -1,6 +1,10 @@
 // This datum is merely a singleton instance that allows for custom "can be applied" behaviors without instantiating a wound instance.
 // For example: You can make a pregen_data subtype for your wound that overrides can_be_applied_to to only apply to specifically slimeperson limbs.
+<<<<<<< HEAD
 // Without this, youre stuck with very static initial variables.
+=======
+// Without this, you're stuck with very static initial variables.
+>>>>>>> tg-pr-88929
 
 /// A singleton datum that holds pre-gen and static data about a wound. Each wound datum should have a corresponding wound_pregen_data.
 /datum/wound_pregen_data
@@ -56,9 +60,15 @@
 
 	if (!abstract)
 		if (required_limb_biostate == null)
+<<<<<<< HEAD
 			stack_trace("required_limb_biostate null - please set it! occured on: [src.type]")
 		if (wound_path_to_generate == null)
 			stack_trace("wound_path_to_generate null - please set it! occured on: [src.type]")
+=======
+			stack_trace("required_limb_biostate null - please set it! occurred on: [src.type]")
+		if (wound_path_to_generate == null)
+			stack_trace("wound_path_to_generate null - please set it! occurred on: [src.type]")
+>>>>>>> tg-pr-88929
 
 	scar_priorities = generate_scar_priorities()
 
@@ -82,6 +92,7 @@
  * * random_roll = FALSE: If this is in the context of a random wound generation, and this wound wasn't specifically checked.
  *
  * Returns:
+<<<<<<< HEAD
  * FALSE if the limb cannot be wounded, if the wounding types dont match ours (via wounding_types_valid()), if we have a higher severity wound already in our series,
  * if we have a biotype mismatch, if the limb isnt in a viable zone, or if theres any duplicate wound types.
  * TRUE otherwise.
@@ -94,6 +105,13 @@
 	duplicates_allowed = src.duplicates_allowed,
 	care_about_existing_wounds = TRUE,
 )
+=======
+ * FALSE if the limb cannot be wounded, if the wounding types don't match ours (via wounding_types_valid()), if we have a higher severity wound already in our series,
+ * if we have a biotype mismatch, if the limb isn't in a viable zone, or if there's any duplicate wound types.
+ * TRUE otherwise.
+ */
+/datum/wound_pregen_data/proc/can_be_applied_to(obj/item/bodypart/limb, list/suggested_wounding_types = required_wounding_types, datum/wound/old_wound, random_roll = FALSE, duplicates_allowed = src.duplicates_allowed, care_about_existing_wounds = TRUE)
+>>>>>>> tg-pr-88929
 	SHOULD_BE_PURE(TRUE)
 
 	if (!istype(limb) || !limb.owner)
@@ -102,7 +120,11 @@
 	if (random_roll && !can_be_randomly_generated)
 		return FALSE
 
+<<<<<<< HEAD
 	if (HAS_TRAIT(limb.owner, TRAIT_NEVER_WOUNDED) || (HAS_TRAIT(limb.owner, TRAIT_GODMODE)))
+=======
+	if (HAS_TRAIT(limb.owner, TRAIT_NEVER_WOUNDED) || HAS_TRAIT(limb.owner, TRAIT_GODMODE))
+>>>>>>> tg-pr-88929
 		return FALSE
 
 	if (!wounding_types_valid(suggested_wounding_types))
@@ -165,7 +187,11 @@
 	if (!length(suggested_wounding_types))
 		return FALSE
 
+<<<<<<< HEAD
 	for (var/iter_wounding_type in suggested_wounding_types)
+=======
+	for (var/iter_wounding_type as anything in suggested_wounding_types)
+>>>>>>> tg-pr-88929
 		if (!(iter_wounding_type in required_wounding_types))
 			if (match_all_wounding_types)
 				return FALSE

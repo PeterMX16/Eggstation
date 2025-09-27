@@ -7,8 +7,12 @@
  * Emergency Oxygen
  * Generic
  */
+/obj/item/tank/internals
+	interaction_flags_click = FORBID_TELEKINESIS_REACH|NEED_HANDS|ALLOW_RESTING
+
 
 /// Allows carbon to toggle internals via AltClick of the equipped tank.
+<<<<<<< HEAD
 //MONKESTATION EDIT START
 /obj/item/tank/internals
 	alternate_worn_layer = ABOVE_HEAD_LAYER
@@ -17,6 +21,11 @@
 	..()
 	if((loc == user) && user.can_perform_action(src, FORBID_TELEKINESIS_REACH|NEED_HANDS))
 		toggle_internals(user)
+=======
+/obj/item/tank/internals/click_alt(mob/user)
+	toggle_internals(user)
+	return CLICK_ACTION_SUCCESS
+>>>>>>> tg-pr-88929
 
 /obj/item/tank/internals/examine(mob/user)
 	. = ..()
@@ -83,6 +92,19 @@
 	air_contents.gases[/datum/gas/oxygen][MOLES] = (3*ONE_ATMOSPHERE)*volume/(R_IDEAL_GAS_EQUATION*T20C) * O2STANDARD
 	air_contents.gases[/datum/gas/nitrous_oxide][MOLES] = (3*ONE_ATMOSPHERE)*volume/(R_IDEAL_GAS_EQUATION*T20C) * N2STANDARD
 
+/obj/item/tank/internals/anesthetic/examine(mob/user)
+	. = ..()
+	. += span_notice("A warning is etched into [src]...")
+	. += span_warning("There is no process in the body that uses N2O, so patients will exhale the N2O... exposing you to it. Make sure to work in a well-ventilated space to avoid sleepy mishaps.")
+
+/obj/item/tank/internals/anesthetic/pure
+	desc = "A tank with pure N2O. There is a warning sticker crudely slapped onto the tank."
+	icon_state = "anesthetic_warning"
+
+/obj/item/tank/internals/anesthetic/pure/populate_gas()
+	air_contents.assert_gases(/datum/gas/nitrous_oxide)
+	air_contents.gases[/datum/gas/nitrous_oxide][MOLES] = (10*ONE_ATMOSPHERE)*volume/(R_IDEAL_GAS_EQUATION*T20C)
+
 /*
  * Plasma
  */
@@ -93,7 +115,7 @@
 	inhand_icon_state = "plasma_tank"
 	worn_icon_state = "plasmatank"
 	tank_holder_icon_state = null
-	flags_1 = CONDUCT_1
+	obj_flags = CONDUCTS_ELECTRICITY
 	slot_flags = null //they have no straps!
 	force = 8
 
@@ -175,7 +197,7 @@
 	worn_icon_state = "emergency"
 	tank_holder_icon_state = "holder_emergency"
 	worn_icon = null
-	flags_1 = CONDUCT_1
+	obj_flags = CONDUCTS_ELECTRICITY
 	slot_flags = ITEM_SLOT_BELT
 	w_class = WEIGHT_CLASS_SMALL
 	force = 4
@@ -233,12 +255,17 @@
  * Funny internals
  */
 /obj/item/tank/internals/emergency_oxygen/engi/clown
+<<<<<<< HEAD
 	//MONKESTATION EDIT START
 	// name = "funny emergency oxygen tank"
 	// desc = "Used for emergencies. Contains very little oxygen with an extra of a funny gas, so try to conserve it until you actually need it."
 	name = "'enhanced' emergency oxygen tank"
 	desc = "Used for emergencies. Contains very little oxygen, so try to conserve it until you actually need it. This one has been topped up with a free bonus gas!"
 	//MONKESTATION EDIT END
+=======
+	name = "funny emergency oxygen tank"
+	desc = "Used for emergencies. Contains very little oxygen with an extra of a funny gas, so try to conserve it until you actually need it."
+>>>>>>> tg-pr-88929
 	icon_state = "emergency_clown"
 	inhand_icon_state = "emergency_clown"
 	worn_icon_state = "emergency_clown"

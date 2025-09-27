@@ -6,7 +6,6 @@
  * * GLOB.dead_mob_list
  * * GLOB.alive_mob_list
  * * GLOB.all_clockwork_mobs
- * * GLOB.mob_directory
  *
  * Unsets the focus var
  *
@@ -28,7 +27,7 @@
 	if(client)
 		stack_trace("Mob with client has been deleted.")
 	else if(ckey)
-		stack_trace("Mob without client but with associated ckey has been deleted.")
+		stack_trace("Mob without client but with associated ckey, [ckey], has been deleted.")
 
 	persistent_client?.set_mob(null)
 
@@ -49,7 +48,7 @@
 
 	qdel(hud_used)
 	QDEL_LIST(client_colours)
-	ghostize() //False, since we're deleting it currently
+	ghostize(can_reenter_corpse = FALSE) //False, since we're deleting it currently
 	if(mind?.current == src) //Let's just be safe yeah? This will occasionally be cleared, but not always. Can't do it with ghostize without changing behavior
 		mind.set_current(null)
 
@@ -85,7 +84,6 @@
  *
  * Adds to global lists
  * * GLOB.mob_list
- * * GLOB.mob_directory (by tag)
  * * GLOB.dead_mob_list - if mob is dead
  * * GLOB.alive_mob_list - if the mob is alive
  *
@@ -103,17 +101,23 @@
 		add_to_dead_mob_list()
 	else
 		add_to_alive_mob_list()
+	update_incapacitated()
 	set_focus(src)
 	prepare_huds()
 	for(var/datum/atom_hud/alternate_appearance/alt_hud as anything in GLOB.active_alternate_appearances)
 		alt_hud.apply_to_new_mob(src)
+<<<<<<< HEAD
+=======
+
+>>>>>>> tg-pr-88929
 	set_nutrition(rand(NUTRITION_LEVEL_START_MIN, NUTRITION_LEVEL_START_MAX))
 	. = ..()
+	setup_hud_traits()
 	update_config_movespeed()
 	initialize_actionspeed()
 	update_movespeed(TRUE)
 	become_hearing_sensitive()
-	log_mob_tag("CREATED: [key_name(src)] \[[type]\]")
+	log_mob_tag("TAG: [tag] CREATED: [key_name(src)] \[[type]\]")
 
 /**
  * Generate the tag for this mob
@@ -196,7 +200,7 @@
 
 		else
 			var/image/I = image('icons/mob/huds/hud.dmi', src, "")
-			I.appearance_flags = RESET_COLOR|RESET_TRANSFORM
+			I.appearance_flags = RESET_COLOR|PIXEL_SCALE|KEEP_APART
 			hud_list[hud] = I
 		set_hud_image_active(hud, update_huds = FALSE) //by default everything is active. but dont add it to huds to keep control.
 
@@ -232,32 +236,37 @@
  */
 /mob/proc/show_message(msg, type, alt_msg, alt_type, avoid_highlighting = FALSE)//Message, type of message (1 or 2), alternative message, alt message type (1 or 2)
 	if(!client)
-		return
+		return FALSE
 
 	msg = copytext_char(msg, 1, MAX_MESSAGE_LEN)
 
+	// Return TRUE if we sent the original msg, otherwise return FALSE
+	. = TRUE
 	if(type)
 		if(type & MSG_VISUAL && is_blind())//Vision related
 			if(!alt_msg)
-				return
+				return FALSE
 			else
 				msg = alt_msg
 				type = alt_type
+				. = FALSE
 
 		if(type & MSG_AUDIBLE && !can_hear())//Hearing related
 			if(!alt_msg)
-				return
+				return FALSE
 			else
 				msg = alt_msg
 				type = alt_type
+				. = FALSE
 				if(type & MSG_VISUAL && is_blind())
-					return
+					return FALSE
 	// voice muffling
 	if(stat == UNCONSCIOUS || stat == HARD_CRIT)
 		if(type & MSG_AUDIBLE) //audio
 			to_chat(src, "<I>... You can almost hear something ...</I>")
-		return
+		return FALSE
 	to_chat(src, msg, avoid_highlighting = avoid_highlighting)
+	return .
 
 /**
  * Generate a visible message from this atom
@@ -271,11 +280,17 @@
  * message is output to anyone who can see, e.g. `"The [src] does something!"`
  *
  * Vars:
+ * * message is the message output to anyone who can see.
  * * self_message (optional) is what the src mob sees e.g. "You do something!"
  * * blind_message (optional) is what blind people will hear e.g. "You hear something!"
  * * vision_distance (optional) define how many tiles away the message can be seen.
+<<<<<<< HEAD
  * * ignored_mob (optional) doesn't show any message to a given mob if TRUE.
  * * push_appearance(optional) pushes an atom's appearance to all viewing mobs, for use with <img src='\ref[thing]'>
+=======
+ * * ignored_mobs (optional) doesn't show any message to any mob in this list.
+ * * visible_message_flags (optional) is the type of message being sent.
+>>>>>>> tg-pr-88929
  */
 /atom/proc/visible_message(message, self_message, blind_message, vision_distance = DEFAULT_MESSAGE_RANGE, list/ignored_mobs, visible_message_flags = NONE, atom/push_appearance)
 	var/turf/T = get_turf(src)
@@ -295,7 +310,7 @@
 
 	var/raw_msg = message
 	if(visible_message_flags & EMOTE_MESSAGE)
-		message = "<span class='emote'><b>[src]</b> [message]</span>"
+		message = span_emote("<b>[src]</b> [message]")
 
 	for(var/mob/M in hearers)
 		if(!M.client)
@@ -330,8 +345,22 @@
 ///Adds the functionality to self_message.
 /mob/visible_message(message, self_message, blind_message, vision_distance = DEFAULT_MESSAGE_RANGE, list/ignored_mobs, visible_message_flags = NONE, atom/push_appearance)
 	. = ..()
-	if(self_message)
-		show_message(self_message, MSG_VISUAL, blind_message, MSG_AUDIBLE)
+	if(!self_message)
+		return
+	var/raw_self_message = self_message
+	var/self_runechat = FALSE
+	if(visible_message_flags & EMOTE_MESSAGE)
+		self_message = span_emote("<b>[src]</b> [self_message]") // May make more sense as "You do x"
+
+	if(visible_message_flags & ALWAYS_SHOW_SELF_MESSAGE)
+		to_chat(src, self_message)
+		self_runechat = TRUE
+
+	else
+		self_runechat = show_message(self_message, MSG_VISUAL, blind_message, MSG_AUDIBLE)
+
+	if(self_runechat && (visible_message_flags & EMOTE_MESSAGE) && runechat_prefs_check(src, visible_message_flags))
+		create_chat_message(src, raw_message = raw_self_message, runechat_flags = visible_message_flags)
 
 /**
  * Show a message to all mobs in earshot of this atom
@@ -342,6 +371,8 @@
  * * message is the message output to anyone who can hear.
  * * deaf_message (optional) is what deaf people will see.
  * * hearing_distance (optional) is the range, how many tiles away the message can be heard.
+ * * self_message (optional) is what the src mob hears.
+ * * audible_message_flags (optional) is the type of message being sent.
  */
 /atom/proc/audible_message(message, deaf_message, hearing_distance = DEFAULT_MESSAGE_RANGE, self_message, audible_message_flags = NONE)
 	var/list/hearers = get_hearers_in_view(hearing_distance, src)
@@ -349,7 +380,7 @@
 		hearers -= src
 	var/raw_msg = message
 	if(audible_message_flags & EMOTE_MESSAGE)
-		message = "<span class='emote'><b>[src]</b> [message]</span>"
+		message = span_emote("<b>[src]</b> [message]")
 	for(var/mob/M in hearers)
 		if(audible_message_flags & EMOTE_MESSAGE && runechat_prefs_check(M, audible_message_flags) && M.can_hear())
 			M.create_chat_message(src, raw_message = raw_msg, runechat_flags = audible_message_flags)
@@ -368,9 +399,20 @@
  */
 /mob/audible_message(message, deaf_message, hearing_distance = DEFAULT_MESSAGE_RANGE, self_message, audible_message_flags = NONE)
 	. = ..()
-	if(self_message)
-		show_message(self_message, MSG_AUDIBLE, deaf_message, MSG_VISUAL)
+	if(!self_message)
+		return
+	var/raw_self_message = self_message
+	var/self_runechat = FALSE
+	if(audible_message_flags & EMOTE_MESSAGE)
+		self_message = span_emote("<b>[src]</b> [self_message]")
+	if(audible_message_flags & ALWAYS_SHOW_SELF_MESSAGE)
+		to_chat(src, self_message)
+		self_runechat = TRUE
+	else
+		self_runechat = show_message(self_message, MSG_AUDIBLE, deaf_message, MSG_VISUAL)
 
+	if(self_runechat && (audible_message_flags & EMOTE_MESSAGE) && runechat_prefs_check(src, audible_message_flags))
+		create_chat_message(src, raw_message = raw_self_message, runechat_flags = audible_message_flags)
 
 ///Returns the client runechat visible messages preference according to the message type.
 /atom/proc/runechat_prefs_check(mob/target, visible_message_flags = NONE)
@@ -403,9 +445,21 @@
 
 	return null
 
-///Is the mob incapacitated
-/mob/proc/incapacitated(flags)
-	return
+/// Called whenever anything that modifes incapacitated is ran, updates it and sends a signal if it changes
+/// Returns TRUE if anything changed, FALSE otherwise
+/mob/proc/update_incapacitated()
+	SIGNAL_HANDLER
+	var/old_incap = incapacitated
+	incapacitated = build_incapacitated()
+	if(old_incap == incapacitated)
+		return FALSE
+
+	SEND_SIGNAL(src, COMSIG_MOB_INCAPACITATE_CHANGED, old_incap, incapacitated)
+	return TRUE
+
+/// Returns an updated incapacitated bitflag. If a flag is set it means we're incapacitated in that case
+/mob/proc/build_incapacitated()
+	return NONE
 
 /**
  * This proc is called whenever someone clicks an inventory ui slot.
@@ -430,6 +484,7 @@
 	return FALSE
 
 /**
+<<<<<<< HEAD
  * Try to equip an item to a slot on the mob
  *
  * This is a SAFE proc. Use this instead of equip_to_slot()!
@@ -509,6 +564,8 @@
 		qdel(W)
 	return FALSE
 /**
+=======
+>>>>>>> tg-pr-88929
  * Reset the attached clients perspective (viewpoint)
  *
  * reset_perspective(null) set eye to common default : mob on turf, loc otherwise
@@ -574,36 +631,44 @@
 	if(is_blind()) //blind people see things differently (through touch)
 		if(!blind_examine_check(examinify))
 			return
+<<<<<<< HEAD
 	else if(!(examine_turf?.luminosity || examine_turf?.dynamic_lumcount) && \
+=======
+	else if(examine_turf && !(examine_turf.luminosity || examine_turf.dynamic_lumcount) && \
+>>>>>>> tg-pr-88929
 		get_dist(src, examine_turf) > 1 && \
 		!has_nightvision()) // If you aren't blind, it's in darkness (that you can't see) and farther then next to you
 		return
 
 	face_atom(examinify)
-	var/list/result
+	var/result_combined
 	if(client)
 		LAZYINITLIST(client.recent_examines)
-		var/ref_to_atom = ref(examinify)
+		var/ref_to_atom = REF(examinify)
 		var/examine_time = client.recent_examines[ref_to_atom]
 		if(examine_time && (world.time - examine_time < EXAMINE_MORE_WINDOW))
-			result = examinify.examine_more(src)
+			var/list/result = examinify.examine_more(src)
 			if(!length(result))
 				result += span_notice("<i>You examine [examinify] closer, but find nothing of interest...</i>")
+			result_combined = boxed_message(jointext(result, "<br>"))
+
 		else
-			result = examinify.examine(src)
 			client.recent_examines[ref_to_atom] = world.time // set to when we last normal examine'd them
 			addtimer(CALLBACK(src, PROC_REF(clear_from_recent_examines), ref_to_atom), RECENT_EXAMINE_MAX_WINDOW)
 			handle_eye_contact(examinify)
-	else
-		result = examinify.examine(src) // if a tree is examined but no client is there to see it, did the tree ever really exist?
 
-	if(result.len)
-		for(var/i in 1 to (length(result) - 1))
-			result[i] += "\n"
+	if(!result_combined)
+		var/list/result = examinify.examine(src)
+		var/atom_title = examinify.examine_title(src, thats = TRUE)
+		SEND_SIGNAL(src, COMSIG_MOB_EXAMINING, examinify, result)
+		result_combined = (atom_title ? fieldset_block("[atom_title]", jointext(result, "<br>"), "boxed_message") : boxed_message(jointext(result, "<br>")))
 
+<<<<<<< HEAD
 	to_chat(src, boxed_message("<span class='infoplain'>[result.Join()]</span>"))
+=======
+	to_chat(src, span_infoplain(result_combined))
+>>>>>>> tg-pr-88929
 	SEND_SIGNAL(src, COMSIG_MOB_EXAMINATE, examinify)
-
 
 /mob/proc/blind_examine_check(atom/examined_thing)
 	return TRUE //The non-living will always succeed at this check.
@@ -611,7 +676,7 @@
 
 /mob/living/blind_examine_check(atom/examined_thing)
 	//need to be next to something and awake
-	if(!Adjacent(examined_thing) || incapacitated())
+	if(!Adjacent(examined_thing) || incapacitated)
 		to_chat(src, span_warning("Something is there, but you can't see it!"))
 		return FALSE
 
@@ -681,7 +746,7 @@
 	return
 
 /mob/living/handle_eye_contact(mob/living/examined_mob)
-	if(!istype(examined_mob) || src == examined_mob || examined_mob.stat >= UNCONSCIOUS || !client)
+	if(!istype(examined_mob) || src == examined_mob || examined_mob.stat >= UNCONSCIOUS || !client || is_blind())
 		return
 
 	var/imagined_eye_contact = FALSE
@@ -697,12 +762,16 @@
 
 	// check to see if their face is blocked or, if not, a signal blocks it
 	if(examined_mob.is_face_visible() && SEND_SIGNAL(src, COMSIG_MOB_EYECONTACT, examined_mob, TRUE) != COMSIG_BLOCK_EYECONTACT)
-		var/msg = span_smallnotice("You make eye contact with [examined_mob].")
-		addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(to_chat), src, msg), 3) // so the examine signal has time to fire and this will print after
+		var/obj/item/clothing/eye_cover = examined_mob.is_eyes_covered()
+		if (!eye_cover || (!eye_cover.tint && !eye_cover.flash_protect))
+			var/msg = span_smallnotice("You make eye contact with [examined_mob].")
+			addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(to_chat), src, msg), 0.3 SECONDS) // so the examine signal has time to fire and this will print after
 
-	if(!imagined_eye_contact && is_face_visible() && SEND_SIGNAL(examined_mob, COMSIG_MOB_EYECONTACT, src, FALSE) != COMSIG_BLOCK_EYECONTACT)
-		var/msg = span_smallnotice("[src] makes eye contact with you.")
-		addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(to_chat), examined_mob, msg), 3)
+	if(!imagined_eye_contact && is_face_visible() && !examined_mob.is_blind() && SEND_SIGNAL(examined_mob, COMSIG_MOB_EYECONTACT, src, FALSE) != COMSIG_BLOCK_EYECONTACT)
+		var/obj/item/clothing/eye_cover = is_eyes_covered()
+		if (!eye_cover || (!eye_cover.tint && !eye_cover.flash_protect))
+			var/msg = span_smallnotice("[src] makes eye contact with you.")
+			addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(to_chat), examined_mob, msg), 0.3 SECONDS)
 
 /**
  * Called by using Activate Held Object with an empty hand/limb
@@ -718,6 +787,8 @@
 /mob/proc/can_resist()
 	return FALSE //overridden in living.dm
 
+#define SPIN_PROC_TRAIT "trait_from_spin()"
+
 ///Spin this mob around it's central axis
 /mob/proc/spin(spintime, speed)
 	set waitfor = 0
@@ -725,7 +796,7 @@
 	if((spintime < 1) || (speed < 1) || !spintime || !speed)
 		return
 
-	flags_1 |= IS_SPINNING_1
+	ADD_TRAIT(src, TRAIT_SPINNING, SPIN_PROC_TRAIT)
 	while(spintime >= speed)
 		sleep(speed)
 		switch(D)
@@ -739,7 +810,9 @@
 				D = NORTH
 		setDir(D)
 		spintime -= speed
-	flags_1 &= ~IS_SPINNING_1
+	REMOVE_TRAIT(src, TRAIT_SPINNING, SPIN_PROC_TRAIT)
+
+#undef SPIN_PROC_TRAIT
 
 ///Update the pulling hud icon
 /mob/proc/update_pull_hud_icon()
@@ -766,7 +839,7 @@
 	if(ismecha(loc))
 		return
 
-	if(incapacitated())
+	if(incapacitated)
 		return
 
 	var/obj/item/I = get_active_held_item()
@@ -782,21 +855,32 @@
  *
  * This sends you back to the lobby creating a new dead mob
  *
- * Only works if flag/norespawn is allowed in config
+ * Only works if flag/allow_respawn is allowed in config
  */
 /mob/verb/abandon_mob()
 	set name = "Respawn"
 	set category = "OOC"
 
-	if (CONFIG_GET(flag/norespawn))
-		if (!check_rights_for(usr.client, R_ADMIN))
-			to_chat(usr, span_boldnotice("Respawning is not enabled!"))
-			return
-		else if (tgui_alert(usr, "Respawning is currently disabled, do you want to use your permissions to circumvent it?", "Respawn", list("Yes", "No")) != "Yes")
-			return
+	switch(CONFIG_GET(flag/allow_respawn))
+		if(RESPAWN_FLAG_NEW_CHARACTER)
+			if(tgui_alert(usr, "Note, respawning is only allowed as another character. If you don't have another free slot you may not be able to respawn.", "Respawn", list("Ok", "Nevermind")) != "Ok")
+				return
+
+		if(RESPAWN_FLAG_FREE)
+			pass() // Normal respawn
+
+		if(RESPAWN_FLAG_DISABLED)
+			if (!check_rights_for(usr.client, R_ADMIN))
+				to_chat(usr, span_boldnotice("Respawning is not enabled!"))
+				return
+			if (tgui_alert(usr, "Respawning is currently disabled, do you want to use your permissions to circumvent it?", "Respawn", list("Yes", "No")) != "Yes")
+				return
 
 	if (stat != DEAD)
 		to_chat(usr, span_boldnotice("You must be dead to use this!"))
+		return
+
+	if(!check_respawn_delay())
 		return
 
 	usr.log_message("used the respawn button.", LOG_GAME)
@@ -820,6 +904,23 @@
 
 	M.PossessByPlayer(key)
 
+/// Checks if the mob can respawn yet according to the respawn delay
+/mob/proc/check_respawn_delay(override_delay = 0)
+	if(!override_delay && !CONFIG_GET(number/respawn_delay))
+		return TRUE
+
+	var/death_time = world.time - client.player_details.time_of_death
+
+	var/required_delay = override_delay || CONFIG_GET(number/respawn_delay)
+
+	if(death_time < required_delay)
+		if(!check_rights_for(usr.client, R_ADMIN))
+			to_chat(usr, "You have been dead for [DisplayTimeText(death_time, 1)].")
+			to_chat(usr, span_warning("You must wait [DisplayTimeText(required_delay, 1)] to respawn!"))
+			return FALSE
+		if(tgui_alert(usr, "You have been dead for [DisplayTimeText(death_time, 1)] out of required [DisplayTimeText(required_delay, 1)]. Do you want to use your permissions to circumvent it?", "Respawn", list("Yes", "No")) != "Yes")
+			return FALSE
+	return TRUE
 
 /**
  * Sometimes helps if the user is stuck in another perspective or camera
@@ -828,7 +929,6 @@
 	set name = "Cancel Camera View"
 	set category = "OOC"
 	reset_perspective(null)
-	unset_machine()
 
 //suppress the .click/dblclick macros so people can't use them to identify the location of items or aimbot
 /mob/verb/DisClick(argu = null as anything, sec = "" as text, number1 = 0 as num  , number2 = 0 as num)
@@ -842,36 +942,6 @@
 	set hidden = TRUE
 	set category = null
 	return
-/**
- * Topic call back for any mob
- *
- * * Unset machines if "mach_close" sent
- * * refresh the inventory of machines in range if "refresh" sent
- * * handles the strip panel equip and unequip as well if "item" sent
- */
-/mob/Topic(href, href_list)
-	if(href_list["mach_close"])
-		var/t1 = text("window=[href_list["mach_close"]]")
-		unset_machine()
-		src << browse(null, t1)
-
-/**
- * Controls if a mouse drop succeeds (return null if it doesnt)
- */
-/mob/MouseDrop(mob/M)
-	. = ..()
-	if(M != usr)
-		return
-	if(usr == src)
-		return
-	if(!Adjacent(usr))
-		return
-	if(isAI(M))
-		return
-
-///Is the mob muzzled (default false)
-/mob/proc/is_muzzled()
-	return FALSE
 
 /// Adds this list to the output to the stat browser
 /mob/proc/get_status_tab_items()
@@ -907,12 +977,13 @@
 
 	return data
 
-/mob/proc/swap_hand(held_index)
+/mob/proc/swap_hand(held_index, silent = FALSE)
 	SHOULD_NOT_OVERRIDE(TRUE) // Override perform_hand_swap instead
 
 	var/obj/item/held_item = get_active_held_item()
 	if(SEND_SIGNAL(src, COMSIG_MOB_SWAPPING_HANDS, held_item) & COMPONENT_BLOCK_SWAP)
-		to_chat(src, span_warning("Your other hand is too busy holding [held_item]."))
+		if (!silent)
+			to_chat(src, span_warning("Your other hand is too busy holding [held_item]."))
 		return FALSE
 
 	var/result = perform_hand_swap(held_index)
@@ -950,10 +1021,16 @@
 		return
 
 	if(!selected_hand)
+<<<<<<< HEAD
 		selected_hand = (active_hand_index % held_items.len)+1
 
 	if(istext(selected_hand))
 		selected_hand = lowertext(selected_hand)
+=======
+		selected_hand = active_hand_index
+	else if(istext(selected_hand))
+		selected_hand = LOWER_TEXT(selected_hand)
+>>>>>>> tg-pr-88929
 		if(selected_hand == "right" || selected_hand == "r")
 			selected_hand = 2
 		if(selected_hand == "left" || selected_hand == "l")
@@ -961,8 +1038,14 @@
 
 	if(selected_hand != active_hand_index)
 		swap_hand(selected_hand)
+<<<<<<< HEAD
 	else
 		mode()
+=======
+
+	// _queue_verb requires a client, so when we don't have it (AI controlled mob) we don't use it
+	client ? mode() : execute_mode()
+>>>>>>> tg-pr-88929
 
 /mob/proc/assess_threat(judgement_criteria, lasercolor = "", datum/callback/weaponcheck=null) //For sec bot threat assessment
 	return 0
@@ -977,11 +1060,11 @@
 	if(mind)
 		return mind.grab_ghost(force = force)
 
-///Notify a ghost that it's body is being cloned
-/mob/proc/notify_ghost_cloning(message = "Someone is trying to revive you. Re-enter your corpse if you want to be revived!", sound = 'sound/effects/genetics.ogg', atom/source = null, flashwindow)
+///Notify a ghost that its body is being revived
+/mob/proc/notify_revival(message = "Someone is trying to revive you. Re-enter your corpse if you want to be revived!", sound = 'sound/effects/genetics.ogg', atom/source = null, flashwindow = TRUE)
 	var/mob/dead/observer/ghost = get_ghost()
 	if(ghost)
-		ghost.notify_cloning(message, sound, source, flashwindow)
+		ghost.send_revival_notification(message, sound, source, flashwindow)
 		return ghost
 
 /**
@@ -1043,27 +1126,45 @@
 		)
 		antimagic_effect = mutable_appearance('icons/effects/effects.dmi', "shield-red", MOB_SHIELD_LAYER)
 		antimagic_color = LIGHT_COLOR_BLOOD_MAGIC
+<<<<<<< HEAD
 		playsound(src, 'sound/magic/magic_block.ogg', 50, TRUE)
+=======
+		playsound(src, 'sound/effects/magic/magic_block.ogg', 50, TRUE)
+>>>>>>> tg-pr-88929
 
 	else if(magic_flags & MAGIC_RESISTANCE_HOLY)
 		visible_message(
 			span_warning("[src] starts to glow as [ismob(antimagic_source) ? p_they() : antimagic_source] emits a halo of light!"),
 			span_userdanger("A feeling of warmth washes over [ismob(antimagic_source) ? "you" : antimagic_source] as rays of light surround your body and protect you!"),
 		)
+<<<<<<< HEAD
 		antimagic_effect = mutable_appearance('icons/effects/genetics.dmi', "servitude", -MUTATIONS_LAYER)
 		antimagic_color = LIGHT_COLOR_HOLY_MAGIC
 		playsound(src, 'sound/magic/magic_block_holy.ogg', 50, TRUE)
+=======
+		antimagic_effect = mutable_appearance('icons/mob/effects/genetics.dmi', "servitude", -MUTATIONS_LAYER)
+		antimagic_color = LIGHT_COLOR_HOLY_MAGIC
+		playsound(src, 'sound/effects/magic/magic_block_holy.ogg', 50, TRUE)
+>>>>>>> tg-pr-88929
 
 	else if(magic_flags & MAGIC_RESISTANCE_MIND)
 		visible_message(
 			span_warning("[src] forehead shines as [ismob(antimagic_source) ? p_they() : antimagic_source] repulses magic from their mind!"),
 			span_userdanger("A feeling of cold splashes on [ismob(antimagic_source) ? "you" : antimagic_source] as your forehead reflects magic usering your mind!"),
 		)
+<<<<<<< HEAD
 		antimagic_effect = mutable_appearance('icons/effects/genetics.dmi', "telekinesishead", MOB_SHIELD_LAYER)
 		antimagic_color = LIGHT_COLOR_DARK_BLUE
 		playsound(src, 'sound/magic/magic_block_mind.ogg', 50, TRUE)
 
 	mob_light(range = 2, color = antimagic_color, duration = 5 SECONDS)
+=======
+		antimagic_effect = mutable_appearance('icons/mob/effects/genetics.dmi', "telekinesishead", MOB_SHIELD_LAYER)
+		antimagic_color = LIGHT_COLOR_DARK_BLUE
+		playsound(src, 'sound/effects/magic/magic_block_mind.ogg', 50, TRUE)
+
+	mob_light(range = 2, power = 2, color = antimagic_color, duration = 5 SECONDS)
+>>>>>>> tg-pr-88929
 	add_overlay(antimagic_effect)
 	addtimer(CALLBACK(src, TYPE_PROC_REF(/atom, cut_overlay), antimagic_effect), 5 SECONDS)
 
@@ -1108,6 +1209,9 @@
 	var/datum/dna/mob_dna = has_dna()
 	if(mob_dna?.check_mutation(/datum/mutation/telekinesis) && tkMaxRangeCheck(src, A))
 		return TRUE
+	var/obj/item/item_in_hand = get_active_held_item()
+	if(istype(item_in_hand, /obj/item/machine_remote))
+		return TRUE
 
 	//range check
 	if(!interaction_range) // If you don't have extra length, GO AWAY
@@ -1135,8 +1239,16 @@
  * * FORBID_TELEKINESIS_REACH - If telekinesis is forbidden to perform action from a distance (ex. canisters are blacklisted from telekinesis manipulation)
  * * ALLOW_SILICON_REACH - If silicons are allowed to perform action from a distance (silicons can operate airlocks from far away)
  * * ALLOW_RESTING - If resting on the floor is allowed to perform action ()
+ * * ALLOW_VENTCRAWL - Mobs with ventcrawl traits can alt-click this to vent
+ * * BYPASS_ADJACENCY - The target does not have to be adjacent
+ * * SILENT_ADJACENCY - Adjacency is required but errors are not printed
+ * * NOT_INSIDE_TARGET - The target maybe adjacent but the mob should not be inside the target
+ * * ALLOW_PAI - Allows pAIs to perform an action
+ *
+ * silence_adjacency: Sometimes we want to use this proc to check interaction without allowing it to throw errors for base case adjacency
+ * Alt click uses this, as otherwise you can detect what is interactable from a distance via the error message
 **/
-/mob/proc/can_perform_action(atom/movable/target, action_bitflags)
+/mob/proc/can_perform_action(atom/target, action_bitflags)
 	return
 
 ///Can this mob use storage
@@ -1181,14 +1293,28 @@
 
 	log_message("[src] name changed from [oldname] to [newname]", LOG_OWNERSHIP)
 
-	log_played_names(ckey, newname)
+	log_played_names(
+		ckey,
+		list(
+			"[newname]" = tag,
+		),
+	)
 
 	real_name = newname
 	name = newname
 	if(mind)
 		mind.name = newname
 		if(mind.key)
+<<<<<<< HEAD
 			log_played_names(ckey(mind.key) ,newname) //Just in case the mind is unsynced at the moment.
+=======
+			log_played_names(
+				ckey(mind.key),
+				list(
+					"[newname]" = tag,
+				),
+			) //Just in case the mind is unsynced at the moment.
+>>>>>>> tg-pr-88929
 
 	if(oldname)
 		//update the datacore records! This is goig to be a bit costly.
@@ -1203,7 +1329,7 @@
 				if(obj.target && obj.target.current && obj.target.current.real_name == name)
 					obj.update_explanation_text()
 
-	log_mob_tag("RENAMED: [key_name(src)]")
+	log_mob_tag("TAG: [tag] RENAMED: [key_name(src)]")
 
 	return TRUE
 
@@ -1298,10 +1424,16 @@
  * Proc that returns TRUE if the mob can write using the writing_instrument, FALSE otherwise.
  *
  * This proc a side effect, outputting a message to the mob's chat with a reason if it returns FALSE.
+ * Unless silent_if_not_writing_tool is TRUE. In that case it'll be silent if it isn't a writing implement/tool/instrument w/e.
  */
-/mob/proc/can_write(obj/item/writing_instrument)
-	if(!istype(writing_instrument))
-		to_chat(src, span_warning("You can't write with the [writing_instrument]!"))
+/mob/proc/can_write(obj/item/writing_instrument, silent_if_not_writing_tool = FALSE)
+	if(!writing_instrument)
+		return FALSE
+
+	var/pen_info = writing_instrument.get_writing_implement_details()
+	if(!pen_info || (pen_info["interaction_mode"] != MODE_WRITING))
+		if(!silent_if_not_writing_tool)
+			to_chat(src, span_warning("You can't write with the [writing_instrument]!"))
 		return FALSE
 
 	if(!is_literate())
@@ -1310,11 +1442,6 @@
 
 	if(!has_light_nearby() && !has_nightvision())
 		to_chat(src, span_warning("It's too dark in here to write anything!"))
-		return FALSE
-
-	var/pen_info = writing_instrument.get_writing_implement_details()
-	if(!pen_info || (pen_info["interaction_mode"] != MODE_WRITING))
-		to_chat(src, span_warning("You can't write with the [writing_instrument]!"))
 		return FALSE
 
 	if(has_gravity())
@@ -1368,12 +1495,16 @@
 	. = ..()
 	VV_DROPDOWN_OPTION("", "---------")
 	VV_DROPDOWN_OPTION(VV_HK_GIB, "Gib")
+	VV_DROPDOWN_OPTION(VV_HK_REMOVE_SPELL, "Remove Spell")
 	VV_DROPDOWN_OPTION(VV_HK_GIVE_SPELL, "Give Spell")
 	VV_DROPDOWN_OPTION(VV_HK_REMOVE_SPELL, "Remove Spell")
+	VV_DROPDOWN_OPTION(VV_HK_GIVE_MOB_ACTION, "Give Mob Ability")
+	VV_DROPDOWN_OPTION(VV_HK_REMOVE_MOB_ACTION, "Remove Mob Ability")
 	VV_DROPDOWN_OPTION(VV_HK_GIVE_DISEASE, "Give Disease")
 	VV_DROPDOWN_OPTION(VV_HK_GODMODE, "Toggle Godmode")
 	VV_DROPDOWN_OPTION(VV_HK_DROP_ALL, "Drop Everything")
 	VV_DROPDOWN_OPTION(VV_HK_REGEN_ICONS, "Regenerate Icons")
+	VV_DROPDOWN_OPTION(VV_HK_REGEN_ICONS_FULL, "Regenerate Icons & Clear Stuck Overlays")
 	VV_DROPDOWN_OPTION(VV_HK_PLAYER_PANEL, "Show player panel")
 	VV_DROPDOWN_OPTION(VV_HK_BUILDMODE, "Toggle Buildmode")
 	VV_DROPDOWN_OPTION(VV_HK_DIRECT_CONTROL, "Assume Direct Control")
@@ -1383,19 +1514,43 @@
 
 /mob/vv_do_topic(list/href_list)
 	. = ..()
+
+	if(!.)
+		return
+
 	if(href_list[VV_HK_REGEN_ICONS])
 		if(!check_rights(NONE))
 			return
 		regenerate_icons()
 
+<<<<<<< HEAD
 	if(href_list[VV_HK_PLAYER_PANEL])
 		return SSadmin_verbs.dynamic_invoke_verb(usr, /datum/admin_verb/vuap_personal, src)
+=======
+	if(href_list[VV_HK_REGEN_ICONS_FULL])
+		if(!check_rights(NONE))
+			return
+		cut_overlays()
+		regenerate_icons()
+
+	if(href_list[VV_HK_PLAYER_PANEL])
+		return SSadmin_verbs.dynamic_invoke_verb(usr, /datum/admin_verb/show_player_panel, src)
+>>>>>>> tg-pr-88929
 
 	if(href_list[VV_HK_GODMODE])
 		if(!check_rights(R_ADMIN))
 			return
 		usr.client.cmd_admin_godmode(src)
 
+<<<<<<< HEAD
+=======
+	if(href_list[VV_HK_GIVE_MOB_ACTION])
+		return SSadmin_verbs.dynamic_invoke_verb(usr, /datum/admin_verb/give_mob_action, src)
+
+	if(href_list[VV_HK_REMOVE_MOB_ACTION])
+		return SSadmin_verbs.dynamic_invoke_verb(usr, /datum/admin_verb/remove_mob_action, src)
+
+>>>>>>> tg-pr-88929
 	if(href_list[VV_HK_GIVE_SPELL])
 		return SSadmin_verbs.dynamic_invoke_verb(usr, /datum/admin_verb/give_spell, src)
 
@@ -1426,6 +1581,7 @@
 		if(!check_rights(NONE))
 			return
 		offer_control(src)
+
 	if(href_list[VV_HK_VIEW_PLANES])
 		if(!check_rights(R_DEBUG))
 			return
@@ -1456,7 +1612,13 @@
 		return
 
 	nutrition = max(0, nutrition + change)
+	hud_used?.hunger?.update_appearance()
 
+/mob/living/adjust_nutrition(change, forced)
+	. = ..()
+	mob_mood?.update_nutrition_moodlets()
+
+<<<<<<< HEAD
 /mob/living/adjust_nutrition(change, forced)
 	. = ..()
 	// Queue update if change is small enough (6 is 1% of nutrition softcap)
@@ -1492,6 +1654,34 @@
 			immutable_speedies += thing.slowdown
 		else
 			speedies += thing.slowdown
+=======
+///Force set the mob nutrition
+/mob/proc/set_nutrition(set_to, forced = FALSE) //Seriously fuck you oldcoders.
+	if(HAS_TRAIT(src, TRAIT_NOHUNGER) && !forced)
+		return
+
+	nutrition = max(0, set_to)
+	hud_used?.hunger?.update_appearance()
+
+/mob/living/set_nutrition(set_to, forced)
+	. = ..()
+	mob_mood?.update_nutrition_moodlets()
+
+///Apply a proper movespeed modifier based on items we have equipped
+/mob/proc/update_equipment_speed_mods()
+	var/speedies = 0
+	var/immutable_speedies = 0
+	for(var/obj/item/thing in get_equipped_speed_mod_items())
+		if(thing.item_flags & IMMUTABLE_SLOW)
+			immutable_speedies += thing.slowdown
+		else
+			speedies += thing.slowdown
+
+	//if  we have TRAIT_STURDY_FRAME, we reduce our overall speed penalty UNLESS that penalty would be a negative value, and therefore a speed boost.
+	if(speedies > 0 && HAS_TRAIT(src, TRAIT_STURDY_FRAME))
+		speedies *= 0.2
+
+>>>>>>> tg-pr-88929
 	if(immutable_speedies)
 		add_or_update_variable_movespeed_modifier(
 			/datum/movespeed_modifier/equipment_speedmod/immutable,
@@ -1529,13 +1719,6 @@
 
 /mob/vv_edit_var(var_name, var_value)
 	switch(var_name)
-		if(NAMEOF(src, control_object))
-			var/obj/O = var_value
-			if(!istype(O) || (O.obj_flags & DANGEROUS_POSSESSION))
-				return FALSE
-		if(NAMEOF(src, machine))
-			set_machine(var_value)
-			. = TRUE
 		if(NAMEOF(src, focus))
 			set_focus(var_value)
 			. = TRUE
@@ -1642,6 +1825,7 @@
 	..()
 	SEND_SIGNAL(src, COMSIG_MOB_KEYDOWN, key, client, full_key)
 
+<<<<<<< HEAD
 /// Makes a client temporarily aware of an appearance via and invisible vis contents object.
 /mob/proc/send_appearance(mutable_appearance/appearance) as /atom/movable/screen
 	RETURN_TYPE(/atom/movable/screen)
@@ -1681,3 +1865,19 @@
 		CRASH("Failed to send appearance to client")
 	return "<img class='icon [extra_classes]' src='\ref[container]' style='image-rendering: pixelated; -ms-interpolation-mode: nearest-neighbor'>"
 
+=======
+/mob/proc/setup_hud_traits()
+	for(var/hud_trait in GLOB.trait_to_hud)
+		RegisterSignal(src, SIGNAL_ADDTRAIT(hud_trait), PROC_REF(hud_trait_enabled))
+		RegisterSignal(src, SIGNAL_REMOVETRAIT(hud_trait), PROC_REF(hud_trait_disabled))
+
+/mob/proc/hud_trait_enabled(datum/source, new_trait)
+	SIGNAL_HANDLER
+	var/datum/atom_hud/datahud = GLOB.huds[GLOB.trait_to_hud[new_trait]]
+	datahud.show_to(src)
+
+/mob/proc/hud_trait_disabled(datum/source, new_trait)
+	SIGNAL_HANDLER
+	var/datum/atom_hud/datahud = GLOB.huds[GLOB.trait_to_hud[new_trait]]
+	datahud.hide_from(src)
+>>>>>>> tg-pr-88929

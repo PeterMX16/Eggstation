@@ -1,19 +1,24 @@
 /obj/item/ammo_casing/energy/ion
 	projectile_type = /obj/projectile/ion
 	select_name = "ion"
-	fire_sound = 'sound/weapons/ionrifle.ogg'
+	fire_sound = 'sound/items/weapons/ionrifle.ogg'
+	firing_effect_type = /obj/effect/temp_visual/dir_setting/firing_effect/blue
 
 /obj/item/ammo_casing/energy/ion/hos
 	projectile_type = /obj/projectile/ion/weak
+<<<<<<< HEAD
 	e_cost = LASER_SHOTS(6, STANDARD_CELL_CHARGE * 1.2) // MONKE EDIT: 4 -> 6 shots
+=======
+	e_cost = LASER_SHOTS(4, STANDARD_CELL_CHARGE * 1.2)
+>>>>>>> tg-pr-88929
 
-/obj/item/ammo_casing/energy/declone
-	projectile_type = /obj/projectile/energy/declone
+/obj/item/ammo_casing/energy/radiation
+	projectile_type = /obj/projectile/energy/radiation
 	select_name = "declone"
-	fire_sound = 'sound/weapons/pulse3.ogg'
+	fire_sound = 'sound/items/weapons/pulse3.ogg'
 
-/obj/item/ammo_casing/energy/declone/weak
-	projectile_type = /obj/projectile/energy/declone/weak
+/obj/item/ammo_casing/energy/radiation/weak
+	projectile_type = /obj/projectile/energy/radiation/weak
 
 /obj/item/ammo_casing/energy/flora
 	fire_sound = 'sound/effects/stealthoff.ogg'
@@ -34,6 +39,7 @@
 
 /obj/item/ammo_casing/energy/temp
 	projectile_type = /obj/projectile/temp
+<<<<<<< HEAD
 	select_name = "chill"
 	e_cost = LASER_SHOTS(40, STANDARD_CELL_CHARGE * 10)
 	fire_sound = 'sound/weapons/pulse3.ogg'
@@ -46,10 +52,22 @@
 	projectile_type = /obj/projectile/temp/cryo
 	select_name = "freeze"
 	e_cost = LASER_SHOTS(20, STANDARD_CELL_CHARGE * 10)
+=======
+	select_name = "freeze"
+	e_cost = LASER_SHOTS(40, STANDARD_CELL_CHARGE * 10)
+	fire_sound = 'sound/items/weapons/pulse3.ogg'
+	firing_effect_type = /obj/effect/temp_visual/dir_setting/firing_effect/blue
+
+/obj/item/ammo_casing/energy/temp/hot
+	projectile_type = /obj/projectile/temp/hot
+	select_name = "bake"
+	firing_effect_type = /obj/effect/temp_visual/dir_setting/firing_effect/red
+>>>>>>> tg-pr-88929
 
 /obj/item/ammo_casing/energy/meteor
 	projectile_type = /obj/projectile/meteor
 	select_name = "goddamn meteor"
+	newtonian_force = 3
 
 /obj/item/ammo_casing/energy/net
 	projectile_type = /obj/projectile/energy/net
@@ -65,10 +83,15 @@
 	harmful = FALSE
 
 /obj/item/ammo_casing/energy/tesla_cannon
+<<<<<<< HEAD
 	fire_sound = 'sound/magic/lightningshock.ogg'
+=======
+	fire_sound = 'sound/effects/magic/lightningshock.ogg'
+>>>>>>> tg-pr-88929
 	e_cost = LASER_SHOTS(33, STANDARD_CELL_CHARGE)
 	select_name = "shock"
 	projectile_type = /obj/projectile/energy/tesla_cannon
+	firing_effect_type = /obj/effect/temp_visual/dir_setting/firing_effect/blue
 
 /obj/item/ammo_casing/energy/shrink
 	projectile_type = /obj/projectile/magic/shrink/alien
@@ -79,6 +102,7 @@
 	projectile_type = /obj/projectile/bullet/marksman
 	select_name = "marksman nanoshot"
 	e_cost = 0 // Can't use the macro
+<<<<<<< HEAD
 	fire_sound = 'sound/weapons/gun/revolver/shot_alt.ogg'
 
 /obj/item/ammo_casing/energy/fisher
@@ -86,3 +110,21 @@
 	select_name = "light-buster"
 	e_cost = LASER_SHOTS(2, STANDARD_CELL_CHARGE * 0.5)
 	fire_sound = 'sound/weapons/gun/general/heavy_shot_suppressed.ogg' // fwip fwip fwip fwip
+=======
+	fire_sound = 'sound/items/weapons/gun/revolver/shot_alt.ogg'
+	newtonian_force = 1
+
+/obj/item/ammo_casing/energy/fisher
+	projectile_type = /obj/projectile/energy/fisher
+	select_name = "light disruptor"
+	harmful = FALSE
+	e_cost = LASER_SHOTS(2, STANDARD_CELL_CHARGE * 0.5)
+	fire_sound = 'sound/items/weapons/gun/general/heavy_shot_suppressed.ogg' // fwip fwip fwip fwip
+
+// Used by /obj/item/gun/energy/photon
+/obj/item/ammo_casing/energy/photon
+	fire_sound = 'sound/items/weapons/lasercannonfire.ogg'
+	e_cost = LASER_SHOTS(4, STANDARD_CELL_CHARGE)
+	select_name = "flare"
+	projectile_type = /obj/projectile/energy/photon
+>>>>>>> tg-pr-88929

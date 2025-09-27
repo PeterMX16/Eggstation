@@ -131,7 +131,7 @@ GLOBAL_VAR_INIT(bsa_unlock, FALSE)
 /obj/machinery/bsa/full
 	name = "Bluespace Artillery"
 	desc = "Long range bluespace artillery."
-	icon = 'icons/obj/lavaland/cannon.dmi'
+	icon = 'icons/obj/machines/cannon.dmi'
 	icon_state = "cannon_west"
 	var/static/mutable_appearance/top_layer
 	var/ex_power = 3
@@ -186,7 +186,6 @@ GLOBAL_VAR_INIT(bsa_unlock, FALSE)
 
 /obj/machinery/bsa/full/proc/get_layer()
 	top_layer = mutable_appearance(icon, layer = ABOVE_MOB_LAYER)
-	SET_PLANE_EXPLICIT(top_layer, GAME_PLANE_UPPER, src)
 	switch(dir)
 		if(WEST)
 			top_layer.icon_state = "top_west"
@@ -206,7 +205,7 @@ GLOBAL_VAR_INIT(bsa_unlock, FALSE)
 
 	var/turf/point = get_front_turf()
 	var/turf/target = get_target_turf()
-	var/atom/movable/blocker
+	var/atom/blocker
 	for(var/T in get_line(get_step(point, dir), target))
 		var/turf/tile = T
 		if(SEND_SIGNAL(tile, COMSIG_ATOM_BSA_BEAM) & COMSIG_ATOM_BLOCKS_BSA_BEAM)
@@ -232,12 +231,12 @@ GLOBAL_VAR_INIT(bsa_unlock, FALSE)
 	)
 
 	if(!blocker)
-		message_admins("[ADMIN_LOOKUPFLW(user)] has launched an artillery strike targeting [ADMIN_VERBOSEJMP(bullseye)].")
-		user.log_message("has launched an artillery strike targeting [AREACOORD(bullseye)].", LOG_GAME)
+		message_admins("[ADMIN_LOOKUPFLW(user)] has launched a bluespace artillery strike targeting [ADMIN_VERBOSEJMP(bullseye)].")
+		user.log_message("has launched a bluespace artillery strike targeting [AREACOORD(bullseye)].", LOG_GAME)
 		explosion(bullseye, devastation_range = ex_power, heavy_impact_range = ex_power*2, light_impact_range = ex_power*4, explosion_cause = src)
 	else
-		message_admins("[ADMIN_LOOKUPFLW(user)] has launched an artillery strike targeting [ADMIN_VERBOSEJMP(bullseye)] but it was blocked by [blocker] at [ADMIN_VERBOSEJMP(target)].")
-		user.log_message("has launched an artillery strike targeting [AREACOORD(bullseye)] but it was blocked by [blocker] at [AREACOORD(target)].", LOG_GAME)
+		message_admins("[ADMIN_LOOKUPFLW(user)] has launched a bluespace artillery strike targeting [ADMIN_VERBOSEJMP(bullseye)] but it was blocked by [blocker] at [ADMIN_VERBOSEJMP(target)].")
+		user.log_message("has launched a bluespace artillery strike targeting [AREACOORD(bullseye)] but it was blocked by [blocker] at [AREACOORD(target)].", LOG_GAME)
 
 	complete_goal()
 
@@ -249,7 +248,11 @@ GLOBAL_VAR_INIT(bsa_unlock, FALSE)
 /obj/machinery/bsa/full/proc/reload()
 	ready = FALSE
 	use_energy(power_used_per_shot)
+<<<<<<< HEAD
 	addtimer(CALLBACK(src,"ready_cannon"),600)
+=======
+	addtimer(CALLBACK(src,"ready_cannon"), 1 MINUTES)
+>>>>>>> tg-pr-88929
 
 /obj/machinery/bsa/full/proc/ready_cannon()
 	ready = TRUE
@@ -333,7 +336,7 @@ GLOBAL_VAR_INIT(bsa_unlock, FALSE)
 	if(isnull(options[victim]))
 		return
 	target = options[victim]
-	log_game("[key_name(user)] has aimed the artillery strike at [target].")
+	log_game("[key_name(user)] has aimed the bluespace artillery strike at [target].")
 
 
 /obj/machinery/computer/bsa_control/proc/get_target_name()

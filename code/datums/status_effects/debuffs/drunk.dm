@@ -39,17 +39,17 @@
 	// .01s are used in case the drunk value ends up to be a small decimal.
 	switch(drunk_value)
 		if(11 to 21)
-			return span_warning("[owner.p_they(TRUE)] [owner.p_are()] slightly flushed.")
+			return span_warning("[owner.p_They()] [owner.p_are()] slightly flushed.")
 		if(21.01 to 41)
-			return span_warning("[owner.p_they(TRUE)] [owner.p_are()] flushed.")
+			return span_warning("[owner.p_They()] [owner.p_are()] flushed.")
 		if(41.01 to 51)
-			return span_warning("[owner.p_they(TRUE)] [owner.p_are()] quite flushed and [owner.p_their()] breath smells of alcohol.")
+			return span_warning("[owner.p_They()] [owner.p_are()] quite flushed and [owner.p_their()] breath smells of alcohol.")
 		if(51.01 to 61)
-			return span_warning("[owner.p_they(TRUE)] [owner.p_are()] very flushed and [owner.p_their()] movements jerky, with breath reeking of alcohol.")
+			return span_warning("[owner.p_They()] [owner.p_are()] very flushed and [owner.p_their()] movements jerky, with breath reeking of alcohol.")
 		if(61.01 to 91)
-			return span_warning("[owner.p_they(TRUE)] look[owner.p_s()] like a drunken mess.")
+			return span_warning("[owner.p_They()] look[owner.p_s()] like a drunken mess.")
 		if(91.01 to INFINITY)
-			return span_warning("[owner.p_they(TRUE)] [owner.p_are()] a shitfaced, slobbering wreck.")
+			return span_warning("[owner.p_They()] [owner.p_are()] a shitfaced, slobbering wreck.")
 
 	return null
 
@@ -64,7 +64,7 @@
 	if(drunk_value <= 0)
 		qdel(src)
 
-/datum/status_effect/inebriated/tick()
+/datum/status_effect/inebriated/tick(seconds_between_ticks)
 	// Drunk value does not decrease while dead or in stasis
 	if(owner.stat == DEAD || HAS_TRAIT(owner, TRAIT_STASIS))
 		return
@@ -109,6 +109,7 @@
 	. = ..()
 	owner.sound_environment_override = SOUND_ENVIRONMENT_PSYCHOTIC
 	owner.add_mood_event(id, /datum/mood_event/drunk)
+	RegisterSignal(owner, COMSIG_MOB_FIRED_GUN, PROC_REF(drunk_gun_fired))
 
 /datum/status_effect/inebriated/drunk/on_remove()
 	clear_effects()
@@ -126,6 +127,19 @@
 	if(owner.sound_environment_override == SOUND_ENVIRONMENT_PSYCHOTIC)
 		owner.sound_environment_override = SOUND_ENVIRONMENT_NONE
 
+	UnregisterSignal(owner, COMSIG_MOB_FIRED_GUN)
+
+/datum/status_effect/inebriated/drunk/proc/drunk_gun_fired(datum/source, obj/item/gun/gun, atom/firing_at, params, zone, bonus_spread_values)
+	SIGNAL_HANDLER
+
+	// excusing the bartender, because shotgun
+	if(HAS_TRAIT(owner, TRAIT_DRUNKEN_BRAWLER))
+		return
+	// what makes me a good demoman?
+	if(istype(gun, /obj/item/gun/grenadelauncher) || istype(gun, /obj/item/gun/ballistic/revolver/grenadelauncher))
+		return
+	bonus_spread_values[MAX_BONUS_SPREAD_INDEX] += (drunk_value * 0.5)
+
 /datum/status_effect/inebriated/drunk/set_drunk_value(set_to)
 	. = ..()
 	if(QDELETED(src))
@@ -140,7 +154,7 @@
 	// Handle the Ballmer Peak.
 	// If our owner is a scientist (has the trait "TRAIT_BALLMER_SCIENTIST"), there's a 5% chance
 	// that they'll say one of the special "ballmer message" lines, depending their drunk-ness level.
-	var/obj/item/organ/internal/liver/liver_organ = owner.get_organ_slot(ORGAN_SLOT_LIVER)
+	var/obj/item/organ/liver/liver_organ = owner.get_organ_slot(ORGAN_SLOT_LIVER)
 	if(liver_organ && HAS_TRAIT(liver_organ, TRAIT_BALLMER_SCIENTIST) && prob(5))
 		if(drunk_value >= BALLMER_PEAK_LOW_END && drunk_value <= BALLMER_PEAK_HIGH_END)
 			owner.say(pick_list_replacements(VISTA_FILE, "ballmer_good_msg"), forced = "ballmer")
@@ -170,7 +184,7 @@
 			owner.adjust_confusion(15 SECONDS)
 			if(iscarbon(owner))
 				var/mob/living/carbon/carbon_owner = owner
-				carbon_owner.vomit() // Vomiting clears toxloss - consider this a blessing
+				carbon_owner.vomit(VOMIT_CATEGORY_DEFAULT) // Vomiting clears toxloss - consider this a blessing
 
 	// Over 71, we will constantly have blurry eyes
 	if(drunk_value >= 71)
@@ -184,6 +198,7 @@
 
 	// Over 91, we gain even more toxloss, brain damage, and have a chance of dropping into a long sleep
 	if(drunk_value >= 91)
+<<<<<<< HEAD
 		if(!is_alcoholic) // monkestation edit: alcoholism
 			owner.adjustToxLoss(1)
 			owner.adjustOrganLoss(ORGAN_SLOT_BRAIN, 0.4)
@@ -195,10 +210,31 @@
 			else
 				to_chat(owner, span_warning("Just a quick nap..."))
 				owner.Sleeping(is_alcoholic ? rand(25 SECONDS, 45 SECONDS) : (90 SECONDS)) // monkestation edit: alcoholism
+=======
+		owner.adjustToxLoss(1)
+		owner.adjustOrganLoss(ORGAN_SLOT_BRAIN, 0.4)
+		if(owner.stat == CONSCIOUS)
+			attempt_to_blackout()
+>>>>>>> tg-pr-88929
 
 	// And finally, over 100 - let's be honest, you shouldn't be alive by now.
 	if(!is_alcoholic && drunk_value >= 101) // monkestation edit: alcoholism
 		owner.adjustToxLoss(2)
+
+/datum/status_effect/inebriated/drunk/proc/attempt_to_blackout()
+	var/mob/living/carbon/drunkard = owner
+	if(drunkard.has_trauma_type(/datum/brain_trauma/severe/split_personality/blackout))// prevent ping spamming
+		if(prob(10))
+			to_chat(owner, span_warning("You stumbled and fall over!"))
+			owner.slip(1 SECONDS)
+		return
+	if(drunkard.gain_trauma(/datum/brain_trauma/severe/split_personality/blackout, TRAUMA_LIMIT_ABSOLUTE))
+		drunk_value -= 70 //So that the drunk personality can spice things up without being killed by liver failure
+		return
+	if(SSshuttle.emergency.mode == SHUTTLE_DOCKED && is_station_level(owner.z))// Don't put us in a deep sleep if the shuttle's here. QoL, mainly.
+		to_chat(owner, span_warning("You're so tired... but you can't miss that shuttle..."))
+	else
+		owner.Sleeping(90 SECONDS)
 
 /// Status effect for being fully drunk (not tipsy).
 /atom/movable/screen/alert/status_effect/drunk

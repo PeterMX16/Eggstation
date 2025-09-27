@@ -1,4 +1,4 @@
-/obj/item/organ/internal/heart/gland/ventcrawling
+/obj/item/organ/heart/gland/ventcrawling
 	abductor_hint = "pliant cartilage enabler. The abductee can crawl through vents without trouble."
 	cooldown_low = 3 MINUTES
 	cooldown_high = 4 MINUTES
@@ -17,7 +17,7 @@
 	UnregisterSignal(organ_owner, list(SIGNAL_ADDTRAIT(TRAIT_MOVE_VENTCRAWLING), SIGNAL_REMOVETRAIT(TRAIT_MOVE_VENTCRAWLING)))
 	REMOVE_TRAITS_IN(organ_owner, ABDUCTOR_GLAND_VENTCRAWLING_TRAIT)
 
-/obj/item/organ/internal/heart/gland/ventcrawling/activate()
+/obj/item/organ/heart/gland/ventcrawling/activate()
 	to_chat(owner, span_notice("You feel very stretchy."))
 	ADD_TRAIT(owner, TRAIT_VENTCRAWLER_ALWAYS, ABDUCTOR_GLAND_TRAIT)
 

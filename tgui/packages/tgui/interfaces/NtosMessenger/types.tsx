@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { BooleanLike } from 'common/react';
+=======
+import { BooleanLike } from 'tgui-core/react';
+>>>>>>> tg-pr-88929
 
 export type NtMessage = {
   message: string;

@@ -6,7 +6,14 @@
 	///Contains the reagents within the tray.
 	if(myseed)
 		myseed.on_chem_reaction(reagents) //In case seeds have some special interactions with special chems, currently only used by vines
+<<<<<<< HEAD
 
+=======
+	for(var/datum/reagent/chem as anything in reagents.reagent_list)
+		if(chem.volume < 1)
+			continue
+		chem.on_hydroponics_apply(src, user)
+>>>>>>> tg-pr-88929
 
 /obj/machinery/hydroponics/proc/mutation_roll(mob/user)
 	switch(rand(100))

@@ -20,7 +20,11 @@
  *
  * make sure you add an update to the schema_version stable in the db changelog
  */
+<<<<<<< HEAD
 #define DB_MINOR_VERSION 28 // monkestation edit: we've added plenty of our own tables to the db
+=======
+#define DB_MINOR_VERSION 28
+>>>>>>> tg-pr-88929
 
 
 //! ## Timing subsystem
@@ -39,7 +43,7 @@
  * Timing should be based on how timing progresses on clients, not the server.
  *
  * Tracking this is more expensive,
- * should only be used in conjuction with things that have to progress client side, such as
+ * should only be used in conjunction with things that have to progress client side, such as
  * animate() or sound()
  */
 #define TIMER_CLIENT_TIME (1<<2)
@@ -81,15 +85,15 @@
 ///Nothing happens
 #define INITIALIZE_HINT_NORMAL 0
 /**
- * call LateInitialize at the end of all atom Initalization
+ * call LateInitialize at the end of all atom Initialization
  *
  * The item will be added to the late_loaders list, this is iterated over after
- * initalization of subsystems is complete and calls LateInitalize on the atom
+ * initialization of subsystems is complete and calls LateInitalize on the atom
  * see [this file for the LateIntialize proc](atom.html#proc/LateInitialize)
  */
 #define INITIALIZE_HINT_LATELOAD 1
 
-///Call qdel on the atom after intialization
+///Call qdel on the atom after initialization
 #define INITIALIZE_HINT_QDEL 2
 
 ///type and all subtypes should always immediately call Initialize in New()
@@ -106,21 +110,24 @@
 
 //! ### SS initialization hints
 /**
- * Negative values incidate a failure or warning of some kind, positive are good.
- * 0 and 1 are unused so that TRUE and FALSE are guarenteed to be invalid values.
+ * Negative values indicate a failure or warning of some kind, positive are good.
+ * 0 and 1 are unused so that TRUE and FALSE are guaranteed to be invalid values.
  */
 
 /// Subsystem failed to initialize entirely. Print a warning, log, and disable firing.
 #define SS_INIT_FAILURE -2
 
-/// The default return value which must be overriden. Will succeed with a warning.
+/// The default return value which must be overridden. Will succeed with a warning.
 #define SS_INIT_NONE -1
 
-/// Subsystem initialized sucessfully.
+/// Subsystem initialized successfully.
 #define SS_INIT_SUCCESS 2
 
-/// Successful, but don't print anything. Useful if subsystem was disabled.
+/// If your system doesn't need to be initialized (by being disabled or something)
 #define SS_INIT_NO_NEED 3
+
+/// Successfully initialized, BUT do not announce it to players (generally to hide game mechanics it would otherwise spoil)
+#define SS_INIT_NO_MESSAGE 4
 
 //! ### SS initialization load orders
 // Subsystem init_order, from highest priority to lowest priority
@@ -136,7 +143,11 @@
 #define INIT_ORDER_METRICS 91
 #define INIT_ORDER_OW 90
 #define INIT_ORDER_INPUT 85
+<<<<<<< HEAD
 #define INIT_ORDER_ADMIN_VERBS 84 // needs to be pretty high, admins cant do much without it
+=======
+#define INIT_ORDER_ADMIN_VERBS 84 // needs to be pretty high, admins can't do much without it
+>>>>>>> tg-pr-88929
 #define INIT_ORDER_SOUNDS 83
 #define INIT_ORDER_INSTRUMENTS 82
 #define INIT_ORDER_GREYSCALE 81
@@ -157,6 +168,7 @@
 #define INIT_ORDER_AI_CONTROLLERS 55 //So the controller can get the ref
 #define INIT_ORDER_TCG 55
 #define INIT_ORDER_MAPPING 50
+#define INIT_ORDER_AI_IDLE_CONTROLLERS 50
 #define INIT_ORDER_EARLY_ASSETS 48
 #define INIT_ORDER_RESEARCH 47
 #define INIT_ORDER_TIMETRACK 46
@@ -164,14 +176,22 @@
 #define INIT_ORDER_ECONOMY 40
 #define INIT_ORDER_OUTPUTS 35
 #define INIT_ORDER_RESTAURANT 34
+<<<<<<< HEAD
 #define INIT_ORDER_POLLUTION 32
+=======
+#define INIT_ORDER_TTS 33
+>>>>>>> tg-pr-88929
 #define INIT_ORDER_FLUIDS 32 // Needs to be above atoms, as some atoms may want to start fluids/gases on init
 #define INIT_ORDER_ATOMS 30
 #define INIT_ORDER_ARMAMENTS 27
 #define INIT_ORDER_LANGUAGE 25
 #define INIT_ORDER_MACHINES 20
 #define INIT_ORDER_SKILLS 15
+<<<<<<< HEAD
 #define INIT_ORDER_PATHOGEN 14
+=======
+#define INIT_ORDER_QUEUELINKS 10
+>>>>>>> tg-pr-88929
 #define INIT_ORDER_TIMER 1
 #define INIT_ORDER_DEFAULT 0
 #define INIT_ORDER_AIR -1
@@ -202,8 +222,14 @@
 
 // Subsystem fire priority, from lowest to highest priority
 // If the subsystem isn't listed here it's either DEFAULT or PROCESS (if it's a processing subsystem child)
+<<<<<<< HEAD
 #define FIRE_PRIORITY_PING 10
 #define FIRE_PRIORITY_TWITCH 10
+=======
+#define FIRE_PRIORITY_UNPLANNED_NPC 3
+#define FIRE_PRIORITY_IDLE_NPC 5
+#define FIRE_PRIORITY_PING 10
+>>>>>>> tg-pr-88929
 #define FIRE_PRIORITY_SERVER_MAINT 10
 #define FIRE_PRIORITY_RESEARCH 10
 #define FIRE_PRIORITY_VIS 10
@@ -217,12 +243,16 @@
 #define FIRE_PRIORITY_WET_FLOORS 20
 #define FIRE_PRIORITY_AIR 20
 #define FIRE_PRIORITY_NPC 20
+#define FIRE_PRIORITY_ASSETS 20
 #define FIRE_PRIORITY_HYPERSPACE_DRIFT 20
 #define FIRE_PRIORITY_NPC_MOVEMENT 21
 #define FIRE_PRIORITY_NPC_ACTIONS 22
 #define FIRE_PRIORITY_PATHFINDING 23
 #define FIRE_PRIORITY_CLIFF_FALLING 24
+<<<<<<< HEAD
 #define FIRE_PRIORITY_MOVABLE_PHYSICS 24
+=======
+>>>>>>> tg-pr-88929
 #define FIRE_PRIORITY_PROCESS 25
 #define FIRE_PRIORITY_THROWING 25
 #define FIRE_PRIORITY_REAGENTS 26
@@ -238,15 +268,19 @@
 #define FIRE_PRIORITY_PARALLAX 65
 #define FIRE_PRIORITY_INSTRUMENTS 80
 #define FIRE_PRIORITY_FLUIDS 80
+<<<<<<< HEAD
 #define FIRE_PRIORITY_PRIORITY_EFFECTS 90
 #define FIRE_PRIORITY_STAMINA 95
+=======
+>>>>>>> tg-pr-88929
 #define FIRE_PRIORITY_MOBS 100
-#define FIRE_PRIORITY_ASSETS 105
 #define FIRE_PRIORITY_TGUI 110
 #define FIRE_PRIORITY_TICKER 200
+#define FIRE_PRIORITY_SINGULO 350
 #define FIRE_PRIORITY_STATPANEL 390
 #define FIRE_PRIORITY_CHAT 400
 #define FIRE_PRIORITY_RUNECHAT 410
+#define FIRE_PRIORITY_TTS 425
 #define FIRE_PRIORITY_MOUSE_ENTERED 450
 #define FIRE_PRIORITY_OVERLAYS 500
 #define FIRE_PRIORITY_EXPLOSIONS 666
@@ -259,11 +293,10 @@
 
 // SS runlevels
 
-#define RUNLEVEL_INIT 0
-#define RUNLEVEL_LOBBY 1
-#define RUNLEVEL_SETUP 2
-#define RUNLEVEL_GAME 4
-#define RUNLEVEL_POSTGAME 8
+#define RUNLEVEL_LOBBY (1<<0)
+#define RUNLEVEL_SETUP (1<<1)
+#define RUNLEVEL_GAME (1<<2)
+#define RUNLEVEL_POSTGAME (1<<3)
 
 #define RUNLEVELS_DEFAULT (RUNLEVEL_SETUP | RUNLEVEL_GAME | RUNLEVEL_POSTGAME)
 
@@ -312,8 +345,8 @@
 #define SSAIR_REBUILD_QUEUE 2
 
 // Explosion Subsystem subtasks
-#define SSEXPLOSIONS_MOVABLES 1
-#define SSEXPLOSIONS_TURFS 2
+#define SSEXPLOSIONS_TURFS 1
+#define SSEXPLOSIONS_MOVABLES 2
 #define SSEXPLOSIONS_THROWS 3
 
 // Machines subsystem subtasks.
@@ -373,6 +406,7 @@
 
 /// Returned by [/datum/vote/proc/can_be_initiated] to denote the vote is valid and can be initiated.
 #define VOTE_AVAILABLE "Vote Available"
+<<<<<<< HEAD
 
 ///liquid defines
 #define SSLIQUIDS_RUN_TYPE_TURFS 1
@@ -383,3 +417,5 @@
 #define SSLIQUIDS_RUN_TYPE_OCEAN 6
 #define SSLIQUIDS_RUN_TYPE_TEMPERATURE 7
 #define SSLIQUIDS_RUN_TYPE_CACHED_EDGES 8
+=======
+>>>>>>> tg-pr-88929

@@ -12,7 +12,7 @@
 /proc/random_eye_color()
 	switch(pick(20;"brown",20;"hazel",20;"grey",15;"blue",15;"green",1;"amber",1;"albino"))
 		if("brown")
-			return "#663300"
+			return COLOR_BROWNER_BROWN
 		if("hazel")
 			return "#554422"
 		if("grey")
@@ -26,38 +26,53 @@
 		if("albino")
 			return "#" + pick("cc","dd","ee","ff") + pick("00","11","22","33","44","55","66","77","88","99") + pick("00","11","22","33","44","55","66","77","88","99")
 		else
-			return "#000000"
+			return COLOR_BLACK
+
+/proc/random_hair_color()
+	var/static/list/natural_hair_colors = list(
+		"#111111", "#362925", "#3B3831", "#41250C", "#412922",
+		"#544C49", "#583322", "#593029", "#703b30", "#714721",
+		"#744729", "#74482a", "#7b746e", "#855832", "#863019",
+		"#8c4734", "#9F550E", "#A29A96", "#A4381C", "#B17B41",
+		"#C0BAB7", "#EFE5E4", "#F7F3F1", "#FFF2D6", "#a15537",
+		"#a17e61", "#b38b67", "#ba673c", "#c89f73", "#d9b380",
+		"#dbc9b8", "#e1621d", "#e17d17", "#e1af93", "#f1cc8f",
+		"#fbe7a1",
+	)
+
+	return pick(natural_hair_colors)
 
 /proc/random_underwear(gender)
-	if(!GLOB.underwear_list.len)
-		init_sprite_accessory_subtypes(/datum/sprite_accessory/underwear, GLOB.underwear_list, GLOB.underwear_m, GLOB.underwear_f)
+	if(length(SSaccessories.underwear_list) == 0)
+		CRASH("No underwear to choose from!")
 	switch(gender)
 		if(MALE)
-			return pick(GLOB.underwear_m)
+			return pick(SSaccessories.underwear_m)
 		if(FEMALE)
-			return pick(GLOB.underwear_f)
+			return pick(SSaccessories.underwear_f)
 		else
-			return pick(GLOB.underwear_list)
+			return pick(SSaccessories.underwear_list)
 
 /proc/random_undershirt(gender)
-	if(!GLOB.undershirt_list.len)
-		init_sprite_accessory_subtypes(/datum/sprite_accessory/undershirt, GLOB.undershirt_list, GLOB.undershirt_m, GLOB.undershirt_f)
+	if(length(SSaccessories.undershirt_list) == 0)
+		CRASH("No undershirts to choose from!")
 	switch(gender)
 		if(MALE)
-			return pick(GLOB.undershirt_m)
+			return pick(SSaccessories.undershirt_m)
 		if(FEMALE)
-			return pick(GLOB.undershirt_f)
+			return pick(SSaccessories.undershirt_f)
 		else
-			return pick(GLOB.undershirt_list)
+			return pick(SSaccessories.undershirt_list)
 
 /proc/random_socks()
-	if(!GLOB.socks_list.len)
-		init_sprite_accessory_subtypes(/datum/sprite_accessory/socks, GLOB.socks_list)
-	return pick(GLOB.socks_list)
+	if(length(SSaccessories.socks_list) == 0)
+		CRASH("No socks to choose from!")
+	return pick(SSaccessories.socks_list)
 
 /proc/random_backpack()
 	return pick(GLOB.backpacklist)
 
+<<<<<<< HEAD
 /proc/random_features()
 	if(!length(GLOB.tails_list))
 		init_sprite_accessory_subtypes(/datum/sprite_accessory/tails/, GLOB.tails_list,  add_blank = TRUE)
@@ -193,22 +208,29 @@
 		"oni_horns" = pick(GLOB.oni_horns_list), //Monkestation Addition
 	))
 
+=======
+>>>>>>> tg-pr-88929
 /proc/random_hairstyle(gender)
 	switch(gender)
 		if(MALE)
-			return pick(GLOB.hairstyles_male_list)
+			return pick(SSaccessories.hairstyles_male_list)
 		if(FEMALE)
-			return pick(GLOB.hairstyles_female_list)
+			return pick(SSaccessories.hairstyles_female_list)
 		else
+<<<<<<< HEAD
 			return pick(GLOB.roundstart_hairstyles_list)
+=======
+			return pick(SSaccessories.hairstyles_list)
+>>>>>>> tg-pr-88929
 
 /proc/random_facial_hairstyle(gender)
 	switch(gender)
 		if(MALE)
-			return pick(GLOB.facial_hairstyles_male_list)
+			return pick(SSaccessories.facial_hairstyles_male_list)
 		if(FEMALE)
-			return pick(GLOB.facial_hairstyles_female_list)
+			return pick(SSaccessories.facial_hairstyles_female_list)
 		else
+<<<<<<< HEAD
 			return pick(GLOB.facial_hairstyles_list)
 
 /proc/random_unique_name(gender, attempts_to_find_unique_name=10)
@@ -255,6 +277,9 @@
 
 /proc/random_skin_tone()
 	return pick(GLOB.skin_tones)
+=======
+			return pick(SSaccessories.facial_hairstyles_list)
+>>>>>>> tg-pr-88929
 
 GLOBAL_LIST_INIT(skin_tones, sort_list(list(
 	"albino",
@@ -267,6 +292,10 @@ GLOBAL_LIST_INIT(skin_tones, sort_list(list(
 	"asian2",
 	"arab",
 	"indian",
+	"mixed1",
+	"mixed2",
+	"mixed3",
+	"mixed4",
 	"african1",
 	"african2"
 	)))
@@ -284,10 +313,11 @@ GLOBAL_LIST_INIT(skin_tone_names, list(
 	"indian" = "Brown",
 	"latino" = "Light beige",
 	"mediterranean" = "Olive",
+	"mixed1" = "Chestnut",
+	"mixed2" = "Walnut",
+	"mixed3" = "Coffee",
+	"mixed4" = "Macadamia",
 ))
-
-/// An assoc list of species IDs to type paths
-GLOBAL_LIST_EMPTY(species_list)
 
 /proc/age2agedescription(age)
 	switch(age)
@@ -332,6 +362,7 @@ GLOBAL_LIST_EMPTY(species_list)
  *
  * Checks that `user` does not move, change hands, get stunned, etc. for the
  * given `delay`. Returns `TRUE` on success or `FALSE` on failure.
+<<<<<<< HEAD
  * 
  * @param {mob} user - The mob performing the action.
  * 
@@ -348,8 +379,28 @@ GLOBAL_LIST_EMPTY(species_list)
  * @param {string} interaction_key - The assoc key under which the do_after is capped, with max_interact_count being the cap. Interaction key will default to target if not set.
  * 
  * @param {number} max_interact_count - The maximum amount of interactions allowed.
+=======
+ *
+ * @param {mob} user - The mob performing the action.
+ *
+ * @param {number} delay - The time in deciseconds. Use the SECONDS define for readability. `1 SECONDS` is 10 deciseconds.
+ *
+ * @param {atom} target - The target of the action. This is where the progressbar will display.
+ *
+ * @param {flag} timed_action_flags - Flags to control the behavior of the timed action.
+ *
+ * @param {boolean} progress - Whether to display a progress bar / cogbar.
+ *
+ * @param {datum/callback} extra_checks - Additional checks to perform before the action is executed.
+ *
+ * @param {string} interaction_key - The assoc key under which the do_after is capped, with max_interact_count being the cap. Interaction key will default to target if not set.
+ *
+ * @param {number} max_interact_count - The maximum amount of interactions allowed.
+ *
+ * @param {boolean} hidden - By default, any action 1 second or longer shows a cog over the user while it is in progress. If hidden is set to TRUE, the cog will not be shown.
+>>>>>>> tg-pr-88929
  */
-/proc/do_after(mob/user, delay, atom/target, timed_action_flags = NONE, progress = TRUE, datum/callback/extra_checks, interaction_key, max_interact_count = 1)
+/proc/do_after(mob/user, delay, atom/target, timed_action_flags = NONE, progress = TRUE, datum/callback/extra_checks, interaction_key, max_interact_count = 1, hidden = FALSE)
 	if(!user)
 		return FALSE
 	if(!isnum(delay))
@@ -367,7 +418,7 @@ GLOBAL_LIST_EMPTY(species_list)
 	var/atom/target_loc = target?.loc
 
 	var/drifting = FALSE
-	if(SSmove_manager.processing_on(user, SSspacedrift))
+	if(!isnull(user.drift_handler))
 		drifting = TRUE
 
 	var/holding = user.get_active_held_item()
@@ -376,8 +427,14 @@ GLOBAL_LIST_EMPTY(species_list)
 		delay *= user.cached_multiplicative_actions_slowdown
 
 	var/datum/progressbar/progbar
+	var/datum/cogbar/cog
+
 	if(progress)
-		progbar = new(user, delay, target || user)
+		if(user.client)
+			progbar = new(user, delay, target || user)
+
+		if(!hidden && delay >= 1 SECONDS)
+			cog = new(user)
 
 	SEND_SIGNAL(user, COMSIG_DO_AFTER_BEGAN)
 
@@ -390,7 +447,7 @@ GLOBAL_LIST_EMPTY(species_list)
 		if(!QDELETED(progbar))
 			progbar.update(world.time - starttime)
 
-		if(drifting && !SSmove_manager.processing_on(user, SSspacedrift))
+		if(drifting && isnull(user.drift_handler))
 			drifting = FALSE
 			user_loc = user.loc
 
@@ -410,6 +467,8 @@ GLOBAL_LIST_EMPTY(species_list)
 
 	if(!QDELETED(progbar))
 		progbar.end_progress()
+
+	cog?.remove()
 
 	if(interaction_key)
 		var/reduced_interaction_count = (LAZYACCESS(user.do_afters, interaction_key) || 0) - 1
@@ -466,7 +525,7 @@ GLOBAL_LIST_EMPTY(species_list)
 			X.flags_1 |= ADMIN_SPAWNED_1
 	return X //return the last mob spawned
 
-/proc/spawn_and_random_walk(spawn_type, target, amount, walk_chance=100, max_walk=3, always_max_walk=FALSE, admin_spawn=FALSE)
+/proc/spawn_and_random_walk(spawn_type, target, amount, walk_chance=100, max_walk=3, always_max_walk=FALSE, admin_spawn=FALSE, cardinals_only = TRUE)
 	var/turf/T = get_turf(target)
 	var/step_count = 0
 	if(!T)
@@ -495,7 +554,7 @@ GLOBAL_LIST_EMPTY(species_list)
 				step_count = rand(1, max_walk)
 
 			for(var/i in 1 to step_count)
-				step(X, pick(NORTH, SOUTH, EAST, WEST))
+				step(X, cardinals_only ? pick(GLOB.cardinals) : pick(GLOB.alldirs))
 
 	return spawned_mobs
 
@@ -508,6 +567,9 @@ GLOBAL_LIST_EMPTY(species_list)
 		SSdemo.write_chat_global(message)
 #endif
 
+	if(admin_only)
+		message += span_deadsay(" (This is viewable to admins only).")
+
 	for(var/mob/M in GLOB.player_list)
 		var/chat_toggles = TOGGLES_DEFAULT_CHAT
 		var/toggles = TOGGLES_DEFAULT
@@ -518,10 +580,15 @@ GLOBAL_LIST_EMPTY(species_list)
 			toggles = prefs.toggles
 			ignoring = prefs.ignoring
 		if(admin_only)
+<<<<<<< HEAD
 			if (!M.client?.holder?.check_for_rights(R_ADMIN)) // monkestation edit: only include admins with the +ADMIN permission
 				return
 			else
 				message += span_deadsay(" (This is viewable to admins only).")
+=======
+			if(!M.client?.holder)
+				continue
+>>>>>>> tg-pr-88929
 		var/override = FALSE
 		if(M.client?.holder?.check_for_rights(R_ADMIN) && (chat_toggles & CHAT_DEAD)) // monkestation edit: only include admins with the +ADMIN permission
 			override = TRUE
@@ -609,6 +676,19 @@ GLOBAL_LIST_EMPTY(species_list)
 	if(!HAS_TRAIT(L, TRAIT_PASSTABLE))
 		L.pass_flags &= ~PASSTABLE
 
+/proc/passwindow_on(target, source)
+	var/mob/living/target_mob = target
+	if (!HAS_TRAIT(target_mob, TRAIT_PASSWINDOW) && target_mob.pass_flags & PASSWINDOW)
+		ADD_TRAIT(target_mob, TRAIT_PASSWINDOW, INNATE_TRAIT)
+	ADD_TRAIT(target_mob, TRAIT_PASSWINDOW, source)
+	target_mob.pass_flags |= PASSWINDOW
+
+/proc/passwindow_off(target, source)
+	var/mob/living/target_mob = target
+	REMOVE_TRAIT(target_mob, TRAIT_PASSWINDOW, source)
+	if(!HAS_TRAIT(target_mob, TRAIT_PASSWINDOW))
+		target_mob.pass_flags &= ~PASSWINDOW
+
 /proc/dance_rotate(atom/movable/AM, datum/callback/callperrotate, set_original_dir=FALSE)
 	set waitfor = FALSE
 	var/originaldir = AM.dir
@@ -638,17 +718,21 @@ GLOBAL_LIST_EMPTY(species_list)
 		. += borg
 
 //Returns a list of AI's
-/proc/active_ais(check_mind=FALSE, z = null)
+/proc/active_ais(check_mind = FALSE, z = null, skip_syndicate = FALSE, only_syndicate = FALSE)
 	. = list()
 	for(var/mob/living/silicon/ai/ai as anything in GLOB.ai_list)
 		if(ai.stat == DEAD)
 			continue
 		if(ai.control_disabled)
 			continue
-		if(check_mind)
-			if(!ai.mind)
-				continue
-		if(z && !(z == ai.z) && (!is_station_level(z) || !is_station_level(ai.z))) //if a Z level was specified, AND the AI is not on the same level, AND either is off the station...
+		var/syndie_ai = istype(ai, /mob/living/silicon/ai/weak_syndie)
+		if(skip_syndicate && syndie_ai)
+			continue
+		if(only_syndicate && !syndie_ai)
+			continue
+		if(check_mind && !ai.mind)
+			continue
+		if(!isnull(z) && z != ai.z && (!is_station_level(z) || !is_station_level(ai.z))) //if a Z level was specified, AND the AI is not on the same level, AND either is off the station...
 			continue
 		. += ai
 
@@ -671,8 +755,8 @@ GLOBAL_LIST_EMPTY(species_list)
 			. = pick(borgs)
 	return .
 
-/proc/select_active_ai(mob/user, z = null)
-	var/list/ais = active_ais(FALSE, z)
+/proc/select_active_ai(mob/user, z = null, skip_syndicate, only_syndicate)
+	var/list/ais = active_ais(FALSE, z, skip_syndicate, only_syndicate)
 	if(ais.len)
 		if(user)
 			. = input(user,"AI signals detected:", "AI Selection", ais[1]) in sort_list(ais)
@@ -680,6 +764,23 @@ GLOBAL_LIST_EMPTY(species_list)
 			. = pick(ais)
 	return .
 
+<<<<<<< HEAD
+=======
+/**
+ * Used to get the amount of change between two body temperatures
+ *
+ * When passed the difference between two temperatures returns the amount of change to temperature to apply.
+ * The change rate should be kept at a low value tween 0.16 and 0.02 for optimal results.
+ * vars:
+ * * temp_diff (required) The difference between two temperatures
+ * * change_rate (optional)(Default: 0.06) The rate of range multiplier
+ */
+/proc/get_temp_change_amount(temp_diff, change_rate = 0.06)
+	if(temp_diff < 0)
+		return -(BODYTEMP_AUTORECOVERY_DIVISOR / 2) * log(1 - (temp_diff * change_rate))
+	return (BODYTEMP_AUTORECOVERY_DIVISOR / 2) * log(1 + (temp_diff * change_rate))
+
+>>>>>>> tg-pr-88929
 #define ISADVANCEDTOOLUSER(mob) (HAS_TRAIT(mob, TRAIT_ADVANCEDTOOLUSER) && !HAS_TRAIT(mob, TRAIT_DISCOORDINATED_TOOL_USER))
 
 /// Gets the client of the mob, allowing for mocking of the client.
@@ -692,7 +793,7 @@ GLOBAL_LIST_EMPTY(species_list)
 	var/list/sortmob = sort_names(GLOB.mob_list)
 	for(var/mob/living/silicon/ai/mob_to_sort in sortmob)
 		moblist += mob_to_sort
-	for(var/mob/camera/mob_to_sort in sortmob)
+	for(var/mob/eye/mob_to_sort in sortmob)
 		moblist += mob_to_sort
 	for(var/mob/living/silicon/pai/mob_to_sort in sortmob)
 		moblist += mob_to_sort
@@ -711,14 +812,17 @@ GLOBAL_LIST_EMPTY(species_list)
 	for(var/mob/living/basic/slime/mob_to_sort in sortmob)
 		moblist += mob_to_sort
 	for(var/mob/living/simple_animal/mob_to_sort in sortmob)
-		// We've already added slimes.
-		if(isslime(mob_to_sort))
-			continue
 		moblist += mob_to_sort
 	for(var/mob/living/basic/mob_to_sort in sortmob)
 		moblist += mob_to_sort
+<<<<<<< HEAD
 	for(var/mob/living/soulcatcher_soul/mob_to_sort in sortmob)
 		moblist += mob_to_sort
+=======
+		// We've already added slimes.
+		if(isslime(mob_to_sort))
+			continue
+>>>>>>> tg-pr-88929
 	return moblist
 
 ///returns a mob type controlled by a specified ckey
@@ -767,7 +871,7 @@ GLOBAL_LIST_EMPTY(species_list)
 		else
 			return zone
 
-///Takes a zone and returns it's "parent" zone, if it has one.
+///Takes a zone and returns its "parent" zone, if it has one.
 /proc/deprecise_zone(precise_zone)
 	switch(precise_zone)
 		if(BODY_ZONE_PRECISE_GROIN)
@@ -786,6 +890,51 @@ GLOBAL_LIST_EMPTY(species_list)
 			return BODY_ZONE_R_LEG
 		else
 			return precise_zone
+
+///Returns a list of strings for a given slot flag.
+/proc/parse_slot_flags(slot_flags)
+	var/list/slot_strings = list()
+	if(slot_flags & ITEM_SLOT_BACK)
+		slot_strings += "back"
+	if(slot_flags & ITEM_SLOT_MASK)
+		slot_strings += "mask"
+	if(slot_flags & ITEM_SLOT_NECK)
+		slot_strings += "neck"
+	if(slot_flags & ITEM_SLOT_HANDCUFFED)
+		slot_strings += "handcuff"
+	if(slot_flags & ITEM_SLOT_LEGCUFFED)
+		slot_strings += "legcuff"
+	if(slot_flags & ITEM_SLOT_BELT)
+		slot_strings += "belt"
+	if(slot_flags & ITEM_SLOT_ID)
+		slot_strings += "id"
+	if(slot_flags & ITEM_SLOT_EARS)
+		slot_strings += "ear"
+	if(slot_flags & ITEM_SLOT_EYES)
+		slot_strings += "glasses"
+	if(slot_flags & ITEM_SLOT_GLOVES)
+		slot_strings += "glove"
+	if(slot_flags & ITEM_SLOT_HEAD)
+		slot_strings += "head"
+	if(slot_flags & ITEM_SLOT_FEET)
+		slot_strings += "shoe"
+	if(slot_flags & ITEM_SLOT_OCLOTHING)
+		slot_strings += "oversuit"
+	if(slot_flags & ITEM_SLOT_ICLOTHING)
+		slot_strings += "undersuit"
+	if(slot_flags & ITEM_SLOT_SUITSTORE)
+		slot_strings += "suit storage"
+	if(slot_flags & (ITEM_SLOT_LPOCKET|ITEM_SLOT_RPOCKET))
+		slot_strings += "pocket"
+	if(slot_flags & ITEM_SLOT_HANDS)
+		slot_strings += "hand"
+	if(slot_flags & ITEM_SLOT_DEX_STORAGE)
+		slot_strings += "dextrous storage"
+	if(slot_flags & ITEM_SLOT_BACKPACK)
+		slot_strings += "backpack"
+	if(slot_flags & ITEM_SLOT_BELTPACK)
+		slot_strings += "belt" // ?
+	return slot_strings
 
 ///Returns the direction that the initiator and the target are facing
 /proc/check_target_facings(mob/living/initiator, mob/living/target)
@@ -809,13 +958,8 @@ GLOBAL_LIST_EMPTY(species_list)
 	if(isliving(occupant))
 		mob_occupant = occupant
 
-	else if(isbodypart(occupant))
-		var/obj/item/bodypart/head/head = occupant
-
-		mob_occupant = head.brainmob
-
 	else if(isorgan(occupant))
-		var/obj/item/organ/internal/brain/brain = occupant
+		var/obj/item/organ/brain/brain = occupant
 		mob_occupant = brain.brainmob
 
 	return mob_occupant
@@ -877,7 +1021,7 @@ GLOBAL_DATUM_INIT(dview_mob, /mob/dview, new)
 
 /mob/dview
 	name = "INTERNAL DVIEW MOB"
-	invisibility = 101
+	invisibility = INVISIBILITY_ABSTRACT
 	density = FALSE
 	move_resist = INFINITY
 	var/ready_to_die = FALSE

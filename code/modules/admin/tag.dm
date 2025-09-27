@@ -34,24 +34,39 @@
 	else if(!silent)
 		to_chat(owner, span_warning("[target_datum] was not already tagged."))
 /// Quick define for readability
+<<<<<<< HEAD
 #define TAG_DEL(X) "<b>(<A href='byond://?_src_=holder;[HrefToken(forceGlobal = TRUE)];del_tag=[REF(X)]'>UNTAG</a>)</b>"
 #define TAG_MARK(X) "<b>(<A href='byond://?_src_=holder;[HrefToken(forceGlobal = TRUE)];mark_datum=[REF(X)]'>MARK</a>)</b>"
+=======
+#define TAG_DEL(X) "<b>(<A href='byond://?src=[REF(src)];[HrefToken(forceGlobal = TRUE)];del_tag=[REF(X)]'>UNTAG</a>)</b>"
+#define TAG_MARK(X) "<b>(<A href='byond://?src=[REF(src)];[HrefToken(forceGlobal = TRUE)];mark_datum=[REF(X)]'>MARK</a>)</b>"
+>>>>>>> tg-pr-88929
 #define TAG_SIMPLE_HEALTH(X) "<font color='#ff0000'><b>Health: [X.health]</b></font>"
 #define TAG_CARBON_HEALTH(X) "<font color='#ff0000'><b>Health: [X.health]</b></font> (\
 					<font color='#ff3333'>[X.getBruteLoss()]</font> \
 					<font color='#ff9933'>[X.getFireLoss()]</font> \
 					<font color='#00cc66'>[X.getToxLoss()]</font> \
+<<<<<<< HEAD
 					<font color='#00cccc'>[X.getOxyLoss()]</font>\
 					[X.getCloneLoss() ? " <font color='#1c3ac4'>[X.getCloneLoss()]</font>" : ""])"
 
 ADMIN_VERB(display_tags, R_ADMIN, FALSE, "View Tags", "Display all of the tagged datums.", ADMIN_CATEGORY_GAME)
+=======
+					<font color='#00cccc'>[X.getOxyLoss()]</font>"
+
+ADMIN_VERB(display_tags, R_ADMIN, "View Tags", "Display all of the tagged datums.", ADMIN_CATEGORY_GAME)
+>>>>>>> tg-pr-88929
 	var/index = 0
 	var/list/dat = list()
 
 	var/list/tagged_datums = user.holder.tagged_datums
 	var/list/marked_datum = user.holder.marked_datum
 
+<<<<<<< HEAD
 	dat += "<br><a href='byond://?_src_=holder;[HrefToken(forceGlobal = TRUE)];show_tags=1'>Refresh</a><br>"
+=======
+	dat += "<br><A href='byond://?src=[REF(user)];[HrefToken(forceGlobal = TRUE)];show_tags=1'>Refresh</a><br>"
+>>>>>>> tg-pr-88929
 	if(LAZYLEN(tagged_datums))
 		for(var/datum/iter_datum as anything in tagged_datums)
 			index++
@@ -85,9 +100,14 @@ ADMIN_VERB(display_tags, R_ADMIN, FALSE, "View Tags", "Display all of the tagged
 	else
 		dat += "No datums tagged :("
 
+<<<<<<< HEAD
 	var/datum/browser/browser = new(user.mob, "tag", "Tag Menu", 800, 480)
 	browser.set_content(dat.Join("<br>"))
 	browser.open()
+=======
+	dat = dat.Join("<br>")
+	user << browse(dat, "window=tag;size=800x480")
+>>>>>>> tg-pr-88929
 
 #undef TAG_DEL
 #undef TAG_MARK

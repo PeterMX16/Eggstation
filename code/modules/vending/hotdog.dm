@@ -39,6 +39,11 @@
 				/obj/item/reagent_containers/condiment/pack/ketchup = 4,
 				/obj/item/reagent_containers/condiment/pack/hotsauce = 4,
 				/obj/item/reagent_containers/condiment/pack/bbqsauce = 4,
+<<<<<<< HEAD
+=======
+				/obj/item/reagent_containers/condiment/pack/soysauce = 4,
+				/obj/item/reagent_containers/condiment/pack/mayonnaise = 4,
+>>>>>>> tg-pr-88929
 			),
 		),
 	)
@@ -49,9 +54,13 @@
 	icon_state = "refill_snack"
 
 /// Cute little thing that sets it apart from the other food vending mahicnes. I mean, you don't find this every day.
+<<<<<<< HEAD
 /obj/machinery/vending/hotdog/on_dispense(obj/item/vended_item, dispense_returned = FALSE)
 	// Only apply to newly dispensed items
 	if(dispense_returned)
 		return
+=======
+/obj/machinery/vending/hotdog/on_dispense(obj/item/vended_item)
+>>>>>>> tg-pr-88929
 	if(istype(vended_item, /obj/item/food))
 		ADD_TRAIT(vended_item, TRAIT_FOOD_CHEF_MADE, VENDING_MACHINE_TRAIT)

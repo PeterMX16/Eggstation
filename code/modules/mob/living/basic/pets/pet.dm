@@ -3,14 +3,10 @@
 	mob_size = MOB_SIZE_SMALL
 	mob_biotypes = MOB_ORGANIC|MOB_BEAST
 	blood_volume = BLOOD_VOLUME_NORMAL
-
 	/// if the mob is protected from being renamed by collars.
 	var/unique_pet = FALSE
-	/// If the mob has collar sprites, this is the base of the icon states.
-	var/collar_icon_state = null
-	/// We have a seperate _rest collar icon state when the pet is resting.
-	var/has_collar_resting_icon_state = FALSE
 
+<<<<<<< HEAD
 	/// Our collar
 	var/obj/item/clothing/neck/petcollar/collar
 	var/static/list/pet_foods = list(
@@ -71,71 +67,11 @@
 		return
 
 	update_icon(UPDATE_OVERLAYS)
+=======
+>>>>>>> tg-pr-88929
 
 /mob/living/basic/pet/death(gibbed)
 	. = ..()
 	add_memory_in_range(src, 7, /datum/memory/pet_died, deuteragonist = src) //Protagonist is the person memorizing it
 
-/mob/living/basic/pet/handle_atom_del(atom/deleting_atom)
-	. = ..()
 
-	if(deleting_atom != collar)
-		return
-
-	collar = null
-
-	if(QDELETED(src))
-		return
-
-	update_icon(UPDATE_OVERLAYS)
-
-/mob/living/basic/pet/update_stat()
-	. = ..()
-
-	update_icon(UPDATE_OVERLAYS)
-
-/mob/living/basic/pet/set_resting(new_resting, silent, instant)
-	. = ..()
-
-	if(!has_collar_resting_icon_state)
-		return
-
-	update_icon(UPDATE_OVERLAYS)
-
-/**
- * Add a collar to the pet.
- *
- * Arguments:
- * * new_collar - the collar.
- * * user - the user that did it.
- */
-/mob/living/basic/pet/proc/add_collar(obj/item/clothing/neck/petcollar/new_collar, mob/user)
-	if(QDELETED(new_collar) || collar)
-		return
-	if(!user.transferItemToLoc(new_collar, src))
-		return
-
-	collar = new_collar
-	if(collar_icon_state)
-		update_icon(UPDATE_OVERLAYS)
-
-	to_chat(user, span_notice("You put [new_collar] around [src]'s neck."))
-	if(new_collar.tagname && !unique_pet)
-		fully_replace_character_name(null, "\proper [new_collar.tagname]")
-
-/**
- * Remove the collar from the pet.
- */
-/mob/living/basic/pet/proc/remove_collar(atom/new_loc, update_visuals = TRUE)
-	if(!collar)
-		return
-
-	var/obj/old_collar = collar
-
-	collar.forceMove(new_loc)
-	collar = null
-
-	if(collar_icon_state && update_visuals)
-		update_icon(UPDATE_OVERLAYS)
-
-	return old_collar

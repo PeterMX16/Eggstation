@@ -29,7 +29,12 @@
 /datum/wound/cranial_fissure
 	name = "Cranial Fissure"
 	desc = "Patient's crown is agape, revealing severe damage to the skull."
+<<<<<<< HEAD
 	treat_text = "Immediate surgical reconstruction of the skull."
+=======
+	treat_text = "Surgical reconstruction of the skull is necessary."
+	treat_text_short = "Surgical reconstruction required."
+>>>>>>> tg-pr-88929
 	examine_desc = "is split open"
 	occur_text = "is split into two separated chunks"
 
@@ -63,7 +68,11 @@
 	if (source.stat == DEAD)
 		return
 
+<<<<<<< HEAD
 	var/obj/item/organ/internal/brain/brain = source.get_organ_by_type(/obj/item/organ/internal/brain)
+=======
+	var/obj/item/organ/brain/brain = source.get_organ_by_type(/obj/item/organ/brain)
+>>>>>>> tg-pr-88929
 	if (isnull(brain))
 		return
 
@@ -79,7 +88,11 @@
 	)
 
 /datum/wound/cranial_fissure/try_handling(mob/living/user)
+<<<<<<< HEAD
 	if (user.usable_hands <= 0 || (user.istate & ISTATE_HARM))
+=======
+	if (user.usable_hands <= 0 || user.combat_mode)
+>>>>>>> tg-pr-88929
 		return FALSE
 
 	if(!isnull(user.hud_used?.zone_select) && (user.zone_selected != BODY_ZONE_HEAD && user.zone_selected != BODY_ZONE_PRECISE_EYES))
@@ -88,12 +101,20 @@
 	if (victim.body_position != LYING_DOWN)
 		return FALSE
 
+<<<<<<< HEAD
 	var/obj/item/organ/internal/eyes/eyes = victim.get_organ_by_type(/obj/item/organ/internal/eyes)
+=======
+	var/obj/item/organ/eyes/eyes = victim.get_organ_by_type(/obj/item/organ/eyes)
+>>>>>>> tg-pr-88929
 	if (isnull(eyes))
 		victim.balloon_alert(user, "no eyes to take!")
 		return TRUE
 
+<<<<<<< HEAD
 	playsound(victim, 'sound/surgery/organ2.ogg', 50, TRUE)
+=======
+	playsound(victim, 'sound/items/handling/surgery/organ2.ogg', 50, TRUE)
+>>>>>>> tg-pr-88929
 	victim.balloon_alert(user, "pulling out eyes...")
 	user.visible_message(
 		span_boldwarning("[user] reaches inside [victim]'s skull..."),
@@ -113,7 +134,11 @@
 
 	log_combat(user, victim, "pulled out the eyes of")
 
+<<<<<<< HEAD
 	playsound(victim, 'sound/surgery/organ1.ogg', 75, TRUE)
+=======
+	playsound(victim, 'sound/items/handling/surgery/organ1.ogg', 75, TRUE)
+>>>>>>> tg-pr-88929
 	user.visible_message(
 		span_boldwarning("[user] rips out [victim]'s eyes!"),
 		span_boldwarning("You rip out [victim]'s eyes!"),
@@ -128,6 +153,7 @@
 
 	return TRUE
 
+<<<<<<< HEAD
 /datum/wound/cranial_fissure/proc/still_has_eyes(obj/item/organ/internal/eyes/eyes)
 	PRIVATE_PROC(TRUE)
 
@@ -202,5 +228,11 @@
 	. = ..()
 	if(victim.stat == DEAD && (get_dist(user, victim) <= 2 || isobserver(user)))
 		. += span_smallnoticeital("\n[FOURSPACES]You could perhaps behead [victim.p_them()] by <b>right-clicking</b> [victim.p_them()] with a sharp weapon while targeting [victim.p_their()] head.")
+=======
+/datum/wound/cranial_fissure/proc/still_has_eyes(obj/item/organ/eyes/eyes)
+	PRIVATE_PROC(TRUE)
+
+	return victim?.get_organ_by_type(/obj/item/organ/eyes) == eyes
+>>>>>>> tg-pr-88929
 
 #undef CRANIAL_FISSURE_FILTER_DISPLACEMENT

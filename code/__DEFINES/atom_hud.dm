@@ -14,9 +14,9 @@
 /// loyality implant
 #define IMPLOYAL_HUD "5"
 /// chemical implant
-#define IMPCHEM_HUD "6"
+#define IMPSEC_FIRST_HUD "6"
 /// tracking implant
-#define IMPTRACK_HUD "7"
+#define IMPSEC_SECOND_HUD "7"
 /// Silicon/Mech/Circuit Status
 #define DIAG_STAT_HUD "8"
 /// Silicon health bar
@@ -44,6 +44,7 @@
 #define FAN_HUD "20"
 /// Mech camera HUD
 #define DIAG_CAMERA_HUD "21"
+<<<<<<< HEAD
 
 //monkestation edit start
 #define NANITE_HUD "22"
@@ -57,6 +58,10 @@
 /// Hud for spying who already has a host as a borer
 #define BORER_HUD "27"
 //monkestation edit end
+=======
+/// Steady Hacked APC effect, visible only to Malf AIs
+#define MALF_APC_HUD "22"
+>>>>>>> tg-pr-88929
 
 //by default everything in the hud_list of an atom is an image
 //a value in hud_list with one of these will change that behavior
@@ -68,11 +73,12 @@
 #define DATA_HUD_SECURITY_ADVANCED 2
 #define DATA_HUD_MEDICAL_BASIC 3
 #define DATA_HUD_MEDICAL_ADVANCED 4
-#define DATA_HUD_DIAGNOSTIC_BASIC 5
-#define DATA_HUD_DIAGNOSTIC_ADVANCED 6
+#define DATA_HUD_DIAGNOSTIC 5
+#define DATA_HUD_BOT_PATH 6
 #define DATA_HUD_ABDUCTOR 7
 #define DATA_HUD_AI_DETECT 8
 #define DATA_HUD_FAN 9
+<<<<<<< HEAD
 #define DATA_HUD_PERMIT 10 //monkestation edit
 #define DATA_HUD_SENSORS 11 //monkestation edit
 #define DATA_HUD_CREW 12 //monkestation edit
@@ -82,10 +88,12 @@
 #define NOTIFY_JUMP "jump"
 #define NOTIFY_PLAY "play"
 #define NOTIFY_ORBIT "orbit"
+=======
+#define DATA_HUD_MALF_APC 10
+>>>>>>> tg-pr-88929
 
 /// cooldown for being shown the images for any particular data hud
 #define ADD_HUD_TO_COOLDOWN 20
-
 
 // Security HUD icon_state defines
 
@@ -100,9 +108,17 @@
 #define SECHUD_BRIDGEASSISTANT "hudbridgeassistant"
 #define SECHUD_ATMOSPHERIC_TECHNICIAN "hudatmospherictechnician"
 #define SECHUD_BARTENDER "hudbartender"
+<<<<<<< HEAD
 #define SECHUD_BITRUNNER "hudbitrunner"
 #define SECHUD_BOTANIST "hudbotanist"
 #define SECHUD_BRIG_PHYSICIAN "hudbrigphysician"
+=======
+#define SECHUD_BUSSER "hudbusser"
+#define SECHUD_BITAVATAR "hudbitavatar"
+#define SECHUD_BITRUNNER "hudbitrunner"
+#define SECHUD_BOTANIST "hudbotanist"
+#define SECHUD_BRIDGE_ASSISTANT "hudbridgeassistant"
+>>>>>>> tg-pr-88929
 #define SECHUD_CAPTAIN "hudcaptain"
 #define SECHUD_CARGO_TECHNICIAN "hudcargotechnician"
 #define SECHUD_CHAPLAIN "hudchaplain"
@@ -111,11 +127,13 @@
 #define SECHUD_CHIEF_MEDICAL_OFFICER "hudchiefmedicalofficer"
 #define SECHUD_CLOWN "hudclown"
 #define SECHUD_COOK "hudcook"
+#define SECHUD_CORONER "hudcoroner"
 #define SECHUD_CURATOR "hudcurator"
 #define SECHUD_DETECTIVE "huddetective"
 #define SECHUD_GENETICIST "hudgeneticist"
 #define SECHUD_HEAD_OF_PERSONNEL "hudheadofpersonnel"
 #define SECHUD_HEAD_OF_SECURITY "hudheadofsecurity"
+#define SECHUD_HUMAN_AI "hudhumanai"
 #define SECHUD_JANITOR "hudjanitor"
 #define SECHUD_LAWYER "hudlawyer"
 #define SECHUD_MEDICAL_DOCTOR "hudmedicaldoctor"
@@ -130,7 +148,7 @@
 #define SECHUD_SCIENTIST "hudscientist"
 #define SECHUD_SHAFT_MINER "hudshaftminer"
 #define SECHUD_STATION_ENGINEER "hudstationengineer"
-#define SECHUD_VIROLOGIST "hudvirologist"
+#define SECHUD_VETERAN_ADVISOR "hudveteranadvisor"
 #define SECHUD_WARDEN "hudwarden"
 
 #define SECHUD_CHEF "hudchef"

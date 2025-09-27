@@ -8,22 +8,33 @@
 (function () {
   'use strict';
 
+<<<<<<< HEAD
   // Inferno needs Int32Array, and it is not covered by core-js.
   if (!window.Int32Array) {
     window.Int32Array = Array;
   }
 
+=======
+>>>>>>> tg-pr-88929
   // ie11 polyfills
   !(function () {
     // append
     function t() {
       var e = Array.prototype.slice.call(arguments),
         n = document.createDocumentFragment();
+<<<<<<< HEAD
       (e.forEach(function (e) {
         var t = e instanceof Node;
         n.appendChild(t ? e : document.createTextNode(String(e)));
       }),
         this.appendChild(n));
+=======
+      e.forEach(function (e) {
+        var t = e instanceof Node;
+        n.appendChild(t ? e : document.createTextNode(String(e)));
+      }),
+        this.appendChild(n);
+>>>>>>> tg-pr-88929
     }
     // remove
     function n() {
@@ -47,7 +58,11 @@
             writable: !0,
             value: n,
           });
+<<<<<<< HEAD
       },
+=======
+      }
+>>>>>>> tg-pr-88929
     );
   })();
 })();

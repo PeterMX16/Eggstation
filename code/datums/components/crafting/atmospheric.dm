@@ -25,7 +25,11 @@
 		/obj/item/assembly/igniter = 1,
 	)
 	blacklist = list(/obj/item/assembly/igniter/condenser)
+<<<<<<< HEAD
 	one_per_turf = TRUE
+=======
+	crafting_flags = CRAFT_CHECK_DENSITY | CRAFT_ONE_PER_TURF
+>>>>>>> tg-pr-88929
 	time = 2 SECONDS
 	category = CAT_ATMOSPHERIC
 
@@ -364,13 +368,20 @@
 	name = "External Airlock Pump"
 	tool_behaviors = list(TOOL_WRENCH, TOOL_WELDER)
 	result = /obj/item/pipe/directional/airlock_pump
+<<<<<<< HEAD
 	time = 2 SECONDS
+=======
+>>>>>>> tg-pr-88929
 	reqs = list(
 		/obj/item/pipe = 1,
 		/obj/item/stack/sheet/iron = 5,
 		/obj/item/stack/cable_coil = 5,
 		/obj/item/analyzer = 1,
 	)
+<<<<<<< HEAD
+=======
+	time = 2 SECONDS
+>>>>>>> tg-pr-88929
 	category = CAT_ATMOSPHERIC
 
 /datum/crafting_recipe/airlock_pump/check_requirements(mob/user, list/collected_requirements)

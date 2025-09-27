@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 ADMIN_VERB(station_traits_panel, R_FUN, FALSE, "Modify Station Traits", "Modify the station traits for the next round.", ADMIN_CATEGORY_EVENTS)
+=======
+ADMIN_VERB(station_traits_panel, R_FUN, "Modify Station Traits", "Modify the station traits for the next round.", ADMIN_CATEGORY_EVENTS)
+>>>>>>> tg-pr-88929
 	var/static/datum/station_traits_panel/station_traits_panel = new
 	station_traits_panel.ui_interact(user.mob)
 

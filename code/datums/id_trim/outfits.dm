@@ -51,15 +51,22 @@
 /datum/id_trim/bounty_hunter
 	access = list(ACCESS_BOUNTY_HUNTER)
 	assignment = "Bounty Hunter"
+	trim_state = "trim_deathcommando"
 	department_color = COLOR_PRISONER_ORANGE
 	subdepartment_color = COLOR_PRISONER_BLACK
 
+<<<<<<< HEAD
+=======
+	access = list(ACCESS_HUNTER)
+
+>>>>>>> tg-pr-88929
 /// Trim for player controlled avatars in the Virtual Domain.
 /datum/id_trim/bit_avatar
 	assignment = "Bit Avatar"
 	trim_state = "trim_bitavatar"
 	department_color = COLOR_BLACK
 	subdepartment_color = COLOR_GREEN
+<<<<<<< HEAD
 
 /// Trim for cyber police in the Virtual Domain.
 /datum/id_trim/cyber_police
@@ -67,6 +74,17 @@
 	trim_state = "trim_deathcommando"
 	department_color = COLOR_BLACK
 	subdepartment_color = COLOR_GREEN
+=======
+	sechud_icon_state = SECHUD_BITAVATAR
+
+/// Trim for cyber police in the Virtual Domain.
+/datum/id_trim/cyber_police
+	assignment = ROLE_CYBER_POLICE
+	trim_state = "trim_deathcommando"
+	department_color = COLOR_BLACK
+	subdepartment_color = COLOR_GREEN
+	threat_modifier = -1 // Cops recognise cops
+>>>>>>> tg-pr-88929
 
 /datum/id_trim/cyber_police/New()
 	. = ..()

@@ -17,7 +17,7 @@
 /obj/machinery/power/apc
 	name = "area power controller"
 	desc = "A control terminal for the area's electrical systems."
-
+	icon = 'icons/obj/machines/wallmounts.dmi'
 	icon_state = "apc0"
 	use_power = NO_POWER_USE
 	req_access = null
@@ -26,6 +26,10 @@
 	damage_deflection = 10
 	resistance_flags = FIRE_PROOF
 	interaction_flags_machine = INTERACT_MACHINE_WIRES_IF_OPEN | INTERACT_MACHINE_ALLOW_SILICON | INTERACT_MACHINE_OPEN_SILICON
+<<<<<<< HEAD
+=======
+	interaction_flags_click = ALLOW_SILICON_REACH
+>>>>>>> tg-pr-88929
 	processing_flags = START_PROCESSING_MANUALLY
 
 	///Range of the light emitted when on
@@ -176,6 +180,10 @@
 			offset_old = pixel_x
 			pixel_x = -APC_PIXEL_OFFSET
 
+	hud_list = list(
+		MALF_APC_HUD = image(icon = 'icons/mob/huds/hud.dmi', icon_state = "apc_hacked", pixel_x = src.pixel_x, pixel_y = src.pixel_y)
+	)
+
 	//Assign it to its area. If mappers already assigned an area string fast load the area from it else get the current area
 	var/area/our_area = get_area(loc)
 	if(areastring)
@@ -219,23 +227,33 @@
 
 	//Make the apc visually interactive
 	register_context()
-	addtimer(CALLBACK(src, PROC_REF(update)), 5)
+	addtimer(CALLBACK(src, PROC_REF(update)), 0.5 SECONDS)
 	RegisterSignal(SSdcs, COMSIG_GLOB_GREY_TIDE, PROC_REF(grey_tide))
 	update_appearance()
 
-	GLOB.apcs_list += src
+	var/static/list/hovering_mob_typechecks = list(
+		/mob/living/silicon = list(
+			SCREENTIP_CONTEXT_CTRL_LMB = "Toggle power",
+			SCREENTIP_CONTEXT_ALT_LMB = "Toggle equipment power",
+			SCREENTIP_CONTEXT_SHIFT_LMB = "Toggle lighting power",
+			SCREENTIP_CONTEXT_CTRL_SHIFT_LMB = "Toggle environment power",
+		)
+	)
+
+	AddElement(/datum/element/contextual_screentip_bare_hands, rmb_text = "Toggle interface lock")
+	AddElement(/datum/element/contextual_screentip_mob_typechecks, hovering_mob_typechecks)
+	find_and_hang_on_wall()
 
 /obj/machinery/power/apc/Destroy()
-	GLOB.apcs_list -= src
-
-	if(malfai && operating)
-		malfai.malf_picker.processing_time = clamp(malfai.malf_picker.processing_time - 10,0,1000)
+	if(malfai)
+		if(operating)
+			malfai.malf_picker.processing_time = clamp(malfai.malf_picker.processing_time - 10, 0, 1000)
+		malfai.hacked_apcs -= src
+		malfai = null
 	disconnect_from_area()
 	QDEL_NULL(alarm_manager)
 	if(occupier)
 		malfvacate(TRUE)
-	if(wires)
-		QDEL_NULL(wires)
 	if(cell)
 		QDEL_NULL(cell)
 	if(terminal)
@@ -248,45 +266,60 @@
 	energy_fail(disrupt_duration)
 	return TRUE
 
-/obj/machinery/power/apc/proc/assign_to_area(area/target_area = get_area(src))
-	if(area == target_area)
-		return
-
-	disconnect_from_area()
-	area = target_area
-	area.power_light = TRUE
-	area.power_equip = TRUE
-	area.power_environ = TRUE
-	area.power_change()
-	area.apc = src
-	auto_name = TRUE
-
-	update_appearance(UPDATE_NAME)
+<<<<<<< HEAD
+=======
+/obj/machinery/power/apc/on_set_is_operational(old_value)
+	update_area_power_usage(!old_value)
 
 /obj/machinery/power/apc/update_name(updates)
 	. = ..()
 	if(auto_name)
 		name = "\improper [get_area_name(area, TRUE)] APC"
 
+>>>>>>> tg-pr-88929
+/obj/machinery/power/apc/proc/assign_to_area(area/target_area = get_area(src))
+	if(area == target_area)
+		return
+
+	disconnect_from_area()
+	area = target_area
+	update_area_power_usage(TRUE)
+	area.apc = src
+	auto_name = TRUE
+
+	update_appearance(UPDATE_NAME)
+
+/obj/machinery/power/apc/proc/update_area_power_usage(state)
+	//apc is non functional so force disable
+	if(state && (has_electronics != APC_ELECTRONICS_SECURED || (machine_stat & (BROKEN | MAINT)) || QDELETED(cell)))
+		state = FALSE
+
+	//no change in value
+	if(state == area.power_light && state == area.power_equip && state == area.power_environ)
+		return
+
+	area.power_light = state
+	area.power_equip = state
+	area.power_environ = state
+
+	area.power_change()
+
 /obj/machinery/power/apc/proc/disconnect_from_area()
 	if(isnull(area))
 		return
 
-	area.power_light = FALSE
-	area.power_equip = FALSE
-	area.power_environ = FALSE
-	area.power_change()
+	update_area_power_usage(FALSE)
 	area.apc = null
 	area = null
 
-/obj/machinery/power/apc/handle_atom_del(atom/deleting_atom)
-	if(deleting_atom == cell)
+/obj/machinery/power/apc/Exited(atom/movable/gone, direction)
+	. = ..()
+	if(gone == cell)
 		cell = null
 		charging = APC_NOT_CHARGING
 		update_appearance()
 		if(!QDELING(src))
 			SStgui.update_uis(src)
-	return ..()
 
 /obj/machinery/power/apc/examine(mob/user)
 	. = ..()
@@ -311,16 +344,16 @@
 		else
 			. += "The cover is closed."
 
-	. += span_notice("Right-click the APC to [ locked ? "unlock" : "lock"] the interface.")
+/obj/machinery/power/apc/atom_break(damage_flag)
+	. = ..()
+	if(.)
+		if(malfai && operating)
+			malfai.malf_picker.processing_time = clamp(malfai.malf_picker.processing_time - 10, 0, 1000)
+		operating = FALSE
+		if(occupier)
+			malfvacate(TRUE)
+		update()
 
-	if(issilicon(user))
-		. += span_notice("Ctrl-Click the APC to switch the breaker [ operating ? "off" : "on"].")
-
-/obj/machinery/power/apc/deconstruct(disassembled = TRUE)
-	if(flags_1 & NODECONSTRUCT_1)
-		return
-	if(!(machine_stat & BROKEN))
-		set_broken()
 	if(opened != APC_COVER_REMOVED)
 		opened = APC_COVER_REMOVED
 		coverlocked = FALSE
@@ -342,7 +375,11 @@
 		"powerCellStatus" = cell ? cell.percent() : null,
 		"chargeMode" = chargemode,
 		"chargingStatus" = charging,
+<<<<<<< HEAD
 		"chargingPowerDisplay" = display_power(area.energy_usage[AREA_USAGE_APC_CHARGE]),
+=======
+		"chargingPowerDisplay" = display_power(lastused_charge),
+>>>>>>> tg-pr-88929
 		"totalLoad" = display_power(lastused_total),
 		"coverLocked" = coverlocked,
 		"remoteAccess" = (user == remote_control_user),
@@ -396,24 +433,30 @@
 	say("Remote access detected.[locked ? " Interface unlocked." : ""]")
 	to_chat(remote_control_user, span_danger("[icon2html(src, remote_control_user)] Connected to [src]."))
 	if(locked)
-		playsound(src, 'sound/machines/terminal_on.ogg', 25, FALSE)
+		playsound(src, 'sound/machines/terminal/terminal_on.ogg', 25, FALSE)
 		locked = FALSE
-	playsound(src, 'sound/machines/terminal_alert.ogg', 50, FALSE)
+	playsound(src, 'sound/machines/terminal/terminal_alert.ogg', 50, FALSE)
 	update_appearance()
 
-/obj/machinery/power/apc/proc/disconnect_remote_access()
+/**
+ * Disconnects anyone using this APC via an APC control console and locks the interface.
+ * arguments:
+ * mute - whether the APC should announce the disconnection locally
+ */
+/obj/machinery/power/apc/proc/disconnect_remote_access(mute = FALSE)
 	// nothing to disconnect from
 	if(isnull(remote_control_user))
 		return
 	locked = TRUE
-	say("Remote access canceled. Interface locked.")
 	to_chat(remote_control_user, span_danger("[icon2html(src, remote_control_user)] Disconnected from [src]."))
-	playsound(src, 'sound/machines/terminal_off.ogg', 25, FALSE)
-	playsound(src, 'sound/machines/terminal_alert.ogg', 50, FALSE)
+	if(!mute)
+		say("Remote access canceled. Interface locked.")
+		playsound(src, 'sound/machines/terminal/terminal_off.ogg', 25, FALSE)
+		playsound(src, 'sound/machines/terminal/terminal_alert.ogg', 50, FALSE)
 	update_appearance()
 	remote_control_user = null
 
-/obj/machinery/power/apc/ui_status(mob/user)
+/obj/machinery/power/apc/ui_status(mob/user, datum/ui_state/state)
 	. = ..()
 	if(!QDELETED(remote_control_user) && user == remote_control_user)
 		. = UI_INTERACTIVE
@@ -532,15 +575,22 @@
 		force_update = TRUE
 		return
 
+<<<<<<< HEAD
 	if((obj_flags & EMAGGED) || malfai)
+=======
+	if(obj_flags & EMAGGED || malfai)
+>>>>>>> tg-pr-88929
 		hacked_flicker_counter = hacked_flicker_counter - 1
 		if(hacked_flicker_counter <= 0)
 			flicker_hacked_icon()
 
+<<<<<<< HEAD
 	if(malfai && COOLDOWN_FINISHED(src, malf_ai_pt_generation) && cell.use(60 KILO JOULES) > 0 && malfai.malf_picker.processing_time < MALF_MAX_PP) // Over time generation of malf points for the ai controlling it, costs a bit of power
 		COOLDOWN_START(src, malf_ai_pt_generation, 30 SECONDS)
 		malfai.malf_picker.processing_time += 1
 
+=======
+>>>>>>> tg-pr-88929
 	//dont use any power from that channel if we shut that power channel off
 	if(operating)
 		lastused_light = APC_CHANNEL_IS_ON(lighting) ? area.energy_usage[AREA_USAGE_LIGHT] + area.energy_usage[AREA_USAGE_STATIC_LIGHT] : 0
@@ -739,6 +789,7 @@
 /// Returns the cell's current charge.
 /obj/machinery/power/apc/proc/charge()
 	return cell.charge
+<<<<<<< HEAD
 
 /// Draws energy from the connected grid. When there isn't enough surplus energy from the grid, draws the rest of the demand from its cell. Returns the energy used.
 /obj/machinery/power/apc/proc/draw_energy(amount)
@@ -752,6 +803,8 @@
 /// Draws power from the connected grid. When there isn't enough surplus energy from the grid, draws the rest of the demand from its cell. Returns the energy used.
 /obj/machinery/power/apc/proc/draw_power(amount)
 	return draw_energy(power_to_energy(amount))
+=======
+>>>>>>> tg-pr-88929
 
 /*Power module, used for APC construction*/
 /obj/item/electronics/apc
@@ -759,6 +812,18 @@
 	icon_state = "power_mod"
 	desc = "Heavy-duty switching circuits for power control."
 
+<<<<<<< HEAD
+=======
+/// Returns the amount of time it will take the APC at its current trickle charge rate to reach a charge level. If the APC is functionally not charging, returns null.
+/obj/machinery/power/apc/proc/time_to_charge(joules)
+	var/required_joules = joules - charge()
+	var/trickle_charge_power = energy_to_power(area.energy_usage[AREA_USAGE_APC_CHARGE])
+	if(trickle_charge_power >= 1 KILO WATTS) // require at least a bit of charging
+		return round(energy_to_power(required_joules / trickle_charge_power) * SSmachines.wait + SSmachines.wait, SSmachines.wait)
+
+	return null
+
+>>>>>>> tg-pr-88929
 #undef CHARGELEVEL
 #undef APC_CHANNEL_LIGHT_TRESHOLD
 #undef APC_CHANNEL_EQUIP_TRESHOLD

@@ -80,9 +80,9 @@
 
 	var/list/available_nodes = stored_research.researched_designs.Copy()
 	if(imported_designs.len)
-		available_nodes += imported_designs
+		available_nodes |= imported_designs
 	if(obj_flags & EMAGGED)
-		available_nodes += stored_research.hacked_designs
+		available_nodes |= stored_research.hacked_designs
 
 	for(var/design_id in available_nodes)
 		var/datum/design/limb_design = SSresearch.techweb_design_by_id(design_id)
@@ -116,7 +116,7 @@
 
 	return data
 
-/obj/machinery/limbgrower/on_deconstruction()
+/obj/machinery/limbgrower/on_deconstruction(disassembled)
 	for(var/obj/item/reagent_containers/cup/our_beaker in component_parts)
 		reagents.trans_to(our_beaker, our_beaker.reagents.maximum_volume)
 	return ..()
@@ -178,7 +178,7 @@
 				consumed_reagents_list[reagent_id] *= production_coefficient
 				if(!reagents.has_reagent(reagent_id, consumed_reagents_list[reagent_id]))
 					audible_message(span_notice("[src] buzzes."))
-					playsound(src, 'sound/machines/buzz-sigh.ogg', 50, FALSE)
+					playsound(src, 'sound/machines/buzz/buzz-sigh.ogg', 50, FALSE)
 					return
 
 				power = max(active_power_usage, (power + consumed_reagents_list[reagent_id]))
@@ -207,7 +207,7 @@
 	for(var/reagent_id in modified_consumed_reagents_list)
 		if(!reagents.has_reagent(reagent_id, modified_consumed_reagents_list[reagent_id]))
 			audible_message(span_notice("The [src] buzzes."))
-			playsound(src, 'sound/machines/buzz-sigh.ogg', 50, FALSE)
+			playsound(src, 'sound/machines/buzz/buzz-sigh.ogg', 50, FALSE)
 			break
 
 		reagents.remove_reagent(reagent_id, modified_consumed_reagents_list[reagent_id])
@@ -233,7 +233,7 @@
  */
 /obj/machinery/limbgrower/proc/build_limb(buildpath)
 	/// The limb we're making with our buildpath, so we can edit it.
-	//i need to create a body part manually using a set icon (otherwise it doesnt appear)
+	//i need to create a body part manually using a set icon (otherwise it doesn't appear)
 	var/obj/item/bodypart/limb
 	limb = new buildpath(loc)
 	limb.name = "\improper synthetic [selected_category] [limb.plaintext_zone]"
@@ -259,8 +259,8 @@
 		reagents.maximum_volume += our_beaker.volume
 		our_beaker.reagents.trans_to(src, our_beaker.reagents.total_volume)
 	production_coefficient = 1.25
-	for(var/datum/stock_part/manipulator/our_manipulator in component_parts)
-		production_coefficient -= our_manipulator.tier * 0.25
+	for(var/datum/stock_part/servo/our_servo in component_parts)
+		production_coefficient -= our_servo.tier * 0.25
 	production_coefficient = clamp(production_coefficient, 0, 1) // coefficient goes from 1 -> 0.75 -> 0.5 -> 0.25
 
 /obj/machinery/limbgrower/examine(mob/user)
@@ -283,7 +283,6 @@
 
 /obj/machinery/limbgrower/fullupgrade //Inherently cheaper organ production. This is to NEVER be inherently emagged, no valids.
 	desc = "It grows new limbs using Synthflesh. This alien model seems more efficient."
-	flags_1 = NODECONSTRUCT_1
 	circuit = /obj/item/circuitboard/machine/limbgrower/fullupgrade
 
 /obj/machinery/limbgrower/fullupgrade/Initialize(mapload)
@@ -291,4 +290,4 @@
 	for(var/id in SSresearch.techweb_designs)
 		var/datum/design/found_design = SSresearch.techweb_design_by_id(id)
 		if((found_design.build_type & LIMBGROWER) && !(RND_CATEGORY_HACKED in found_design.category))
-			imported_designs += found_design.id
+			imported_designs |= found_design.id

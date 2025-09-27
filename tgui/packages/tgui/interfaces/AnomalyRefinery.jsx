@@ -1,4 +1,15 @@
+import {
+  Box,
+  Button,
+  Icon,
+  LabeledList,
+  Modal,
+  Section,
+  Stack,
+} from 'tgui-core/components';
+
 import { useBackend, useSharedState } from '../backend';
+<<<<<<< HEAD
 import {
   Button,
   Icon,
@@ -8,11 +19,16 @@ import {
   LabeledList,
   Box,
 } from '../components';
+=======
+>>>>>>> tg-pr-88929
 import { Window } from '../layouts';
 import { GasmixParser } from './common/GasmixParser';
 
 export const AnomalyRefinery = (props) => {
+<<<<<<< HEAD
   const { act, data } = useBackend();
+=======
+>>>>>>> tg-pr-88929
   return (
     <Window title="Anomaly Refinery" width={550} height={350}>
       <Window.Content>
@@ -26,6 +42,7 @@ const AnomalyRefineryContent = (props) => {
   const { act, data } = useBackend();
   const [currentTab, changeTab] = useSharedState('exploderTab', 1);
   const { core, valvePresent, active } = data;
+
   return (
     <Stack vertical fill>
       {currentTab === 1 && <CoreCompressorContent />}

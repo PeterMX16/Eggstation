@@ -20,6 +20,7 @@
 	name = "Pirate Swashbuckler"
 	melee_damage_lower = 30
 	melee_damage_upper = 30
+<<<<<<< HEAD
 	armour_penetration = 75
 	attack_verb_continuous = "slashes"
 	attack_verb_simple = "slash"
@@ -32,6 +33,15 @@
 	*/
 	light_outer_range = 2
 	//MONKESTATION EDIT END
+=======
+	armour_penetration = 35
+	attack_verb_continuous = "slashes"
+	attack_verb_simple = "slash"
+	attack_sound = 'sound/items/weapons/blade1.ogg'
+	attack_vis_effect = ATTACK_EFFECT_SLASH
+	loot = list(/obj/effect/mob_spawn/corpse/human/pirate/melee)
+	light_range = 2
+>>>>>>> tg-pr-88929
 	light_power = 2.5
 	light_color = COLOR_SOFT_RED
 	loot = list(
@@ -45,12 +55,16 @@
 /mob/living/basic/trooper/pirate/melee/space
 	name = "Space Pirate Swashbuckler"
 	unsuitable_atmos_damage = 0
+<<<<<<< HEAD
 	//MONKESTATION EDIT START - We use `bodytemp_cold_damage_limit` instead of `minimum_survivable_temperature`
 	/* //MONKESTATION EDIT ORIGINAL
 	minimum_survivable_temperature = 0
 	*/
 	bodytemp_cold_damage_limit = -1
 	//MONKESTATION EDIT END
+=======
+	minimum_survivable_temperature = 0
+>>>>>>> tg-pr-88929
 	loot = list(/obj/effect/mob_spawn/corpse/human/pirate/melee/space)
 	mob_spawner = /obj/effect/mob_spawn/corpse/human/pirate/melee/space
 
@@ -67,7 +81,11 @@
 	/// Type of bullet we use
 	var/projectiletype = /obj/projectile/beam/laser
 	/// Sound to play when firing weapon
+<<<<<<< HEAD
 	var/projectilesound = 'sound/weapons/laser.ogg'
+=======
+	var/projectilesound = 'sound/items/weapons/laser.ogg'
+>>>>>>> tg-pr-88929
 	/// number of burst shots
 	var/burst_shots = 2
 	/// Time between taking shots
@@ -86,12 +104,16 @@
 /mob/living/basic/trooper/pirate/ranged/space
 	name = "Space Pirate Gunner"
 	unsuitable_atmos_damage = 0
+<<<<<<< HEAD
 	//MONKESTATION EDIT START - We use `bodytemp_cold_damage_limit` instead of `minimum_survivable_temperature`
 	/* //MONKESTATION EDIT ORIGINAL
 	minimum_survivable_temperature = 0
 	*/
 	bodytemp_cold_damage_limit = -1
 	//MONKESTATION EDIT END
+=======
+	minimum_survivable_temperature = 0
+>>>>>>> tg-pr-88929
 	loot = list(/obj/effect/mob_spawn/corpse/human/pirate/ranged/space)
 	mob_spawner = /obj/effect/mob_spawn/corpse/human/pirate/ranged/space
 	r_hand = /obj/item/gun/energy/e_gun/lethal

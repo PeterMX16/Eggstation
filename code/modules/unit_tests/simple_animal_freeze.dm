@@ -6,8 +6,11 @@
 	// If you are refactoring a simple_animal, REMOVE it from this list
 	var/list/allowed_types = list(
 		/mob/living/simple_animal/bot,
+<<<<<<< HEAD
 		/mob/living/simple_animal/bot/firebot,
 		/mob/living/simple_animal/bot/floorbot,
+=======
+>>>>>>> tg-pr-88929
 		/mob/living/simple_animal/bot/mulebot,
 		/mob/living/simple_animal/bot/mulebot/paranormal,
 		/mob/living/simple_animal/bot/secbot,
@@ -20,9 +23,11 @@
 		/mob/living/simple_animal/bot/secbot/genesky,
 		/mob/living/simple_animal/bot/secbot/grievous,
 		/mob/living/simple_animal/bot/secbot/grievous/toy,
-		/mob/living/simple_animal/bot/secbot/honkbot,
 		/mob/living/simple_animal/bot/secbot/pingsky,
+<<<<<<< HEAD
 		/mob/living/simple_animal/bot/vibebot,
+=======
+>>>>>>> tg-pr-88929
 		/mob/living/simple_animal/hostile,
 		/mob/living/simple_animal/hostile/asteroid,
 		/mob/living/simple_animal/hostile/asteroid/curseblob,
@@ -36,15 +41,21 @@
 		/mob/living/simple_animal/hostile/asteroid/elite/pandora,
 		/mob/living/simple_animal/hostile/asteroid/polarbear,
 		/mob/living/simple_animal/hostile/asteroid/polarbear/lesser,
+<<<<<<< HEAD
 		/mob/living/simple_animal/hostile/crawling_shadows,
+=======
+>>>>>>> tg-pr-88929
 		/mob/living/simple_animal/hostile/dark_wizard,
 		/mob/living/simple_animal/hostile/illusion,
 		/mob/living/simple_animal/hostile/illusion/escape,
 		/mob/living/simple_animal/hostile/illusion/mirage,
+<<<<<<< HEAD
 		/mob/living/simple_animal/hostile/illusion/darkspawn,
 		/mob/living/simple_animal/hostile/illusion/darkspawn/psyche,
 		/mob/living/simple_animal/hostile/jungle,
 		/mob/living/simple_animal/hostile/jungle/leaper,
+=======
+>>>>>>> tg-pr-88929
 		/mob/living/simple_animal/hostile/megafauna,
 		/mob/living/simple_animal/hostile/megafauna/blood_drunk_miner,
 		/mob/living/simple_animal/hostile/megafauna/blood_drunk_miner/doom,
@@ -65,14 +76,28 @@
 		/mob/living/simple_animal/hostile/megafauna/legion/medium/right,
 		/mob/living/simple_animal/hostile/megafauna/legion/small,
 		/mob/living/simple_animal/hostile/megafauna/wendigo,
+<<<<<<< HEAD
 		/mob/living/simple_animal/hostile/ooze,
 		/mob/living/simple_animal/hostile/ooze/gelatinous,
 		/mob/living/simple_animal/hostile/ooze/grapes,
 		/mob/living/simple_animal/hostile/darkspawn_progenitor,
+=======
+		/mob/living/simple_animal/hostile/megafauna/wendigo/noportal,
+		/mob/living/simple_animal/hostile/mimic,
+		/mob/living/simple_animal/hostile/mimic/copy,
+		/mob/living/simple_animal/hostile/mimic/copy/machine,
+		/mob/living/simple_animal/hostile/mimic/copy/ranged,
+		/mob/living/simple_animal/hostile/mimic/crate,
+		/mob/living/simple_animal/hostile/mimic/xenobio,
+		/mob/living/simple_animal/hostile/ooze,
+		/mob/living/simple_animal/hostile/ooze/gelatinous,
+		/mob/living/simple_animal/hostile/ooze/grapes,
+>>>>>>> tg-pr-88929
 		/mob/living/simple_animal/hostile/retaliate,
 		/mob/living/simple_animal/hostile/retaliate/goose,
 		/mob/living/simple_animal/hostile/retaliate/goose/vomit,
 		/mob/living/simple_animal/hostile/vatbeast,
+<<<<<<< HEAD
 		/mob/living/simple_animal/pet,
 		/mob/living/simple_animal/pet/cat,
 		/mob/living/simple_animal/pet/cat/_proc,
@@ -114,6 +139,10 @@
 		/mob/living/simple_animal/pet/hamster,
 		//MONKESTATION-SPECIFIC ENTRIES END
 
+=======
+		/mob/living/simple_animal/hostile/zombie,
+		/mob/living/simple_animal/soulscythe,
+>>>>>>> tg-pr-88929
 		// DO NOT ADD NEW ENTRIES TO THIS LIST
 		// READ THE COMMENT ABOVE
 	)

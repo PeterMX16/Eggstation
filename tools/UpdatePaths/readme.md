@@ -344,7 +344,10 @@ You would then get the following output:
 Note how we keep the "Money Hole" intact, while still managing to extrapolate the `dir` variable to 1 on the sink that had absolutely no variables set on it. This is useful for when you want to change a variable that is not shown in the map editor, but you want to keep the rest of the variables intact.
 
 #### Methods: Any Value Fits All and Naming Conventions
+<<<<<<< HEAD
 
+=======
+>>>>>>> tg-pr-88929
 But what if you just want to rename the variable `maxHealth` to `good_boy_points` for all instances of `/mob/living/github_user`? Using the `@ANY` parameter after a variable name, you can capture any instance that has it edited in a map. While, to set the value of the newly named `good_boy_points` to that of the old `maxHealth`, we can use `@OLD:maxHealth`, put after the name of the new variable to achieve that. The result'll be something like this:
 
 ```txt

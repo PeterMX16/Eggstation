@@ -19,7 +19,11 @@
 /datum/ai_planning_subtree/find_and_hunt_target/destroy_surveillance
 	target_key = BB_SURVEILLANCE_TARGET
 	finding_behavior = /datum/ai_behavior/find_hunt_target/find_active_surveillance
+<<<<<<< HEAD
 	hunting_behavior = /datum/ai_behavior/hunt_target/unarmed_attack_target
+=======
+	hunting_behavior = /datum/ai_behavior/hunt_target/interact_with_target
+>>>>>>> tg-pr-88929
 	hunt_targets = list(/obj/machinery/camera, /obj/machinery/light)
 	hunt_range = 7
 

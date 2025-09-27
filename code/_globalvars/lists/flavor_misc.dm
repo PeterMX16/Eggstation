@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 //Preferences stuff
 	//Hairstyles
 GLOBAL_LIST_EMPTY(roundstart_hairstyles_list)
@@ -63,6 +64,8 @@ GLOBAL_LIST_EMPTY(oni_tail_list) //Monkestation Addition
 GLOBAL_LIST_EMPTY(oni_wings_list) //Monkestation Addition
 GLOBAL_LIST_EMPTY(oni_horns_list) //Monkestation Addition
 
+=======
+>>>>>>> tg-pr-88929
 GLOBAL_LIST_INIT(color_list_ethereal, list(
 	"Blue" = "#3399ff",
 	"Bright Yellow" = "#ffff99",
@@ -86,6 +89,14 @@ GLOBAL_LIST_INIT(color_list_ethereal, list(
 	"Fuschia" = "#FF0066", //Monkestation Addition
 	"Dark Purple" = "#502A77", //Monkestation Addition
 	"Gray" = "#505050", //Monkestation Addition
+))
+
+GLOBAL_LIST_INIT(color_list_lustrous, list(
+	"Cyan Blue" = "#00ffff",
+	"Sky Blue" = "#37c0ff",
+	"Blue" = "#3374ff",
+	"Dark Blue" = "#5b5beb",
+	"Bright Red" = "#fa2d2d",
 ))
 
 GLOBAL_LIST_INIT(color_list_lustrous, list(
@@ -168,9 +179,11 @@ GLOBAL_LIST_INIT(security_depts_prefs, sort_list(list(
 #define DBACKPACK "Department Backpack"
 #define DDUFFELBAG "Department Duffel Bag"
 #define DSATCHEL "Department Satchel"
+#define DMESSENGER "Department Messenger Bag"
 #define GBACKPACK "Grey Backpack"
 #define GDUFFELBAG "Grey Duffel Bag"
 #define GSATCHEL "Grey Satchel"
+#define GMESSENGER "Grey Messenger Bag"
 #define LSATCHEL "Leather Satchel"
 #define BSATCHEL "Black Leather Satchel" //MONKESTATION
 #define RSATCHEL "Retro Satchel" //MONKESTATION
@@ -178,9 +191,11 @@ GLOBAL_LIST_INIT(backpacklist, list(
 	DBACKPACK,
 	DDUFFELBAG,
 	DSATCHEL,
+	DMESSENGER,
 	GBACKPACK,
 	GDUFFELBAG,
 	GSATCHEL,
+	GMESSENGER,
 	LSATCHEL,
 	BSATCHEL, //MONKESTATION
 	RSATCHEL, //MONKESTATION
@@ -204,21 +219,22 @@ GLOBAL_LIST_EMPTY(fallback_clothing_icons)
 GLOBAL_LIST_INIT(scarySounds, list(
 	'sound/effects/footstep/clownstep1.ogg',
 	'sound/effects/footstep/clownstep2.ogg',
-	'sound/effects/glassbr1.ogg',
-	'sound/effects/glassbr2.ogg',
-	'sound/effects/glassbr3.ogg',
-	'sound/items/welder.ogg',
-	'sound/items/welder2.ogg',
-	'sound/machines/airlock.ogg',
-	'sound/voice/hiss1.ogg',
-	'sound/voice/hiss2.ogg',
-	'sound/voice/hiss3.ogg',
-	'sound/voice/hiss4.ogg',
-	'sound/voice/hiss5.ogg',
-	'sound/voice/hiss6.ogg',
-	'sound/weapons/armbomb.ogg',
-	'sound/weapons/taser.ogg',
-	'sound/weapons/thudswoosh.ogg',
+	'sound/effects/glass/glassbr1.ogg',
+	'sound/effects/glass/glassbr2.ogg',
+	'sound/effects/glass/glassbr3.ogg',
+	'sound/items/tools/welder.ogg',
+	'sound/items/tools/welder2.ogg',
+	'sound/machines/airlock/airlock.ogg',
+	'sound/mobs/non-humanoids/hiss/hiss1.ogg',
+	'sound/mobs/non-humanoids/hiss/hiss2.ogg',
+	'sound/mobs/non-humanoids/hiss/hiss3.ogg',
+	'sound/mobs/non-humanoids/hiss/hiss4.ogg',
+	'sound/mobs/non-humanoids/hiss/hiss5.ogg',
+	'sound/mobs/non-humanoids/hiss/hiss6.ogg',
+	'sound/items/weapons/armbomb.ogg',
+	'sound/items/weapons/taser.ogg',
+	'sound/items/weapons/thudswoosh.ogg',
+	'sound/items/weapons/shove.ogg',
 ))
 
 
@@ -325,6 +341,7 @@ GLOBAL_LIST_INIT(status_display_approved_pictures, list(
 	"bluealert",
 	"redalert",
 	"deltaalert",
+<<<<<<< HEAD
 	"amberalert",
 	"yellowalert",
 	"lambdaalert",
@@ -352,6 +369,10 @@ GLOBAL_LIST_INIT(same_level_alert_levels, list(
 	"blue",
 	"yellow",
 	"amber",
+=======
+	"radiation",
+	"currentalert", //For automatic set of status display on current level
+>>>>>>> tg-pr-88929
 ))
 
 // Members of status_display_approved_pictures that are actually states and not alert values
@@ -360,6 +381,7 @@ GLOBAL_LIST_INIT(status_display_state_pictures, list(
 	"shuttle",
 ))
 
+<<<<<<< HEAD
 /// 1000 element long list containing the 1000 most common words in the English language.
 /// Indexed by word, value is the rank of the word in the list. So accessing it is fasta.
 GLOBAL_LIST_INIT(most_common_words, init_common_words())
@@ -370,3 +392,6 @@ GLOBAL_LIST_INIT(most_common_words, init_common_words())
 	for(var/word in world.file2list("strings/1000_most_common.txt"))
 		.[word] = i
 		i += 1
+=======
+GLOBAL_LIST_INIT(fishing_tips, world.file2list("strings/fishing_tips.txt"))
+>>>>>>> tg-pr-88929

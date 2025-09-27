@@ -31,7 +31,11 @@
 	var/mob/living/split_personality/non_controller = usr
 	var/client/non_controller_client = non_controller.client
 
+<<<<<<< HEAD
 	var/to_send = tgui_input_text(non_controller, "What would you like to tell your other self?", "Commune")
+=======
+	var/to_send = tgui_input_text(non_controller, "What would you like to tell your other self?", "Commune", max_length = MAX_MESSAGE_LEN)
+>>>>>>> tg-pr-88929
 	if(QDELETED(src) || QDELETED(trauma) || !to_send)
 		return FALSE
 

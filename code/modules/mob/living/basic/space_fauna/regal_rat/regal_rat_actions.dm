@@ -5,17 +5,38 @@
 /datum/action/cooldown/mob_cooldown/domain
 	name = "Rat King's Domain"
 	desc = "Corrupts this area to be more suitable for your rat army."
+<<<<<<< HEAD
 	check_flags = AB_CHECK_CONSCIOUS|AB_CHECK_INCAPACITATED|AB_CHECK_OPEN_TURF // monkestation edit: add AB_CHECK_OPEN_TURF
 	cooldown_time = 6 SECONDS
 	melee_cooldown_time = 0 SECONDS
+=======
+	check_flags = AB_CHECK_CONSCIOUS|AB_CHECK_INCAPACITATED
+	click_to_activate = FALSE
+	cooldown_time = 6 SECONDS
+>>>>>>> tg-pr-88929
 	button_icon = 'icons/mob/actions/actions_animal.dmi'
 	background_icon_state = "bg_clock"
 	overlay_icon_state = "bg_clock_border"
 	button_icon_state = "coffer"
 	shared_cooldown = NONE
 
+<<<<<<< HEAD
 /datum/action/cooldown/mob_cooldown/domain/proc/domain()
 	var/turf/location = get_turf(owner)
+=======
+/datum/action/cooldown/mob_cooldown/domain/IsAvailable(feedback = FALSE)
+	. = ..()
+	if (!.)
+		return FALSE
+	if (owner.movement_type & VENTCRAWLING)
+		if (feedback)
+			owner.balloon_alert(owner, "can't use while ventcrawling!")
+		return FALSE
+
+/datum/action/cooldown/mob_cooldown/domain/proc/domain()
+	var/turf/location = get_turf(owner)
+	location.atmos_spawn_air("[GAS_MIASMA]=4;[TURF_TEMPERATURE(T20C)]")
+>>>>>>> tg-pr-88929
 	switch (rand(1,10))
 		if (8)
 			new /obj/effect/decal/cleanable/vomit(location)
@@ -40,12 +61,19 @@
 	name = "Raise Army"
 	desc = "Raise an army out of the hordes of mice and pests crawling around the maintenance shafts."
 	check_flags = AB_CHECK_CONSCIOUS|AB_CHECK_INCAPACITATED
+<<<<<<< HEAD
+=======
+	click_to_activate = FALSE
+>>>>>>> tg-pr-88929
 	button_icon = 'icons/mob/actions/actions_animal.dmi'
 	button_icon_state = "riot"
 	background_icon_state = "bg_clock"
 	overlay_icon_state = "bg_clock_border"
 	cooldown_time = 8 SECONDS
+<<<<<<< HEAD
 	melee_cooldown_time = 0 SECONDS
+=======
+>>>>>>> tg-pr-88929
 	shared_cooldown = NONE
 	/// How close does something need to be for us to recruit it?
 	var/range = 5
@@ -55,7 +83,11 @@
 		/datum/pet_command/free,
 		/datum/pet_command/protect_owner,
 		/datum/pet_command/follow,
+<<<<<<< HEAD
 		/datum/pet_command/point_targeting/attack/mouse
+=======
+		/datum/pet_command/attack/mouse
+>>>>>>> tg-pr-88929
 	)
 	/// Commands you can give to glockroaches
 	var/static/list/glockroach_commands = list(
@@ -63,9 +95,24 @@
 		/datum/pet_command/free,
 		/datum/pet_command/protect_owner/glockroach,
 		/datum/pet_command/follow,
+<<<<<<< HEAD
 		/datum/pet_command/point_targeting/attack/glockroach
 	)
 
+=======
+		/datum/pet_command/attack/glockroach
+	)
+
+/datum/action/cooldown/mob_cooldown/riot/IsAvailable(feedback = FALSE)
+	. = ..()
+	if (!.)
+		return FALSE
+	if (owner.movement_type & VENTCRAWLING)
+		if (feedback)
+			owner.balloon_alert(owner, "can't use while ventcrawling!")
+		return FALSE
+
+>>>>>>> tg-pr-88929
 /datum/action/cooldown/mob_cooldown/riot/Activate(atom/target)
 	StartCooldown(10 SECONDS)
 	riot()
@@ -105,8 +152,13 @@
 	if (LAZYLEN(SSmobs.cheeserats) >= rat_cap)
 		to_chat(owner,span_warning("There's too many mice on this station to beckon a new one! Find them first!"))
 		return
+<<<<<<< HEAD
 	new /mob/living/basic/mouse/ratking(owner.loc)
 	owner.visible_message(span_warning("[owner] commands a rat to their side!"))
+=======
+	new /mob/living/basic/mouse(owner.loc)
+	owner.visible_message(span_warning("[owner] commands a mouse to their side!"))
+>>>>>>> tg-pr-88929
 
 /// Makes a passed mob into our minion
 /datum/action/cooldown/mob_cooldown/riot/proc/make_minion(mob/living/new_minion, minion_desc, list/command_list = mouse_commands)
@@ -192,7 +244,11 @@
 	return TRUE
 
 // Command you can give to a mouse to make it kill someone
+<<<<<<< HEAD
 /datum/pet_command/point_targeting/attack/mouse
+=======
+/datum/pet_command/attack/mouse
+>>>>>>> tg-pr-88929
 	speech_commands = list("attack", "sic", "kill", "cheese em")
 	command_feedback = "squeak!" // Frogs and roaches can squeak too it's fine
 	pointed_reaction = "and squeaks aggressively"
@@ -200,7 +256,11 @@
 	attack_behaviour = /datum/ai_behavior/basic_melee_attack
 
 // Command you can give to a mouse to make it kill someone
+<<<<<<< HEAD
 /datum/pet_command/point_targeting/attack/glockroach
+=======
+/datum/pet_command/attack/glockroach
+>>>>>>> tg-pr-88929
 	speech_commands = list("attack", "sic", "kill", "cheese em")
 	command_feedback = "squeak!"
 	pointed_reaction = "and cocks its gun"
@@ -214,12 +274,16 @@
 /datum/reagent/rat_spit
 	name = "Rat Spit"
 	description = "Something coming from a rat. Dear god! Who knows where it's been!"
+<<<<<<< HEAD
 	reagent_state = LIQUID
+=======
+>>>>>>> tg-pr-88929
 	color = "#C8C8C8"
 	metabolization_rate = 0.03 * REAGENTS_METABOLISM
 	taste_description = "something funny"
 	overdose_threshold = 20
 
+<<<<<<< HEAD
 /datum/reagent/rat_spit/on_mob_metabolize(mob/living/L)
 	..()
 	if(HAS_TRAIT(L, TRAIT_AGEUSIA))
@@ -245,6 +309,33 @@
 	else if(prob(5))
 		C.vomit()
 	return ..()
+=======
+/datum/reagent/rat_spit/on_mob_metabolize(mob/living/affected_mob)
+	. = ..()
+	if(HAS_TRAIT(affected_mob, TRAIT_AGEUSIA))
+		return
+	to_chat(affected_mob, span_notice("This food has a funny taste!"))
+
+/datum/reagent/rat_spit/overdose_start(mob/living/affected_mob)
+	. = ..()
+	var/mob/living/carbon/victim = affected_mob
+	if (istype(victim) && !(FACTION_RAT in victim.faction))
+		to_chat(victim, span_userdanger("With this last sip, you feel your body convulsing horribly from the contents you've ingested. As you contemplate your actions, you sense an awakened kinship with rat-kind and their newly risen leader!"))
+		victim.faction |= FACTION_RAT
+		victim.vomit(VOMIT_CATEGORY_DEFAULT)
+	metabolization_rate = 10 * REAGENTS_METABOLISM
+
+/datum/reagent/rat_spit/on_mob_life(mob/living/carbon/affected_mob)
+	. = ..()
+	if(prob(15))
+		to_chat(affected_mob, span_notice("You feel queasy!"))
+		affected_mob.adjust_disgust(3)
+	else if(prob(10))
+		to_chat(affected_mob, span_warning("That food does not sit up well!"))
+		affected_mob.adjust_disgust(5)
+	else if(prob(5))
+		affected_mob.vomit(VOMIT_CATEGORY_DEFAULT)
+>>>>>>> tg-pr-88929
 
 /datum/pet_command/protect_owner/glockroach
 	protect_behavior = /datum/ai_behavior/basic_ranged_attack/glockroach

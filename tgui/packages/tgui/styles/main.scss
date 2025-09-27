@@ -4,7 +4,8 @@
  */
 
 @use 'sass:meta';
-@use './base.scss';
+@use 'base';
+@use 'pkg:tgui-styles';
 
 // Core styles
 @include meta.load-css('./reset.scss');
@@ -20,6 +21,7 @@
 @include meta.load-css('./atomic/section-background.scss');
 @include meta.load-css('./atomic/text.scss');
 
+<<<<<<< HEAD
 // Components
 @include meta.load-css('./components/BlockQuote.scss');
 @include meta.load-css('./components/Button.scss');
@@ -51,6 +53,8 @@
 @include meta.load-css('./components/Dialog.scss');
 @include meta.load-css('./components/ColorSelectBox.scss');
 
+=======
+>>>>>>> tg-pr-88929
 // Interfaces
 @include meta.load-css('./interfaces/AlertModal.scss');
 @include meta.load-css('./interfaces/Changelog.scss');
@@ -67,11 +71,19 @@
 @include meta.load-css('./interfaces/LibraryAdmin.scss');
 @include meta.load-css('./interfaces/LibraryComputer.scss');
 @include meta.load-css('./interfaces/ListInput.scss');
+<<<<<<< HEAD
+=======
+@include meta.load-css('./interfaces/LootPanel.scss');
+>>>>>>> tg-pr-88929
 @include meta.load-css('./interfaces/Mecha.scss');
 @include meta.load-css('./interfaces/NtosMessenger.scss');
 @include meta.load-css('./interfaces/NtosNotepad.scss');
 @include meta.load-css('./interfaces/NuclearBomb.scss');
+<<<<<<< HEAD
 @include meta.load-css('./interfaces/NuclearBombCommando.scss');
+=======
+@include meta.load-css('./interfaces/Orbit.scss');
+>>>>>>> tg-pr-88929
 @include meta.load-css('./interfaces/Paper.scss');
 @include meta.load-css('./interfaces/PersonalCrafting.scss');
 @include meta.load-css('./interfaces/PreferencesMenu.scss');
@@ -82,6 +94,7 @@
 @include meta.load-css('./interfaces/Trophycase.scss');
 @include meta.load-css('./interfaces/Uplink.scss');
 @include meta.load-css('./interfaces/UtilityModulesPane.scss');
+<<<<<<< HEAD
 @include meta.load-css('./interfaces/Fabricator.scss');
 @include meta.load-css('./interfaces/Emojipedia.scss');
 @include meta.load-css('./interfaces/NtosNotepad.scss');
@@ -89,6 +102,9 @@
 @include meta.load-css('./interfaces/ClockworkSlab.scss');
 @include meta.load-css('./interfaces/VethPlayerPanel.scss');
 // MONKESTATION ADDITION END
+=======
+@include meta.load-css('./interfaces/DetectiveBoard.scss');
+>>>>>>> tg-pr-88929
 
 // Layouts
 @include meta.load-css('./layouts/Layout.scss');

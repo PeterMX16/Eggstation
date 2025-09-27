@@ -50,14 +50,16 @@
 	icon_state = "mailman"
 	desc = "<i>'Right-on-time'</i> mail service head wear."
 	clothing_traits = list(TRAIT_HATED_BY_DOGS)
+	custom_premium_price = PAYCHECK_CREW
 
 /obj/item/clothing/head/bio_hood/plague
 	name = "plague doctor's hat"
-	desc = "These were once used by plague doctors. Will protect you from exposure to the Pestilence."
+	desc = "These were once used by plague doctors. This hat will only slightly protect you from exposure to the Pestilence."
 	icon_state = "plaguedoctor"
-	clothing_flags = THICKMATERIAL | BLOCK_GAS_SMOKE_EFFECT | SNUG_FIT | PLASMAMAN_HELMET_EXEMPT
 	armor_type = /datum/armor/bio_hood_plague
 	flags_inv = NONE
+	clothing_flags = SNUG_FIT
+	flags_cover = NONE
 
 /datum/armor/bio_hood_plague
 	bio = 100
@@ -84,17 +86,19 @@
 	name = "flat cap"
 	desc = "A working man's cap."
 	icon_state = "beret_flat"
+	icon_preview = 'icons/obj/clothing/head/beret.dmi'
+	icon_state_preview = "beret_flat"
 	greyscale_config = /datum/greyscale_config/beret
 	greyscale_config_worn = /datum/greyscale_config/beret/worn
 	greyscale_colors = "#8F7654"
 	inhand_icon_state = null
 
 /obj/item/clothing/head/cowboy
-	name = "bounty hunting hat"
+	name = "cowboy hat"
 	desc = "Ain't nobody gonna cheat the hangman in my town."
 	icon = 'icons/obj/clothing/head/cowboy.dmi'
 	worn_icon = 'icons/mob/clothing/head/cowboy.dmi'
-	icon_state = "cowboy"
+	icon_state = "cowboy_hat_brown"
 	worn_icon_state = "hunter"
 	inhand_icon_state = null
 	armor_type = /datum/armor/head_cowboy
@@ -126,6 +130,13 @@
 
 /// Bounty hunter's hat, very likely to intercept bullets
 /obj/item/clothing/head/cowboy/bounty
+<<<<<<< HEAD
+=======
+	name = "bounty hunting hat"
+	desc = "Reach for the skies, pardner."
+	icon_state = "bounty_hunter"
+	worn_icon_state = "hunter"
+>>>>>>> tg-pr-88929
 	deflect_chance = 50
 
 /obj/item/clothing/head/cowboy/black
@@ -176,15 +187,44 @@
 	min_cold_protection_temperature = FIRE_HELM_MIN_TEMP_PROTECT
 	dog_fashion = /datum/dog_fashion/head/santa
 
+/obj/item/clothing/head/costume/santa/gags
+	name = "santa hat"
+	desc = "On the first day of christmas my employer gave to me!"
+	icon_state = "santa_hat"
+	greyscale_colors = "#cc0000#f8f8f8"
+	greyscale_config = /datum/greyscale_config/santa_hat
+	greyscale_config_worn = /datum/greyscale_config/santa_hat/worn
+	flags_1 = IS_PLAYER_COLORABLE_1
+
 /obj/item/clothing/head/costume/jester
 	name = "jester hat"
 	desc = "A hat with bells, to add some merriness to the suit."
-	icon_state = "jester_hat"
+	icon_state = "jester_map"
+	greyscale_colors = "#00ff00#ff0000"
+	greyscale_config = /datum/greyscale_config/jester_hat
+	greyscale_config_worn = /datum/greyscale_config/jester_hat/worn
+	flags_1 = IS_PLAYER_COLORABLE_1
 
+<<<<<<< HEAD
+=======
+/obj/item/clothing/head/costume/jesteralt
+	name = "jester hat"
+	desc = "A hat with bells, to add some merriness to the suit."
+	icon_state = "jester2"
+
+>>>>>>> tg-pr-88929
 /obj/item/clothing/head/costume/rice_hat
 	name = "rice hat"
 	desc = "Welcome to the rice fields, motherfucker."
 	icon_state = "rice_hat"
+	base_icon_state = "rice_hat"
+	var/reversed = FALSE
+
+/obj/item/clothing/head/costume/rice_hat/click_alt(mob/user)
+	reversed = !reversed
+	worn_icon_state = "[base_icon_state][reversed ? "_kim" : ""]"
+	to_chat(user, span_notice("You [reversed ? "lower" : "raise"] the hat."))
+	update_appearance()
 
 /obj/item/clothing/head/costume/lizard
 	name = "lizardskin cloche hat"
@@ -296,6 +336,13 @@
 		to_chat(user, span_notice("You lower the ear flaps on the ushanka."))
 	earflaps = !earflaps
 
+/obj/item/clothing/head/costume/ushanka/polar
+	name = "bear hunter's ushanka"
+	desc = "Handcrafted in Siberia from real polar bears."
+	icon_state = "ushankadown_polar"
+	upsprite = "ushankaup_polar"
+	downsprite = "ushankadown_polar"
+
 /obj/item/clothing/head/costume/nightcap/blue
 	name = "blue nightcap"
 	desc = "A blue nightcap for all the dreamers and snoozers out there."
@@ -306,8 +353,17 @@
 	desc = "A red nightcap for all the sleepyheads and dozers out there."
 	icon_state = "sleep_red"
 
+<<<<<<< HEAD
 /obj/item/clothing/head/costume/straw_hat
 	name = "Straw Fukaamigasa"
 	desc = "Traditional wide-brimmed straw hat."
 	worn_icon = 'icons/mob/clothing/head/straw.dmi'
 	icon_state = "straw_hat"
+=======
+/obj/item/clothing/head/costume/paper_hat
+	name = "paper hat"
+	desc = "A flimsy hat made of paper."
+	icon_state = "paper"
+	worn_icon_state = "paper"
+	dog_fashion = /datum/dog_fashion/head
+>>>>>>> tg-pr-88929

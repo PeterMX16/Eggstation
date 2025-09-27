@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 ADMIN_VERB(view_all_circuits, R_ADMIN, FALSE, "View All Circuits", "List all circuits in the game.", ADMIN_CATEGORY_GAME)
+=======
+
+ADMIN_VERB(view_all_circuits, R_ADMIN, "View All Circuits", "List all circuits in the game.", ADMIN_CATEGORY_GAME)
+>>>>>>> tg-pr-88929
 	var/static/datum/circuit_admin_panel/circuit_admin_panel = new
 	circuit_admin_panel.ui_interact(user.mob)
 
@@ -62,11 +67,16 @@ ADMIN_VERB(view_all_circuits, R_ADMIN, FALSE, "View All Circuits", "List all cir
 			usr.client?.debug_variables(circuit)
 		if ("open_circuit")
 			circuit.ui_interact(usr)
+
 		if ("open_player_panel")
 			var/datum/mind/inserter = circuit.inserter_mind?.resolve()
+<<<<<<< HEAD
 			usr.client.VUAP_selected_mob = inserter?.current
 			usr.client.selectedPlayerCkey = inserter?.current?.ckey
 			SSadmin_verbs.dynamic_invoke_verb(usr, /datum/admin_verb/vuap_personal)
+=======
+			SSadmin_verbs.dynamic_invoke_verb(usr, /datum/admin_verb/show_player_panel, inserter?.current)
+>>>>>>> tg-pr-88929
 
 	return TRUE
 

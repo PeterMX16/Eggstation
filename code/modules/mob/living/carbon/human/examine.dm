@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /mob/living/carbon/human/examine(mob/user)
 //this is very slightly better than it was because you can use it more places. still can't do \his[src] though.
 	var/t_He = p_they(TRUE)
@@ -496,21 +497,14 @@
 	return examine_list.Join("\n")
 
 /mob/living/carbon/human/examine_more(mob/user)
+=======
+/// Collects information displayed about src when examined by a user with a medical HUD.
+/mob/living/carbon/human/get_medhud_examine_info(mob/living/user, datum/record/crew/target_record)
+>>>>>>> tg-pr-88929
 	. = ..()
-	if ((wear_mask && (wear_mask.flags_inv & HIDEFACE)) || (head && (head.flags_inv & HIDEFACE)))
-		return
-	var/age_text
-	switch(age)
-		if(-INFINITY to 25)
-			age_text = "very young"
-		if(26 to 35)
-			age_text = "of adult age"
-		if(36 to 55)
-			age_text = "middle-aged"
-		if(56 to 75)
-			age_text = "rather old"
-		if(76 to 100)
-			age_text = "very old"
-		if(101 to INFINITY)
-			age_text = "withering away"
-	. += list(span_notice("[p_they(TRUE)] appear[p_s()] to be [age_text]."))
+
+	if(istype(w_uniform, /obj/item/clothing/under))
+		var/obj/item/clothing/under/undershirt = w_uniform
+		var/sensor_text = undershirt.get_sensor_text()
+		if(sensor_text)
+			. += "Sensor Status: [sensor_text]"

@@ -7,7 +7,6 @@
 	lefthand_file = 'icons/mob/inhands/equipment/medical_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/medical_righthand.dmi'
 	icon_state = "hypo"
-	worn_icon_state = "hypo"
 	amount_per_transfer_from_this = 5
 	volume = 30
 	possible_transfer_amounts = list(5)
@@ -18,6 +17,11 @@
 	var/infinite = FALSE
 	/// If TRUE, won't play a noise when injecting.
 	var/stealthy = FALSE
+<<<<<<< HEAD
+=======
+	/// If TRUE, the hypospray will be permanently unusable.
+	var/used_up = FALSE
+>>>>>>> tg-pr-88929
 
 /obj/item/reagent_containers/hypospray/attack_paw(mob/user, list/modifiers)
 	return attack_hand(user, modifiers)
@@ -27,8 +31,8 @@
 
 ///Handles all injection checks, injection and logging.
 /obj/item/reagent_containers/hypospray/proc/inject(mob/living/affected_mob, mob/user)
-	if(!reagents.total_volume)
-		to_chat(user, span_warning("[src] is empty!"))
+	if(used_up)
+		to_chat(user, span_warning("[src] tip is broken and is now unusable!"))
 		return FALSE
 	if(!iscarbon(affected_mob))
 		return FALSE
@@ -40,7 +44,7 @@
 	var/contained = english_list(injected)
 	log_combat(user, affected_mob, "attempted to inject", src, "([contained])")
 
-	if(reagents.total_volume && (ignore_flags || affected_mob.try_inject(user, injection_flags = INJECT_TRY_SHOW_ERROR_MESSAGE))) // Ignore flag should be checked first or there will be an error message.
+	if(!used_up && (ignore_flags || affected_mob.try_inject(user, injection_flags = INJECT_TRY_SHOW_ERROR_MESSAGE))) // Ignore flag should be checked first or there will be an error message.
 		to_chat(affected_mob, span_warning("You feel a tiny prick!"))
 		to_chat(user, span_notice("You inject [affected_mob] with [src]."))
 		if(!stealthy)
@@ -51,7 +55,7 @@
 		if(affected_mob.reagents)
 			var/trans = 0
 			if(!infinite)
-				trans = reagents.trans_to(affected_mob, amount_per_transfer_from_this, transfered_by = user, methods = INJECT)
+				trans = reagents.trans_to(affected_mob, amount_per_transfer_from_this, transferred_by = user, methods = INJECT)
 			else
 				reagents.expose(affected_mob, INJECT, fraction)
 				trans = reagents.copy_to(affected_mob, amount_per_transfer_from_this)
@@ -157,9 +161,10 @@
 	lefthand_file = 'icons/mob/inhands/equipment/medical_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/medical_righthand.dmi'
 	amount_per_transfer_from_this = 15
+	has_variable_transfer_amount = FALSE
 	volume = 15
 	ignore_flags = 1 //so you can medipen through spacesuits
-	reagent_flags = DRAWABLE
+	reagent_flags = NONE
 	flags_1 = null
 	list_reagents = list(/datum/reagent/medicine/epinephrine = 10, /datum/reagent/toxin/formaldehyde = 3, /datum/reagent/medicine/coagulant = 2)
 	custom_price = PAYCHECK_CREW
@@ -173,8 +178,8 @@
 
 /obj/item/reagent_containers/hypospray/medipen/inject(mob/living/affected_mob, mob/user)
 	. = ..()
-	if(.)
-		reagents.maximum_volume = 0 //Makes them useless afterwards
+	if(. && !reagents.total_volume)
+		used_up = TRUE //Makes them useless afterwards
 		reagents.flags = NONE
 		update_appearance()
 
@@ -222,6 +227,13 @@
 	volume = 50
 	amount_per_transfer_from_this = 50
 	list_reagents = list(/datum/reagent/medicine/stimulants = 50)
+
+/obj/item/reagent_containers/hypospray/medipen/methamphetamine
+	name = "methamphetamine medipen"
+	volume = 24
+	amount_per_transfer_from_this = 24
+	desc = "Contains a relatively safe quantity of methamphetamine, along with mannitol to ensure that brain damage is kept at a minimum."
+	list_reagents = list(/datum/reagent/drug/methamphetamine = 10, /datum/reagent/medicine/mannitol = 14)
 
 /obj/item/reagent_containers/hypospray/medipen/morphine
 	name = "morphine medipen"
@@ -342,7 +354,6 @@
 	base_icon_state = "gorillapen"
 	volume = 5
 	ignore_flags = 0
-	reagent_flags = NONE
 	list_reagents = list(/datum/reagent/magillitis = 5)
 
 /obj/item/reagent_containers/hypospray/medipen/pumpup
@@ -390,6 +401,7 @@
 	inhand_icon_state = "atropen"
 	base_icon_state = "atropen"
 	list_reagents = list(/datum/reagent/medicine/c2/penthrite = 10)
+<<<<<<< HEAD
 
 /obj/item/reagent_containers/hypospray/medipen/temperature //not a survival subtype, because a low pressure seal on a medipen as harmless as this is pointless
 	name = "Temperature Stabilization Injector"
@@ -561,3 +573,5 @@
 	amount_per_transfer_from_this = 10
 	volume = 10
 	list_reagents = list(/datum/reagent/medicine/painkiller/robopiates = 7.5, /datum/reagent/dinitrogen_plasmide = 2.5)
+=======
+>>>>>>> tg-pr-88929

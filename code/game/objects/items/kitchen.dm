@@ -9,9 +9,10 @@
 #define PLASTIC_BREAK_PROBABILITY 25
 
 /obj/item/kitchen
-	icon = 'icons/obj/kitchen.dmi'
+	icon = 'icons/obj/service/kitchen.dmi'
 	lefthand_file = 'icons/mob/inhands/equipment/kitchen_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/kitchen_righthand.dmi'
+	worn_icon_state = "kitchen_tool"
 
 /obj/item/kitchen/Initialize(mapload)
 	. = ..()
@@ -21,16 +22,21 @@
 	name = "fork"
 	desc = "Pointy."
 	icon_state = "fork"
+	icon_angle = -90
 	force = 4
 	w_class = WEIGHT_CLASS_TINY
 	throwforce = 0
 	throw_speed = 3
 	throw_range = 5
 	custom_materials = list(/datum/material/iron = SMALL_MATERIAL_AMOUNT * 0.8)
+<<<<<<< HEAD
 	flags_1 = CONDUCT_1
+=======
+	obj_flags = CONDUCTS_ELECTRICITY
+>>>>>>> tg-pr-88929
 	attack_verb_continuous = list("attacks", "stabs", "pokes")
 	attack_verb_simple = list("attack", "stab", "poke")
-	hitsound = 'sound/weapons/bladeslice.ogg'
+	hitsound = 'sound/items/weapons/bladeslice.ogg'
 	armor_type = /datum/armor/kitchen_fork
 	sharpness = SHARP_POINTY
 	var/datum/reagent/forkload //used to eat omelette
@@ -102,26 +108,48 @@
 	. = ..()
 	AddElement(/datum/element/easily_fragmented, PLASTIC_BREAK_PROBABILITY)
 
+<<<<<<< HEAD
 //ported from https://github.com/tgstation/tgstation/pull/74938
 /obj/item/knife/kitchen/silicon
 	name = "Kitchen Toolset"
 	icon = 'monkestation/icons/obj/kitchen.dmi'
 	icon_state = "sili_knife"
+=======
+/obj/item/knife/kitchen/silicon
+	name = "Kitchen Toolset"
+	icon = 'icons/obj/items_cyborg.dmi'
+	icon_state = "sili_knife"
+	icon_angle = 0
+>>>>>>> tg-pr-88929
 	desc = "A breakthrough in synthetic engineering, this tool is a knife programmed to dull when not used for cooking purposes, and can exchange the blade for a rolling pin"
 	force = 0
 	throwforce = 0
 	sharpness = SHARP_EDGED
+<<<<<<< HEAD
 	hitsound = 'sound/weapons/bladeslice.ogg'
+=======
+	hitsound = 'sound/items/weapons/bladeslice.ogg'
+>>>>>>> tg-pr-88929
 	attack_verb_continuous = list("prods", "whiffs", "scratches", "pokes")
 	attack_verb_simple = list("prod", "whiff", "scratch", "poke")
 	tool_behaviour = TOOL_KNIFE
 
+<<<<<<< HEAD
+=======
+/obj/item/knife/kitchen/silicon/get_all_tool_behaviours()
+	return list(TOOL_ROLLINGPIN, TOOL_KNIFE)
+
+>>>>>>> tg-pr-88929
 /obj/item/knife/kitchen/silicon/examine()
 	. = ..()
 	. += " It's fitted with a [tool_behaviour] head."
 
 /obj/item/knife/kitchen/silicon/attack_self(mob/user)
+<<<<<<< HEAD
 	playsound(get_turf(user), 'sound/items/change_drill.ogg', 50, TRUE)
+=======
+	playsound(get_turf(user), 'sound/items/tools/change_drill.ogg', 50, TRUE)
+>>>>>>> tg-pr-88929
 	if(tool_behaviour != TOOL_ROLLINGPIN)
 		tool_behaviour = TOOL_ROLLINGPIN
 		to_chat(user, span_notice("You attach the rolling pin bit to the [src]."))
@@ -131,22 +159,32 @@
 		hitsound = SFX_SWING_HIT
 		attack_verb_continuous = list("bashes", "batters", "bludgeons", "thrashes", "whacks")
 		attack_verb_simple = list("bash", "batter", "bludgeon", "thrash", "whack")
+<<<<<<< HEAD
+=======
+
+>>>>>>> tg-pr-88929
 	else
 		tool_behaviour = TOOL_KNIFE
 		to_chat(user, span_notice("You attach the knife bit to the [src]."))
 		icon_state = "sili_knife"
 		force = 0
 		sharpness = SHARP_EDGED
+<<<<<<< HEAD
 		hitsound = 'sound/weapons/bladeslice.ogg'
+=======
+		hitsound = 'sound/items/weapons/bladeslice.ogg'
+>>>>>>> tg-pr-88929
 		attack_verb_continuous = list("prods", "whiffs", "scratches", "pokes")
 		attack_verb_simple = list("prod", "whiff", "scratch", "poke")
 
 /obj/item/kitchen/rollingpin
 	name = "rolling pin"
 	desc = "Used to knock out the Bartender."
+	icon = 'icons/obj/service/kitchen.dmi'
 	icon_state = "rolling_pin"
 	worn_icon_state = "rolling_pin"
 	inhand_icon_state = "rolling_pin"
+	icon_angle = -45
 	force = 8
 	throwforce = 5
 	throw_speed = 3
@@ -165,7 +203,11 @@
 	icon_state = "metal_rolling_pin"
 	inhand_icon_state = "metal_rolling_pin"
 	force = 12
+<<<<<<< HEAD
 	flags_1 = CONDUCT_1
+=======
+	obj_flags = CONDUCTS_ELECTRICITY
+>>>>>>> tg-pr-88929
 	custom_materials = list(/datum/material/iron = SHEET_MATERIAL_AMOUNT * 1.5, /datum/material/plastic = SHEET_MATERIAL_AMOUNT * 1.5)
 	custom_price = PAYCHECK_CREW * 2
 	bare_wound_bonus = 14
@@ -180,8 +222,9 @@
 	desc = "Just be careful your food doesn't melt the spoon first."
 	icon_state = "spoon"
 	base_icon_state = "spoon"
+	icon_angle = -90
 	w_class = WEIGHT_CLASS_TINY
-	flags_1 = CONDUCT_1
+	obj_flags = CONDUCTS_ELECTRICITY
 	force = 2
 	throw_speed = 3
 	throw_range = 5
@@ -230,6 +273,13 @@
 /obj/item/kitchen/spoon/attack(mob/living/target_mob, mob/living/user, params)
 	if(!target_mob.reagents || reagents.total_volume <= 0)
 		return  ..()
+
+	if(target_mob.is_mouth_covered(ITEM_SLOT_HEAD) || target_mob.is_mouth_covered(ITEM_SLOT_MASK))
+		if(target_mob == user)
+			target_mob.balloon_alert(user, "can't eat with mouth covered!")
+		else
+			target_mob.balloon_alert(user, "[target_mob.p_their()] mouth is covered!")
+		return TRUE
 
 	if(target_mob == user)
 		user.visible_message(
@@ -314,6 +364,7 @@
 	icon_state = "ladle"
 	base_icon_state = "ladle"
 	inhand_icon_state = "spoon"
+	icon_angle = 90
 	custom_price = PAYCHECK_LOWER * 4
 	spoon_sip_size = 3 // just a taste
 

@@ -14,17 +14,29 @@
 	response_disarm_simple = "gently push aside"
 	initial_language_holder = /datum/language_holder/spider
 	melee_attack_cooldown = CLICK_CD_MELEE
+<<<<<<< HEAD
 	damage_coeff = list(BRUTE = 1, BURN = 1.25, TOX = 1, CLONE = 1, STAMINA = 1, OXY = 1)
+=======
+	damage_coeff = list(BRUTE = 1, BURN = 1.25, TOX = 1, STAMINA = 1, OXY = 1)
+>>>>>>> tg-pr-88929
 	basic_mob_flags = FLAMMABLE_MOB
 	status_flags = NONE
 	unsuitable_cold_damage = 4
 	unsuitable_heat_damage = 4
+<<<<<<< HEAD
 	istate = ISTATE_HARM | ISTATE_BLOCKING
+=======
+	combat_mode = TRUE
+>>>>>>> tg-pr-88929
 	faction = list(FACTION_SPIDER)
 	pass_flags = PASSTABLE
 	attack_verb_continuous = "bites"
 	attack_verb_simple = "bite"
+<<<<<<< HEAD
 	attack_sound = 'sound/weapons/bite.ogg'
+=======
+	attack_sound = 'sound/items/weapons/bite.ogg'
+>>>>>>> tg-pr-88929
 	attack_vis_effect = ATTACK_EFFECT_BITE
 	unique_name = TRUE
 	lighting_cutoff_red = 22
@@ -36,6 +48,11 @@
 	var/poison_type = /datum/reagent/toxin/hunterspider
 	/// How much of a reagent the mob injects on attack
 	var/poison_per_bite = 0
+<<<<<<< HEAD
+=======
+	/// How tough is our bite?
+	var/bite_injection_flags = NONE
+>>>>>>> tg-pr-88929
 	/// Multiplier to apply to web laying speed. Fractional numbers make it faster, because it's a multiplier.
 	var/web_speed = 1
 	/// Type of webbing ability to learn.
@@ -47,15 +64,39 @@
 	/// If true then you shouldn't be told that you're a spider antagonist as soon as you are placed into this mob
 	var/apply_spider_antag = TRUE
 
+<<<<<<< HEAD
+=======
+/datum/emote/spider
+	mob_type_allowed_typecache = /mob/living/basic/spider
+	mob_type_blacklist_typecache = list()
+
+/datum/emote/spider/chitter
+	key = "chitter"
+	key_third_person = "chitters"
+	message = "chitters."
+	emote_type = EMOTE_VISIBLE | EMOTE_AUDIBLE
+	vary = TRUE
+	sound = 'sound/mobs/non-humanoids/insect/chitter.ogg'
+
+>>>>>>> tg-pr-88929
 /mob/living/basic/spider/Initialize(mapload)
 	. = ..()
 	add_traits(list(TRAIT_WEB_SURFER, TRAIT_FENCE_CLIMBER), INNATE_TRAIT)
 	AddElement(/datum/element/footstep, FOOTSTEP_MOB_CLAW)
 	AddElement(/datum/element/nerfed_pulling, GLOB.typecache_general_bad_things_to_easily_move)
 	AddElement(/datum/element/prevent_attacking_of_types, GLOB.typecache_general_bad_hostile_attack_targets, "this tastes awful!")
+<<<<<<< HEAD
 
 	if(poison_per_bite)
 		AddElement(/datum/element/venomous, poison_type, poison_per_bite)
+=======
+	AddElement(/datum/element/cliff_walking)
+	AddComponent(/datum/component/health_scaling_effects, min_health_slowdown = 1.5)
+	AddElement(/datum/element/basic_allergenic_attack, allergen = BUGS, allergen_chance = 20, histamine_add = 5)
+
+	if(poison_per_bite)
+		AddElement(/datum/element/venomous, poison_type, poison_per_bite, injection_flags = bite_injection_flags)
+>>>>>>> tg-pr-88929
 
 	var/datum/action/cooldown/mob_cooldown/lay_web/webbing = new web_type(src)
 	webbing.webbing_time *= web_speed
@@ -87,11 +128,14 @@
 	for(var/datum/reagent/toxin/pestkiller/current_reagent in reagents)
 		apply_damage(50 * volume_modifier, STAMINA, BODY_ZONE_CHEST)
 
+<<<<<<< HEAD
 /mob/living/basic/spider/get_status_tab_items()
 	. = ..()
 	if(directive)
 		. += "Directive: [html_decode(directive)]"
 
+=======
+>>>>>>> tg-pr-88929
 /// Spider which turns into another spider over time
 /mob/living/basic/spider/growing
 	/// The mob type we will grow into.
@@ -172,10 +216,24 @@
 	response_harm_simple = "splat"
 	ai_controller = /datum/ai_controller/basic_controller/giant_spider/pest
 	apply_spider_antag = FALSE
+<<<<<<< HEAD
+=======
+	///list of pet commands we follow
+	var/static/list/pet_commands = list(
+		/datum/pet_command/idle,
+		/datum/pet_command/free,
+		/datum/pet_command/follow,
+		/datum/pet_command/perform_trick_sequence,
+	)
+>>>>>>> tg-pr-88929
 
 /mob/living/basic/spider/maintenance/Initialize(mapload)
 	. = ..()
 	ADD_TRAIT(src, TRAIT_VENTCRAWLER_ALWAYS, INNATE_TRAIT)
 	AddElement(/datum/element/web_walker, /datum/movespeed_modifier/average_web)
 	AddElement(/datum/element/ai_retaliate)
+<<<<<<< HEAD
+=======
+	AddComponent(/datum/component/obeys_commands, pet_commands)
+>>>>>>> tg-pr-88929
 	AddElement(/datum/element/tiny_mob_hunter)

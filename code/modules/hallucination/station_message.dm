@@ -9,9 +9,14 @@
 /datum/hallucination/station_message/blob_alert
 
 /datum/hallucination/station_message/blob_alert/start()
+<<<<<<< HEAD
 	to_chat(hallucinator, span_priorityannounce("Biohazard Alert"))
 	to_chat(hallucinator, span_priorityalert("Confirmed outbreak of level 5 biohazard aboard [station_name()]. All personnel must contain the outbreak."))
 	SEND_SOUND(hallucinator, sound(SSstation.announcer.event_sounds[ANNOUNCER_OUTBREAK5]))
+=======
+	priority_announce("Confirmed outbreak of level 5 biohazard aboard [station_name()]. All personnel must contain the outbreak.", \
+		"Biohazard Alert", ANNOUNCER_OUTBREAK5, players = list(hallucinator))
+>>>>>>> tg-pr-88929
 	return ..()
 
 /datum/hallucination/station_message/shuttle_dock
@@ -33,20 +38,48 @@
 	if(!(locate(/mob/living/silicon/ai) in GLOB.silicon_mobs))
 		return FALSE
 
+<<<<<<< HEAD
 	to_chat(hallucinator, span_priorityannounce("Anomaly Alert"))
 	to_chat(hallucinator, span_priorityalert("Hostile runtimes detected in all station systems, please deactivate your AI to prevent possible damage to its morality core."))
 	SEND_SOUND(hallucinator, sound(SSstation.announcer.event_sounds[ANNOUNCER_AIMALF]))
+=======
+	priority_announce("Hostile runtimes detected in all station systems, please deactivate your AI to prevent possible damage to its morality core.", \
+		"Anomaly Alert", ANNOUNCER_AIMALF, players = list(hallucinator))
+>>>>>>> tg-pr-88929
 	return ..()
 
 /datum/hallucination/station_message/heretic
 	/// This is gross and will probably easily be outdated in some time but c'est la vie.
 	/// Maybe if someone datumizes heretic paths or something this can be improved
 	var/static/list/ascension_bodies = list(
+<<<<<<< HEAD
 		list("Fear the blaze, for the Ashlord, %FAKENAME% has ascended! The flames shall consume all!", 'sound/ambience/antag/heretic/ascend_ash.ogg'),
 		list("Master of blades, the Torn Champion's disciple, %FAKENAME% has ascended! Their steel is that which will cut reality in a maelstom of silver!", 'sound/ambience/antag/heretic/ascend_blade.ogg'),
 		list("Ever coiling vortex. Reality unfolded. ARMS OUTREACHED, THE LORD OF THE NIGHT, %FAKENAME% has ascended! Fear the ever twisting hand!", 'sound/ambience/antag/heretic/ascend_flesh.ogg'),
 		list("Fear the decay, for the Rustbringer, %FAKENAME% has ascended! None shall escape the corrosion!", 'sound/ambience/antag/heretic/ascend_rust.ogg'),
 		list("The nobleman of void %FAKENAME% has arrived, stepping along the Waltz that ends worlds!", 'sound/ambience/antag/heretic/ascend_void.ogg')
+=======
+		list(
+			"text" = "Fear the blaze, for the Ashlord, %FAKENAME% has ascended! The flames shall consume all!",
+			"sound" = 'sound/music/antag/heretic/ascend_blade.ogg',
+		),
+		list(
+			"text" = "Master of blades, the Torn Champion's disciple, %FAKENAME% has ascended! Their steel is that which will cut reality in a maelstom of silver!",
+			"sound" = 'sound/music/antag/heretic/ascend_blade.ogg',
+		),
+		list(
+			"text" = "Ever coiling vortex. Reality unfolded. ARMS OUTREACHED, THE LORD OF THE NIGHT, %FAKENAME% has ascended! Fear the ever twisting hand!",
+			"sound" = 'sound/music/antag/heretic/ascend_flesh.ogg',
+		),
+		list(
+			"text" = "Fear the decay, for the Rustbringer, %FAKENAME% has ascended! None shall escape the corrosion!",
+			"sound" = 'sound/music/antag/heretic/ascend_rust.ogg',
+		),
+		list(
+			"text" = "The nobleman of void %FAKENAME% has arrived, stepping along the Waltz that ends worlds!",
+			"sound" = 'sound/music/antag/heretic/ascend_void.ogg',
+		)
+>>>>>>> tg-pr-88929
 	)
 
 /datum/hallucination/station_message/heretic/start()
@@ -56,11 +89,19 @@
 		return FALSE
 
 	var/list/fake_ascension = pick(ascension_bodies)
+<<<<<<< HEAD
 	var/message_with_name = replacetext(fake_ascension[1], "%FAKENAME%", totally_real_heretic.real_name)
 	priority_announce(
 		text = "[generate_heretic_text()] [message_with_name] [generate_heretic_text()]",
 		title = "[generate_heretic_text()]",
 		sound = fake_ascension[2],
+=======
+	var/announcement_text = replacetext(fake_ascension["text"], "%FAKENAME%", totally_real_heretic.real_name)
+	priority_announce(
+		text = "[generate_heretic_text()] [announcement_text] [generate_heretic_text()]",
+		title = "[generate_heretic_text()]",
+		sound = fake_ascension["sound"],
+>>>>>>> tg-pr-88929
 		players = list(hallucinator),
 		color_override = "pink",
 	)
@@ -82,7 +123,11 @@
 	priority_announce(
 		text = "Figments from an eldritch god are being summoned by [totally_real_cult_leader.real_name] into [fake_summon_area] from an unknown dimension. Disrupt the ritual at all costs!",
 		title = "[command_name()] Higher Dimensional Affairs",
+<<<<<<< HEAD
 		sound = 'sound/ambience/antag/bloodcult/bloodcult_scribe.ogg',
+=======
+		sound = 'sound/music/antag/bloodcult/bloodcult_scribe.ogg',
+>>>>>>> tg-pr-88929
 		has_important_message = TRUE,
 		players = list(hallucinator),
 	)
@@ -92,16 +137,20 @@
 	random_hallucination_weight = 2
 
 /datum/hallucination/station_message/meteors/start()
+<<<<<<< HEAD
 	to_chat(hallucinator, span_priorityannounce("Meteor Alert"))
 	to_chat(hallucinator, span_priorityalert("Meteors have been detected on collision course with the station."))
 	SEND_SOUND(hallucinator, sound(SSstation.announcer.event_sounds[ANNOUNCER_METEORS]))
+=======
+	priority_announce("Meteors have been detected on collision course with the station.", "Meteor Alert", ANNOUNCER_METEORS, players = list(hallucinator))
+>>>>>>> tg-pr-88929
 	return ..()
 
 /datum/hallucination/station_message/supermatter_delam
 
 /datum/hallucination/station_message/supermatter_delam/start()
-	SEND_SOUND(hallucinator, 'sound/magic/charge.ogg')
-	to_chat(hallucinator, span_boldannounce("You feel reality distort for a moment..."))
+	SEND_SOUND(hallucinator, 'sound/effects/magic/charge.ogg')
+	to_chat(hallucinator, span_bolddanger("You feel reality distort for a moment..."))
 	return ..()
 
 /datum/hallucination/station_message/clock_cult_ark
@@ -118,5 +167,5 @@
 	if(QDELETED(src))
 		return
 
-	hallucinator.playsound_local(get_turf(hallucinator), 'sound/effects/explosion_distant.ogg', 50, FALSE, pressure_affected = FALSE)
+	hallucinator.playsound_local(get_turf(hallucinator), 'sound/effects/explosion/explosion_distant.ogg', 50, FALSE, pressure_affected = FALSE)
 	qdel(src)

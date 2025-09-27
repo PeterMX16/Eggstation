@@ -9,7 +9,10 @@
 	density = FALSE
 	layer = ABOVE_WINDOW_LAYER
 	custom_materials = list(/datum/material/iron = SHEET_MATERIAL_AMOUNT * 7, /datum/material/glass = SHEET_MATERIAL_AMOUNT * 4)
+<<<<<<< HEAD
 	subsystem_type = /datum/controller/subsystem/processing/digital_clock
+=======
+>>>>>>> tg-pr-88929
 
 /obj/item/wallframe/digital_clock
 	name = "digital clock frame"
@@ -31,7 +34,11 @@
 		return TRUE
 
 /obj/machinery/digital_clock/welder_act(mob/living/user, obj/item/tool)
+<<<<<<< HEAD
 	if(user.istate & ISTATE_HARM)
+=======
+	if(user.combat_mode)
+>>>>>>> tg-pr-88929
 		return
 	if(atom_integrity >= max_integrity)
 		balloon_alert(user, "it doesn't need repairs!")
@@ -46,7 +53,11 @@
 	return TRUE
 
 /obj/machinery/digital_clock/multitool_act(mob/living/user, obj/item/tool)
+<<<<<<< HEAD
 	if(user.istate & ISTATE_HARM)
+=======
+	if(user.combat_mode)
+>>>>>>> tg-pr-88929
 		return
 	if(!(obj_flags & EMAGGED))
 		return
@@ -58,27 +69,53 @@
 		obj_flags &= ~EMAGGED
 		return TRUE
 
+<<<<<<< HEAD
 /obj/machinery/digital_clock/emag_act(mob/user)
 	if(obj_flags & EMAGGED)
 		return
 	playsound(src, SFX_SPARKS, 100, vary = TRUE, extrarange = SHORT_RANGE_SOUND_EXTRARANGE)
 	do_sparks(3, cardinal_only = FALSE, source = src)
 	obj_flags |= EMAGGED
+=======
+/obj/machinery/digital_clock/emag_act(mob/user, obj/item/card/emag/emag_card)
+	if(obj_flags & EMAGGED)
+		return FALSE
+	playsound(src, SFX_SPARKS, 100, vary = TRUE, extrarange = SHORT_RANGE_SOUND_EXTRARANGE)
+	do_sparks(3, cardinal_only = FALSE, source = src)
+	obj_flags |= EMAGGED
+	return TRUE
+>>>>>>> tg-pr-88929
 
 /obj/machinery/digital_clock/emp_act(severity)
 	. = ..()
 	emag_act()
 
+<<<<<<< HEAD
 /obj/machinery/digital_clock/deconstruct(disassembled = TRUE)
 	if(flags_1 & NODECONSTRUCT_1)
 		return
+=======
+/obj/machinery/digital_clock/on_deconstruction(disassembled)
+>>>>>>> tg-pr-88929
 	if(disassembled)
 		new /obj/item/wallframe/digital_clock(drop_location())
 	else
 		new /obj/item/stack/sheet/iron(drop_location(), 2)
 		new /obj/item/shard(drop_location())
 		new /obj/item/shard(drop_location())
+<<<<<<< HEAD
 	qdel(src)
+=======
+
+/obj/machinery/digital_clock/Initialize(mapload)
+	. = ..()
+	START_PROCESSING(SSdigital_clock, src)
+	find_and_hang_on_wall()
+
+/obj/machinery/digital_clock/Destroy()
+	STOP_PROCESSING(SSdigital_clock, src)
+	return ..()
+>>>>>>> tg-pr-88929
 
 /obj/machinery/digital_clock/process(seconds_per_tick)
 	if(machine_stat & NOPOWER)
@@ -91,7 +128,11 @@
 	if(machine_stat & (NOPOWER|BROKEN))
 		set_light(0)
 		return
+<<<<<<< HEAD
 	set_light(l_outer_range = 1.5, l_power = 0.7, l_color = LIGHT_COLOR_BLUE) // blue light
+=======
+	set_light(l_range = 1.5, l_power = 0.7, l_color = LIGHT_COLOR_BLUE) // blue light
+>>>>>>> tg-pr-88929
 
 /obj/machinery/digital_clock/update_overlays()
 	. = ..()

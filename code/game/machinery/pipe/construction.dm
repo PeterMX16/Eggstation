@@ -14,7 +14,7 @@ Buildable meters
 	var/pipename
 	force = 7
 	throwforce = 7
-	icon = 'icons/obj/atmospherics/pipes/pipe_item.dmi'
+	icon = 'icons/obj/pipes_n_cables/pipe_item.dmi'
 	icon_state = "simple"
 	icon_state_preview = "manifold4w"
 	inhand_icon_state = "buildpipe"
@@ -120,6 +120,17 @@ Buildable meters
 
 	//Flipping handled manually due to custom handling for trinary pipes
 	AddComponent(/datum/component/simple_rotation, ROTATION_NO_FLIPPING)
+
+	// Only 'normal' pipes
+	if(type != /obj/item/pipe/quaternary)
+		return ..()
+	var/static/list/slapcraft_recipe_list = list(/datum/crafting_recipe/ghettojetpack, /datum/crafting_recipe/pipegun, /datum/crafting_recipe/smoothbore_disabler, /datum/crafting_recipe/improvised_pneumatic_cannon)
+
+	AddElement(
+		/datum/element/slapcrafting,\
+		slapcraft_recipes = slapcraft_recipe_list,\
+	)
+
 	return ..()
 
 /obj/item/pipe/proc/make_from_existing(obj/machinery/atmospherics/make_from)
@@ -164,13 +175,13 @@ Buildable meters
 	set name = "Invert Pipe"
 	set src in view(1)
 
-	if ( usr.incapacitated() )
+	if ( usr.incapacitated )
 		return
 
 	do_a_flip()
 
 /obj/item/pipe/proc/do_a_flip()
-	setDir(turn(dir, -180))
+	setDir(REVERSE_DIR(dir))
 
 /obj/item/pipe/trinary/flippable/do_a_flip()
 	setDir(turn(dir, flipped ? 45 : -45))
@@ -368,7 +379,7 @@ Buildable meters
 	if(iscarbon(user))
 		var/mob/living/carbon/C = user
 		for(var/i in 1 to 20)
-			C.vomit(0, TRUE, FALSE, 4, FALSE)
+			C.vomit(vomit_flags = (MOB_VOMIT_BLOOD | MOB_VOMIT_HARM), lost_nutrition = 0, distance = 4)
 			if(prob(20))
 				C.spew_organ()
 			sleep(0.5 SECONDS)
@@ -389,8 +400,6 @@ Buildable meters
 	balloon_alert(user, "pipe layer set to [piping_layer]")
 	return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
-/obj/item/pipe/AltClick(mob/user)
-	return ..() // This hotkey is BLACKLISTED since it's used by /datum/component/simple_rotation
 
 /obj/item/pipe/trinary/flippable/examine(mob/user)
 	. = ..()
@@ -407,7 +416,7 @@ Buildable meters
 /obj/item/pipe_meter
 	name = "meter"
 	desc = "A meter that can be wrenched on pipes, or attached to the floor with screws."
-	icon = 'icons/obj/atmospherics/pipes/pipe_item.dmi'
+	icon = 'icons/obj/pipes_n_cables/pipe_item.dmi'
 	icon_state = "meter"
 	inhand_icon_state = "buildpipe"
 	w_class = WEIGHT_CLASS_BULKY

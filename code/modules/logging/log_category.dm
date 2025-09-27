@@ -10,6 +10,13 @@
 	/// The master category that contains this category
 	var/datum/log_category/master_category
 
+<<<<<<< HEAD
+=======
+	/// Flags to apply to our /datum/log_entry's
+	/// See code/__DEFINES/logging/dm
+	var/entry_flags = NONE
+
+>>>>>>> tg-pr-88929
 	/// If set this config flag is checked to enable this log category
 	var/config_flag
 
@@ -20,7 +27,12 @@
 	var/list/category_header
 
 	/// Whether the readable version of the log message is formatted internally instead of by rustg
+<<<<<<< HEAD
 	var/internal_formatting = TRUE
+=======
+	/// IF YOU CHANGE THIS VERIFY LOGS ARE STILL PARSED CORRECTLY
+	var/internal_formatting = FALSE
+>>>>>>> tg-pr-88929
 
 	/// List of log entries for this category
 	var/list/entries = list()
@@ -31,15 +43,25 @@
 GENERAL_PROTECT_DATUM(/datum/log_category)
 
 /// Add an entry to this category. It is very important that any data you provide doesn't hold references to anything!
+<<<<<<< HEAD
 /datum/log_category/proc/create_entry(message, list/data, list/semver_store, severity)
+=======
+/datum/log_category/proc/create_entry(message, list/data, list/semver_store)
+>>>>>>> tg-pr-88929
 	var/datum/log_entry/entry = new(
 		// world state contains raw timestamp
 		timestamp = logger.human_readable_timestamp(),
 		category = category,
 		message = message,
+<<<<<<< HEAD
 		data = data,
 		semver_store = semver_store,
 		severity = severity
+=======
+		flags = entry_flags,
+		data = data,
+		semver_store = semver_store,
+>>>>>>> tg-pr-88929
 	)
 
 	write_entry(entry)

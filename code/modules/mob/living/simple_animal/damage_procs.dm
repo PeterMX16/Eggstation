@@ -9,7 +9,10 @@
 /mob/living/simple_animal/proc/adjustHealth(amount, updating_health = TRUE, forced = FALSE)
 	. = FALSE
 	if(forced || !HAS_TRAIT(src, TRAIT_GODMODE))
+<<<<<<< HEAD
 		var/old_loss = bruteloss
+=======
+>>>>>>> tg-pr-88929
 		bruteloss = round(clamp(bruteloss + amount, 0, maxHealth * 2), DAMAGE_PRECISION)
 		if(updating_health)
 			updatehealth()
@@ -57,6 +60,7 @@
 	else if(damage_coeff[TOX])
 		. = adjustHealth(amount * damage_coeff[TOX] * CONFIG_GET(number/damage_multiplier), updating_health, forced)
 
+<<<<<<< HEAD
 /mob/living/simple_animal/adjustCloneLoss(amount, updating_health = TRUE, forced = FALSE, required_biotype)
 	if(!can_adjust_clone_loss(amount, forced, required_biotype))
 		return 0
@@ -67,3 +71,17 @@
 
 /mob/living/simple_animal/pre_stamina_change(diff as num, forced)
 	return diff * damage_coeff[STAMINA]
+=======
+/mob/living/simple_animal/adjustStaminaLoss(amount, updating_stamina = TRUE, forced = FALSE, required_biotype)
+	if(!can_adjust_stamina_loss(amount, forced, required_biotype))
+		return 0
+	if(forced)
+		staminaloss = max(0, min(max_staminaloss, staminaloss + amount))
+	else
+		staminaloss = max(0, min(max_staminaloss, staminaloss + (amount * damage_coeff[STAMINA])))
+	if(updating_stamina)
+		update_stamina()
+
+/mob/living/simple_animal/received_stamina_damage(current_level, amount_actual, amount)
+	return
+>>>>>>> tg-pr-88929

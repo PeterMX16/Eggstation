@@ -9,7 +9,6 @@
 /mob
 	density = TRUE
 	layer = MOB_LAYER
-	plane = GAME_PLANE_FOV_HIDDEN
 	animate_movement = SLIDE_STEPS
 	hud_possible = list(ANTAG_HUD)
 	pressure_resistance = 8
@@ -61,14 +60,28 @@
 	var/cached_multiplicative_actions_slowdown
 	/// List of action hud items the user has
 	var/list/datum/action/actions
-	/// A list of chameleon actions we have specifically
-	/// This can be unified with the actions list
-	var/list/datum/action/item_action/chameleon/chameleon_item_actions
 	///Cursor icon used when holding shift over things
 	var/examine_cursor_icon = 'icons/effects/mouse_pointers/examine_pointer.dmi'
 
+	/// Mob bitflags
+	var/mob_flags = NONE
+
 	/// Whether a mob is alive or dead. TODO: Move this to living - Nodrak (2019, still here)
 	var/stat = CONSCIOUS
+
+	/**
+	 * Whether and how a mob is incapacitated
+	 *
+	 * Normally being restrained, agressively grabbed, or in stasis counts as incapacitated
+	 * unless there is a flag being used to check if it's ignored
+	 *
+	 * * bitflags: (see code/__DEFINES/status_effects.dm)
+	 * * INCAPABLE_RESTRAINTS - if our mob is in a restraint (handcuffs)
+	 * * INCAPABLE_STASIS - if our mob is in stasis (stasis bed, etc.)
+	 * * INCAPABLE_GRAB - if our mob is being agressively grabbed
+	 *
+	**/
+	VAR_FINAL/incapacitated = NONE
 
 	/* A bunch of this stuff really needs to go under their own defines instead of being globally attached to mob.
 	A variable should only be globally attached to turfs/objects/whatever, when it is in fact needed as such.
@@ -83,23 +96,12 @@
 	var/computer_id = null
 	var/list/logging = list()
 
-	/// The machine the mob is interacting with (this is very bad old code btw)
-	var/obj/machinery/machine = null
-
 	/// Tick time the mob can next move
 	var/next_move = null
 
 	/// What is the mobs real name (name is overridden for disguises etc)
 	var/real_name = null
 
-	/**
-	  * back up of the real name during admin possession
-	  *
-	  * If an admin possesses an object it's real name is set to the admin name and this
-	  * stores whatever the real name was previously. When possession ends, the real name
-	  * is reset to this value
-	  */
-	var/name_archive //For admin things like possession
 
 	/// Hunger level of the mob
 	var/nutrition = NUTRITION_LEVEL_START_MIN // randomised in Initialize
@@ -108,9 +110,6 @@
 
 	/// How many ticks this mob has been over reating
 	var/overeatduration = 0 // How long this guy is overeating //Carbon
-
-	/// The movement intent of the mob (run/wal)
-	var/m_intent = MOVE_INTENT_RUN//Living
 
 	/// The last known IP of the client who was in this mob
 	var/lastKnownIP = null
@@ -147,6 +146,7 @@
 	/// What job does this mob have
 	var/job = null//Living
 
+<<<<<<< HEAD
 	/// Can this mob enter shuttles
 	var/move_on_shuttle = 1
 
@@ -159,6 +159,11 @@
 	///Used by admins to possess objects. All mobs should have this var
 	var/obj/control_object
 
+=======
+	/// bitflags defining which status effects can be inflicted (replaces canknockdown, canstun, etc)
+	var/status_flags = CANSTUN|CANKNOCKDOWN|CANUNCONSCIOUS|CANPUSH
+
+>>>>>>> tg-pr-88929
 	///Calls relay_move() to whatever this is set to when the mob tries to move
 	var/atom/movable/remote_control
 

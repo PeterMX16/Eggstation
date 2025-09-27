@@ -398,3 +398,19 @@ ul.sparse {
 .highlighter:hover {
   background-color: #f0c400 !important;
 }
+
+.code {
+	padding: 6px 8px;
+	border: 1px solid #161616;
+	background: #383838;
+	color: #FFFFFF;
+	font-size: 12px;
+	display: block;
+	margin: 4px 0;
+	font-family: 'Courier New', Courier, monospace;
+}
+
+.user-select {
+	user-select: all;
+}
+

@@ -1,6 +1,17 @@
-import { clamp } from 'common/math';
-import { BooleanLike } from 'common/react';
+import {
+  Blink,
+  Box,
+  Button,
+  Dimmer,
+  Icon,
+  Section,
+  Stack,
+} from 'tgui-core/components';
+import { clamp } from 'tgui-core/math';
+import { BooleanLike } from 'tgui-core/react';
+
 import { useBackend } from '../backend';
+<<<<<<< HEAD
 import {
   Box,
   Blink,
@@ -10,6 +21,8 @@ import {
   Section,
   Stack,
 } from '../components';
+=======
+>>>>>>> tg-pr-88929
 import { Window } from '../layouts';
 
 type FloorData = {
@@ -78,10 +91,8 @@ export const ElevatorPanel = (props) => {
                 {all_floor_data.map((floor, index) => (
                   <Stack.Item key={index}>
                     <Button
-                      style={{
-                        'font-weight': 'bold',
-                        'font-size': '14px',
-                      }}
+                      fontWeight="bold"
+                      fontSize="14px"
                       fluid
                       ellipsis
                       textAlign="left"
@@ -194,9 +205,15 @@ const FloorPanel = (props) => {
         <Box
           textColor="white"
           style={{
+<<<<<<< HEAD
             'font-family': 'Monospace',
             'font-size': '50px',
             'font-weight': 'bold',
+=======
+            fontFamily: 'Monospace',
+            fontSize: '50px',
+            fontWeight: 'bold',
+>>>>>>> tg-pr-88929
           }}
         >
           {current_floor - 1}

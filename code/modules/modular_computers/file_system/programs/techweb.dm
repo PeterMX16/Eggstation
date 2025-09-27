@@ -21,18 +21,21 @@
 	/// Sequence var for the id cache
 	var/id_cache_seq = 1
 
-/datum/computer_file/program/science/on_start(mob/living/user)
+/datum/computer_file/program/science/on_install(datum/computer_file/source, obj/item/modular_computer/computer_installing)
 	. = ..()
 	if(!CONFIG_GET(flag/no_default_techweb_link) && !stored_research)
-		stored_research = SSresearch.science_tech
+		CONNECT_TO_RND_SERVER_ROUNDSTART(stored_research, computer)
 
-/datum/computer_file/program/science/application_attackby(obj/item/attacking_item, mob/living/user)
-	if(!istype(attacking_item, /obj/item/multitool))
-		return FALSE
-	var/obj/item/multitool/attacking_tool = attacking_item
-	if(!QDELETED(attacking_tool.buffer) && istype(attacking_tool.buffer, /datum/techweb))
-		stored_research = attacking_tool.buffer
-	return TRUE
+/datum/computer_file/program/science/application_item_interaction(mob/living/user, obj/item/tool, list/modifiers)
+	if(istype(tool, /obj/item/multitool))
+		return multitool_act(user, tool)
+
+/datum/computer_file/program/science/proc/multitool_act(mob/living/user, obj/item/multitool/used_multitool)
+	if(QDELETED(used_multitool.buffer) || !istype(used_multitool.buffer, /datum/techweb))
+		return ITEM_INTERACT_BLOCKING
+	stored_research = used_multitool.buffer
+	computer.balloon_alert(user, "buffer linked!")
+	return ITEM_INTERACT_SUCCESS
 
 /datum/computer_file/program/science/ui_assets(mob/user)
 	return list(
@@ -96,7 +99,12 @@
 		)
 	return data
 
+<<<<<<< HEAD
 /datum/computer_file/program/science/ui_act(action, list/params)
+=======
+/datum/computer_file/program/science/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
+	. = ..()
+>>>>>>> tg-pr-88929
 	// Check if the console is locked to block any actions occuring
 	if (locked && action != "toggleLock")
 		computer.say("Console is locked, cannot perform further actions.")
@@ -223,12 +231,12 @@
 	var/list/price = tech_node.get_price(stored_research)
 	if(stored_research.can_afford(price))
 		user.investigate_log("researched [id]([json_encode(price)]) on techweb id [stored_research.id] via [computer].", INVESTIGATE_RESEARCH)
-		if(stored_research == SSresearch.science_tech)
-			SSblackbox.record_feedback("associative", "science_techweb_unlock", 1, list("id" = "[id]", "name" = tech_node.display_name, "price" = "[json_encode(price)]", "time" = SQLtime()))
+		if(istype(stored_research, /datum/techweb/science))
+			SSblackbox.record_feedback("associative", "science_techweb_unlock", 1, list("id" = "[id]", "name" = tech_node.display_name, "price" = "[json_encode(price)]", "time" = ISOtime()))
 		if(stored_research.research_node_id(id))
 			computer.say("Successfully researched [tech_node.display_name].")
 			var/logname = "Unknown"
-			if(isAI(user))
+			if(HAS_AI_ACCESS(user))
 				logname = "AI [user.name]"
 			if(iscyborg(user))
 				logname = "CYBORG [user.name]"
@@ -245,7 +253,7 @@
 						logname = "[id_card_of_human_user.registered_name]"
 			stored_research.research_logs += list(list(
 				"node_name" = tech_node.display_name,
-				"node_cost" = price["General Research"],
+				"node_cost" = price[TECHWEB_POINT_TYPE_GENERIC],
 				"node_researcher" = logname,
 				"node_research_location" = "[get_area(computer)] ([user.x],[user.y],[user.z])",
 			))

@@ -84,7 +84,6 @@
 			CRASH("limbs is empty and the chest is blacklisted. this may not be intended!")
 	return (((chest_blacklisted && !base_zone) || even_weights) ? pick_weight(limbs) : ran_zone(base_zone, base_probability, limbs))
 
-
 ///Would this zone be above the neck
 /proc/above_neck(zone)
 	var/list/zones = list(BODY_ZONE_HEAD, BODY_ZONE_PRECISE_MOUTH, BODY_ZONE_PRECISE_EYES)
@@ -114,6 +113,27 @@
 			. += char
 		else
 			. += "*"
+	return sanitize(.)
+
+/**
+ * For when you're only able to speak a limited amount of words
+ * phrase - the string to convert
+ * definitive_limit - the amount of words to limit the phrase to, optional
+*/
+/proc/stifled(phrase, definitive_limit = null)
+	phrase = html_decode(phrase)
+	var/num_words = 0
+	var/words = splittext(phrase, " ")
+	if(definitive_limit > 0) // in case someone passes a negative
+		num_words = min(definitive_limit, length(words))
+	else
+		num_words = min(rand(3, 5), length(words))
+	. = ""
+	for(var/i = 1, i <= num_words, i++)
+		if(num_words == i)
+			. += words[i] + "..."
+		else
+			. += words[i] + " ... "
 	return sanitize(.)
 
 /**
@@ -147,19 +167,27 @@
 	var/client/C = M.client
 	var/oldx = C.pixel_x
 	var/oldy = C.pixel_y
-	var/max = strength*world.icon_size
-	var/min = -(strength*world.icon_size)
+	var/max_x = strength*ICON_SIZE_X
+	var/max_y = strength*ICON_SIZE_Y
+	var/min_x = -(strength*ICON_SIZE_X)
+	var/min_y = -(strength*ICON_SIZE_Y)
+
+	if(C.prefs?.read_preference(/datum/preference/toggle/screen_shake_darken))
+		var/type = /atom/movable/screen/fullscreen/flash/black
+
+		M.overlay_fullscreen("flash", type)
+		addtimer(CALLBACK(M, TYPE_PROC_REF(/mob, clear_fullscreen), "flash", 3 SECONDS), 3 SECONDS)
 
 	//How much time to allot for each pixel moved
-	var/time_scalar = (1 / world.icon_size) * TILES_PER_SECOND
+	var/time_scalar = (1 / ICON_SIZE_ALL) * TILES_PER_SECOND
 	var/last_x = oldx
 	var/last_y = oldy
 
 	var/time_spent = 0
 	while(time_spent < duration)
 		//Get a random pos in our box
-		var/x_pos = rand(min, max) + oldx
-		var/y_pos = rand(min, max) + oldy
+		var/x_pos = rand(min_x, max_x) + oldx
+		var/y_pos = rand(min_y, max_y) + oldy
 
 		//We take the smaller of our two distances so things still have the propencity to feel somewhat jerky
 		var/time = round(max(min(abs(last_x - x_pos), abs(last_y - y_pos)) * time_scalar, 1))
@@ -209,7 +237,11 @@
 // moved out of admins.dm because things other than admin procs were calling this.
 /**
  * Returns TRUE if the game has started and we're either an AI with a 0th law, or we're someone with a special role/antag datum
+<<<<<<< HEAD
  * If allow_fake_antags is set to FALSE, Valentines, ERTs, and any such roles with ANTAG_FAKE won't pass.
+=======
+ * If allow_fake_antags is set to FALSE, Valentines, ERTs, and any such roles with FLAG_FAKE_ANTAG won't pass.
+>>>>>>> tg-pr-88929
 */
 /proc/is_special_character(mob/M, allow_fake_antags = FALSE)
 	if(!SSticker.HasRoundStarted())
@@ -227,6 +259,7 @@
 
 	if(M.mind?.special_role)
 		return TRUE
+<<<<<<< HEAD
 
 	// Turns 'faker' to TRUE if the antag datum is fake. If it's not fake, returns TRUE directly.
 	var/faker = FALSE
@@ -256,6 +289,20 @@
 
 /mob/living/silicon/ai/is_antag(blacklisted_antag_flags)
 	return ..() && !!(laws?.zeroth) // AIs only count as antags if they have a zeroth law (apparently)
+=======
+
+	// Turns 'faker' to TRUE if the antag datum is fake. If it's not fake, returns TRUE directly.
+	var/faker = FALSE
+	for(var/datum/antagonist/antag_datum as anything in M.mind?.antag_datums)
+		if((antag_datum.antag_flags & FLAG_FAKE_ANTAG))
+			faker = TRUE
+		else
+			return TRUE
+
+	// If 'faker' was assigned TRUE in the above loop and the argument 'allow_fake_antags' is set to TRUE, this passes.
+	// Else, return FALSE.
+	return (faker && allow_fake_antags)
+>>>>>>> tg-pr-88929
 
 /**
  * Fancy notifications for ghosts
@@ -263,6 +310,7 @@
  * The kitchen sink of notification procs
  *
  * Arguments:
+<<<<<<< HEAD
  * * message
  * * ghost_sound sound to play
  * * enter_link Href link to enter the ghost role being notified for
@@ -284,11 +332,45 @@
 	ignore_key,
 	header = "",
 	notify_volume = 100
+=======
+ * * message: The message displayed in chat.
+ * * source: The source of the notification. This is required for an icon
+ * * header: The title text to display on the icon tooltip.
+ * * alert_overlay: Optional. Create a custom overlay if you want, otherwise it will use the source
+ * * click_interact: If true, adds a link + clicking the icon will attack_ghost the source
+ * * custom_link: Optional. If you want to add a custom link to the chat notification
+ * * ghost_sound: sound to play
+ * * ignore_key: Ignore keys if they're in the GLOB.poll_ignore list
+ * * notify_volume: How loud the sound should be to spook the user
+ */
+/proc/notify_ghosts(
+	message,
+	atom/source,
+	header = "Something Interesting!",
+	mutable_appearance/alert_overlay,
+	click_interact = FALSE,
+	custom_link = "",
+	ghost_sound,
+	ignore_key,
+	notify_flags = NOTIFY_CATEGORY_DEFAULT,
+	notify_volume = 100,
+>>>>>>> tg-pr-88929
 )
 
 	if(notify_flags & GHOST_NOTIFY_IGNORE_MAPLOAD && SSatoms.initialized != INITIALIZATION_INNEW_REGULAR) //don't notify for objects created during a map load
 		return
 
+<<<<<<< HEAD
+=======
+	if(source)
+		if(isnull(alert_overlay))
+			alert_overlay = get_small_overlay(source)
+
+		alert_overlay.appearance_flags |= TILE_BOUND
+		alert_overlay.layer = FLOAT_LAYER
+		alert_overlay.plane = FLOAT_PLANE
+
+>>>>>>> tg-pr-88929
 	for(var/mob/dead/observer/ghost in GLOB.player_list)
 		if(!(notify_flags & GHOST_NOTIFY_NOTIFY_SUICIDERS) && HAS_TRAIT(ghost, TRAIT_SUICIDED))
 			continue
@@ -305,14 +387,22 @@
 			to_chat(ghost, span_ghostalert(message))
 			continue
 
+<<<<<<< HEAD
 		var/custom_link = enter_link ? " [enter_link]" : ""
 		var/link = " <a href='byond://?src=[REF(ghost)];[action]=[REF(source)]'>([capitalize(action)])</a>"
 
 		to_chat(ghost, span_ghostalert("[message][custom_link][link]"))
+=======
+		var/interact_link = click_interact ? " <a href='byond://?src=[REF(ghost)];play=[REF(source)]'>(Play)</a>" : ""
+		var/view_link = " <a href='byond://?src=[REF(ghost)];view=[REF(source)]'>(View)</a>"
+
+		to_chat(ghost, span_ghostalert("[message][custom_link][interact_link][view_link]"))
+>>>>>>> tg-pr-88929
 
 		var/atom/movable/screen/alert/notify_action/toast = ghost.throw_alert(
 			category = "[REF(source)]_notify_action",
 			type = /atom/movable/screen/alert/notify_action,
+<<<<<<< HEAD
 			new_master = source,
 		)
 		toast.action = action
@@ -333,6 +423,15 @@
 		user.visible_message(span_notice("[user] fixes some of the [brute_damage ? "dents on" : "burnt wires in"] [human]'s [affecting.name]."), \
 			span_notice("You fix some of the [brute_damage ? "dents on" : "burnt wires in"] [human == user ? "your" : "[human]'s"] [affecting.name]."))
 		return TRUE //successful heal
+=======
+		)
+		toast.add_overlay(alert_overlay)
+		toast.click_interact = click_interact
+		toast.desc = "Click to [click_interact ? "play" : "view"]."
+		toast.name = header
+		toast.target_ref = WEAKREF(source)
+
+>>>>>>> tg-pr-88929
 
 
 ///Is the passed in mob a ghost with admin powers, doesn't check for AI interact like isAdminGhost() used to
@@ -367,22 +466,31 @@
 	if(usr)
 		log_admin("[key_name(usr)] has offered control of ([key_name(M)]) to ghosts.")
 		message_admins("[key_name_admin(usr)] has offered control of ([ADMIN_LOOKUPFLW(M)]) to ghosts")
-	var/poll_message = "Do you want to play as [M.real_name]?"
+	var/poll_message = "Do you want to play as [span_danger(M.real_name)]?"
 	if(M.mind)
-		poll_message = "[poll_message] Job: [M.mind.assigned_role.title]."
+		poll_message = "[poll_message] Job: [span_notice(M.mind.assigned_role.title)]."
 		if(M.mind.special_role)
-			poll_message = "[poll_message] Status: [M.mind.special_role]."
+			poll_message = "[poll_message] Status: [span_boldnotice(M.mind.special_role)]."
 		else
 			var/datum/antagonist/A = M.mind.has_antag_datum(/datum/antagonist/)
 			if(A)
+<<<<<<< HEAD
 				poll_message = "[poll_message] Status: [A.name]."
 	var/mob/chosen_one = SSpolling.poll_ghosts_for_target(poll_message, check_jobban = ROLE_PAI, poll_time = 20 SECONDS, checked_target = M, alert_pic = M, role_name_text = "ghost control", chat_text_border_icon = M)
+=======
+				poll_message = "[poll_message] Status: [span_boldnotice(A.name)]."
+	var/mob/chosen_one = SSpolling.poll_ghosts_for_target(poll_message, check_jobban = ROLE_PAI, poll_time = 10 SECONDS, checked_target = M, alert_pic = M, role_name_text = "ghost control")
+>>>>>>> tg-pr-88929
 
 	if(chosen_one)
 		to_chat(M, "Your mob has been taken over by a ghost!")
 		message_admins("[key_name_admin(chosen_one)] has taken control of ([ADMIN_LOOKUPFLW(M)])")
 		M.ghostize(FALSE)
+<<<<<<< HEAD
 		M.PossessByPlayer(chosen_one.key)
+=======
+		M.key = chosen_one.key
+>>>>>>> tg-pr-88929
 		M.client?.init_verbs()
 		return TRUE
 	else
@@ -402,16 +510,7 @@
 
 ///Can the mob hear
 /mob/proc/can_hear()
-	. = TRUE
-
-/**
- * Examine text for traits shared by multiple types.
- *
- * I wish examine was less copypasted. (oranges say, be the change you want to see buddy)
- */
-/mob/proc/common_trait_examine()
-	if(HAS_TRAIT(src,TRAIT_HUSK))
-		. += span_warning("This body has been reduced to a grotesque husk.")
+	return !HAS_TRAIT(src, TRAIT_DEAF)
 
 /**
  * Get the list of keywords for policy config
@@ -545,3 +644,51 @@
 		"[key_name(src)] manually changed selected zone",
 		data,
 	)
+
+/**
+ * Returns an associative list of the logs of a certain amount of lines spoken recently by this mob
+ * copy_amount - number of lines to return
+ * line_chance - chance to return a line, if you don't want just the most recent x lines
+ */
+/mob/proc/copy_recent_speech(copy_amount = LING_ABSORB_RECENT_SPEECH, line_chance = 100)
+	var/list/recent_speech = list()
+	var/list/say_log = list()
+	var/log_source = logging
+	for(var/log_type in log_source)
+		var/nlog_type = text2num(log_type)
+		if(nlog_type & LOG_SAY)
+			var/list/reversed = log_source[log_type]
+			if(islist(reversed))
+				say_log = reverse_range(reversed.Copy())
+				break
+
+	for(var/spoken_memory in say_log)
+		if(recent_speech.len >= copy_amount)
+			break
+		if(!prob(line_chance))
+			continue
+		recent_speech[spoken_memory] = splittext(say_log[spoken_memory], "\"", 1, 0, TRUE)[3]
+
+	var/list/raw_lines = list()
+	for (var/key as anything in recent_speech)
+		raw_lines += recent_speech[key]
+
+	return raw_lines
+
+/// Takes in an associated list (key `/datum/action` typepaths, value is the AI blackboard key) and handles granting the action and adding it to the mob's AI controller blackboard.
+/// This is only useful in instances where you don't want to store the reference to the action on a variable on the mob.
+/// You can set the value to null if you don't want to add it to the blackboard (like in player controlled instances). Is also safe with null AI controllers.
+/// Assumes that the action will be initialized and held in the mob itself, which is typically standard.
+/mob/proc/grant_actions_by_list(list/input)
+	if(length(input) <= 0)
+		return
+
+	for(var/action in input)
+		var/datum/action/ability = new action(src)
+		ability.Grant(src)
+
+		var/blackboard_key = input[action]
+		if(isnull(blackboard_key))
+			continue
+
+		ai_controller?.set_blackboard_key(blackboard_key, ability)

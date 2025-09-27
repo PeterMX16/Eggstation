@@ -9,12 +9,15 @@
 			"name" = "Kitchen Utensils",
 			"icon" = FA_ICON_KITCHEN_SET,
 			"products" = list(
+<<<<<<< HEAD
 				/obj/item/reagent_containers/cooking_container/deep_basket = 10,
 				/obj/item/reagent_containers/cooking_container/pan = 10,
 				/obj/item/reagent_containers/cooking_container/pot = 10,
 				/obj/item/reagent_containers/cooking_container/bowl = 10,
 				/obj/item/reagent_containers/cooking_container/oven = 10,
 				/obj/item/reagent_containers/cooking_container/board = 10,
+=======
+>>>>>>> tg-pr-88929
 				/obj/item/storage/bag/tray = 8,
 				/obj/item/reagent_containers/cup/soup_pot = 3,
 				/obj/item/kitchen/spoon/soup_ladle = 3,
@@ -22,7 +25,10 @@
 				/obj/item/kitchen/rollingpin = 2,
 				/obj/item/kitchen/tongs = 2,
 				/obj/item/knife/kitchen = 2,
+<<<<<<< HEAD
 				/obj/item/storage/fancy/popsiclestick_pack = 2 //Monkestation edit: part of "The Corndog Update" - Not adding too many popsicle stick packs so le botany gets 'interaction'
+=======
+>>>>>>> tg-pr-88929
 			),
 		),
 		list(
@@ -73,7 +79,7 @@
 	)
 	refill_canister = /obj/item/vending_refill/dinnerware
 	default_price = PAYCHECK_CREW * 0.8
-	extra_price = PAYCHECK_COMMAND
+	extra_price = PAYCHECK_CREW * 2.4
 	payment_department = ACCOUNT_SRV
 	light_mask = "dinnerware-light-mask"
 

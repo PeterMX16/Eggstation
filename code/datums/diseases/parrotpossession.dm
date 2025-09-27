@@ -31,7 +31,11 @@
 		affected_mob.say(potential_phrase, forced = "parrot possession")
 
 
+<<<<<<< HEAD
 /datum/disease/parrot_possession/cure(add_resistance = TRUE, mob/living/carbon/target)
+=======
+/datum/disease/parrot_possession/cure(add_resistance = FALSE)
+>>>>>>> tg-pr-88929
 	var/atom/movable/inside_parrot = locate(/mob/living/basic/parrot/poly/ghost) in affected_mob
 	if(inside_parrot)
 		UnregisterSignal(inside_parrot, list(COMSIG_PREQDELETED, COMSIG_MOVABLE_MOVED))

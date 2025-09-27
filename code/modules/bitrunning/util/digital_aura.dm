@@ -6,7 +6,11 @@
 
 	add_overlay(overlays)
 	alpha = 210
+<<<<<<< HEAD
 	set_light(2,1, l_color = LIGHT_COLOR_BUBBLEGUM, l_on = TRUE)
+=======
+	set_light(2, l_color = LIGHT_COLOR_BUBBLEGUM, l_on = TRUE)
+>>>>>>> tg-pr-88929
 	update_appearance()
 
 /// Removes the digital effect around the target
@@ -23,7 +27,11 @@
 /// Returns a list of overlays to be used for the digital effect
 /atom/proc/get_digital_overlays()
 	var/base_icon
+<<<<<<< HEAD
 	var/alist/dimensions = get_icon_dimensions(icon)
+=======
+	var/dimensions = get_icon_dimensions(icon)
+>>>>>>> tg-pr-88929
 	if(!length(dimensions))
 		return
 

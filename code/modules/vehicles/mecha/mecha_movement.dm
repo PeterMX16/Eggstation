@@ -19,13 +19,29 @@
 		//we can reach it and it's in front of us? grab it!
 		if(ore.Adjacent(src) && ((get_dir(src, ore) & dir) || ore.loc == loc))
 			ore.forceMove(ore_box)
+<<<<<<< HEAD
+=======
+	for(var/obj/item/boulder/boulder in range(1, src))
+		//As above, but for boulders
+		if(boulder.Adjacent(src) && ((get_dir(src, boulder) & dir) || boulder.loc == loc))
+			boulder.forceMove(ore_box)
+
+>>>>>>> tg-pr-88929
 
 ///Plays the mech step sound effect. Split from movement procs so that other mechs (HONK) can override this one specific part.
 /obj/vehicle/sealed/mecha/proc/play_stepsound()
 	if(mecha_flags & QUIET_STEPS)
 		return
+
+<<<<<<< HEAD
+=======
+	// if we are on the second step of the diagonal movement, don't play step sound
+	if(src.moving_diagonally == SECOND_DIAG_STEP)
+		return
+
 	playsound(src, stepsound, 40, TRUE)
 
+>>>>>>> tg-pr-88929
 // Do whatever you do to mobs to these fuckers too
 /obj/vehicle/sealed/mecha/Process_Spacemove(movement_dir = 0, continuous_move = FALSE)
 	. = ..()
@@ -37,7 +53,7 @@
 		if(!istype(backup) || !movement_dir || backup.anchored || continuous_move) //get_spacemove_backup() already checks if a returned turf is solid, so we can just go
 			return TRUE
 		last_pushoff = world.time
-		if(backup.newtonian_move(turn(movement_dir, 180), instant = TRUE))
+		if(backup.newtonian_move(dir2angle(REVERSE_DIR(movement_dir)), instant = TRUE))
 			backup.last_pushoff = world.time
 			step_silent = TRUE
 			if(return_drivers())
@@ -79,7 +95,10 @@
 			to_chat(occupants, "[icon2html(src, occupants)][span_warning("Unable to move while connected to the air system port!")]")
 			TIMER_COOLDOWN_START(src, COOLDOWN_MECHA_MESSAGE, 2 SECONDS)
 		return FALSE
+<<<<<<< HEAD
 
+=======
+>>>>>>> tg-pr-88929
 	if(!Process_Spacemove(direction))
 		return FALSE
 	if(zoom_mode)
@@ -92,8 +111,13 @@
 		missing_parts += "power cell"
 	if(isnull(capacitor))
 		missing_parts += "capacitor"
+<<<<<<< HEAD
 	if(isnull(manipulator))
 		missing_parts += "micro-manipulator"
+=======
+	if(isnull(servo))
+		missing_parts += "servo"
+>>>>>>> tg-pr-88929
 	if(length(missing_parts))
 		if(TIMER_COOLDOWN_FINISHED(src, COOLDOWN_MECHA_MESSAGE))
 			to_chat(occupants, "[icon2html(src, occupants)][span_warning("Missing [english_list(missing_parts)].")]")
@@ -127,16 +151,25 @@
 				break
 
 	//if we're not facing the way we're going rotate us
+<<<<<<< HEAD
 	if(dir != direction && (!strafe || forcerotate || keyheld))
 		if(dir != direction && !(mecha_flags & QUIET_TURNS) && !step_silent)
 			playsound(src,turnsound,40,TRUE)
 		setDir(direction)
+=======
+	// if we're not strafing or if we are forced to rotate or if we are holding down the key
+	if(dir != direction && (!strafe || forcerotate || keyheld))
+		setDir(direction)
+		if(!(mecha_flags & QUIET_TURNS))
+			playsound(src, turnsound, 40, TRUE)
+>>>>>>> tg-pr-88929
 		if(keyheld || !pivot_step) //If we pivot step, we don't return here so we don't just come to a stop
 			return TRUE
 
 	set_glide_size(DELAY_TO_GLIDE_SIZE(get_movedelay()))
 	//Otherwise just walk normally
 	. = try_step_multiz(direction)
+
 	if(phasing)
 		use_energy(phasing_energy_drain)
 	if(strafe)
@@ -150,13 +183,17 @@
 		return
 	if(.) //mech was thrown/door/whatever
 		return
-	if(bumpsmash) //Need a pilot to push the PUNCH button.
-		if(COOLDOWN_FINISHED(src, mecha_bump_smash))
-			var/list/mob/mobster = return_drivers()
-			obstacle.mech_melee_attack(src, mobster[1])
-			COOLDOWN_START(src, mecha_bump_smash, smashcooldown)
-			if(!obstacle || obstacle.CanPass(src, get_dir(obstacle, src) || dir)) // The else is in case the obstacle is in the same turf.
-				step(src,dir)
+
+	// Whether or not we're on our mecha melee cooldown
+	var/on_cooldown = TIMER_COOLDOWN_RUNNING(src, COOLDOWN_MECHA_MELEE_ATTACK)
+
+	if(bumpsmash && !on_cooldown)
+		// Our pilot for this evening
+		var/list/mob/mobster = return_drivers()
+		if(obstacle.mech_melee_attack(src, mobster[1]))
+			TIMER_COOLDOWN_START(src, COOLDOWN_MECHA_MELEE_ATTACK, melee_cooldown * 0.3)
+		if(!obstacle || obstacle.CanPass(src, get_dir(obstacle, src) || dir)) // The else is in case the obstacle is in the same turf.
+			step(src,dir)
 	if(isobj(obstacle))
 		var/obj/obj_obstacle = obstacle
 		if(!obj_obstacle.anchored && obj_obstacle.move_resist <= move_force)

@@ -30,6 +30,7 @@
 /turf/closed/get_smooth_underlay_icon(mutable_appearance/underlay_appearance, turf/asking_turf, adjacency_dir)
 	return FALSE
 
+<<<<<<< HEAD
 /turf/closed/indestructible
 	name = "wall"
 	desc = "Effectively impervious to conventional methods of destruction."
@@ -409,3 +410,7 @@ INITIALIZE_IMMEDIATE(/turf/closed/indestructible/splashscreen)
 	smoothing_groups = SMOOTH_GROUP_WALLS
 	canSmoothWith = SMOOTH_GROUP_WALLS
 
+=======
+/turf/closed/examine_descriptor(mob/user)
+	return "wall"
+>>>>>>> tg-pr-88929

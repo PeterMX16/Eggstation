@@ -10,11 +10,19 @@
 	basic_mob_flags = DEL_ON_DEATH
 	mob_size = MOB_SIZE_SMALL
 	pass_flags = PASSTABLE | PASSMOB
+<<<<<<< HEAD
 	mob_biotypes = MOB_ORGANIC|MOB_UNDEAD|MOB_MINING
 	faction = list(FACTION_MINING)
 	unsuitable_atmos_damage = 0
 	bodytemp_cold_damage_limit = -1
 	bodytemp_heat_damage_limit = INFINITY
+=======
+	mob_biotypes = MOB_ORGANIC|MOB_BEAST
+	faction = list(FACTION_MINING)
+	unsuitable_atmos_damage = 0
+	minimum_survivable_temperature = 0
+	maximum_survivable_temperature = INFINITY
+>>>>>>> tg-pr-88929
 	friendly_verb_continuous = "chatters near"
 	friendly_verb_simple = "chatter near"
 	maxHealth = 1
@@ -26,11 +34,19 @@
 	attack_verb_simple = "bite"
 	attack_vis_effect = ATTACK_EFFECT_BITE
 	speak_emote = list("echoes") // who the fuck speaking as this mob it dies 10 seconds after it spawns
+<<<<<<< HEAD
 	attack_sound = 'sound/weapons/pierce.ogg'
 	density = FALSE
 	ai_controller = /datum/ai_controller/basic_controller/legion_brood
 	/// Reference to a guy who made us
 	var/mob/living/created_by
+=======
+	attack_sound = 'sound/items/weapons/pierce.ogg'
+	density = FALSE
+	ai_controller = /datum/ai_controller/basic_controller/legion_brood
+	/// Reference to a guy who made us
+	var/datum/weakref/created_by
+>>>>>>> tg-pr-88929
 
 /mob/living/basic/legion_brood/Initialize(mapload)
 	. = ..()
@@ -42,16 +58,30 @@
 	addtimer(CALLBACK(src, PROC_REF(death)), 10 SECONDS)
 
 /mob/living/basic/legion_brood/death(gibbed)
+<<<<<<< HEAD
 	created_by = null
 	if (!gibbed)
 		new /obj/effect/temp_visual/hive_spawn_wither(get_turf(src), /* copy_from = */ src)
+=======
+	if (!gibbed)
+		new /obj/effect/temp_visual/despawn_effect(get_turf(src), /* copy_from = */ src)
+>>>>>>> tg-pr-88929
 	return ..()
 
 /mob/living/basic/legion_brood/melee_attack(mob/living/target, list/modifiers, ignore_cooldown)
 	if (ishuman(target) && target.stat > SOFT_CRIT)
 		infest(target)
 		return
+<<<<<<< HEAD
 	if (isliving(target) && faction_check_atom(target) && !istype(target, created_by?.type))
+=======
+
+	var/mob/living/mob_creator = created_by?.resolve()
+	if(isnull(mob_creator))
+		created_by = null
+
+	if (isliving(target) && faction_check_atom(target) && !istype(target, mob_creator?.type))
+>>>>>>> tg-pr-88929
 		visible_message(span_warning("[src] melds with [target]'s flesh!"))
 		target.apply_status_effect(/datum/status_effect/regenerative_core)
 		new /obj/effect/temp_visual/heal(get_turf(target), COLOR_HEALING_CYAN)
@@ -60,7 +90,11 @@
 	return ..()
 
 /// Turn the targeted mob into one of us
+<<<<<<< HEAD
 /mob/living/basic/legion_brood/proc/infest(mob/living/target)
+=======
+/mob/living/basic/legion_brood/proc/infest(mob/living/carbon/human/target)
+>>>>>>> tg-pr-88929
 	visible_message(span_warning("[name] burrows into the flesh of [target]!"))
 	var/spawn_type = get_legion_type(target)
 	var/mob/living/basic/mining/legion/new_legion = new spawn_type(loc)
@@ -69,7 +103,13 @@
 	qdel(src)
 
 /// Returns the kind of legion we make out of the target
+<<<<<<< HEAD
 /mob/living/basic/legion_brood/proc/get_legion_type(mob/living/target)
+=======
+/mob/living/basic/legion_brood/proc/get_legion_type(mob/living/carbon/human/target)
+	if (ismonkey(target))
+		return /mob/living/basic/mining/legion/monkey
+>>>>>>> tg-pr-88929
 	if (HAS_TRAIT(target, TRAIT_DWARF))
 		return /mob/living/basic/mining/legion/dwarf
 	return /mob/living/basic/mining/legion
@@ -80,7 +120,11 @@
 		faction = creator.faction.Copy()
 	else
 		faction |= REF(creator)
+<<<<<<< HEAD
 	created_by = creator
+=======
+	created_by = WEAKREF(creator)
+>>>>>>> tg-pr-88929
 	ai_controller?.set_blackboard_key(BB_LEGION_BROOD_CREATOR, creator)
 	RegisterSignal(creator, COMSIG_QDELETING, PROC_REF(creator_destroyed))
 
@@ -97,5 +141,15 @@
 	icon_living = "snowlegion_head"
 	icon_dead = "snowlegion_head"
 
+<<<<<<< HEAD
 /mob/living/basic/legion_brood/snow/get_legion_type(mob/living/target)
+=======
+/mob/living/basic/legion_brood/snow/Initialize(mapload)
+	. = ..()
+	ADD_TRAIT(src, TRAIT_SNOWSTORM_IMMUNE, INNATE_TRAIT)
+
+/mob/living/basic/legion_brood/snow/get_legion_type(mob/living/target)
+	if (ismonkey(target))
+		return /mob/living/basic/mining/legion/monkey/snow
+>>>>>>> tg-pr-88929
 	return /mob/living/basic/mining/legion/snow

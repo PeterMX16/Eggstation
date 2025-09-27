@@ -33,6 +33,14 @@
 	obj_damage = 0
 	environment_smash = ENVIRONMENT_SMASH_NONE
 	can_be_held = TRUE
+<<<<<<< HEAD
+=======
+	held_w_class = WEIGHT_CLASS_TINY
+	held_lh = 'icons/mob/inhands/animal_item_lefthand.dmi'
+	held_rh = 'icons/mob/inhands/animal_item_righthand.dmi'
+	worn_slot_flags = ITEM_SLOT_HEAD
+	head_icon = 'icons/mob/clothing/head/pets_head.dmi'
+>>>>>>> tg-pr-88929
 	ai_controller = /datum/ai_controller/basic_controller/lizard
 
 	/// Typecache of things that we seek out to eat. Yummy.
@@ -41,6 +49,7 @@
 		/mob/living/basic/cockroach,
 	))
 
+<<<<<<< HEAD
 /mob/living/basic/lizard/Initialize(mapload)
 	. = ..()
 	ADD_TRAIT(src, TRAIT_VENTCRAWLER_ALWAYS, INNATE_TRAIT)
@@ -51,6 +60,27 @@
 /datum/ai_controller/basic_controller/lizard
 	blackboard = list(
 		BB_TARGETING_STRATEGY = /datum/targeting_strategy/basic/allow_items,
+=======
+/datum/emote/lizard
+	mob_type_allowed_typecache = /mob/living/basic/lizard
+	mob_type_blacklist_typecache = list()
+
+/datum/emote/lizard/whicker
+	key = "tongue"
+	message = "sticks its tongue out contentedly!"
+	emote_type = EMOTE_VISIBLE | EMOTE_AUDIBLE
+
+/mob/living/basic/lizard/Initialize(mapload)
+	. = ..()
+	ADD_TRAIT(src, TRAIT_VENTCRAWLER_ALWAYS, INNATE_TRAIT)
+	AddElement(/datum/element/pet_bonus, "tongue")
+	AddElement(/datum/element/basic_eating, heal_amt = 5, food_types = edibles)
+	ai_controller.set_blackboard_key(BB_BASIC_FOODS, typecacheof(edibles))
+
+/datum/ai_controller/basic_controller/lizard
+	blackboard = list(
+		BB_TARGETING_STRATEGY = /datum/targeting_strategy/basic,
+>>>>>>> tg-pr-88929
 	)
 
 	ai_traits = STOP_MOVING_WHEN_PULLED
@@ -58,7 +88,10 @@
 	idle_behavior = /datum/idle_behavior/idle_random_walk
 	planning_subtrees = list(
 		/datum/ai_planning_subtree/find_food,
+<<<<<<< HEAD
 		/datum/ai_planning_subtree/basic_melee_attack_subtree,
+=======
+>>>>>>> tg-pr-88929
 		/datum/ai_planning_subtree/random_speech/lizard,
 	)
 
@@ -71,8 +104,13 @@
 	icon_state = "lizard_space"
 	icon_living = "lizard_space"
 	unsuitable_atmos_damage = 0
+<<<<<<< HEAD
 	bodytemp_cold_damage_limit = TCMB
 	bodytemp_heat_damage_limit = T0C + 40
+=======
+	minimum_survivable_temperature = TCMB
+	maximum_survivable_temperature = T0C + 40
+>>>>>>> tg-pr-88929
 
 /// Janitor's pet lizard.
 /mob/living/basic/lizard/wags_his_tail

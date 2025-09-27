@@ -69,33 +69,34 @@
 	if(state == FLOODLIGHT_NEEDS_SECURING)
 		icon_state = "floodlight_c3"
 		state = FLOODLIGHT_NEEDS_LIGHTS
-		return TRUE
+		return ITEM_INTERACT_SUCCESS
 	else if(state == FLOODLIGHT_NEEDS_LIGHTS)
 		icon_state = "floodlight_c2"
 		state = FLOODLIGHT_NEEDS_SECURING
-		return TRUE
-	return FALSE
+		return ITEM_INTERACT_SUCCESS
+	return ITEM_INTERACT_BLOCKING
 
 /obj/structure/floodlight_frame/wrench_act(mob/living/user, obj/item/tool)
 	if(state != FLOODLIGHT_NEEDS_WIRES)
-		return FALSE
+		return ITEM_INTERACT_BLOCKING
 
+	balloon_alert(user, "deconstructing...")
 	if(!tool.use_tool(src, user, 30, volume=50))
-		return TRUE
+		return ITEM_INTERACT_BLOCKING
 	new /obj/item/stack/sheet/iron(loc, 5)
 	qdel(src)
 
-	return TRUE
+	return ITEM_INTERACT_SUCCESS
 
 /obj/structure/floodlight_frame/wirecutter_act(mob/living/user, obj/item/tool)
 	if(state != FLOODLIGHT_NEEDS_SECURING)
-		return FALSE
+		return ITEM_INTERACT_BLOCKING
 
 	icon_state = "floodlight_c1"
 	state = FLOODLIGHT_NEEDS_WIRES
 	new /obj/item/stack/cable_coil(loc, 5)
 
-	return TRUE
+	return ITEM_INTERACT_SUCCESS
 
 /obj/structure/floodlight_frame/attackby(obj/item/O, mob/user, params)
 	if(istype(O, /obj/item/stack/cable_coil) && state == FLOODLIGHT_NEEDS_WIRES)
@@ -109,8 +110,11 @@
 			return
 
 	if(istype(O, /obj/item/light/tube))
+		if(state != FLOODLIGHT_NEEDS_LIGHTS)
+			balloon_alert(user, "construction not completed!")
+			return
 		var/obj/item/light/tube/L = O
-		if(state == FLOODLIGHT_NEEDS_LIGHTS && L.status != 2) //Ready for a light tube, and not broken.
+		if(L.status != LIGHT_BROKEN) // light tube not broken.
 			new /obj/machinery/power/floodlight(loc)
 			qdel(src)
 			qdel(O)
@@ -118,14 +122,13 @@
 		else //A minute of silence for all the accidentally broken light tubes.
 			balloon_alert(user, "light tube is broken!")
 			return
-	if(istype(O, /obj/item/lightreplacer))
-		var/obj/item/lightreplacer/L = O
-		if(state == FLOODLIGHT_NEEDS_LIGHTS && L.can_use(user))
-			L.Use(user)
-			new /obj/machinery/power/floodlight(loc)
-			qdel(src)
-			return
 	..()
+
+/obj/structure/floodlight_frame/completed
+	name = "floodlight frame"
+	desc = "A bare metal frame that looks like a floodlight. Requires a light tube to complete."
+	icon_state = "floodlight_c3"
+	state = FLOODLIGHT_NEEDS_LIGHTS
 
 /obj/machinery/power/floodlight
 	name = "floodlight"
@@ -150,7 +153,29 @@
 
 /obj/machinery/power/floodlight/Initialize(mapload)
 	. = ..()
+	RegisterSignal(src, COMSIG_OBJ_PAINTED, TYPE_PROC_REF(/obj/machinery/power/floodlight, on_color_change))  //update light color when color changes
 	register_context()
+
+/obj/machinery/power/floodlight/proc/on_color_change(obj/machinery/power/flood_light, mob/user, obj/item/toy/crayon/spraycan/spraycan, is_dark_color)
+	SIGNAL_HANDLER
+	if(!spraycan.actually_paints)
+		return
+
+	if(setting > FLOODLIGHT_OFF)
+		update_light_state()
+
+/obj/machinery/power/floodlight/Destroy()
+	UnregisterSignal(src, COMSIG_OBJ_PAINTED)
+	. = ..()
+
+/// change light color during operation
+/obj/machinery/power/floodlight/proc/update_light_state()
+	var/light_color =  NONSENSICAL_VALUE
+	if(!isnull(color))
+		light_color = color
+	if (cached_color_filter)
+		light_color = apply_matrix_to_color(COLOR_WHITE, cached_color_filter["color"], cached_color_filter["space"] || COLORSPACE_RGB)
+	set_light(light_setting_list[setting], light_power, light_color)
 
 /obj/machinery/power/floodlight/add_context(
 	atom/source,
@@ -204,11 +229,16 @@
 /obj/machinery/power/floodlight/proc/change_setting(newval, mob/user)
 	if((newval < FLOODLIGHT_OFF) || (newval > light_setting_list.len))
 		return
+
 	setting = newval
 	active_power_usage = light_setting_list[setting] * light_power_coefficient
 	if(!avail(active_power_usage) && setting > FLOODLIGHT_OFF)
 		return change_setting(setting - 1)
+<<<<<<< HEAD
 	set_light(l_outer_range = light_setting_list[setting], l_power = light_power)
+=======
+	update_light_state()
+>>>>>>> tg-pr-88929
 	var/setting_text = ""
 	if(setting > FLOODLIGHT_OFF)
 		icon_state = "[initial(icon_state)]_on"
@@ -226,11 +256,19 @@
 	if(user)
 		to_chat(user, span_notice("You set [src] to [setting_text]."))
 
+<<<<<<< HEAD
 /obj/machinery/power/floodlight/cable_layer_change_checks(mob/living/user, obj/item/tool)
 	if(anchored)
 		balloon_alert(user, "unanchor first!")
 		return FALSE
 	return TRUE
+=======
+/obj/machinery/power/floodlight/cable_layer_act(mob/living/user, obj/item/tool)
+	if(anchored)
+		balloon_alert(user, "unanchor first!")
+		return ITEM_INTERACT_BLOCKING
+	return ..()
+>>>>>>> tg-pr-88929
 
 /obj/machinery/power/floodlight/wrench_act(mob/living/user, obj/item/tool)
 	. = ..()
@@ -284,7 +322,7 @@
 	. = ..()
 	if(!.)
 		return
-	playsound(loc, 'sound/effects/glassbr3.ogg', 100, TRUE)
+	playsound(loc, 'sound/effects/glass/glassbr3.ogg', 100, TRUE)
 
 	var/obj/structure/floodlight_frame/floodlight_frame = new(loc)
 	floodlight_frame.state = FLOODLIGHT_NEEDS_LIGHTS
@@ -294,7 +332,7 @@
 	qdel(src)
 
 /obj/machinery/power/floodlight/play_attack_sound(damage_amount, damage_type = BRUTE, damage_flag = 0)
-	playsound(src, 'sound/effects/glasshit.ogg', 75, TRUE)
+	playsound(src, 'sound/effects/glass/glasshit.ogg', 75, TRUE)
 
 #undef FLOODLIGHT_OFF
 #undef FLOODLIGHT_LOW

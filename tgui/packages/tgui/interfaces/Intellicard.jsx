@@ -1,4 +1,13 @@
+import {
+  BlockQuote,
+  Button,
+  LabeledList,
+  ProgressBar,
+  Section,
+} from 'tgui-core/components';
+
 import { useBackend } from '../backend';
+<<<<<<< HEAD
 import {
   BlockQuote,
   Button,
@@ -6,6 +15,8 @@ import {
   ProgressBar,
   Section,
 } from '../components';
+=======
+>>>>>>> tg-pr-88929
 import { Window } from '../layouts';
 
 export const Intellicard = (props) => {

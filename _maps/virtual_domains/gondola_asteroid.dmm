@@ -1,6 +1,7 @@
 //MAP CONVERTED BY dmm2tgm.py THIS HEADER COMMENT PREVENTS RECONVERSION, DO NOT REMOVE
 "a" = (
 /turf/closed/indestructible/binary,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "c" = (
 /turf/open/space/basic,
@@ -39,13 +40,45 @@
 /obj/structure/flora/bush/fullgrass/style_random,
 /turf/open/floor/grass,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain/fullbright)
+"c" = (
+/turf/open/space/basic,
+/area/space/virtual_domain)
+"e" = (
+/obj/effect/baseturf_helper/virtual_domain,
+/turf/closed/mineral/random,
+/area/virtual_domain)
+"g" = (
+/obj/structure/marker_beacon{
+	light_color = "#FFE8AA";
+	light_range = 20
+	},
+/turf/open/floor/grass,
+/area/virtual_domain)
+"h" = (
+/turf/closed/mineral/random,
+/area/virtual_domain)
+"m" = (
+/obj/structure/closet/crate/secure/bitrunning/encrypted/gondola,
+/turf/open/floor/grass,
+/area/virtual_domain)
+"n" = (
+/obj/structure/flora/bush/fullgrass/style_random,
+/turf/open/floor/grass,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "o" = (
 /turf/template_noop,
 /area/template_noop)
 "q" = (
 /obj/structure/flora/tree/palm,
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "r" = (
 /obj/effect/baseturf_helper/virtual_domain,
 /turf/template_noop,
@@ -53,11 +86,16 @@
 "s" = (
 /obj/structure/flora/bush/sparsegrass/style_random,
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "t" = (
 /turf/template_noop,
 /area/virtual_domain/safehouse)
 "v" = (
+<<<<<<< HEAD
 /turf/template_noop,
 /area/ruin/space/has_grav/powered/virtual_domain/protected_space)
 "w" = (
@@ -72,6 +110,22 @@
 /mob/living/simple_animal/pet/gondola/virtual_domain,
 /turf/open/floor/grass,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/turf/open/misc/asteroid/airless,
+/area/virtual_domain)
+"w" = (
+/obj/structure/water_source/puddle,
+/turf/open/floor/grass,
+/area/virtual_domain)
+"y" = (
+/obj/structure/flora/bush/stalky/style_random,
+/turf/open/floor/grass,
+/area/virtual_domain)
+"z" = (
+/mob/living/basic/pet/gondola/virtual_domain,
+/turf/open/floor/grass,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "A" = (
 /obj/structure/chair/wood{
 	dir = 8
@@ -80,6 +134,7 @@
 /area/virtual_domain/safehouse)
 "C" = (
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "D" = (
 /obj/structure/flora/bush/flowers_br/style_random,
@@ -101,6 +156,25 @@
 /obj/effect/baseturf_helper/virtual_domain,
 /turf/closed/indestructible/binary,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+"D" = (
+/obj/structure/flora/bush/flowers_br/style_random,
+/turf/open/floor/grass,
+/area/virtual_domain)
+"F" = (
+/obj/structure/flora/bush/grassy/style_random,
+/turf/open/floor/grass,
+/area/virtual_domain)
+"I" = (
+/obj/structure/flora/bush/reed/style_random,
+/turf/open/floor/grass,
+/area/virtual_domain)
+"J" = (
+/obj/structure/flora/bush/flowers_yw/style_random,
+/turf/open/floor/grass,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 "M" = (
 /obj/structure/table/wood,
 /obj/item/storage/bag/tray,
@@ -111,14 +185,23 @@
 "N" = (
 /obj/structure/flora/bush/large/style_random,
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "O" = (
 /obj/effect/landmark/bitrunning/safehouse_spawn,
+=======
+/area/virtual_domain)
+"O" = (
+/obj/modular_map_root/safehouse{
+	key = "shuttle_space"
+	},
+>>>>>>> tg-pr-88929
 /turf/template_noop,
 /area/virtual_domain/safehouse)
 "Q" = (
 /obj/structure/flora/bush/lavendergrass/style_random,
 /turf/open/floor/grass,
+<<<<<<< HEAD
 /area/ruin/space/has_grav/powered/virtual_domain)
 "S" = (
 /obj/effect/turf_decal/stripes/end{
@@ -134,6 +217,21 @@
 /obj/structure/flora/bush/ferny/style_random,
 /turf/open/floor/grass,
 /area/ruin/space/has_grav/powered/virtual_domain)
+=======
+/area/virtual_domain)
+"T" = (
+/obj/structure/flora/bush/sunny/style_random,
+/turf/open/floor/grass,
+/area/virtual_domain)
+"V" = (
+/obj/structure/flora/coconuts,
+/turf/open/floor/grass,
+/area/virtual_domain)
+"W" = (
+/obj/structure/flora/bush/ferny/style_random,
+/turf/open/floor/grass,
+/area/virtual_domain)
+>>>>>>> tg-pr-88929
 
 (1,1,1) = {"
 o
@@ -261,7 +359,11 @@ h
 h
 a
 a
+<<<<<<< HEAD
 K
+=======
+a
+>>>>>>> tg-pr-88929
 o
 o
 o
@@ -485,7 +587,11 @@ h
 h
 h
 h
+<<<<<<< HEAD
 e
+=======
+v
+>>>>>>> tg-pr-88929
 a
 a
 a
@@ -522,7 +628,11 @@ C
 C
 C
 C
+<<<<<<< HEAD
 C
+=======
+V
+>>>>>>> tg-pr-88929
 C
 C
 C
@@ -530,7 +640,11 @@ C
 h
 h
 h
+<<<<<<< HEAD
 e
+=======
+v
+>>>>>>> tg-pr-88929
 c
 c
 c
@@ -561,7 +675,11 @@ C
 W
 C
 C
+<<<<<<< HEAD
 C
+=======
+V
+>>>>>>> tg-pr-88929
 C
 C
 q
@@ -575,7 +693,11 @@ C
 h
 h
 h
+<<<<<<< HEAD
 e
+=======
+v
+>>>>>>> tg-pr-88929
 c
 c
 c
@@ -620,7 +742,11 @@ C
 h
 h
 h
+<<<<<<< HEAD
 e
+=======
+v
+>>>>>>> tg-pr-88929
 c
 c
 c
@@ -654,7 +780,11 @@ C
 g
 C
 C
+<<<<<<< HEAD
 C
+=======
+V
+>>>>>>> tg-pr-88929
 C
 z
 C
@@ -665,7 +795,11 @@ C
 h
 h
 h
+<<<<<<< HEAD
 e
+=======
+v
+>>>>>>> tg-pr-88929
 c
 c
 c
@@ -710,7 +844,11 @@ C
 h
 h
 h
+<<<<<<< HEAD
 e
+=======
+v
+>>>>>>> tg-pr-88929
 c
 c
 c
@@ -755,7 +893,11 @@ h
 h
 h
 h
+<<<<<<< HEAD
 e
+=======
+v
+>>>>>>> tg-pr-88929
 c
 c
 c
@@ -800,7 +942,11 @@ h
 h
 h
 h
+<<<<<<< HEAD
 e
+=======
+v
+>>>>>>> tg-pr-88929
 c
 c
 c
@@ -845,7 +991,11 @@ h
 h
 h
 h
+<<<<<<< HEAD
 e
+=======
+v
+>>>>>>> tg-pr-88929
 c
 c
 c
@@ -980,7 +1130,11 @@ C
 C
 h
 C
+<<<<<<< HEAD
 S
+=======
+C
+>>>>>>> tg-pr-88929
 t
 t
 A
@@ -1012,7 +1166,11 @@ h
 C
 C
 q
+<<<<<<< HEAD
 C
+=======
+V
+>>>>>>> tg-pr-88929
 C
 C
 C
@@ -1025,7 +1183,11 @@ C
 C
 C
 C
+<<<<<<< HEAD
 i
+=======
+C
+>>>>>>> tg-pr-88929
 t
 t
 t
@@ -1037,7 +1199,11 @@ a
 "}
 (21,1,1) = {"
 a
+<<<<<<< HEAD
 e
+=======
+v
+>>>>>>> tg-pr-88929
 h
 h
 h
@@ -1070,7 +1236,11 @@ C
 C
 C
 C
+<<<<<<< HEAD
 l
+=======
+C
+>>>>>>> tg-pr-88929
 t
 t
 t
@@ -1082,8 +1252,13 @@ a
 "}
 (22,1,1) = {"
 a
+<<<<<<< HEAD
 e
 e
+=======
+v
+v
+>>>>>>> tg-pr-88929
 h
 h
 h
@@ -1127,8 +1302,13 @@ a
 "}
 (23,1,1) = {"
 a
+<<<<<<< HEAD
 e
 e
+=======
+v
+v
+>>>>>>> tg-pr-88929
 h
 h
 h
@@ -1172,8 +1352,13 @@ a
 "}
 (24,1,1) = {"
 a
+<<<<<<< HEAD
 e
 e
+=======
+v
+v
+>>>>>>> tg-pr-88929
 h
 h
 h
@@ -1182,7 +1367,11 @@ h
 h
 C
 C
+<<<<<<< HEAD
 C
+=======
+V
+>>>>>>> tg-pr-88929
 C
 C
 C
@@ -1218,8 +1407,13 @@ a
 (25,1,1) = {"
 a
 a
+<<<<<<< HEAD
 e
 e
+=======
+v
+v
+>>>>>>> tg-pr-88929
 h
 h
 h
@@ -1263,8 +1457,13 @@ a
 (26,1,1) = {"
 o
 a
+<<<<<<< HEAD
 e
 e
+=======
+v
+v
+>>>>>>> tg-pr-88929
 h
 h
 h
@@ -1308,8 +1507,13 @@ a
 (27,1,1) = {"
 o
 a
+<<<<<<< HEAD
 e
 e
+=======
+v
+v
+>>>>>>> tg-pr-88929
 h
 h
 h
@@ -1335,7 +1539,11 @@ C
 q
 C
 C
+<<<<<<< HEAD
 C
+=======
+V
+>>>>>>> tg-pr-88929
 C
 h
 h
@@ -1353,8 +1561,13 @@ a
 (28,1,1) = {"
 o
 a
+<<<<<<< HEAD
 e
 e
+=======
+v
+v
+>>>>>>> tg-pr-88929
 h
 h
 h
@@ -1399,8 +1612,13 @@ a
 o
 a
 a
+<<<<<<< HEAD
 e
 e
+=======
+v
+v
+>>>>>>> tg-pr-88929
 h
 h
 h
@@ -1444,8 +1662,13 @@ a
 o
 o
 a
+<<<<<<< HEAD
 e
 e
+=======
+v
+v
+>>>>>>> tg-pr-88929
 h
 h
 C
@@ -1473,8 +1696,13 @@ C
 h
 h
 h
+<<<<<<< HEAD
 e
 e
+=======
+v
+v
+>>>>>>> tg-pr-88929
 c
 c
 c
@@ -1489,7 +1717,11 @@ a
 o
 o
 a
+<<<<<<< HEAD
 e
+=======
+v
+>>>>>>> tg-pr-88929
 h
 h
 C
@@ -1506,7 +1738,11 @@ C
 C
 C
 C
+<<<<<<< HEAD
 C
+=======
+V
+>>>>>>> tg-pr-88929
 C
 C
 C
@@ -1517,9 +1753,15 @@ C
 h
 h
 h
+<<<<<<< HEAD
 e
 e
 e
+=======
+v
+v
+v
+>>>>>>> tg-pr-88929
 c
 c
 c
@@ -1561,9 +1803,15 @@ h
 h
 h
 h
+<<<<<<< HEAD
 e
 e
 e
+=======
+v
+v
+v
+>>>>>>> tg-pr-88929
 h
 h
 a
@@ -1606,8 +1854,13 @@ h
 h
 h
 h
+<<<<<<< HEAD
 e
 e
+=======
+v
+v
+>>>>>>> tg-pr-88929
 h
 h
 h
@@ -1680,11 +1933,19 @@ h
 h
 h
 h
+<<<<<<< HEAD
 e
 e
 e
 e
 e
+=======
+v
+v
+v
+v
+v
+>>>>>>> tg-pr-88929
 h
 h
 h
@@ -1783,7 +2044,11 @@ o
 o
 o
 o
+<<<<<<< HEAD
 v
+=======
+o
+>>>>>>> tg-pr-88929
 o
 o
 o

@@ -15,13 +15,17 @@
 /obj/effect/portal
 	name = "portal"
 	desc = "Looks unstable. Best to test it with the clown."
-	icon = 'icons/obj/stationobjs.dmi'
+	icon = 'icons/obj/anomaly.dmi'
 	icon_state = "portal"
 	anchored = TRUE
 	density = TRUE // dense for receiving bumbs
 	layer = HIGH_OBJ_LAYER
 	light_system = COMPLEX_LIGHT
+<<<<<<< HEAD
 	light_outer_range = 3
+=======
+	light_range = 3
+>>>>>>> tg-pr-88929
 	light_power = 1
 	light_on = TRUE
 	light_color = COLOR_BLUE_LIGHT
@@ -50,7 +54,7 @@
 
 /obj/effect/portal/anom
 	name = "wormhole"
-	icon = 'icons/obj/objects.dmi'
+	icon = 'icons/obj/anomaly.dmi'
 	icon_state = "anom"
 	layer = RIPPLE_LAYER
 	plane = ABOVE_GAME_PLANE
@@ -66,7 +70,7 @@
 	return ..()
 
 // Prevents portals spawned by jaunter/handtele from floating into space when relocated to an adjacent tile.
-/obj/effect/portal/newtonian_move(direction, instant = FALSE, start_delay = 0)
+/obj/effect/portal/newtonian_move(inertia_angle, instant = FALSE, start_delay = 0, drift_force = 0, controlled_cap = null)
 	return TRUE
 
 /obj/effect/portal/attackby(obj/item/attacking_item, mob/user, list/modifiers, list/attack_modifiers)
@@ -108,12 +112,19 @@
 		hard_target = hard_target_override
 	if(wibbles)
 		apply_wibbly_filters(src)
+<<<<<<< HEAD
+
+/obj/effect/portal/proc/expire()
+	playsound(loc, SFX_PORTAL_CLOSE, 50, FALSE, SHORT_RANGE_SOUND_EXTRARANGE)
+	qdel(src)
+=======
+>>>>>>> tg-pr-88929
 
 /obj/effect/portal/proc/expire()
 	playsound(loc, SFX_PORTAL_CLOSE, 50, FALSE, SHORT_RANGE_SOUND_EXTRARANGE)
 	qdel(src)
 
-/obj/effect/portal/singularity_pull()
+/obj/effect/portal/singularity_pull(atom/singularity, current_size)
 	return
 
 /obj/effect/portal/singularity_act()
@@ -130,29 +141,45 @@
 		linked = null
 	return ..()
 
-/obj/effect/portal/attack_ghost(mob/dead/observer/O)
-	if(!teleport(O, TRUE))
+/obj/effect/portal/attack_ghost(mob/dead/observer/ghost)
+	if(!teleport(ghost, force = TRUE))
 		return ..()
+	return BULLET_ACT_FORCE_PIERCE
 
-/obj/effect/portal/proc/teleport(atom/movable/M, force = FALSE)
-	if(!force && (!istype(M) || iseffect(M) || (ismecha(M) && !mech_sized) || (!isobj(M) && !ismob(M)))) //Things that shouldn't teleport.
+/obj/effect/portal/bullet_act(obj/projectile/hitting_projectile, def_zone, piercing_hit)
+	if (!teleport(hitting_projectile, force = TRUE))
+		return ..()
+	return BULLET_ACT_FORCE_PIERCE
+
+/obj/effect/portal/proc/teleport(atom/movable/moving, force = FALSE)
+	if(!force && (!istype(moving) || iseffect(moving) || (ismecha(moving) && !mech_sized) || (!isobj(moving) && !ismob(moving)))) //Things that shouldn't teleport.
 		return
 	var/turf/real_target = get_link_target_turf()
 	if(!istype(real_target))
 		return FALSE
-	if(!force && (!ismecha(M) && !isprojectile(M) && M.anchored && !allow_anchored))
+
+	if(!force && (!ismecha(moving) && !isprojectile(moving) && moving.anchored && !allow_anchored))
 		return
 	var/no_effect = FALSE
-	if(last_effect == world.time)
+	if(last_effect == world.time || sparkless)
 		no_effect = TRUE
 	else
 		last_effect = world.time
+<<<<<<< HEAD
 	var/turf/start_turf = get_turf(M)
 	if(do_teleport(M, real_target, innate_accuracy_penalty, no_effects = no_effect, channel = teleport_channel, forced = force_teleport))
 		if(isprojectile(M))
 			var/obj/projectile/P = M
 			P.ignore_source_check = TRUE
 		new /obj/effect/temp_visual/portal_animation(start_turf, src, M)
+=======
+	var/turf/start_turf = get_turf(moving)
+	if(do_teleport(moving, real_target, innate_accuracy_penalty, no_effects = no_effect, channel = teleport_channel, forced = force_teleport))
+		if(isprojectile(moving))
+			var/obj/projectile/proj = moving
+			proj.ignore_source_check = TRUE
+		new /obj/effect/temp_visual/portal_animation(start_turf, src, moving)
+>>>>>>> tg-pr-88929
 		playsound(start_turf, SFX_PORTAL_ENTER, 50, TRUE, SHORT_RANGE_SOUND_EXTRARANGE)
 		playsound(real_target, SFX_PORTAL_ENTER, 50, TRUE, SHORT_RANGE_SOUND_EXTRARANGE)
 		return TRUE
@@ -189,7 +216,7 @@
 			linked = P
 			break
 
-/obj/effect/portal/permanent/teleport(atom/movable/M, force = FALSE)
+/obj/effect/portal/permanent/teleport(atom/movable/moving, force = FALSE)
 	set_linked() // update portal links
 	. = ..()
 
@@ -213,9 +240,13 @@
 	name = "one-use portal"
 	desc = "This is probably the worst decision you'll ever make in your life."
 
-/obj/effect/portal/permanent/one_way/one_use/teleport(atom/movable/M, force = FALSE)
+/obj/effect/portal/permanent/one_way/one_use/teleport(atom/movable/moving, force = FALSE)
 	. = ..()
+<<<<<<< HEAD
 	if (. && !isdead(M))
+=======
+	if (. && !isdead(moving))
+>>>>>>> tg-pr-88929
 		expire()
 
 /**

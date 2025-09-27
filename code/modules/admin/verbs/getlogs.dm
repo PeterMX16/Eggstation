@@ -1,7 +1,14 @@
+<<<<<<< HEAD
 ADMIN_VERB(get_server_logs, R_ADMIN, FALSE, "Get Server Logs", "View or retrieve logfiles.", ADMIN_CATEGORY_MAIN)
 	user.browseserverlogs()
 
 ADMIN_VERB(get_current_logs, R_ADMIN, FALSE, "Get Current Logs", "View or retrieve logfiles for the current round.", ADMIN_CATEGORY_MAIN)
+=======
+ADMIN_VERB(get_server_logs, R_ADMIN, "Get Server Logs", "View or retrieve logfiles.", ADMIN_CATEGORY_MAIN)
+	user.browseserverlogs()
+
+ADMIN_VERB(get_current_logs, R_ADMIN, "Get Current Logs", "View or retrieve logfiles for the current round.", ADMIN_CATEGORY_MAIN)
+>>>>>>> tg-pr-88929
 	user.browseserverlogs(current=TRUE)
 
 /* monkestation edit: replaced in [monkestation\code\modules\admin\verbs\getlogs.dm]
@@ -24,5 +31,8 @@ ADMIN_VERB(get_current_logs, R_ADMIN, FALSE, "Get Current Logs", "View or retrie
 		else
 			return
 	to_chat(src, "Attempting to send [path], this may take a fair few minutes if the file is very large.", confidential = TRUE)
+<<<<<<< HEAD
 	return
 */
+=======
+>>>>>>> tg-pr-88929

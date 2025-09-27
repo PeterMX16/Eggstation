@@ -1,11 +1,20 @@
+<<<<<<< HEAD
 import { classes } from 'common/react';
+=======
+import { Box, Dropdown, Stack } from 'tgui-core/components';
+import { classes } from 'tgui-core/react';
+
+>>>>>>> tg-pr-88929
 import {
   FeatureChoiced,
   FeatureChoicedServerData,
   FeatureValueProps,
   sortChoices,
 } from '../base';
+<<<<<<< HEAD
 import { Box, Dropdown, Stack } from '../../../../../components';
+=======
+>>>>>>> tg-pr-88929
 
 const UIStyleInput = (
   props: FeatureValueProps<string, string, FeatureChoicedServerData>,
@@ -46,7 +55,10 @@ const UIStyleInput = (
       buttons
       selected={value}
       clipSelectedText={false}
+<<<<<<< HEAD
       displayText={value ? choices[value] : null}
+=======
+>>>>>>> tg-pr-88929
       onSelected={props.handleSetValue}
       width="100%"
       options={sortChoices(Object.entries(choices)).map(

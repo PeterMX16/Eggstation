@@ -1,6 +1,6 @@
 
 
-//TODO: Make these simple_animals
+//TODO: Make these basic mobs
 
 #define MIN_IMPREGNATION_TIME 100 //time it takes to impregnate someone
 #define MAX_IMPREGNATION_TIME 150
@@ -22,10 +22,13 @@
 	tint = 3
 	flags_cover = MASKCOVERSEYES | MASKCOVERSMOUTH
 	layer = MOB_LAYER
-	plane = GAME_PLANE_FOV_HIDDEN
 	max_integrity = 100
+<<<<<<< HEAD
 	item_flags = XENOMORPH_HOLDABLE
 	supports_variations_flags = CLOTHING_SNOUTED_VARIATION
+=======
+	slowdown = 2
+>>>>>>> tg-pr-88929
 	var/stat = CONSCIOUS //UNCONSCIOUS is the idle state in this case
 	var/neutered = FALSE // if the facehugger is able to create a queen
 	var/sterile = FALSE
@@ -41,6 +44,7 @@
 	)
 	AddElement(/datum/element/connect_loc, loc_connections)
 	AddElement(/datum/element/atmos_sensitive, mapload)
+	AddElement(/datum/element/muffles_speech)
 
 	RegisterSignal(src, COMSIG_LIVING_TRYING_TO_PULL, PROC_REF(react_to_mob))
 
@@ -76,13 +80,17 @@
 		return
 	switch(stat)
 		if(DEAD,UNCONSCIOUS)
-			. += span_boldannounce("[src] is not moving.")
+			. += span_bolddanger("[src] is not moving.")
 		if(CONSCIOUS)
-			. += span_boldannounce("[src] seems to be active!")
+			. += span_bolddanger("[src] seems to be active!")
 	if (sterile)
+<<<<<<< HEAD
 		. += span_boldannounce("It looks like the proboscis has been removed.")
 	if (neutered)
 		. += span_boldannounce("It looks like the proboscis is full of a green fluid.")
+=======
+		. += span_bolddanger("It looks like the proboscis has been removed.")
+>>>>>>> tg-pr-88929
 
 /obj/item/clothing/mask/facehugger/should_atmos_process(datum/gas_mixture/air, exposed_temperature)
 	return (exposed_temperature > 300)
@@ -112,7 +120,7 @@
 		return
 	if(stat == CONSCIOUS)
 		icon_state = "[base_icon_state]_thrown"
-		addtimer(CALLBACK(src, PROC_REF(clear_throw_icon_state)), 15)
+		addtimer(CALLBACK(src, PROC_REF(clear_throw_icon_state)), 1.5 SECONDS)
 
 /obj/item/clothing/mask/facehugger/proc/clear_throw_icon_state()
 	if(icon_state == "[base_icon_state]_thrown")
@@ -126,7 +134,7 @@
 
 /obj/item/clothing/mask/facehugger/proc/valid_to_attach(mob/living/hit_mob)
 	// valid targets: carbons except aliens and devils
-	// facehugger state early exit checks
+	// facehugger state early exit checks (Note: Melbert does not want dead people to be huggable)
 	if(stat != CONSCIOUS)
 		return FALSE
 	if(attached)
@@ -177,20 +185,31 @@
 	log_combat(target, src, "was facehugged by")
 	return TRUE // time for a smoke
 
-/obj/item/clothing/mask/facehugger/proc/Attach(mob/living/M)
-	if(!valid_to_attach(M))
+/obj/item/clothing/mask/facehugger/proc/Attach(mob/living/victim)
+	if(!valid_to_attach(victim))
 		return
+
+	if(victim.stat < UNCONSCIOUS) //sorry bro you gotta be awake
+		victim.say("AAAA!!") //triggers muffled speech and also visual feedback i guess
 	// early returns and validity checks done: attach.
 
+<<<<<<< HEAD
 	if(!sterile && !neutered)
 		//ensure we detach once we no longer need to be attached
 		attached++
 		addtimer(CALLBACK(src, PROC_REF(detach)), MAX_IMPREGNATION_TIME)
 		M.take_bodypart_damage(strength,0) //done here so that humans in helmets take damage
 		M.Unconscious(MAX_IMPREGNATION_TIME/0.3) //something like 25 ticks = 20 seconds with the default settings
+=======
+
+	if(!sterile)
+		victim.take_bodypart_damage(strength,0) //done here so that humans in helmets take damage
+	if(real && !sterile)
+		victim.Knockdown(5 SECONDS)
+>>>>>>> tg-pr-88929
 	GoIdle() //so it doesn't jump the people that tear it off
 
-	addtimer(CALLBACK(src, PROC_REF(Impregnate), M), rand(MIN_IMPREGNATION_TIME, MAX_IMPREGNATION_TIME))
+	addtimer(CALLBACK(src, PROC_REF(Impregnate), victim), rand(MIN_IMPREGNATION_TIME, MAX_IMPREGNATION_TIME))
 
 /obj/item/clothing/mask/facehugger/proc/detach()
 	attached = 0
@@ -213,11 +232,16 @@
 		worn_icon_state = "[base_icon_state]_impregnated"
 
 		var/obj/item/bodypart/chest/LC = target.get_bodypart(BODY_ZONE_CHEST)
+<<<<<<< HEAD
 		if((!LC || IS_ORGANIC_LIMB(LC)) && !target.get_organ_by_type(/obj/item/organ/internal/body_egg/alien_embryo))
 			if(neutered)
 				new /obj/item/organ/internal/body_egg/alien_embryo/neutered(target)
 			else
 				new /obj/item/organ/internal/body_egg/alien_embryo(target)
+=======
+		if((!LC || IS_ORGANIC_LIMB(LC)) && !target.get_organ_by_type(/obj/item/organ/body_egg/alien_embryo))
+			new /obj/item/organ/body_egg/alien_embryo(target)
+>>>>>>> tg-pr-88929
 			target.log_message("was impregnated by a facehugger", LOG_GAME)
 			target.log_message("was impregnated by a facehugger", LOG_VICTIM, log_globally = FALSE)
 			if(target.stat != DEAD && istype(target.buckled, /obj/structure/bed/nest)) //Handles toggling the nest sustenance status effect if the user was already buckled to a nest.
@@ -256,12 +280,35 @@
 
 	visible_message(span_danger("[src] curls up into a ball!"))
 
+	// chest maybe because getting slammed in the chest would knock it off your face while dead
+	AddComponent(/datum/component/knockoff, knockoff_chance = 40, target_zones = list(BODY_ZONE_HEAD, BODY_ZONE_CHEST), slots_knockoffable = slot_flags)
+
+/obj/item/clothing/mask/facehugger/allow_attack_hand_drop(mob/living/carbon/human/user)
+	if(!real || sterile || user.get_organ_by_type(/obj/item/organ/body_egg/alien_embryo))
+		return ..()
+	if(istype(user) && ishuman(loc) && stat != DEAD)
+		if(user == loc && user.get_item_by_slot(slot_flags) == src)
+			to_chat(user, span_userdanger("[src] is latched on too tight! Get help or wait for it to let go!"))
+			return FALSE
+	return ..()
+
+/obj/item/clothing/mask/facehugger/mouse_drop_dragged(atom/over, mob/user, src_location, over_location, params)
+	var/mob/living/carbon/human/wearer = loc
+	if(!istype(wearer) || user != wearer)
+		return
+	if(!real || sterile || user.get_organ_by_type(/obj/item/organ/body_egg/alien_embryo))
+		return ..()
+	if(wearer.get_item_by_slot(slot_flags) == src && stat != DEAD)
+		to_chat(user, span_userdanger("[src] is latched on too tight! Get help or wait for it to let go!"))
+		return
+	return ..()
+
 /proc/CanHug(mob/living/M)
 	if(!istype(M))
 		return FALSE
 	if(M.stat == DEAD)
 		return FALSE
-	if(M.get_organ_by_type(/obj/item/organ/internal/alien/hivenode))
+	if(M.get_organ_by_type(/obj/item/organ/alien/hivenode))
 		return FALSE
 	var/mob/living/carbon/C = M
 	if(ishuman(C) && !(C.dna.species.no_equip_flags & ITEM_SLOT_MASK))
@@ -273,8 +320,14 @@
 
 /obj/item/clothing/mask/facehugger/lamarr
 	name = "Lamarr"
+<<<<<<< HEAD
 	desc = "The Research Director's pet, a facehugger. Its tail falls limp behind it, and its proboscis is full of a glowing green fluid. It acts sluggish, as if its tired."
 	neutered = TRUE
+=======
+	desc = "The Research Director's pet, a domesticated and debeaked xenomorph facehugger. Friendly, but may still try to couple with your head."
+	sterile = TRUE
+	slowdown = 1.5 //lamarr is too fat after being fed in captivity to effectively slow people down or something
+>>>>>>> tg-pr-88929
 
 /obj/item/clothing/mask/facehugger/dead
 	icon_state = "facehugger_dead"
@@ -294,6 +347,8 @@
 	real = FALSE
 	sterile = TRUE
 	tint = 3 //Makes it feel more authentic when it latches on
+	slowdown = 0
+	integrity_failure = 0
 
 /obj/item/clothing/mask/facehugger/toy/Die()
 	return

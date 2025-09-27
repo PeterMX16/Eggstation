@@ -1,6 +1,7 @@
 import { map } from 'common/collections';
+import { Button, Section, Table } from 'tgui-core/components';
+
 import { useBackend } from '../backend';
-import { Button, Section, Table } from '../components';
 import { NtosWindow } from '../layouts';
 
 export const NtosCrewManifest = (props) => {
@@ -19,7 +20,11 @@ export const NtosCrewManifest = (props) => {
             />
           }
         >
+<<<<<<< HEAD
           {map((entries, department) => (
+=======
+          {map(manifest, (entries, department) => (
+>>>>>>> tg-pr-88929
             <Section key={department} level={2} title={department}>
               <Table>
                 {entries.map((entry) => (
@@ -38,7 +43,7 @@ export const NtosCrewManifest = (props) => {
                 ))}
               </Table>
             </Section>
-          ))(manifest)}
+          ))}
         </Section>
       </NtosWindow.Content>
     </NtosWindow>

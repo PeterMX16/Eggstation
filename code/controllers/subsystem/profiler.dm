@@ -11,6 +11,7 @@ SUBSYSTEM_DEF(profiler)
 		StartProfiling()
 	else
 		StopProfiling() //Stop the early start profiler
+	wait = CONFIG_GET(number/profiler_interval)
 	return SS_INIT_SUCCESS
 
 /datum/controller/subsystem/profiler/OnConfigLoad()
@@ -53,14 +54,29 @@ SUBSYSTEM_DEF(profiler)
 
 	if(!length(current_profile_data)) //Would be nice to have explicit proc to check this
 		stack_trace("Warning, profiling stopped manually before dump.")
+<<<<<<< HEAD
 
 	var/timestamp = time2text(world.timeofday, "YYYY-MM-DD_hh-mm-ss")
 	var/prof_file = "[GLOB.log_directory]/profiler/profiler-[timestamp].json"
 	if(!length(current_sendmaps_data)) //Would be nice to have explicit proc to check this
 		stack_trace("Warning, sendmaps profiling stopped manually before dump.")
 	var/sendmaps_file = "[GLOB.log_directory]/profiler/sendmaps-[timestamp].json"
+=======
+	var/prof_file = file("[GLOB.log_directory]/profiler/profiler-[round(world.time * 0.1, 10)].json")
+	if(fexists(prof_file))
+		fdel(prof_file)
+	if(!length(current_sendmaps_data)) //Would be nice to have explicit proc to check this
+		stack_trace("Warning, sendmaps profiling stopped manually before dump.")
+	var/sendmaps_file = file("[GLOB.log_directory]/profiler/sendmaps-[round(world.time * 0.1, 10)].json")
+	if(fexists(sendmaps_file))
+		fdel(sendmaps_file)
+>>>>>>> tg-pr-88929
 
 	timer = TICK_USAGE_REAL
 	rustg_file_write(current_profile_data, prof_file)
 	rustg_file_write(current_sendmaps_data, sendmaps_file)
 	write_cost = MC_AVERAGE(write_cost, TICK_DELTA_TO_MS(TICK_USAGE_REAL - timer))
+<<<<<<< HEAD
+=======
+
+>>>>>>> tg-pr-88929

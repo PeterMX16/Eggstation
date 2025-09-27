@@ -1,4 +1,15 @@
+import {
+  Box,
+  Button,
+  Dimmer,
+  Icon,
+  LabeledList,
+  Section,
+  Tabs,
+} from 'tgui-core/components';
+
 import { useBackend, useSharedState } from '../backend';
+<<<<<<< HEAD
 import {
   Box,
   Button,
@@ -8,6 +19,8 @@ import {
   Section,
   Tabs,
 } from '../components';
+=======
+>>>>>>> tg-pr-88929
 import { Window } from '../layouts';
 
 export const Limbgrower = (props) => {

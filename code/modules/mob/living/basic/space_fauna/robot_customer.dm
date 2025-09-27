@@ -10,13 +10,22 @@
 	icon_state = "amerifat"
 	icon_living = "amerifat"
 
+<<<<<<< HEAD
+=======
+	max_grab = GRAB_AGGRESSIVE
+>>>>>>> tg-pr-88929
 	basic_mob_flags = DEL_ON_DEATH
 	mob_biotypes = MOB_ROBOTIC|MOB_HUMANOID
 	sentience_type = SENTIENCE_ARTIFICIAL
 
 	unsuitable_atmos_damage = 0
+<<<<<<< HEAD
 	bodytemp_cold_damage_limit = TCMB
 	bodytemp_heat_damage_limit = T0C + 1000
+=======
+	minimum_survivable_temperature = TCMB
+	maximum_survivable_temperature = T0C + 1000
+>>>>>>> tg-pr-88929
 
 	ai_controller = /datum/ai_controller/robot_customer
 

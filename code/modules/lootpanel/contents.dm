@@ -16,7 +16,10 @@
 	var/datum/search_object/source = new(owner, source_turf)
 	add_to_index(source)
 
+<<<<<<< HEAD
 	var/should_check_obscured = length(source_turf.contents) < 25
+=======
+>>>>>>> tg-pr-88929
 	for(var/atom/thing as anything in source_turf.contents)
 		// validate
 		if(!istype(thing))
@@ -26,7 +29,11 @@
 			continue
 		if(thing.mouse_opacity == MOUSE_OPACITY_TRANSPARENT)
 			continue
+<<<<<<< HEAD
 		if(should_check_obscured && thing.IsObscured())
+=======
+		if(thing.IsObscured())
+>>>>>>> tg-pr-88929
 			continue
 		if(thing.invisibility > owner.mob.see_invisible)
 			continue

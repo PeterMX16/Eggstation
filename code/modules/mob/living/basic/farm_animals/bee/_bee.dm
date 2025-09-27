@@ -10,7 +10,11 @@
 	desc = "Buzzy buzzy bee, stingy sti- Ouch!"
 	icon_state = ""
 	icon_living = ""
+<<<<<<< HEAD
 	icon = 'monkestation/icons/mob/simple/bees.dmi' //monkestation edit
+=======
+	icon = 'icons/mob/simple/bees.dmi'
+>>>>>>> tg-pr-88929
 	gender = FEMALE
 	speak_emote = list("buzzes")
 
@@ -25,18 +29,25 @@
 	response_harm_continuous = "squashes"
 	response_harm_simple = "squash"
 
+<<<<<<< HEAD
 	guaranteed_butcher_results = list(/obj/item/stack/sheet/animalhide/bee = 1 )
 
 	mob_size = MOB_SIZE_SMALL
 	pixel_x = -16
 	base_pixel_x = -16
 
+=======
+>>>>>>> tg-pr-88929
 	speed = 1
 	maxHealth = 10
 	health = 10
 	melee_damage_lower = 1
 	melee_damage_upper = 1
+<<<<<<< HEAD
 	faction = list(FACTION_HOSTILE, FACTION_HIVE)
+=======
+	faction = list(FACTION_HOSTILE)
+>>>>>>> tg-pr-88929
 	pass_flags = PASSTABLE | PASSGRILLE | PASSMOB | PASSMACHINE
 	mob_size = MOB_SIZE_TINY
 	mob_biotypes = MOB_ORGANIC|MOB_BUG
@@ -45,17 +56,38 @@
 	can_be_held = TRUE
 	held_w_class = WEIGHT_CLASS_TINY
 	environment_smash  = ENVIRONMENT_SMASH_NONE
+<<<<<<< HEAD
 	habitable_atmos = list("min_oxy" = 0, "max_oxy" = 0, "min_plas" = 0, "max_plas" = 0, "min_co2" = 0, "max_co2" = 0, "min_n2" = 0, "max_n2" = 0)
+=======
+	habitable_atmos = null
+	basic_mob_flags = DEL_ON_DEATH
+>>>>>>> tg-pr-88929
 	ai_controller = /datum/ai_controller/basic_controller/bee
 	///the reagent the bee has
 	var/datum/reagent/beegent = null
 	///the house we live in
 	var/obj/structure/beebox/beehome = null
 	///our icon base
+<<<<<<< HEAD
 	var/icon_base = "angry_bee" //add friendly maint bees
 	var/dead_icon_base = "dead_bee"
 	///the bee is a queen?
 	var/is_queen = FALSE
+=======
+	var/icon_base = "bee"
+	///the bee is a queen?
+	var/is_queen = FALSE
+	///commands we follow
+	var/list/pet_commands = list(
+		/datum/pet_command/idle,
+		/datum/pet_command/free,
+		/datum/pet_command/beehive/enter,
+		/datum/pet_command/beehive/exit,
+		/datum/pet_command/follow/bee,
+		/datum/pet_command/attack/swirl,
+		/datum/pet_command/scatter,
+	)
+>>>>>>> tg-pr-88929
 
 /mob/living/basic/bee/Initialize(mapload)
 	. = ..()
@@ -64,8 +96,14 @@
 	AddElement(/datum/element/simple_flying)
 	AddComponent(/datum/component/clickbox, x_offset = -2, y_offset = -2)
 	AddComponent(/datum/component/swarming)
+<<<<<<< HEAD
 	AddElement(/datum/element/swabable, CELL_LINE_TABLE_QUEEN_BEE, CELL_VIRUS_TABLE_GENERIC_MOB, 1, 5)
 	RegisterSignal(src, COMSIG_HOSTILE_PRE_ATTACKINGTARGET, PROC_REF(pre_attack))
+=======
+	AddComponent(/datum/component/obeys_commands, pet_commands)
+	AddElement(/datum/element/swabable, CELL_LINE_TABLE_QUEEN_BEE, CELL_VIRUS_TABLE_GENERIC_MOB, 1, 5)
+	AddElement(/datum/element/basic_allergenic_attack, allergen = BUGS, allergen_chance = 33, histamine_add = 5)
+>>>>>>> tg-pr-88929
 
 /mob/living/basic/bee/mob_pickup(mob/living/picker)
 	if(flags_1 & HOLOGRAM_1)
@@ -95,6 +133,7 @@
 	return ..()
 
 /mob/living/basic/bee/death(gibbed)
+<<<<<<< HEAD
 	icon_base = dead_icon_base
 	generate_bee_visuals()
 	if(beehome)
@@ -121,11 +160,34 @@
 		var/atom/movable/hydro = target
 		pollinate(hydro)
 		return COMPONENT_HOSTILE_NO_ATTACK
+=======
+	if(!(flags_1 & HOLOGRAM_1) && !gibbed)
+		spawn_corpse()
+	return ..()
+
+/// Leave something to remember us by
+/mob/living/basic/bee/proc/spawn_corpse()
+	new /obj/item/trash/bee(loc, src)
+
+/mob/living/basic/bee/early_melee_attack(atom/target, list/modifiers)
+	. = ..()
+	if(!.)
+		return FALSE
+
+	if(istype(target, /obj/machinery/hydroponics))
+		var/obj/machinery/hydroponics/hydro = target
+		pollinate(hydro)
+		return FALSE
+>>>>>>> tg-pr-88929
 
 	if(istype(target, /obj/structure/beebox))
 		var/obj/structure/beebox/hive = target
 		handle_habitation(hive)
+<<<<<<< HEAD
 		return COMPONENT_HOSTILE_NO_ATTACK
+=======
+		return FALSE
+>>>>>>> tg-pr-88929
 
 /mob/living/basic/bee/proc/handle_habitation(obj/structure/beebox/hive)
 	if(hive == beehome) //if its our home, we enter or exit it
@@ -144,7 +206,11 @@
 /mob/living/basic/bee/proc/reagent_incompatible(mob/living/basic/bee/ruler)
 	if(!ruler)
 		return FALSE
+<<<<<<< HEAD
 	if(ruler.beegent != beegent)
+=======
+	if(ruler.beegent?.type != beegent?.type)
+>>>>>>> tg-pr-88929
 		return TRUE
 	return FALSE
 
@@ -159,22 +225,49 @@
 	add_overlay("[icon_base]_base")
 
 	var/static/mutable_appearance/greyscale_overlay
+<<<<<<< HEAD
 	greyscale_overlay = greyscale_overlay || mutable_appearance('monkestation/icons/mob/simple/bees.dmi')
+=======
+	greyscale_overlay = greyscale_overlay || mutable_appearance('icons/mob/simple/bees.dmi')
+>>>>>>> tg-pr-88929
 	greyscale_overlay.icon_state = "[icon_base]_grey"
 	greyscale_overlay.color = bee_color
 	add_overlay(greyscale_overlay)
 
 	add_overlay("[icon_base]_wings")
 
+<<<<<<< HEAD
 /mob/living/basic/bee/proc/pollinate(atom/movable/hydro)
 	SEND_SIGNAL(hydro, COMSIG_TRY_POLLINATE)
 
 	if(beehome)
 		beehome.bee_resources = min(beehome.bee_resources + health, 100)
+=======
+/mob/living/basic/bee/proc/pollinate(obj/machinery/hydroponics/hydro)
+	if(!hydro.can_bee_pollinate())
+		return FALSE
+	hydro.recent_bee_visit = TRUE
+	addtimer(VARSET_CALLBACK(hydro, recent_bee_visit, FALSE), BEE_TRAY_RECENT_VISIT)
+
+	var/growth = health //Health also means how many bees are in the swarm, roughly.
+	//better healthier plants!
+	hydro.adjust_plant_health(growth*0.5)
+	if(prob(BEE_POLLINATE_PEST_CHANCE))
+		hydro.adjust_pestlevel(-10)
+	if(prob(BEE_POLLINATE_YIELD_CHANCE))
+		hydro.myseed.adjust_yield(1)
+		hydro.yieldmod = 2
+	if(prob(BEE_POLLINATE_POTENCY_CHANCE))
+		hydro.myseed.adjust_potency(1)
+
+	if(beehome)
+		beehome.bee_resources = min(beehome.bee_resources + growth, 100)
+>>>>>>> tg-pr-88929
 
 /mob/living/basic/bee/proc/assign_reagent(datum/reagent/toxin)
 	if(!istype(toxin))
 		return
+<<<<<<< HEAD
 	var/static/list/injection_range = list(1, 5)
 	if(beegent) //clear the old since this one is going to have some new value
 		RemoveElement(/datum/element/venomous, beegent.type, injection_range)
@@ -182,13 +275,27 @@
 	name = "[initial(name)] ([toxin.name])"
 	real_name = name
 	AddElement(/datum/element/venomous, beegent.type, injection_range)
+=======
+	var/static/list/injection_range
+	if(!injection_range)
+		injection_range = string_numbers_list(list(1, 5))
+	if(beegent) //clear the old since this one is going to have some new value
+		RemoveElement(/datum/element/venomous, beegent.type, injection_range, thrown_effect = TRUE)
+	beegent = toxin
+	name = "[initial(name)] ([toxin.name])"
+	real_name = name
+	AddElement(/datum/element/venomous, beegent.type, injection_range, thrown_effect = TRUE)
+>>>>>>> tg-pr-88929
 	generate_bee_visuals()
 
 /mob/living/basic/bee/queen
 	name = "queen bee"
 	desc = "She's the queen of bees, BZZ BZZ!"
 	icon_base = "queen"
+<<<<<<< HEAD
 	dead_icon_base = "dead_queen_bee"
+=======
+>>>>>>> tg-pr-88929
 	is_queen = TRUE
 	ai_controller = /datum/ai_controller/basic_controller/queen_bee
 
@@ -203,19 +310,40 @@
 	var/datum/reagent/toxin = pick(typesof(/datum/reagent/toxin))
 	assign_reagent(GLOB.chemical_reagents_list[toxin])
 
+<<<<<<< HEAD
 /mob/living/basic/bee/short
 	desc = "These bees seem unstable and won't survive for long."
 
 /mob/living/basic/bee/short/Initialize(mapload, timetolive=50 SECONDS)
 	. = ..()
 	addtimer(CALLBACK(src, PROC_REF(death)), timetolive)
+=======
+/// A bee which despawns after a short amount of time (beespawns?)
+/mob/living/basic/bee/timed
+	/// How long do we live?
+	var/lifespan = 50 SECONDS
+
+/mob/living/basic/bee/timed/short
+	lifespan = 25 SECONDS
+
+/mob/living/basic/bee/timed/Initialize(mapload)
+	. = ..()
+	addtimer(CALLBACK(src, PROC_REF(death)), lifespan)
+
+/mob/living/basic/bee/timed/spawn_corpse()
+	new /obj/effect/temp_visual/despawn_effect(get_turf(src), /* copy_from = */ src)
+>>>>>>> tg-pr-88929
 
 /obj/item/queen_bee
 	name = "queen bee"
 	desc = "She's the queen of bees, BZZ BZZ!"
 	icon_state = "queen_item"
 	inhand_icon_state = ""
+<<<<<<< HEAD
 	icon = 'monkestation/icons/mob/simple/bees.dmi'
+=======
+	icon = 'icons/mob/simple/bees.dmi'
+>>>>>>> tg-pr-88929
 	/// The actual mob that our bee item corresponds to
 	var/mob/living/basic/bee/queen/queen
 
@@ -253,6 +381,7 @@
 		user.visible_message(span_notice("[user] injects [src] with royal bee jelly, causing it to split into two bees, MORE BEES!"),span_warning("You inject [src] with royal bee jelly, causing it to split into two bees, MORE BEES!"))
 		return
 	var/datum/reagent/chemical = needle.reagents.get_master_reagent()
+<<<<<<< HEAD
 	if(chemical && needle.reagents.has_reagent(chemical.type, 5))
 		needle.reagents.remove_reagent(chemical.type, 5)
 		queen.assign_reagent(chemical)
@@ -260,6 +389,24 @@
 		name = queen.name
 	else
 		to_chat(user, span_warning("You don't have enough units of that chemical to modify the bee's DNA!"))
+=======
+	if(isnull(chemical))
+		return
+	if(!(chemical.chemical_flags & REAGENT_CAN_BE_SYNTHESIZED))
+		to_chat(user, span_warning("[chemical.name] cannot be inserted into a bee's genome!"))
+		return
+	if(chemical.type == queen.beegent?.type)
+		to_chat(user, span_warning("[queen] already has this chemical!"))
+		return
+	if(!(needle.reagents.has_reagent(chemical.type, 5)))
+		to_chat(user, span_warning("You don't have enough units of that chemical to modify the bee's DNA!"))
+		return
+	needle.reagents.remove_reagent(chemical.type, 5)
+	var/datum/reagent/bee_chem = GLOB.chemical_reagents_list[chemical.type]
+	queen.assign_reagent(bee_chem)
+	user.visible_message(span_warning("[user] injects [src]'s genome with [chemical.name], mutating its DNA!"),span_warning("You inject [src]'s genome with [chemical.name], mutating its DNA!"))
+	name = queen.name
+>>>>>>> tg-pr-88929
 
 /obj/item/queen_bee/suicide_act(mob/living/user)
 	user.visible_message(span_suicide("[user] eats [src]! It looks like [user.p_theyre()] trying to commit suicide!"))

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { useBackend, useLocalState } from '../backend';
+=======
+import { useState } from 'react';
+>>>>>>> tg-pr-88929
 import {
   Box,
   Button,
@@ -6,8 +10,15 @@ import {
   LabeledList,
   NumberInput,
   Section,
+<<<<<<< HEAD
 } from '../components';
 import { capitalizeAll } from 'common/string';
+=======
+} from 'tgui-core/components';
+import { capitalizeAll } from 'tgui-core/string';
+
+import { useBackend } from '../backend';
+>>>>>>> tg-pr-88929
 import { Window } from '../layouts';
 
 type Product = {
@@ -21,10 +32,17 @@ type Category = {
 };
 
 type Data = {
+<<<<<<< HEAD
   current_volume: Number;
   product_name: string;
   min_volume: Number;
   max_volume: Number;
+=======
+  current_volume: number;
+  product_name: string;
+  min_volume: number;
+  max_volume: number;
+>>>>>>> tg-pr-88929
   packaging_category: string;
   packaging_types: Category[];
   packaging_type: string;
@@ -41,16 +59,24 @@ export const ChemPress = (props) => {
     packaging_types,
     packaging_type,
   } = data;
+<<<<<<< HEAD
   const [categoryName, setCategoryName] = useLocalState(
     'categoryName',
     packaging_category,
   );
+=======
+  const [categoryName, setCategoryName] = useState(packaging_category);
+>>>>>>> tg-pr-88929
   const shownCategory =
     packaging_types.find((category) => category.cat_name === categoryName) ||
     packaging_types[0];
   return (
     <Window width={300} height={330}>
+<<<<<<< HEAD
       <Window.Content scrollable>
+=======
+      <Window.Content>
+>>>>>>> tg-pr-88929
         <Section>
           <LabeledList>
             <LabeledList.Item label="Product">
@@ -72,7 +98,11 @@ export const ChemPress = (props) => {
                 maxValue={max_volume}
                 step={1}
                 stepPixelSize={2}
+<<<<<<< HEAD
                 onChange={(e, value) =>
+=======
+                onChange={(value) =>
+>>>>>>> tg-pr-88929
                   act('change_current_volume', {
                     volume: value,
                   })

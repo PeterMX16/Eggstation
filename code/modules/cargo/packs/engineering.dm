@@ -25,12 +25,14 @@
 					/obj/item/mecha_parts/part/ripley_left_leg,
 					/obj/item/stock_parts/capacitor,
 					/obj/item/stock_parts/scanning_module,
+					/obj/item/stock_parts/servo,
 					/obj/item/circuitboard/mecha/ripley/main,
 					/obj/item/circuitboard/mecha/ripley/peripherals,
 					/obj/item/mecha_parts/mecha_equipment/drill,
 					/obj/item/mecha_parts/mecha_equipment/hydraulic_clamp,
 				)
 	crate_name= "\improper APLU MK-I kit"
+	crate_type = /obj/structure/closet/crate/science/robo
 
 /datum/supply_pack/engineering/conveyor
 	name = "Conveyor Assembly Crate"
@@ -72,7 +74,7 @@
 	cost = CARGO_CRATE_VALUE * 4
 	contains = list(/obj/item/inducer/orderable = 2)
 	crate_name = "inducer crate"
-	crate_type = /obj/structure/closet/crate/engineering/electrical
+	crate_type = /obj/structure/closet/crate/nakamura
 
 /datum/supply_pack/engineering/pacman
 	name = "P.A.C.M.A.N Generator Crate"
@@ -81,7 +83,7 @@
 	cost = CARGO_CRATE_VALUE * 5
 	contains = list(/obj/machinery/power/port_gen/pacman)
 	crate_name = "\improper PACMAN generator crate"
-	crate_type = /obj/structure/closet/crate/engineering/electrical
+	crate_type = /obj/structure/closet/crate/nakamura
 
 /datum/supply_pack/engineering/power
 	name = "Power Cell Crate"
@@ -120,6 +122,7 @@
 	cost = CARGO_CRATE_VALUE * 4.5
 	contains = list(/obj/machinery/portable_atmospherics/pump = 2)
 	crate_name = "portable air pump crate"
+	crate_type = /obj/structure/closet/crate/secure/engineering/atmos
 
 /datum/supply_pack/engineering/portascrubber
 	name = "Portable Scrubber Crate"
@@ -127,6 +130,7 @@
 	cost = CARGO_CRATE_VALUE * 4.5
 	contains = list(/obj/machinery/portable_atmospherics/scrubber = 2)
 	crate_name = "portable scrubber crate"
+	crate_type = /obj/structure/closet/crate/secure/engineering/atmos
 
 /datum/supply_pack/engineering/hugescrubber
 	name = "Huge Portable Scrubber Crate"
@@ -143,7 +147,7 @@
 	cost = CARGO_CRATE_VALUE * 2
 	contains = list(/obj/machinery/space_heater)
 	crate_name = "space heater crate"
-	crate_type = /obj/structure/closet/crate/large
+	crate_type = /obj/structure/closet/crate/secure/engineering/atmos
 
 /datum/supply_pack/engineering/bsa
 	name = "Bluespace Artillery Parts"
@@ -153,7 +157,8 @@
 	cost = CARGO_CRATE_VALUE * 30
 	special = TRUE
 	access_view = ACCESS_COMMAND
-	contains = list(/obj/item/circuitboard/machine/bsa/front,
+	contains = list(/obj/item/paper/guides/jobs/engineering/bsa,
+					/obj/item/circuitboard/machine/bsa/front,
 					/obj/item/circuitboard/machine/bsa/middle,
 					/obj/item/circuitboard/machine/bsa/back,
 					/obj/item/circuitboard/computer/bsa_control,
@@ -188,7 +193,6 @@
 	desc = "Protect the very existence of this station with these Anti-Meteor defenses. \
 		Contains three Shield Generator Satellites."
 	cost = CARGO_CRATE_VALUE * 6
-	special = TRUE
 	access_view = ACCESS_COMMAND
 	contains = list(/obj/machinery/satellite/meteor_shield = 3)
 	crate_name= "shield sat crate"
@@ -198,11 +202,18 @@
 	name = "Shield System Control Board"
 	desc = "A control system for the Shield Generator Satellite system."
 	cost = CARGO_CRATE_VALUE * 10
-	special = TRUE
 	access_view = ACCESS_COMMAND
 	contains = list(/obj/item/circuitboard/computer/sat_control)
 	crate_name= "shield control board crate"
 
+/datum/supply_pack/engineering/ceturtlenecks
+	name = "Chief Engineer Turtlenecks"
+	desc = "Contains the CE's turtleneck and turtleneck skirt."
+	cost = CARGO_CRATE_VALUE * 2
+	access = ACCESS_CE
+	contains = list(/obj/item/clothing/under/rank/engineering/chief_engineer/turtleneck,
+					/obj/item/clothing/under/rank/engineering/chief_engineer/turtleneck/skirt,
+				)
 
 /// Engine Construction
 
@@ -259,8 +270,9 @@
 	access = ACCESS_CE
 	contains = list(/obj/machinery/power/supermatter_crystal/shard)
 	crate_name = "supermatter shard crate"
-	crate_type = /obj/structure/closet/crate/secure/engineering
+	crate_type = /obj/structure/closet/crate/secure/radiation
 	dangerous = TRUE
+	discountable = SUPPLY_PACK_RARE_DISCOUNTABLE
 
 /datum/supply_pack/engine/tesla_coils
 	name = "Tesla Coil Crate"
@@ -284,9 +296,10 @@
 					/obj/item/hfr_box/core,
 				)
 	crate_name = "HFR crate"
-	crate_type = /obj/structure/closet/crate/secure/engineering
+	crate_type = /obj/structure/closet/crate/secure/engineering/atmos
 	dangerous = TRUE
 
+<<<<<<< HEAD
 /datum/supply_pack/engine/collector
 	name = "Radiation Collector Crate"
 	desc = "Contains three radiation collectors. Useful for collecting energy off nearby Supermatter Crystals, Singularities or Teslas!"
@@ -295,6 +308,29 @@
 					/obj/machinery/power/rad_collector,
 					/obj/machinery/power/rad_collector)
 	crate_name = "collector crate"
+=======
+/datum/supply_pack/engineering/rad_protection_modules
+	name = "Radiation Protection Modules"
+	desc = "Contains multiple radiation protections modules for MODsuits."
+	hidden = TRUE
+	contains = list(/obj/item/mod/module/rad_protection = 3)
+	crate_name = "modsuit radiation modules"
+	crate_type = /obj/structure/closet/crate/engineering
+
+/datum/supply_pack/engineering/rad_nebula_shielding_kit
+	name = "Radioactive Nebula Shielding"
+	desc = "Contains circuitboards and radiation modules for constructing radioactive nebula shielding."
+	cost = CARGO_CRATE_VALUE * 2
+
+	special = TRUE
+	contains = list(
+		/obj/item/mod/module/rad_protection = 5,
+		/obj/item/circuitboard/machine/radioactive_nebula_shielding = 5,
+		/obj/item/paper/fluff/radiation_nebula = 1,
+	)
+	crate_name = "radioactive nebula shielding (IMPORTANT)"
+	crate_type = /obj/structure/closet/crate/engineering
+>>>>>>> tg-pr-88929
 
 /datum/supply_pack/engineering/portagrav
 	name = "Portable Gravity Unit Crate"

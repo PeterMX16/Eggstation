@@ -1,6 +1,6 @@
 // Tobacco
 /obj/item/seeds/tobacco
-	name = "pack of tobacco seeds"
+	name = "tobacco seed pack"
 	desc = "These seeds grow into tobacco plants."
 	icon_state = "seed-tobacco"
 	species = "tobacco"
@@ -24,15 +24,21 @@
 
 // Space Tobacco
 /obj/item/seeds/tobacco/space
-	name = "pack of space tobacco seeds"
+	name = "space tobacco seed pack"
 	desc = "These seeds grow into space tobacco plants."
 	icon_state = "seed-stobacco"
 	species = "stobacco"
 	plantname = "Space Tobacco Plant"
 	product = /obj/item/food/grown/tobacco/space
+<<<<<<< HEAD
 	possible_mutations = list()
 	reagents_add = list(/datum/reagent/medicine/salbutamol = 0.05, /datum/reagent/drug/nicotine = 0.08)  ///datum/reagent/consumable/nutriment = 0.03 Thy shall not get fat from smoking
 	rarity = 20
+=======
+	mutatelist = null
+	reagents_add = list(/datum/reagent/medicine/salbutamol = 0.05, /datum/reagent/drug/nicotine = 0.08, /datum/reagent/consumable/nutriment = 0.03)
+	rarity = PLANT_MODERATELY_RARE
+>>>>>>> tg-pr-88929
 
 /obj/item/food/grown/tobacco/space
 	seed = /obj/item/seeds/tobacco/space

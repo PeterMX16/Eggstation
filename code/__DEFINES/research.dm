@@ -4,17 +4,23 @@
 //! Techweb names for new point types. Can be used to define specific point values for specific types of research (science, security, engineering, etc.)
 #define TECHWEB_POINT_TYPE_GENERIC "General Research"
 
+<<<<<<< HEAD
 #define TECHWEB_POINT_TYPE_NANITES "Nanite Research"
 
+=======
+>>>>>>> tg-pr-88929
 //!  Amount of points required to unlock nodes of corresponding tiers
 #define TECHWEB_TIER_1_POINTS 40
 #define TECHWEB_TIER_2_POINTS 80
 #define TECHWEB_TIER_3_POINTS 120
 #define TECHWEB_TIER_4_POINTS 160
 #define TECHWEB_TIER_5_POINTS 200
+<<<<<<< HEAD
 #define TECHWEB_TIER_6_POINTS 240 // Monkestation Addition:
 #define TECHWEB_TIER_7_POINTS 320 // Monkestation Addition:
 #define TECHWEB_DISCOUNT_MINOR 10 // Monkestation Addition:
+=======
+>>>>>>> tg-pr-88929
 
 //! Amount of points gained per second by a single R&D server, see: [research][code/controllers/subsystem/research.dm]
 #define TECHWEB_SINGLE_SERVER_INCOME 1
@@ -56,7 +62,10 @@
 #define CELL_LINE_TABLE_WALKING_MUSHROOM "cell_line_walking_mushroom_table"
 #define CELL_LINE_TABLE_QUEEN_BEE "cell_line_bee_queen_table"
 #define CELL_LINE_TABLE_BUTTERFLY "cell_line_butterfly_table"
+<<<<<<< HEAD
 #define CELL_LINE_TABLE_LEAPER	"cell_line_leaper_table"
+=======
+>>>>>>> tg-pr-88929
 #define CELL_LINE_TABLE_MEGA_ARACHNID "cell_line_table_mega_arachnid"
 
 //! All cell virus types
@@ -72,3 +81,17 @@
 #define SCIENTIFIC_COOPERATION_PURCHASE_MULTIPLIER 0.01
 /// How much money is one point of gain worth.
 #define SCIPAPER_GAIN_TO_MONEY 125
+
+///Connects the 'server_var' to a valid research server on your Z level.
+///Used for machines in LateInitialize, to ensure that RND servers are loaded first.
+#define CONNECT_TO_RND_SERVER_ROUNDSTART(server_var, holder) do { \
+	var/list/found_servers = SSresearch.get_available_servers(get_turf(holder)); \
+	var/obj/machinery/rnd/server/selected_server = length(found_servers) ? found_servers[1] : null; \
+	if (selected_server) { \
+		server_var = selected_server.stored_research; \
+	}; \
+	else { \
+		var/datum/techweb/station_fallback_web = locate(/datum/techweb/science) in SSresearch.techwebs; \
+		server_var = station_fallback_web; \
+	}; \
+} while (FALSE)

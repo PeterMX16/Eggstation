@@ -4,7 +4,11 @@
 	savefile_identifier = PREFERENCE_PLAYER
 
 	minimum = 0
+<<<<<<< HEAD
 	maximum = 9
+=======
+	maximum = 5
+>>>>>>> tg-pr-88929
 
 	step = 0.5
 

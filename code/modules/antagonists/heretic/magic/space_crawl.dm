@@ -7,7 +7,7 @@
  */
 /datum/action/cooldown/spell/jaunt/space_crawl
 	name = "Space Phase"
-	desc = "Allows you to phase in and out of existance while in space or misc tiles."
+	desc = "Allows you to phase in and out of existence while in space or misc tiles."
 	background_icon_state = "bg_heretic"
 	overlay_icon_state = "bg_heretic_border"
 
@@ -88,9 +88,12 @@
 
 	jaunter.add_traits(jaunting_traits, SPACE_PHASING)
 	RegisterSignal(jaunter, SIGNAL_REMOVETRAIT(TRAIT_ALLOW_HERETIC_CASTING), PROC_REF(on_focus_lost))
+<<<<<<< HEAD
 	playsound(our_turf, 'sound/magic/cosmic_energy.ogg', 50, TRUE, -1)
+=======
+	playsound(our_turf, 'sound/effects/magic/cosmic_energy.ogg', 50, TRUE, -1)
+>>>>>>> tg-pr-88929
 	our_turf.visible_message(span_warning("[jaunter] sinks into [our_turf]!"))
-	playsound(our_turf, 'sound/magic/cosmic_energy.ogg', 50, TRUE, -1)
 	new /obj/effect/temp_visual/space_explosion(our_turf)
 	jaunter.extinguish_mob()
 
@@ -114,7 +117,11 @@
 /datum/action/cooldown/spell/jaunt/space_crawl/on_jaunt_exited(obj/effect/dummy/phased_mob/jaunt, mob/living/unjaunter)
 	UnregisterSignal(jaunt, COMSIG_MOVABLE_MOVED)
 	UnregisterSignal(unjaunter, list(SIGNAL_REMOVETRAIT(TRAIT_ALLOW_HERETIC_CASTING)))
+<<<<<<< HEAD
 	playsound(get_turf(unjaunter), 'sound/magic/cosmic_energy.ogg', 50, TRUE, -1)
+=======
+	playsound(get_turf(unjaunter), 'sound/effects/magic/cosmic_energy.ogg', 50, TRUE, -1)
+>>>>>>> tg-pr-88929
 	new /obj/effect/temp_visual/space_explosion(get_turf(unjaunter))
 	if(iscarbon(unjaunter))
 		for(var/obj/item/space_crawl/space_hand in unjaunter.held_items)
@@ -132,7 +139,7 @@
 /obj/item/space_crawl
 	name = "space crawl"
 	desc = "You are unable to hold anything while in this form."
-	icon = 'icons/obj/eldritch.dmi'
+	icon = 'icons/obj/antags/eldritch.dmi'
 	item_flags = ABSTRACT | DROPDEL
 
 /obj/item/space_crawl/Initialize(mapload)

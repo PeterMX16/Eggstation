@@ -40,28 +40,48 @@
 		if(PTURRET_START_EXTERNAL_ARMOUR)
 			. += span_notice("The turret's armor needs to be <b>welded</b> in place, the armor looks like it could be <i>pried</i> off.")
 
+<<<<<<< HEAD
 /obj/machinery/porta_turret_construct/attackby(obj/item/attacking_item, mob/user, list/modifiers, list/attack_modifiers)
 	//this is a bit unwieldy but self-explanatory
 	switch(build_step)
 		if(PTURRET_UNSECURED) //first step
 			if(attacking_item.tool_behaviour == TOOL_WRENCH && !anchored)
 				attacking_item.play_tool_sound(src, 100)
+=======
+/obj/machinery/porta_turret_construct/attackby(obj/item/used, mob/user, params)
+	//this is a bit unwieldy but self-explanatory
+	switch(build_step)
+		if(PTURRET_UNSECURED) //first step
+			if(used.tool_behaviour == TOOL_WRENCH && !anchored)
+				used.play_tool_sound(src, 100)
+>>>>>>> tg-pr-88929
 				to_chat(user, span_notice("You secure the external bolts."))
 				set_anchored(TRUE)
 				build_step = PTURRET_BOLTED
 				return
 
+<<<<<<< HEAD
 			else if(attacking_item.tool_behaviour == TOOL_CROWBAR && !anchored)
 				attacking_item.play_tool_sound(src, 75)
+=======
+			else if(used.tool_behaviour == TOOL_CROWBAR && !anchored)
+				used.play_tool_sound(src, 75)
+>>>>>>> tg-pr-88929
 				to_chat(user, span_notice("You dismantle the turret construction."))
 				new /obj/item/stack/sheet/iron(loc, 5)
 				qdel(src)
 				return
 
 		if(PTURRET_BOLTED)
+<<<<<<< HEAD
 			if(istype(attacking_item, /obj/item/stack/sheet/iron))
 				var/obj/item/stack/sheet/iron/M = attacking_item
 				if(M.use(2))
+=======
+			if(istype(used, /obj/item/stack/sheet/iron))
+				var/obj/item/stack/sheet/iron/sheet = used
+				if(sheet.use(2))
+>>>>>>> tg-pr-88929
 					to_chat(user, span_notice("You add some metal armor to the interior frame."))
 					build_step = PTURRET_START_INTERNAL_ARMOUR
 					icon_state = "turret_frame2"
@@ -69,8 +89,13 @@
 					to_chat(user, span_warning("You need two sheets of iron to continue construction!"))
 				return
 
+<<<<<<< HEAD
 			else if(attacking_item.tool_behaviour == TOOL_WRENCH)
 				attacking_item.play_tool_sound(src, 75)
+=======
+			else if(used.tool_behaviour == TOOL_WRENCH)
+				used.play_tool_sound(src, 75)
+>>>>>>> tg-pr-88929
 				to_chat(user, span_notice("You unfasten the external bolts."))
 				set_anchored(FALSE)
 				build_step = PTURRET_UNSECURED
@@ -78,19 +103,33 @@
 
 
 		if(PTURRET_START_INTERNAL_ARMOUR)
+<<<<<<< HEAD
 			if(attacking_item.tool_behaviour == TOOL_WRENCH)
 				attacking_item.play_tool_sound(src, 100)
+=======
+			if(used.tool_behaviour == TOOL_WRENCH)
+				used.play_tool_sound(src, 100)
+>>>>>>> tg-pr-88929
 				to_chat(user, span_notice("You bolt the metal armor into place."))
 				build_step = PTURRET_INTERNAL_ARMOUR_ON
 				return
 
+<<<<<<< HEAD
 			else if(attacking_item.tool_behaviour == TOOL_WELDER)
 				if(!attacking_item.tool_start_check(user, amount = 5)) //uses up 5 fuel
+=======
+			else if(used.tool_behaviour == TOOL_WELDER)
+				if(!used.tool_start_check(user, amount = 5)) //uses up 5 fuel
+>>>>>>> tg-pr-88929
 					return
 
 				to_chat(user, span_notice("You start to remove the turret's interior metal armor..."))
 
+<<<<<<< HEAD
 				if(attacking_item.use_tool(src, user, 20, volume = 50, amount = 5)) //uses up 5 fuel
+=======
+				if(used.use_tool(src, user, 20, volume = 50, amount = 5)) //uses up 5 fuel
+>>>>>>> tg-pr-88929
 					build_step = PTURRET_BOLTED
 					to_chat(user, span_notice("You remove the turret's interior metal armor."))
 					new /obj/item/stack/sheet/iron(drop_location(), 2)
@@ -98,6 +137,7 @@
 
 
 		if(PTURRET_INTERNAL_ARMOUR_ON)
+<<<<<<< HEAD
 			if(istype(attacking_item, /obj/item/gun/energy)) //the gun installation part
 				var/obj/item/gun/energy/E = attacking_item
 				if(!user.transferItemToLoc(E, src))
@@ -108,51 +148,100 @@
 				return
 			else if(attacking_item.tool_behaviour == TOOL_WRENCH)
 				attacking_item.play_tool_sound(src, 100)
+=======
+			if(istype(used, /obj/item/gun/energy)) //the gun installation part
+				var/obj/item/gun/energy/egun = used
+				if(egun.gun_flags & TURRET_INCOMPATIBLE)
+					to_chat(user, span_notice("You don't think it would be right to add [used] to the turret"))
+					return
+				if(!user.transferItemToLoc(egun, src))
+					return
+				installed_gun = egun
+				to_chat(user, span_notice("You add [used] to the turret."))
+				build_step = PTURRET_GUN_EQUIPPED
+				return
+			else if(used.tool_behaviour == TOOL_WRENCH)
+				used.play_tool_sound(src, 100)
+>>>>>>> tg-pr-88929
 				to_chat(user, span_notice("You remove the turret's metal armor bolts."))
 				build_step = PTURRET_START_INTERNAL_ARMOUR
 				return
 
 		if(PTURRET_GUN_EQUIPPED)
+<<<<<<< HEAD
 			if(isprox(attacking_item))
 				build_step = PTURRET_SENSORS_ON
 				if(!user.temporarilyRemoveItemFromInventory(attacking_item))
 					return
 				to_chat(user, span_notice("You add the proximity sensor to the turret."))
 				qdel(attacking_item)
+=======
+			if(isprox(used))
+				build_step = PTURRET_SENSORS_ON
+				if(!user.temporarilyRemoveItemFromInventory(used))
+					return
+				to_chat(user, span_notice("You add the proximity sensor to the turret."))
+				qdel(used)
+>>>>>>> tg-pr-88929
 				return
 
 
 		if(PTURRET_SENSORS_ON)
+<<<<<<< HEAD
 			if(attacking_item.tool_behaviour == TOOL_SCREWDRIVER)
 				attacking_item.play_tool_sound(src, 100)
+=======
+			if(used.tool_behaviour == TOOL_SCREWDRIVER)
+				used.play_tool_sound(src, 100)
+>>>>>>> tg-pr-88929
 				build_step = PTURRET_CLOSED
 				to_chat(user, span_notice("You close the internal access hatch."))
 				return
 
 
 		if(PTURRET_CLOSED)
+<<<<<<< HEAD
 			if(istype(attacking_item, /obj/item/stack/sheet/iron))
 				var/obj/item/stack/sheet/iron/M = attacking_item
 				if(M.use(2))
+=======
+			if(istype(used, /obj/item/stack/sheet/iron))
+				var/obj/item/stack/sheet/iron/sheet = used
+				if(sheet.use(2))
+>>>>>>> tg-pr-88929
 					to_chat(user, span_notice("You add some metal armor to the exterior frame."))
 					build_step = PTURRET_START_EXTERNAL_ARMOUR
 				else
 					to_chat(user, span_warning("You need two sheets of iron to continue construction!"))
 				return
 
+<<<<<<< HEAD
 			else if(attacking_item.tool_behaviour == TOOL_SCREWDRIVER)
 				attacking_item.play_tool_sound(src, 100)
+=======
+			else if(used.tool_behaviour == TOOL_SCREWDRIVER)
+				used.play_tool_sound(src, 100)
+>>>>>>> tg-pr-88929
 				build_step = PTURRET_SENSORS_ON
 				to_chat(user, span_notice("You open the internal access hatch."))
 				return
 
 		if(PTURRET_START_EXTERNAL_ARMOUR)
+<<<<<<< HEAD
 			if(attacking_item.tool_behaviour == TOOL_WELDER)
 				if(!attacking_item.tool_start_check(user, amount = 5))
 					return
 
 				to_chat(user, span_notice("You begin to weld the turret's armor down..."))
 				if(attacking_item.use_tool(src, user, 30, volume = 50, amount = 5))
+=======
+			if(used.tool_behaviour == TOOL_WELDER)
+				if(!used.tool_start_check(user, amount = 5))
+					return
+
+				to_chat(user, span_notice("You begin to weld the turret's armor down..."))
+				if(used.use_tool(src, user, 30, volume = 50, amount = 5))
+>>>>>>> tg-pr-88929
 					build_step = PTURRET_EXTERNAL_ARMOUR_ON
 					to_chat(user, span_notice("You weld the turret's armor down."))
 
@@ -171,15 +260,25 @@
 					qdel(src)
 					return
 
+<<<<<<< HEAD
 			else if(attacking_item.tool_behaviour == TOOL_CROWBAR)
 				attacking_item.play_tool_sound(src, 75)
+=======
+			else if(used.tool_behaviour == TOOL_CROWBAR)
+				used.play_tool_sound(src, 75)
+>>>>>>> tg-pr-88929
 				to_chat(user, span_notice("You pry off the turret's exterior armor."))
 				new /obj/item/stack/sheet/iron(loc, 2)
 				build_step = PTURRET_CLOSED
 				return
 
+<<<<<<< HEAD
 	if(attacking_item.get_writing_implement_details()?["interaction_mode"] == MODE_WRITING) //you can rename turrets like bots!
 		var/choice = tgui_input_text(user, "Enter a new turret name", "Turret Classification", finish_name, MAX_NAME_LEN)
+=======
+	if(used.get_writing_implement_details()?["interaction_mode"] == MODE_WRITING) //you can rename turrets like bots!
+		var/choice = tgui_input_text(user, "Enter a new turret name", "Turret Classification", finish_name, max_length = MAX_NAME_LEN)
+>>>>>>> tg-pr-88929
 		if(!choice)
 			return
 		if(!user.can_perform_action(src))

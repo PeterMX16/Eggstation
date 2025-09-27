@@ -6,6 +6,7 @@ GLOBAL_LIST_EMPTY(dead_players_during_shift)
 		if(GIB_TYPE_ROBOTIC)
 			new /obj/effect/temp_visual/gib_animation(loc, "gibbed-r")
 
+<<<<<<< HEAD
 /mob/living/carbon/human/dust_animation()
 	new /obj/effect/temp_visual/dust_animation(loc, dna.species.dust_anim)
 
@@ -13,38 +14,51 @@ GLOBAL_LIST_EMPTY(dead_players_during_shift)
 	if(flags_1 & HOLOGRAM_1)
 		return
 	if(with_bodyparts)
+=======
+/mob/living/carbon/human/spawn_gibs(drop_bitflags=NONE)
+	if(flags_1 & HOLOGRAM_1)
+		return
+	if(drop_bitflags & DROP_BODYPARTS)
+>>>>>>> tg-pr-88929
 		new /obj/effect/gibspawner/human(drop_location(), src, get_static_viruses())
 	else
 		new /obj/effect/gibspawner/human/bodypartless(drop_location(), src, get_static_viruses())
 
-/mob/living/carbon/human/spawn_dust(just_ash = FALSE)
+/mob/living/carbon/human/spawn_dust(just_ash)
 	if(just_ash)
-		new /obj/effect/decal/cleanable/ash(loc)
-	else
-		new /obj/effect/decal/remains/human(loc)
+		return ..()
+
+	var/bone_type = /obj/effect/decal/remains/human
+	if(isplasmaman(src))
+		bone_type = /obj/effect/decal/remains/plasma
+
+	var/obj/effect/decal/remains/human/bones = new bone_type(loc)
+	bones.pixel_z = -6
+	bones.pixel_w = rand(-1, 1)
 
 /mob/living/carbon/human/death(gibbed, cause_of_death = get_cause_of_death())
 	if(stat == DEAD)
 		return
 	stop_sound_channel(CHANNEL_HEARTBEAT)
-	var/obj/item/organ/internal/heart/H = get_organ_slot(ORGAN_SLOT_HEART)
-	if(H)
-		H.beat = BEAT_NONE
+	var/obj/item/organ/heart/human_heart = get_organ_slot(ORGAN_SLOT_HEART)
+	human_heart?.beat = BEAT_NONE
+	human_heart?.Stop()
 
 	. = ..()
 
 	if(client && !HAS_TRAIT(src, TRAIT_SUICIDED) && !(client in GLOB.dead_players_during_shift))
 		GLOB.dead_players_during_shift += client
 
-	if(!QDELETED(dna)) //The gibbed param is bit redundant here since dna won't exist at this point if they got deleted.
-		dna.species.spec_death(gibbed, src)
-
 	if(SSticker.HasRoundStarted())
 		SSblackbox.ReportDeath(src)
-		log_message("has died (BRUTE: [src.getBruteLoss()], BURN: [src.getFireLoss()], TOX: [src.getToxLoss()], OXY: [src.getOxyLoss()], CLONE: [src.getCloneLoss()])", LOG_ATTACK)
+		log_message("has died (BRUTE: [src.getBruteLoss()], BURN: [src.getFireLoss()], TOX: [src.getToxLoss()], OXY: [src.getOxyLoss()]", LOG_ATTACK)
 		if(key) // Prevents log spamming of keyless mob deaths (like xenobio monkeys)
 			investigate_log("has died at [loc_name(src)].<br>\
+<<<<<<< HEAD
 				BRUTE: [src.getBruteLoss()] BURN: [src.getFireLoss()] TOX: [src.getToxLoss()] OXY: [src.getOxyLoss()] CLONE: [src.getCloneLoss()] STAM: [src.stamina.loss]<br>\
+=======
+				BRUTE: [src.getBruteLoss()] BURN: [src.getFireLoss()] TOX: [src.getToxLoss()] OXY: [src.getOxyLoss()] STAM: [src.getStaminaLoss()]<br>\
+>>>>>>> tg-pr-88929
 				<b>Brain damage</b>: [src.get_organ_loss(ORGAN_SLOT_BRAIN) || "0"]<br>\
 				<b>Blood volume</b>: [src.blood_volume]cl ([round((src.blood_volume / BLOOD_VOLUME_NORMAL) * 100, 0.1)]%)<br>\
 				<b>Reagents</b>:<br>[reagents_readout()]", INVESTIGATE_DEATHS)
@@ -117,7 +131,7 @@ GLOBAL_LIST_EMPTY(dead_players_during_shift)
 		readout += "<br>[round(reagent.volume, 0.001)] units of [reagent.name]"
 
 	readout += "<br>Stomach:"
-	var/obj/item/organ/internal/stomach/belly = get_organ_slot(ORGAN_SLOT_STOMACH)
+	var/obj/item/organ/stomach/belly = get_organ_slot(ORGAN_SLOT_STOMACH)
 	for(var/datum/reagent/bile in belly?.reagents?.reagent_list)
 		if(!belly.food_reagents[bile.type])
 			readout += "<br>[round(bile.volume, 0.001)] units of [bile.name]"

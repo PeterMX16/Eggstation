@@ -1,6 +1,15 @@
-import { BooleanLike } from 'common/react';
-import { useBackend, useLocalState } from '../backend';
-import { TextArea, Stack, Button, NoticeBox, Input, Box } from '../components';
+import { useState } from 'react';
+import {
+  Box,
+  Button,
+  Input,
+  NoticeBox,
+  Stack,
+  TextArea,
+} from 'tgui-core/components';
+import { BooleanLike } from 'tgui-core/react';
+
+import { useBackend } from '../backend';
 import { Window } from '../layouts';
 
 type AdminhelpData = {
@@ -18,6 +27,7 @@ export const Adminhelp = (props) => {
     bannedFromUrgentAhelp,
     urgentAhelpPromptMessage,
   } = data;
+<<<<<<< HEAD
   const [requestForAdmin, setRequestForAdmin] = useLocalState(
     'request_for_admin',
     false,
@@ -27,13 +37,22 @@ export const Adminhelp = (props) => {
     false,
   );
   const [ahelpMessage, setAhelpMessage] = useLocalState('ahelp_message', '');
+=======
+  const [requestForAdmin, setRequestForAdmin] = useState(false);
+  const [currentlyInputting, setCurrentlyInputting] = useState(false);
+  const [ahelpMessage, setAhelpMessage] = useState('');
+>>>>>>> tg-pr-88929
 
   const confirmationText = 'alert admins';
   return (
     <Window title="Create Adminhelp" theme="admin" height={300} width={500}>
       <Window.Content
         style={{
+<<<<<<< HEAD
           'background-image': 'none',
+=======
+          backgroundImage: 'none',
+>>>>>>> tg-pr-88929
         }}
       >
         <Stack vertical fill>
@@ -57,7 +76,11 @@ export const Adminhelp = (props) => {
                     fontFamily="arial"
                     backgroundColor="grey"
                     style={{
+<<<<<<< HEAD
                       'font-style': 'normal',
+=======
+                      fontStyle: 'normal',
+>>>>>>> tg-pr-88929
                     }}
                   >
                     Input &apos;{confirmationText}&apos; to proceed.
@@ -76,7 +99,6 @@ export const Adminhelp = (props) => {
                 )) || (
                   <Button
                     mt={1}
-                    content="Alert admins?"
                     onClick={() => {
                       if (requestForAdmin) {
                         setRequestForAdmin(false);
@@ -90,11 +112,13 @@ export const Adminhelp = (props) => {
                     tooltip={
                       bannedFromUrgentAhelp
                         ? 'You are banned from using urgent ahelps.'
-                        : null
+                        : undefined
                     }
                     fluid
                     textAlign="center"
-                  />
+                  >
+                    Alert admins?
+                  </Button>
                 )}
               </NoticeBox>
             </Stack.Item>

@@ -9,8 +9,15 @@
 	// Suit information
 	var/suit_status = list(
 		"core_name" = core?.name,
+<<<<<<< HEAD
 		"cell_charge_current" = get_charge(),
 		"cell_charge_max" = get_max_charge(),
+=======
+		"charge_current" = get_charge(),
+		"charge_max" = get_max_charge(),
+		"chargebar_color" = get_chargebar_color(),
+		"chargebar_string" = get_chargebar_string(),
+>>>>>>> tg-pr-88929
 		"active" = active,
 		"ai_name" = ai_assistant?.name,
 		"has_pai" = ispAI(ai_assistant),
@@ -53,21 +60,33 @@
 			"cooldown" = round(COOLDOWN_TIMELEFT(module, cooldown_timer), 1 SECONDS),
 			"id" = module.tgui_id,
 			"ref" = REF(module),
+<<<<<<< HEAD
 			"configuration_data" = module.get_configuration()
 		))
 	data["module_custom_status"] = module_custom_status
 	data["module_info"] = module_info
+=======
+			"configuration_data" = module.get_configuration(user),
+		))
+	data["module_custom_status"] = module_custom_status
+	data["control"] = name
+	data["module_info"] = module_info
+	var/part_info = list()
+	for(var/obj/item/part as anything in get_parts())
+		part_info += list(list(
+			"slot" = english_list(parse_slot_flags(part.slot_flags)),
+			"name" = part.name,
+			"deployed" = part.loc != src,
+			"ref" = REF(part),
+		))
+	data["parts"] = part_info
+>>>>>>> tg-pr-88929
 	return data
 
 /obj/item/mod/control/ui_static_data(mob/user)
 	var/data = list()
 	data["ui_theme"] = ui_theme
-	data["control"] = name
 	data["complexity_max"] = complexity_max
-	data["helmet"] = helmet?.name
-	data["chestplate"] = chestplate?.name
-	data["gauntlets"] = gauntlets?.name
-	data["boots"] = boots?.name
 	return data
 
 /obj/item/mod/control/ui_state(mob/user)
@@ -80,19 +99,31 @@
 	if(.)
 		return
 	if(malfunctioning && prob(75))
-		balloon_alert(usr, "button malfunctions!")
+		balloon_alert(ui.user, "button malfunctions!")
 		return
 	switch(action)
 		if("lock")
+<<<<<<< HEAD
 			locked = !locked
 			balloon_alert(usr, "[locked ? "locked" : "unlocked"]!")
 		if("call")
 			if(!mod_link.link_call)
 				call_link(usr, mod_link)
+=======
+			if(!locked || allowed(ui.user))
+				locked = !locked
+				balloon_alert(ui.user, "[locked ? "locked" : "unlocked"]")
+			else
+				balloon_alert(ui.user, "access insufficent!")
+				playsound(src, 'sound/machines/scanner/scanbuzz.ogg', 25, TRUE, SILENCED_SOUND_EXTRARANGE)
+		if("call")
+			if(!mod_link.link_call)
+				call_link(ui.user, mod_link)
+>>>>>>> tg-pr-88929
 			else
 				mod_link.end_call()
 		if("activate")
-			toggle_activate(usr)
+			toggle_activate(ui.user)
 		if("select")
 			var/obj/item/mod/module/module = locate(params["ref"]) in modules
 			if(!module)
@@ -107,9 +138,25 @@
 			var/obj/item/mod/module/module = locate(params["ref"]) in modules
 			if(!module)
 				return
+<<<<<<< HEAD
 			module.pin(usr)
 		if("eject_pai")
 			if (!ishuman(usr))
 				return
 			remove_pai(usr)
+=======
+			module.pin(ui.user)
+		if("deploy")
+			var/obj/item/mod_part = locate(params["ref"]) in get_parts()
+			if(!mod_part)
+				return
+			if(mod_part.loc == src)
+				deploy(ui.user, mod_part)
+			else
+				retract(ui.user, mod_part)
+		if("eject_pai")
+			if (!ishuman(ui.user))
+				return
+			remove_pai(ui.user)
+>>>>>>> tg-pr-88929
 	return TRUE

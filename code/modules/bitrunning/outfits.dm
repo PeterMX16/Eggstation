@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /datum/outfit/cyber_police
 	name = "Cyber Police"
 
@@ -29,19 +30,31 @@
 		officer_uniform.has_sensor = NO_SENSORS
 		officer_uniform.sensor_mode = SENSOR_OFF
 		user.update_suit_sensors()
+=======
+
+>>>>>>> tg-pr-88929
 
 /datum/outfit/echolocator
 	name = "Bitrunning Echolocator"
 	glasses = /obj/item/clothing/glasses/blindfold
+<<<<<<< HEAD
 //	ears = /obj/item/radio/headset/psyker //Navigating without these is horrible. MONKEYSTATION EDIT ORIGINAL - we still have old psyker headsets
 	ears = /obj/item/radio/headset/syndicate/alt/psyker // MONKEYSTATION EDIT NEW
+=======
+	ears = /obj/item/radio/headset/psyker //Navigating without these is horrible.
+>>>>>>> tg-pr-88929
 	uniform = /obj/item/clothing/under/abductor
 	gloves = /obj/item/clothing/gloves/fingerless
 	shoes = /obj/item/clothing/shoes/jackboots
 	suit = /obj/item/clothing/suit/jacket/trenchcoat
 	id = /obj/item/card/id/advanced
 
+<<<<<<< HEAD
 /datum/outfit/echolocator/post_equip(mob/living/carbon/human/user, visualsOnly)
+=======
+
+/datum/outfit/echolocator/post_equip(mob/living/carbon/human/user, visuals_only)
+>>>>>>> tg-pr-88929
 	. = ..()
 	user.psykerize()
 

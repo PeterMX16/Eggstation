@@ -1,4 +1,16 @@
+import {
+  Box,
+  Button,
+  Icon,
+  LabeledControls,
+  NumberInput,
+  Section,
+  Stack,
+  Table,
+} from 'tgui-core/components';
+
 import { useBackend } from '../backend';
+<<<<<<< HEAD
 import {
   Box,
   Button,
@@ -9,6 +21,8 @@ import {
   NumberInput,
   Table,
 } from '../components';
+=======
+>>>>>>> tg-pr-88929
 import { Window } from '../layouts';
 
 type Data = {
@@ -147,7 +161,7 @@ export const Reflector = (props) => {
                     maxValue={359}
                     step={1}
                     stepPixelSize={1}
-                    onDrag={(e, value) =>
+                    onDrag={(value) =>
                       act('rotate', {
                         rotation_angle: value,
                       })

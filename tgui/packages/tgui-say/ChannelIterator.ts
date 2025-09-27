@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 export type Channel =
   | 'Say'
   | 'Radio'
@@ -6,6 +7,9 @@ export type Channel =
   | 'LOOC'
   | 'Mentor'
   | 'Admin';
+=======
+export type Channel = 'Say' | 'Radio' | 'Me' | 'OOC' | 'Admin';
+>>>>>>> tg-pr-88929
 
 /**
  * ### ChannelIterator
@@ -15,6 +19,7 @@ export type Channel =
  */
 export class ChannelIterator {
   private index: number = 0;
+<<<<<<< HEAD
   private readonly channels: Channel[] = [
     'Say',
     'Radio',
@@ -26,6 +31,11 @@ export class ChannelIterator {
   ];
   private readonly blacklist: Channel[] = ['Mentor', 'Admin'];
   private readonly quiet: Channel[] = ['OOC', 'LOOC', 'Mentor', 'Admin'];
+=======
+  private readonly channels: Channel[] = ['Say', 'Radio', 'Me', 'OOC', 'Admin'];
+  private readonly blacklist: Channel[] = ['Admin'];
+  private readonly quiet: Channel[] = ['OOC', 'Admin'];
+>>>>>>> tg-pr-88929
 
   public next(): Channel {
     if (this.blacklist.includes(this.channels[this.index])) {

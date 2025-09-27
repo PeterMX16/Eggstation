@@ -7,13 +7,11 @@ SUBSYSTEM_DEF(research)
 	//TECHWEB STATIC
 	var/list/techweb_nodes = list() //associative id = node datum
 	var/list/techweb_designs = list() //associative id = node datum
+	var/list/list/datum/design/item_to_design = list() //typepath = list of design datums
 
-	///List of all techwebs.
+	///List of all techwebs, generating points or not.
+	///Autolathes, Mechfabs, and others all have shared techwebs, for example.
 	var/list/datum/techweb/techwebs = list()
-	///The default Science Techweb.
-	var/datum/techweb/science/science_tech
-	///The default Admin Techweb.
-	var/datum/techweb/admin/admin_tech
 
 	var/datum/techweb_node/error_node/error_node //These two are what you get if a node/design is deleted and somehow still stored in a console.
 	var/datum/design/error_design/error_design
@@ -38,6 +36,7 @@ SUBSYSTEM_DEF(research)
 	var/list/techweb_nodes_experimental = list()
 	///path = list(point type = value)
 	var/list/techweb_point_items = list(
+<<<<<<< HEAD
 		/obj/item/assembly/signaler/anomaly = list(TECHWEB_POINT_TYPE_GENERIC = TECHWEB_TIER_4_POINTS)
 	)
 	var/list/errored_datums = list()
@@ -46,6 +45,13 @@ SUBSYSTEM_DEF(research)
 		TECHWEB_POINT_TYPE_GENERIC = "Gen. Res.",
 		TECHWEB_POINT_TYPE_NANITES = "Nanite Res."
 	)
+=======
+		/obj/item/assembly/signaler/anomaly = list(TECHWEB_POINT_TYPE_GENERIC = TECHWEB_TIER_5_POINTS)
+	)
+	var/list/errored_datums = list()
+	///Associated list of all point types that techwebs will have and their respective 'abbreviated' name.
+	var/list/point_types = list(TECHWEB_POINT_TYPE_GENERIC = "Gen. Res.")
+>>>>>>> tg-pr-88929
 	//----------------------------------------------
 	var/list/single_server_income = list(
 		TECHWEB_POINT_TYPE_GENERIC = TECHWEB_SINGLE_SERVER_INCOME,
@@ -68,6 +74,7 @@ SUBSYSTEM_DEF(research)
 		/obj/item/assembly/signaler/anomaly/hallucination = MAX_CORES_HALLUCINATION,
 		/obj/item/assembly/signaler/anomaly/bioscrambler = MAX_CORES_BIOSCRAMBLER,
 		/obj/item/assembly/signaler/anomaly/dimensional = MAX_CORES_DIMENSIONAL,
+		/obj/item/assembly/signaler/anomaly/ectoplasm = MAX_CORES_ECTOPLASMIC,
 	)
 
 	///our total xenobiology points
@@ -76,6 +83,7 @@ SUBSYSTEM_DEF(research)
 	var/list/ordnance_experiments = list()
 	/// Lookup list for scipaper partners.
 	var/list/datum/scientific_partner/scientific_partners = list()
+<<<<<<< HEAD
 
 	var/list/slime_core_prices = list()
 
@@ -88,13 +96,16 @@ SUBSYSTEM_DEF(research)
 		SLIME_VALUE_TIER_6,
 		SLIME_VALUE_TIER_7,
 	)
+=======
+>>>>>>> tg-pr-88929
 
 /datum/controller/subsystem/research/Initialize()
 	initialize_all_techweb_designs()
 	initialize_all_techweb_nodes()
 	populate_ordnance_experiments()
-	science_tech = new /datum/techweb/science
-	admin_tech = new /datum/techweb/admin
+	new /datum/techweb/science
+	new /datum/techweb/admin
+	new /datum/techweb/oldstation
 	autosort_categories()
 	error_design = new
 	error_node = new
@@ -131,6 +142,7 @@ SUBSYSTEM_DEF(research)
 				if(node.is_free(techweb_list)) // Automatically research all free nodes in queue if any
 					techweb_list.research_node(node)
 
+<<<<<<< HEAD
 	for(var/core_type in slime_core_prices)
 		var/obj/item/slime_extract/core = core_type
 		var/price_mod = rand(SLIME_RANDOM_MODIFIER_MIN * 1000000, SLIME_RANDOM_MODIFIER_MAX * 1000000) / 1000000
@@ -144,6 +156,8 @@ SUBSYSTEM_DEF(research)
 			continue
 		slime_core_prices[core_type] = default_core_prices[initial(core.tier)]
 
+=======
+>>>>>>> tg-pr-88929
 /datum/controller/subsystem/research/proc/autosort_categories()
 	for(var/i in techweb_nodes)
 		var/datum/techweb_node/I = techweb_nodes[i]
@@ -205,7 +219,12 @@ SUBSYSTEM_DEF(research)
 
 /datum/controller/subsystem/research/proc/initialize_all_techweb_designs(clearall = FALSE)
 	if(islist(techweb_designs) && clearall)
+<<<<<<< HEAD
 		QDEL_LIST_ASSOC_VAL(techweb_designs)
+=======
+		item_to_design = list()
+		QDEL_LIST(techweb_designs)
+>>>>>>> tg-pr-88929
 	var/list/returned = list()
 	for(var/path in subtypesof(/datum/design))
 		var/datum/design/DN = path
@@ -219,6 +238,11 @@ SUBSYSTEM_DEF(research)
 			stack_trace("WARNING: Design ID clash with ID [initial(DN.id)] detected! Path: [path]")
 			errored_datums[DN] = initial(DN.id)
 			continue
+		var/build_path = initial(DN.build_path)
+		if(!isnull(build_path))
+			if(!(build_path in item_to_design))
+				item_to_design[build_path] = list()
+			item_to_design[build_path] += DN
 		DN.InitializeMaterials() //Initialize the materials in the design
 		returned[initial(DN.id)] = DN
 	techweb_designs = returned
@@ -340,3 +364,44 @@ SUBSYSTEM_DEF(research)
 			for (var/datum/experiment/ordnance/ordnance_experiment as anything in ordnance_experiments)
 				partner.accepted_experiments += ordnance_experiment.type
 		scientific_partners += partner
+
+/**
+ * Goes through all techwebs and goes through their servers to find ones on a valid z-level
+ * Returns the full list of all techweb servers.
+ */
+/datum/controller/subsystem/research/proc/get_available_servers(turf/location)
+	var/list/local_servers = list()
+	if(!location)
+		return local_servers
+	for (var/datum/techweb/individual_techweb as anything in techwebs)
+		var/list/servers = find_valid_servers(location, individual_techweb)
+		if(length(servers))
+			local_servers += servers
+	return local_servers
+
+/**
+ * Goes through an individual techweb's servers and finds one on a valid z-level
+ * Returns a list of existing ones, or an empty list otherwise.
+ * Args:
+ * - checking_web - The techweb we're checking the servers of.
+ */
+/datum/controller/subsystem/research/proc/find_valid_servers(turf/location, datum/techweb/checking_web)
+	var/list/valid_servers = list()
+	for(var/obj/machinery/rnd/server/server as anything in checking_web.techweb_servers)
+		if(!is_valid_z_level(get_turf(server), location))
+			continue
+		valid_servers += server
+	return valid_servers
+
+/// Returns true if you can make an anomaly core of the provided type
+/datum/controller/subsystem/research/proc/is_core_available(core_type)
+	if (!ispath(core_type, /obj/item/assembly/signaler/anomaly))
+		return FALSE // The fuck are you checking this random object for?
+	var/already_made = created_anomaly_types[core_type] || 0
+	var/hard_limit = anomaly_hard_limit_by_type[core_type]
+	return already_made < hard_limit
+
+/// Increase our tracked number of cores of this type
+/datum/controller/subsystem/research/proc/increment_existing_anomaly_cores(core_type)
+	var/existing = created_anomaly_types[core_type] || 0
+	created_anomaly_types[core_type] = existing + 1

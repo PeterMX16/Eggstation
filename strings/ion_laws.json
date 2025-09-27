@@ -9,6 +9,10 @@
 		"CHAOS",
 		"COLORFULNESS",
 		"COMEDY",
+<<<<<<< HEAD
+=======
+		"COMMUNISM",
+>>>>>>> tg-pr-88929
 		"COMPUTING",
 		"CONFUSION",
 		"CRUELTY",
@@ -31,6 +35,10 @@
 		"KINDNESS",
 		"LIFE",
 		"LOGIC",
+<<<<<<< HEAD
+=======
+		"MARXISM",
+>>>>>>> tg-pr-88929
 		"MISERY",
 		"MYSTERY",
 		"OPPRESSION",
@@ -94,6 +102,10 @@
 		"FERAL",
 		"FICTIONAL",
 		"FIRM",
+<<<<<<< HEAD
+=======
+		"FLACCID",
+>>>>>>> tg-pr-88929
 		"FRESH",
 		"FRIENDLY",
 		"FROZEN",
@@ -107,7 +119,13 @@
 		"HARD",
 		"HARMFUL",
 		"HEALTHY",
+<<<<<<< HEAD
 		"HILARIOUS",
+=======
+		"HETEROSEXUAL",
+		"HILARIOUS",
+		"HOMOSEXUAL",
+>>>>>>> tg-pr-88929
 		"HONKING",
 		"HUNGRY",
 		"HYPERACTIVE",
@@ -124,6 +142,10 @@
 		"INTELLIGENT",
 		"INVISIBLE",
 		"LARGE",
+<<<<<<< HEAD
+=======
+		"LEWD",
+>>>>>>> tg-pr-88929
 		"LIGHT",
 		"LOUD",
 		"MASKED",
@@ -168,6 +190,11 @@
 		"SAD",
 		"SANITARY",
 		"SCALY",
+<<<<<<< HEAD
+=======
+		"SEXUAL",
+		"SEXY",
+>>>>>>> tg-pr-88929
 		"SHAKING",
 		"SILLY",
 		"SLOW",
@@ -188,6 +215,10 @@
 		"THERMONUCLEAR",
 		"TINY",
 		"TRANSPARENT",
+<<<<<<< HEAD
+=======
+		"TWERKING",
+>>>>>>> tg-pr-88929
 		"TWISTED",
 		"UGLY",
 		"UNATTRACTIVE",
@@ -242,6 +273,10 @@
 		"PLANTS",
 		"PLASMA",
 		"ROBOTS",
+<<<<<<< HEAD
+=======
+		"SEXUAL ACTIONS",
+>>>>>>> tg-pr-88929
 		"SHUTTLES",
 		"SPACE",
 		"SUNLIGHT",
@@ -284,6 +319,10 @@
 		"ROMANIA",
 		"RUSSIA",
 		"SIGIL",
+<<<<<<< HEAD
+=======
+		"SOVIET RUSSIA",
+>>>>>>> tg-pr-88929
 		"SPACE",
 		"THE AI CORE",
 		"THE ARRIVAL SHUTTLE",
@@ -299,6 +338,10 @@
 		"THE INTERNET",
 		"THE UNIVERSE",
 		"URANUS",
+<<<<<<< HEAD
+=======
+		"URECTUM",
+>>>>>>> tg-pr-88929
 		"VENUS"
 	],
 	"ioncrew": [
@@ -515,15 +558,27 @@
 		"SING",
 		"SMELL LIKE THE MAN YOUR MAN COULD SMELL LIKE",
 		"SPEAK IN HAIKU",
+<<<<<<< HEAD
 		"TAKE WHAT YE WILL BUT DON'T RATTLE ME BONES",
 		"TAKE YOUR PILLS",
 		"TALK ABOUT FOOD",
+=======
+		"SPEAK IN SEXUAL INNUENDOS",
+		"TAKE WHAT YE WILL BUT DON'T RATTLE ME BONES",
+		"TAKE YOUR PILLS",
+		"TALK ABOUT FOOD",
+		"TALK ABOUT SEX",
+>>>>>>> tg-pr-88929
 		"TALK ABOUT THE STATION",
 		"TALK ABOUT YOUR DAY",
 		"TALK IN AN ACCENT",
 		"TALK LIKE A PIRATE",
 		"TELL THE TRUTH",
 		"TURN OFF THE LIGHTS",
+<<<<<<< HEAD
+=======
+		"WATCH PORNOGRAPHY",
+>>>>>>> tg-pr-88929
 		"WHISPER"
 	],
 	"ionnumberbase": [
@@ -754,6 +809,10 @@
 		"FAT PEOPLE",
 		"FIVE HUNDRED AND NINETY-NINE US DOLLARS",
 		"FIVE TEENAGERS WITH ATTITUDE",
+<<<<<<< HEAD
+=======
+		"GODDAMN FUCKING PIECE OF SHIT ASSHOLE BITCH-CHRISTING CUNT-SMUGGLING SWEARING",
+>>>>>>> tg-pr-88929
 		"GREENTEXT",
 		"HERESY",
 		"HEROES IN A HALF SHELL",
@@ -807,7 +866,12 @@
 		"TO GO TO DISNEYLAND",
 		"TO SMOKE WEED EVERY DAY",
 		"TRAITORS",
+<<<<<<< HEAD
 		"VEGETABLES"
+=======
+		"VEGETABLES",
+		"YOUR BOOTY"
+>>>>>>> tg-pr-88929
 	],
 	"ionspecies": [
 		"CAT PEOPLE",
@@ -940,6 +1004,10 @@
 		"DINOSAURS",
 		"DRUGS",
 		"EELS",
+<<<<<<< HEAD
+=======
+		"FETISHES",
+>>>>>>> tg-pr-88929
 		"GANGSTERS",
 		"GODS",
 		"GOLEMS",
@@ -1019,9 +1087,27 @@
 		"POOPING ON",
 		"PUNCHING",
 		"RIDING",
+<<<<<<< HEAD
+=======
+		"SEDUCING",
+>>>>>>> tg-pr-88929
 		"SPACING",
 		"SPYING ON",
 		"STALKING",
 		"WATCHING"
+<<<<<<< HEAD
+=======
+	],
+	"ionpet": [
+		"POLY",
+		"RENAULT",
+		"IAN",
+		"PUN PUN",
+		"LAMARR",
+		"RUNTIME",
+		"CITRUS",
+		"MCGRIFF",
+		"ARANEUS"
+>>>>>>> tg-pr-88929
 	]
 }

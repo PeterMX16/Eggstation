@@ -1,12 +1,13 @@
 // Max amounts of cores you can make
-#define MAX_CORES_BLUESPACE 8
-#define MAX_CORES_GRAVITATIONAL 8
-#define MAX_CORES_FLUX 8
-#define MAX_CORES_VORTEX 8
+#define MAX_CORES_BLUESPACE 3
+#define MAX_CORES_GRAVITATIONAL 6
+#define MAX_CORES_FLUX 5
+#define MAX_CORES_VORTEX 3
 #define MAX_CORES_PYRO 8
 #define MAX_CORES_HALLUCINATION 8
 #define MAX_CORES_BIOSCRAMBLER 8
 #define MAX_CORES_DIMENSIONAL 8
+#define MAX_CORES_ECTOPLASMIC 8
 
 ///Defines for the different types of explosion a flux anomaly can have
 #define FLUX_NO_EXPLOSION 0
@@ -30,6 +31,7 @@ GLOBAL_LIST_INIT(bioscrambler_limb_id_blacklist, list(
 ))
 
 /// Blacklist of organs which should not appear when bioscrambled.
+<<<<<<< HEAD
 /// Either will look terrible outside of intended host, give you magical powers, are irreversible, cause dumb errors, or kill you
 GLOBAL_LIST_INIT(bioscrambler_organs_blacklist, typecacheof(list(
 	/obj/item/organ/external/pod_hair,
@@ -71,6 +73,28 @@ GLOBAL_LIST_INIT(bioscrambler_organs_blacklist, typecacheof(list(
 	/obj/item/organ/internal/butt/atomic,
 	/obj/item/organ/internal/borer_body,
 )) - subtypesof(/obj/item/organ/external/wings/functional) - typesof(/obj/item/organ/external/wings/moth))
+=======
+/// Either will look terrible outside of intended host, give you magical powers, are irreversible, or kill you
+GLOBAL_LIST_INIT(bioscrambler_organs_blacklist, typecacheof(list (
+	/obj/item/organ/pod_hair,
+	/obj/item/organ/spines,
+	/obj/item/organ/wings,
+	/obj/item/organ/wings/functional,
+	/obj/item/organ/alien,
+	/obj/item/organ/brain,
+	/obj/item/organ/body_egg,
+	/obj/item/organ/cyberimp,
+	/obj/item/organ/ears/dullahan,
+	/obj/item/organ/eyes/dullahan,
+	/obj/item/organ/heart/cursed,
+	/obj/item/organ/heart/demon,
+	/obj/item/organ/lungs,
+	/obj/item/organ/monster_core,
+	/obj/item/organ/tongue/dullahan,
+	/obj/item/organ/vocal_cords/colossus,
+	/obj/item/organ/zombie_infection,
+)))
+>>>>>>> tg-pr-88929
 
 /// List of body parts we can apply to people
 GLOBAL_LIST_EMPTY(bioscrambler_valid_parts)

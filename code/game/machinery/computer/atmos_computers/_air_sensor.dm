@@ -2,7 +2,7 @@
 /// These always hook to monitors, be mindful of them
 /obj/machinery/air_sensor
 	name = "gas sensor"
-	icon = 'icons/obj/stationobjs.dmi'
+	icon = 'icons/obj/wallmounts.dmi'
 	icon_state = "gsensor1"
 	resistance_flags = FIRE_PROOF
 	power_channel = AREA_USAGE_ENVIRON
@@ -15,6 +15,11 @@
 	var/inlet_id
 	/// The outlet[vent pump] controlled by this sensor
 	var/outlet_id
+<<<<<<< HEAD
+=======
+	/// The air alarm connected to this sensor
+	var/obj/machinery/airalarm/connected_airalarm
+>>>>>>> tg-pr-88929
 
 /obj/machinery/air_sensor/Initialize(mapload)
 	id_tag = assign_random_name()
@@ -57,7 +62,11 @@
 
 /obj/machinery/air_sensor/examine(mob/user)
 	. = ..()
+<<<<<<< HEAD
 	. += span_notice("Use multitool to link it to an injector/vent or reset it's ports")
+=======
+	. += span_notice("Use a multitool to link it to an injector, vent, or air alarm, or reset its ports.")
+>>>>>>> tg-pr-88929
 	. += span_notice("Click with hand to turn it off.")
 
 /obj/machinery/air_sensor/attack_hand(mob/living/user, list/modifiers)
@@ -78,6 +87,14 @@
 /obj/machinery/air_sensor/proc/reset()
 	inlet_id = null
 	outlet_id = null
+<<<<<<< HEAD
+=======
+	if(connected_airalarm)
+		connected_airalarm.disconnect_sensor()
+		// if air alarm and sensor were linked at roundstart we allow them to link to new devices
+		connected_airalarm.allow_link_change = TRUE
+		connected_airalarm = null
+>>>>>>> tg-pr-88929
 
 ///right click with multi tool to disconnect everything
 /obj/machinery/air_sensor/multitool_act_secondary(mob/living/user, obj/item/tool)
@@ -91,28 +108,42 @@
 	if(istype(multi_tool.buffer, /obj/machinery/atmospherics/components/unary/outlet_injector))
 		var/obj/machinery/atmospherics/components/unary/outlet_injector/input = multi_tool.buffer
 		inlet_id = input.id_tag
+<<<<<<< HEAD
 		multi_tool.set_buffer(null)
+=======
+		multi_tool.set_buffer(src)
+>>>>>>> tg-pr-88929
 		balloon_alert(user, "connected to input")
 
 	else if(istype(multi_tool.buffer, /obj/machinery/atmospherics/components/unary/vent_pump))
 		var/obj/machinery/atmospherics/components/unary/vent_pump/output = multi_tool.buffer
 		//so its no longer controlled by air alarm
 		output.disconnect_from_area()
-		//configuration copied from /obj/machinery/atmospherics/components/unary/vent_pump/siphon
+		//configuration copied from /obj/machinery/atmospherics/components/unary/vent_pump/siphon but with max pressure
 		output.pump_direction = ATMOS_DIRECTION_SIPHONING
 		output.pressure_checks = ATMOS_INTERNAL_BOUND
-		output.internal_pressure_bound = 4000
+		output.internal_pressure_bound = MAX_OUTPUT_PRESSURE
 		output.external_pressure_bound = 0
 		//finally assign it to this sensor
 		outlet_id = output.id_tag
+<<<<<<< HEAD
 		multi_tool.set_buffer(null)
+=======
+		multi_tool.set_buffer(src)
+>>>>>>> tg-pr-88929
 		balloon_alert(user, "connected to output")
 
 	else
 		multi_tool.set_buffer(src)
+<<<<<<< HEAD
 		balloon_alert(user, "added to multitool buffer")
 
 	return TRUE
+=======
+		balloon_alert(user, "sensor added to buffer")
+
+	return ITEM_INTERACT_SUCCESS
+>>>>>>> tg-pr-88929
 
 /**
  * A portable version of the /obj/machinery/air_sensor
@@ -123,10 +154,16 @@
 /obj/item/air_sensor
 	name = "Air Sensor"
 	desc = "A device designed to detect gases and their concentration in an area."
+<<<<<<< HEAD
 	icon = 'icons/obj/stationobjs.dmi'
 	icon_state = "gsensor0"
 	custom_materials = list(/datum/material/iron = SMALL_MATERIAL_AMOUNT, /datum/material/glass = SMALL_MATERIAL_AMOUNT) // MONKESTATION EDIT CHANGE OLD // REQUIRES PR #75052
 
+=======
+	icon = 'icons/obj/wallmounts.dmi'
+	icon_state = "gsensor0"
+	custom_materials = list(/datum/material/iron = SMALL_MATERIAL_AMOUNT, /datum/material/glass = SMALL_MATERIAL_AMOUNT)
+>>>>>>> tg-pr-88929
 	/// The injector linked with this sensor
 	var/input_id
 	/// The vent pump linked with this sensor
@@ -197,7 +234,11 @@
 		if(initial(sensor.chamber_id) != target_chamber)
 			continue
 
+<<<<<<< HEAD
 		//make real air sensor in it's place
+=======
+		//make real air sensor in its place
+>>>>>>> tg-pr-88929
 		var/obj/machinery/air_sensor/new_sensor = new sensor(get_turf(src))
 		new_sensor.inlet_id = input_id
 		new_sensor.outlet_id = output_id
@@ -209,6 +250,7 @@
 /obj/item/air_sensor/wrench_act(mob/living/user, obj/item/tool)
 	if(default_unfasten_wrench(user, tool) == SUCCESSFUL_UNFASTEN)
 		return ITEM_INTERACT_SUCCESS
+<<<<<<< HEAD
 	return
 
 /obj/item/air_sensor/welder_act(mob/living/user, obj/item/tool)
@@ -218,13 +260,29 @@
 	loc.balloon_alert(user, "dismantling sensor")
 	if(!tool.use_tool(src, user, 2 SECONDS, volume = 30, amount = 1))
 		return
+=======
+
+/obj/item/air_sensor/welder_act(mob/living/user, obj/item/tool)
+	if(!tool.tool_start_check(user, amount = 1))
+		return ITEM_INTERACT_BLOCKING
+
+	loc.balloon_alert(user, "dismantling sensor")
+	if(!tool.use_tool(src, user, 2 SECONDS, volume = 30, amount = 1))
+		return ITEM_INTERACT_BLOCKING
+>>>>>>> tg-pr-88929
 	loc.balloon_alert(user, "sensor dismanteled")
 
 	deconstruct(TRUE)
 	return ITEM_INTERACT_SUCCESS
 
+<<<<<<< HEAD
 /obj/item/air_sensor/deconstruct(disassembled)
 	if(!(flags_1 & NODECONSTRUCT_1))
 		new /obj/item/analyzer(loc)
 		new /obj/item/stack/sheet/iron(loc, 1)
 	return ..()
+=======
+/obj/item/air_sensor/atom_deconstruct(disassembled)
+	new /obj/item/analyzer(loc)
+	new /obj/item/stack/sheet/iron(loc, 1)
+>>>>>>> tg-pr-88929

@@ -1,17 +1,29 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> tg-pr-88929
 /**
  * Surgery Trays
  * A storage object that displays tools in its contents based on tier, better tools are more visible.
  * Can be folded up and carried. Click it to draw a random tool.
+<<<<<<< HEAD
  *
+=======
+>>>>>>> tg-pr-88929
  */
 /obj/item/surgery_tray
 	name = "surgery tray"
 	desc = "A Deforest brand medical cart. It is a folding model, meaning the wheels on the bottom can be retracted and the body used as a tray."
+<<<<<<< HEAD
 	icon = 'icons/obj/medicart.dmi'
+=======
+	icon = 'icons/obj/medical/medicart.dmi'
+>>>>>>> tg-pr-88929
 	icon_state = "tray"
 	w_class = WEIGHT_CLASS_BULKY
 	slowdown = 1
 	item_flags = SLOWS_WHILE_IN_HAND
+<<<<<<< HEAD
 
 	/// If true we're currently portable
 	var/is_portable = TRUE
@@ -36,6 +48,24 @@
 	is_portable = FALSE
 
 /obj/item/surgery_tray/Initialize(mapload)
+=======
+	pass_flags = NONE
+
+	/// If true we're currently portable
+	var/is_portable = TRUE
+
+	/// List of contents to populate with in populatecontents()
+	var/list/starting_items = list()
+
+/// Fills the tray with items it should contain on creation
+/obj/item/surgery_tray/proc/populate_contents()
+	for(var/obj in starting_items)
+		new obj(src)
+	update_appearance(UPDATE_ICON)
+	return
+
+/obj/item/surgery_tray/Initialize(mapload, effect_spawner = FALSE)
+>>>>>>> tg-pr-88929
 	. = ..()
 	AddElement(/datum/element/drag_pickup)
 	create_storage(storage_type = /datum/storage/surgery_tray)
@@ -57,7 +87,11 @@
 	. = ..()
 	if(is_portable)
 		desc = "The wheels and bottom storage of this medical cart have been stowed away, \
+<<<<<<< HEAD
 			leaving a cumbersome tray in it's place."
+=======
+			leaving a cumbersome tray in its place."
+>>>>>>> tg-pr-88929
 	else
 		desc = initial(desc)
 
@@ -66,6 +100,10 @@
 	. += is_portable \
 		? span_notice("You can click and drag it to yourself to pick it up, then use it in your hand to make it a cart!") \
 		: span_notice("You can click and drag it to yourself to turn it into a tray!")
+<<<<<<< HEAD
+=======
+	. += span_notice("The top is <b>screwed</b> on.")
+>>>>>>> tg-pr-88929
 
 /obj/item/surgery_tray/update_overlays()
 	. = ..()
@@ -102,12 +140,15 @@
 	for(var/surgery_tool in surgery_overlays)
 		. |= surgery_overlays[surgery_tool]
 
+<<<<<<< HEAD
 ///Spawn the things we contain on initialisation
 /obj/item/surgery_tray/proc/populate_contents()
 	for (var/thing_path in initial_contents)
 		new thing_path(src)
 	update_appearance(UPDATE_OVERLAYS)
 
+=======
+>>>>>>> tg-pr-88929
 ///Sets the surgery tray's deployment state. Silent if user is null.
 /obj/item/surgery_tray/proc/set_tray_mode(new_mode, mob/user)
 	is_portable = new_mode
@@ -117,11 +158,19 @@
 
 	if(is_portable)
 		interaction_flags_item |= INTERACT_ITEM_ATTACK_HAND_PICKUP
+<<<<<<< HEAD
 		pass_flags |= PASSTABLE
 		RemoveElement(/datum/element/noisy_movement)
 	else
 		interaction_flags_item &= ~INTERACT_ITEM_ATTACK_HAND_PICKUP
 		pass_flags &= ~PASSTABLE
+=======
+		passtable_on(src, type)
+		RemoveElement(/datum/element/noisy_movement)
+	else
+		interaction_flags_item &= ~INTERACT_ITEM_ATTACK_HAND_PICKUP
+		passtable_off(src, type)
+>>>>>>> tg-pr-88929
 		AddElement(/datum/element/noisy_movement)
 
 	update_appearance()
@@ -146,19 +195,41 @@
 	return
 
 /obj/item/surgery_tray/attack_hand(mob/living/user)
+<<<<<<< HEAD
 	if(!user.can_perform_action(src, NEED_HANDS) || !length(contents))
 		return ..()
 	var/obj/item/grabbies = pick(contents)
 	if(grabbies)
+=======
+	if(!user.can_perform_action(src, NEED_HANDS))
+		return ..()
+	if(!length(contents))
+		balloon_alert(user, "empty!")
+	else
+		var/obj/item/grabbies = pick(contents)
+>>>>>>> tg-pr-88929
 		atom_storage.remove_single(user, grabbies, drop_location())
 		user.put_in_hands(grabbies)
 	return TRUE
 
+<<<<<<< HEAD
+=======
+/obj/item/surgery_tray/screwdriver_act_secondary(mob/living/user, obj/item/tool)
+	. = ..()
+	tool.play_tool_sound(src)
+	to_chat(user, span_notice("You begin taking apart [src]."))
+	if(!tool.use_tool(src, user, 1 SECONDS))
+		return
+	deconstruct(TRUE)
+	to_chat(user, span_notice("[src] has been taken apart."))
+
+>>>>>>> tg-pr-88929
 /obj/item/surgery_tray/dump_contents()
 	var/atom/drop_point = drop_location()
 	for(var/atom/movable/tool as anything in contents)
 		tool.forceMove(drop_point)
 
+<<<<<<< HEAD
 /obj/item/surgery_tray/deconstruct(disassembled = TRUE)
 	dump_contents()
 	return ..()
@@ -168,13 +239,29 @@
 	desc = "A Deforest brand surgery tray, made for use in morgues. It is a folding model, \
 		meaning the wheels on the bottom can be extended outwards, making it a cart."
 	initial_contents = list(
+=======
+/obj/item/surgery_tray/atom_deconstruct(disassembled = TRUE)
+	dump_contents()
+	new /obj/item/stack/rods(drop_location(), 2)
+	new /obj/item/stack/sheet/mineral/silver(drop_location())
+
+/obj/item/surgery_tray/deployed
+	is_portable = FALSE
+
+/obj/item/surgery_tray/full
+	starting_items = list(
+>>>>>>> tg-pr-88929
 		/obj/item/blood_filter,
 		/obj/item/bonesetter,
 		/obj/item/cautery,
 		/obj/item/circular_saw,
 		/obj/item/clothing/mask/surgical,
 		/obj/item/hemostat,
+<<<<<<< HEAD
 		/obj/item/razor,
+=======
+		/obj/item/razor/surgery,
+>>>>>>> tg-pr-88929
 		/obj/item/retractor,
 		/obj/item/scalpel,
 		/obj/item/stack/medical/bone_gel,
@@ -183,6 +270,7 @@
 		/obj/item/surgicaldrill,
 	)
 
+<<<<<<< HEAD
 /datum/storage/surgery_tray
 	max_total_storage = 30
 	max_specific_storage = WEIGHT_CLASS_NORMAL
@@ -200,8 +288,90 @@
 		/obj/item/razor,
 		/obj/item/retractor,
 		/obj/item/scalpel,
+=======
+/obj/item/surgery_tray/full/deployed
+	is_portable = FALSE
+
+/obj/item/surgery_tray/full/morgue
+	name = "autopsy tray"
+	desc = "A Deforest brand surgery tray, made for use in morgues. It is a folding model, \
+		meaning the wheels on the bottom can be extended outwards, making it a cart."
+	starting_items = list(
+		/obj/item/blood_filter,
+		/obj/item/bonesetter,
+		/obj/item/cautery/cruel,
+		/obj/item/circular_saw,
+		/obj/item/clothing/mask/surgical,
+		/obj/item/hemostat/cruel,
+		/obj/item/razor/surgery,
+		/obj/item/retractor/cruel,
+		/obj/item/scalpel/cruel,
+>>>>>>> tg-pr-88929
 		/obj/item/stack/medical/bone_gel,
 		/obj/item/stack/sticky_tape/surgical,
 		/obj/item/surgical_drapes,
 		/obj/item/surgicaldrill,
+<<<<<<< HEAD
 	))
+=======
+	)
+
+/obj/item/surgery_tray/full/morgue/deployed
+	is_portable = FALSE
+
+/// Surgery tray with advanced tools for debug
+/obj/item/surgery_tray/full/advanced
+	starting_items = list(
+		/obj/item/scalpel/advanced,
+		/obj/item/retractor/advanced,
+		/obj/item/cautery/advanced,
+		/obj/item/surgical_drapes,
+		/obj/item/reagent_containers/medigel/sterilizine,
+		/obj/item/bonesetter,
+		/obj/item/blood_filter,
+		/obj/item/stack/medical/bone_gel,
+		/obj/item/stack/sticky_tape/surgical,
+		/obj/item/clothing/mask/surgical,
+	)
+
+/obj/effect/spawner/surgery_tray
+	name = "surgery tray spawner"
+	icon = 'icons/obj/medical/medicart.dmi'
+	icon_state = "tray"
+	/// Tray to usually spawn in.
+	var/tray_to_spawn = /obj/item/surgery_tray
+	/// Toolbox to sometimes replace the above tray with.
+	var/rare_toolbox_replacement = /obj/item/storage/toolbox/medical
+	/// Chance for replacement
+	var/toolbox_chance = 1
+
+/obj/effect/spawner/surgery_tray/Initialize(mapload)
+	. = ..()
+	if(prob(toolbox_chance))
+		new rare_toolbox_replacement(loc)
+		return
+	new tray_to_spawn(loc, TRUE)
+
+/obj/effect/spawner/surgery_tray/full
+	name = "full surgery tray spawner"
+	icon_state = "tray"
+	tray_to_spawn = /obj/item/surgery_tray/full
+	rare_toolbox_replacement = /obj/item/storage/toolbox/medical/full
+
+/obj/effect/spawner/surgery_tray/full/deployed
+	name = "full deployed tray spawner"
+	icon_state = "medicart"
+	tray_to_spawn = /obj/item/surgery_tray/full
+
+/obj/effect/spawner/surgery_tray/full/morgue
+	name = "full autopsy tray spawner"
+	icon_state = "tray"
+	tray_to_spawn = /obj/item/surgery_tray/full/morgue
+	rare_toolbox_replacement = /obj/item/storage/toolbox/medical/coroner
+	toolbox_chance = 3 // tray is rarer, so toolbox is more common
+
+/obj/effect/spawner/surgery_tray/full/morgue/deployed
+	name = "full deployed autopsy tray spawner"
+	icon_state = "medicart"
+	tray_to_spawn = /obj/item/surgery_tray/full/morgue/deployed
+>>>>>>> tg-pr-88929

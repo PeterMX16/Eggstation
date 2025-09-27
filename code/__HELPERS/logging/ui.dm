@@ -1,12 +1,21 @@
 /proc/log_href(text, list/data)
+<<<<<<< HEAD
 	logger.Log(LOG_CATEGORY_DEBUG_HREF, text, data)
+=======
+	logger.Log(LOG_CATEGORY_HREF, text, data)
+>>>>>>> tg-pr-88929
 
 /**
  * Appends a tgui-related log entry. All arguments are optional.
  */
-/proc/log_tgui(user, message, context,
-		datum/tgui_window/window,
-		datum/src_object)
+/proc/log_tgui(
+	user,
+	message,
+	context,
+	datum/tgui_window/window,
+	datum/src_object,
+)
+
 	var/entry = ""
 	// Insert user info
 	if(!user)
@@ -31,4 +40,8 @@
 	// Insert message
 	if(message)
 		entry += "\n[message]"
+<<<<<<< HEAD
 	logger.Log(LOG_CATEGORY_DEBUG_TGUI, entry)
+=======
+	logger.Log(LOG_CATEGORY_HREF_TGUI, entry)
+>>>>>>> tg-pr-88929

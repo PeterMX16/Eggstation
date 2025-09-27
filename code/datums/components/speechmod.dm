@@ -1,6 +1,10 @@
 /// Used to apply certain speech patterns
 /// Can be used on organs, wearables, mutations and mobs
 /datum/component/speechmod
+<<<<<<< HEAD
+=======
+	dupe_mode = COMPONENT_DUPE_ALLOWED
+>>>>>>> tg-pr-88929
 	/// Assoc list for strings/regexes and their replacements. Should be lowercase, as case will be automatically changed
 	var/list/replacements = list()
 	/// String added to the end of the message
@@ -17,7 +21,11 @@
 	var/datum/callback/should_modify_speech = null
 
 /datum/component/speechmod/Initialize(replacements = list(), end_string = "", end_string_chance = 100, slots, uppercase = FALSE, should_modify_speech)
+<<<<<<< HEAD
 	if (!ismob(parent) && !isitem(parent) && !istype(parent, /datum/mutation))
+=======
+	if (!ismob(parent) && !isitem(parent) && !istype(parent, /datum/mutation/human))
+>>>>>>> tg-pr-88929
 		return COMPONENT_INCOMPATIBLE
 
 	src.replacements = replacements
@@ -27,13 +35,26 @@
 	src.uppercase = uppercase
 	src.should_modify_speech = should_modify_speech
 
+<<<<<<< HEAD
 	if (istype(parent, /datum/mutation))
+=======
+	if (istype(parent, /datum/mutation/human))
+>>>>>>> tg-pr-88929
 		RegisterSignal(parent, COMSIG_MUTATION_GAINED, PROC_REF(on_mutation_gained))
 		RegisterSignal(parent, COMSIG_MUTATION_LOST, PROC_REF(on_mutation_lost))
 		return
 
 	var/atom/owner = parent
 
+<<<<<<< HEAD
+=======
+	if (istype(parent, /datum/status_effect))
+		var/datum/status_effect/effect = parent
+		targeted = effect.owner
+		RegisterSignal(targeted, COMSIG_MOB_SAY, PROC_REF(handle_speech))
+		return
+
+>>>>>>> tg-pr-88929
 	if (ismob(parent))
 		targeted = parent
 		RegisterSignal(targeted, COMSIG_MOB_SAY, PROC_REF(handle_speech))

@@ -99,4 +99,16 @@
 	category = SPELLBOOK_CATEGORY_ASSISTANCE
 	refundable = TRUE
 
+<<<<<<< HEAD
+=======
+/datum/spellbook_entry/item/vendormancer
+	name = "Scepter of Vendormancy"
+	desc = "A scepter containing the power of Runic Vendormancy.\
+		It can summon up to 3 Runic Vendors that decay over time, but can be \
+		throw around to squash oponents or be directly detonated. When out of \
+		charges a long channel will restore the charges."
+	item_path = /obj/item/runic_vendor_scepter
+	category = SPELLBOOK_CATEGORY_ASSISTANCE
+
+>>>>>>> tg-pr-88929
 #undef SPELLBOOK_CATEGORY_ASSISTANCE

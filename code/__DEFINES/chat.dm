@@ -11,7 +11,11 @@
 #define MESSAGE_TYPE_SYSTEM "system"
 #define MESSAGE_TYPE_LOCALCHAT "localchat"
 #define MESSAGE_TYPE_RADIO "radio"
+<<<<<<< HEAD
 #define MESSAGE_TYPE_ENTERTAINMENT "entertainment"
+=======
+#define MESSAGE_TYPE_ENTERTAINMENT = "entertainment"
+>>>>>>> tg-pr-88929
 #define MESSAGE_TYPE_INFO "info"
 #define MESSAGE_TYPE_WARNING "warning"
 #define MESSAGE_TYPE_DEADCHAT "deadchat"
@@ -57,5 +61,8 @@
 #define RUNECHAT_BOLD(str) "+[str]+"
 /// Helper which creates a chat message which may have a tooltip in some contexts, but not others.
 #define conditional_tooltip(normal_text, tooltip_text, condition) ((condition) ? (span_tooltip(tooltip_text, normal_text)) : (normal_text))
+<<<<<<< HEAD
 /// No italics
 #define conditional_tooltip_alt(normal_text, tooltip_text, condition) ((condition) ? (span_tooltip_alt(tooltip_text, normal_text)) : (normal_text))
+=======
+>>>>>>> tg-pr-88929

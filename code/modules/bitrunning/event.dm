@@ -5,17 +5,28 @@
 		/datum/event_admin_setup/listed_options/bitrunning_glitch,
 	)
 	category = EVENT_CATEGORY_INVASION
+<<<<<<< HEAD
 	track = EVENT_TRACK_ROLESET
+=======
+>>>>>>> tg-pr-88929
 	description = "Causes a short term antagonist to spawn in the virtual domain."
 	dynamic_should_hijack = FALSE
 	min_players = 1
 	max_occurrences = 0
 	typepath = /datum/round_event/ghost_role/bitrunning_glitch
+<<<<<<< HEAD
 	weight = 0
 	/// List of servers on the station
 	var/list/datum/weakref/active_servers = list()
 
 /datum/round_event_control/bitrunning_glitch/can_spawn_event(players_amt, allow_magic = FALSE, fake_check = FALSE)
+=======
+	weight = 100
+	/// List of servers on the station
+	var/list/datum/weakref/active_servers = list()
+
+/datum/round_event_control/bitrunning_glitch/can_spawn_event(players_amt, allow_magic = FALSE)
+>>>>>>> tg-pr-88929
 	. = ..()
 	if(!.)
 		return .

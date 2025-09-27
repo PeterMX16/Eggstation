@@ -19,8 +19,13 @@
 	melee_damage_upper = 15
 	attack_verb_continuous = "slashes at"
 	attack_verb_simple = "slash at"
+<<<<<<< HEAD
 	attack_sound = 'sound/weapons/circsawhit.ogg'
 	istate = ISTATE_HARM | ISTATE_BLOCKING
+=======
+	attack_sound = 'sound/items/weapons/circsawhit.ogg'
+	combat_mode = TRUE
+>>>>>>> tg-pr-88929
 	mob_biotypes = MOB_ORGANIC|MOB_HUMANOID
 	sentience_type = SENTIENCE_HUMANOID
 	habitable_atmos = list("min_oxy" = 5, "max_oxy" = 0, "min_plas" = 0, "max_plas" = 1, "min_co2" = 0, "max_co2" = 5, "min_n2" = 0, "max_n2" = 0)
@@ -51,7 +56,11 @@
 		return
 
 	var/mob/living/carbon/human/attacked = target
+<<<<<<< HEAD
 	var/obj/item/organ/external/tail/cat/tail = attacked.get_organ_by_type(/obj/item/organ/external/tail/cat)
+=======
+	var/obj/item/organ/tail/cat/tail = attacked.get_organ_by_type(/obj/item/organ/tail/cat)
+>>>>>>> tg-pr-88929
 	if(QDELETED(tail))
 		return
 

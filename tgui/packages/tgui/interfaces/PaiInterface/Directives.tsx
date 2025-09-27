@@ -1,11 +1,22 @@
-import { decodeHtmlEntities } from 'common/string';
 import { useBackend } from 'tgui/backend';
-import { BlockQuote, Box, LabeledList, Section, Stack } from 'tgui/components';
+import {
+  BlockQuote,
+  Box,
+  LabeledList,
+  Section,
+  Stack,
+} from 'tgui-core/components';
+import { decodeHtmlEntities } from 'tgui-core/string';
+
 import { DIRECTIVE_COMPREHENSION, DIRECTIVE_ORDER } from './constants';
 import { PaiData } from './types';
 
 /** Shows the hardcoded PAI info along with any supplied orders. */
+<<<<<<< HEAD
 export const DirectiveDisplay = (props) => {
+=======
+export function DirectiveDisplay(props) {
+>>>>>>> tg-pr-88929
   const { data } = useBackend<PaiData>();
   const { directives = [], master_name } = data;
   const displayedLaw = directives?.length
@@ -42,4 +53,4 @@ export const DirectiveDisplay = (props) => {
       </Stack.Item>
     </Stack>
   );
-};
+}

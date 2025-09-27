@@ -1,13 +1,13 @@
 /datum/mutation/shock
 	name = "Shock Touch"
-	desc = "The affected can channel excess electricity through their hands without shocking themselves, allowing them to shock others."
+	desc = "The affected can channel excess electricity through their hands without shocking themselves, allowing them to shock others. Mostly harmless! Mostly... "
 	quality = POSITIVE
 	locked = TRUE
 	difficulty = 16
-	text_gain_indication = "<span class='notice'>You feel power flow through your hands.</span>"
-	text_lose_indication = "<span class='notice'>The energy in your hands subsides.</span>"
+	text_gain_indication = span_notice("You feel power flow through your hands.")
+	text_lose_indication = span_notice("The energy in your hands subsides.")
 	power_path = /datum/action/cooldown/spell/touch/shock
-	instability = 35
+	instability = POSITIVE_INSTABILITY_MODERATE // bad stun baton
 	energy_coeff = 1
 	power_coeff = 1
 
@@ -19,21 +19,22 @@
 		return
 
 	if(GET_MUTATION_POWER(src) <= 1)
-		to_modify.chain = initial(to_modify.chain)
+		to_modify.stagger = initial(to_modify.stagger)
 		return
 
-	to_modify.chain = TRUE
+	to_modify.stagger = TRUE
 
 /datum/action/cooldown/spell/touch/shock
 	name = "Shock Touch"
-	desc = "Channel electricity to your hand to shock people with."
+	desc = "Channel electricity to your hand to shock people with. Mostly harmless! Mostly... "
 	button_icon_state = "zap"
-	sound = 'sound/weapons/zapbang.ogg'
-	cooldown_time = 12 SECONDS
+	sound = 'sound/items/weapons/zapbang.ogg'
+	cooldown_time = 7 SECONDS
 	invocation_type = INVOCATION_NONE
 	spell_requirements = NONE
 	antimagic_flags = NONE
 
+<<<<<<< HEAD
 	//Vars for zaps made when power chromosome is applied, ripped and toned down from reactive tesla armor code.
 	///This var decides if the spell should chain, dictated by presence of power chromosome
 	var/chain = FALSE
@@ -43,6 +44,10 @@
 	var/zap_range = 7
 	///flags that dictate what the tesla shock can interact with, Can only damage mobs, Cannot damage machines or generate energy
 	var/zap_flags = ZAP_MOB_DAMAGE
+=======
+	///This var decides if the spell should stagger, dictated by presence of power chromosome
+	var/stagger = FALSE
+>>>>>>> tg-pr-88929
 
 	hand_path = /obj/item/melee/touch_attack/shock
 	draw_message = span_notice("You channel electricity into your hand.")
@@ -51,7 +56,16 @@
 /datum/action/cooldown/spell/touch/shock/cast_on_hand_hit(obj/item/melee/touch_attack/hand, atom/victim, mob/living/carbon/caster)
 	if(iscarbon(victim))
 		var/mob/living/carbon/carbon_victim = victim
+<<<<<<< HEAD
 		if(carbon_victim.electrocute_act(15, caster, 1, SHOCK_NOGLOVES | SHOCK_NOSTUN) && !HAS_TRAIT(carbon_victim, TRAIT_NO_SHOCK_BUILDUP) && !HAS_TRAIT(carbon_victim, TRAIT_SHOCKIMMUNE))//doesn't stun. never let this stun MONKESTATION ADDITION: HAS TRAIT
+=======
+		if(carbon_victim.electrocute_act(5, caster, 1, SHOCK_NOGLOVES | SHOCK_NOSTUN))//doesn't stun. never let this stun
+
+			var/obj/item/bodypart/affecting = carbon_victim.get_bodypart(carbon_victim.get_random_valid_zone(caster.zone_selected))
+			var/armor_block = carbon_victim.run_armor_check(affecting, ENERGY)
+			carbon_victim.apply_damage(20, STAMINA, def_zone = affecting, blocked = armor_block)
+
+>>>>>>> tg-pr-88929
 			carbon_victim.dropItemToGround(carbon_victim.get_active_held_item())
 			carbon_victim.dropItemToGround(carbon_victim.get_inactive_held_item())
 			carbon_victim.adjust_confusion(15 SECONDS)
@@ -59,21 +73,19 @@
 				span_danger("[caster] electrocutes [victim]!"),
 				span_userdanger("[caster] electrocutes you!"),
 			)
-			if(chain)
-				tesla_zap(victim, zap_range, zap_power, zap_flags)
-				carbon_victim.visible_message(span_danger("An arc of electricity explodes out of [victim]!"))
+			if(stagger)
+				carbon_victim.adjust_staggered_up_to(STAGGERED_SLOWDOWN_LENGTH * 2, 10 SECONDS)
 			return TRUE
 
 	else if(isliving(victim))
 		var/mob/living/living_victim = victim
-		if(living_victim.electrocute_act(15, caster, 1, SHOCK_NOSTUN))
+		if(living_victim.electrocute_act(15, caster, 1, SHOCK_NOSTUN)) //We do damage here because non-carbon mobs typically ignore stamina damage.
 			living_victim.visible_message(
 				span_danger("[caster] electrocutes [victim]!"),
 				span_userdanger("[caster] electrocutes you!"),
 			)
-			if(chain)
-				tesla_zap(victim, zap_range, zap_power, zap_flags)
-				living_victim.visible_message(span_danger("An arc of electricity explodes out of [victim]!"))
+			if(stagger)
+				living_victim.adjust_staggered_up_to(STAGGERED_SLOWDOWN_LENGTH * 2, 10 SECONDS)
 			return TRUE
 
 	to_chat(caster, span_warning("The electricity doesn't seem to affect [victim]..."))
@@ -86,7 +98,11 @@
 	icon_state = "zapper"
 	inhand_icon_state = "zapper"
 
+<<<<<<< HEAD
 /datum/mutation/lay_on_hands
+=======
+/datum/mutation/human/lay_on_hands
+>>>>>>> tg-pr-88929
 	name = "Mending Touch"
 	desc = "The affected can lay their hands on other people to transfer a small amount of their injuries to themselves."
 	quality = POSITIVE
@@ -95,13 +111,21 @@
 	text_gain_indication = span_notice("Your hand feels blessed!")
 	text_lose_indication = span_notice("Your hand feels secular once more.")
 	power_path = /datum/action/cooldown/spell/touch/lay_on_hands
+<<<<<<< HEAD
 //	instability = POSITIVE_INSTABILITY_MAJOR // MONKESTATION EDIT OLD
 	instability = 35 // MONKESTATION EDIT NEW -- AWAITING TG#83439
+=======
+	instability = POSITIVE_INSTABILITY_MAJOR
+>>>>>>> tg-pr-88929
 	energy_coeff = 1
 	power_coeff = 1
 	synchronizer_coeff = 1
 
+<<<<<<< HEAD
 /datum/mutation/lay_on_hands/setup()
+=======
+/datum/mutation/human/lay_on_hands/modify()
+>>>>>>> tg-pr-88929
 	. = ..()
 	var/datum/action/cooldown/spell/touch/lay_on_hands/to_modify =.
 
@@ -119,7 +143,11 @@
 		For some reason, this power does not play nicely with the undead, or people with strange ideas about morality."
 	button_icon = 'icons/mob/actions/actions_genetic.dmi'
 	button_icon_state = "mending_touch"
+<<<<<<< HEAD
 	sound = 'sound/magic/staff_healing.ogg'
+=======
+	sound = 'sound/effects/magic/staff_healing.ogg'
+>>>>>>> tg-pr-88929
 	cooldown_time = 12 SECONDS
 	school = SCHOOL_RESTORATION
 	invocation_type = INVOCATION_NONE
@@ -139,7 +167,10 @@
 	var/power_coefficient = 1
 	/// The mutation's synchronizer coefficient.
 	var/synchronizer_coefficient = 1
+<<<<<<< HEAD
 	var/always_evil_smite = FALSE // MONKESTATION ADDITION -- Traitor version of this uses this
+=======
+>>>>>>> tg-pr-88929
 
 /datum/action/cooldown/spell/touch/lay_on_hands/create_hand(mob/living/carbon/cast_on)
 	. = ..()
@@ -166,8 +197,12 @@
 
 	var/hurt_this_guy = determine_if_this_hurts_instead(mendicant, hurtguy)
 
+<<<<<<< HEAD
 //	if (hurt_this_guy && HAS_TRAIT(mendicant, TRAIT_PACIFISM) || hurt_this_guy && !mendicant.combat_mode) //Returns if we're a pacifist and we'd hurt them, or we're not in combat mode and we'll hurt them // MONKESTATION EDIT OLD
 	if(hurt_this_guy && HAS_TRAIT(mendicant, TRAIT_PACIFISM) || hurt_this_guy && !(mendicant.istate & ISTATE_HARM)) // MONKESTATION EDIT NEW
+=======
+	if (hurt_this_guy && (HAS_TRAIT(mendicant, TRAIT_PACIFISM) || !mendicant.combat_mode)) //Returns if we're a pacifist and we'd hurt them, or we're not in combat mode and we'll hurt them
+>>>>>>> tg-pr-88929
 		mendicant.balloon_alert(mendicant, "[hurtguy] would be hurt!")
 		return FALSE
 
@@ -177,8 +212,12 @@
 	// Heal more, hurt a bit more.
 	// If you crunch the numbers it sounds crazy good,
 	// but I think that's a fair reward for combining the efforts of Genetics, Medbay, and Mining to reach a hidden mechanic.
+<<<<<<< HEAD
 //	if(HAS_TRAIT_FROM(mendicant, TRAIT_HIPPOCRATIC_OATH, HIPPOCRATIC_OATH_TRAIT)) // MONKESTATION EDIT OLD
 	if(mendicant.has_status_effect(/datum/status_effect/hippocratic_oath)) // MONKESTATION EDIT NEW -- God knows why TRAIT_HIPPOCRATIC_OATH is commented out
+=======
+	if(HAS_TRAIT_FROM(mendicant, TRAIT_HIPPOCRATIC_OATH, HIPPOCRATIC_OATH_TRAIT))
+>>>>>>> tg-pr-88929
 		heal_multiplier *= 2
 		pain_multiplier *= 0.5
 		peaceful_message = span_boldnotice("You can feel the magic of the Rod of Aesculapius aiding your efforts!")
@@ -326,12 +365,16 @@
 		if(!blood_to_hurtguy)
 			return .
 		// We ignore incompatibility here.
+<<<<<<< HEAD
 		/* MONKESTATION EDIT OLD
+=======
+>>>>>>> tg-pr-88929
 		mendicant.transfer_blood_to(hurtguy, blood_to_hurtguy, forced = TRUE, ignore_incompatibility = TRUE)
 		to_chat(mendicant, span_notice("Your veins (and brain) feel a bit lighter."))
 		. = TRUE
 		// Because we do our own spin on it!
 		if(hurtguy.get_blood_compatibility(mendicant) == FALSE)
+<<<<<<< HEAD
 		*/
 		// MONKESTATION EDIT NEW START
 		var/datum/blood_type/blood = hurtguy.get_blood_type()
@@ -341,6 +384,8 @@
 		hurtguy.blood_volume = min(hurtguy.blood_volume + round(blood_to_hurtguy, 0.1), BLOOD_VOLUME_MAXIMUM)
 		if(!(mendicant.dna.human_blood_type in blood.compatible_types))
 		// MONKESTATION EDIT NEW END
+=======
+>>>>>>> tg-pr-88929
 			hurtguy.adjustToxLoss((blood_to_hurtguy * 0.1) * pain_multiplier) // 1 dmg per 10 blood
 			to_chat(hurtguy, span_notice("Your veins feel thicker, but they itch a bit."))
 		else
@@ -353,12 +398,16 @@
 		// mender always gonna have blood
 
 		// We ignore incompatibility here.
+<<<<<<< HEAD
 		/* MONKESTATION EDIT OLD
+=======
+>>>>>>> tg-pr-88929
 		hurtguy.transfer_blood_to(mendicant, hurtguy.blood_volume - BLOOD_VOLUME_EXCESS, forced = TRUE, ignore_incompatibility = TRUE)
 		to_chat(hurtguy, span_notice("Your veins don't feel quite so swollen anymore."))
 		. = TRUE
 		// Because we do our own spin on it!
 		if(mendicant.get_blood_compatibility(hurtguy) == FALSE)
+<<<<<<< HEAD
 		*/
 		// MONKESTATION EDIT NEW START
 		var/datum/blood_type/mendicant_blood = mendicant.get_blood_type()
@@ -368,6 +417,8 @@
 		hurtguy.blood_volume = min(hurtguy.blood_volume - round(blood_to_mendicant, 0.1), BLOOD_VOLUME_MAXIMUM)
 		if(!(hurtguy.dna.human_blood_type in mendicant_blood.compatible_types))
 		// MONKESTATION EDIT NEW END
+=======
+>>>>>>> tg-pr-88929
 			mendicant.adjustToxLoss((blood_to_mendicant * 0.1) * pain_multiplier) // 1 dmg per 10 blood
 			to_chat(mendicant, span_notice("Your veins swell and itch!"))
 		else
@@ -375,15 +426,19 @@
 
 
 /datum/action/cooldown/spell/touch/lay_on_hands/proc/determine_if_this_hurts_instead(mob/living/carbon/mendicant, mob/living/hurtguy)
+<<<<<<< HEAD
 	var/hurt_this_guy = FALSE
 
 	if(HAS_TRAIT(mendicant, TRAIT_PACIFISM))
 		return FALSE //always return false if we're pacifist
+=======
+>>>>>>> tg-pr-88929
 
 	if(hurtguy.mob_biotypes & MOB_UNDEAD && mendicant.mob_biotypes & MOB_UNDEAD)
 		return FALSE //always return false if we're both undead //undead solidarity
 
 	if(hurtguy.mob_biotypes & MOB_UNDEAD && !HAS_TRAIT(mendicant, TRAIT_EVIL)) //Is the mob undead and we're not evil? If so, hurt.
+<<<<<<< HEAD
 		hurt_this_guy = TRUE
 
 	else if(HAS_TRAIT(hurtguy, TRAIT_EVIL) && !HAS_TRAIT(mendicant, TRAIT_EVIL)) //Is the guy evil and we're not evil? If so, hurt.
@@ -393,14 +448,28 @@
 		hurt_this_guy = TRUE
 
 	return hurt_this_guy
+=======
+		return TRUE
+
+	if(HAS_TRAIT(hurtguy, TRAIT_EVIL) && !HAS_TRAIT(mendicant, TRAIT_EVIL)) //Is the guy evil and we're not evil? If so, hurt.
+		return TRUE
+
+	if(!(hurtguy.mob_biotypes & MOB_UNDEAD) && HAS_TRAIT(hurtguy, TRAIT_EMPATH) && HAS_TRAIT(mendicant, TRAIT_EVIL)) //Is the guy not undead, they're an empath and we're evil? If so, hurt.
+		return TRUE
+
+	return FALSE
+>>>>>>> tg-pr-88929
 
 ///If our target was undead or evil, we blast them with a firey beam rather than healing them. For, you know, 'holy' reasons. When did genes become so morally uptight?
 
 /datum/action/cooldown/spell/touch/lay_on_hands/proc/by_gods_light_i_smite_you(mob/living/carbon/smiter, mob/living/motherfucker_to_hurt, smite_multiplier)
 	var/our_smite_multiplier = smite_multiplier
 	var/evil_smite = HAS_TRAIT(smiter, TRAIT_EVIL) ? TRUE : FALSE
+<<<<<<< HEAD
 	if(always_evil_smite) // MONKESTATION ADDITION
 		evil_smite = TRUE // MONKESTATION ADDITION
+=======
+>>>>>>> tg-pr-88929
 	var/divine_champion = smiter.mind?.holy_role >= HOLY_ROLE_PRIEST ? TRUE : FALSE
 	var/smite_text_to_target = "lays hands on you"
 
@@ -430,7 +499,11 @@
 	if(evil_smite)
 		motherfucker_to_hurt.visible_message(span_warning("[smiter] snaps [smiter.p_their()] fingers in front of [motherfucker_to_hurt]'s face, and [motherfucker_to_hurt]'s body twists violently from an unseen force!"))
 		motherfucker_to_hurt.apply_damage(10 * our_smite_multiplier, BRUTE, spread_damage = TRUE, wound_bonus = 5 * our_smite_multiplier)
+<<<<<<< HEAD
 		motherfucker_to_hurt.adjust_rebuked_up_to(STAGGERED_SLOWDOWN_LENGTH * our_smite_multiplier, 25 SECONDS)
+=======
+		motherfucker_to_hurt.adjust_staggered_up_to(STAGGERED_SLOWDOWN_LENGTH * our_smite_multiplier, 25 SECONDS)
+>>>>>>> tg-pr-88929
 		smiter.emote("snap")
 		smite_text_to_target = "crushes you psychically with a snap of [smiter.p_their()] fingers"
 	else
@@ -448,7 +521,11 @@
 
 /obj/item/melee/touch_attack/lay_on_hands
 	name = "mending touch"
+<<<<<<< HEAD
 	desc = "Unlike in your favorite tabletop games, you sadly can't cast this on yourself, so you can't use that as a Scapegoat." // mayus is reference. if you get it  you're cool
+=======
+	desc = "Unlike in your favorite tabletop games, you sadly can't cast this on yourself, so you can't use that as a Scapegoat." // mayus is reference. if you get it you're cool
+>>>>>>> tg-pr-88929
 	icon = 'icons/obj/weapons/hand.dmi'
 	icon_state = "greyscale"
 	color = COLOR_VERY_PALE_LIME_GREEN

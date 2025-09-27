@@ -27,7 +27,11 @@
 	melee_attack_cooldown = CLICK_CD_MELEE
 	attack_verb_continuous = "slashes"
 	attack_verb_simple = "slash"
+<<<<<<< HEAD
 	attack_sound = 'sound/weapons/bladeslice.ogg'
+=======
+	attack_sound = 'sound/items/weapons/bladeslice.ogg'
+>>>>>>> tg-pr-88929
 
 	// Slightly brown red, for the eyes
 	lighting_cutoff_red = 22
@@ -49,12 +53,21 @@
 	. = ..()
 	ADD_TRAIT(src, TRAIT_VENTCRAWLER_ALWAYS, INNATE_TRAIT)
 
+<<<<<<< HEAD
 	RegisterSignal(src, COMSIG_HOSTILE_PRE_ATTACKINGTARGET, PROC_REF(pre_attack))
 	RegisterSignal(src, COMSIG_MOB_LOGIN, PROC_REF(on_login))
 
 	AddElement(/datum/element/waddling)
 	AddElement(/datum/element/ai_retaliate)
 	AddElement(/datum/element/door_pryer, pry_time = 5 SECONDS, interaction_key = REGALRAT_INTERACTION)
+=======
+	RegisterSignal(src, COMSIG_MOB_LOGIN, PROC_REF(on_login))
+
+	AddElementTrait(TRAIT_WADDLING, INNATE_TRAIT, /datum/element/waddling)
+	AddElement(/datum/element/ai_retaliate)
+	AddElement(/datum/element/door_pryer, pry_time = 5 SECONDS, interaction_key = REGALRAT_INTERACTION)
+	AddElement(/datum/element/poster_tearer, interaction_key = REGALRAT_INTERACTION)
+>>>>>>> tg-pr-88929
 	AddComponent(\
 		/datum/component/ghost_direct_control,\
 		poll_candidates = poll_ghosts,\
@@ -65,6 +78,7 @@
 		poll_chat_border_icon = /obj/item/food/cheese/wedge,\
 	)
 
+<<<<<<< HEAD
 	var/datum/action/cooldown/mob_cooldown/domain/domain = new(src)
 	domain.Grant(src)
 	ai_controller.set_blackboard_key(BB_DOMAIN_ABILITY, domain)
@@ -72,6 +86,20 @@
 	var/datum/action/cooldown/mob_cooldown/riot/riot = new(src)
 	riot.Grant(src)
 	ai_controller.set_blackboard_key(BB_RAISE_HORDE_ABILITY, riot)
+=======
+	var/static/list/innate_actions = list(
+		/datum/action/cooldown/mob_cooldown/domain = BB_DOMAIN_ABILITY,
+		/datum/action/cooldown/mob_cooldown/riot = BB_RAISE_HORDE_ABILITY,
+	)
+
+	grant_actions_by_list(innate_actions)
+
+/mob/living/basic/regal_rat/death(gibbed)
+	var/datum/component/potential_component = GetComponent(/datum/component/ghost_direct_control)
+	if(!QDELETED(potential_component))
+		qdel(potential_component)
+	return ..()
+>>>>>>> tg-pr-88929
 
 /mob/living/basic/regal_rat/examine(mob/user)
 	. = ..()
@@ -104,9 +132,14 @@
 	notify_ghosts(
 		"All rise for [name], ascendant to the throne in \the [get_area(src)].",
 		source = src,
+<<<<<<< HEAD
 		action = NOTIFY_ORBIT,
 		notify_flags = NOTIFY_CATEGORY_NOFLASH,
 		header = "Sentient Rat Created",
+=======
+		header = "Sentient Rat Created",
+		notify_flags = NOTIFY_CATEGORY_NOFLASH,
+>>>>>>> tg-pr-88929
 	)
 
 /// Supplementary work we do when we login. Done this way so we synchronize with the ai controller shutting off and all that jazz as well as allowing more shit to be passed in if need be in future.
@@ -164,6 +197,7 @@
 	special_moniker = "You better not screw with [p_their()] [selected_kingdom]... How do you become a [selected_title] of that anyways?"
 
 /// Checks if we are able to attack this object, as well as send out the signal to see if we get any special regal rat interactions.
+<<<<<<< HEAD
 /mob/living/basic/regal_rat/proc/pre_attack(mob/living/source, atom/target)
 	SIGNAL_HANDLER
 
@@ -179,6 +213,26 @@
 	if(!(istate &ISTATE_HARM))
 		INVOKE_ASYNC(src, PROC_REF(poison_target), target)
 		return COMPONENT_HOSTILE_NO_ATTACK
+=======
+/mob/living/basic/regal_rat/early_melee_attack(atom/target, list/modifiers, ignore_cooldown)
+	. = ..()
+	if(!.)
+		return FALSE
+
+	if(DOING_INTERACTION(src, REGALRAT_INTERACTION) || !allowed_to_attack(target))
+		return FALSE
+
+	if(SEND_SIGNAL(target, COMSIG_RAT_INTERACT, src) & COMPONENT_RAT_INTERACTED)
+		return FALSE
+
+	if(isnull(mind) || combat_mode)
+		return TRUE
+
+	if(poison_target(target))
+		return FALSE
+
+	return TRUE
+>>>>>>> tg-pr-88929
 
 /// Checks if we are allowed to attack this mob. Will return TRUE if we are potentially allowed to attack, but if we end up in a case where we should NOT attack, return FALSE.
 /mob/living/basic/regal_rat/proc/allowed_to_attack(atom/the_target)
@@ -199,10 +253,24 @@
 
 	return TRUE
 
+<<<<<<< HEAD
 /// Attempts to add rat spit to a target, effectively poisoning it to whoever eats it. Yuckers.
 /mob/living/basic/regal_rat/proc/poison_target(atom/target)
 	if(isnull(target.reagents) || !target.is_injectable(src, allowmobs = TRUE))
 		return
+=======
+/**
+ * Attempts to add rat spit to a target, effectively poisoning it to whoever eats it. Yuckers.
+ * Returns TRUE if the target is valid for adding rat spit
+ * Returns FALSE if the target is invalid for adding rat spit
+ * Arguments
+ *
+ * * atom/lean_target - the target we try to add the spit to
+ */
+/mob/living/basic/regal_rat/proc/poison_target(atom/target)
+	if(isnull(target.reagents) || !target.is_injectable(src, allowmobs = TRUE))
+		return FALSE
+>>>>>>> tg-pr-88929
 
 	visible_message(
 		span_warning("[src] starts licking [target] passionately!"),
@@ -211,10 +279,18 @@
 	)
 
 	if (!do_after(src, 2 SECONDS, target, interaction_key = REGALRAT_INTERACTION))
+<<<<<<< HEAD
 		return
 
 	target.reagents.add_reagent(/datum/reagent/rat_spit, rand(1,3), no_react = TRUE)
 	balloon_alert(src, "licked")
+=======
+		return TRUE // don't return false here because they tried to lick and the do_after was interrupted, otherwise cancelling the do_after will make them hit the target.
+
+	target.reagents.add_reagent(/datum/reagent/rat_spit, rand(1,3), no_react = TRUE)
+	balloon_alert(src, "licked")
+	return TRUE
+>>>>>>> tg-pr-88929
 
 /**
  * Conditionally "eat" cheese object and heal, if injured.

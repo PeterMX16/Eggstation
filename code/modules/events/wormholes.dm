@@ -52,7 +52,7 @@ GLOBAL_LIST_EMPTY(all_wormholes) // So we can pick wormholes to teleport to
 /obj/effect/portal/wormhole
 	name = "wormhole"
 	desc = "It looks highly unstable; It could close at any moment."
-	icon = 'icons/obj/objects.dmi'
+	icon = 'icons/obj/anomaly.dmi'
 	icon_state = "anom"
 	mech_sized = TRUE
 	light_on = FALSE
@@ -66,7 +66,7 @@ GLOBAL_LIST_EMPTY(all_wormholes) // So we can pick wormholes to teleport to
 	. = ..()
 	GLOB.all_wormholes -= src
 
-/obj/effect/portal/wormhole/teleport(atom/movable/M)
+/obj/effect/portal/wormhole/teleport(atom/movable/M, force = FALSE)
 	if(iseffect(M)) //sparks don't teleport
 		return
 	if(M.anchored)

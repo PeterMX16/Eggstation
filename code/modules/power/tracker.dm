@@ -9,7 +9,7 @@
 /obj/machinery/power/tracker
 	name = "solar tracker"
 	desc = "A solar directional tracker."
-	icon = 'icons/obj/solar.dmi'
+	icon = 'icons/obj/machines/solar.dmi'
 	icon_state = "tracker_base"
 	density = TRUE
 	use_power = NO_POWER_USE
@@ -90,7 +90,7 @@
 
 	// actually flip to other direction?
 	if(abs(angle - azimuth_current) > 180)
-		mid_azimuth = (mid_azimuth + 180) % 360
+		mid_azimuth = REVERSE_ANGLE(mid_azimuth)
 
 	// Split into 2 parts so it doesn't distort on large changes
 	animate(part,
@@ -132,9 +132,10 @@
 /obj/machinery/power/tracker/atom_break(damage_flag)
 	. = ..()
 	if(.)
-		playsound(loc, 'sound/effects/glassbr3.ogg', 100, TRUE)
+		playsound(loc, 'sound/effects/glass/glassbr3.ogg', 100, TRUE)
 		unset_control()
 
+<<<<<<< HEAD
 /obj/machinery/power/tracker/deconstruct(disassembled = TRUE)
 	if(!(flags_1 & NODECONSTRUCT_1))
 		var/datum/material/material_type = /datum/material/glass
@@ -154,6 +155,18 @@
 			new material_type.shard_type(get_turf(src))
 			new material_type.shard_type(get_turf(src))
 	qdel(src)
+=======
+/obj/machinery/power/tracker/on_deconstruction(disassembled)
+	if(disassembled)
+		var/obj/item/solar_assembly/S = locate() in src
+		if(S)
+			S.forceMove(loc)
+			S.give_glass(machine_stat & BROKEN)
+	else
+		playsound(src, SFX_SHATTER, 70, TRUE)
+		new /obj/item/shard(src.loc)
+		new /obj/item/shard(src.loc)
+>>>>>>> tg-pr-88929
 
 // Tracker Electronic
 

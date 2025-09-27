@@ -21,11 +21,15 @@
 
 /obj/structure/holosign/Initialize(mapload, source_projector)
 	. = ..()
+<<<<<<< HEAD
 	//create_vis_overlay()
 	if(use_vis_overlay)
 		SSvis_overlays.remove_vis_overlay(src, managed_vis_overlays)
 		var/turf/our_turf = get_turf(src)
 		SSvis_overlays.add_vis_overlay(src, icon, icon_state, ABOVE_MOB_LAYER, MUTATE_PLANE(GAME_PLANE_UPPER, our_turf), dir) //you see mobs under it, but you hit them like they are above it
+=======
+	create_vis_overlay()
+>>>>>>> tg-pr-88929
 	if(source_projector)
 		projector = source_projector
 		LAZYADD(projector.signs, src)
@@ -51,13 +55,21 @@
 	user.do_attack_animation(src, ATTACK_EFFECT_PUNCH)
 	user.changeNext_move(CLICK_CD_MELEE)
 	take_damage(5 , BRUTE, MELEE, 1)
+	log_combat(user, src, "swatted")
 
 /obj/structure/holosign/play_attack_sound(damage_amount, damage_type = BRUTE, damage_flag = 0)
 	switch(damage_type)
 		if(BRUTE)
-			playsound(loc, 'sound/weapons/egloves.ogg', 80, TRUE)
+			playsound(loc, 'sound/items/weapons/egloves.ogg', 80, TRUE)
 		if(BURN)
-			playsound(loc, 'sound/weapons/egloves.ogg', 80, TRUE)
+			playsound(loc, 'sound/items/weapons/egloves.ogg', 80, TRUE)
+
+/obj/structure/holosign/proc/create_vis_overlay()
+	var/turf/our_turf = get_turf(src)
+	if(use_vis_overlay)
+		alpha = 0
+		SSvis_overlays.remove_vis_overlay(src, managed_vis_overlays)
+		SSvis_overlays.add_vis_overlay(src, icon, icon_state, ABOVE_MOB_LAYER, MUTATE_PLANE(GAME_PLANE, our_turf), dir, add_appearance_flags = RESET_ALPHA) //you see mobs under it, but you hit them like they are above it
 
 // /obj/structure/holosign/proc/create_vis_overlay() no idea why this doesn't work
 //	var/turf/our_turf = get_turf(src)
@@ -94,21 +106,36 @@
 	. = ..()
 	if(.)
 		return
+<<<<<<< HEAD
 	if(opened)
 		return TRUE
+=======
+
+	if(opened)
+		return TRUE
+
+>>>>>>> tg-pr-88929
 	if(iscarbon(mover))
 		var/mob/living/carbon/moving_carbon = mover
 		if(moving_carbon.stat) // Lets not prevent dragging unconscious/dead people.
 			return TRUE
+<<<<<<< HEAD
 		if(allow_walk && moving_carbon.m_intent == MOVE_INTENT_WALK)
 			return TRUE
 
 /obj/structure/holosign/barrier/item_interaction(mob/living/user, obj/item/tool, list/modifiers)
+=======
+		if(allow_walk && moving_carbon.move_intent == MOVE_INTENT_WALK)
+			return TRUE
+
+/obj/structure/holosign/barrier/ranged_item_interaction(mob/living/user, obj/item/tool, list/modifiers)
+>>>>>>> tg-pr-88929
 	. = ..()
 	if(tool != projector)
 		return
 	if(openable)
 		open(user)
+<<<<<<< HEAD
 	else
 		qdel(src)
 
@@ -122,6 +149,22 @@
 		SSvis_overlays.remove_vis_overlay(src, managed_vis_overlays)
 		var/turf/our_turf = get_turf(src)
 		SSvis_overlays.add_vis_overlay(src, icon, icon_state, ABOVE_MOB_LAYER, MUTATE_PLANE(GAME_PLANE_UPPER, our_turf), dir) //you see mobs under it, but you hit them like they are above it
+=======
+
+/obj/structure/holosign/barrier/item_interaction(mob/living/user, obj/item/tool, list/modifiers)
+	. = ..()
+	if(tool != projector)
+		return
+	qdel(src)
+
+/obj/structure/holosign/barrier/update_icon_state()
+	if(!opened)
+		icon_state = base_icon_state
+	else
+		icon_state = pass_icon_state
+
+	create_vis_overlay()
+>>>>>>> tg-pr-88929
 	. = ..()
 
 /obj/structure/holosign/barrier/proc/open(user)
@@ -136,11 +179,19 @@
 	if(!opened)
 		density = FALSE
 		opened = TRUE
+<<<<<<< HEAD
 		playsound(src, 'sound/machines/door_open.ogg', 50, TRUE)
 	else
 		density = TRUE
 		opened = FALSE
 		playsound(src, 'sound/machines/door_close.ogg', 50, TRUE)
+=======
+		playsound(src, 'sound/machines/door/door_open.ogg', 50, TRUE)
+	else
+		density = TRUE
+		opened = FALSE
+		playsound(src, 'sound/machines/door/door_close.ogg', 50, TRUE)
+>>>>>>> tg-pr-88929
 
 	update_icon_state()
 	COOLDOWN_START(src, cooldown_open, 1 SECONDS)
@@ -158,7 +209,7 @@
 		var/mob/living/carbon/C = mover
 		if(C.stat) // Lets not prevent dragging unconscious/dead people.
 			return TRUE
-		if(allow_walk && C.m_intent != MOVE_INTENT_WALK)
+		if(allow_walk && C.move_intent != MOVE_INTENT_WALK)
 			return FALSE
 
 /obj/structure/holosign/barrier/engineering
@@ -167,11 +218,13 @@
 	icon_state = "holosign_engi"
 	base_icon_state = "holosign_engi"
 	rad_insulation = RAD_LIGHT_INSULATION
+	max_integrity = 1
 
 /obj/structure/holosign/barrier/atmos
 	name = "holofirelock"
 	desc = "A holographic barrier resembling a firelock. Though it does not prevent solid objects from passing through, gas is kept out."
 	icon_state = "holo_firelock"
+	openable = FALSE
 	density = FALSE
 	openable = FALSE
 	anchored = TRUE
@@ -203,11 +256,13 @@
 	name = "tram atmos barrier"
 	max_integrity = 150
 	icon_state = "holo_tram"
+	openable = FALSE
 
 /obj/structure/holosign/barrier/atmos/Initialize(mapload)
 	. = ..()
 	air_update_turf(TRUE, TRUE)
-	AddElement(/datum/element/trait_loc, TRAIT_FIREDOOR_STOP)
+	var/static/list/turf_traits = list(TRAIT_FIREDOOR_STOP)
+	AddElement(/datum/element/give_turf_traits, turf_traits)
 
 /obj/structure/holosign/barrier/atmos/block_superconductivity() //Didn't used to do this, but it's "normal", and will help ease heat flow transitions with the players.
 	return TRUE
@@ -235,6 +290,7 @@
 	desc = "A holobarrier that uses biometrics to detect human viruses. Denies passing to personnel with easily-detected, malicious viruses. Good for quarantines."
 	icon_state = "holo_medical"
 	base_icon_state = "holo_medical"
+<<<<<<< HEAD
 	pass_icon_state = "holo_medical_pass"
 	var/force_allaccess = FALSE
 	openable = FALSE
@@ -243,11 +299,14 @@
 /obj/structure/holosign/barrier/medical/examine(mob/user)
 	. = ..()
 	. += span_notice("The biometric scanners are <b>[force_allaccess ? "off" : "on"]</b>.")
+=======
+	max_integrity = 1
+	openable = FALSE
+	COOLDOWN_DECLARE(virus_detected)
+>>>>>>> tg-pr-88929
 
 /obj/structure/holosign/barrier/medical/CanAllowThrough(atom/movable/mover, border_dir)
 	. = ..()
-	if(force_allaccess)
-		return TRUE
 	if(istype(mover, /obj/vehicle/ridden))
 		for(var/M in mover.buckled_mobs)
 			if(ishuman(M))
@@ -259,15 +318,26 @@
 
 /obj/structure/holosign/barrier/medical/Bumped(atom/movable/AM)
 	. = ..()
+<<<<<<< HEAD
+=======
+	icon_state = base_icon_state
+	update_icon_state()
+>>>>>>> tg-pr-88929
 	if(!ishuman(AM) && CheckHuman(AM))
 		return
 
 	if(!COOLDOWN_FINISHED(src, virus_detected))
 		return
+<<<<<<< HEAD
 	var/obj/item/holosign_creator/medical/medical = projector
 	medical.try_alert(AM, get_area(src))
 	playsound(get_turf(src),'sound/machines/buzz-sigh.ogg', 65, TRUE, 4)
 	COOLDOWN_START(src, virus_detected, 6 SECONDS)
+=======
+
+	playsound(get_turf(src),'sound/machines/buzz/buzz-sigh.ogg', 65, TRUE, 4)
+	COOLDOWN_START(src, virus_detected, 1 SECONDS)
+>>>>>>> tg-pr-88929
 	icon_state = "holo_medical-deny"
 	update_icon_state()
 
@@ -279,6 +349,7 @@
 		return FALSE
 	return TRUE
 
+<<<<<<< HEAD
 /obj/structure/holosign/barrier/medical/attack_hand(mob/living/user, list/modifiers)
 	if(!(user.istate & ISTATE_HARM) && CanPass(user, get_dir(src, user)))
 		force_allaccess = !force_allaccess
@@ -297,6 +368,8 @@
 		var/turf/our_turf = get_turf(src)
 		SSvis_overlays.add_vis_overlay(src, icon, icon_state, ABOVE_MOB_LAYER, MUTATE_PLANE(GAME_PLANE_UPPER, our_turf), dir) //you see mobs under it, but you hit them like they are above it
 
+=======
+>>>>>>> tg-pr-88929
 /obj/structure/holosign/barrier/cyborg/hacked
 	name = "Charged Energy Field"
 	desc = "A powerful energy field that blocks movement. Energy arcs off it."
@@ -316,7 +389,7 @@
 			var/mob/living/M = user
 			M.electrocute_act(15,"Energy Barrier")
 			shockcd = TRUE
-			addtimer(CALLBACK(src, PROC_REF(cooldown)), 5)
+			addtimer(CALLBACK(src, PROC_REF(cooldown)), 0.5 SECONDS)
 
 /obj/structure/holosign/barrier/cyborg/hacked/Bumped(atom/movable/AM)
 	if(shockcd)
@@ -328,4 +401,4 @@
 	var/mob/living/M = AM
 	M.electrocute_act(15,"Energy Barrier")
 	shockcd = TRUE
-	addtimer(CALLBACK(src, PROC_REF(cooldown)), 5)
+	addtimer(CALLBACK(src, PROC_REF(cooldown)), 0.5 SECONDS)

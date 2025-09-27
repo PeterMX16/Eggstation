@@ -34,11 +34,14 @@
 	VAR_FINAL/started_time = -1
 	/// The time remaining in this vote's run.
 	VAR_FINAL/time_remaining = -1
+<<<<<<< HEAD
 
 	/// Multipliers donators get for this vote type MONKESTATION ADDITION
 	var/donator_multiplier = 0
 	// can we start this vote by a player
 	var/player_startable = TRUE
+=======
+>>>>>>> tg-pr-88929
 
 /**
  * Used to determine if this vote is a possible
@@ -64,7 +67,6 @@
 
 /**
  * If this vote has a config associated, toggles it between enabled and disabled.
- * Returns TRUE on a successful toggle, FALSE otherwise
  */
 /datum/vote/proc/toggle_votable()
 	return
@@ -93,6 +95,12 @@
 	if(!forced && !is_config_enabled())
 		return "This vote is currently disabled by the server configuration."
 
+<<<<<<< HEAD
+=======
+	if(!forced && !is_config_enabled())
+		return "This vote is currently disabled by the server configuration."
+
+>>>>>>> tg-pr-88929
 	return VOTE_AVAILABLE
 
 /**
@@ -200,7 +208,33 @@
 	var/total_votes = 0 // for determining percentage of votes
 	for(var/option in choices)
 		total_votes += choices[option]
+<<<<<<< HEAD
 		returned_text += "\n[span_bold(option)]: [choices[option]]"
+=======
+
+	if(total_votes <= 0)
+		return span_bold("Vote Result: Inconclusive - No Votes!")
+
+	if (display_statistics)
+		returned_text += "\nResults:"
+		for(var/option in choices)
+			returned_text += "\n"
+			var/votes = choices[option]
+			var/percentage_text = ""
+			if(votes > 0)
+				var/actual_percentage = round((votes / total_votes) * 100, 0.1)
+				var/text = "[actual_percentage]"
+				var/spaces_needed = 5 - length(text)
+				for(var/_ in 1 to spaces_needed)
+					returned_text += " "
+				percentage_text += "[text]%"
+			else
+				percentage_text = "    0%"
+			returned_text += "[percentage_text] | [span_bold(option)]: [choices[option]]"
+
+	if(!real_winner) // vote has no winner or cannot be won, but still had votes
+		return returned_text
+>>>>>>> tg-pr-88929
 
 	if(total_votes <= 0)
 		return span_bold("Vote Result: Inconclusive - No Votes!")

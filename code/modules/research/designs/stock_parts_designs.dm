@@ -98,7 +98,11 @@
 	desc = "A stock part used in the construction of various devices."
 	id = "adv_scanning"
 	build_type = PROTOLATHE | AWAY_LATHE
+<<<<<<< HEAD
 	materials = list(/datum/material/iron = SMALL_MATERIAL_AMOUNT*1.5, /datum/material/glass = SMALL_MATERIAL_AMOUNT)
+=======
+	materials = list(/datum/material/iron = SMALL_MATERIAL_AMOUNT*1.5, /datum/material/glass =SMALL_MATERIAL_AMOUNT)
+>>>>>>> tg-pr-88929
 	build_path = /obj/item/stock_parts/scanning_module/adv
 	category = list(
 		RND_CATEGORY_STOCK_PARTS + RND_SUBCATEGORY_STOCK_PARTS_2
@@ -133,52 +137,68 @@
 	departmental_flags = DEPARTMENT_BITFLAG_ENGINEERING | DEPARTMENT_BITFLAG_SCIENCE
 
 //Maipulators
-/datum/design/micro_mani
-	name = "Micro Manipulator"
+/datum/design/micro_servo
+	name = "Micro Servo"
 	desc = "A stock part used in the construction of various devices."
-	id = "micro_mani"
+	id = "micro_servo"
 	build_type = PROTOLATHE | AWAY_LATHE | AUTOLATHE
 	materials = list(/datum/material/iron =SMALL_MATERIAL_AMOUNT)
+<<<<<<< HEAD
 	build_path = /obj/item/stock_parts/manipulator
+=======
+	build_path = /obj/item/stock_parts/servo
+>>>>>>> tg-pr-88929
 	category = list(
 		RND_CATEGORY_STOCK_PARTS + RND_SUBCATEGORY_STOCK_PARTS_1
 	)
 	lathe_time_factor = 0.2
 	departmental_flags = DEPARTMENT_BITFLAG_ENGINEERING | DEPARTMENT_BITFLAG_SCIENCE
 
-/datum/design/nano_mani
-	name = "Nano Manipulator"
+/datum/design/nano_servo
+	name = "Nano Servo"
 	desc = "A stock part used in the construction of various devices."
-	id = "nano_mani"
+	id = "nano_servo"
 	build_type = PROTOLATHE | AWAY_LATHE
 	materials = list(/datum/material/iron = SMALL_MATERIAL_AMOUNT*1.5)
+<<<<<<< HEAD
 	build_path = /obj/item/stock_parts/manipulator/nano
+=======
+	build_path = /obj/item/stock_parts/servo/nano
+>>>>>>> tg-pr-88929
 	category = list(
 		RND_CATEGORY_STOCK_PARTS + RND_SUBCATEGORY_STOCK_PARTS_2
 	)
 	lathe_time_factor = 0.2
 	departmental_flags = DEPARTMENT_BITFLAG_ENGINEERING | DEPARTMENT_BITFLAG_SCIENCE
 
-/datum/design/pico_mani
-	name = "Pico Manipulator"
+/datum/design/pico_servo
+	name = "Pico Servo"
 	desc = "A stock part used in the construction of various devices."
-	id = "pico_mani"
+	id = "pico_servo"
 	build_type = PROTOLATHE | AWAY_LATHE
 	materials = list(/datum/material/iron =SMALL_MATERIAL_AMOUNT * 2)
+<<<<<<< HEAD
 	build_path = /obj/item/stock_parts/manipulator/pico
+=======
+	build_path = /obj/item/stock_parts/servo/pico
+>>>>>>> tg-pr-88929
 	category = list(
 		RND_CATEGORY_STOCK_PARTS + RND_SUBCATEGORY_STOCK_PARTS_3
 	)
 	lathe_time_factor = 0.2
 	departmental_flags = DEPARTMENT_BITFLAG_ENGINEERING | DEPARTMENT_BITFLAG_SCIENCE
 
-/datum/design/femto_mani
-	name = "Femto Manipulator"
+/datum/design/femto_servo
+	name = "Femto Servo"
 	desc = "A stock part used in the construction of various devices."
-	id = "femto_mani"
+	id = "femto_servo"
 	build_type = PROTOLATHE | AWAY_LATHE
 	materials = list(/datum/material/iron =SMALL_MATERIAL_AMOUNT * 2, /datum/material/diamond = SMALL_MATERIAL_AMOUNT*0.3, /datum/material/titanium = SMALL_MATERIAL_AMOUNT*0.3)
+<<<<<<< HEAD
 	build_path = /obj/item/stock_parts/manipulator/femto
+=======
+	build_path = /obj/item/stock_parts/servo/femto
+>>>>>>> tg-pr-88929
 	category = list(
 		RND_CATEGORY_STOCK_PARTS + RND_SUBCATEGORY_STOCK_PARTS_4
 	)

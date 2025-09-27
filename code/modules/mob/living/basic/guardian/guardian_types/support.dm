@@ -2,7 +2,11 @@
 /mob/living/basic/guardian/support
 	guardian_type = GUARDIAN_SUPPORT
 	speed = 0
+<<<<<<< HEAD
 	damage_coeff = list(BRUTE = 0.7, BURN = 0.7, TOX = 0.7, CLONE = 0.7, STAMINA = 0, OXY = 0.7)
+=======
+	damage_coeff = list(BRUTE = 0.7, BURN = 0.7, TOX = 0.7, STAMINA = 0, OXY = 0.7)
+>>>>>>> tg-pr-88929
 	melee_damage_lower = 15
 	melee_damage_upper = 15
 	playstyle_string = span_holoparasite("As a <b>support</b> type, you may right-click to heal targets. In addition, alt-clicking on an adjacent object or mob will warp them to your bluespace beacon after a short delay.")
@@ -14,6 +18,7 @@
 
 /mob/living/basic/guardian/support/Initialize(mapload, datum/guardian_fluff/theme)
 	. = ..()
+<<<<<<< HEAD
 	//MONKESTATION EDIT START
 	// Fixes support guardian not being able to heal. The original `required_modifier` check is
 	// bugged due to our codebase having both Combat Mode and Intents. We instead use the
@@ -25,6 +30,8 @@
 	// do, it just kept returning errors about the macro syntax. So instead of trying to fix it, I
 	// opted for... this.
 	/*
+=======
+>>>>>>> tg-pr-88929
 	AddComponent(\
 		/datum/component/healing_touch,\
 		heal_brute = healing_amount,\
@@ -36,6 +43,7 @@
 		complete_text = "",\
 		required_modifier = RIGHT_CLICK,\
 		after_healed = CALLBACK(src, PROC_REF(after_healed)),\
+<<<<<<< HEAD
 	) //MONKESTATION EDIT ORIGINAL
 	*/
 	AddComponent(\
@@ -51,6 +59,9 @@
 		after_healed = CALLBACK(src, PROC_REF(after_healed)),\
 	)
 	//MONKESTATION EDIT END
+=======
+	)
+>>>>>>> tg-pr-88929
 
 	var/datum/atom_hud/medsensor = GLOB.huds[DATA_HUD_MEDICAL_ADVANCED]
 	medsensor.show_to(src)
@@ -62,6 +73,7 @@
 	. = ..()
 	AddComponent(/datum/component/healing_touch, heal_color = guardian_colour)
 
+<<<<<<< HEAD
 //MONKESTATION ADDITION START
 /// Called by the healing_touch component to check if we want this attack to heal
 /mob/living/basic/guardian/support/proc/wants_to_heal(mob/living/source, mob/living/target)
@@ -71,6 +83,8 @@
 	return FALSE
 //MONKESTATION ADDITION END
 
+=======
+>>>>>>> tg-pr-88929
 /// Called after we heal someone, show some visuals
 /mob/living/basic/guardian/support/proc/after_healed(mob/living/healed)
 	do_attack_animation(healed, ATTACK_EFFECT_PUNCH)
@@ -137,10 +151,19 @@
 /// Try and teleport something to our beacon
 /datum/action/cooldown/mob_cooldown/guardian_bluespace_beacon/proc/try_teleporting(mob/living/source, atom/target)
 	SIGNAL_HANDLER
+<<<<<<< HEAD
 	if (!can_teleport(source, target))
 		return
 	INVOKE_ASYNC(src, PROC_REF(perform_teleport), source, target)
 	return COMPONENT_CANCEL_ATTACK_CHAIN
+=======
+
+	if (!can_teleport(source, target))
+		return
+
+	INVOKE_ASYNC(src, PROC_REF(perform_teleport), source, target)
+	return COMSIG_MOB_CANCEL_CLICKON
+>>>>>>> tg-pr-88929
 
 /// Validate whether we can teleport this object
 /datum/action/cooldown/mob_cooldown/guardian_bluespace_beacon/proc/can_teleport(mob/living/source, atom/movable/target)
@@ -152,7 +175,11 @@
 		if (!guardian_mob.is_deployed())
 			source.balloon_alert(source, "manifest yourself!")
 			return FALSE
+<<<<<<< HEAD
 	if (!source.Adjacent(target))
+=======
+	if (!source.can_perform_action(target))
+>>>>>>> tg-pr-88929
 		target.balloon_alert(source, "too far!")
 		return FALSE
 	if (target.anchored)
@@ -166,7 +193,11 @@
 /// Start teleporting
 /datum/action/cooldown/mob_cooldown/guardian_bluespace_beacon/proc/perform_teleport(mob/living/source, atom/target)
 	source.do_attack_animation(target)
+<<<<<<< HEAD
 	playsound(target, 'sound/weapons/punch1.ogg', 50, TRUE, TRUE, frequency = -1)
+=======
+	playsound(target, 'sound/items/weapons/punch1.ogg', 50, TRUE, TRUE, frequency = -1)
+>>>>>>> tg-pr-88929
 	source.balloon_alert(source, "teleporting...")
 	target.visible_message(
 		span_danger("[target] starts to glow faintly!"), \
@@ -191,7 +222,11 @@
 	icon = 'icons/turf/floors.dmi'
 	desc = "A glowing zone which acts as a beacon for teleportation."
 	icon_state = "light_on-8"
+<<<<<<< HEAD
 	light_outer_range = MINIMUM_USEFUL_LIGHT_RANGE
+=======
+	light_range = MINIMUM_USEFUL_LIGHT_RANGE
+>>>>>>> tg-pr-88929
 	density = FALSE
 	anchored = TRUE
 	plane = FLOOR_PLANE

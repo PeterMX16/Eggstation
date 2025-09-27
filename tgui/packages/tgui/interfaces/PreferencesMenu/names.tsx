@@ -1,5 +1,9 @@
 import { binaryInsertWith, sortBy } from 'common/collections';
+<<<<<<< HEAD
 import { useLocalState } from '../../backend';
+=======
+import { useState } from 'react';
+>>>>>>> tg-pr-88929
 import {
   Box,
   Button,
@@ -11,7 +15,12 @@ import {
   Section,
   Stack,
   TrackOutsideClicks,
+<<<<<<< HEAD
 } from '../../components';
+=======
+} from 'tgui-core/components';
+
+>>>>>>> tg-pr-88929
 import { Name } from './data';
 import { ServerPreferencesFetcher } from './ServerPreferencesFetcher';
 
@@ -20,9 +29,11 @@ type NameWithKey = {
   name: Name;
 };
 
-const binaryInsertName = binaryInsertWith<NameWithKey>(({ key }) => key);
+const binaryInsertName = (collection: NameWithKey[], value: NameWithKey) =>
+  binaryInsertWith(collection, value, ({ key }) => key);
 
-const sortNameWithKeyEntries = sortBy<[string, NameWithKey[]]>(([key]) => key);
+const sortNameWithKeyEntries = (array: [string, NameWithKey[]][]) =>
+  sortBy(array, ([key]) => key);
 
 export const MultiNameInput = (props: {
   handleClose: () => void;
@@ -30,9 +41,15 @@ export const MultiNameInput = (props: {
   handleUpdateName: (nameType: string, value: string) => void;
   names: Record<string, string>;
 }) => {
+<<<<<<< HEAD
   const [currentlyEditingName, setCurrentlyEditingName] = useLocalState<
     string | null
   >('currentlyEditingName', null);
+=======
+  const [currentlyEditingName, setCurrentlyEditingName] = useState<
+    string | null
+  >(null);
+>>>>>>> tg-pr-88929
 
   return (
     <ServerPreferencesFetcher
@@ -157,9 +174,15 @@ export const NameInput = (props: {
   name: string;
   openMultiNameInput: () => void;
 }) => {
+<<<<<<< HEAD
   const [lastNameBeforeEdit, setLastNameBeforeEdit] = useLocalState<
     string | null
   >('lastNameBeforeEdit', null);
+=======
+  const [lastNameBeforeEdit, setLastNameBeforeEdit] = useState<string | null>(
+    null,
+  );
+>>>>>>> tg-pr-88929
   const editing = lastNameBeforeEdit === props.name;
 
   const updateName = (e, value) => {
@@ -182,7 +205,11 @@ export const NameInput = (props: {
           <Icon
             style={{
               color: 'rgba(255, 255, 255, 0.5)',
+<<<<<<< HEAD
               'font-size': '17px',
+=======
+              fontSize: '17px',
+>>>>>>> tg-pr-88929
             }}
             name="edit"
           />
@@ -207,7 +234,7 @@ export const NameInput = (props: {
 
           <Box
             style={{
-              'border-bottom': '2px dotted rgba(255, 255, 255, 0.8)',
+              borderBottom: '2px dotted rgba(255, 255, 255, 0.8)',
               right: '50%',
               transform: 'translateX(50%)',
               position: 'absolute',
@@ -248,7 +275,11 @@ export const NameInput = (props: {
                     style={{
                       position: 'relative',
                       left: '1px',
+<<<<<<< HEAD
                       'min-width': '0px',
+=======
+                      minWidth: '0px',
+>>>>>>> tg-pr-88929
                     }}
                   />
                 </Button>

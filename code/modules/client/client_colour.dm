@@ -16,8 +16,8 @@
  * Define subtypes of this datum
  */
 /datum/client_colour
-	///Any client.color-valid value
-	var/colour = ""
+	///The color we want to give to the client. This has to be either a hexadecimal color or a color matrix.
+	var/colour
 	///The mob that owns this client_colour.
 	var/mob/owner
 	/**
@@ -32,8 +32,8 @@
 	///Same as above, but on removal.
 	var/fade_out = 0
 
-/datum/client_colour/New(mob/_owner)
-	owner = _owner
+/datum/client_colour/New(mob/owner)
+	src.owner = owner
 
 /datum/client_colour/Destroy()
 	if(!QDELETED(owner))
@@ -164,7 +164,6 @@
 
 /datum/client_colour/glass_colour
 	priority = PRIORITY_LOW
-	colour = "red"
 
 /datum/client_colour/glass_colour/green
 	colour = "#aaffaa"
@@ -181,8 +180,14 @@
 /datum/client_colour/glass_colour/yellow
 	colour = "#ffff66"
 
+/datum/client_colour/glass_colour/lightyellow
+	colour = "#ffffaa"
+
 /datum/client_colour/glass_colour/red
 	colour = "#ffaaaa"
+
+/datum/client_colour/glass_colour/lightred
+	colour = "#ffcccc"
 
 /datum/client_colour/glass_colour/darkred
 	colour = "#bb5555"
@@ -196,14 +201,30 @@
 /datum/client_colour/glass_colour/purple
 	colour = "#ff99ff"
 
+/datum/client_colour/glass_colour/lightpurple
+	colour = "#ffccff"
+
 /datum/client_colour/glass_colour/gray
 	colour = "#cccccc"
+
+///A client colour that makes the screen look a bit more grungy, halloweenesque even.
+/datum/client_colour/halloween_helmet
+	colour = list(0.75,0.13,0.13,0, 0.13,0.7,0.13,0, 0.13,0.13,0.75,0, -0.06,-0.09,-0.08,1, 0,0,0,0)
+
+/datum/client_colour/flash_hood
+	colour = COLOR_MATRIX_POLAROID
 
 /datum/client_colour/glass_colour/nightmare
 	colour = list(255,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,1, -130,0,0,0) //every color is either red or black
 
+/datum/client_colour/malfunction
+	colour = list(/*R*/ 0,0,0,0, /*G*/ 0,175,0,0, /*B*/ 0,0,0,0, /*A*/ 0,0,0,1, /*C*/0,-130,0,0) // Matrix colors
+
+/datum/client_colour/perceptomatrix
+	colour = list(/*R*/ 1,0,0,0, /*G*/ 0,1,0,0, /*B*/ 0,0,1,0, /*A*/ 0,0,0,1, /*C*/0,-0.02,-0.02,0) // veeery slightly pink
+
 /datum/client_colour/monochrome
-	colour = list(rgb(77,77,77), rgb(150,150,150), rgb(28,28,28), rgb(0,0,0))
+	colour = COLOR_MATRIX_GRAYSCALE
 	priority = PRIORITY_HIGH //we can't see colors anyway!
 	override = TRUE
 	fade_in = 20
@@ -226,9 +247,10 @@
 	colour = list(0,0,0,0,0,0,0,0,0,1,0,0) //pure red.
 	fade_out = 10
 
-/datum/client_colour/bloodlust/New(mob/_owner)
+/datum/client_colour/bloodlust/New(mob/owner)
 	..()
-	addtimer(CALLBACK(src, PROC_REF(update_colour), list(1,0,0,0.8,0.2,0, 0.8,0,0.2,0.1,0,0), 10, SINE_EASING|EASE_OUT), 1)
+	if(owner)
+		addtimer(CALLBACK(src, PROC_REF(update_colour), list(1,0,0,0.8,0.2,0, 0.8,0,0.2,0.1,0,0), 10, SINE_EASING|EASE_OUT), 0.1 SECONDS)
 
 /datum/client_colour/rave
 	priority = PRIORITY_LOW
@@ -238,6 +260,13 @@
 	override = TRUE
 	colour = list(0.8,0,0,0, 0,0,0,0, 0,0,1,0, 0,0,0,1, 0,0,0,0)
 
+<<<<<<< HEAD
+=======
+/datum/client_colour/manual_heart_blood
+	priority = PRIORITY_ABSOLUTE
+	colour = COLOR_RED
+
+>>>>>>> tg-pr-88929
 /datum/client_colour/temp
 	priority = PRIORITY_HIGH
 

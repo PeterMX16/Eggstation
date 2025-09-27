@@ -4,18 +4,32 @@
 
 	sever_connections()
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> tg-pr-88929
 /// Whenever a corpse spawner makes a new corpse, add it to the list of potential mutations
 /obj/machinery/quantum_server/proc/on_corpse_spawned(datum/source, mob/living/corpse)
 	SIGNAL_HANDLER
 
 	mutation_candidate_refs.Add(WEAKREF(corpse))
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> tg-pr-88929
 /// Being qdeleted - make sure the circuit and connected mobs go with it
 /obj/machinery/quantum_server/proc/on_delete(datum/source)
 	SIGNAL_HANDLER
 
+<<<<<<< HEAD
 	if(generated_domain)
 		sever_connections()
+=======
+	sever_connections()
+
+	if(generated_domain)
+>>>>>>> tg-pr-88929
 		scrub_vdom()
 
 	if(is_ready)
@@ -25,6 +39,7 @@
 	if(circuit)
 		qdel(circuit)
 
+<<<<<<< HEAD
 /// Handles examining the server. Shows cooldown time and efficiency.
 /obj/machinery/quantum_server/proc/on_examine(datum/source, mob/examiner, list/examine_text)
 	SIGNAL_HANDLER
@@ -43,6 +58,8 @@
 		return
 	if(isobserver(examiner) && (obj_flags & EMAGGED))
 		. += span_notice("Ominous warning lights are blinking red. This server has been tampered with.")
+=======
+>>>>>>> tg-pr-88929
 
 /// Whenever something enters the send tiles, check if it's a loot crate. If so, alert players.
 /obj/machinery/quantum_server/proc/on_goal_turf_entered(datum/source, atom/movable/arrived, atom/old_loc, list/atom/old_locs)
@@ -55,14 +72,29 @@
 	if((obj_flags & EMAGGED) && isliving(arrived))
 		var/mob/living/creature = arrived
 
+<<<<<<< HEAD
 		if(creature.mind?.has_antag_datum(/datum/antagonist/bitrunning_glitch, check_subtypes = TRUE))
 			INVOKE_ASYNC(src, PROC_REF(station_spawn), arrived, chosen_forge)
+=======
+		if(!creature.mind?.has_antag_datum(/datum/antagonist/bitrunning_glitch, check_subtypes = TRUE))
+			return
+
+		INVOKE_ASYNC(src, PROC_REF(station_spawn), arrived, chosen_forge)
+>>>>>>> tg-pr-88929
 		return
 
 	if(istype(arrived, /obj/structure/closet/crate/secure/bitrunning/encrypted))
 		generate_loot(arrived, chosen_forge)
 		return
 
+<<<<<<< HEAD
+=======
+	if(istype(arrived, /obj/item/storage/lockbox/bitrunning/encrypted))
+		generate_secondary_loot(arrived, chosen_forge, generated_domain)
+		return
+
+
+>>>>>>> tg-pr-88929
 /// Handles examining the server. Shows cooldown time and efficiency.
 /obj/machinery/quantum_server/proc/on_goal_turf_examined(datum/source, mob/examiner, list/examine_text)
 	SIGNAL_HANDLER
@@ -70,6 +102,10 @@
 	examine_text += span_info("Beneath your gaze, the floor pulses subtly with streams of encoded data.")
 	examine_text += span_info("It seems to be part of the location designated for retrieving encrypted payloads.")
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> tg-pr-88929
 /// Scans over the inbound created_atoms from lazy templates
 /obj/machinery/quantum_server/proc/on_template_loaded(datum/lazy_template/source, list/created_atoms)
 	SIGNAL_HANDLER
@@ -79,7 +115,12 @@
 			var/mob/living/creature = thing
 
 			if(ismegafauna(creature))
+<<<<<<< HEAD
 				creature.AddElement(/datum/element/virtual_elite_mob)
+=======
+				var/mob/living/simple_animal/hostile/megafauna/boss = creature
+				boss.make_virtual_megafauna()
+>>>>>>> tg-pr-88929
 				continue
 
 			mutation_candidate_refs.Add(WEAKREF(creature))
@@ -93,12 +134,29 @@
 			var/obj/effect/mob_spawn/corpse/spawner = thing
 
 			mutation_candidate_refs.Add(spawner.spawned_mob_ref)
+<<<<<<< HEAD
+=======
+			continue
+
+		if(istype(thing, /obj/machinery/suit_storage_unit))
+			var/obj/machinery/suit_storage_unit/storage = thing
+			storage.disable_modlink()
+			continue
+
+		if(istype(thing, /obj/item/mod/control))
+			var/obj/item/mod/control/modsuit = thing
+			modsuit.disable_modlink()
+>>>>>>> tg-pr-88929
 
 	UnregisterSignal(source, COMSIG_LAZY_TEMPLATE_LOADED)
 
 	/// Just in case there's any special handling for the domain
 	generated_domain.setup_domain(created_atoms)
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> tg-pr-88929
 /// Handles when cybercops are summoned into the area or ghosts click a ghost role spawner
 /obj/machinery/quantum_server/proc/on_threat_created(datum/source, mob/living/threat)
 	SIGNAL_HANDLER

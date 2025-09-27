@@ -1,11 +1,20 @@
-import { exhaustiveCheck } from 'common/exhaustive';
+import { exhaustiveCheck } from 'tgui-core/exhaustive';
+
 import { useBackend } from '../../backend';
+<<<<<<< HEAD
 import {
   GamePreferencesSelectedPage,
   PreferencesMenuData,
   Window,
 } from './data';
+=======
+>>>>>>> tg-pr-88929
 import { CharacterPreferenceWindow } from './CharacterPreferenceWindow';
+import {
+  GamePreferencesSelectedPage,
+  PreferencesMenuData,
+  Window,
+} from './data';
 import { GamePreferenceWindow } from './GamePreferenceWindow';
 
 export const PreferencesMenu = (props) => {

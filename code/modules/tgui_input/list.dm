@@ -29,6 +29,12 @@
 	if(!user.client.prefs.read_preference(/datum/preference/toggle/tgui_input))
 		return input(user, message, title, default) as null|anything in items
 	var/datum/tgui_list_input/input = new(user, message, title, items, default, timeout, ui_state)
+<<<<<<< HEAD
+=======
+	if(input.invalid)
+		qdel(input)
+		return
+>>>>>>> tg-pr-88929
 	input.ui_interact(user)
 	input.wait()
 	if (input)
@@ -62,6 +68,11 @@
 	var/closed
 	/// The TGUI UI state that will be returned in ui_state(). Default: always_state
 	var/datum/ui_state/state
+<<<<<<< HEAD
+=======
+	/// Whether the tgui list input is invalid or not (i.e. due to all list entries being null)
+	var/invalid = FALSE
+>>>>>>> tg-pr-88929
 
 /datum/tgui_list_input/New(mob/user, message, title, list/items, default, timeout, ui_state)
 	src.title = title
@@ -81,6 +92,9 @@
 		string_key = avoid_assoc_duplicate_keys(string_key, repeat_items)
 		src.items += string_key
 		src.items_map[string_key] = i
+
+	if(length(src.items) == 0)
+		invalid = TRUE
 	if (timeout)
 		src.timeout = timeout
 		start_time = world.time
@@ -89,8 +103,12 @@
 /datum/tgui_list_input/Destroy(force)
 	SStgui.close_uis(src)
 	state = null
+<<<<<<< HEAD
 	items?.Cut()
 	items_map?.Cut()
+=======
+	QDEL_NULL(items)
+>>>>>>> tg-pr-88929
 	return ..()
 
 /**
@@ -104,7 +122,7 @@
 /datum/tgui_list_input/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, "ListInputModal")
+		ui = new(user, src, "ListInputWindow")
 		ui.open()
 
 /datum/tgui_list_input/ui_close(mob/user)

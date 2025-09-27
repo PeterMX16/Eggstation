@@ -4,8 +4,17 @@
  * @license MIT
  */
 
+<<<<<<< HEAD
 import { EventEmitter } from 'common/events';
 import { createLogger } from 'tgui/logging';
+=======
+import { createRoot } from 'react-dom/client';
+import { createLogger } from 'tgui/logging';
+import { Tooltip } from 'tgui-core/components';
+import { EventEmitter } from 'tgui-core/events';
+import { classes } from 'tgui-core/react';
+
+>>>>>>> tg-pr-88929
 import {
   COMBINE_MAX_MESSAGES,
   COMBINE_MAX_TIME_WINDOW,
@@ -15,6 +24,7 @@ import {
   MAX_PERSISTED_MESSAGES,
   MAX_VISIBLE_MESSAGES,
   MESSAGE_PRUNE_INTERVAL,
+<<<<<<< HEAD
   MESSAGE_TYPES,
   MESSAGE_TYPE_INTERNAL,
   MESSAGE_TYPE_UNKNOWN,
@@ -25,6 +35,14 @@ import { highlightNode, linkifyNode } from './replaceInTextNode';
 import { Tooltip } from '../../tgui/components';
 import { selectSettings } from '../settings/selectors';
 import { globalStore } from 'tgui/backend';
+=======
+  MESSAGE_TYPE_INTERNAL,
+  MESSAGE_TYPE_UNKNOWN,
+  MESSAGE_TYPES,
+} from './constants';
+import { canPageAcceptType, createMessage, isSameMessage } from './model';
+import { highlightNode, linkifyNode } from './replaceInTextNode';
+>>>>>>> tg-pr-88929
 
 const logger = createLogger('chatRenderer');
 
@@ -181,6 +199,15 @@ class ChatRenderer {
     else {
       this.rootNode = node;
     }
+<<<<<<< HEAD
+=======
+    // Find scrollable parent
+    this.scrollNode = findNearestScrollableParent(this.rootNode);
+    this.scrollNode.addEventListener('scroll', this.handleScroll);
+    setTimeout(() => {
+      this.scrollToBottom();
+    });
+>>>>>>> tg-pr-88929
     // Flush the queue
     this.tryFlushQueue();
   }
@@ -216,7 +243,10 @@ class ChatRenderer {
       const highlightWholeMessage = setting.highlightWholeMessage;
       const matchWord = setting.matchWord;
       const matchCase = setting.matchCase;
+<<<<<<< HEAD
       const enabled = setting.enabled;
+=======
+>>>>>>> tg-pr-88929
       const allowedRegex = /^[a-zа-яё0-9_\-$/^[\s\]\\]+$/gi;
       const regexEscapeCharacters = /[!#$%^&*)(+=.<>{}[\]:;'"|~`_\-\\/]/g;
       const lines = String(text)
@@ -453,18 +483,21 @@ class ChatRenderer {
             childNode.removeChild(childNode.firstChild);
           }
           const Element = TGUI_CHAT_COMPONENTS[targetName];
+
+          const reactRoot = createRoot(childNode);
+
           /* eslint-disable react/no-danger */
-          render(
+          reactRoot.render(
             <Element {...outputProps}>
               <span dangerouslySetInnerHTML={oldHtml} />
             </Element>,
             childNode,
           );
-          /* eslint-enable react/no-danger */
         }
 
         // Highlight text
         if (!message.avoidHighlighting && this.highlightParsers) {
+<<<<<<< HEAD
           this.highlightParsers
             .filter((parser) => parser.enabled)
             .map((parser) => {
@@ -478,6 +511,19 @@ class ChatRenderer {
                 node.className += ' ChatMessage--highlighted';
               }
             });
+=======
+          this.highlightParsers.map((parser) => {
+            const highlighted = highlightNode(
+              node,
+              parser.highlightRegex,
+              parser.highlightWords,
+              (text) => createHighlightNode(text, parser.highlightColor),
+            );
+            if (highlighted && parser.highlightWholeMessage) {
+              node.className += ' ChatMessage--highlighted';
+            }
+          });
+>>>>>>> tg-pr-88929
         }
         // Linkify text
         const linkifyNodes = node.querySelectorAll('.linkify');
@@ -497,6 +543,7 @@ class ChatRenderer {
       message.node = node;
       // Query all possible selectors to find out the message type
       if (!message.type) {
+<<<<<<< HEAD
         // IE8: Does not support querySelector on elements that
         // are not yet in the document.
 
@@ -506,6 +553,11 @@ class ChatRenderer {
             (typeDef) =>
               typeDef.selector && node.querySelector(typeDef.selector),
           );
+=======
+        const typeDef = MESSAGE_TYPES.find(
+          (typeDef) => typeDef.selector && node.querySelector(typeDef.selector),
+        );
+>>>>>>> tg-pr-88929
         message.type = typeDef?.type || MESSAGE_TYPE_UNKNOWN;
       }
       updateMessageBadge(message);
@@ -619,6 +671,7 @@ class ChatRenderer {
       this.rootNode.removeChild(message.node);
       // Mark this message as pruned
       message.node = 'pruned';
+<<<<<<< HEAD
     }
     // Remove pruned messages from the message array
     this.messages = this.messages.filter(
@@ -631,7 +684,17 @@ class ChatRenderer {
     // Allow only on IE11
     if (Byond.IS_LTE_IE10) {
       return;
+=======
+>>>>>>> tg-pr-88929
     }
+    // Remove pruned messages from the message array
+    this.messages = this.messages.filter(
+      (message) => message.node !== 'pruned',
+    );
+    logger.log(`Cleared chat`);
+  }
+
+  saveToDisk() {
     // Compile currently loaded stylesheets as CSS text
     let cssText = '';
     const styleSheets = document.styleSheets;

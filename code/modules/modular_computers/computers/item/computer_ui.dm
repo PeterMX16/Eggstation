@@ -31,6 +31,15 @@
 		window.send_assets()
 	update_static_data_for_all_viewers()
 
+<<<<<<< HEAD
+=======
+
+/obj/item/modular_computer/ui_state(mob/user)
+	if(inserted_pai && (user == inserted_pai.pai))
+		return GLOB.contained_state
+	return ..()
+
+>>>>>>> tg-pr-88929
 /obj/item/modular_computer/interact(mob/user)
 	if(enabled)
 		ui_interact(user)
@@ -40,7 +49,12 @@
 // Operates TGUI
 /obj/item/modular_computer/ui_interact(mob/user, datum/tgui/ui)
 	if(!enabled || !user.can_read(src, READING_CHECK_LITERACY))
+<<<<<<< HEAD
 		ui?.close()
+=======
+		if(ui)
+			ui.close()
+>>>>>>> tg-pr-88929
 		return
 
 	// Robots don't really need to see the screen, their wireless connection works as long as computer is on.
@@ -55,8 +69,11 @@
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
 		update_tablet_open_uis(user)
+<<<<<<< HEAD
 	else if(active_program?.always_update_ui)
 		active_program.ui_interact(user, ui)
+=======
+>>>>>>> tg-pr-88929
 
 /obj/item/modular_computer/ui_assets(mob/user)
 	var/list/data = list()
@@ -91,6 +108,7 @@
 	)
 
 	data["proposed_login"] = list(
+		IDInserted = computer_id_slot ? TRUE : FALSE,
 		IDName = computer_id_slot?.registered_name,
 		IDJob = computer_id_slot?.assignment,
 	)
@@ -113,10 +131,13 @@
 			"alert" = program.alert_pending,
 		))
 
+<<<<<<< HEAD
 	data["alert_style"] = get_security_level_relevancy()
 	data["alert_color"] = SSsecurity_level?.current_security_level?.announcement_color
 	data["alert_name"] = SSsecurity_level?.current_security_level?.name_shortform
 
+=======
+>>>>>>> tg-pr-88929
 	return data
 
 // Handles user's GUI input
@@ -143,7 +164,11 @@
 		if("PC_minimize")
 			if(!active_program || (!isnull(internal_cell) && !internal_cell.charge))
 				return
+<<<<<<< HEAD
 			active_program?.background_program(usr)
+=======
+			active_program.background_program(usr)
+>>>>>>> tg-pr-88929
 			return TRUE
 
 		if("PC_killprogram")
@@ -208,15 +233,14 @@
 		if("PC_Imprint_ID")
 			imprint_id()
 			UpdateDisplay()
-			playsound(src, 'sound/machines/terminal_processing.ogg', 15, TRUE)
+			playsound(src, 'sound/machines/terminal/terminal_processing.ogg', 15, TRUE)
 
 		if("PC_Pai_Interact")
 			switch(params["option"])
 				if("eject")
-					usr.put_in_hands(inserted_pai)
-					to_chat(usr, span_notice("You remove [inserted_pai] from the [name]."))
-					inserted_pai = null
-					update_appearance(UPDATE_ICON)
+					if(!ishuman(usr))
+						return
+					remove_pai(usr)
 				if("interact")
 					inserted_pai.attack_self(usr)
 			return TRUE

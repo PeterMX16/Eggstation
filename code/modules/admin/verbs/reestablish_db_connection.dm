@@ -1,10 +1,18 @@
+<<<<<<< HEAD
 ADMIN_VERB(reestablish_db_connection, R_NONE, FALSE, "Reestablish DB Connection", "Attempts to (re)establish the DB Connection", ADMIN_CATEGORY_SERVER)
+=======
+ADMIN_VERB(reestablish_db_connection, R_NONE, "Reestablish DB Connection", "Attempts to (re)establish the DB Connection", ADMIN_CATEGORY_SERVER)
+>>>>>>> tg-pr-88929
 	if (!CONFIG_GET(flag/sql_enabled))
 		to_chat(user, span_adminnotice("The Database is not enabled!"), confidential = TRUE)
 		return
 
 	if (SSdbcore.IsConnected())
+<<<<<<< HEAD
 		if((!user.holder.check_for_rights(R_DEBUG)))
+=======
+		if (!user.holder.check_for_rights(R_DEBUG))
+>>>>>>> tg-pr-88929
 			tgui_alert(user,"The database is already connected! (Only those with +debug can force a reconnection)", "The database is already connected!")
 			return
 
@@ -15,7 +23,11 @@ ADMIN_VERB(reestablish_db_connection, R_NONE, FALSE, "Reestablish DB Connection"
 		SSdbcore.Disconnect()
 		log_admin("[key_name(user)] has forced the database to disconnect")
 		message_admins("[key_name_admin(user)] has <b>forced</b> the database to disconnect!")
+<<<<<<< HEAD
 		BLACKBOX_LOG_ADMIN_VERB("Reestablished Database Connection")
+=======
+		BLACKBOX_LOG_ADMIN_VERB("Force Reestablished Database Connection")
+>>>>>>> tg-pr-88929
 
 	log_admin("[key_name(user)] is attempting to re-establish the DB Connection")
 	message_admins("[key_name_admin(user)] is attempting to re-establish the DB Connection")

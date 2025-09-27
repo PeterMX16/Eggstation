@@ -1,11 +1,17 @@
-import { createSearch } from 'common/string';
-import { useBackend, useLocalState } from '../backend';
-import { Box, Icon, Input, Section } from '../components';
+import { useState } from 'react';
+import { Box, Icon, Input, Section } from 'tgui-core/components';
+import { createSearch } from 'tgui-core/string';
+
+import { useBackend } from '../backend';
 import { NtosWindow } from '../layouts';
 
 export const NtosRecords = (props) => {
   const { act, data } = useBackend();
+<<<<<<< HEAD
   const [searchTerm, setSearchTerm] = useLocalState('search', '');
+=======
+  const [searchTerm, setSearchTerm] = useState('');
+>>>>>>> tg-pr-88929
   const { mode, records } = data;
 
   const isMatchingSearchTerms = createSearch(searchTerm);
@@ -22,7 +28,7 @@ export const NtosRecords = (props) => {
             value={searchTerm}
             fluid
             textAlign="center"
-            onInput={(e, value) => setSearchTerm(value)}
+            onChange={(e, value) => setSearchTerm(value)}
           />
         </Section>
         {mode === 'security' &&

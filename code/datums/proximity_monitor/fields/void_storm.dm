@@ -5,6 +5,10 @@
  */
 /datum/proximity_monitor/advanced/void_storm
 	edge_is_a_field = TRUE
+<<<<<<< HEAD
+=======
+	// lazylist that keeps track of the overlays added
+>>>>>>> tg-pr-88929
 	var/list/turf_effects
 	var/static/image/storm_overlay = image('icons/effects/weather_effects.dmi', "snow_storm")
 

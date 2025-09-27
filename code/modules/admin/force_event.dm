@@ -1,13 +1,14 @@
+<<<<<<< HEAD
 ///Allows an admin to force an event
 /*Redefined in monkestation\code\modules\storytellers\gamemode_subsystem.dm
 /client/proc/forceEvent()
 	set name = "Trigger Event"
 	set category = "Admin.Events"
+=======
+>>>>>>> tg-pr-88929
 
-	if(!holder || !check_rights(R_FUN))
-		return
-
-	holder.forceEvent()
+ADMIN_VERB(force_event, R_FUN, "Trigger Event", "Forces an event to occur.", ADMIN_CATEGORY_EVENTS)
+	user.holder.forceEvent()
 
 ///Opens up the Force Event Panel
 /datum/admins/proc/forceEvent()
@@ -91,7 +92,7 @@
 			if(!event)
 				return
 			if(length(event.admin_setup))
-				for(var/datum/event_admin_setup/admin_setup_datum in event.admin_setup)
+				for(var/datum/event_admin_setup/admin_setup_datum as anything in event.admin_setup)
 					if(admin_setup_datum.prompt_admins() == ADMIN_CANCEL_EVENT)
 						return
 			var/always_announce_chance = 100

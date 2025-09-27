@@ -1,13 +1,21 @@
 /datum/traitor_objective_category/final_objective
 	name = "Final Objective"
 	objectives = list(
-		/datum/traitor_objective/ultimate/romerol = 1,
 		/datum/traitor_objective/ultimate/battlecruiser = 1,
+<<<<<<< HEAD
 //		/datum/traitor_objective/ultimate/space_dragon = 1, //monkestation removal
 		/datum/traitor_objective/ultimate/supermatter_cascade = 1,
 		/datum/traitor_objective/ultimate/infect_ai = 1,
 		/datum/traitor_objective/ultimate/dark_matteor = 1,
 //		/datum/traitor_objective/ultimate/wizard = 1, //monkestation edit
+=======
+		/datum/traitor_objective/ultimate/battle_royale = 1,
+		/datum/traitor_objective/ultimate/dark_matteor = 1,
+		/datum/traitor_objective/ultimate/infect_ai = 1,
+		/datum/traitor_objective/ultimate/romerol = 1,
+		/datum/traitor_objective/ultimate/supermatter_cascade = 1,
+		/datum/traitor_objective/ultimate/no_escape = 1,
+>>>>>>> tg-pr-88929
 	)
 	weight = 100
 
@@ -35,7 +43,7 @@
 		if(objective == src)
 			continue
 		objective.fail_objective()
-	user.playsound_local(get_turf(user), 'sound/traitor/final_objective.ogg', vol = 100, vary = FALSE, channel = CHANNEL_TRAITOR)
+	user.playsound_local(get_turf(user), 'sound/music/antag/traitor/final_objective.ogg', vol = 100, vary = FALSE, channel = CHANNEL_TRAITOR)
 	handler.final_objective = name
 
 /datum/traitor_objective/ultimate/uplink_ui_data(mob/user)

@@ -6,11 +6,19 @@
 	icon = 'icons/mob/silicon/aibots.dmi'
 	icon_state = "medibot0"
 	base_icon_state = "medibot"
+<<<<<<< HEAD
 	density = FALSE
 	anchored = FALSE
 	health = 20
 	maxHealth = 20
 	speed = 2
+=======
+	health = 20
+	maxHealth = 20
+	speed = 2
+	light_power = 0.8
+	light_color = "#99ccff"
+>>>>>>> tg-pr-88929
 	pass_flags = PASSMOB | PASSFLAPS
 	status_flags = (CANPUSH | CANSTUN)
 	ai_controller = /datum/ai_controller/basic_controller/bot/medbot
@@ -29,20 +37,33 @@
 
 	///anouncements when we find a target to heal
 	var/static/list/wait_announcements = list(
+<<<<<<< HEAD
 		MEDIBOT_VOICED_HOLD_ON = 'sound/voice/medbot/coming.ogg',
 		MEDIBOT_VOICED_WANT_TO_HELP = 'sound/voice/medbot/help.ogg',
 		MEDIBOT_VOICED_YOU_ARE_INJURED = 'sound/voice/medbot/injured.ogg',
+=======
+		MEDIBOT_VOICED_HOLD_ON = 'sound/mobs/non-humanoids/medbot/coming.ogg',
+		MEDIBOT_VOICED_WANT_TO_HELP = 'sound/mobs/non-humanoids/medbot/help.ogg',
+		MEDIBOT_VOICED_YOU_ARE_INJURED = 'sound/mobs/non-humanoids/medbot/injured.ogg',
+>>>>>>> tg-pr-88929
 	)
 
 	///announcements after we heal someone
 	var/static/list/afterheal_announcements = list(
+<<<<<<< HEAD
 		MEDIBOT_VOICED_ALL_PATCHED_UP = 'sound/voice/medbot/patchedup.ogg',
 		MEDIBOT_VOICED_APPLE_A_DAY = 'sound/voice/medbot/apple.ogg',
 		MEDIBOT_VOICED_FEEL_BETTER = 'sound/voice/medbot/feelbetter.ogg',
+=======
+		MEDIBOT_VOICED_ALL_PATCHED_UP = 'sound/mobs/non-humanoids/medbot/patchedup.ogg',
+		MEDIBOT_VOICED_APPLE_A_DAY = 'sound/mobs/non-humanoids/medbot/apple.ogg',
+		MEDIBOT_VOICED_FEEL_BETTER = 'sound/mobs/non-humanoids/medbot/feelbetter.ogg',
+>>>>>>> tg-pr-88929
 	)
 
 	///announcements when we are healing someone near death
 	var/static/list/near_death_announcements = list(
+<<<<<<< HEAD
 		MEDIBOT_VOICED_STAY_WITH_ME = 'sound/voice/medbot/no.ogg',
 		MEDIBOT_VOICED_LIVE = 'sound/voice/medbot/live.ogg',
 		MEDIBOT_VOICED_NEVER_LOST = 'sound/voice/medbot/lost.ogg',
@@ -89,6 +110,54 @@
 	)
 	var/static/list/misc_announcements= list(
 		MEDIBOT_VOICED_CHICKEN = 'sound/voice/medbot/i_am_chicken.ogg',
+=======
+		MEDIBOT_VOICED_STAY_WITH_ME = 'sound/mobs/non-humanoids/medbot/no.ogg',
+		MEDIBOT_VOICED_LIVE = 'sound/mobs/non-humanoids/medbot/live.ogg',
+		MEDIBOT_VOICED_NEVER_LOST = 'sound/mobs/non-humanoids/medbot/lost.ogg',
+	)
+	///announcements when we are idle
+	var/static/list/idle_lines = list(
+		MEDIBOT_VOICED_DELICIOUS = 'sound/mobs/non-humanoids/medbot/delicious.ogg',
+		MEDIBOT_VOICED_PLASTIC_SURGEON = 'sound/mobs/non-humanoids/medbot/surgeon.ogg',
+		MEDIBOT_VOICED_MASK_ON = 'sound/mobs/non-humanoids/medbot/radar.ogg',
+		MEDIBOT_VOICED_ALWAYS_A_CATCH = 'sound/mobs/non-humanoids/medbot/catch.ogg',
+		MEDIBOT_VOICED_LIKE_FLIES = 'sound/mobs/non-humanoids/medbot/flies.ogg',
+		MEDIBOT_VOICED_SUFFER = 'sound/mobs/non-humanoids/medbot/why.ogg',
+	)
+	///announcements when we are emagged
+	var/static/list/emagged_announcements = list(
+		MEDIBOT_VOICED_FUCK_YOU = 'sound/mobs/non-humanoids/medbot/fuck_you.ogg',
+		MEDIBOT_VOICED_NOT_A_GAME = 'sound/mobs/non-humanoids/medbot/turn_off.ogg',
+		MEDIBOT_VOICED_IM_DIFFERENT = 'sound/mobs/non-humanoids/medbot/im_different.ogg',
+		MEDIBOT_VOICED_FOURTH_WALL = 'sound/mobs/non-humanoids/medbot/close.ogg',
+		MEDIBOT_VOICED_SHINDEMASHOU = 'sound/mobs/non-humanoids/medbot/shindemashou.ogg',
+	)
+	///announcements when we are being tipped
+	var/static/list/tipped_announcements = list(
+		MEDIBOT_VOICED_WAIT = 'sound/mobs/non-humanoids/medbot/hey_wait.ogg',
+		MEDIBOT_VOICED_DONT = 'sound/mobs/non-humanoids/medbot/please_dont.ogg',
+		MEDIBOT_VOICED_TRUSTED_YOU = 'sound/mobs/non-humanoids/medbot/i_trusted_you.ogg',
+		MEDIBOT_VOICED_NO_SAD = 'sound/mobs/non-humanoids/medbot/nooo.ogg',
+		MEDIBOT_VOICED_OH_FUCK = 'sound/mobs/non-humanoids/medbot/oh_fuck.ogg',
+	)
+	///announcements when we are being untipped
+	var/static/list/untipped_announcements = list(
+		MEDIBOT_VOICED_FORGIVE = 'sound/mobs/non-humanoids/medbot/forgive.ogg',
+		MEDIBOT_VOICED_THANKS = 'sound/mobs/non-humanoids/medbot/thank_you.ogg',
+		MEDIBOT_VOICED_GOOD_PERSON = 'sound/mobs/non-humanoids/medbot/youre_good.ogg',
+	)
+	///announcements when we are worried
+	var/static/list/worried_announcements = list(
+		MEDIBOT_VOICED_PUT_BACK = 'sound/mobs/non-humanoids/medbot/please_put_me_back.ogg',
+		MEDIBOT_VOICED_IM_SCARED = 'sound/mobs/non-humanoids/medbot/please_im_scared.ogg',
+		MEDIBOT_VOICED_NEED_HELP = 'sound/mobs/non-humanoids/medbot/dont_like.ogg',
+		MEDIBOT_VOICED_THIS_HURTS = 'sound/mobs/non-humanoids/medbot/pain_is_real.ogg',
+		MEDIBOT_VOICED_THE_END = 'sound/mobs/non-humanoids/medbot/is_this_the_end.ogg',
+		MEDIBOT_VOICED_NOOO = 'sound/mobs/non-humanoids/medbot/nooo.ogg',
+	)
+	var/static/list/misc_announcements= list(
+		MEDIBOT_VOICED_CHICKEN = 'sound/mobs/non-humanoids/medbot/i_am_chicken.ogg',
+>>>>>>> tg-pr-88929
 	)
 	/// drop determining variable
 	var/health_analyzer = /obj/item/healthanalyzer
@@ -136,6 +205,7 @@
 		pre_tipped_callback = CALLBACK(src, PROC_REF(pre_tip_over)), \
 		post_tipped_callback = CALLBACK(src, PROC_REF(after_tip_over)), \
 		post_untipped_callback = CALLBACK(src, PROC_REF(after_righted)))
+<<<<<<< HEAD
 	var/static/list/hat_offsets = list(4,-9)
 	AddElement(/datum/element/hat_wearer, offsets = hat_offsets)
 	RegisterSignal(src, COMSIG_HOSTILE_PRE_ATTACKINGTARGET, PROC_REF(pre_attack))
@@ -146,13 +216,39 @@
 		damage_type_healer = HEAL_ALL_DAMAGE
 		if(prob(50))
 			name += ", PhD."
+=======
+
+	var/static/list/hat_offsets = list(4,-9)
+	var/static/list/remove_hat = list(SIGNAL_ADDTRAIT(TRAIT_MOB_TIPPED))
+	var/static/list/prevent_checks = list(TRAIT_MOB_TIPPED)
+	AddElement(/datum/element/hat_wearer,\
+		offsets = hat_offsets,\
+		remove_hat_signals = remove_hat,\
+		traits_prevent_checks = prevent_checks,\
+	)
+	RegisterSignal(src, COMSIG_HOSTILE_PRE_ATTACKINGTARGET, PROC_REF(pre_attack))
+
+	if(!HAS_TRAIT(SSstation, STATION_TRAIT_MEDBOT_MANIA) || !mapload || !is_station_level(z))
+		return INITIALIZE_HINT_LATELOAD
+
+	skin = "advanced"
+	update_appearance(UPDATE_OVERLAYS)
+	damage_type_healer = HEAL_ALL_DAMAGE
+	if(prob(50))
+		name += ", PhD."
+>>>>>>> tg-pr-88929
 
 	return INITIALIZE_HINT_LATELOAD
 
 /mob/living/basic/bot/medbot/LateInitialize()
+<<<<<<< HEAD
 	. = ..()
 	if(!CONFIG_GET(flag/no_default_techweb_link) && !linked_techweb)
 		link_techweb(SSresearch.science_tech) // monkestation edit: techweb linking refactor
+=======
+	if(!CONFIG_GET(flag/no_default_techweb_link) && !linked_techweb)
+		CONNECT_TO_RND_SERVER_ROUNDSTART(linked_techweb, src)
+>>>>>>> tg-pr-88929
 
 /mob/living/basic/bot/medbot/update_icon_state()
 	. = ..()
@@ -162,10 +258,18 @@
 	if(HAS_TRAIT(src, TRAIT_INCAPACITATED))
 		icon_state = "[base_icon_state]a"
 		return
+<<<<<<< HEAD
 	if(mode == BOT_HEALING)
 		icon_state = "[base_icon_state]s[medical_mode_flags & MEDBOT_STATIONARY_MODE ? 1 : 0]"
 		return
 	icon_state = "[base_icon_state][medical_mode_flags & MEDBOT_STATIONARY_MODE ? 2 : 1]" //Bot has yellow light to indicate stationary mode.
+=======
+	var/stationary_mode = !!(medical_mode_flags & MEDBOT_STATIONARY_MODE)
+	if(mode == BOT_HEALING)
+		icon_state = "[base_icon_state]s[stationary_mode]"
+		return
+	icon_state = "[base_icon_state][stationary_mode ? 2 : 1]" //Bot has yellow light to indicate stationary mode.
+>>>>>>> tg-pr-88929
 
 /mob/living/basic/bot/medbot/update_overlays()
 	. = ..()
@@ -183,13 +287,21 @@
 
 /mob/living/basic/bot/medbot/multitool_act(mob/living/user, obj/item/multitool/tool)
 	if(!QDELETED(tool.buffer) && istype(tool.buffer, /datum/techweb))
+<<<<<<< HEAD
 		link_techweb(tool.buffer) // monkestation edit: techweb linking refactor
+=======
+		linked_techweb = tool.buffer
+>>>>>>> tg-pr-88929
 	return ITEM_INTERACT_SUCCESS
 
 // Variables sent to TGUI
 /mob/living/basic/bot/medbot/ui_data(mob/user)
 	var/list/data = ..()
+<<<<<<< HEAD
 	if((bot_access_flags & BOT_CONTROL_PANEL_OPEN) || issilicon(user) || isAdminGhostAI(user))
+=======
+	if(!(bot_access_flags & BOT_COVER_LOCKED) || HAS_SILICON_ACCESS(user))
+>>>>>>> tg-pr-88929
 		data["custom_controls"]["heal_threshold"] = heal_threshold
 		data["custom_controls"]["speaker"] = medical_mode_flags & MEDBOT_SPEAK_MODE
 		data["custom_controls"]["crit_alerts"] = medical_mode_flags & MEDBOT_DECLARE_CRIT
@@ -221,7 +333,10 @@
 			if(!linked_techweb)
 				to_chat(user, span_notice("No research techweb connected."))
 				return
+<<<<<<< HEAD
 			/* monkestation start - move sync_tech into its own proc.
+=======
+>>>>>>> tg-pr-88929
 			var/oldheal_amount = heal_amount
 			var/tech_boosters
 			for(var/index in linked_techweb.researched_designs)
@@ -233,6 +348,7 @@
 				heal_amount = (round(tech_boosters * 0.5, 0.1) * initial(heal_amount)) + initial(heal_amount) //every 2 tend wounds tech gives you an extra 100% healing, adjusting for unique branches (combo is bonus)
 				if(oldheal_amount < heal_amount)
 					speak("New knowledge found! Surgical efficacy improved to [round(heal_amount/initial(heal_amount)*100)]%!")
+<<<<<<< HEAD
 			*/ // monkestation end
 
 	update_appearance()
@@ -241,6 +357,12 @@
 	. = ..()
 	if(!(bot_access_flags & BOT_COVER_EMAGGED))
 		return
+=======
+
+	update_appearance()
+
+/mob/living/basic/bot/medbot/emag_effects(mob/user)
+>>>>>>> tg-pr-88929
 	medical_mode_flags &= ~MEDBOT_DECLARE_CRIT
 	balloon_alert(user, "reagent synthesis circuits shorted")
 	audible_message(span_danger("[src] buzzes oddly!"))
@@ -280,6 +402,15 @@
 	if(prob(10))
 		speak("PSYCH ALERT: Crewmember [user.name] recorded displaying antisocial tendencies torturing bots in [get_area(src)]. Please schedule psych evaluation.", radio_channel)
 
+<<<<<<< HEAD
+=======
+/mob/living/basic/bot/medbot/explode()
+	var/atom/our_loc = drop_location()
+	drop_part(medkit_type, our_loc)
+	drop_part(health_analyzer, our_loc)
+	return ..()
+
+>>>>>>> tg-pr-88929
 /*
  * Proc used in a callback for after this medibot is righted, either by themselves or by a mob, by the tippable component.
  *
@@ -336,7 +467,13 @@
 		log_combat(src, patient, "tended the wounds of", "internal tools")
 		if(patient.get_current_damage_of_type(damage_type_healer) <= heal_threshold)
 			done_healing = TRUE
+<<<<<<< HEAD
 	patient.visible_message(span_notice("[src] tends the wounds of [patient]!"), "[span_infoplain(span_green("[src] tends your wounds!"))]")
+=======
+
+	patient.visible_message(span_notice("[src] tends the wounds of [patient]!"), "[span_infoplain(span_green("[src] tends your wounds!"))]")
+
+>>>>>>> tg-pr-88929
 	if(done_healing)
 		visible_message(span_infoplain("[src] places its tools back into itself."))
 		to_chat(src, "[patient] is now healthy!")
@@ -348,7 +485,11 @@
 
 
 /mob/living/basic/bot/medbot/autopatrol
+<<<<<<< HEAD
 	bot_mode_flags = BOT_MODE_ON | BOT_MODE_AUTOPATROL | BOT_MODE_REMOTE_ENABLED | BOT_MODE_GHOST_CONTROLLABLE | BOT_MODE_ROUNDSTART_POSSESSION
+=======
+	bot_mode_flags = BOT_MODE_ON | BOT_MODE_AUTOPATROL | BOT_MODE_REMOTE_ENABLED | BOT_MODE_CAN_BE_SAPIENT | BOT_MODE_ROUNDSTART_POSSESSION
+>>>>>>> tg-pr-88929
 
 /mob/living/basic/bot/medbot/stationary
 	medical_mode_flags = MEDBOT_DECLARE_CRIT | MEDBOT_STATIONARY_MODE | MEDBOT_SPEAK_MODE
@@ -368,7 +509,10 @@
 	medical_mode_flags = MEDBOT_SPEAK_MODE
 	heal_threshold = 0
 	heal_amount = 5
+<<<<<<< HEAD
 	req_one_access = list(ACCESS_MEDICAL, ACCESS_AWAY_SCIENCE, ACCESS_AWAY_GENERAL, ACCESS_AWAY_MEDICAL)
+=======
+>>>>>>> tg-pr-88929
 
 /mob/living/basic/bot/medbot/nukie
 	name = "Oppenheimer"
@@ -377,6 +521,10 @@
 	health = 40
 	maxHealth = 40
 	req_one_access = list(ACCESS_SYNDICATE)
+<<<<<<< HEAD
+=======
+	bot_mode_flags = parent_type::bot_mode_flags & ~BOT_MODE_REMOTE_ENABLED
+>>>>>>> tg-pr-88929
 	radio_key = /obj/item/encryptionkey/syndicate
 	radio_channel = RADIO_CHANNEL_SYNDICATE
 	damage_type_healer = HEAL_ALL_DAMAGE

@@ -1,5 +1,5 @@
 /obj/item/seeds/cotton
-	name = "pack of cotton seeds"
+	name = "cotton seed pack"
 	desc = "A pack of seeds that'll grow into a cotton plant. Assistants make good free labor if neccesary."
 	icon_state = "seed-cotton"
 	species = "cotton"
@@ -13,7 +13,7 @@
 	yield = 20
 	potency = 50
 	growthstages = 3
-	growing_icon = 'icons/obj/hydroponics/growing.dmi'
+	growing_icon = 'icons/obj/service/hydroponics/growing.dmi'
 	icon_dead = "cotton-dead"
 	possible_mutations = list(/datum/hydroponics/plant_mutation/durathread)
 	harvest_age = 100
@@ -45,7 +45,7 @@
 
 //reinforced mutated variant
 /obj/item/seeds/cotton/durathread
-	name = "pack of durathread seeds"
+	name = "durathread seed pack"
 	desc = "A pack of seeds that'll grow into an extremely durable thread that could easily rival plasteel if woven properly."
 	icon_state = "seed-durathread"
 	species = "durathread"
@@ -58,8 +58,13 @@
 	production = 1
 	yield = 20
 	potency = 50
+<<<<<<< HEAD
 	//growthstages = 3
 	//growing_icon = 'icons/obj/hydroponics/growing.dmi'
+=======
+	growthstages = 3
+	growing_icon = 'icons/obj/service/hydroponics/growing.dmi'
+>>>>>>> tg-pr-88929
 	icon_dead = "cotton-dead"
 	possible_mutations = list()
 

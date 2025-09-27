@@ -9,17 +9,29 @@
 	filename = "nt_messenger"
 	filedesc = "Direct Messenger"
 	downloader_category = PROGRAM_CATEGORY_DEVICE
+<<<<<<< HEAD
 	program_open_overlay = "command"
+=======
+	program_open_overlay = "text"
+>>>>>>> tg-pr-88929
 	extended_desc = "This program allows old-school communication with other modular devices."
 	size = 0
 	undeletable = TRUE // It comes by default in tablets, can't be downloaded, takes no space and should obviously not be able to be deleted.
 	power_cell_use = NONE
+<<<<<<< HEAD
 	program_flags = PROGRAM_HEADER | PROGRAM_RUNS_WITHOUT_POWER
+=======
+	program_flags = PROGRAM_HEADER | PROGRAM_RUNS_WITHOUT_POWER | PROGRAM_CIRCUITS_RUN_WHEN_CLOSED
+>>>>>>> tg-pr-88929
 	can_run_on_flags = PROGRAM_PDA
 	ui_header = "ntnrc_idle.gif"
 	tgui_id = "NtosMessenger"
 	program_icon = "comment-alt"
 	alert_able = TRUE
+<<<<<<< HEAD
+=======
+	circuit_comp_type = /obj/item/circuit_component/mod_program/messenger
+>>>>>>> tg-pr-88929
 
 	/// Whether the user is invisible to the message list.
 	var/invisible = FALSE
@@ -87,9 +99,16 @@
 /datum/computer_file/program/messenger/proc/get_messengers()
 	var/list/dictionary = list()
 
+<<<<<<< HEAD
 	var/list/messengers_sorted = sort_by_job ? GLOB.pda_messengers_by_job : GLOB.pda_messengers_by_name
 
 	for(var/datum/computer_file/program/messenger/messenger as anything in messengers_sorted)
+=======
+	var/list/messengers_sorted = sort_by_job ? get_messengers_sorted_by_job() : get_messengers_sorted_by_name()
+
+	for(var/messenger_ref in messengers_sorted)
+		var/datum/computer_file/program/messenger/messenger = messengers_sorted[messenger_ref]
+>>>>>>> tg-pr-88929
 		if(!istype(messenger) || !istype(messenger.computer))
 			continue
 		if(messenger == src || messenger.invisible)
@@ -137,12 +156,28 @@
 	for(var/datum/tgui/window as anything in computer.open_uis)
 		SSassets.transport.send_assets(window.user, data)
 
+<<<<<<< HEAD
+=======
+/// Set the ringtone if possible. Also handles encoding.
+/datum/computer_file/program/messenger/proc/set_ringtone(new_ringtone, mob/user)
+	new_ringtone = trim(html_encode(new_ringtone), MESSENGER_RINGTONE_MAX_LENGTH)
+	if(!new_ringtone)
+		return FALSE
+
+	if(SEND_SIGNAL(computer, COMSIG_TABLET_CHANGE_ID, user, new_ringtone) & COMPONENT_STOP_RINGTONE_CHANGE)
+		return FALSE
+
+	ringtone = ringtone
+	return TRUE
+
+>>>>>>> tg-pr-88929
 /datum/computer_file/program/messenger/ui_interact(mob/user, datum/tgui/ui)
 	var/list/data = get_picture_assets()
 	SSassets.transport.send_assets(user, data)
 
 /datum/computer_file/program/messenger/ui_state(mob/user)
 	if(issilicon(user))
+<<<<<<< HEAD
 		return GLOB.reverse_contained_state
 	return GLOB.default_state
 
@@ -159,6 +194,21 @@
 
 			ringtone = new_ringtone
 			return TRUE
+=======
+		return GLOB.deep_inventory_state
+	return GLOB.default_state
+
+/datum/computer_file/program/messenger/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
+	. = ..()
+	switch(action)
+		if("PDA_ringSet")
+			var/mob/living/user = usr
+			var/new_ringtone = tgui_input_text(user, "Enter a new ringtone", "Ringtone", ringtone, max_length = MAX_MESSAGE_LEN, encode = FALSE)
+			if(!computer.can_interact(user))
+				computer.balloon_alert(user, "can't reach!")
+				return FALSE
+			return set_ringtone(new_ringtone, user)
+>>>>>>> tg-pr-88929
 
 		if("PDA_toggleAlerts")
 			alert_silenced = !alert_silenced
@@ -326,6 +376,10 @@
 
 	static_data["can_spam"] = spam_mode
 	static_data["is_silicon"] = issilicon(user)
+<<<<<<< HEAD
+=======
+	static_data["remote_silicon"] = (isAI(user) || iscyborg(user)) && !istype(computer, /obj/item/modular_computer/pda/silicon) //Silicon is accessing a PDA on the ground, not their internal one. Avoiding pAIs in this check.
+>>>>>>> tg-pr-88929
 	static_data["alert_able"] = alert_able
 
 	return static_data
@@ -371,6 +425,13 @@
 		data["sending_virus"] = sending_virus
 	return data
 
+<<<<<<< HEAD
+=======
+/datum/computer_file/program/messenger/ui_assets(mob/user)
+	. = ..()
+	. += get_asset_datum(/datum/asset/spritesheet/chat)
+
+>>>>>>> tg-pr-88929
 //////////////////////
 // MESSAGE HANDLING //
 //////////////////////
@@ -386,7 +447,11 @@
 		chat.can_reply = FALSE
 		return
 	var/target_name = target.computer.saved_identification
+<<<<<<< HEAD
 	var/input_message = tgui_input_text(user, "Enter [mime_mode ? "emojis":"a message"]", "NT Messaging[target_name ? " ([target_name])" : ""]", encode = FALSE)
+=======
+	var/input_message = tgui_input_text(user, "Enter [mime_mode ? "emojis":"a message"]", "NT Messaging[target_name ? " ([target_name])" : ""]", max_length = MAX_MESSAGE_LEN, encode = FALSE)
+>>>>>>> tg-pr-88929
 	send_message(user, input_message, list(chat))
 
 /// Helper proc that sends a message to everyone
@@ -450,6 +515,7 @@
 		message = emoji_sanitize(message)
 
 	// check message against filter
+<<<<<<< HEAD
 	if(!check_pda_message_against_filter(message, sender))
 		return null
 
@@ -462,6 +528,23 @@
 	if(!message)
 		return FALSE
 
+=======
+	if(sender && !check_pda_message_against_filter(message, sender))
+		return null
+
+	return emoji_parse(message)
+
+/// Sends a message to targets via PDA. When sending to everyone, set `everyone` to true so the message is formatted accordingly
+/datum/computer_file/program/messenger/proc/send_message(atom/source, message, list/targets, everyone = FALSE)
+	var/mob/living/sender
+	if(isliving(source))
+		sender = source
+	message = sanitize_pda_message(message, sender)
+	if(!message)
+		return FALSE
+
+
+>>>>>>> tg-pr-88929
 	// upgrade the image asset to a permanent key
 	var/photo_asset_key = selected_image
 	if(photo_asset_key == TEMP_IMAGE_PATH(REF(src)))
@@ -473,7 +556,11 @@
 	var/list/datum/computer_file/program/messenger/target_messengers = list()
 	var/list/datum/pda_chat/target_chats = list()
 
+<<<<<<< HEAD
 	var/should_alert = length(targets) == 1
+=======
+	var/should_alert = length(targets) == 1 && sender
+>>>>>>> tg-pr-88929
 
 	// filter out invalid targets
 	for(var/target in targets)
@@ -522,7 +609,11 @@
 		target_chats += target_chat
 		target_messengers += target_messenger
 
+<<<<<<< HEAD
 	if(!send_message_signal(sender, message, target_messengers, photo_asset_key, everyone))
+=======
+	if(!send_message_signal(source, message, target_messengers, photo_asset_key, everyone))
+>>>>>>> tg-pr-88929
 		return FALSE
 
 	// Log it in our logs
@@ -552,9 +643,18 @@
 
 	return send_message_signal(sender, message, targets, fake_photo, FALSE, TRUE, fake_name, fake_job)
 
+<<<<<<< HEAD
 /datum/computer_file/program/messenger/proc/send_message_signal(mob/sender, message, list/datum/computer_file/program/messenger/targets, photo_path = null, everyone = FALSE, rigged = FALSE, fake_name = null, fake_job = null)
 	if(!sender.can_perform_action(computer, ALLOW_RESTING))
 		return FALSE
+=======
+/datum/computer_file/program/messenger/proc/send_message_signal(atom/source, message, list/datum/computer_file/program/messenger/targets, photo_path = null, everyone = FALSE, rigged = FALSE, fake_name = null, fake_job = null)
+	var/mob/sender
+	if(ismob(source))
+		sender = source
+		if(!sender.can_perform_action(computer, ALLOW_RESTING))
+			return FALSE
+>>>>>>> tg-pr-88929
 
 	if(!COOLDOWN_FINISHED(src, last_text))
 		return FALSE
@@ -565,9 +665,16 @@
 	// check for jammers
 	if(is_within_radio_jammer_range(computer) && !rigged)
 		// different message so people know it's a radio jammer
+<<<<<<< HEAD
 		to_chat(sender, span_notice("ERROR: Network unavailable, please try again later."))
 		if(alert_able && !alert_silenced)
 			playsound(computer, 'sound/machines/terminal_error.ogg', 15, TRUE)
+=======
+		if(sender)
+			to_chat(sender, span_notice("ERROR: Network unavailable, please try again later."))
+		if(alert_able && !alert_silenced)
+			playsound(computer, 'sound/machines/terminal/terminal_error.ogg', 15, TRUE)
+>>>>>>> tg-pr-88929
 		return FALSE
 
 	// used for logging
@@ -595,6 +702,7 @@
 
 	// If it didn't reach, note that fact
 	if (!signal.data["done"])
+<<<<<<< HEAD
 		to_chat(sender, span_notice("ERROR: Server is not responding."))
 		if(alert_able && !alert_silenced)
 			playsound(computer, 'sound/machines/terminal_error.ogg', 15, TRUE)
@@ -618,12 +726,45 @@
 			to_chat(player_mob, "[FOLLOW_LINK(player_mob, sender)] [ghost_message]")
 
 	to_chat(sender, span_info("PDA message sent to [signal.format_target()]: \"[message]\""))
+=======
+		if(sender)
+			to_chat(sender, span_notice("ERROR: Server is not responding."))
+		if(alert_able && !alert_silenced)
+			playsound(computer, 'sound/machines/terminal/terminal_error.ogg', 15, TRUE)
+		return FALSE
+
+	var/shell_addendum = ""
+	if(istype(source, /obj/item/circuit_component))
+		var/obj/item/circuit_component/circuit = source
+		shell_addendum = "[circuit.parent.get_creator()] "
+
+	// Log in the talk log
+	source.log_talk(message, LOG_PDA, tag="[shell_addendum][rigged ? "Rigged" : ""] PDA: [computer.saved_identification] to [signal.format_target()]")
+	if(rigged)
+		log_bomber(sender, "sent a rigged PDA message (Name: [fake_name]. Job: [fake_job]) to [english_list(stringified_targets)] [!is_special_character(sender) ? "(SENT BY NON-ANTAG)" : ""]")
+
+	// Show it to ghosts
+	var/ghost_message = span_game_say("[span_name(signal.format_sender())] [rigged ? "(as [span_name(fake_name)]) Rigged " : ""]PDA Message --> [span_name("[signal.format_target()]")]: \"[signal.format_message()]\"")
+	var/list/message_listeners = GLOB.dead_player_list + GLOB.current_observers_list
+	for(var/mob/listener as anything in message_listeners)
+		if(!(get_chat_toggles(listener) & CHAT_GHOSTPDA))
+			continue
+		to_chat(listener, "[FOLLOW_LINK(listener, source)] [ghost_message]")
+
+	if(sender)
+		to_chat(sender, span_info("PDA message sent to [signal.format_target()]: \"[message]\""))
+>>>>>>> tg-pr-88929
 
 	if (alert_able && !alert_silenced)
 		computer.send_sound()
 
 	COOLDOWN_START(src, last_text, 1 SECONDS)
 
+<<<<<<< HEAD
+=======
+	SEND_SIGNAL(computer, COMSIG_MODULAR_PDA_MESSAGE_SENT, source, signal)
+
+>>>>>>> tg-pr-88929
 	selected_image = null
 	return TRUE
 
@@ -638,6 +779,10 @@
 
 	var/sender_ref = signal.data["ref"]
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> tg-pr-88929
 	// don't create a new chat for rigged messages, make it a one off notif
 	if(!is_rigged)
 		var/datum/pda_message/message = new(signal.data["message"], FALSE, station_time_timestamp(PDA_MESSAGE_TIMESTAMP_FORMAT), signal.data["photo"], signal.data["everyone"])
@@ -652,6 +797,7 @@
 		if(!isnull(viewing_messages_of) && viewing_messages_of == sender_ref)
 			viewing_messages_of = REF(chat)
 
+<<<<<<< HEAD
 	var/mob/living/receiver_mob = null
 	//Check our immediate loc
 	if(isliving(computer.loc))
@@ -663,6 +809,27 @@
 	var/should_ring = !alert_silenced || is_rigged
 
 	if(should_ring && istype(receiver_mob) && receiver_mob.is_literate() && (receiver_mob.stat == CONSCIOUS || receiver_mob.stat == SOFT_CRIT))
+=======
+	var/list/mob/living/receievers = list()
+	if(computer.inserted_pai && computer.inserted_pai.pai)
+		receievers += computer.inserted_pai.pai
+	if(computer.loc && isliving(computer.loc))
+		receievers += computer.loc
+
+	// resolving w/o nullcheck here, assume the messenger exists if a real person sent a message
+	var/datum/computer_file/program/messenger/sender_messenger = chat.recipient?.resolve()
+
+	var/sender_title = is_fake_user ? STRINGIFY_PDA_TARGET(fake_name, fake_job) : get_messenger_name(sender_messenger)
+	var/sender_name = is_fake_user ? fake_name : sender_messenger.computer.saved_identification
+
+	SEND_SIGNAL(computer, COMSIG_MODULAR_PDA_MESSAGE_RECEIVED, signal, fake_job || sender_messenger?.computer.saved_job , sender_name)
+
+	for(var/mob/living/messaged_mob as anything in receievers)
+		if(messaged_mob.stat >= UNCONSCIOUS)
+			continue
+		if(!messaged_mob.is_literate())
+			continue
+>>>>>>> tg-pr-88929
 		var/reply_href = signal.data["rigged"] ? "explode" : "message"
 		var/photo_href = signal.data["rigged"] ? "explode" : "open"
 		var/reply
@@ -671,6 +838,7 @@
 		else
 			reply = "(<a href='byond://?src=[REF(src)];choice=[reply_href];skiprefresh=1;target=[REF(chat)]'>Reply</a>)"
 
+<<<<<<< HEAD
 		// resolving w/o nullcheck here, assume the messenger exists if a real person sent a message
 		var/datum/computer_file/program/messenger/sender_messenger = chat.recipient?.resolve()
 
@@ -688,6 +856,20 @@
 
 	if (alert_able && should_ring)
 		computer.ring(ringtone, list(receiver_mob))
+=======
+		if (isAI(messaged_mob))
+			sender_title = "<a href='byond://?src=[REF(messaged_mob)];track=[html_encode(sender_name)]'>[sender_title]</a>"
+
+		var/inbound_message = "[signal.format_message()]"
+
+		var/photo_message = signal.data["photo"] ? " (<a href='byond://?src=[REF(src)];choice=[photo_href];skiprefresh=1;target=[REF(chat)]'>Photo Attached</a>)" : ""
+		to_chat(messaged_mob, span_infoplain("[icon2html(computer, messaged_mob)] <b>PDA message from [sender_title], </b>\"[inbound_message]\"[photo_message] [reply]"))
+
+		SEND_SIGNAL(computer, COMSIG_COMPUTER_RECEIVED_MESSAGE, sender_title, inbound_message, photo_message)
+
+	if (alert_able && (!alert_silenced || is_rigged))
+		computer.ring(ringtone, receievers)
+>>>>>>> tg-pr-88929
 
 	SStgui.update_uis(computer)
 	update_pictures_for_all()
@@ -698,7 +880,11 @@
 
 	if(QDELETED(src))
 		return
+<<<<<<< HEAD
 	if(!usr.can_perform_action(computer, FORBID_TELEKINESIS_REACH))
+=======
+	if(!usr.can_perform_action(computer, FORBID_TELEKINESIS_REACH | ALLOW_RESTING))
+>>>>>>> tg-pr-88929
 		return
 
 	// send an activation message and open the messenger
@@ -727,12 +913,15 @@
 			var/obj/item/modular_computer/pda/comp = computer
 			comp.explode(usr, from_message_menu = TRUE)
 
+<<<<<<< HEAD
 /datum/computer_file/program/messenger/proc/compare_name(datum/computer_file/program/messenger/rhs)
 	return sorttext(rhs.computer?.saved_identification, computer?.saved_identification)
 
 /datum/computer_file/program/messenger/proc/compare_job(datum/computer_file/program/messenger/rhs)
 	return sorttext(rhs.computer?.saved_job, computer?.saved_job)
 
+=======
+>>>>>>> tg-pr-88929
 #undef PDA_MESSAGE_TIMESTAMP_FORMAT
 #undef MAX_PDA_MESSAGE_LEN
 #undef TEMP_IMAGE_PATH

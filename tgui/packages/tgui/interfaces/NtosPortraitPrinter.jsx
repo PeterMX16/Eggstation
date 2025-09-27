@@ -1,11 +1,24 @@
+import { useState } from 'react';
+import {
+  Button,
+  Image,
+  Input,
+  NoticeBox,
+  Section,
+  Stack,
+} from 'tgui-core/components';
+
 import { resolveAsset } from '../assets';
-import { useBackend, useLocalState } from '../backend';
-import { Button, NoticeBox, Section, Stack, Input } from '../components';
+import { useBackend } from '../backend';
 import { NtosWindow } from '../layouts';
 
 export const NtosPortraitPrinter = (props) => {
   const { act, data } = useBackend();
+<<<<<<< HEAD
   const [listIndex, setListIndex] = useLocalState('listIndex', 0);
+=======
+  const [listIndex, setListIndex] = useState(0);
+>>>>>>> tg-pr-88929
   const { paintings, search_string, search_mode } = data;
   const got_paintings = !!paintings.length;
   const current_portrait_title = got_paintings && paintings[listIndex]['title'];
@@ -14,6 +27,7 @@ export const NtosPortraitPrinter = (props) => {
   const current_portrait_asset_name =
     got_paintings && 'paintings' + '_' + paintings[listIndex]['md5'];
   const current_portrait_ratio = got_paintings && paintings[listIndex]['ratio'];
+
   return (
     <NtosWindow title="Art Galaxy" width={400} height={446}>
       <NtosWindow.Content>
@@ -53,14 +67,18 @@ export const NtosPortraitPrinter = (props) => {
                 {got_paintings ? (
                   <>
                     <Stack.Item>
-                      <img
+                      <Image
                         src={resolveAsset(current_portrait_asset_name)}
                         height="128px"
                         width={`${Math.round(128 * current_portrait_ratio)}px`}
                         style={{
+<<<<<<< HEAD
                           'vertical-align': 'middle',
                           '-ms-interpolation-mode': 'nearest-neighbor',
                           'image-rendering': 'pixelated',
+=======
+                          verticalAlign: 'middle',
+>>>>>>> tg-pr-88929
                         }}
                       />
                     </Stack.Item>

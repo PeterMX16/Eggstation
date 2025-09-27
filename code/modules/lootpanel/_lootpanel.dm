@@ -15,16 +15,33 @@
 	/// The turf being searched
 	var/turf/source_turf
 
+<<<<<<< HEAD
 /datum/lootpanel/New(client/owner)
 	. = ..()
 	src.owner = owner
 
+=======
+
+/datum/lootpanel/New(client/owner)
+	. = ..()
+
+	src.owner = owner
+
+
+>>>>>>> tg-pr-88929
 /datum/lootpanel/Destroy(force)
 	reset_contents()
 	owner = null
 	source_turf = null
+<<<<<<< HEAD
 	return ..()
 
+=======
+
+	return ..()
+
+
+>>>>>>> tg-pr-88929
 /datum/lootpanel/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
@@ -32,6 +49,7 @@
 		ui.set_autoupdate(FALSE)
 		ui.open()
 
+<<<<<<< HEAD
 /datum/lootpanel/ui_close(mob/user)
 	. = ..()
 	source_turf = null
@@ -46,10 +64,36 @@
 
 /datum/lootpanel/ui_status(mob/user, datum/ui_state/state)
 	if(user.incapacitated())
+=======
+
+/datum/lootpanel/ui_close(mob/user)
+	. = ..()
+
+	source_turf = null
+	reset_contents()
+
+
+/datum/lootpanel/ui_data(mob/user)
+	var/list/data = list()
+
+	data["contents"] = get_contents()
+	data["is_blind"] = !!user.is_blind()
+	data["searching"] = length(to_image)
+
+	return data
+
+
+/datum/lootpanel/ui_status(mob/user, datum/ui_state/state)
+	if(user.incapacitated)
+>>>>>>> tg-pr-88929
 		return UI_DISABLED
 
 	return UI_INTERACTIVE
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> tg-pr-88929
 /datum/lootpanel/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
 	. = ..()
 	if(.)
@@ -57,7 +101,14 @@
 
 	switch(action)
 		if("grab")
+<<<<<<< HEAD
 			return grab(ui.user, params)
 		if("refresh")
 			return populate_contents()
+=======
+			return grab(usr, params)
+		if("refresh")
+			return populate_contents()
+
+>>>>>>> tg-pr-88929
 	return FALSE

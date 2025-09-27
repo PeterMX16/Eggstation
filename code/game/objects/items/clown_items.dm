@@ -76,7 +76,7 @@
 	cyborg = TRUE
 
 /obj/item/soap/deluxe
-	desc = "A deluxe Waffle Co. brand bar of soap. Smells of high-class luxury."
+	desc = "A deluxe Waffle Corporation brand bar of soap. Smells of high-class luxury."
 	grind_results = list(/datum/reagent/consumable/aloejuice = 10, /datum/reagent/lye = 10)
 	icon_state = "soapdeluxe"
 	inhand_icon_state = "soapdeluxe"
@@ -100,6 +100,13 @@
 	worn_icon_state = "soapsyndie"
 	cleanspeed = 0.5 SECONDS //faster than mops so it's useful for traitors who want to clean crime scenes
 
+/obj/item/soap/drone
+	name = "\improper integrated soap module"
+	inhand_icon_state = "soapnt"
+	worn_icon_state = "soapnt"
+	cleanspeed = 0.5 SECONDS //can be changed if someone isn't happy
+	uses = INFINITY
+
 /obj/item/soap/omega
 	name = "\improper Omega soap"
 	desc = "The most advanced soap known to mankind. The beginning of the end for germs."
@@ -122,13 +129,18 @@
 
 /obj/item/soap/suicide_act(mob/living/user)
 	user.say(";FFFFFFFFFFFFFFFFUUUUUUUDGE!!", forced="soap suicide")
-	user.visible_message(span_suicide("[user] lifts [src] to [user.p_their()] mouth and gnaws on it furiously, producing a thick froth! [user.p_they(TRUE)]'ll never get that BB gun now!"))
-	new /obj/effect/particle_effect/fluid/foam(loc)
+	user.visible_message(span_suicide("[user] lifts [src] to [user.p_their()] mouth and gnaws on it furiously, producing a thick froth! [user.p_They()]'ll never get that BB gun now!"))
+	var/datum/effect_system/fluid_spread/foam/foam = new
+	foam.set_up(1, holder = src, location = get_turf(user))
+	foam.start()
 	return TOXLOSS
 
 /obj/item/soap/proc/should_clean(datum/cleaning_source, atom/atom_to_clean, mob/living/cleaner)
+<<<<<<< HEAD
 	if(cyborg && uses <= 0)
 		return CLEAN_BLOCKED
+=======
+>>>>>>> tg-pr-88929
 	. = CLEAN_ALLOWED
 	if(!check_allowed_items(atom_to_clean))
 		. |= CLEAN_NO_XP
@@ -160,6 +172,17 @@
 	to_chat(user, span_warning("[src] crumbles into tiny bits!"))
 	qdel(src)
 
+<<<<<<< HEAD
+=======
+/obj/item/soap/nanotrasen/cyborg/noUses(mob/user)
+	to_chat(user, span_warning("[src] has ran out of chemicals! Head to a recharger to refill it."))
+
+/obj/item/soap/nanotrasen/cyborg/should_clean(datum/cleaning_source, atom/atom_to_clean, mob/living/cleaner)
+	if(uses <= 0)
+		return CLEAN_BLOCKED
+	return ..()
+
+>>>>>>> tg-pr-88929
 /*
  * Bike Horns
  */
@@ -167,7 +190,7 @@
 /obj/item/bikehorn
 	name = "bike horn"
 	desc = "A horn off of a bicycle. Rumour has it that they're made from recycled clowns."
-	icon = 'icons/obj/weapons/horn.dmi'
+	icon = 'icons/obj/art/horn.dmi'
 	icon_state = "bike_horn"
 	inhand_icon_state = "bike_horn"
 	worn_icon_state = "horn"
@@ -208,7 +231,16 @@
 	desc = "Damn son, where'd you find this?"
 	icon_state = "air_horn"
 	worn_icon_state = "horn_air"
-	sound_file = 'sound/items/airhorn2.ogg'
+	sound_file = 'sound/items/airhorn/airhorn2.ogg'
+
+/datum/crafting_recipe/airhorn
+	name = "Air Horn"
+	result = /obj/item/bikehorn/airhorn
+	reqs = list(
+		/obj/item/bikehorn = 1,
+		/obj/item/toy/crayon/spraycan = 1,
+	)
+	category = CAT_ENTERTAINMENT
 
 //golden bikehorn
 /obj/item/bikehorn/golden
@@ -235,6 +267,22 @@
 		if(M.can_hear())
 			M.emote("flip")
 	COOLDOWN_START(src, golden_horn_cooldown, 1 SECONDS)
+
+/obj/item/bikehorn/rubberducky/plasticducky
+	name = "plastic ducky"
+	desc = "It's a cheap plastic knockoff of a loveable bathtime toy."
+	custom_materials = list(/datum/material/plastic = HALF_SHEET_MATERIAL_AMOUNT)
+
+/obj/item/bikehorn/rubberducky
+	name = "rubber ducky"
+	desc = "Rubber ducky you're so fine, you make bathtime lots of fuuun. Rubber ducky I'm awfully fooooond of yooooouuuu~" //thanks doohl
+	icon = 'icons/obj/watercloset.dmi'
+	icon_state = "rubberducky"
+	inhand_icon_state = "rubberducky"
+	lefthand_file = 'icons/mob/inhands/items_lefthand.dmi'
+	righthand_file = 'icons/mob/inhands/items_righthand.dmi'
+	worn_icon_state = "duck"
+	sound_file = 'sound/effects/quack.ogg'
 
 //canned laughter
 /obj/item/reagent_containers/cup/soda_cans/canned_laughter

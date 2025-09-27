@@ -251,6 +251,13 @@
 
 			return "[output][and_text][input[index]]"
 
+///Returns a list of atom types in plain english as a string of each type name
+/proc/type_english_list(list/input, nothing_text = "nothing", and_text = " and ", comma_text = ", ", final_comma_text = "" )
+	var/list/english_input = list()
+	for(var/atom/type as anything in input)
+		english_input += "[initial(type.name)]"
+	return english_list(english_input, nothing_text, and_text, comma_text, final_comma_text)
+
 /**
  * Checks for specific types in a list.
  *
@@ -366,7 +373,10 @@
 	if(only_root_path)
 		for(var/current_path in pathlist)
 			.[current_path] = TRUE
+<<<<<<< HEAD
 
+=======
+>>>>>>> tg-pr-88929
 	else if(ignore_root_path)
 		for(var/current_path in pathlist)
 			for(var/subtype in subtypesof(current_path))
@@ -416,7 +426,10 @@
 	if(only_root_path)
 		for(var/current_path in pathlist)
 			.[current_path] = pathlist[current_path]
+<<<<<<< HEAD
 
+=======
+>>>>>>> tg-pr-88929
 	else if(ignore_root_path)
 		for(var/current_path in pathlist)
 			for(var/subtype in subtypesof(current_path))
@@ -463,9 +476,9 @@
 		return
 	var/list/result = new
 	if(skiprep)
-		for(var/e in first)
-			if(!(e in result) && !(e in second))
-				UNTYPED_LIST_ADD(result, e)
+		for(var/entry in first)
+			if(!(entry in result) && !(entry in second))
+				UNTYPED_LIST_ADD(result, entry)
 	else
 		result = first - second
 	return result
@@ -494,6 +507,7 @@
  * C would have a 10% chance of being picked,
  * and D would have a 0% chance of being picked.
  */
+<<<<<<< HEAD
 /proc/pick_weight(list/list_to_pick) // monkestation edit: port superior pick_weight impl
 	var/total = 0
 	var/item
@@ -504,6 +518,25 @@
 	total = rand() * total
 	for(item in list_to_pick)
 		total -= list_to_pick[item]
+=======
+/proc/pick_weight(list/list_to_pick)
+	if(length(list_to_pick) == 0)
+		return null
+
+	var/total = 0
+	for(var/item in list_to_pick)
+		if(!list_to_pick[item])
+			list_to_pick[item] = 0
+		total += list_to_pick[item]
+
+	total = rand(1, total)
+	for(var/item in list_to_pick)
+		var/item_weight = list_to_pick[item]
+		if(item_weight == 0)
+			continue
+
+		total -= item_weight
+>>>>>>> tg-pr-88929
 		if(total <= 0)
 			return item
 	return null
@@ -811,9 +844,9 @@
 			inserted_list.Cut(to_index, to_index + 1)
 	else
 		if(to_index > from_index)
-			var/a = to_index
+			var/temp = to_index
 			to_index = from_index
-			from_index = a
+			from_index = temp
 
 		for(var/i in 1 to len)
 			inserted_list.Swap(from_index++, to_index++)
@@ -895,7 +928,7 @@
 		used_key_list[input_key] = 1
 	return input_key
 
-///Flattens a keyed list into a list of it's contents
+///Flattens a keyed list into a list of its contents
 /proc/flatten_list(list/key_list)
 	if(!islist(key_list))
 		return null
@@ -958,6 +991,13 @@
 		if(value?.locked)
 			continue
 		UNTYPED_LIST_ADD(keys, key)
+	return keys
+
+///Gets the total amount of everything in the associative list.
+/proc/assoc_value_sum(list/input)
+	var/keys = 0
+	for(var/key in input)
+		keys += input[key]
 	return keys
 
 ///compare two lists, returns TRUE if they are the same

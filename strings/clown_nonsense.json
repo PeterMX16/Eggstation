@@ -1,5 +1,16 @@
 {
+<<<<<<< HEAD
 	"honk": ["HENK", "HONK!!!", "HONK!", "honk", "HONK", "HOOOOOOONK"],
+=======
+	"honk": [
+		"HENK",
+		"HONK!!!",
+		"HONK!",
+		"honk",
+		"HONK",
+		"HOOOOOOONK"
+	],
+>>>>>>> tg-pr-88929
 
 	"rare": [
 		" :) ",
@@ -11,6 +22,25 @@
 		"Hink",
 		"HOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOONK!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
 	],
+<<<<<<< HEAD
+=======
+
+	"non-honk-clown-words": [
+		"... ",
+		"balagan",
+		"banana peel",
+		"bananas",
+		"cat",
+		"chapiteau",
+		"entrée",
+		"juggling",
+		"party",
+		"peel",
+		"pie",
+		"pranking",
+		"slip"
+	]
+>>>>>>> tg-pr-88929
 
 	"non-honk-clown-words": [
 		"... ",

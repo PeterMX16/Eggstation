@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 ADMIN_VERB(map_export, R_DEBUG, FALSE, "Map Export", "Select a part of the map by coordinates and download it.", ADMIN_CATEGORY_DEBUG)
+=======
+ADMIN_VERB(map_export, R_DEBUG, "Map Export", "Select a part of the map by coordinates and download it.", ADMIN_CATEGORY_DEBUG)
+>>>>>>> tg-pr-88929
 	var/user_x = user.mob.x
 	var/user_y = user.mob.y
 	var/user_z = user.mob.z
@@ -85,7 +89,11 @@ ADMIN_VERB(map_export, R_DEBUG, FALSE, "Map Export", "Select a part of the map b
 	)
 
 /obj/get_save_vars()
+<<<<<<< HEAD
 	return ..() + NAMEOF(src, req_access)
+=======
+	return ..() + list(NAMEOF(src, req_access), NAMEOF(src, id_tag))
+>>>>>>> tg-pr-88929
 
 /obj/item/stack/get_save_vars()
 	return ..() + NAMEOF(src, amount)

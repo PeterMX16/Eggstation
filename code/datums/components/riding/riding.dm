@@ -9,7 +9,6 @@
 /datum/component/riding
 	dupe_mode = COMPONENT_DUPE_UNIQUE
 
-	var/last_move_diagonal = FALSE
 	///tick delay between movements, lower = faster, higher = slower
 	var/vehicle_move_delay = 2
 
@@ -30,8 +29,12 @@
 	var/list/allowed_turf_typecache
 	/// allow typecache for only certain turfs, forbid to allow all but those. allow only certain turfs will take precedence.
 	var/list/forbid_turf_typecache
+	/// additional traits to add to anyone riding this vehicle
+	var/list/rider_traits = list(TRAIT_NO_FLOATING_ANIM)
 	/// We don't need roads where we're going if this is TRUE, allow normal movement in space tiles
 	var/override_allow_spacemove = FALSE
+	/// can anyone other than the rider unbuckle the rider?
+	var/can_force_unbuckle = TRUE
 
 	/**
 	 * Ride check flags defined for the specific riding component types, so we know if we need arms, legs, or whatever.
@@ -44,7 +47,7 @@
 	COOLDOWN_DECLARE(vehicle_move_cooldown)
 
 
-/datum/component/riding/Initialize(mob/living/riding_mob, force = FALSE, buckle_mob_flags= NONE, potion_boost = FALSE)
+/datum/component/riding/Initialize(mob/living/riding_mob, force = FALSE, buckle_mob_flags= NONE)
 	if(!ismovable(parent))
 		return COMPONENT_INCOMPATIBLE
 
@@ -52,9 +55,8 @@
 	riding_mob.updating_glide_size = FALSE
 	ride_check_flags |= buckle_mob_flags
 
-	if(potion_boost)
+	if(HAS_TRAIT(parent, TRAIT_SPEED_POTIONED))
 		vehicle_move_delay = round(CONFIG_GET(number/movedelay/run_delay) * 0.85, 0.01)
-
 
 /datum/component/riding/RegisterWithParent()
 	. = ..()
@@ -66,6 +68,12 @@
 	RegisterSignal(parent, COMSIG_BUCKLED_CAN_Z_MOVE, PROC_REF(riding_can_z_move))
 	RegisterSignals(parent, GLOB.movement_type_addtrait_signals, PROC_REF(on_movement_type_trait_gain))
 	RegisterSignals(parent, GLOB.movement_type_removetrait_signals, PROC_REF(on_movement_type_trait_loss))
+<<<<<<< HEAD
+=======
+	RegisterSignal(parent, COMSIG_SUPERMATTER_CONSUMED, PROC_REF(on_entered_supermatter))
+	if(!can_force_unbuckle)
+		RegisterSignal(parent, COMSIG_ATOM_ATTACK_HAND, PROC_REF(force_unbuckle))
+>>>>>>> tg-pr-88929
 
 /**
  * This proc handles all of the proc calls to things like set_vehicle_dir_layer() that a type of riding datum needs to call on creation
@@ -81,6 +89,9 @@
 /datum/component/riding/proc/vehicle_mob_unbuckle(datum/source, mob/living/rider, force = FALSE)
 	SIGNAL_HANDLER
 
+	handle_unbuckle(rider)
+
+/datum/component/riding/proc/handle_unbuckle(mob/living/rider)
 	var/atom/movable/movable_parent = parent
 	restore_position(rider)
 	unequip_buckle_inhands(rider)
@@ -89,7 +100,11 @@
 	for (var/trait in GLOB.movement_type_trait_to_flag)
 		if (HAS_TRAIT(parent, trait))
 			REMOVE_TRAIT(rider, trait, REF(src))
+<<<<<<< HEAD
 	REMOVE_TRAIT(rider, TRAIT_NO_FLOATING_ANIM, REF(src))
+=======
+	rider.remove_traits(rider_traits, REF(src))
+>>>>>>> tg-pr-88929
 	if(!movable_parent.has_buckled_mobs())
 		qdel(src)
 
@@ -108,7 +123,12 @@
 	for (var/trait in GLOB.movement_type_trait_to_flag)
 		if (HAS_TRAIT(parent, trait))
 			ADD_TRAIT(rider, trait, REF(src))
+<<<<<<< HEAD
 	ADD_TRAIT(rider, TRAIT_NO_FLOATING_ANIM, REF(src))
+=======
+	rider.add_traits(rider_traits, REF(src))
+	post_vehicle_mob_buckle(movable_parent, rider)
+>>>>>>> tg-pr-88929
 
 /// This proc is called when the rider attempts to grab the thing they're riding, preventing them from doing so.
 /datum/component/riding/proc/on_rider_try_pull(mob/living/rider_pulling, atom/movable/target, force)
@@ -117,6 +137,10 @@
 		var/mob/living/ridden = parent
 		ridden.balloon_alert(rider_pulling, "not while riding it!")
 		return COMSIG_LIVING_CANCEL_PULL
+
+///any behavior we want to happen after buckling the mob
+/datum/component/riding/proc/post_vehicle_mob_buckle(atom/movable/ridden, atom/movable/rider)
+	return TRUE
 
 /// Some ridable atoms may want to only show on top of the rider in certain directions, like wheelchairs
 /datum/component/riding/proc/handle_vehicle_layer(dir)
@@ -182,7 +206,7 @@
 					if(diroffsets.len == 3)
 						buckled_mob.layer = diroffsets[3]
 					break dir_loop
-	var/list/static/default_vehicle_pixel_offsets = list(TEXT_NORTH = list(0, 0), TEXT_SOUTH = list(0, 0), TEXT_EAST = list(0, 0), TEXT_WEST = list(0, 0))
+	var/static/list/default_vehicle_pixel_offsets = list(TEXT_NORTH = list(0, 0), TEXT_SOUTH = list(0, 0), TEXT_EAST = list(0, 0), TEXT_WEST = list(0, 0))
 	var/px = default_vehicle_pixel_offsets[AM_dir]
 	var/py = default_vehicle_pixel_offsets[AM_dir]
 	if(directional_vehicle_offsets[AM_dir])
@@ -233,11 +257,14 @@
 
 //BUCKLE HOOKS
 /datum/component/riding/proc/restore_position(mob/living/buckled_mob)
-	if(buckled_mob)
-		buckled_mob.pixel_x = buckled_mob.base_pixel_x
-		buckled_mob.pixel_y = buckled_mob.base_pixel_y
-		if(buckled_mob.client)
-			buckled_mob.client.view_size.resetToDefault()
+	if(isnull(buckled_mob))
+		return
+	buckled_mob.pixel_x = buckled_mob.base_pixel_x
+	buckled_mob.pixel_y = buckled_mob.base_pixel_y
+	var/atom/source = parent
+	SET_PLANE_EXPLICIT(buckled_mob, initial(buckled_mob.plane), source)
+	if(buckled_mob.client)
+		buckled_mob.client.view_size.resetToDefault()
 
 //MOVEMENT
 /datum/component/riding/proc/turf_check(turf/next, turf/current)
@@ -305,3 +332,12 @@
 	if((living_hitter in source.buckled_mobs))
 		return
 	return COMPONENT_CANCEL_ATTACK_CHAIN
+<<<<<<< HEAD
+=======
+
+/// When we touch a crystal, kill everything inside us
+/datum/component/riding/proc/on_entered_supermatter(atom/movable/ridden, atom/movable/supermatter)
+	SIGNAL_HANDLER
+	for (var/mob/passenger as anything in ridden.buckled_mobs)
+		passenger.Bump(supermatter)
+>>>>>>> tg-pr-88929

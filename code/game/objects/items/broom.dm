@@ -7,6 +7,7 @@
 	icon = 'icons/obj/service/janitor.dmi'
 	icon_state = "broom0"
 	base_icon_state = "broom"
+	icon_angle = 135
 	lefthand_file = 'icons/mob/inhands/equipment/custodial_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/custodial_righthand.dmi'
 	force = 8
@@ -20,7 +21,18 @@
 
 /obj/item/pushbroom/Initialize(mapload)
 	. = ..()
+<<<<<<< HEAD
 	AddComponent(/datum/component/two_handed, force_unwielded=8, force_wielded=13, icon_wielded="[base_icon_state]1", wield_callback = CALLBACK(src, PROC_REF(on_wield)), unwield_callback = CALLBACK(src, PROC_REF(on_unwield)))
+=======
+	AddComponent(/datum/component/jousting, damage_boost_per_tile = 1)
+	AddComponent(/datum/component/two_handed, \
+		force_unwielded = 8, \
+		force_wielded = 12, \
+		icon_wielded = "[base_icon_state]1", \
+		wield_callback = CALLBACK(src, PROC_REF(on_wield)), \
+		unwield_callback = CALLBACK(src, PROC_REF(on_unwield)), \
+	)
+>>>>>>> tg-pr-88929
 
 /obj/item/pushbroom/update_icon_state()
 	icon_state = "[base_icon_state]0"
@@ -48,12 +60,17 @@
 	UnregisterSignal(user, COMSIG_MOVABLE_PRE_MOVE)
 
 /obj/item/pushbroom/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
+<<<<<<< HEAD
 	sweep(user, interacting_with, towards_player = FALSE)
 	return NONE // I guess
 
 /obj/item/pushbroom/interact_with_atom_secondary(atom/interacting_with, mob/living/user, list/modifiers)
 	sweep(user, interacting_with, towards_player = TRUE)
 	return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
+=======
+	sweep(user, interacting_with)
+	return NONE // I guess
+>>>>>>> tg-pr-88929
 
 /**
  * Attempts to push up to BROOM_PUSH_LIMIT atoms from a given location the user's faced direction
@@ -63,30 +80,53 @@
  * * A - The atom which is located at the location to push atoms from
  * * towards_player - Boolean on whether the items will be being pushed towards the player, away if FALSE.
  */
+<<<<<<< HEAD
 /obj/item/pushbroom/proc/sweep(mob/user, atom/A, towards_player = FALSE)
+=======
+/obj/item/pushbroom/proc/sweep(mob/user, atom/atom)
+>>>>>>> tg-pr-88929
 	SIGNAL_HANDLER
 
-	var/turf/current_item_loc = isturf(A) ? A : A.loc
+	do_sweep(src, user, atom, user.dir)
+
+/**
+* Sweep objects in the direction we're facing towards our direction
+* Arguments
+* * broomer - The object being used for brooming
+* * user - The person who is brooming
+* * target - The object or tile that's target of a broom click or being moved into
+* * sweep_dir - The directions in which we sweep objects
+*/
+/proc/do_sweep(obj/broomer, mob/user, atom/target, sweep_dir)
+	var/turf/current_item_loc = isturf(target) ? target : target.loc
 	if (!isturf(current_item_loc))
 		return
+<<<<<<< HEAD
 	var/turf/new_item_loc = towards_player ? get_step(current_item_loc, REVERSE_DIR(user.dir)) : get_step(current_item_loc, user.dir)
 	var/obj/machinery/disposal/bin/target_bin = locate(/obj/machinery/disposal/bin) in new_item_loc.contents
+=======
+	var/turf/new_item_loc = get_step(current_item_loc, sweep_dir)
+
+	var/list/items_to_sweep = list()
+>>>>>>> tg-pr-88929
 	var/i = 1
 	for (var/obj/item/garbage in current_item_loc.contents)
-		if (!garbage.anchored)
-			if (target_bin)
-				garbage.forceMove(target_bin)
-			else
-				garbage.Move(new_item_loc, user.dir)
-			i++
-		if (i > BROOM_PUSH_LIMIT)
+		if(garbage.anchored)
+			continue
+		items_to_sweep += garbage
+		i++
+		if(i > BROOM_PUSH_LIMIT)
 			break
-	if (i > 1)
-		if (target_bin)
-			target_bin.update_appearance()
-			to_chat(user, span_notice("You sweep the pile of garbage into [target_bin]."))
-		playsound(loc, 'sound/weapons/thudswoosh.ogg', 30, TRUE, -1)
 
+	SEND_SIGNAL(new_item_loc, COMSIG_TURF_RECEIVE_SWEEPED_ITEMS, broomer, user, items_to_sweep)
+
+	if(!length(items_to_sweep))
+		return
+
+	for (var/obj/item/garbage in items_to_sweep)
+		garbage.Move(new_item_loc, sweep_dir)
+
+	playsound(current_item_loc, 'sound/items/weapons/thudswoosh.ogg', 30, TRUE, -1)
 
 /obj/item/pushbroom/cyborg
 	name = "cyborg push broom"

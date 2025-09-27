@@ -46,12 +46,30 @@ GLOBAL_LIST_INIT(syndicate_space_suits_to_helmets,list(
 	/obj/item/clothing/suit/space/syndicate/black/engie = /obj/item/clothing/head/helmet/space/syndicate/black/engie,
 )) //monkestation TODO: use this for battle royale drops
 
+// Don't blame me, blame whoever added this many variations
+GLOBAL_LIST_INIT(syndicate_space_suits_to_helmets,list(
+	/obj/item/clothing/suit/space/syndicate = /obj/item/clothing/head/helmet/space/syndicate,
+	/obj/item/clothing/suit/space/syndicate/green = /obj/item/clothing/head/helmet/space/syndicate/green,
+	/obj/item/clothing/suit/space/syndicate/green/dark = /obj/item/clothing/head/helmet/space/syndicate/green/dark,
+	/obj/item/clothing/suit/space/syndicate/orange = /obj/item/clothing/head/helmet/space/syndicate/orange,
+	/obj/item/clothing/suit/space/syndicate/blue = /obj/item/clothing/head/helmet/space/syndicate/blue,
+	/obj/item/clothing/suit/space/syndicate/black = /obj/item/clothing/head/helmet/space/syndicate/black,
+	/obj/item/clothing/suit/space/syndicate/black/green = /obj/item/clothing/head/helmet/space/syndicate/black/green,
+	/obj/item/clothing/suit/space/syndicate/black/blue = /obj/item/clothing/head/helmet/space/syndicate/black/blue,
+	/obj/item/clothing/suit/space/syndicate/black/orange = /obj/item/clothing/head/helmet/space/syndicate/black/orange,
+	/obj/item/clothing/suit/space/syndicate/black/red = /obj/item/clothing/head/helmet/space/syndicate/black/red,
+	/obj/item/clothing/suit/space/syndicate/black/white = /obj/item/clothing/head/helmet/space/syndicate/black,
+	/obj/item/clothing/suit/space/syndicate/black/med = /obj/item/clothing/head/helmet/space/syndicate/black/med,
+	/obj/item/clothing/suit/space/syndicate/black/engie = /obj/item/clothing/head/helmet/space/syndicate/black/engie,
+))
+
 /obj/item/clothing/suit/space/syndicate
 	name = "red space suit"
 	icon_state = "syndicate"
 	inhand_icon_state = "space_suit_syndicate"
 	desc = "Has a tag on it: Totally not property of an enemy corporation, honest!"
 	w_class = WEIGHT_CLASS_NORMAL
+<<<<<<< HEAD
 	allowed = list(
 		/obj/item/ammo_box,
 		/obj/item/ammo_casing,
@@ -73,6 +91,12 @@ GLOBAL_LIST_INIT(syndicate_space_suits_to_helmets,list(
 	cell = /obj/item/stock_parts/power_store/cell/hyper
 	var/helmet_type = /obj/item/clothing/head/helmet/space/syndicate
 	slowdown = 0.25 //monkestation edit: syndicate have a theme of no slowdown on their gear. e.g: syndicate duffel bags
+=======
+	allowed = list(/obj/item/gun, /obj/item/melee/baton, /obj/item/melee/energy/sword/saber, /obj/item/restraints/handcuffs, /obj/item/tank/internals)
+	armor_type = /datum/armor/space_syndicate
+	cell = /obj/item/stock_parts/power_store/cell/hyper
+	var/helmet_type = /obj/item/clothing/head/helmet/space/syndicate
+>>>>>>> tg-pr-88929
 
 //Green syndicate space suit
 /obj/item/clothing/head/helmet/space/syndicate/green
@@ -162,6 +186,16 @@ GLOBAL_LIST_INIT(syndicate_space_suits_to_helmets,list(
 	icon_state = "syndicate-black-blue"
 	inhand_icon_state = "syndicate-black-blue"
 	helmet_type = /obj/item/clothing/head/helmet/space/syndicate/black/blue
+<<<<<<< HEAD
+=======
+
+//Black and white syndicate space suit without the medical iconography
+/obj/item/clothing/suit/space/syndicate/black/white
+	name = "black and white space suit"
+	icon_state = "syndicate-black-white"
+	inhand_icon_state = "syndicate-black"
+	helmet_type = /obj/item/clothing/head/helmet/space/syndicate/black
+>>>>>>> tg-pr-88929
 
 
 //Black medical syndicate space suit
@@ -191,9 +225,13 @@ GLOBAL_LIST_INIT(syndicate_space_suits_to_helmets,list(
 	icon_state = "syndicate-black-orange"
 	inhand_icon_state = "syndicate-black"
 	helmet_type = /obj/item/clothing/head/helmet/space/syndicate/black/orange
+<<<<<<< HEAD
 	armor_type = /datum/armor/space_syndicate_fire
 	resistance_flags = FIRE_PROOF
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
+=======
+
+>>>>>>> tg-pr-88929
 
 //Black-red syndicate space suit
 /obj/item/clothing/head/helmet/space/syndicate/black/red
@@ -241,9 +279,12 @@ GLOBAL_LIST_INIT(syndicate_space_suits_to_helmets,list(
 	icon_state = "syndicate-black-engie"
 	inhand_icon_state = "syndicate-black"
 	helmet_type = /obj/item/clothing/head/helmet/space/syndicate/black/engie
+<<<<<<< HEAD
 	resistance_flags = FIRE_PROOF
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
 
 /obj/item/clothing/suit/space/syndicate/black/engie/Initialize(mapload)
 	. = ..()
 	AddElement(/datum/element/radiation_protected_clothing)
+=======
+>>>>>>> tg-pr-88929

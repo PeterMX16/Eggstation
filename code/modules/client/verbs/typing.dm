@@ -33,7 +33,11 @@
 	if(!typing_indicators)
 		return FALSE
 	/// Special exemptions
+<<<<<<< HEAD
 	if(isabductor(mob) && !HAS_TRAIT(mob, TRAIT_SIGN_LANG)) // monkestation edit: allow abductors to sign
+=======
+	if(isabductor(mob))
+>>>>>>> tg-pr-88929
 		return FALSE
 	ADD_TRAIT(mob, TRAIT_THINKING_IN_CHARACTER, CURRENTLY_TYPING_TRAIT)
 	mob.create_thinking_indicator()

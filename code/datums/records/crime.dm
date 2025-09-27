@@ -12,6 +12,8 @@
 	var/time
 	/// Whether the crime is active or not
 	var/valid = TRUE
+	/// Player that marked the crime as invalid
+	var/voider
 
 /datum/crime/New(name = "Crime", details = "No details provided.", author = "Anonymous")
 	src.author = author
@@ -32,6 +34,9 @@
 
 /// Pays off a fine and attempts to fix any weird values.
 /datum/crime/citation/proc/pay_fine(amount)
+	if(amount <= 0)
+		return FALSE
+
 	paid += amount
 	if(paid > fine)
 		paid = fine

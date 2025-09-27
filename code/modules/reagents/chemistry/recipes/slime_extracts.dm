@@ -10,7 +10,7 @@
 	if(!istype(extract))
 		return FALSE
 
-	return extract.Uses > 0
+	return extract.extract_uses > 0
 
 /datum/chemical_reaction/slime/on_reaction(datum/reagents/holder, datum/equilibrium/reaction, created_volume)
 	use_slime_core(holder)
@@ -21,9 +21,15 @@
 		delete_extract(holder)
 
 /datum/chemical_reaction/slime/proc/delete_extract(datum/reagents/holder)
+<<<<<<< HEAD
 	var/obj/item/slime_extract/extract = holder.my_atom
 	if(!QDELETED(extract) && extract.Uses <= 0 && !length(results)) //if the slime doesn't output chemicals
 		qdel(extract)
+=======
+	var/obj/item/slime_extract/M = holder.my_atom
+	if(M.extract_uses <= 0 && !results.len) //if the slime doesn't output chemicals
+		qdel(M)
+>>>>>>> tg-pr-88929
 
 //Grey
 /datum/chemical_reaction/slime/slimespawn
@@ -31,8 +37,13 @@
 	required_container = /obj/item/slime_extract/grey
 
 /datum/chemical_reaction/slime/slimespawn/on_reaction(datum/reagents/holder, datum/equilibrium/reaction, created_volume)
+<<<<<<< HEAD
 	var/mob/living/basic/slime/S = new(get_turf(holder.my_atom), /datum/slime_color/grey)
 	S.visible_message(span_danger("Infused with plasma, the core begins to quiver and grow, and a new baby slime emerges from it!"))
+=======
+	var/mob/living/basic/slime/spawning_slime = new(get_turf(holder.my_atom), /datum/slime_type/grey)
+	spawning_slime.visible_message(span_danger("Infused with plasma, the core begins to quiver and grow, and a new baby slime emerges from it!"))
+>>>>>>> tg-pr-88929
 	..()
 
 /datum/chemical_reaction/slime/slimeinaprov
@@ -88,7 +99,7 @@
 
 //Gold
 /datum/chemical_reaction/slime/slimemobspawn
-	required_reagents = list(/datum/reagent/toxin/plasma = 1)
+	required_reagents = list(/datum/reagent/toxin/plasma = 15)
 	required_container = /obj/item/slime_extract/gold
 	deletes_extract = FALSE //we do delete, but we don't do so instantly
 	reaction_tags = REACTION_TAG_EASY | REACTION_TAG_SLIME | REACTION_TAG_DANGEROUS
@@ -103,21 +114,21 @@
 
 /datum/chemical_reaction/slime/slimemobspawn/proc/summon_mobs(datum/reagents/holder, turf/T)
 	T.visible_message(span_danger("The slime extract begins to vibrate violently!"))
-	addtimer(CALLBACK(src, PROC_REF(chemical_mob_spawn), holder, 5, "Gold Slime", HOSTILE_SPAWN), 50)
+	addtimer(CALLBACK(src, PROC_REF(chemical_mob_spawn), holder, 4, "Gold Slime", HOSTILE_SPAWN), 5 SECONDS)
 
 /datum/chemical_reaction/slime/slimemobspawn/lesser
 	required_reagents = list(/datum/reagent/blood = 1)
 
 /datum/chemical_reaction/slime/slimemobspawn/lesser/summon_mobs(datum/reagents/holder, turf/T)
 	T.visible_message(span_danger("The slime extract begins to vibrate violently!"))
-	addtimer(CALLBACK(src, PROC_REF(chemical_mob_spawn), holder, 3, "Lesser Gold Slime", HOSTILE_SPAWN, FACTION_NEUTRAL), 50)
+	addtimer(CALLBACK(src, PROC_REF(chemical_mob_spawn), holder, 3, "Lesser Gold Slime", HOSTILE_SPAWN, FACTION_NEUTRAL), 5 SECONDS)
 
 /datum/chemical_reaction/slime/slimemobspawn/friendly
 	required_reagents = list(/datum/reagent/water = 1)
 
 /datum/chemical_reaction/slime/slimemobspawn/friendly/summon_mobs(datum/reagents/holder, turf/T)
 	T.visible_message(span_danger("The slime extract begins to vibrate adorably!"))
-	addtimer(CALLBACK(src, PROC_REF(chemical_mob_spawn), holder, 1, "Friendly Gold Slime", FRIENDLY_SPAWN, FACTION_NEUTRAL), 50)
+	addtimer(CALLBACK(src, PROC_REF(chemical_mob_spawn), holder, 1, "Friendly Gold Slime", FRIENDLY_SPAWN, FACTION_NEUTRAL), 5 SECONDS)
 
 /datum/chemical_reaction/slime/slimemobspawn/spider
 	required_reagents = list(/datum/reagent/spider_extract = 1)
@@ -125,7 +136,11 @@
 
 /datum/chemical_reaction/slime/slimemobspawn/spider/summon_mobs(datum/reagents/holder, turf/T)
 	T.visible_message(span_danger("The slime extract begins to vibrate crikey-ingly!"))
+<<<<<<< HEAD
 	addtimer(CALLBACK(src, PROC_REF(chemical_mob_spawn), holder, 3, "Traitor Spider Slime", /mob/living/basic/spider/giant/midwife, FACTION_NEUTRAL, FALSE), 50)
+=======
+	addtimer(CALLBACK(src, PROC_REF(chemical_mob_spawn), holder, 3, "Traitor Spider Slime", /mob/living/basic/spider/giant/midwife, FACTION_NEUTRAL, FALSE), 5 SECONDS)
+>>>>>>> tg-pr-88929
 
 
 //Silver
@@ -147,9 +162,9 @@
 		var/obj/item/food_item = new chosen(T)
 		ADD_TRAIT(food_item, TRAIT_FOOD_SILVER, INNATE_TRAIT)
 		if(prob(5))//Fry it!
-			food_item.AddElement(/datum/element/fried_item, rand(15, 60))
+			food_item.AddElement(/datum/element/fried_item, rand(15, 60) SECONDS)
 		if(prob(5))//Grill it!
-			food_item.AddElement(/datum/element/grilled_item, rand(30, 100))
+			food_item.AddElement(/datum/element/grilled_item, rand(30 SECONDS, 100 SECONDS))
 		if(prob(50))
 			for(var/j in 1 to rand(1, 3))
 				step(food_item, pick(NORTH,SOUTH,EAST,WEST))
@@ -194,7 +209,7 @@
 /datum/chemical_reaction/slime/slimefreeze/on_reaction(datum/reagents/holder, datum/equilibrium/reaction, created_volume)
 	var/turf/T = get_turf(holder.my_atom)
 	T.visible_message(span_danger("The slime extract starts to feel extremely cold!"))
-	addtimer(CALLBACK(src, PROC_REF(freeze), holder), 50)
+	addtimer(CALLBACK(src, PROC_REF(freeze), holder), 5 SECONDS)
 	var/obj/item/slime_extract/M = holder.my_atom
 	deltimer(M.qdel_timer)
 	..()
@@ -205,7 +220,7 @@
 		var/turf/open/T = get_turf(holder.my_atom)
 		if(istype(T))
 			var/datum/gas/gastype = /datum/gas/nitrogen
-			T.atmos_spawn_air("[initial(gastype.id)]=50;TEMP=2.7")
+			T.atmos_spawn_air("[initial(gastype.id)]=50;[TURF_TEMPERATURE(2.7)]")
 
 /datum/chemical_reaction/slime/slimefireproof
 	required_reagents = list(/datum/reagent/water = 1)
@@ -222,14 +237,14 @@
 	required_container = /obj/item/slime_extract/orange
 
 /datum/chemical_reaction/slime/slimefire
-	required_reagents = list(/datum/reagent/toxin/plasma = 1)
+	required_reagents = list(/datum/reagent/toxin/plasma = 15)
 	required_container = /obj/item/slime_extract/orange
 	deletes_extract = FALSE
 
 /datum/chemical_reaction/slime/slimefire/on_reaction(datum/reagents/holder, datum/equilibrium/reaction, created_volume)
 	var/turf/T = get_turf(holder.my_atom)
 	T.visible_message(span_danger("The slime extract begins to vibrate adorably!"))
-	addtimer(CALLBACK(src, PROC_REF(slime_burn), holder), 50)
+	addtimer(CALLBACK(src, PROC_REF(slime_burn), holder), 5 SECONDS)
 	var/obj/item/slime_extract/M = holder.my_atom
 	deltimer(M.qdel_timer)
 	..()
@@ -239,7 +254,7 @@
 	if(holder?.my_atom)
 		var/turf/open/T = get_turf(holder.my_atom)
 		if(istype(T))
-			T.atmos_spawn_air("plasma=50;TEMP=1000")
+			T.atmos_spawn_air("[GAS_PLASMA]=50;[TURF_TEMPERATURE(1000)]")
 
 
 /datum/chemical_reaction/slime/slimesmoke
@@ -249,19 +264,23 @@
 
 //Yellow
 /datum/chemical_reaction/slime/slimeoverload
-	required_reagents = list(/datum/reagent/blood = 1)
+	required_reagents = list(/datum/reagent/blood = 15)
 	required_container = /obj/item/slime_extract/yellow
 	reaction_tags = REACTION_TAG_EASY | REACTION_TAG_SLIME | REACTION_TAG_DANGEROUS
 
 /datum/chemical_reaction/slime/slimeoverload/on_reaction(datum/reagents/holder, datum/equilibrium/reaction, created_volume)
-	empulse(get_turf(holder.my_atom), 3, 7)
+	empulse(get_turf(holder.my_atom), 3, 5)
 	..()
 
 /datum/chemical_reaction/slime/slimecell
 	required_reagents = list(/datum/reagent/toxin/plasma = 1)
 	required_container = /obj/item/slime_extract/yellow
 
+<<<<<<< HEAD
 /datum/chemical_reaction/slime/slimecell/on_reaction(datum/reagents/holder, datum/equilibrium/reaction, created_volume)
+=======
+/datum/chemical_reaction/slime/slimecell/on_reaction(datum/reagents/holder, created_volume)
+>>>>>>> tg-pr-88929
 	new /obj/item/stock_parts/power_store/cell/emproof/slime(get_turf(holder.my_atom))
 	..()
 
@@ -314,12 +333,21 @@
 
 /datum/chemical_reaction/slime/slimebloodlust/on_reaction(datum/reagents/holder, datum/equilibrium/reaction, created_volume)
 	for(var/mob/living/basic/slime/slime in viewers(get_turf(holder.my_atom), null))
+<<<<<<< HEAD
 		if(slime.has_slime_trait(/datum/slime_trait/docility)) //Undoes docility, but doesn't make rabid.
 			slime.visible_message(span_danger("[slime] forgets its training, becoming wild once again!"))
 			slime.remove_trait(/datum/slime_trait/docility)
 			slime.update_name()
 			continue
 		ADD_TRAIT(slime, TRAIT_SLIME_RABID, "bloodlust")
+=======
+		if(slime.hunger_disabled) //Undoes docility, but doesn't make rabid.
+			slime.visible_message(span_danger("[slime] forgets its training, becoming wild once again!"))
+			slime.set_default_behaviour()
+			slime.update_name()
+			continue
+		slime.set_enraged_behaviour()
+>>>>>>> tg-pr-88929
 		slime.visible_message(span_danger("The [slime] is driven into a frenzy!"))
 	..()
 
@@ -356,7 +384,7 @@
 
 //Oil
 /datum/chemical_reaction/slime/slimeexplosion
-	required_reagents = list(/datum/reagent/toxin/plasma = 1)
+	required_reagents = list(/datum/reagent/toxin/plasma = 15)
 	required_container = /obj/item/slime_extract/oil
 	deletes_extract = FALSE
 	reaction_tags = REACTION_TAG_EASY | REACTION_TAG_SLIME | REACTION_TAG_DANGEROUS
@@ -372,7 +400,7 @@
 	message_admins("Slime Explosion reaction started at [ADMIN_VERBOSEJMP(T)]. Last Fingerprint: [touch_msg]")
 	log_game("Slime Explosion reaction started at [AREACOORD(T)]. Last Fingerprint: [lastkey ? lastkey : "N/A"].")
 	T.visible_message(span_danger("The slime extract begins to vibrate violently !"))
-	addtimer(CALLBACK(src, PROC_REF(boom), holder), 50)
+	addtimer(CALLBACK(src, PROC_REF(boom), holder), 5 SECONDS)
 	var/obj/item/slime_extract/M = holder.my_atom
 	deltimer(M.qdel_timer)
 	..()
@@ -380,11 +408,11 @@
 
 /datum/chemical_reaction/slime/slimeexplosion/proc/boom(datum/reagents/holder)
 	if(holder?.my_atom)
-		explosion(holder.my_atom, devastation_range = 1, heavy_impact_range = 3, light_impact_range = 6, explosion_cause = src)
+		explosion(holder.my_atom, devastation_range = 1, heavy_impact_range = 2, light_impact_range = 4, explosion_cause = src)
 
 
-/datum/chemical_reaction/slime/slimecornoil
-	results = list(/datum/reagent/consumable/cornoil = 10)
+/datum/chemical_reaction/slime/slimeoil
+	results = list(/datum/reagent/consumable/nutriment/fat/oil/corn = 10)
 	required_reagents = list(/datum/reagent/blood = 1)
 	required_container = /obj/item/slime_extract/oil
 
@@ -408,7 +436,7 @@
 
 //Adamantine
 /datum/chemical_reaction/slime/adamantine
-	required_reagents = list(/datum/reagent/toxin/plasma = 1)
+	required_reagents = list(/datum/reagent/toxin/plasma = 15)
 	required_container = /obj/item/slime_extract/adamantine
 
 /datum/chemical_reaction/slime/adamantine/on_reaction(datum/reagents/holder, datum/equilibrium/reaction, created_volume)
@@ -456,7 +484,7 @@
 	required_container = /obj/item/slime_extract/cerulean
 
 /datum/chemical_reaction/slime/slime_territory/on_reaction(datum/reagents/holder, datum/equilibrium/reaction, created_volume)
-	new /obj/item/areaeditor/blueprints/slime(get_turf(holder.my_atom))
+	new /obj/item/blueprints/slime(get_turf(holder.my_atom))
 	..()
 
 //Sepia
@@ -472,7 +500,7 @@
 	var/turf/T = get_turf(holder.my_atom)
 	new /obj/effect/timestop(T, null, null, null)
 	if(istype(extract))
-		if(extract.Uses > 0)
+		if(extract.extract_uses > 0)
 			var/mob/lastheld = get_mob_by_key(holder.my_atom.fingerprintslast)
 			if(lastheld && !lastheld.equip_to_slot_if_possible(extract, ITEM_SLOT_HANDS, disable_warning = TRUE))
 				extract.forceMove(get_turf(lastheld))
@@ -525,10 +553,15 @@
 		S.visible_message(span_danger("Infused with plasma, the core begins to expand uncontrollably!"))
 		S.icon_state = "[S.base_state]_active"
 		S.active = TRUE
-		addtimer(CALLBACK(S, TYPE_PROC_REF(/obj/item/grenade, detonate)), rand(15,60))
+		addtimer(CALLBACK(S, TYPE_PROC_REF(/obj/item/grenade, detonate)), rand(1.5 SECONDS, 6 SECONDS))
 	else
+<<<<<<< HEAD
 		var/mob/living/basic/slime/random/S = new (get_turf(holder.my_atom))
 		S.visible_message(span_danger("Infused with plasma, the core begins to quiver and grow, and a new baby slime emerges from it!"))
+=======
+		var/mob/living/basic/slime/random/random_slime = new (get_turf(holder.my_atom))
+		random_slime.visible_message(span_danger("Infused with plasma, the core begins to quiver and grow, and a new baby slime emerges from it!"))
+>>>>>>> tg-pr-88929
 	..()
 
 /datum/chemical_reaction/slime/slimebomb
@@ -541,7 +574,7 @@
 	S.visible_message(span_danger("Infused with slime jelly, the core begins to expand uncontrollably!"))
 	S.icon_state = "[S.base_state]_active"
 	S.active = TRUE
-	addtimer(CALLBACK(S, TYPE_PROC_REF(/obj/item/grenade, detonate)), rand(15,60))
+	addtimer(CALLBACK(S, TYPE_PROC_REF(/obj/item/grenade, detonate)), rand(1.5 SECONDS, 6 SECONDS))
 	var/lastkey = holder.my_atom.fingerprintslast
 	var/touch_msg = "N/A"
 	if(lastkey)

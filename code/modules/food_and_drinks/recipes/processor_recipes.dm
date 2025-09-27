@@ -129,8 +129,20 @@
 	input = /obj/item/food/grown/parsnip
 	output = /obj/item/food/roastparsnip
 
+<<<<<<< HEAD
+=======
+/datum/food_processor_process/mob/slime
+	input = /mob/living/basic/slime
+	output = null
+	required_machine = /obj/machinery/processor/slime
+
+>>>>>>> tg-pr-88929
 /datum/food_processor_process/towercap
 	input = /obj/item/grown/log
 	output = /obj/item/popsicle_stick
 	food_multiplier = 3
 	preserve_materials = FALSE
+
+/datum/food_processor_process/canned_ink
+	input = /obj/item/food/ink_sac
+	output = /obj/item/food/canned/squid_ink

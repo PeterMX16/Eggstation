@@ -29,28 +29,33 @@
 #define FOOTSTEP_MOB_RUST "footstep_rust"
 #define FOOTSTEP_OBJ_MACHINE "footstep_machine"
 #define FOOTSTEP_OBJ_ROBOT "footstep_robot"
+<<<<<<< HEAD
 #define FOOTSTEP_OBJ_SILICON "footstep_silicon"
+=======
+>>>>>>> tg-pr-88929
 
 //priority defines for the footstep_override element
 #define STEP_SOUND_NO_PRIORITY 0
 #define STEP_SOUND_CONVEYOR_PRIORITY 1
 #define STEP_SOUND_TABLE_PRIORITY 2
 
+<<<<<<< HEAD
 ///the key to a list of override sounds to replace with. Same format as the global lists.
 #define STEP_SOUND_SHOE_OVERRIDE "step_sound_shoe_override"
 
+=======
+>>>>>>> tg-pr-88929
 ///the name of the index key for priority
 #define STEP_SOUND_PRIORITY "step_sound_priority"
 
 /*
+Below is how the following lists are defined
 
 id = list(
 list(sounds),
 base volume,
 extra range addition
 )
-
-
 */
 
 GLOBAL_LIST_INIT(footstep, list(
@@ -90,10 +95,10 @@ GLOBAL_LIST_INIT(footstep, list(
 		'sound/effects/footstep/grass3.ogg',
 		'sound/effects/footstep/grass4.ogg'), 75, 0),
 	FOOTSTEP_WATER = list(list(
-		'sound/effects/footstep/water1.ogg',
-		'sound/effects/footstep/water2.ogg',
-		'sound/effects/footstep/water3.ogg',
-		'sound/effects/footstep/water4.ogg'), 100, 1),
+		'sound/effects/footstep/water/water1.ogg',
+		'sound/effects/footstep/water/water2.ogg',
+		'sound/effects/footstep/water/water3.ogg',
+		'sound/effects/footstep/water/water4.ogg'), 100, 1),
 	FOOTSTEP_LAVA = list(list(
 		'sound/effects/footstep/lava1.ogg',
 		'sound/effects/footstep/lava2.ogg',
@@ -109,6 +114,7 @@ GLOBAL_LIST_INIT(footstep, list(
 	FOOTSTEP_BALL = list(list(
 		'monkestation/sound/effects/ballpit.ogg'), 100, 0),
 ))
+
 //bare footsteps lists
 GLOBAL_LIST_INIT(barefootstep, list(
 	FOOTSTEP_WOOD_BAREFOOT = list(list(
@@ -141,10 +147,10 @@ GLOBAL_LIST_INIT(barefootstep, list(
 		'sound/effects/footstep/grass3.ogg',
 		'sound/effects/footstep/grass4.ogg'), 75, 0),
 	FOOTSTEP_WATER = list(list(
-		'sound/effects/footstep/water1.ogg',
-		'sound/effects/footstep/water2.ogg',
-		'sound/effects/footstep/water3.ogg',
-		'sound/effects/footstep/water4.ogg'), 100, 1),
+		'sound/effects/footstep/water/water1.ogg',
+		'sound/effects/footstep/water/water2.ogg',
+		'sound/effects/footstep/water/water3.ogg',
+		'sound/effects/footstep/water/water4.ogg'), 100, 1),
 	FOOTSTEP_LAVA = list(list(
 		'sound/effects/footstep/lava1.ogg',
 		'sound/effects/footstep/lava2.ogg',
@@ -187,10 +193,10 @@ GLOBAL_LIST_INIT(clawfootstep, list(
 		'sound/effects/footstep/grass3.ogg',
 		'sound/effects/footstep/grass4.ogg'), 75, 0),
 	FOOTSTEP_WATER = list(list(
-		'sound/effects/footstep/water1.ogg',
-		'sound/effects/footstep/water2.ogg',
-		'sound/effects/footstep/water3.ogg',
-		'sound/effects/footstep/water4.ogg'), 100, 1),
+		'sound/effects/footstep/water/water1.ogg',
+		'sound/effects/footstep/water/water2.ogg',
+		'sound/effects/footstep/water/water3.ogg',
+		'sound/effects/footstep/water/water4.ogg'), 100, 1),
 	FOOTSTEP_LAVA = list(list(
 		'sound/effects/footstep/lava1.ogg',
 		'sound/effects/footstep/lava2.ogg',
@@ -207,10 +213,10 @@ GLOBAL_LIST_INIT(heavyfootstep, list(
 		'sound/effects/footstep/heavy1.ogg',
 		'sound/effects/footstep/heavy2.ogg'), 100, 2),
 	FOOTSTEP_WATER = list(list(
-		'sound/effects/footstep/water1.ogg',
-		'sound/effects/footstep/water2.ogg',
-		'sound/effects/footstep/water3.ogg',
-		'sound/effects/footstep/water4.ogg'), 100, 2),
+		'sound/effects/footstep/water/water1.ogg',
+		'sound/effects/footstep/water/water2.ogg',
+		'sound/effects/footstep/water/water3.ogg',
+		'sound/effects/footstep/water/water4.ogg'), 100, 2),
 	FOOTSTEP_LAVA = list(list(
 		'sound/effects/footstep/lava1.ogg',
 		'sound/effects/footstep/lava2.ogg',
@@ -221,3 +227,4 @@ GLOBAL_LIST_INIT(heavyfootstep, list(
 		'monkestation/sound/effects/ballpit.ogg'), 100, 0),
 ))
 
+#define SHOULD_DISABLE_FOOTSTEPS(source) ((SSlag_switch.measures[DISABLE_FOOTSTEPS] && !(HAS_TRAIT(source, TRAIT_BYPASS_MEASURES))) || HAS_TRAIT(source, TRAIT_SILENT_FOOTSTEPS))

@@ -72,8 +72,17 @@
 	name = "\improper Robotics Lab"
 	icon_state = "ass_line"
 
+<<<<<<< HEAD
 /area/station/science/robotics/augments
 	name = "improper Augmentation Theater"
+=======
+/area/station/science/robotics/storage
+	name = "\improper Robotics Storage"
+	icon_state = "ass_line"
+
+/area/station/science/robotics/augments
+	name = "\improper Augmentation Theater"
+>>>>>>> tg-pr-88929
 	icon_state = "robotics"
 	sound_environment = SOUND_AREA_TUNNEL_ENCLOSED
 
@@ -122,4 +131,11 @@
 /area/station/science/ordnance/bomb
 	name = "\improper Ordnance Bomb Site"
 	icon_state = "ord_boom"
+<<<<<<< HEAD
 	area_flags = BLOBS_ALLOWED | UNIQUE_AREA | CULT_PERMITTED
+=======
+	area_flags = BLOBS_ALLOWED | UNIQUE_AREA | CULT_PERMITTED | NO_GRAVITY
+
+/area/station/science/ordnance/bomb/planet
+	area_flags = /area/station/science/ordnance/bomb::area_flags & ~NO_GRAVITY
+>>>>>>> tg-pr-88929

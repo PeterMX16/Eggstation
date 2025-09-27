@@ -10,7 +10,11 @@
 	jaunt_type = /obj/effect/dummy/phased_mob/shadow
 
 	/// The max amount of lumens on a turf allowed before we can no longer enter jaunt with this
+<<<<<<< HEAD
 	var/light_threshold = SHADOW_SPECIES_DIM_LIGHT
+=======
+	var/light_threshold = SHADOW_SPECIES_LIGHT_THRESHOLD
+>>>>>>> tg-pr-88929
 
 /datum/action/cooldown/spell/jaunt/shadow_walk/Grant(mob/grant_to)
 	. = ..()
@@ -33,7 +37,11 @@
 	if(is_jaunting(owner))
 		return TRUE
 	var/turf/cast_turf = get_turf(owner)
+<<<<<<< HEAD
 	if(!cast_turf.is_softly_lit() && cast_turf.get_lumcount() >= light_threshold)
+=======
+	if(cast_turf.get_lumcount() >= light_threshold)
+>>>>>>> tg-pr-88929
 		if(feedback)
 			to_chat(owner, span_warning("It isn't dark enough here!"))
 		return FALSE
@@ -54,12 +62,16 @@
 /obj/effect/dummy/phased_mob/shadow
 	name = "shadows"
 	/// Max amount of light permitted before being kicked out
+<<<<<<< HEAD
 	var/light_max = SHADOW_SPECIES_DIM_LIGHT
+=======
+	var/light_max = SHADOW_SPECIES_LIGHT_THRESHOLD
+>>>>>>> tg-pr-88929
 	/// The amount that shadow heals us per SSobj tick (times seconds_per_tick)
 	var/healing_rate = 1.5
 	/// When cooldown is active, you are prevented from moving into tiles that would eject you from your jaunt
 	COOLDOWN_DECLARE(light_step_cooldown)
-	/// Has the jaunter recently recieved a warning about light?
+	/// Has the jaunter recently received a warning about light?
 	var/light_alert_given = FALSE
 
 /obj/effect/dummy/phased_mob/shadow/Initialize(mapload)
@@ -127,10 +139,14 @@
 
 /obj/effect/dummy/phased_mob/shadow/proc/check_light_level(atom/location_to_check)
 	var/turf/light_turf = get_turf(location_to_check)
+<<<<<<< HEAD
 	return !light_turf.is_softly_lit() && light_turf.get_lumcount() > light_max // jaunt ends on TRUE
+=======
+	return light_turf.get_lumcount() > light_max // jaunt ends on TRUE
+>>>>>>> tg-pr-88929
 
 /**
- * Checks if the user should recieve a warning that they're moving into light.
+ * Checks if the user should receive a warning that they're moving into light.
  *
  * Checks the cooldown for the warning message on moving into the light.
  * If the message has been displayed, and the cooldown (delay period) is complete, returns TRUE.

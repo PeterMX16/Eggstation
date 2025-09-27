@@ -1,15 +1,28 @@
+<<<<<<< HEAD
 import { BooleanLike } from 'common/react';
 import { useBackend, useLocalState } from '../backend';
+=======
+import { useState } from 'react';
+>>>>>>> tg-pr-88929
 import {
   Box,
   Button,
   Dropdown,
+<<<<<<< HEAD
   Flex,
+=======
+>>>>>>> tg-pr-88929
   Input,
   Section,
   Stack,
   TextArea,
+<<<<<<< HEAD
 } from '../components';
+=======
+} from 'tgui-core/components';
+
+import { useBackend } from '../backend';
+>>>>>>> tg-pr-88929
 import { Window } from '../layouts';
 
 type Data = {
@@ -18,14 +31,20 @@ type Data = {
   command_name: string;
   command_name_presets: string[];
   command_report_content: string;
+<<<<<<< HEAD
   sanitize_content: BooleanLike;
+=======
+>>>>>>> tg-pr-88929
   announcement_color: string;
   announcement_colors: string[];
   subheader: string;
   custom_name: string;
   played_sound: string;
   print_report: string;
+<<<<<<< HEAD
   append_update_name: BooleanLike;
+=======
+>>>>>>> tg-pr-88929
 };
 
 export const CommandReport = () => {
@@ -33,7 +52,11 @@ export const CommandReport = () => {
     <Window
       title="Create Command Report"
       width={325}
+<<<<<<< HEAD
       height={715}
+=======
+      height={685}
+>>>>>>> tg-pr-88929
       theme="admin"
     >
       <Window.Content>
@@ -58,12 +81,22 @@ export const CommandReport = () => {
 /** Allows the user to set the "sender" of the message via dropdown */
 const CentComName = (props) => {
   const { act, data } = useBackend<Data>();
+<<<<<<< HEAD
   const {
     command_name,
     command_name_presets = [],
     custom_name,
     append_update_name,
   } = data;
+=======
+  const { command_name, command_name_presets = [], custom_name } = data;
+>>>>>>> tg-pr-88929
+
+  const sendName = (value) => {
+    act('update_command_name', {
+      updated_name: value,
+    });
+  };
 
   return (
     <Section title="Set Central Command name" textAlign="center">
@@ -71,11 +104,7 @@ const CentComName = (props) => {
         width="100%"
         selected={command_name}
         options={command_name_presets}
-        onSelected={(value) =>
-          act('update_command_name', {
-            updated_name: value,
-          })
-        }
+        onSelected={(value) => sendName(value)}
       />
       {!!custom_name && (
         <Input
@@ -83,11 +112,7 @@ const CentComName = (props) => {
           mt={1}
           value={command_name}
           placeholder={command_name}
-          onChange={(_, value) =>
-            act('update_command_name', {
-              updated_name: value,
-            })
-          }
+          onChange={(_, value) => sendName(value)}
         />
       )}
       <Button.Checkbox
@@ -104,6 +129,8 @@ const CentComName = (props) => {
 const SubHeader = (props) => {
   const { act, data } = useBackend<Data>();
   const { subheader } = data;
+<<<<<<< HEAD
+=======
 
   return (
     <Section title="Set report subheader" textAlign="center">
@@ -116,6 +143,59 @@ const SubHeader = (props) => {
         onChange={(_, value) =>
           act('set_subheader', {
             new_subheader: value,
+          })
+        }
+      />
+    </Section>
+  );
+};
+
+/** Features a section with dropdown for the announcement colour. */
+const AnnouncementColor = (props) => {
+  const { act, data } = useBackend<Data>();
+  const { announcement_colors = [], announcement_color } = data;
+
+  return (
+    <Section title="Set announcement color" textAlign="center">
+      <Dropdown
+        width="100%"
+        selected={announcement_color}
+        options={announcement_colors}
+        onSelected={(value) =>
+          act('update_announcement_color', {
+            updated_announcement_color: value,
+          })
+        }
+      />
+    </Section>
+  );
+};
+
+/** Features a section with dropdown for sounds. */
+const AnnouncementSound = (props) => {
+  const { act, data } = useBackend<Data>();
+  const { announcer_sounds = [], played_sound } = data;
+>>>>>>> tg-pr-88929
+
+  return (
+    <Section title="Set report subheader" textAlign="center">
+      <Box>Keep blank to not include a subheader</Box>
+      <Input
+        width="100%"
+<<<<<<< HEAD
+        mt={1}
+        value={subheader}
+        placeholder={subheader}
+        onChange={(_, value) =>
+          act('set_subheader', {
+            new_subheader: value,
+=======
+        selected={played_sound}
+        options={announcer_sounds}
+        onSelected={(value) =>
+          act('set_report_sound', {
+            picked_sound: value,
+>>>>>>> tg-pr-88929
           })
         }
       />
@@ -188,6 +268,7 @@ const AnnouncementSound = (props) => {
 /** Creates the report textarea with a submit button. */
 const ReportText = (props) => {
   const { act, data } = useBackend<Data>();
+<<<<<<< HEAD
   const {
     announce_contents,
     print_report,
@@ -198,6 +279,10 @@ const ReportText = (props) => {
     'textArea',
     command_report_content,
   );
+=======
+  const { announce_contents, print_report, command_report_content } = data;
+  const [commandReport, setCommandReport] = useState(command_report_content);
+>>>>>>> tg-pr-88929
 
   return (
     <Section
@@ -219,11 +304,12 @@ const ReportText = (props) => {
       <TextArea
         height="200px"
         mb={1}
-        onInput={(_, value) => setCommandReport(value)}
+        onChange={(_, value) => setCommandReport(value)}
         value={commandReport}
       />
       <Stack vertical>
         <Stack.Item>
+<<<<<<< HEAD
           <Flex direction="row" width="100%" grow>
             <Button.Checkbox
               fluid
@@ -274,6 +360,28 @@ const ReportText = (props) => {
               }
             />
           </Flex>
+=======
+          <Button.Checkbox
+            fluid
+            checked={!!announce_contents}
+            onClick={() => act('toggle_announce')}
+          >
+            Announce Contents
+          </Button.Checkbox>
+          <Button.Checkbox
+            fluid
+            checked={!!print_report || !announce_contents}
+            disabled={!announce_contents}
+            onClick={() => act('toggle_printing')}
+            tooltip={
+              !announce_contents &&
+              "Printing the report is required since we aren't announcing its contents."
+            }
+            tooltipPosition="top"
+          >
+            Print Report
+          </Button.Checkbox>
+>>>>>>> tg-pr-88929
         </Stack.Item>
         <Stack.Item>
           <Button.Confirm

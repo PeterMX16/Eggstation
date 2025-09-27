@@ -4,10 +4,10 @@
 	icon = 'icons/obj/medical/chemical.dmi'
 	icon_state = "pill"
 	inhand_icon_state = "pill"
-	worn_icon_state = "pen"
+	worn_icon_state = "nothing"
 	lefthand_file = 'icons/mob/inhands/equipment/medical_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/medical_righthand.dmi'
-	possible_transfer_amounts = list()
+	has_variable_transfer_amount = FALSE
 	volume = 50
 	grind_results = list()
 	var/apply_type = INGEST
@@ -23,6 +23,7 @@
 		icon_state = "pill[rand(1,20)]"
 	if(reagents.total_volume && rename_with_volume)
 		name += " ([reagents.total_volume]u)"
+<<<<<<< HEAD
 
 /obj/item/reagent_containers/pill/attack(mob/M, mob/user, def_zone)
 	if(skips_attack)
@@ -47,30 +48,65 @@
 							span_userdanger("[user] forces you to [apply_method] [src]."))
 
 	return on_consumption(M, user)
+=======
+	if(apply_type == INGEST)
+		AddComponent(/datum/component/germ_sensitive, mapload)
+>>>>>>> tg-pr-88929
 
 ///Runs the consumption code, can be overriden for special effects
-/obj/item/reagent_containers/pill/proc/on_consumption(mob/M, mob/user)
+/obj/item/reagent_containers/pill/proc/on_consumption(mob/consumer, mob/giver)
 	if(icon_state == "pill4" && prob(5)) //you take the red pill - you stay in Wonderland, and I show you how deep the rabbit hole goes
-		addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(to_chat), M, span_notice("[pick(strings(REDPILL_FILE, "redpill_questions"))]")), 50)
-
+		addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(to_chat), consumer, span_notice("[pick(strings(REDPILL_FILE, "redpill_questions"))]")), 5 SECONDS)
+	if(apply_type == INGEST)
+		SEND_SIGNAL(consumer, COMSIG_LIVING_PILL_CONSUMED, src, giver)
+		SEND_SIGNAL(src, COMSIG_PILL_CONSUMED, eater = consumer, feeder = giver)
 	if(reagents.total_volume)
-		reagents.trans_to(M, reagents.total_volume, transfered_by = user, methods = apply_type)
+		reagents.trans_to(consumer, reagents.total_volume, transferred_by = giver, methods = apply_type)
 	qdel(src)
-	return TRUE
 
+/obj/item/reagent_containers/pill/interact_with_atom(atom/target, mob/living/user, list/modifiers)
+	if (ismob(target))
+		var/mob/target_mob = target
+		if(!canconsume(target_mob, user))
+			return ITEM_INTERACT_BLOCKING
+		if(target_mob == user)
+			target_mob.visible_message(span_notice("[user] attempts to [apply_method] [src]."))
+			if(self_delay)
+				if(!do_after(user, self_delay, target_mob))
+					return ITEM_INTERACT_BLOCKING
+			to_chat(target_mob, span_notice("You [apply_method] [src]."))
+		else
+			target_mob.visible_message(span_danger("[user] attempts to force [target_mob] to [apply_method] [src]."), \
+								span_userdanger("[user] attempts to force you to [apply_method] [src]."))
+			if(!do_after(user, CHEM_INTERACT_DELAY(3 SECONDS, user), target_mob))
+				return ITEM_INTERACT_BLOCKING
+			target_mob.visible_message(span_danger("[user] forces [target_mob] to [apply_method] [src]."), \
+								span_userdanger("[user] forces you to [apply_method] [src]."))
+		on_consumption(target_mob, user)
+		return ITEM_INTERACT_SUCCESS
 
+<<<<<<< HEAD
 /obj/item/reagent_containers/pill/interact_with_atom(atom/target, mob/living/user, list/modifiers)
 	if(!dissolvable || !target.is_refillable())
 		return NONE
 	if(target.is_drainable() && !target.reagents.total_volume)
 		to_chat(user, span_warning("[target] is empty! There's nothing to dissolve [src] in."))
 		return ITEM_INTERACT_BLOCKING
+=======
+	if(!dissolvable || !target.is_refillable())
+		return NONE
+
+	if(target.is_drainable() && !target.reagents.total_volume)
+		to_chat(user, span_warning("[target] is empty! There's nothing to dissolve [src] in."))
+		return ITEM_INTERACT_BLOCKING
+
+>>>>>>> tg-pr-88929
 	if(target.reagents.holder_full())
 		to_chat(user, span_warning("[target] is full."))
 		return ITEM_INTERACT_BLOCKING
 
 	user.visible_message(span_warning("[user] slips something into [target]!"), span_notice("You dissolve [src] in [target]."), null, 2)
-	reagents.trans_to(target, reagents.total_volume, transfered_by = user)
+	reagents.trans_to(target, reagents.total_volume, transferred_by = user)
 	qdel(src)
 	return ITEM_INTERACT_SUCCESS
 
@@ -79,7 +115,7 @@
  */
 /obj/item/reagent_containers/pill/on_accidental_consumption(mob/living/carbon/victim, mob/living/carbon/user, obj/item/source_item, discover_after = FALSE)
 	to_chat(victim, span_warning("You swallow something small. [source_item ? "Was that in [source_item]?" : ""]"))
-	reagents?.trans_to(victim, reagents.total_volume, transfered_by = user, methods = INGEST)
+	reagents?.trans_to(victim, reagents.total_volume, transferred_by = user, methods = INGEST)
 	qdel(src)
 	return discover_after
 
@@ -155,8 +191,14 @@
 	name = "mannitol pill"
 	desc = "Used to treat brain damage."
 	icon_state = "pill17"
-	list_reagents = list(/datum/reagent/medicine/mannitol = 14)
+	list_reagents = list(/datum/reagent/medicine/mannitol = 15)
 	rename_with_volume = TRUE
+
+/obj/item/reagent_containers/pill/sansufentanyl
+	name = "sansufentanyl pill"
+	desc = "Used to treat Hereditary Manifold Sickness. Temporary side effects include - nausea, dizziness, impaired motor coordination."
+	icon_state = "pill19"
+	list_reagents = list(/datum/reagent/medicine/sansufentanyl = 5)
 
 //Lower quantity mannitol pills (50u pills heal 250 brain damage, 5u pills heal 25)
 /obj/item/reagent_containers/pill/mannitol/braintumor
@@ -167,7 +209,7 @@
 	name = "mutadone pill"
 	desc = "Used to treat genetic damage."
 	icon_state = "pill20"
-	list_reagents = list(/datum/reagent/medicine/mutadone = 50)
+	list_reagents = list(/datum/reagent/medicine/mutadone = 5)
 	rename_with_volume = TRUE
 
 /obj/item/reagent_containers/pill/salicylic
@@ -307,10 +349,9 @@
 	else
 		icon_state = "pill[rand(1,21)]"
 
-/obj/item/reagent_containers/pill/maintenance/achievement/on_consumption(mob/M, mob/user)
+/obj/item/reagent_containers/pill/maintenance/achievement/on_consumption(mob/consumer, mob/user)
 	. = ..()
-
-	M.client?.give_award(/datum/award/score/maintenance_pill, M)
+	consumer.client?.give_award(/datum/award/score/maintenance_pill, consumer)
 
 /obj/item/reagent_containers/pill/potassiodide
 	name = "potassium iodide pill"
@@ -333,6 +374,22 @@
 	list_reagents = list(/datum/reagent/iron = 30)
 	rename_with_volume = TRUE
 
+<<<<<<< HEAD
+=======
+/obj/item/reagent_containers/pill/gravitum
+	name = "gravitum pill"
+	desc = "Used in weight loss. In a way."
+	icon_state = "pill8"
+	list_reagents = list(/datum/reagent/gravitum = 5)
+	rename_with_volume = TRUE
+
+/obj/item/reagent_containers/pill/ondansetron
+	name = "ondansetron pill"
+	desc = "Alleviates nausea. May cause drowsiness."
+	icon_state = "pill11"
+	list_reagents = list(/datum/reagent/medicine/ondansetron = 10)
+
+>>>>>>> tg-pr-88929
 // Pill styles for chem master
 
 /obj/item/reagent_containers/pill/style

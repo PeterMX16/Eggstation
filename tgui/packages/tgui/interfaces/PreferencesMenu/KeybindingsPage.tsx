@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Component } from 'inferno';
 import {
   Box,
@@ -10,11 +11,31 @@ import {
 import { resolveAsset } from '../../assets';
 import { PreferencesMenuData } from './data';
 import { useBackend } from '../../backend';
+=======
+>>>>>>> tg-pr-88929
 import { range, sortBy } from 'common/collections';
-import { KeyEvent } from '../../events';
+import { Component } from 'react';
+import {
+  Box,
+  Button,
+  KeyListener,
+  Stack,
+  Tooltip,
+  TrackOutsideClicks,
+} from 'tgui-core/components';
+import { KeyEvent } from 'tgui-core/events';
+import { fetchRetry } from 'tgui-core/http';
+import { isEscape, KEY } from 'tgui-core/keys';
+
+import { resolveAsset } from '../../assets';
+import { useBackend } from '../../backend';
+import { PreferencesMenuData } from './data';
 import { TabbedMenu } from './TabbedMenu';
+<<<<<<< HEAD
 import { fetchRetry } from '../../http';
 import { isEscape } from 'common/keys';
+=======
+>>>>>>> tg-pr-88929
 
 type Keybinding = {
   name: string;
@@ -38,9 +59,15 @@ type KeybindingsPageState = {
 
 const isStandardKey = (event: KeyboardEvent): boolean => {
   return (
+<<<<<<< HEAD
     event.key !== 'Alt' &&
     event.key !== 'Control' &&
     event.key !== 'Shift' &&
+=======
+    event.key !== KEY.Alt &&
+    event.key !== KEY.Control &&
+    event.key !== KEY.Shift &&
+>>>>>>> tg-pr-88929
     !isEscape(event.key)
   );
 };
@@ -55,7 +82,11 @@ const KEY_CODE_TO_BYOND: Record<string, string> = {
   PAGEDOWN: 'Southeast',
   PAGEUP: 'Northeast',
   RIGHT: 'East',
+<<<<<<< HEAD
   ' ': 'Space',
+=======
+  SPACEBAR: 'Space',
+>>>>>>> tg-pr-88929
   UP: 'North',
 };
 
@@ -66,15 +97,22 @@ const KEY_CODE_TO_BYOND: Record<string, string> = {
  */
 const DOM_KEY_LOCATION_NUMPAD = 3;
 
-const sortKeybindings = sortBy(([_, keybinding]: [string, Keybinding]) => {
-  return keybinding.name;
-});
+const sortKeybindings = (array: [string, Keybinding][]) =>
+  sortBy(array, ([_, keybinding]) => {
+    return keybinding.name;
+  });
 
+<<<<<<< HEAD
 const sortKeybindingsByCategory = sortBy(
   ([category, _]: [string, Record<string, Keybinding>]) => {
     return category;
   },
 );
+=======
+const sortKeybindingsByCategory = (
+  array: [string, Record<string, Keybinding>][],
+) => sortBy(array, ([category, _]) => category);
+>>>>>>> tg-pr-88929
 
 const formatKeyboardEvent = (event: KeyboardEvent): string => {
   let text = '';
@@ -134,7 +172,14 @@ class KeybindingButton extends Component<{
         fluid
         textAlign="center"
         captureKeys={typingHotkey === undefined}
+<<<<<<< HEAD
         onClick={onClick}
+=======
+        onClick={(event) => {
+          event.stopPropagation();
+          onClick?.();
+        }}
+>>>>>>> tg-pr-88929
         selected={typingHotkey !== undefined}
       >
         {typingHotkey || currentHotkey || 'Unbound'}
@@ -162,7 +207,11 @@ const KeybindingName = (props: { keybinding: Keybinding }) => {
       <Box
         as="span"
         style={{
+<<<<<<< HEAD
           'border-bottom': '2px dotted rgba(255, 255, 255, 0.8)',
+=======
+          borderBottom: '2px dotted rgba(255, 255, 255, 0.8)',
+>>>>>>> tg-pr-88929
         }}
       >
         {keybinding.name}
@@ -173,12 +222,15 @@ const KeybindingName = (props: { keybinding: Keybinding }) => {
   );
 };
 
+<<<<<<< HEAD
 KeybindingName.defaultHooks = {
   onComponentShouldUpdate: (lastProps, nextProps) => {
     return lastProps.keybinding !== nextProps.keybinding;
   },
 };
 
+=======
+>>>>>>> tg-pr-88929
 const ResetToDefaultButton = (props: { keybindingId: string }) => {
   const { act } = useBackend<PreferencesMenuData>();
 
@@ -209,8 +261,8 @@ export class KeybindingsPage extends Component<{}, KeybindingsPageState> {
     rebindingHotkey: undefined,
   };
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.handleKeyDown = this.handleKeyDown.bind(this);
     this.handleKeyUp = this.handleKeyUp.bind(this);

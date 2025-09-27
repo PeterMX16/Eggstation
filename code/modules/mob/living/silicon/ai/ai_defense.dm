@@ -1,12 +1,20 @@
 
+<<<<<<< HEAD
 /mob/living/silicon/ai/attackby(obj/item/attacking_item, mob/user, list/modifiers, list/attack_modifiers)
 	if(istype(attacking_item, /obj/item/ai_module))
 		var/obj/item/ai_module/MOD = attacking_item
+=======
+/mob/living/silicon/ai/attackby(obj/item/W, mob/user, params)
+	if(istype(W, /obj/item/ai_module))
+		var/obj/item/ai_module/MOD = W
+		disconnect_shell()
+>>>>>>> tg-pr-88929
 		if(!mind) //A player mind is required for law procs to run antag checks.
 			to_chat(user, span_warning("[src] is entirely unresponsive!"))
 			return
 		MOD.install(laws, user) //Proc includes a success mesage so we don't need another one
 		return
+<<<<<<< HEAD
 	if(attacking_item.force && attacking_item.damtype != STAMINA && stat != DEAD && !QDELETED(src)) //only sparks if real damage is dealt.
 		spark_system.start()
 	return ..()
@@ -17,10 +25,14 @@
 		return
 	..()
 
+=======
+
+	return ..()
+
+>>>>>>> tg-pr-88929
 /mob/living/silicon/ai/blob_act(obj/structure/blob/B)
 	if (stat != DEAD)
 		adjustBruteLoss(60)
-		updatehealth()
 		return TRUE
 	return FALSE
 
@@ -40,7 +52,7 @@
 	switch(severity)
 		if(EXPLODE_DEVASTATE)
 			investigate_log("has been gibbed by an explosion.", INVESTIGATE_DEATHS)
-			gib()
+			gib(DROP_ALL_REMAINS)
 		if(EXPLODE_HEAVY)
 			if (stat != DEAD)
 				adjustBruteLoss(60)
@@ -49,7 +61,11 @@
 			if (stat != DEAD)
 				adjustBruteLoss(30)
 
+<<<<<<< HEAD
 
+=======
+	return TRUE
+>>>>>>> tg-pr-88929
 
 /mob/living/silicon/ai/flash_act(intensity = 1, override_blindness_check = 0, affect_silicon = 0, visual = 0, type = /atom/movable/screen/fullscreen/flash, length = 25)
 	return // no eyes, no flashing
@@ -70,6 +86,10 @@
 	. = ..()
 	if((user.istate & ISTATE_HARM))
 		return
+	if(stat != DEAD && !incapacitated && (client || deployed_shell?.client))
+		// alive and well AIs control their floor bolts
+		balloon_alert(user, "the AI's bolt motors resist.")
+		return ITEM_INTERACT_SUCCESS
 	balloon_alert(user, "[!is_anchored ? "tightening" : "loosening"] bolts...")
 	balloon_alert(src, "bolts being [!is_anchored ? "tightened" : "loosened"]...")
 	if(!tool.use_tool(src, user, 4 SECONDS))
@@ -144,15 +164,32 @@
 		return ITEM_INTERACT_SUCCESS
 	balloon_alert(src, "neural network being disconnected...")
 	balloon_alert(user, "disconnecting neural network...")
+<<<<<<< HEAD
 	if(!tool.use_tool(src, user, (stat == DEAD ? 40 SECONDS : 5 SECONDS)))
+=======
+	if(!tool.use_tool(src, user, (stat == DEAD ? 5 SECONDS : 40 SECONDS)))
+>>>>>>> tg-pr-88929
 		return ITEM_INTERACT_SUCCESS
 	if(IS_MALF_AI(src))
 		to_chat(user, span_userdanger("The voltage inside the wires rises dramatically!"))
 		user.electrocute_act(120, src)
 		opened = FALSE
 		return ITEM_INTERACT_SUCCESS
+<<<<<<< HEAD
 	balloon_alert(user, "disconnected neural network")
 	to_chat(src, span_danger("You feel incredibly confused and disorientated."))
 	if(!ai_mob_to_structure())
 		return ITEM_INTERACT_SUCCESS
 	return ITEM_INTERACT_SUCCESS
+=======
+	to_chat(src, span_danger("You feel incredibly confused and disorientated."))
+	var/atom/ai_structure = ai_mob_to_structure()
+	ai_structure.balloon_alert(user, "disconnected neural network")
+	return ITEM_INTERACT_SUCCESS
+
+/mob/living/silicon/ai/attack_effects(damage_done, hit_zone, armor_block, obj/item/attacking_item, mob/living/attacker)
+	if(damage_done > 0 && attacking_item.damtype != STAMINA && stat != DEAD)
+		spark_system.start()
+		. = TRUE
+	return ..() || .
+>>>>>>> tg-pr-88929

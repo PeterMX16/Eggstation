@@ -7,6 +7,9 @@
 ///Returns the time that has passed since the game started
 #define STATION_TIME_PASSED(...) (world.time - SSticker.round_start_time)
 
+///Returns the time that has passed since the game started
+#define STATION_TIME_PASSED(...) (world.time - SSticker.round_start_time)
+
 /// Define that just has the current in-universe year for use in whatever context you might want to display that in. (For example, 2022 -> 2562 given a 540 year offset)
 #define CURRENT_STATION_YEAR (GLOB.year_integer + STATION_YEAR_OFFSET)
 
@@ -39,11 +42,16 @@
 #define PRIDE_WEEK "Pride Week"
 #define MOTH_WEEK "Moth Week"
 #define IAN_HOLIDAY "Ian's Birthday"
+<<<<<<< HEAD
 //Season names for donator job stuff
 #define WINTER "Winter"
 #define SPRING "Spring"
 #define SUMMER "Summer"
 #define AUTUMN "Autumn"
+=======
+#define HOTDOG_DAY "National Hot Dog Day"
+#define ICE_CREAM_DAY "National Ice Cream Day"
+>>>>>>> tg-pr-88929
 /*
 Days of the week to make it easier to reference them.
 
@@ -65,6 +73,16 @@ When using time2text(), please use "DDD" to find the weekday. Refrain from using
 
 #define SECONDS *10
 
+<<<<<<< HEAD
+=======
+#define MINUTES SECONDS*60
+
+#define HOURS MINUTES*60
+
+#define DAYS HOURS*24
+#define YEARS DAYS*365 //fuck leap days, they were removed in 2069
+
+>>>>>>> tg-pr-88929
 #define TICKS *world.tick_lag
 
 #define DS2TICKS(DS) ((DS)/world.tick_lag)

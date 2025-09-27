@@ -1,15 +1,36 @@
 {
+<<<<<<< HEAD
+=======
+
+>>>>>>> tg-pr-88929
 	"italian": {
 		"I'm": "I'm-a",
 		"am": "am-a",
 		"and": "and-a",
 		"assistant": "goombah",
 		"assistants": "goombahs",
+<<<<<<< HEAD
 		"baby": ["bambino", "little sausage roll"],
 		"bad": "molto male",
 		"bye": ["ciao", "arrivederci"],
 		"captain": "capitano",
 		"cheese": ["parmesano", "gorgonzola"],
+=======
+		"baby": [
+			"bambino",
+			"little sausage roll"
+		],
+		"bad": "molto male",
+		"bye": [
+			"ciao",
+			"arrivederci"
+		],
+		"captain": "capitano",
+		"cheese": [
+			"parmesano",
+			"gorgonzola"
+		],
+>>>>>>> tg-pr-88929
 		"cook": "cook-a",
 		"could": "could-a",
 		"dad": "pappa",
@@ -19,10 +40,23 @@
 		"greytide": "curvisti",
 		"greytider": "curvisti",
 		"greytiders": "curvisti",
+<<<<<<< HEAD
 		"hello": ["ciao", "buongiorno"],
 		"it's": "it's-a",
 		"make": "make-a",
 		"meat": ["pepperoni", "prosciutto"],
+=======
+		"hello": [
+			"ciao",
+			"buongiorno"
+		],
+		"it's": "it's-a",
+		"make": "make-a",
+		"meat": [
+			"pepperoni",
+			"prosciutto"
+		],
+>>>>>>> tg-pr-88929
 		"mom": "mamma",
 		"my": "my-a",
 		"nuke": "spiciest-a meatball",
@@ -47,5 +81,11 @@
 		"whose": "whose-a",
 		"why": "for-a what reason",
 		"wine": "vino"
+<<<<<<< HEAD
 	}
+=======
+		}
+
+
+>>>>>>> tg-pr-88929
 }

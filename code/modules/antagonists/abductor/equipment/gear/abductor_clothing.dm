@@ -5,6 +5,7 @@
 	icon_state = "abductor"
 	inhand_icon_state = "bl_suit"
 	worn_icon = 'icons/mob/clothing/under/syndicate.dmi'
+<<<<<<< HEAD
 	armor_type = /datum/armor/under_abductor
 	can_adjust = FALSE
 
@@ -12,12 +13,23 @@
 	bomb = 10
 	bio = 10
 	wound = 5
+=======
+	armor_type = /datum/armor/clothing_under/abductor
+	can_adjust = FALSE
+
+/datum/armor/clothing_under/abductor
+	bomb = 10
+>>>>>>> tg-pr-88929
 
 //AGENT VEST
 /obj/item/clothing/suit/armor/abductor/vest
 	name = "agent vest"
 	desc = "A vest outfitted with advanced stealth technology. It has two modes - combat and stealth."
+<<<<<<< HEAD
 	icon = 'icons/obj/abductor.dmi'
+=======
+	icon = 'icons/obj/antags/abductor.dmi'
+>>>>>>> tg-pr-88929
 	icon_state = "vest_stealth"
 	inhand_icon_state = "armor"
 	blood_overlay_type = "armor"
@@ -82,6 +94,13 @@
 		human_target.update_worn_oversuit()
 	update_item_action_buttons()
 
+<<<<<<< HEAD
+=======
+/obj/item/clothing/suit/armor/abductor/vest/item_action_slot_check(slot, mob/user)
+	if(slot & ITEM_SLOT_OCLOTHING) //we only give the mob the ability to activate the vest if he's actually wearing it.
+		return TRUE
+
+>>>>>>> tg-pr-88929
 /obj/item/clothing/suit/armor/abductor/vest/proc/SetDisguise(datum/icon_snapshot/entry)
 	disguise = entry
 
@@ -92,13 +111,27 @@
 	if(ishuman(loc))
 		var/mob/living/carbon/human/wearer = loc
 		new /obj/effect/temp_visual/dir_setting/ninja/cloak(get_turf(wearer), wearer.dir)
+<<<<<<< HEAD
 		wearer.name_override = disguise.name
+=======
+		RegisterSignal(wearer, COMSIG_HUMAN_GET_VISIBLE_NAME, PROC_REF(return_disguise_name))
+>>>>>>> tg-pr-88929
 		wearer.icon = disguise.icon
 		wearer.icon_state = disguise.icon_state
 		wearer.cut_overlays()
 		wearer.add_overlay(disguise.overlays)
 		wearer.update_held_items()
 
+<<<<<<< HEAD
+=======
+/obj/item/clothing/suit/armor/abductor/vest/proc/return_disguise_name(mob/living/carbon/human/source, list/identity)
+	SIGNAL_HANDLER
+	if(identity[VISIBLE_NAME_FORCED]) // name-forcing overrides disguise
+		return
+	identity[VISIBLE_NAME_FACE] = disguise.name
+	identity[VISIBLE_NAME_ID] = ""
+
+>>>>>>> tg-pr-88929
 /obj/item/clothing/suit/armor/abductor/vest/proc/DeactivateStealth()
 	if(!stealth_active)
 		return
@@ -106,7 +139,11 @@
 	if(ishuman(loc))
 		var/mob/living/carbon/human/wearer = loc
 		new /obj/effect/temp_visual/dir_setting/ninja(get_turf(wearer), wearer.dir)
+<<<<<<< HEAD
 		wearer.name_override = null
+=======
+		UnregisterSignal(wearer, COMSIG_HUMAN_GET_VISIBLE_NAME)
+>>>>>>> tg-pr-88929
 		wearer.cut_overlays()
 		wearer.regenerate_icons()
 
@@ -132,7 +169,11 @@
 			to_chat(loc, span_warning("Combat injection is still recharging."))
 			return
 		var/mob/living/carbon/human/wearer = loc
+<<<<<<< HEAD
 		wearer.stamina.adjust(75, forced = TRUE)
+=======
+		wearer.adjustStaminaLoss(-75)
+>>>>>>> tg-pr-88929
 		wearer.SetUnconscious(0)
 		wearer.SetStun(0)
 		wearer.SetKnockdown(0)
@@ -148,7 +189,11 @@
 
 /obj/item/clothing/suit/armor/abductor/Destroy()
 	STOP_PROCESSING(SSobj, src)
+<<<<<<< HEAD
 	for(var/obj/machinery/abductor/console/mothership_console in GLOB.machines)
+=======
+	for(var/obj/machinery/abductor/console/mothership_console as anything in SSmachines.get_machines_by_type_and_subtypes(/obj/machinery/abductor/console))
+>>>>>>> tg-pr-88929
 		if(mothership_console.vest == src)
 			mothership_console.vest = null
 			break

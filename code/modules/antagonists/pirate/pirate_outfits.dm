@@ -8,7 +8,7 @@
 	ears = /obj/item/radio/headset/syndicate
 	glasses = /obj/item/clothing/glasses/eyepatch
 	head = /obj/item/clothing/head/costume/pirate/bandana/armored
-	shoes = /obj/item/clothing/shoes/sneakers/brown
+	shoes = /obj/item/clothing/shoes/pirate/armored
 
 /datum/outfit/pirate/post_equip(mob/living/carbon/human/equipped)
 	equipped.faction |= FACTION_PIRATE
@@ -36,6 +36,12 @@
 	id_trim = /datum/id_trim/pirate/captain
 	head = /obj/item/clothing/head/costume/pirate/armored
 
+/datum/outfit/pirate/captain/skeleton
+	name = "Space Pirate Captain (Skeleton)"
+
+	belt = /obj/item/gun/magic/midas_hand
+	l_pocket = /obj/item/coin/gold/doubloon
+
 /datum/outfit/pirate/space
 	name = "Space Pirate (EVA)"
 
@@ -49,6 +55,12 @@
 
 	head = /obj/item/clothing/head/helmet/space/pirate
 
+	id_trim = /datum/id_trim/pirate/captain
+
+/datum/outfit/pirate/space/captain/cardboard
+	name = "Space Pirate Captain (EVA)"
+	l_hand = /obj/item/nullrod/claymore/saber/pirate
+
 /datum/outfit/pirate/silverscale
 	name = "Silver Scale Member"
 
@@ -56,17 +68,19 @@
 	id_trim = /datum/id_trim/pirate/silverscale
 	uniform = /obj/item/clothing/under/syndicate/sniper
 	suit = /obj/item/clothing/suit/armor/vest/alt
+	back = /obj/item/storage/backpack/satchel
 	glasses = /obj/item/clothing/glasses/monocle
 	gloves = /obj/item/clothing/gloves/color/black
 	head = /obj/item/clothing/head/collectable/tophat
 	shoes = /obj/item/clothing/shoes/laceup
+	implants = list(/obj/item/implant/explosive)
 
 /datum/outfit/pirate/silverscale/captain
 	name = "Silver Scale Captain"
 
 	id_trim = /datum/id_trim/pirate/captain/silverscale
 	head = /obj/item/clothing/head/costume/crown
-	mask = /obj/item/clothing/mask/cigarette/cigar/havana
+	mask = /obj/item/cigarette/cigar/havana
 	l_pocket = /obj/item/lighter
 
 /datum/outfit/pirate/interdyne
@@ -74,12 +88,20 @@
 
 	id = /obj/item/card/id/advanced/black
 	id_trim = /datum/id_trim/syndicom/Interdyne/pharmacist
+<<<<<<< HEAD
 	uniform = /obj/item/clothing/under/rank/medical/scrubs/purple
+=======
+	uniform = /obj/item/clothing/under/rank/medical/scrubs/coroner
+>>>>>>> tg-pr-88929
 	suit = /obj/item/clothing/suit/toggle/labcoat
 	back = /obj/item/storage/backpack/satchel/med
 	glasses = /obj/item/clothing/glasses/hud/health/night
 	gloves = /obj/item/clothing/gloves/color/black
+<<<<<<< HEAD
 	head = /obj/item/clothing/head/utility/surgerycap/purple
+=======
+	head = /obj/item/clothing/head/utility/surgerycap/black
+>>>>>>> tg-pr-88929
 	shoes = /obj/item/clothing/shoes/sneakers/white
 	l_pocket = /obj/item/card/emag/doorjack
 
@@ -142,3 +164,42 @@
 	glasses = null
 	suit = /obj/item/clothing/suit/jacket/oversized
 	head = /obj/item/clothing/head/costume/crown
+<<<<<<< HEAD
+=======
+
+	id_trim = /datum/id_trim/pirate/captain
+
+/datum/outfit/pirate/medieval
+	name = "Medieval Warmonger"
+
+	id = null
+	glasses = null
+	uniform = /obj/item/clothing/under/costume/gamberson/military
+	suit = /obj/item/clothing/suit/armor/vest/military
+	suit_store = /obj/item/spear/military
+	back = /obj/item/storage/backpack/satchel/leather
+	gloves = /obj/item/clothing/gloves/color/brown
+	head = /obj/item/clothing/head/helmet/military
+	mask = /obj/item/clothing/mask/balaclava
+	shoes = /obj/item/clothing/shoes/workboots
+	belt = /obj/item/claymore/shortsword
+	l_pocket = /obj/item/flashlight/flare/torch
+
+/datum/outfit/pirate/medieval/warlord
+	name = "Medieval Warlord"
+
+	neck = /obj/item/bedsheet/pirate
+	suit = /obj/item/clothing/suit/armor/riot/knight/warlord
+	suit_store = null
+	back = /obj/item/fireaxe/boardingaxe
+	gloves = /obj/item/clothing/gloves/combat
+	head = /obj/item/clothing/head/helmet/knight/warlord
+	mask = /obj/item/clothing/mask/breath
+	shoes = /obj/item/clothing/shoes/bronze
+	belt = /obj/item/gun/magic/hook
+	l_pocket = /obj/item/tank/internals/emergency_oxygen
+	r_pocket = /obj/item/flashlight/lantern
+
+
+	skillchips = list(/obj/item/skillchip/big_pointer) //they don't have an id, so this is needed
+>>>>>>> tg-pr-88929

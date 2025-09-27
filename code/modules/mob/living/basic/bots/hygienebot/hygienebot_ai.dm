@@ -10,8 +10,13 @@
 		BB_WASH_FRUSTRATION = 0,
 	)
 	planning_subtrees = list(
+<<<<<<< HEAD
 		/datum/ai_planning_subtree/manage_unreachable_list,
 		/datum/ai_planning_subtree/respond_to_summon,
+=======
+		/datum/ai_planning_subtree/respond_to_summon,
+		/datum/ai_planning_subtree/handle_trash_talk,
+>>>>>>> tg-pr-88929
 		/datum/ai_planning_subtree/wash_people,
 		/datum/ai_planning_subtree/salute_authority,
 		/datum/ai_planning_subtree/find_patrol_beacon,
@@ -23,6 +28,7 @@
 		BB_BOT_SUMMON_TARGET,
 	)
 
+<<<<<<< HEAD
 /datum/ai_controller/basic_controller/bot/hygienebot/TryPossessPawn(atom/new_pawn)
 	. = ..()
 	if(. & AI_CONTROLLER_INCOMPATIBLE)
@@ -33,6 +39,29 @@
 	SIGNAL_HANDLER
 
 	set_blackboard_key(BB_WASH_FRUSTRATION, 0)
+=======
+/datum/ai_planning_subtree/handle_trash_talk
+
+/datum/ai_planning_subtree/handle_trash_talk/SelectBehaviors(datum/ai_controller/basic_controller/bot/controller, seconds_per_tick)
+	if(!controller.blackboard_key_exists(BB_WASH_TARGET))
+		return
+	controller.queue_behavior(/datum/ai_behavior/commence_trashtalk, BB_WASH_TARGET)
+
+/datum/ai_behavior/commence_trashtalk
+	action_cooldown = 4 SECONDS
+
+/datum/ai_behavior/commence_trashtalk/perform(seconds_per_tick, datum/ai_controller/controller, target_key)
+	if(!controller.blackboard_key_exists(target_key))
+		return AI_BEHAVIOR_FAILED | AI_BEHAVIOR_DELAY
+
+	var/frustration_count = controller.blackboard[BB_WASH_FRUSTRATION]
+	controller.set_blackboard_key(BB_WASH_FRUSTRATION, min(frustration_count + 1, BOT_FRUSTRATION_LIMIT))
+	if(controller.blackboard[BB_WASH_FRUSTRATION] < BOT_ANGER_THRESHOLD)
+		return AI_BEHAVIOR_FAILED | AI_BEHAVIOR_DELAY
+	var/datum/action/cooldown/bot_announcement/announcement = controller.blackboard[BB_ANNOUNCE_ABILITY]
+	announcement?.announce(pick(controller.blackboard[BB_WASH_THREATS]))
+	return AI_BEHAVIOR_SUCCEEDED | AI_BEHAVIOR_DELAY
+>>>>>>> tg-pr-88929
 
 
 /datum/ai_planning_subtree/wash_people
@@ -54,7 +83,11 @@
 /datum/ai_behavior/find_valid_wash_targets
 	action_cooldown = 5 SECONDS
 
+<<<<<<< HEAD
 /datum/ai_behavior/find_valid_wash_targets/perform(seconds_per_tick, datum/ai_controller/controller, target_key, our_access_flags)
+=======
+/datum/ai_behavior/find_valid_wash_targets/perform(seconds_per_tick, datum/ai_controller/basic_controller/bot/controller, target_key, our_access_flags)
+>>>>>>> tg-pr-88929
 	. = ..()
 	var/list/ignore_list = controller.blackboard[BB_TEMPORARY_IGNORE_LIST]
 	var/atom/found_target
@@ -70,7 +103,11 @@
 			continue
 
 		if(our_access_flags & BOT_COVER_EMAGGED)
+<<<<<<< HEAD
 			controller.set_blackboard_key_assoc_lazylist(BB_TEMPORARY_IGNORE_LIST, wash_potential, TRUE)
+=======
+			controller.add_to_blacklist(wash_potential)
+>>>>>>> tg-pr-88929
 			found_target = wash_potential
 			break
 
@@ -80,6 +117,7 @@
 				break
 
 	if(isnull(found_target))
+<<<<<<< HEAD
 		finish_action(controller, succeeded = FALSE)
 		return
 
@@ -87,6 +125,12 @@
 	finish_action(controller, succeeded = TRUE)
 
 
+=======
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
+
+	controller.set_blackboard_key(target_key, found_target)
+	return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_SUCCEEDED
+>>>>>>> tg-pr-88929
 
 /datum/ai_behavior/find_valid_wash_targets/finish_action(datum/ai_controller/controller, succeeded, target_key)
 	. = ..()
@@ -96,9 +140,14 @@
 	announcement.announce(pick(controller.blackboard[BB_WASH_FOUND]))
 
 /datum/ai_behavior/wash_target
+<<<<<<< HEAD
 	behavior_flags = AI_BEHAVIOR_REQUIRE_MOVEMENT | AI_BEHAVIOR_CAN_PLAN_DURING_EXECUTION | AI_BEHAVIOR_MOVE_AND_PERFORM
 	required_distance = 0
 	action_cooldown = 1 SECONDS
+=======
+	behavior_flags = AI_BEHAVIOR_REQUIRE_MOVEMENT | AI_BEHAVIOR_CAN_PLAN_DURING_EXECUTION
+	required_distance = 0
+>>>>>>> tg-pr-88929
 
 /datum/ai_behavior/wash_target/setup(datum/ai_controller/controller, target_key)
 	. = ..()
@@ -112,6 +161,7 @@
 	var/mob/living/carbon/human/unclean_target = controller.blackboard[target_key]
 	var/mob/living/basic/living_pawn = controller.pawn
 	if(QDELETED(unclean_target))
+<<<<<<< HEAD
 		finish_action(controller, FALSE, target_key)
 		return
 
@@ -139,6 +189,25 @@
 
 	announcement.announce(pick(controller.blackboard[BB_WASH_THREATS]))
 	controller.set_blackboard_key(BB_WASH_FRUSTRATION, 0)
+=======
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
+
+	if(living_pawn.loc == get_turf(unclean_target))
+		living_pawn.melee_attack(unclean_target)
+		return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_SUCCEEDED
+
+	return AI_BEHAVIOR_DELAY | AI_BEHAVIOR_FAILED
+
+/datum/ai_behavior/wash_target/finish_action(datum/ai_controller/controller, succeeded, target_key)
+	. = ..()
+	controller.clear_blackboard_key(target_key)
+	var/wash_frustration = controller.blackboard[BB_WASH_FRUSTRATION]
+	controller.clear_blackboard_key(BB_WASH_FRUSTRATION)
+	if(!succeeded || wash_frustration <= BOT_ANGER_THRESHOLD)
+		return
+	var/datum/action/cooldown/bot_announcement/announcement = controller.blackboard[BB_ANNOUNCE_ABILITY]
+	announcement.announce(pick(controller.blackboard[BB_WASH_DONE]))
+>>>>>>> tg-pr-88929
 
 #undef BOT_ANGER_THRESHOLD
 #undef BOT_FRUSTRATION_LIMIT

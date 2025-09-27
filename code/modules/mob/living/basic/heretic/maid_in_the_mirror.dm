@@ -28,12 +28,20 @@
 	var/static/list/loot = list(
 		/obj/effect/decal/cleanable/ash,
 		/obj/item/clothing/suit/armor/vest,
+<<<<<<< HEAD
 		/obj/item/organ/internal/lungs,
 		/obj/item/shard,
 	)
 	AddElement(/datum/element/death_drops, loot)
 	var/datum/action/cooldown/spell/jaunt/mirror_walk/jaunt = new (src)
 	jaunt.Grant(src)
+=======
+		/obj/item/organ/lungs,
+		/obj/item/shard,
+	)
+	AddElement(/datum/element/death_drops, loot)
+	GRANT_ACTION(/datum/action/cooldown/spell/jaunt/mirror_walk)
+>>>>>>> tg-pr-88929
 
 /mob/living/basic/heretic_summon/maid_in_the_mirror/death(gibbed)
 	var/turf/death_turf = get_turf(src)

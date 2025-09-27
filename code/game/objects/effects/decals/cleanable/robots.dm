@@ -5,12 +5,15 @@
 	desc = "It's a useless heap of junk... <i>or is it?</i>"
 	icon = 'icons/mob/silicon/robots.dmi'
 	icon_state = "gib1"
-	layer = LOW_OBJ_LAYER
+	plane = GAME_PLANE
+	layer = GIB_LAYER
 	random_icon_states = list("gib1", "gib2", "gib3", "gib4", "gib5", "gib6", "gib7")
 	bloodiness = BLOOD_AMOUNT_PER_DECAL
 	mergeable_decal = FALSE
 	beauty = -50
 	clean_type = CLEAN_TYPE_BLOOD
+
+	is_mopped = TRUE // probably shouldn't be, but janitor powercreep
 
 /obj/effect/decal/cleanable/robot_debris/Initialize(mapload)
 	. = ..()
@@ -32,13 +35,15 @@
 				break
 		return
 
-	var/datum/move_loop/loop = SSmove_manager.move_to_dir(src, get_step(src, direction), delay = delay, timeout = range * delay, priority = MOVEMENT_ABOVE_SPACE_PRIORITY)
+	var/datum/move_loop/loop = GLOB.move_manager.move(src, direction, delay = delay, timeout = range * delay, priority = MOVEMENT_ABOVE_SPACE_PRIORITY)
 	RegisterSignal(loop, COMSIG_MOVELOOP_POSTPROCESS, PROC_REF(spread_movement_effects))
 
 /obj/effect/decal/cleanable/robot_debris/proc/spread_movement_effects(datum/move_loop/has_target/source)
 	SIGNAL_HANDLER
+	if(NeverShouldHaveComeHere(loc))
+		return
 	if (prob(40))
-		new /obj/effect/decal/cleanable/oil/streak(src.loc)
+		new /obj/effect/decal/cleanable/oil/streak(loc)
 	else if (prob(10))
 		var/datum/effect_system/spark_spread/s = new /datum/effect_system/spark_spread
 		s.set_up(3, 1, src)

@@ -12,7 +12,7 @@
 	/// How much time we need to recharge
 	var/recharge_time = 1.6 SECONDS
 	/// Sound we use when recharged
-	var/recharge_sound = 'sound/weapons/kenetic_reload.ogg'
+	var/recharge_sound = 'sound/items/weapons/kinetic_reload.ogg'
 	/// An ID for our recharging timer.
 	var/recharge_timerid
 	/// Do we recharge slower with more of our type?
@@ -27,10 +27,19 @@
 	recharge_time = reset_fantasy_variable("recharge_time", recharge_time)
 	return ..()
 
+/obj/item/gun/energy/recharge/apply_fantasy_bonuses(bonus)
+	. = ..()
+	recharge_time = modify_fantasy_variable("recharge_time", recharge_time, -bonus, minimum = 0.2 SECONDS)
+
+/obj/item/gun/energy/recharge/remove_fantasy_bonuses(bonus)
+	recharge_time = reset_fantasy_variable("recharge_time", recharge_time)
+	return ..()
+
 /obj/item/gun/energy/recharge/Initialize(mapload)
 	. = ..()
 	if(!holds_charge)
 		empty()
+	AddElement(/datum/element/empprotection, EMP_PROTECT_ALL)
 
 /obj/item/gun/energy/recharge/shoot_live_shot(mob/living/user, pointblank = 0, atom/pbtarget = null, message = 1)
 	. = ..()
@@ -79,9 +88,6 @@
 	deltimer(recharge_timerid)
 	recharge_timerid = addtimer(CALLBACK(src, PROC_REF(reload)), set_recharge_time * carried, TIMER_STOPPABLE)
 
-/obj/item/gun/energy/recharge/emp_act(severity)
-	return
-
 /obj/item/gun/energy/recharge/proc/reload()
 	cell.give(cell.maxcharge)
 	if(!suppressed && recharge_sound)
@@ -114,9 +120,9 @@
 	recharge_time = 2 SECONDS
 	holds_charge = TRUE
 	unique_frequency = TRUE
-	can_bayonet = TRUE
-	knife_x_offset = 20
-	knife_y_offset = 12
+
+/obj/item/gun/energy/recharge/ebow/add_bayonet_point()
+	AddComponent(/datum/component/bayonet_attachable, offset_x = 20, offset_y = 12)
 
 /obj/item/gun/energy/recharge/ebow/give_manufacturer_examine()
 	AddElement(/datum/element/manufacturer_examine, COMPANY_SCARBOROUGH)
@@ -156,9 +162,17 @@
 
 /obj/item/gun/energy/recharge/fisher/examine_more(mob/user)
 	. = ..()
+<<<<<<< HEAD
 	. += span_notice("The SC/FISHER is an illegally-modified kinetic accelerator cut down and refit into a disassembled miniature energy gun chassis, with its pressure chamber \
 	attenuated to launch kinetic bolts that <b>disrupt flashlights and cameras, if only temporarily</b>. This effect also works on <b>cyborg headlamps<b>, and works longer in melee.<br><br>\
 	While some would argue that this is a really terrible design choice, others argue that it is very funny to be able to shoot at light sources. Caveat emptor.")
+=======
+	. += span_notice("The SC/FISHER is an illegally-modified kinetic accelerator cut down and refit into a disassembled miniature energy gun chassis, \
+	with its pressure chamber attenuated to launch kinetic bolts that <b>temporarily disrupt flashlights, cameras, and certain other electronics</b>. \
+	This effect also works on <b>cyborg headlamps<b>, and works longer in melee.<br><br>\
+	While some would argue that this is a really terrible design choice, others argue that it is very funny to be able to shoot at light sources.<br>\
+	Caveat emptor.")
+>>>>>>> tg-pr-88929
 
 /obj/item/gun/energy/recharge/fisher/attack(mob/living/target_mob, mob/living/user, params)
 	. = ..()
@@ -172,4 +186,8 @@
 	// ...you reeeeeally just shoot them, but in case you can't/won't
 	. = ..()
 	var/obj/projectile/energy/fisher/melee/simulated_hit = new
+<<<<<<< HEAD
+=======
+	simulated_hit.firer = throwingdatum.get_thrower()
+>>>>>>> tg-pr-88929
 	simulated_hit.on_hit(hit_atom)

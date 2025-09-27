@@ -253,6 +253,7 @@ SUBSYSTEM_DEF(id_access)
 	desc_by_access["[ACCESS_MEDICAL]"] = "Medical"
 	desc_by_access["[ACCESS_GENETICS]"] = "Genetics Lab"
 	desc_by_access["[ACCESS_MORGUE]"] = "Morgue"
+	desc_by_access["[ACCESS_MORGUE_SECURE]"] = "Coroner"
 	desc_by_access["[ACCESS_SCIENCE]"] = "R&D Lab"
 	desc_by_access["[ACCESS_ORDNANCE]"] = "Ordnance Lab"
 	desc_by_access["[ACCESS_ORDNANCE_STORAGE]"] = "Ordnance Storage"
@@ -285,7 +286,7 @@ SUBSYSTEM_DEF(id_access)
 	desc_by_access["[ACCESS_VIROLOGY]"] = "Pathology"
 	desc_by_access["[ACCESS_PSYCHOLOGY]"] = "Psychology"
 	desc_by_access["[ACCESS_CMO]"] = "CMO Office"
-	desc_by_access["[ACCESS_QM]"] = "Quartermaster"
+	desc_by_access["[ACCESS_QM]"] = "QM Office"
 	desc_by_access["[ACCESS_SURGERY]"] = "Surgery"
 	desc_by_access["[ACCESS_THEATRE]"] = "Theatre"
 	desc_by_access["[ACCESS_RESEARCH]"] = "Science"
@@ -325,6 +326,7 @@ SUBSYSTEM_DEF(id_access)
 	desc_by_access["[ACCESS_CENT_CAPTAIN]"] = "Code Gold"
 	desc_by_access["[ACCESS_CENT_BAR]"] = "Code Scotch"
 	desc_by_access["[ACCESS_BIT_DEN]"] = "Bitrunner Den"
+<<<<<<< HEAD
 	desc_by_access["[ACCESS_PERMABRIG]"] = "Permabrig" // monkestation edit: add permabrig-only access
 	//MONKESTATION ADDITION - Adds descriptions to Charlie Station access levels. Used for Charlie Station ID Console.
 	desc_by_access["[ACCESS_AWAY_GENERAL]"] = "Station General Access"
@@ -340,6 +342,8 @@ SUBSYSTEM_DEF(id_access)
 	desc_by_access["[ACCESS_AWAY_SEC]"] = "Charlie Station Security"
 	desc_by_access["[ACCESS_AWAY_ENGINEERING]"] = "Beta Station Engineering"
 	//END OF ADDITION
+=======
+>>>>>>> tg-pr-88929
 
 /**
  * Returns the access bitflags associated with any given access level.
@@ -408,6 +412,8 @@ SUBSYSTEM_DEF(id_access)
 
 	id_card.clear_access()
 	id_card.trim = trim
+	id_card.big_pointer = trim.big_pointer
+	id_card.pointer_color = trim.pointer_color
 
 	if(copy_access)
 		id_card.access = trim.access.Copy()
@@ -416,6 +422,12 @@ SUBSYSTEM_DEF(id_access)
 
 	if(trim.assignment)
 		id_card.assignment = trim.assignment
+
+	var/datum/job/trim_job = trim.find_job()
+	if (!isnull(id_card.registered_account))
+		var/datum/job/old_job = id_card.registered_account.account_job
+		id_card.registered_account.account_job = trim_job
+		id_card.registered_account.update_account_job_lists(trim_job, old_job)
 
 	id_card.update_label()
 	id_card.update_icon()
@@ -451,7 +463,12 @@ SUBSYSTEM_DEF(id_access)
 	id_card.department_color_override = trim.department_color
 	id_card.department_state_override = trim.department_state
 	id_card.subdepartment_color_override = trim.subdepartment_color
+<<<<<<< HEAD
 	id_card.trim_chat_span_override = trim.chat_span()
+=======
+	id_card.big_pointer = trim.big_pointer
+	id_card.pointer_color = trim.pointer_color
+>>>>>>> tg-pr-88929
 
 	if(!check_forged || !id_card.forged)
 		id_card.assignment = trim.assignment
@@ -472,7 +489,12 @@ SUBSYSTEM_DEF(id_access)
 	id_card.department_color_override = null
 	id_card.department_state_override = null
 	id_card.subdepartment_color_override = null
+<<<<<<< HEAD
 	id_card.trim_chat_span_override = null
+=======
+	id_card.big_pointer = id_card.trim.big_pointer
+	id_card.pointer_color = id_card.trim.pointer_color
+>>>>>>> tg-pr-88929
 
 /**
  * Adds the accesses associated with a trim to an ID card.

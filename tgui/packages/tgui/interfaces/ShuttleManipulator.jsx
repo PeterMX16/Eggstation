@@ -1,10 +1,24 @@
 import { map } from 'common/collections';
-import { useBackend, useLocalState } from '../backend';
-import { Button, Flex, LabeledList, Section, Table, Tabs } from '../components';
+import { useState } from 'react';
+import {
+  Button,
+  Flex,
+  LabeledList,
+  Section,
+  Table,
+  Tabs,
+} from 'tgui-core/components';
+
+import { useBackend } from '../backend';
 import { Window } from '../layouts';
 
 export const ShuttleManipulator = (props) => {
+<<<<<<< HEAD
   const [tab, setTab] = useLocalState('tab', 1);
+=======
+  const [tab, setTab] = useState(1);
+
+>>>>>>> tg-pr-88929
   return (
     <Window title="Shuttle Manipulator" width={800} height={600} theme="admin">
       <Window.Content scrollable>
@@ -91,17 +105,22 @@ export const ShuttleManipulatorTemplates = (props) => {
   const { act, data } = useBackend();
   const templateObject = data.templates || {};
   const selected = data.selected || {};
+<<<<<<< HEAD
   const [selectedTemplateId, setSelectedTemplateId] = useLocalState(
     'templateId',
+=======
+  const [selectedTemplateId, setSelectedTemplateId] = useState(
+>>>>>>> tg-pr-88929
     Object.keys(templateObject)[0],
   );
   const actualTemplates = templateObject[selectedTemplateId]?.templates || [];
+
   return (
     <Section>
       <Flex>
         <Flex.Item>
           <Tabs vertical>
-            {map((template, templateId) => (
+            {map(templateObject, (template, templateId) => (
               <Tabs.Tab
                 key={templateId}
                 selected={selectedTemplateId === templateId}
@@ -109,7 +128,7 @@ export const ShuttleManipulatorTemplates = (props) => {
               >
                 {template.port_id}
               </Tabs.Tab>
-            ))(templateObject)}
+            ))}
           </Tabs>
         </Flex.Item>
         <Flex.Item grow={1} basis={0}>

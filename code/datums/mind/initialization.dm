@@ -23,19 +23,19 @@
 //AI
 /mob/living/silicon/ai/mind_initialize()
 	. = ..()
-	mind.set_assigned_role(SSjob.GetJobType(/datum/job/ai))
+	mind.set_assigned_role(SSjob.get_job_type(/datum/job/ai))
 
 
 //BORG
 /mob/living/silicon/robot/mind_initialize()
 	. = ..()
-	mind.set_assigned_role(SSjob.GetJobType(/datum/job/cyborg))
+	mind.set_assigned_role(SSjob.get_job_type(/datum/job/cyborg))
 
 
 //PAI
 /mob/living/silicon/pai/mind_initialize()
 	. = ..()
-	mind.set_assigned_role(SSjob.GetJobType(/datum/job/personal_ai))
+	mind.set_assigned_role(SSjob.get_job_type(/datum/job/personal_ai))
 	mind.special_role = ""
 
 /// Signal proc for [COMSIG_ADMIN_DELETING], to ghostize a mob beforehand if an admin is manually deleting it.

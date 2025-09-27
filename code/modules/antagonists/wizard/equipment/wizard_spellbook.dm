@@ -1,7 +1,7 @@
 /obj/item/spellbook
 	name = "spell book"
 	desc = "An unearthly tome that glows with power."
-	icon = 'icons/obj/library.dmi'
+	icon = 'icons/obj/service/library.dmi'
 	icon_state ="book"
 	worn_icon_state = "book"
 	throw_speed = 2
@@ -229,6 +229,10 @@
 		return FALSE
 
 	to_buy.times++
+	if(HAS_TRAIT(user, TRAIT_SPELLS_LOTTERY))
+		if(prob(50 / to_buy.cost))
+			to_chat(user, span_notice("This spell was given to you for free!"))
+			return TRUE
 	uses -= to_buy.cost
 	return TRUE
 

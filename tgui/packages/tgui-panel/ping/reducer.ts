@@ -4,6 +4,7 @@
  * @license MIT
  */
 
+<<<<<<< HEAD
 import { clamp01, scale } from 'common/math';
 import { pingFail, pingSuccess } from './actions';
 import {
@@ -12,6 +13,17 @@ import {
   PING_ROUNDTRIP_WORST,
 } from './constants';
 
+=======
+import { clamp01, scale } from 'tgui-core/math';
+
+import { pingFail, pingSuccess } from './actions';
+import {
+  PING_MAX_FAILS,
+  PING_ROUNDTRIP_BEST,
+  PING_ROUNDTRIP_WORST,
+} from './constants';
+
+>>>>>>> tg-pr-88929
 type PingState = {
   roundtrip: number | undefined;
   roundtripAvg: number | undefined;

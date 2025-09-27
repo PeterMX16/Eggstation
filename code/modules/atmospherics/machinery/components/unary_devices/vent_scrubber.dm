@@ -13,8 +13,10 @@
 	hide = TRUE
 	shift_underlay_only = FALSE
 	pipe_state = "scrubber"
+	has_cap_visuals = TRUE
 	vent_movement = VENTCRAWL_ALLOWED | VENTCRAWL_CAN_SEE | VENTCRAWL_ENTRANCE_ALLOWED
 	processing_flags = NONE
+	interaction_flags_click = NEED_VENTCRAWL
 
 	///The mode of the scrubber (ATMOS_DIRECTION_SCRUBBING or ATMOS_DIRECTION_SIPHONING)
 	var/scrubbing = ATMOS_DIRECTION_SCRUBBING
@@ -26,9 +28,6 @@
 	var/widenet = FALSE
 	///List of the turfs near the scrubber, used for widenet
 	var/list/turf/adjacent_turfs = list()
-
-	///Enables the use of plunger_act for ending the vent clog random event
-	var/clogged = FALSE
 	///The area this scrubber is assigned to
 	var/area/assigned_area
 
@@ -250,10 +249,10 @@
 			for(var/gas in filter_types & env_gases)
 				filtered_out.add_gas(gas)
 				//take this gases portion of removal_ratio of the turfs air, or all of that gas if less than or equal to MINIMUM_MOLES_TO_SCRUB
-				var/transfered_moles = max(QUANTIZE(env_gases[gas][MOLES] * removal_ratio * (env_gases[gas][MOLES] / total_moles_to_remove)), min(MINIMUM_MOLES_TO_SCRUB, env_gases[gas][MOLES]))
+				var/transferred_moles = max(QUANTIZE(env_gases[gas][MOLES] * removal_ratio * (env_gases[gas][MOLES] / total_moles_to_remove)), min(MINIMUM_MOLES_TO_SCRUB, env_gases[gas][MOLES]))
 
-				filtered_gases[gas][MOLES] = transfered_moles
-				env_gases[gas][MOLES] -= transfered_moles
+				filtered_gases[gas][MOLES] = transferred_moles
+				env_gases[gas][MOLES] -= transferred_moles
 
 			environment.garbage_collect()
 
@@ -287,7 +286,7 @@
 
 /obj/machinery/atmospherics/components/unary/vent_scrubber/welder_act(mob/living/user, obj/item/welder)
 	..()
-	if(!welder.tool_start_check(user, amount=0))
+	if(!welder.tool_start_check(user, amount=1))
 		return TRUE
 	to_chat(user, span_notice("Now welding the scrubber."))
 	if(welder.use_tool(src, user, 20, volume=50))
@@ -323,7 +322,7 @@
 	update_appearance()
 	pipe_vision_img = image(src, loc, dir = dir)
 	SET_PLANE_EXPLICIT(pipe_vision_img, ABOVE_HUD_PLANE, src)
-	playsound(loc, 'sound/weapons/bladeslice.ogg', 100, TRUE)
+	playsound(loc, 'sound/items/weapons/bladeslice.ogg', 100, TRUE)
 
 
 /obj/machinery/atmospherics/components/unary/vent_scrubber/layer2
@@ -346,6 +345,7 @@
 	piping_layer = 4
 	icon_state = "scrub_map_on-4"
 
+<<<<<<< HEAD
 /obj/machinery/atmospherics/components/unary/vent_scrubber/plunger_act(obj/item/plunger/plunger, mob/living/user, reinforced)
 	if(!clogged)
 		return
@@ -399,6 +399,8 @@
 	living_mobs += WEAKREF(new_mob)
 	visible_message(span_warning("[new_mob] crawls out of [src]!"))
 
+=======
+>>>>>>> tg-pr-88929
 /obj/machinery/atmospherics/components/unary/vent_scrubber/disconnect()
 	..()
 	on = FALSE

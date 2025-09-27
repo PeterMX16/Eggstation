@@ -13,12 +13,15 @@
 	/// The object type to create on the new turf when forcibly teleporting out
 	var/force_teleport_in_effect
 
+<<<<<<< HEAD
 	var/beam_icon_state
 	var/beam_icon
 	var/list/beams = list()
 	var/force_teleports
 	var/datum/callback/break_callback
 
+=======
+>>>>>>> tg-pr-88929
 	VAR_PRIVATE
 		// Pathfinding can yield, so only move us closer if this is the best one
 		current_path_tick = 0
@@ -31,10 +34,13 @@
 	distance = 3,
 	force_teleport_out_effect,
 	force_teleport_in_effect,
+<<<<<<< HEAD
 	beam_icon_state,
 	beam_icon,
 	force_teleports = TRUE,
 	break_callback,
+=======
+>>>>>>> tg-pr-88929
 )
 	. = ..()
 
@@ -62,10 +68,13 @@
 	src.distance = distance
 	src.force_teleport_out_effect = force_teleport_out_effect
 	src.force_teleport_in_effect = force_teleport_in_effect
+<<<<<<< HEAD
 	src.beam_icon_state = beam_icon_state
 	src.beam_icon = beam_icon
 	src.force_teleports = force_teleports
 	src.break_callback = break_callback
+=======
+>>>>>>> tg-pr-88929
 
 	RegisterSignal(owner, COMSIG_QDELETING, PROC_REF(on_owner_qdel))
 
@@ -81,7 +90,10 @@
 
 /datum/component/leash/Destroy()
 	owner = null
+<<<<<<< HEAD
 	QDEL_LIST(beams)
+=======
+>>>>>>> tg-pr-88929
 	return ..()
 
 /datum/component/leash/proc/set_distance(distance)
@@ -93,9 +105,12 @@
 	SIGNAL_HANDLER
 	PRIVATE_PROC(TRUE)
 
+<<<<<<< HEAD
 	if(break_callback)
 		break_callback.Invoke()
 
+=======
+>>>>>>> tg-pr-88929
 	qdel(src)
 
 /datum/component/leash/proc/on_owner_moved(atom/movable/source)
@@ -124,6 +139,7 @@
 	set waitfor = FALSE
 	PRIVATE_PROC(TRUE)
 
+<<<<<<< HEAD
 	if(beam_icon && beam_icon_state)
 		var/list/true_path = get_path_to(parent, owner)
 		redraw_beams(true_path)
@@ -131,6 +147,19 @@
 	if (get_dist(parent, owner) <= distance)
 		return
 
+=======
+	if (get_dist(parent, owner) <= distance)
+		return
+
+	var/atom/movable/atom_parent = parent
+	if (isnull(owner.loc))
+		atom_parent.moveToNullspace() // If our parent is in nullspace I guess we gotta go there too
+		return
+	if (isnull(atom_parent.loc))
+		force_teleport_back("in nullspace") // If we're in nullspace, get outta there
+		return
+
+>>>>>>> tg-pr-88929
 	SEND_SIGNAL(parent, COMSIG_LEASH_PATH_STARTED)
 
 	current_path_tick += 1
@@ -160,6 +189,10 @@
 
 		if (!movable_parent.Move(to_move))
 			force_teleport_back("bad path step")
+<<<<<<< HEAD
+=======
+			performing_path_move = FALSE
+>>>>>>> tg-pr-88929
 			return
 
 	if (get_dist(parent, owner) > distance)
@@ -171,11 +204,14 @@
 /datum/component/leash/proc/force_teleport_back(reason)
 	PRIVATE_PROC(TRUE)
 
+<<<<<<< HEAD
 	if(!force_teleports)
 		if(break_callback)
 			break_callback.Invoke()
 		qdel(src)
 
+=======
+>>>>>>> tg-pr-88929
 	var/atom/movable/movable_parent = parent
 
 	SSblackbox.record_feedback("tally", "leash_force_teleport_back", 1, reason)
@@ -193,6 +229,7 @@
 
 	SEND_SIGNAL(parent, COMSIG_LEASH_FORCE_TELEPORT)
 
+<<<<<<< HEAD
 
 /datum/component/leash/proc/redraw_beams(list/path)
 	for(var/datum/beam/beam as anything in beams)
@@ -221,6 +258,8 @@
 		normal_direction = get_dir(new_host, to_move)
 		new_host = to_move
 
+=======
+>>>>>>> tg-pr-88929
 /// A debug spawner that will create a corgi leashed to a bike horn, plus a beam
 /obj/effect/spawner/debug_leash
 

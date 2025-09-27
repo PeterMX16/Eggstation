@@ -73,6 +73,8 @@
 		if(screen.needs_offsetting)
 			screen.plane = GET_NEW_PLANE(initial(screen.plane), offset)
 
+INITIALIZE_IMMEDIATE(/atom/movable/screen/fullscreen)
+
 /atom/movable/screen/fullscreen
 	icon = 'icons/hud/screen_full.dmi'
 	icon_state = "default"
@@ -167,7 +169,11 @@
 
 	. = ..()
 
+<<<<<<< HEAD
 	color = color_matrix_identity() //We convert it early to avoid a sudden weird jitter.
+=======
+	color = COLOR_MATRIX_IDENTITY //We convert it early to avoid a sudden weird jitter.
+>>>>>>> tg-pr-88929
 	alpha = 0
 
 	animate(src, alpha = 255, time = 5 SECONDS) //Fade in.
@@ -212,7 +218,7 @@
 	icon_state = "flash"
 	plane = SPLASHSCREEN_PLANE
 	layer = CINEMATIC_LAYER
-	color = "#000000"
+	color = COLOR_BLACK
 	show_when_dead = TRUE
 
 /atom/movable/screen/fullscreen/lighting_backdrop

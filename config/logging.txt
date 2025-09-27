@@ -39,7 +39,11 @@ LOG_GAME
 LOG_MANIFEST
 
 ## log mecha actions
+<<<<<<< HEAD
 # LOG_MECHA
+=======
+LOG_MECHA
+>>>>>>> tg-pr-88929
 
 ## log OOC channel
 LOG_OOC
@@ -101,9 +105,12 @@ LOG_WHISPER
 
 ## log manual target zone switching
 LOG_ZONE_SWITCH
+<<<<<<< HEAD
 
 ## Enable the demo subsystem
 #DEMOS_ENABLED
 
 ## log storyteller
 # LOG_STORYTELLER
+=======
+>>>>>>> tg-pr-88929

@@ -4,8 +4,12 @@
 	damage = 5
 	damage_type = BURN
 	armor_flag = ENERGY
+<<<<<<< HEAD
 	speed = 1
 	pixel_speed_multiplier = 0.25
+=======
+	speed = 0.25
+>>>>>>> tg-pr-88929
 	temperature = -75
 
 /datum/action/cooldown/mob_cooldown/ice_demon_teleport
@@ -14,7 +18,10 @@
 	button_icon = 'icons/obj/ore.dmi'
 	button_icon_state = "bluespace_crystal"
 	cooldown_time = 3 SECONDS
+<<<<<<< HEAD
 	melee_cooldown_time = 0 SECONDS
+=======
+>>>>>>> tg-pr-88929
 	///time delay before teleport
 	var/time_delay = 0.5 SECONDS
 
@@ -34,11 +41,18 @@
 /datum/action/cooldown/mob_cooldown/slippery_ice_floors
 	name = "Iced Floors"
 	desc = "Summon slippery ice floors all around!"
+<<<<<<< HEAD
 	button_icon = 'icons/turf/floors/ice_turf.dmi'
 	button_icon_state = "ice_turf-6"
 	cooldown_time = 2 SECONDS
 	click_to_activate = FALSE
 	melee_cooldown_time = 0 SECONDS
+=======
+	button_icon = 'icons/effects/freeze.dmi'
+	button_icon_state = "ice_cube"
+	cooldown_time = 2 SECONDS
+	click_to_activate = FALSE
+>>>>>>> tg-pr-88929
 	///perimeter we will spawn the iced floors on
 	var/radius = 1
 	///intervals we will spawn the ice floors in
@@ -82,8 +96,14 @@
 /obj/effect/temp_visual/slippery_ice/proc/add_slippery_component()
 	AddComponent(/datum/component/slippery, 2 SECONDS)
 
+<<<<<<< HEAD
 /datum/action/cooldown/spell/conjure/create_afterimages
 	name = "Create After Images"
+=======
+/datum/action/cooldown/spell/conjure/limit_summons/create_afterimages
+	name = "Create After Images"
+	desc = "Creates two illusionary doubles to increase your firepower, but which share some of your life force."
+>>>>>>> tg-pr-88929
 	button_icon = 'icons/mob/simple/icemoon/icemoon_monsters.dmi'
 	button_icon_state = "ice_demon"
 	spell_requirements = NONE
@@ -91,6 +111,7 @@
 	summon_type = list(/mob/living/basic/mining/demon_afterimage)
 	summon_radius = 1
 	summon_amount = 2
+<<<<<<< HEAD
 	///max number of after images
 	var/max_afterimages = 2
 	///How many clones do we have summoned
@@ -115,3 +136,10 @@
 
 	UnregisterSignal(source, list(COMSIG_QDELETING, COMSIG_LIVING_DEATH))
 	number_of_afterimages--
+=======
+	max_summons = 2
+
+/datum/action/cooldown/spell/conjure/limit_summons/create_afterimages/post_summon(atom/summoned_object, atom/cast_on)
+	. = ..()
+	summoned_object.AddComponent(/datum/component/joint_damage, overlord_mob = owner)
+>>>>>>> tg-pr-88929

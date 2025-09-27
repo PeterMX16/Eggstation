@@ -18,5 +18,9 @@
 #endif
 
 #if DM_VERSION >= 517
+<<<<<<< HEAD
 	#error "Remove all 517 experiments"
+=======
+	#error "Remove all 516 experiments"
+>>>>>>> tg-pr-88929
 #endif

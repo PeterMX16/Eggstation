@@ -4,6 +4,7 @@
 #define CHANNEL_VOX 1022
 #define CHANNEL_JUKEBOX 1021
 #define CHANNEL_HEARTBEAT 1020 //sound channel for heartbeats
+<<<<<<< HEAD
 #define CHANNEL_AMBIENCE 1019
 #define CHANNEL_BUZZ 1018
 #define CHANNEL_TRAITOR 1017
@@ -26,6 +27,20 @@
 #define CHANNEL_ELEVATOR 1001
 #define CHANNEL_VOICES 1000
 // monkestation end
+=======
+#define CHANNEL_BOSS_MUSIC 1019
+#define CHANNEL_AMBIENCE 1018
+#define CHANNEL_BUZZ 1017
+#define CHANNEL_TRAITOR 1016
+#define CHANNEL_CHARGED_SPELL 1015
+#define CHANNEL_ELEVATOR 1014
+#define CHANNEL_ESCAPEMENU 1013
+//THIS SHOULD ALWAYS BE THE LOWEST ONE!
+//KEEP IT UPDATED
+#define CHANNEL_HIGHEST_AVAILABLE 1012
+
+#define MAX_INSTRUMENT_CHANNELS (128 * 6)
+>>>>>>> tg-pr-88929
 
 /// This is the lowest volume that can be used by playsound otherwise it gets ignored
 /// Most sounds around 10 volume can barely be heard. Almost all sounds at 5 volume or below are inaudible
@@ -77,6 +92,7 @@
 ///The default exponent of sound falloff
 #define SOUND_FALLOFF_EXPONENT 6
 
+<<<<<<< HEAD
 //THIS SHOULD ALWAYS BE THE LOWEST ONE!
 //KEEP IT UPDATED
 
@@ -84,10 +100,13 @@
 
 #define MAX_INSTRUMENT_CHANNELS (128 * 6)
 
+=======
+>>>>>>> tg-pr-88929
 #define SOUND_MINIMUM_PRESSURE 10
 
 #define INTERACTION_SOUND_RANGE_MODIFIER -3
 #define EQUIP_SOUND_VOLUME 30
+#define LIQUID_SLOSHING_SOUND_VOLUME 10
 #define PICKUP_SOUND_VOLUME 15
 #define DROP_SOUND_VOLUME 20
 #define YEET_SOUND_VOLUME 90
@@ -99,6 +118,7 @@
 #define AMBIENCE_RUINS "ruins"
 #define AMBIENCE_ENGI "engi"
 #define AMBIENCE_MINING "mining"
+#define AMBIENCE_ICEMOON "icemoon"
 #define AMBIENCE_MEDICAL "med"
 #define AMBIENCE_VIROLOGY "viro"
 #define AMBIENCE_SPOOKY "spooky"
@@ -207,6 +227,7 @@ GLOBAL_LIST_INIT(announcer_keys, list(
 #define SFX_EXPLOSION_CREAKING "explosion_creaking"
 #define SFX_HISS "hiss"
 #define SFX_HONKBOT_E "honkbot_e"
+#define SFX_GOOSE "goose"
 #define SFX_HULL_CREAKING "hull_creaking"
 #define SFX_HYPERTORUS_CALM "hypertorus_calm"
 #define SFX_HYPERTORUS_MELTING "hypertorus_melting"
@@ -228,6 +249,7 @@ GLOBAL_LIST_INIT(announcer_keys, list(
 #define SFX_CRUNCHY_BUSH_WHACK "crunchy_bush_whack"
 #define SFX_TREE_CHOP "tree_chop"
 #define SFX_ROCK_TAP "rock_tap"
+<<<<<<< HEAD
 #define SFX_MUFFLED_SPEECH "muffspeech"
 #define SFX_BUTTON_CLICK "button_click"
 #define SFX_BUTTON_FAIL	"button_fail"
@@ -237,7 +259,55 @@ GLOBAL_LIST_INIT(announcer_keys, list(
 #define SFX_KEYBOARD "keyboard"
 #define SFX_BUTTON "button"
 #define SFX_SWITCH "switch"
+=======
+#define SFX_SEAR "sear"
+#define SFX_REEL "reel"
+#define SFX_RATTLE "rattle"
+>>>>>>> tg-pr-88929
 #define SFX_PORTAL_ENTER "portal_enter"
 #define SFX_PORTAL_CLOSE "portal_closed"
 #define SFX_PORTAL_CREATED "portal_created"
 #define SFX_SCREECH "screech"
+<<<<<<< HEAD
+=======
+#define SFX_TOOL_SWITCH "tool_switch"
+#define SFX_KEYBOARD_CLICKS "keyboard_clicks"
+#define SFX_STONE_DROP "stone_drop"
+#define SFX_STONE_PICKUP "stone_pickup"
+#define SFX_MUFFLED_SPEECH "muffspeech"
+#define SFX_DEFAULT_FISH_SLAP "default_fish_slap"
+#define SFX_ALT_FISH_SLAP "alt_fish_slap"
+#define SFX_FISH_PICKUP "fish_pickup"
+#define SFX_CAT_MEOW "cat_meow"
+#define SFX_CAT_PURR "cat_purr"
+#define SFX_LIQUID_POUR "liquid_pour"
+#define SFX_SNORE_FEMALE "snore_female"
+#define SFX_SNORE_MALE "snore_male"
+#define SFX_PLASTIC_BOTTLE_LIQUID_SLOSH "plastic_bottle_liquid_slosh"
+#define SFX_DEFAULT_LIQUID_SLOSH "default_liquid_slosh"
+#define SFX_PLATE_ARMOR_RUSTLE "plate_armor_rustle"
+#define SFX_PIG_OINK "pig_oink"
+#define SFX_VISOR_UP "visor_up"
+#define SFX_VISOR_DOWN "visor_down"
+#define SFX_SIZZLE "sizzle"
+#define SFX_GROWL "growl"
+#define SFX_POLAROID "polaroid"
+#define SFX_HALLUCINATION_TURN_AROUND "hallucination_turn_around"
+#define SFX_HALLUCINATION_I_SEE_YOU "hallucination_i_see_you"
+#define SFX_HALLUCINATION_OVER_HERE "hallucination_over_here"
+#define SFX_HALLUCINATION_I_M_HERE "hallucination_i_m_here"
+#define SFX_VOID_DEFLECT "void_deflect"
+#define SFX_LOW_HISS "low_hiss"
+#define SFX_INDUSTRIAL_SCAN "industrial_scan"
+#define SFX_MALE_SIGH "male_sigh"
+#define SFX_FEMALE_SIGH "female_sigh"
+#define SFX_WRITING_PEN "writing_pen"
+#define SFX_SEATBELT_BUCKLE "buckle"
+#define SFX_SEATBELT_UNBUCKLE "unbuckle"
+
+// Standard is 44.1khz
+#define MIN_EMOTE_PITCH 40000
+#define MAX_EMOTE_PITCH 48000
+// ~0.6 - 1.4 at 0.12
+#define EMOTE_TTS_PITCH_MULTIPLIER 0.12
+>>>>>>> tg-pr-88929

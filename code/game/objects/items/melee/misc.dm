@@ -1,13 +1,6 @@
+// Deprecated, you do not need to use this type for melee weapons.
 /obj/item/melee
 	item_flags = NEEDS_PERMIT
-
-/obj/item/melee/proc/check_martial_counter(mob/living/carbon/human/target, mob/living/carbon/human/user)
-	if(target.check_block())
-		target.visible_message(span_danger("[target.name] blocks [src] and twists [user]'s arm behind [user.p_their()] back!"),
-					span_userdanger("You block the attack!"))
-		user.Stun(40)
-		return TRUE
-
 
 /obj/item/melee/chainofcommand
 	name = "chain of command"
@@ -16,9 +9,10 @@
 	icon_state = "chain"
 	inhand_icon_state = "chain"
 	worn_icon_state = "whip"
+	icon_angle = -90
 	lefthand_file = 'icons/mob/inhands/weapons/melee_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/weapons/melee_righthand.dmi'
-	flags_1 = CONDUCT_1
+	obj_flags = CONDUCTS_ELECTRICITY
 	slot_flags = ITEM_SLOT_BELT
 	force = 1
 	pain_damage = 12
@@ -29,7 +23,11 @@
 	w_class = WEIGHT_CLASS_NORMAL
 	attack_verb_continuous = list("flogs", "whips", "lashes", "disciplines")
 	attack_verb_simple = list("flog", "whip", "lash", "discipline")
+<<<<<<< HEAD
 	hitsound = 'sound/weapons/chainhit.ogg'
+=======
+	hitsound = 'sound/items/weapons/chainhit.ogg'
+>>>>>>> tg-pr-88929
 	custom_materials = list(/datum/material/iron = HALF_SHEET_MATERIAL_AMOUNT)
 
 /obj/item/melee/chainofcommand/suicide_act(mob/living/user)
@@ -42,18 +40,24 @@
 	icon = 'icons/obj/weapons/changeling_items.dmi'
 	icon_state = "arm_blade"
 	inhand_icon_state = "arm_blade"
+	icon_angle = 180
 	lefthand_file = 'icons/mob/inhands/antag/changeling_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/antag/changeling_righthand.dmi'
 	w_class = WEIGHT_CLASS_HUGE
 	force = 20
 	throwforce = 10
-	hitsound = 'sound/weapons/bladeslice.ogg'
-	attack_verb_continuous = list("attacks", "slashes", "stabs", "slices", "tears", "lacerates", "rips", "dices", "cuts")
-	attack_verb_simple = list("attack", "slash", "stab", "slice", "tear", "lacerate", "rip", "dice", "cut")
+	hitsound = 'sound/items/weapons/bladeslice.ogg'
+	attack_verb_continuous = list("attacks", "slashes", "slices", "tears", "lacerates", "rips", "dices", "cuts")
+	attack_verb_simple = list("attack", "slash", "slice", "tear", "lacerate", "rip", "dice", "cut")
 	sharpness = SHARP_EDGED
+	var/list/alt_continuous = list("stabs", "pierces", "impales")
+	var/list/alt_simple = list("stab", "pierce", "impale")
 
 /obj/item/melee/synthetic_arm_blade/Initialize(mapload)
 	. = ..()
+	alt_continuous = string_list(alt_continuous)
+	alt_simple = string_list(alt_simple)
+	AddComponent(/datum/component/alternative_sharpness, SHARP_POINTY, alt_continuous, alt_simple, -5)
 	AddComponent(/datum/component/butchering, \
 	speed = 6 SECONDS, \
 	effectiveness = 80, \
@@ -66,11 +70,17 @@
 	icon = 'icons/obj/weapons/sword.dmi'
 	icon_state = "sabre"
 	inhand_icon_state = "sabre"
+	icon_angle = -45
 	lefthand_file = 'icons/mob/inhands/weapons/swords_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/weapons/swords_righthand.dmi'
+<<<<<<< HEAD
 	flags_1 = CONDUCT_1
 	obj_flags = UNIQUE_RENAME
 	force = 20 // MONKESTATION EDIT ORG 15
+=======
+	obj_flags = CONDUCTS_ELECTRICITY | UNIQUE_RENAME
+	force = 15
+>>>>>>> tg-pr-88929
 	throwforce = 10
 	demolition_mod = 0.75 //but not metal
 	w_class = WEIGHT_CLASS_BULKY
@@ -79,27 +89,61 @@
 	sharpness = SHARP_EDGED
 	attack_verb_continuous = list("slashes", "cuts")
 	attack_verb_simple = list("slash", "cut")
+<<<<<<< HEAD
 	block_sound = 'sound/weapons/parry.ogg'
 	hitsound = 'sound/weapons/rapierhit.ogg'
 	custom_materials = list(/datum/material/iron = HALF_SHEET_MATERIAL_AMOUNT)
 	wound_bonus = 5 // MONKESTATION EDIT ORG 10
 	bare_wound_bonus = 20 // MONKESTATION EDIT ORG 25
+=======
+	block_sound = 'sound/items/weapons/parry.ogg'
+	hitsound = 'sound/items/weapons/rapierhit.ogg'
+	custom_materials = list(/datum/material/iron = HALF_SHEET_MATERIAL_AMOUNT)
+	wound_bonus = 10
+	bare_wound_bonus = 25
+>>>>>>> tg-pr-88929
 
 /obj/item/melee/sabre/Initialize(mapload)
 	. = ..()
-	AddComponent(/datum/component/butchering, \
-	speed = 3 SECONDS, \
-	effectiveness = 95, \
-	bonus_modifier = 5, \
-	)
+	AddComponent(/datum/component/jousting)
 	//fast and effective, but as a sword, it might damage the results.
+	AddComponent(/datum/component/butchering, \
+		speed = 3 SECONDS, \
+		effectiveness = 95, \
+		bonus_modifier = 5, \
+	)
+	// The weight of authority comes down on the tider's crimes.
+	AddElement(/datum/element/bane, target_type = /mob/living/carbon/human, damage_multiplier = 0.35)
+	RegisterSignal(src, COMSIG_OBJECT_PRE_BANING, PROC_REF(attempt_bane))
+	RegisterSignal(src, COMSIG_OBJECT_ON_BANING, PROC_REF(bane_effects))
 
-/obj/item/melee/sabre/hit_reaction(mob/living/carbon/human/owner, atom/movable/hitby, attack_text = "the attack", final_block_chance = 0, damage = 0, attack_type = MELEE_ATTACK)
-	if(attack_type == PROJECTILE_ATTACK)
-		final_block_chance = 0 //Don't bring a sword to a gunfight
+/**
+ * If the target reeks of maintenance, the blade can tear through their body with a total of 20 damage.
+ */
+/obj/item/melee/sabre/proc/attempt_bane(element_owner, mob/living/carbon/criminal)
+	SIGNAL_HANDLER
+	var/obj/item/organ/liver/liver = criminal.get_organ_slot(ORGAN_SLOT_LIVER)
+	if(isnull(liver) || !HAS_TRAIT(liver, TRAIT_MAINTENANCE_METABOLISM))
+		return COMPONENT_CANCEL_BANING
+
+/**
+ * Assistants should fear this weapon.
+ */
+/obj/item/melee/sabre/proc/bane_effects(element_owner, mob/living/carbon/human/baned_target)
+	SIGNAL_HANDLER
+	baned_target.visible_message(
+		span_warning("[src] tears through [baned_target] with unnatural ease!"),
+		span_userdanger("As [src] tears into your body, you feel the weight of authority collapse into your wounds!"),
+	)
+	INVOKE_ASYNC(baned_target, TYPE_PROC_REF(/mob/living/carbon/human, emote), "scream")
+
+/obj/item/melee/sabre/hit_reaction(mob/living/carbon/human/owner, atom/movable/hitby, attack_text = "the attack", final_block_chance = 0, damage = 0, attack_type = MELEE_ATTACK, damage_type = BRUTE)
+	if(attack_type == PROJECTILE_ATTACK || attack_type == LEAP_ATTACK)
+		final_block_chance = 0 //Don't bring a sword to a gunfight, and also you aren't going to really block someone full body tackling you with a sword
 	return ..()
 
 /obj/item/melee/sabre/on_exit_storage(datum/storage/container)
+<<<<<<< HEAD
 	var/obj/item/storage/belt/sabre/sabre = container.real_location
 	if(istype(sabre))
 		playsound(sabre, 'sound/items/unsheath.ogg', 25, TRUE)
@@ -108,6 +152,12 @@
 	var/obj/item/storage/belt/sabre/sabre = container.real_location
 	if(istype(sabre))
 		playsound(sabre, 'sound/items/sheath.ogg', 25, TRUE)
+=======
+	playsound(container.parent, 'sound/items/unsheath.ogg', 25, TRUE)
+
+/obj/item/melee/sabre/on_enter_storage(datum/storage/container)
+	playsound(container.parent, 'sound/items/sheath.ogg', 25, TRUE)
+>>>>>>> tg-pr-88929
 
 /obj/item/melee/sabre/suicide_act(mob/living/user)
 	user.visible_message(span_suicide("[user] is trying to cut off all [user.p_their()] limbs with [src]! it looks like [user.p_theyre()] trying to commit suicide!"))
@@ -152,6 +202,48 @@
 		user.death(FALSE)
 	REMOVE_TRAIT(src, TRAIT_NODROP, SABRE_SUICIDE_TRAIT)
 
+
+/obj/item/melee/parsnip_sabre
+	name = "parsnip sabre"
+	desc = "A weird, yet elegant weapon. Suprisingly sharp for something made from a parsnip."
+	icon = 'icons/obj/weapons/sword.dmi'
+	icon_state = "parsnip_sabre"
+	inhand_icon_state = "parsnip_sabre"
+	icon_angle = -45
+	lefthand_file = 'icons/mob/inhands/weapons/swords_lefthand.dmi'
+	righthand_file = 'icons/mob/inhands/weapons/swords_righthand.dmi'
+	force = 15
+	throwforce = 10
+	demolition_mod = 0.3
+	w_class = WEIGHT_CLASS_BULKY
+	block_chance = 40
+	armour_penetration = 40
+	sharpness = SHARP_EDGED
+	attack_verb_continuous = list("slashes", "cuts")
+	attack_verb_simple = list("slash", "cut")
+	block_sound = 'sound/items/weapons/parry.ogg'
+	hitsound = 'sound/items/weapons/rapierhit.ogg'
+	custom_materials = null
+	wound_bonus = 5
+	bare_wound_bonus = 15
+
+/obj/item/melee/parsnip_sabre/Initialize(mapload)
+	. = ..()
+	AddComponent(/datum/component/jousting)
+
+/obj/item/melee/parsnip_sabre/hit_reaction(mob/living/carbon/human/owner, atom/movable/hitby, attack_text = "the attack", final_block_chance = 0, damage = 0, attack_type = MELEE_ATTACK, damage_type = BRUTE)
+	if(attack_type == PROJECTILE_ATTACK || attack_type == LEAP_ATTACK)
+		final_block_chance = 0 //Don't bring a sword to a gunfight, and also you aren't going to really block someone full body tackling you with a sword
+	return ..()
+
+/obj/item/melee/parsnip_sabre/on_exit_storage(datum/storage/container)
+	. = ..()
+	playsound(container.parent, 'sound/items/unsheath.ogg', 25, TRUE)
+
+/obj/item/melee/parsnip_sabre/on_enter_storage(datum/storage/container)
+	. = ..()
+	playsound(container.parent, 'sound/items/sheath.ogg', 25, TRUE)
+
 /obj/item/melee/beesword
 	name = "The Stinger"
 	desc = "Taken from a giant bee and folded over one thousand times in pure honey. Can sting through anything."
@@ -159,6 +251,7 @@
 	icon_state = "beesword"
 	inhand_icon_state = "stinger"
 	worn_icon_state = "stinger"
+	icon_angle = -45
 	lefthand_file = 'icons/mob/inhands/weapons/melee_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/weapons/melee_righthand.dmi'
 	slot_flags = ITEM_SLOT_BELT
@@ -171,8 +264,13 @@
 	armour_penetration = 100
 	attack_verb_continuous = list("slashes", "stings", "prickles", "pokes")
 	attack_verb_simple = list("slash", "sting", "prickle", "poke")
+<<<<<<< HEAD
 	hitsound = 'sound/weapons/rapierhit.ogg'
 	block_sound = 'sound/weapons/parry.ogg'
+=======
+	hitsound = 'sound/items/weapons/rapierhit.ogg'
+	block_sound = 'sound/items/weapons/parry.ogg'
+>>>>>>> tg-pr-88929
 
 /obj/item/melee/beesword/hit_reaction(mob/living/carbon/human/owner, atom/movable/hitby, attack_text = "the attack", final_block_chance = 0, damage = 0, attack_type = MELEE_ATTACK, damage_type = BRUTE)
 	if(attack_type == PROJECTILE_ATTACK || attack_type == LEAP_ATTACK)
@@ -193,8 +291,9 @@
 	name = "supermatter sword"
 	desc = "In a station full of bad ideas, this might just be the worst."
 	icon = 'icons/obj/weapons/sword.dmi'
-	icon_state = "supermatter_sword"
+	icon_state = "supermatter_sword_balanced"
 	inhand_icon_state = "supermatter_sword"
+	icon_angle = -90
 	lefthand_file = 'icons/mob/inhands/weapons/swords_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/weapons/swords_righthand.dmi'
 	slot_flags = null
@@ -250,6 +349,8 @@
 /obj/item/melee/supermatter_sword/pickup(user)
 	..()
 	balanced = 0
+	icon_state = "supermatter_sword"
+	icon_angle = -45
 
 /obj/item/melee/supermatter_sword/ex_act(severity, target)
 	visible_message(
@@ -257,6 +358,7 @@
 		span_hear("You hear a loud crack as you are washed with a wave of heat.")
 	)
 	consume_everything()
+	return TRUE
 
 /obj/item/melee/supermatter_sword/acid_act()
 	visible_message(span_danger("The acid smacks into [src] and rapidly flashes to ash."),\
@@ -300,13 +402,41 @@
 	)
 	shard.Bump(turf)
 
+<<<<<<< HEAD
+=======
+/obj/item/melee/curator_whip
+	name = "curator's whip"
+	desc = "Somewhat eccentric and outdated, it still stings like hell to be hit by."
+	icon = 'icons/obj/weapons/whip.dmi'
+	icon_state = "whip"
+	inhand_icon_state = "chain"
+	icon_angle = -90
+	lefthand_file = 'icons/mob/inhands/weapons/melee_lefthand.dmi'
+	righthand_file = 'icons/mob/inhands/weapons/melee_righthand.dmi'
+	worn_icon_state = "whip"
+	slot_flags = ITEM_SLOT_BELT
+	force = 15
+	demolition_mod = 0.25
+	w_class = WEIGHT_CLASS_NORMAL
+	attack_verb_continuous = list("flogs", "whips", "lashes", "disciplines")
+	attack_verb_simple = list("flog", "whip", "lash", "discipline")
+	hitsound = 'sound/items/weapons/whip.ogg'
+
+/obj/item/melee/curator_whip/afterattack(atom/target, mob/user, click_parameters)
+	if(ishuman(target))
+		var/mob/living/carbon/human/human_target = target
+		human_target.drop_all_held_items()
+		human_target.visible_message(span_danger("[user] disarms [human_target]!"), span_userdanger("[user] disarmed you!"))
+
+>>>>>>> tg-pr-88929
 /obj/item/melee/roastingstick
 	name = "advanced roasting stick"
 	desc = "A telescopic roasting stick with a miniature shield generator designed to ensure entry into various high-tech shielded cooking ovens and firepits."
-	icon = 'icons/obj/kitchen.dmi'
+	icon = 'icons/obj/service/kitchen.dmi'
 	icon_state = "roastingstick"
 	inhand_icon_state = null
 	worn_icon_state = "tele_baton"
+	icon_angle = -45
 	slot_flags = ITEM_SLOT_BELT
 	w_class = WEIGHT_CLASS_SMALL
 	item_flags = NONE
@@ -356,7 +486,11 @@
 	inhand_icon_state = active ? "nullrod" : null
 	if(user)
 		balloon_alert(user, "[active ? "extended" : "collapsed"] [src]")
+<<<<<<< HEAD
 	playsound(src, 'sound/weapons/batonextend.ogg', 50, TRUE)
+=======
+	playsound(src, 'sound/items/weapons/batonextend.ogg', 50, TRUE)
+>>>>>>> tg-pr-88929
 	return COMPONENT_NO_DEFAULT_MESSAGE
 
 /obj/item/melee/roastingstick/attackby(atom/target, mob/user)
@@ -378,16 +512,15 @@
 	..()
 	if (held_sausage)
 		user.put_in_hands(held_sausage)
-		held_sausage = null
-	update_appearance()
 
 /obj/item/melee/roastingstick/update_overlays()
 	. = ..()
 	if(held_sausage)
 		. += mutable_appearance(icon, "roastingstick_sausage")
 
-/obj/item/melee/roastingstick/handle_atom_del(atom/target)
-	if (target == held_sausage)
+/obj/item/melee/roastingstick/Exited(atom/movable/gone, direction)
+	. = ..()
+	if (gone == held_sausage)
 		held_sausage = null
 		update_appearance()
 
@@ -398,9 +531,14 @@
 		return NONE
 	if (istype(interacting_with, /obj/singularity) && get_dist(user, interacting_with) < 10)
 		to_chat(user, span_notice("You send [held_sausage] towards [interacting_with]."))
+<<<<<<< HEAD
 		playsound(src, 'sound/items/rped.ogg', 50, TRUE)
 		beam = user.Beam(interacting_with, icon_state = "rped_upgrade", time = 10 SECONDS)
 		finish_roasting(user, interacting_with)
+=======
+		playsound(src, 'sound/items/tools/rped.ogg', 50, TRUE)
+		beam = user.Beam(interacting_with, icon_state = "rped_upgrade", time = 10 SECONDS)
+>>>>>>> tg-pr-88929
 		return ITEM_INTERACT_SUCCESS
 	return NONE
 
@@ -410,21 +548,29 @@
 	if (!is_type_in_typecache(interacting_with, ovens))
 		return NONE
 	to_chat(user, span_notice("You extend [src] towards [interacting_with]."))
+<<<<<<< HEAD
 	playsound(src, 'sound/weapons/batonextend.ogg', 50, TRUE)
+=======
+	playsound(src, 'sound/items/weapons/batonextend.ogg', 50, TRUE)
+>>>>>>> tg-pr-88929
 	finish_roasting(user, interacting_with)
 	return ITEM_INTERACT_SUCCESS
 
 /obj/item/melee/roastingstick/proc/finish_roasting(user, atom/target)
+<<<<<<< HEAD
 	if(do_after(user, 10 SECONDS, target = user) && held_sausage)
+=======
+	if(do_after(user, 10 SECONDS, target = user))
+>>>>>>> tg-pr-88929
 		to_chat(user, span_notice("You finish roasting [held_sausage]."))
-		playsound(src, 'sound/items/welder2.ogg', 50, TRUE)
+		playsound(src, 'sound/items/tools/welder2.ogg', 50, TRUE)
 		held_sausage.add_atom_colour(rgb(103, 63, 24), FIXED_COLOUR_PRIORITY)
 		held_sausage.name = "[target.name]-roasted [held_sausage.name]"
 		held_sausage.desc = "[held_sausage.desc] It has been cooked to perfection on \a [target]."
 		update_appearance()
 	else
 		QDEL_NULL(beam)
-		playsound(src, 'sound/weapons/batonextend.ogg', 50, TRUE)
+		playsound(src, 'sound/items/weapons/batonextend.ogg', 50, TRUE)
 		to_chat(user, span_notice("You put [src] away."))
 
 /obj/item/melee/cleric_mace
@@ -434,21 +580,56 @@
 	icon_state = "default"
 	inhand_icon_state = "default"
 	worn_icon_state = "default_worn"
+	icon_angle = -45
 
 	greyscale_config = /datum/greyscale_config/cleric_mace
 	greyscale_config_inhand_left = /datum/greyscale_config/cleric_mace_lefthand
 	greyscale_config_inhand_right = /datum/greyscale_config/cleric_mace_righthand
 	greyscale_config_worn = /datum/greyscale_config/cleric_mace
-	greyscale_colors = "#FFFFFF"
+	greyscale_colors = COLOR_WHITE + COLOR_BROWN
 
 	material_flags = MATERIAL_EFFECTS | MATERIAL_ADD_PREFIX | MATERIAL_GREYSCALE | MATERIAL_AFFECT_STATISTICS //Material type changes the prefix as well as the color.
+<<<<<<< HEAD
 	custom_materials = list(/datum/material/iron = SHEET_MATERIAL_AMOUNT*6)  //Defaults to an Iron Mace.
+=======
+	custom_materials = list(/datum/material/iron = SHEET_MATERIAL_AMOUNT * 4.5, /datum/material/wood = SHEET_MATERIAL_AMOUNT * 1.5)  //Defaults to an Iron Mace.
+>>>>>>> tg-pr-88929
 	slot_flags = ITEM_SLOT_BELT
 	force = 14
 	w_class = WEIGHT_CLASS_BULKY
 	throwforce = 8
 	block_chance = 10
+<<<<<<< HEAD
 	block_sound = 'sound/weapons/genhit.ogg'
 	armour_penetration = 75
+=======
+	block_sound = 'sound/items/weapons/genhit.ogg'
+	armour_penetration = 50
+>>>>>>> tg-pr-88929
 	attack_verb_continuous = list("smacks", "strikes", "cracks", "beats")
 	attack_verb_simple = list("smack", "strike", "crack", "beat")
+
+///Cleric maces are made of two custom materials: one is handle, and the other is the mace itself.
+/obj/item/melee/cleric_mace/get_material_multiplier(datum/material/custom_material, list/materials, index)
+	if(length(materials) <= 1)
+		return 1.2
+	if(index == 1)
+		return 1
+	else
+		return 0.3
+
+/obj/item/melee/cleric_mace/get_material_prefixes(list/materials)
+	var/datum/material/material = materials[1]
+	return material.name //It only inherits the name of the main material it's made of. The secondary is in the description.
+
+/obj/item/melee/cleric_mace/finalize_material_effects(list/materials)
+	. = ..()
+	if(length(materials) == 1)
+		return
+	var/datum/material/material = materials[2]
+	desc = "[initial(desc)] Its handle is made of [material.name]."
+
+/obj/item/melee/cleric_mace/hit_reaction(mob/living/carbon/human/owner, atom/movable/hitby, attack_text = "the attack", final_block_chance = 0, damage = 0, attack_type = MELEE_ATTACK, damage_type = BRUTE)
+	if(attack_type == PROJECTILE_ATTACK || attack_type == LEAP_ATTACK)
+		final_block_chance = 0 //Don't bring a...mace to a gunfight, and also you aren't going to really block someone full body tackling you with a mace
+	return ..()

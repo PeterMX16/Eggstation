@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Window } from '../../layouts';
 import { useBackend, useLocalState } from '../../backend';
 import {
@@ -13,6 +14,25 @@ import { ModulesPane } from './ModulesPane';
 import { AlertPane } from './AlertPane';
 import { AccessConfig } from '../common/AccessConfig';
 import { MainData } from './data';
+=======
+import { useState } from 'react';
+import {
+  Button,
+  ByondUi,
+  LabeledList,
+  ProgressBar,
+  Section,
+  Stack,
+} from 'tgui-core/components';
+import { formatSiUnit } from 'tgui-core/format';
+
+import { useBackend } from '../../backend';
+import { Window } from '../../layouts';
+import { AccessConfig } from '../common/AccessConfig';
+import { AlertPane } from './AlertPane';
+import { MainData } from './data';
+import { ModulesPane } from './ModulesPane';
+>>>>>>> tg-pr-88929
 
 export const Mecha = (props) => {
   const { data } = useBackend<MainData>();
@@ -27,7 +47,11 @@ export const Mecha = (props) => {
 
 export const Content = (props) => {
   const { act, data } = useBackend<MainData>();
+<<<<<<< HEAD
   const [edit_access, editAccess] = useLocalState('edit_access', false);
+=======
+  const [edit_access, editAccess] = useState(false);
+>>>>>>> tg-pr-88929
   const {
     name,
     mecha_flags,
@@ -156,15 +180,24 @@ const PowerBar = (props) => {
           bad: [-Infinity, 0.25],
         }}
         style={{
+<<<<<<< HEAD
           'text-shadow': '1px 1px 0 black',
+=======
+          textShadow: '1px 1px 0 black',
+>>>>>>> tg-pr-88929
         }}
       >
         {power_max === null
           ? 'Power cell missing'
           : power_level === 1e31
             ? 'Infinite'
+<<<<<<< HEAD
             : `${formatSiUnit(power_level * 1000, 0, 'J')} of ${formatSiUnit(
                 power_max * 1000,
+=======
+            : `${formatSiUnit(power_level, 0, 'J')} of ${formatSiUnit(
+                power_max,
+>>>>>>> tg-pr-88929
                 0,
                 'J',
               )}`}
@@ -186,7 +219,11 @@ const IntegrityBar = (props) => {
           bad: [-Infinity, 0.25],
         }}
         style={{
+<<<<<<< HEAD
           'text-shadow': '1px 1px 0 black',
+=======
+          textShadow: '1px 1px 0 black',
+>>>>>>> tg-pr-88929
         }}
       >
         {!scanmod_rating ? 'Unknown' : `${integrity} of ${integrity_max}`}

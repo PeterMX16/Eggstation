@@ -2,8 +2,9 @@
 /datum/mutation/nearsight
 	name = "Near Sightness"
 	desc = "The holder of this mutation has poor eyesight."
+	instability = NEGATIVE_STABILITY_MODERATE
 	quality = MINOR_NEGATIVE
-	text_gain_indication = "<span class='danger'>You can't see very well.</span>"
+	text_gain_indication = span_danger("You can't see very well.")
 
 /datum/mutation/nearsight/on_acquiring(mob/living/carbon/human/owner)
 	. = ..()
@@ -20,8 +21,9 @@
 /datum/mutation/blind
 	name = "Blindness"
 	desc = "Renders the subject completely blind."
+	instability = NEGATIVE_STABILITY_MAJOR
 	quality = NEGATIVE
-	text_gain_indication = "<span class='danger'>You can't seem to see anything.</span>"
+	text_gain_indication = span_danger("You can't seem to see anything.")
 
 /datum/mutation/blind/on_acquiring(mob/living/carbon/human/owner)
 	. = ..()
@@ -40,9 +42,9 @@
 	desc = "The user of this genome can visually perceive the unique human thermal signature."
 	quality = POSITIVE
 	difficulty = 18
-	text_gain_indication = "<span class='notice'>You can see the heat rising off of your skin...</span>"
-	text_lose_indication = "<span class='notice'>You can no longer see the heat rising off of your skin...</span>"
-	instability = 25
+	text_gain_indication = span_notice("You can see the heat rising off of your skin...")
+	text_lose_indication = span_notice("You can no longer see the heat rising off of your skin...")
+	instability = POSITIVE_INSTABILITY_MAJOR // thermals aren't station equipment
 	synchronizer_coeff = 1
 	power_coeff = 1
 	energy_coeff = 1
@@ -110,9 +112,9 @@
 ///X-ray Vision lets you see through walls.
 /datum/mutation/xray
 	name = "X Ray Vision"
-	desc = "A strange genome that allows the user to see between the spaces of walls." //actual x-ray would mean you'd constantly be blasting rads, wich might be fun for later //hmb
-	text_gain_indication = "<span class='notice'>The walls suddenly disappear!</span>"
-	instability = 35
+	desc = "A strange genome that allows the user to see between the spaces of walls." //actual x-ray would mean you'd constantly be blasting rads, which might be fun for later //hmb
+	text_gain_indication = span_notice("The walls suddenly disappear!")
+	instability = POSITIVE_INSTABILITY_MAJOR
 	locked = TRUE
 
 /datum/mutation/xray/on_acquiring(mob/living/carbon/human/owner)
@@ -136,14 +138,14 @@
 	quality = POSITIVE
 	locked = TRUE
 	difficulty = 16
-	text_gain_indication = "<span class='notice'>You feel pressure building up behind your eyes.</span>"
+	text_gain_indication = span_notice("You feel pressure building up behind your eyes.")
 	layer_used = FRONT_MUTATIONS_LAYER
 	limb_req = BODY_ZONE_HEAD
 
 /datum/mutation/laser_eyes/New(datum/mutation/copymut)
 	..()
 	if(!(type in visual_indicators))
-		visual_indicators[type] = list(mutable_appearance('icons/effects/genetics.dmi', "lasereyes", -FRONT_MUTATIONS_LAYER))
+		visual_indicators[type] = list(mutable_appearance('icons/mob/effects/genetics.dmi', "lasereyes", -FRONT_MUTATIONS_LAYER))
 
 /datum/mutation/laser_eyes/on_acquiring(mob/living/carbon/human/H)
 	. = ..()
@@ -167,29 +169,39 @@
 	if(!(source.istate & ISTATE_HARM))
 		return
 	to_chat(source, span_warning("You shoot with your laser eyes!"))
+<<<<<<< HEAD
 //	source.changeNext_move(CLICK_CD_RANGE) // MONKESTATION EDIT OLD
 	source.changeNext_move(CLICK_CD_RANGE * GET_MUTATION_ENERGY(src)) // MONKESTATION EDIT NEW
 	source.newtonian_move(get_dir(target, source))
+=======
+	source.changeNext_move(CLICK_CD_RANGE)
+	source.newtonian_move(get_angle(source, target))
+>>>>>>> tg-pr-88929
 	var/obj/projectile/beam/laser/laser_eyes/LE = new(source.loc)
 	LE.firer = source
 	LE.damage *= GET_MUTATION_POWER(src) // MONKESTATION ADDITION
 	LE.def_zone = ran_zone(source.zone_selected)
-	LE.preparePixelProjectile(target, source, modifiers)
+	LE.aim_projectile(target, source, modifiers)
 	INVOKE_ASYNC(LE, TYPE_PROC_REF(/obj/projectile, fire))
+<<<<<<< HEAD
 	playsound(source, 'monkestation/sound/weapons/gun/energy/Laser2.ogg', 75, TRUE)
+=======
+	playsound(source, 'sound/items/weapons/taser2.ogg', 75, TRUE)
+>>>>>>> tg-pr-88929
 
 ///Projectile type used by laser eyes
 /obj/projectile/beam/laser/laser_eyes
 	name = "beam"
-	icon = 'icons/effects/genetics.dmi'
+	icon = 'icons/mob/effects/genetics.dmi'
 	icon_state = "eyelasers"
 
 /datum/mutation/illiterate
 	name = "Illiterate"
 	desc = "Causes a severe case of Aphasia that prevents reading or writing."
+	instability = NEGATIVE_STABILITY_MAJOR
 	quality = NEGATIVE
-	text_gain_indication = "<span class='danger'>You feel unable to read or write.</span>"
-	text_lose_indication = "<span class='danger'>You feel able to read and write again.</span>"
+	text_gain_indication = span_danger("You feel unable to read or write.")
+	text_lose_indication = span_danger("You feel able to read and write again.")
 
 /datum/mutation/illiterate/on_acquiring(mob/living/carbon/human/owner)
 	. = ..()
@@ -201,3 +213,4 @@
 	if(..())
 		return
 	REMOVE_TRAIT(owner, TRAIT_ILLITERATE, GENETIC_MUTATION)
+

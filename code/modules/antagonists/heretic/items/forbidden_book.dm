@@ -1,8 +1,9 @@
 // Ye old forbidden book, the Codex Cicatrix.
 /obj/item/codex_cicatrix
 	name = "Codex Cicatrix"
-	desc = "This book describes the secrets of the veil between worlds."
-	icon = 'icons/obj/eldritch.dmi'
+	desc = "This heavy tome is full of cryptic scribbles and impossible diagrams. \
+	According to legend, it can be deciphered to reveal the secrets of the veil between worlds."
+	icon = 'icons/obj/antags/eldritch.dmi'
 	base_icon_state = "book"
 	icon_state = "book"
 	worn_icon_state = "book"
@@ -29,7 +30,11 @@
 
 	. += span_notice("Can be used to tap influences for additional knowledge points.")
 	. += span_notice("Can also be used to draw or remove transmutation runes with ease.")
+<<<<<<< HEAD
 	. += span_notice("Additionally, it can work as a focus for your spells in a pinch, though a more specialized relic is recommended, as this may get dropped in combat.")
+=======
+	. += span_notice("Additionally, it can work as a focus for your spells when held.")
+>>>>>>> tg-pr-88929
 
 /obj/item/codex_cicatrix/attack_self(mob/user, modifiers)
 	. = ..()
@@ -39,6 +44,7 @@
 	if(book_open)
 		close_animation()
 		RemoveElement(/datum/element/heretic_focus)
+<<<<<<< HEAD
 		w_class = WEIGHT_CLASS_SMALL
 	else
 		open_animation()
@@ -47,6 +53,16 @@
 
 /obj/item/codex_cicatrix/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
 	var/datum/antagonist/heretic/heretic_datum = IS_HERETIC(user)
+=======
+		update_weight_class(WEIGHT_CLASS_SMALL)
+	else
+		open_animation()
+		AddElement(/datum/element/heretic_focus)
+		update_weight_class(WEIGHT_CLASS_NORMAL)
+
+/obj/item/codex_cicatrix/interact_with_atom(atom/interacting_with, mob/living/user, list/modifiers)
+	var/datum/antagonist/heretic/heretic_datum = GET_HERETIC(user)
+>>>>>>> tg-pr-88929
 	if(!heretic_datum)
 		return NONE
 	if(isopenturf(interacting_with))
@@ -56,16 +72,22 @@
 		return ITEM_INTERACT_BLOCKING
 	return NONE
 
+<<<<<<< HEAD
 /*
  * Plays a little animation that shows the book opening and closing.
  */
+=======
+/// Plays a little animation that shows the book opening and closing.
+>>>>>>> tg-pr-88929
 /obj/item/codex_cicatrix/proc/open_animation()
 	book_open = TRUE
 	icon_state = "[base_icon_state]_open"
 	flick("[base_icon_state]_opening", src)
+	book_open = TRUE
 
 /// Plays a closing animation and resets the icon state.
 /obj/item/codex_cicatrix/proc/close_animation()
 	book_open = FALSE
 	icon_state = base_icon_state
 	flick("[base_icon_state]_closing", src)
+	book_open = FALSE

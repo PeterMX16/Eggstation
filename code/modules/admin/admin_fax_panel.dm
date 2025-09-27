@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 ADMIN_VERB(fax_panel, R_ADMIN, FALSE, "Fax Panel", "View and respond to faxes sent to CC.", ADMIN_CATEGORY_EVENTS)
+=======
+ADMIN_VERB(fax_panel, R_ADMIN, "Fax Panel", "View and respond to faxes sent to CC.", ADMIN_CATEGORY_EVENTS)
+>>>>>>> tg-pr-88929
 	var/datum/fax_panel_interface/ui = new /datum/fax_panel_interface(user.mob)
 	ui.ui_interact(user.mob)
 
@@ -20,6 +24,11 @@ ADMIN_VERB(fax_panel, R_ADMIN, FALSE, "Fax Panel", "View and respond to faxes se
 /datum/fax_panel_interface/New()
 	//Get all faxes, and save them to our list.
 	for(var/obj/machinery/fax/fax as anything in SSmachines.get_machines_by_type_and_subtypes(/obj/machinery/fax))
+<<<<<<< HEAD
+=======
+		if(istype(fax, /obj/machinery/fax/admin))
+			continue
+>>>>>>> tg-pr-88929
 		available_faxes += WEAKREF(fax)
 
 	//Get all stamps
@@ -90,6 +99,10 @@ ADMIN_VERB(fax_panel, R_ADMIN, FALSE, "Fax Panel", "View and respond to faxes se
 		if("follow")
 			if(!isobserver(ui.user))
 				SSadmin_verbs.dynamic_invoke_verb(ui.user, /datum/admin_verb/admin_ghost)
+<<<<<<< HEAD
+=======
+
+>>>>>>> tg-pr-88929
 			ui.user.client?.admin_follow(action_fax)
 
 		if("preview") // see saved variant

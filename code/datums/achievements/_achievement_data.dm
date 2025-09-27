@@ -24,7 +24,7 @@
 	for(var/T in data)
 		var/datum/award/A = SSachievements.awards[T]
 		if(data[T] != original_cached_data[T])//If our data from before is not the same as now, save it to db.
-			var/deets = A.get_changed_rows(owner_ckey,data[T])
+			var/deets = A.get_changed_rows(src)
 			if(deets)
 				. += list(deets)
 
@@ -53,12 +53,11 @@
 
 ///Updates local cache with db data for the given achievement type if it wasn't loaded yet.
 /datum/achievement_data/proc/get_data(achievement_type)
-	var/datum/award/A = SSachievements.awards[achievement_type]
-	if(!A.name)
+	var/datum/award/award = SSachievements.awards[achievement_type]
+	if(!award.name)
 		return FALSE
 	if(!data[achievement_type])
-		data[achievement_type] = A.load(owner_ckey)
-		original_cached_data[achievement_type] = data[achievement_type]
+		award.load(src)
 
 ///Unlocks an achievement of a specific type. achievement type is a typepath to the award, user is the mob getting the award, and value is an optional value to be used for defining a score to add to the leaderboard
 /datum/achievement_data/proc/unlock(achievement_type, mob/user, value = 1)
@@ -66,8 +65,9 @@
 
 	if(!SSachievements.achievements_enabled)
 		return
-	var/datum/award/A = SSachievements.awards[achievement_type]
+	var/datum/award/award = SSachievements.awards[achievement_type]
 	get_data(achievement_type) //Get the current status first if necessary
+<<<<<<< HEAD
 	if(istype(A, /datum/award/achievement))
 		if(data[achievement_type]) //You already unlocked it so don't bother running the unlock proc
 			return
@@ -75,6 +75,9 @@
 		A.on_unlock(user) //Only on default achievement, as scores keep going up.
 	else if(istype(A, /datum/award/score))
 		data[achievement_type] += value
+=======
+	award.unlock(user, src, value)
+>>>>>>> tg-pr-88929
 	update_static_data(user)
 
 ///Getter for the status/score of an achievement
@@ -99,10 +102,18 @@
 	. = ..()
 	.["categories"] = GLOB.achievement_categories
 	.["achievements"] = list()
+<<<<<<< HEAD
 	.["highscore"] = list()
 	.["user_key"] = user.ckey
 
 	var/datum/asset/spritesheet_batched/achievements/assets = get_asset_datum(/datum/asset/spritesheet_batched/achievements)
+=======
+	.["highscores"] = list()
+	.["progresses"] = list()
+	.["user_key"] = owner_ckey
+
+	var/datum/asset/spritesheet/simple/assets = get_asset_datum(/datum/asset/spritesheet/simple/achievements)
+>>>>>>> tg-pr-88929
 	for(var/achievement_type in SSachievements.awards)
 		var/datum/award/award = SSachievements.awards[achievement_type]
 		if(!award.name) //No name? we a subtype.
@@ -116,14 +127,30 @@
 			"icon_class" = assets.icon_class_name("achievement-[award.icon_state]"),
 			"value" = data[achievement_type],
 			)
+<<<<<<< HEAD
 		award_data += award.get_ui_data(user.ckey)
 		.["achievements"] += list(award_data)
 
 	for(var/score in SSachievements.scores)
 		var/datum/award/score/S = SSachievements.scores[score]
 		if(!S.name || !S.track_high_scores || !S.high_scores.len)
+=======
+		award_data += award.get_ui_data(award_data, src)
+		.["achievements"] += list(award_data)
+
+	for(var/score_type in SSachievements.scores)
+		var/datum/award/score/score = SSachievements.scores[score_type]
+		if(!score.name)
+>>>>>>> tg-pr-88929
 			continue
-		.["highscore"] += list(list("name" = S.name,"scores" = S.high_scores))
+		if(istype(score, /datum/award/score/progress))
+			var/datum/award/score/progress/prog = score
+			var/list/prog_data = prog.get_progress(src)
+			if(length(prog_data))
+				.["progresses"] += list(prog_data)
+		if(!score.track_high_scores || !length(score.high_scores))
+			continue
+		.["highscores"] += list(list("name" = score.name, "scores" = score.high_scores))
 
 /client/verb/checkachievements()
 	set category = "OOC"

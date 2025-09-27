@@ -7,4 +7,7 @@
 	key = "blood_drunk_miner"
 	map_name = "blood_drunk_miner"
 	reward_points = BITRUNNER_REWARD_MEDIUM
+<<<<<<< HEAD
 	safehouse_path = /datum/map_template/safehouse/lavaland_boss
+=======
+>>>>>>> tg-pr-88929

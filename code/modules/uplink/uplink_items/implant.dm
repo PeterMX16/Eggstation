@@ -49,6 +49,7 @@
 	// An empty uplink is kinda useless.
 	surplus = 0
 	restricted = TRUE
+	purchasable_from = parent_type::purchasable_from & ~UPLINK_SPY
 
 /datum/uplink_item/implants/thermals
 	name = "Thermal Eyes"

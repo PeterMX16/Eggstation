@@ -1,5 +1,23 @@
 import { map, sortBy } from 'common/collections';
+import { useState } from 'react';
+import {
+  Box,
+  Button,
+  Collapsible,
+  Divider,
+  Flex,
+  Icon,
+  Input,
+  LabeledList,
+  Modal,
+  ProgressBar,
+  Section,
+  Tabs,
+  VirtualList,
+} from 'tgui-core/components';
+
 import { useBackend, useLocalState } from '../backend';
+<<<<<<< HEAD
 import {
   Button,
   Section,
@@ -15,6 +33,9 @@ import {
   Divider,
 } from '../components';
 import { Window, NtosWindow } from '../layouts';
+=======
+import { NtosWindow, Window } from '../layouts';
+>>>>>>> tg-pr-88929
 import { Experiment } from './ExperimentConfigure';
 
 // Data reshaping / ingestion (thanks stylemistake for the help, very cool!)
@@ -39,9 +60,9 @@ const selectRemappedStaticData = (data) => {
       ...node,
       id: remapId(id),
       costs,
-      prereq_ids: map(remapId)(node.prereq_ids || []),
-      design_ids: map(remapId)(node.design_ids || []),
-      unlock_ids: map(remapId)(node.unlock_ids || []),
+      prereq_ids: map(node.prereq_ids || [], remapId),
+      design_ids: map(node.design_ids || [], remapId),
+      unlock_ids: map(node.unlock_ids || [], remapId),
       required_experiments: node.required_experiments || [],
       discount_experiments: node.discount_experiments || [],
     };
@@ -149,7 +170,11 @@ export const TechwebContent = (props) => {
     node_cache,
   } = data;
   const [techwebRoute, setTechwebRoute] = useLocalState('techwebRoute', null);
+<<<<<<< HEAD
   const [lastPoints, setLastPoints] = useLocalState('lastPoints', {});
+=======
+  const [lastPoints, setLastPoints] = useState({});
+>>>>>>> tg-pr-88929
 
   return (
     <Flex direction="column" className="Techweb__Viewport" height="100%">
@@ -167,8 +192,13 @@ export const TechwebContent = (props) => {
                 </span>
               </LabeledList.Item>
               {Object.keys(points).map((k) => (
+<<<<<<< HEAD
                 <LabeledList.Item key={k}>
                   <b>{k}</b>: {points[k]}
+=======
+                <LabeledList.Item key={k} label="Points">
+                  <b>{points[k]}</b>
+>>>>>>> tg-pr-88929
                   {!!points_last_tick[k] && ` (+${points_last_tick[k]}/sec)`}
                 </LabeledList.Item>
               ))}
@@ -240,7 +270,11 @@ const TechwebRouter = (props) => {
 const TechwebOverview = (props) => {
   const { act, data } = useRemappedBackend();
   const { nodes, node_cache, design_cache } = data;
+<<<<<<< HEAD
   const [tabIndex, setTabIndex] = useLocalState('overviewTabIndex', 1);
+=======
+  const [tabIndex, setTabIndex] = useState(1);
+>>>>>>> tg-pr-88929
   const [searchText, setSearchText] = useLocalState('searchText');
 
   // Only search when 3 or more characters have been input
@@ -259,10 +293,14 @@ const TechwebOverview = (props) => {
       );
     });
   } else {
-    displayedNodes = sortBy((x) => node_cache[x.id].name)(
+    displayedNodes = sortBy(
       tabIndex < 2
         ? nodes.filter((x) => x.tier === tabIndex)
         : nodes.filter((x) => x.tier >= tabIndex),
+<<<<<<< HEAD
+=======
+      (x) => node_cache[x.id].name,
+>>>>>>> tg-pr-88929
     );
   }
 
@@ -311,9 +349,11 @@ const TechwebOverview = (props) => {
         </Flex>
       </Flex.Item>
       <Flex.Item className={'Techweb__OverviewNodes'} height="100%">
-        {displayedNodes.map((n) => {
-          return <TechNode node={n} key={n.id} />;
-        })}
+        <VirtualList key={tabIndex + searchText}>
+          {displayedNodes.map((n) => {
+            return <TechNode node={n} key={n.id} />;
+          })}
+        </VirtualList>
       </Flex.Item>
     </Flex>
   );
@@ -427,7 +467,11 @@ const TechNodeDetail = (props) => {
   const { node } = props;
   const { id } = node;
   const { prereq_ids, unlock_ids } = node_cache[id];
+<<<<<<< HEAD
   const [tabIndex, setTabIndex] = useLocalState('nodeDetailTabIndex', 0);
+=======
+  const [tabIndex, setTabIndex] = useState(0);
+>>>>>>> tg-pr-88929
   const [techwebRoute, setTechwebRoute] = useLocalState('techwebRoute', null);
 
   const prereqNodes = nodes.filter((x) => prereq_ids.includes(x.id));
@@ -495,10 +539,17 @@ const TechNode = (props) => {
     node_cache,
     design_cache,
     experiments,
+<<<<<<< HEAD
     points,
     nodes,
     queue_nodes = [],
     point_types_abbreviations = [],
+=======
+    points = [],
+    nodes,
+    point_types_abbreviations = [],
+    queue_nodes = [],
+>>>>>>> tg-pr-88929
   } = data;
   const { node, nodetails, nocontrols } = props;
   const {
@@ -519,7 +570,11 @@ const TechNode = (props) => {
     discount_experiments,
   } = node_cache[id];
   const [techwebRoute, setTechwebRoute] = useLocalState('techwebRoute', null);
+<<<<<<< HEAD
   const [tabIndex, setTabIndex] = useLocalState('nodeDetailTabIndex', 0);
+=======
+  const [tabIndex, setTabIndex] = useState(0);
+>>>>>>> tg-pr-88929
 
   const expcompl = required_experiments.filter(
     (x) => experiments[x]?.completed,
@@ -659,7 +714,7 @@ const TechNode = (props) => {
       <Box className="Techweb__NodeUnlockedDesigns" mb={2}>
         {design_ids.map((k, i) => (
           <Button
-            key={id}
+            key={k}
             className={`${design_cache[k].class} Techweb__DesignIcon`}
             tooltip={design_cache[k].name}
             tooltipPosition={i % 15 < 7 ? 'right' : 'left'}
@@ -671,10 +726,14 @@ const TechNode = (props) => {
           className="Techweb__NodeExperimentsRequired"
           title="Required Experiments"
         >
+<<<<<<< HEAD
           {required_experiments.map((k) => {
+=======
+          {required_experiments.map((k, index) => {
+>>>>>>> tg-pr-88929
             const thisExp = experiments[k];
             if (thisExp === null || thisExp === undefined) {
-              return <LockedExperiment />;
+              return <LockedExperiment key={index} />;
             }
             return <Experiment key={thisExp} exp={thisExp} />;
           })}
@@ -685,10 +744,14 @@ const TechNode = (props) => {
           className="TechwebNodeExperimentsRequired"
           title="Discount-Eligible Experiments"
         >
+<<<<<<< HEAD
           {Object.keys(discount_experiments).map((k) => {
+=======
+          {Object.keys(discount_experiments).map((k, index) => {
+>>>>>>> tg-pr-88929
             const thisExp = experiments[k];
             if (thisExp === null || thisExp === undefined) {
-              return <LockedExperiment />;
+              return <LockedExperiment key={index} />;
             }
             return (
               <Experiment key={thisExp} exp={thisExp}>

@@ -1,9 +1,14 @@
+<<<<<<< HEAD
 import { createSearch, toTitleCase } from 'common/string';
 import { useBackend, useLocalState, useSharedState } from '../backend';
+=======
+import { useState } from 'react';
+>>>>>>> tg-pr-88929
 import {
   BlockQuote,
   Box,
   Button,
+<<<<<<< HEAD
   Table,
   Tabs,
   Input,
@@ -22,11 +27,35 @@ export const OreRedemptionMachine = (props) => {
   const [tab, setTab] = useSharedState('tab', 1);
   const [searchItem, setSearchItem] = useLocalState('searchItem', '');
   const [compact, setCompact] = useSharedState('compact', false);
+=======
+  DmIcon,
+  Icon,
+  Input,
+  LabeledList,
+  Section,
+  Stack,
+  Table,
+  Tabs,
+} from 'tgui-core/components';
+import { formatSiUnit } from 'tgui-core/format';
+import { createSearch, toTitleCase } from 'tgui-core/string';
+
+import { useBackend, useSharedState } from '../backend';
+import { Window } from '../layouts';
+
+export const OreRedemptionMachine = (props) => {
+  const { act, data } = useBackend();
+  const { disconnected, unclaimedPoints, materials, user } = data;
+  const [tab, setTab] = useSharedState('tab', 'material');
+  const [searchItem, setSearchItem] = useState('');
+  const [compact, setCompact] = useState(false);
+>>>>>>> tg-pr-88929
   const search = createSearch(searchItem, (materials) => materials.name);
   const material_filtered =
     searchItem.length > 0
       ? data.materials.filter(search)
       : materials.filter((material) => material && material.category === tab);
+
   return (
     <Window title="Ore Redemption Machine" width={435} height={500}>
       <Window.Content>
@@ -144,6 +173,7 @@ export const OreRedemptionMachine = (props) => {
               <Table>
                 {material_filtered.map((material) => (
                   <MaterialRow
+                    compact={compact}
                     key={material.id}
                     material={material}
                     onRelease={(amount) => {
@@ -171,8 +201,12 @@ export const OreRedemptionMachine = (props) => {
 };
 
 const MaterialRow = (props) => {
+<<<<<<< HEAD
   const { material, onRelease } = props;
   const [compact, setCompact] = useLocalState('compact', false);
+=======
+  const { compact, material, onRelease } = props;
+>>>>>>> tg-pr-88929
 
   const sheet_amounts = Math.floor(material.amount);
   const print_amount = 5;

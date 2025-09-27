@@ -12,7 +12,7 @@
 	density = FALSE
 	show_flavor = FALSE //Flavour only exists for spawners menu
 	you_are_text = "You are a space pirate."
-	flavour_text = "The station refused to pay for your protection, protect the ship, siphon the credits from the station and raid it for even more loot."
+	flavour_text = "The station refused to pay for your protection. Protect the ship, siphon the credits from the station, and raid it for even more loot."
 	spawner_job_path = /datum/job/space_pirate
 	random_appearance = TRUE
 	dont_be_a_shit = FALSE //explicitly an antag
@@ -51,7 +51,7 @@
 
 /obj/effect/mob_spawn/ghost_role/human/pirate/skeleton
 	name = "pirate remains"
-	desc = "Some unanimated bones. They feel like they could spring to life any moment!"
+	desc = "Some inanimate bones. They feel like they could spring to life at any moment!"
 	density = FALSE
 	icon = 'icons/effects/blood.dmi'
 	icon_state = "remains"
@@ -63,7 +63,7 @@
 
 /obj/effect/mob_spawn/ghost_role/human/pirate/skeleton/captain
 	rank = "Captain"
-	outfit = /datum/outfit/pirate/captain
+	outfit = /datum/outfit/pirate/captain/skeleton
 
 /obj/effect/mob_spawn/ghost_role/human/pirate/skeleton/gunner
 	rank = "Gunner"
@@ -138,7 +138,11 @@
 	icon_state = "sleeper"
 	prompt_name = "An assistant gone loose"
 	outfit = /datum/outfit/pirate/grey
+<<<<<<< HEAD
 	rank = "Tidemaster"
+=======
+	rank = "Tider"
+>>>>>>> tg-pr-88929
 
 /obj/effect/mob_spawn/ghost_role/human/pirate/grey/shitter
 	rank = "Tidemaster"
@@ -148,7 +152,11 @@
 	desc = "A surprisingly clean cryogenic sleeper. You can see your reflection on the sides!"
 	density = FALSE
 	you_are_text = "You are an agent working for the space IRS"
+<<<<<<< HEAD
 	flavour_text = "Not even in the expanse of the expanding universe can someone evade the tax man! Whether you are just a well disciplined and professional pirate gang or an actual agent from a local polity. You will squeeze the station dry of it's income regardless! Through peaceful means or otherwise..."
+=======
+	flavour_text = "Not even in the expanse of the expanding universe can someone evade the tax man! Whether you are just a well disciplined and professional pirate gang or an actual agent from a local polity. You will squeeze the station dry of its income regardless! Through peaceful means or otherwise..."
+>>>>>>> tg-pr-88929
 	icon = 'icons/obj/machines/sleeper.dmi'
 	icon_state = "sleeper"
 	prompt_name = "An agent of the space IRS"
@@ -179,7 +187,11 @@
 	density = FALSE
 	you_are_text = "Once you were a proud Ethereal, now all that remains is your hunger for the precious bluespace crystal."
 	flavour_text = "The station has denied you your bluespace crystals, the sweet ambrosia of the fifth-dimension. Strike the earth!"
+<<<<<<< HEAD
 	icon = 'icons/obj/ethereal_crystal.dmi'
+=======
+	icon = 'icons/mob/effects/ethereal_crystal.dmi'
+>>>>>>> tg-pr-88929
 	icon_state = "ethereal_crystal"
 	fluff_spawn = null
 	prompt_name = "a geode dweller"
@@ -193,3 +205,36 @@
 
 /obj/effect/mob_spawn/ghost_role/human/pirate/lustrous/gunner
 	rank = "Coruscant"
+<<<<<<< HEAD
+=======
+
+/obj/effect/mob_spawn/ghost_role/human/pirate/medieval
+	name = "\improper Improvised sleeper"
+	desc = "A body bag poked with holes, currently being used as a sleeping bag. Someone seems to be sleeping inside of it."
+	density = FALSE
+	you_are_text = "You were a nobody before, until you were given a sword and the opportunity to rise up in ranks. If you put some effort, you can make it big!"
+	flavour_text = "Raiding some cretins while engaging in bloodsport and violence? what a deal. Stay together and pillage everything!"
+	icon = 'icons/obj/medical/bodybag.dmi'
+	icon_state = "bodybag"
+	fluff_spawn = null
+	prompt_name = "a medieval warmonger"
+	outfit = /datum/outfit/pirate/medieval
+	rank = "Footsoldier"
+
+/obj/effect/mob_spawn/ghost_role/human/pirate/medieval/special(mob/living/carbon/spawned_mob)
+	. = ..()
+	if(rank == "Footsoldier")
+		spawned_mob.add_traits(list(TRAIT_NOGUNS, TRAIT_TOSS_GUN_HARD), INNATE_TRAIT)
+		spawned_mob.AddComponent(/datum/component/unbreakable)
+		var/datum/action/cooldown/mob_cooldown/dash/dodge = new(spawned_mob)
+		dodge.Grant(spawned_mob)
+
+/obj/effect/mob_spawn/ghost_role/human/pirate/medieval/warlord
+	rank = "Warlord"
+	outfit = /datum/outfit/pirate/medieval/warlord
+
+/obj/effect/mob_spawn/ghost_role/human/pirate/medieval/warlord/special(mob/living/carbon/spawned_mob)
+	. = ..()
+	spawned_mob.dna.add_mutation(/datum/mutation/human/hulk/superhuman)
+	spawned_mob.dna.add_mutation(/datum/mutation/human/gigantism)
+>>>>>>> tg-pr-88929

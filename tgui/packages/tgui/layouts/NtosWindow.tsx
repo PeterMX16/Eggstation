@@ -4,23 +4,38 @@
  * @license MIT
  */
 
+<<<<<<< HEAD
 import { Box, Button } from '../components';
 import type { BooleanLike } from 'common/react';
+=======
+import { Box, Button } from 'tgui-core/components';
+import { BooleanLike } from 'tgui-core/react';
+>>>>>>> tg-pr-88929
 
 import { resolveAsset } from '../assets';
 import { useBackend } from '../backend';
 import { Window } from './Window';
 
 export type NTOSData = {
+<<<<<<< HEAD
   comp_light_color: string;
+=======
+  authenticatedUser: string | null;
+  authIDName: string;
+  comp_light_color: string;
+  has_id: BooleanLike;
+>>>>>>> tg-pr-88929
   has_light: BooleanLike;
   id_name: string;
   light_on: BooleanLike;
   login: Login;
   pai: string | null;
+<<<<<<< HEAD
   alert_style: number;
   alert_color: string;
   alert_name: string;
+=======
+>>>>>>> tg-pr-88929
   PC_batteryicon: string | null;
   PC_batterypercent: string | null;
   PC_device_theme: string;

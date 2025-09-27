@@ -1,7 +1,14 @@
+<<<<<<< HEAD
 import { Component } from 'inferno';
 import type { InfernoNode } from 'inferno';
 import { loadedMappings, resolveAsset } from '../../assets';
 import { fetchRetry } from '../../http';
+=======
+import { Component, ReactNode } from 'react';
+import { fetchRetry } from 'tgui-core/http';
+
+import { resolveAsset } from '../../assets';
+>>>>>>> tg-pr-88929
 import { ServerData } from './data';
 import { Dimmer, Box } from '../../components';
 
@@ -11,7 +18,7 @@ let lastError: any = null;
 
 export class ServerPreferencesFetcher extends Component<
   {
-    render: (serverData: ServerData | undefined) => InfernoNode;
+    render: (serverData: ServerData | undefined) => ReactNode;
   },
   {
     serverData?: ServerData;
@@ -32,6 +39,7 @@ export class ServerPreferencesFetcher extends Component<
 
   async populateServerData() {
     if (!fetchServerData) {
+<<<<<<< HEAD
       fetchServerData = fetchRetry(resolveAsset('preferences.json'))
         .then((response) => response.json())
         .catch((err) => {
@@ -40,6 +48,11 @@ export class ServerPreferencesFetcher extends Component<
           });
           lastError = err;
         });
+=======
+      fetchServerData = fetchRetry(resolveAsset('preferences.json')).then(
+        (response) => response.json(),
+      );
+>>>>>>> tg-pr-88929
     }
 
     const preferencesData: ServerData = await fetchServerData;
@@ -50,6 +63,7 @@ export class ServerPreferencesFetcher extends Component<
   }
 
   render() {
+<<<<<<< HEAD
     return this.state !== null &&
       this.state.serverData !== null &&
       this.state.errored === false &&
@@ -93,5 +107,8 @@ export class ServerPreferencesFetcher extends Component<
     ) : (
       'Loading...'
     );
+=======
+    return this.props?.render?.(this.state.serverData);
+>>>>>>> tg-pr-88929
   }
 }

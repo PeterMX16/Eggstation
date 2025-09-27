@@ -14,7 +14,11 @@
 	if (!ability_key)
 		CRASH("You forgot to tell this mob where to find its ability")
 
+<<<<<<< HEAD
 	var/datum/action/cooldown/using_action = controller.blackboard[ability_key]
+=======
+	var/datum/action/using_action = controller.blackboard[ability_key]
+>>>>>>> tg-pr-88929
 	if (!using_action?.IsAvailable())
 		return
 
@@ -25,9 +29,18 @@
 /datum/ai_behavior/use_mob_ability
 
 /datum/ai_behavior/use_mob_ability/perform(seconds_per_tick, datum/ai_controller/controller, ability_key)
+<<<<<<< HEAD
 	var/datum/action/cooldown/using_action = controller.blackboard[ability_key]
 	if (QDELETED(using_action))
 		finish_action(controller, FALSE, ability_key)
 		return
 	var/result = using_action.Trigger()
 	finish_action(controller, result, ability_key)
+=======
+	var/datum/action/using_action = controller.blackboard[ability_key]
+	if (QDELETED(using_action))
+		return AI_BEHAVIOR_INSTANT | AI_BEHAVIOR_FAILED
+	if(using_action.Trigger())
+		return AI_BEHAVIOR_INSTANT | AI_BEHAVIOR_SUCCEEDED
+	return AI_BEHAVIOR_INSTANT | AI_BEHAVIOR_FAILED
+>>>>>>> tg-pr-88929

@@ -1,7 +1,7 @@
 /obj/machinery/botpad
 	name = "orbital bot pad"
 	desc = "A lighter version of the orbital mech pad modified to launch bots. Requires linking to a remote to function."
-	icon = 'icons/obj/telescience.dmi'
+	icon = 'icons/obj/machines/telepad.dmi'
 	icon_state = "botpad"
 	circuit = /obj/item/circuitboard/machine/botpad
 	// ID of the console, used for linking up
@@ -21,6 +21,7 @@
 /obj/machinery/botpad/crowbar_act(mob/user, obj/item/tool)
 	return default_deconstruction_crowbar(tool)
 
+<<<<<<< HEAD
 /obj/machinery/botpad/multitool_act(mob/living/user, obj/item/multitool/multitool)
 	if(!panel_open)
 		return ITEM_INTERACT_SKIP_TO_ATTACK
@@ -28,6 +29,15 @@
 	balloon_alert(user, "saved to multitool buffer")
 	return ITEM_INTERACT_SUCCESS
 
+=======
+/obj/machinery/botpad/multitool_act(mob/living/user, obj/item/multitool/tool)
+	if(!panel_open)
+		return NONE
+	var/obj/item/multitool/multitool = tool
+	multitool.set_buffer(src)
+	balloon_alert(user, "saved to multitool buffer")
+	return ITEM_INTERACT_SUCCESS
+>>>>>>> tg-pr-88929
 
 // Checks the turf for a bot and launches it if it's the only mob on the pad.
 /obj/machinery/botpad/proc/launch(mob/living/user)
@@ -41,32 +51,53 @@
 			user.balloon_alert(user, "too many bots on the pad!")
 			return
 		possible_bot = robot  // We don't change the launched_bot var here because we are not sure if there is another bot on the pad.
+<<<<<<< HEAD
 	if(QDELETED(possible_bot)) //MONKESTATION addition
 		user.balloon_alert(user, "no bots detected on the pad!")
+=======
+
+	if(!use_energy(active_power_usage, force = FALSE))
+		balloon_alert(user, "not enough energy!")
+>>>>>>> tg-pr-88929
 		return
 	launched_bot = WEAKREF(possible_bot)
 	podspawn(list(
 		"target" = get_turf(src),
 		"path" = /obj/structure/closet/supplypod/botpod,
+<<<<<<< HEAD
 		"style" = STYLE_SEETHROUGH,
+=======
+		"style" = /datum/pod_style/seethrough,
+>>>>>>> tg-pr-88929
 		"reverse_dropoff_coords" = list(reverse_turf.x, reverse_turf.y, reverse_turf.z)
 	))
 
 /obj/machinery/botpad/proc/recall(mob/living/user)
 	var/atom/our_bot = launched_bot?.resolve()
 	if(isnull(our_bot))
+<<<<<<< HEAD
 		user.balloon_alert(user, "no bot to send back to the pad!")
+=======
+		user.balloon_alert(user, "no bots sent from the pad!")
+>>>>>>> tg-pr-88929
 		return
 	user.balloon_alert(user, "bot sent back to pad")
 	if(isbasicbot(our_bot))
 		var/mob/living/basic/bot/basic_bot = our_bot
+<<<<<<< HEAD
 		basic_bot.summon_bot(user, get_turf(src))
 	else
 		var/mob/living/simple_animal/bot/simple_bot = our_bot
 		simple_bot.call_bot(user, get_turf(src))
+=======
+		basic_bot.summon_bot(src)
+		return
+	var/mob/living/simple_animal/bot/simple_bot = our_bot
+	simple_bot.call_bot(src,  get_turf(src))
+>>>>>>> tg-pr-88929
 
 /obj/structure/closet/supplypod/botpod
-	style = STYLE_SEETHROUGH
+	style = /datum/pod_style/seethrough
 	explosionSize = list(0,0,0,0)
 	reversing = TRUE
 	reverse_option_list = list("Mobs"=TRUE,"Objects"=FALSE,"Anchored"=FALSE,"Underfloor"=FALSE,"Wallmounted"=FALSE,"Floors"=FALSE,"Walls"=FALSE,"Mecha"=FALSE)

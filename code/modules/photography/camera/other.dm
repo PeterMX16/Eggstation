@@ -9,9 +9,16 @@
 			continue
 
 		// time to steal your soul
+<<<<<<< HEAD
 		if(isrevenant(target))
 			target.apply_status_effect(/datum/status_effect/revenant/revealed, 2 SECONDS) // no hiding
 			target.apply_status_effect(/datum/status_effect/incapacitating/paralyzed/revenant, 2 SECONDS)
+=======
+		if(istype(target, /mob/living/basic/revenant))
+			var/mob/living/basic/revenant/peek_a_boo = target
+			peek_a_boo.apply_status_effect(/datum/status_effect/revenant/revealed, 2 SECONDS) // no hiding
+			peek_a_boo.apply_status_effect(/datum/status_effect/incapacitating/paralyzed/revenant, 2 SECONDS)
+>>>>>>> tg-pr-88929
 
 		target.visible_message(
 			span_warning("[target] violently flinches!"),
@@ -24,7 +31,13 @@
 	see_ghosts = CAMERA_SEE_GHOSTS_ORBIT
 
 /obj/item/camera/detective
-	name = "Detective's camera"
-	desc = "A polaroid camera with extra capacity for crime investigations."
+	name = "detective's camera"
+	desc = "A silent polaroid camera with extra capacity for crime investigations."
+	flash_enabled = FALSE
+	silent = TRUE
 	pictures_max = 30
 	pictures_left = 30
+
+/obj/item/camera/detective/after_picture(mob/user, datum/picture/picture)
+	. = ..()
+	user.playsound_local(get_turf(src), SFX_POLAROID, 35, TRUE)

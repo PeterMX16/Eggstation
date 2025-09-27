@@ -5,7 +5,11 @@
 	background_icon_state = "bg_heretic"
 	overlay_icon_state = "bg_heretic_border"
 	button_icon = 'icons/mob/actions/actions_ecult.dmi'
+<<<<<<< HEAD
 	button_icon_state = "cleave"
+=======
+	button_icon_state = "apetra_vulnera"
+>>>>>>> tg-pr-88929
 
 	school = SCHOOL_FORBIDDEN
 	cooldown_time = 45 SECONDS
@@ -56,7 +60,10 @@
 
 	new /obj/effect/temp_visual/cleave(get_turf(cast_on))
 
+<<<<<<< HEAD
 	owner.log_message("used [name] on [key_name(cast_on)]", LOG_ATTACK)
 	cast_on.log_message("was hit by [key_name(owner)] with [name]", LOG_VICTIM, log_globally = FALSE)
 
+=======
+>>>>>>> tg-pr-88929
 	return TRUE

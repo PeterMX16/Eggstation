@@ -10,11 +10,13 @@ import './styles/themes/light.scss';
 
 import { perf } from 'common/perf';
 import { combineReducers } from 'common/redux';
-import { setupHotReloading } from 'tgui-dev-server/link/client.cjs';
-import { setupGlobalEvents } from 'tgui/events';
+import { setGlobalStore } from 'tgui/backend';
 import { captureExternalLinks } from 'tgui/links';
 import { createRenderer } from 'tgui/renderer';
-import { configureStore, StoreProvider } from 'tgui/store';
+import { configureStore } from 'tgui/store';
+import { setupGlobalEvents } from 'tgui-core/events';
+import { setupHotReloading } from 'tgui-dev-server/link/client.cjs';
+
 import { audioMiddleware, audioReducer } from './audio';
 import { chatMiddleware, chatReducer } from './chat';
 import { gameMiddleware, gameReducer } from './game';
@@ -53,11 +55,7 @@ const renderApp = createRenderer(() => {
   setGlobalStore(store);
 
   const { Panel } = require('./Panel');
-  return (
-    <StoreProvider store={store}>
-      <Panel />
-    </StoreProvider>
-  );
+  return <Panel />;
 });
 
 const setupApp = () => {
@@ -80,7 +78,11 @@ const setupApp = () => {
   Byond.subscribe((type, payload) => store.dispatch({ type, payload }));
 
   // Unhide the panel
+<<<<<<< HEAD
   Byond.winset('output_selector.legacy_output_selector', {
+=======
+  Byond.winset('legacy_output_selector', {
+>>>>>>> tg-pr-88929
     left: 'output_browser',
   });
 

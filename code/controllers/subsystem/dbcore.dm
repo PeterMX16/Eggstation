@@ -3,7 +3,7 @@ SUBSYSTEM_DEF(dbcore)
 	name = "Database"
 	flags = SS_TICKER | SS_HIBERNATE
 	wait = 10 // Not seconds because we're running on SS_TICKER
-	runlevels = RUNLEVEL_INIT|RUNLEVEL_LOBBY|RUNLEVELS_DEFAULT
+	runlevels = RUNLEVEL_LOBBY|RUNLEVELS_DEFAULT
 	init_order = INIT_ORDER_DBCORE
 	priority = FIRE_PRIORITY_DATABASE
 
@@ -48,12 +48,15 @@ SUBSYSTEM_DEF(dbcore)
 
 	var/db_daemon_started = FALSE
 
+<<<<<<< HEAD
 /datum/controller/subsystem/dbcore/PreInit()
 	. = ..()
 	hibernate_checks = list(
 		NAMEOF(src, all_queries),
 	)
 
+=======
+>>>>>>> tg-pr-88929
 /datum/controller/subsystem/dbcore/Initialize()
 	//We send warnings to the admins during subsystem init, as the clients will be New'd and messages
 	//will queue properly with goonchat

@@ -4,7 +4,11 @@
  */
 
 ///Time in ticks before the anomaly goes poof/explodes depending on type.
+<<<<<<< HEAD
 #define ANOMALY_COUNTDOWN_TIMER (200 SECONDS) // monke edit: 99 seconds -> 200 seconds
+=======
+#define ANOMALY_COUNTDOWN_TIMER (120 SECONDS)
+>>>>>>> tg-pr-88929
 
 /**
  * Nuisance/funny anomalies

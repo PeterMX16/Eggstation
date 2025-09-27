@@ -66,6 +66,12 @@
 	if (QDELETED(victim) || prob(30))
 		return ..()
 
+<<<<<<< HEAD
+=======
+	if(HAS_MIND_TRAIT(victim, TRAIT_MIMING)) // mimes cant talk
+		return
+
+>>>>>>> tg-pr-88929
 	var/list/remembered_speech = controller.blackboard[BB_LEGION_RECENT_LINES] || list()
 
 	if (length(remembered_speech) && prob(50)) // Don't spam the radio

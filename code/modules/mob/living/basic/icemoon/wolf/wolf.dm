@@ -30,7 +30,11 @@
 	attack_verb_simple = "bite"
 	death_message = "snarls its last and perishes."
 
+<<<<<<< HEAD
 	attack_sound = 'sound/weapons/bite.ogg'
+=======
+	attack_sound = 'sound/items/weapons/bite.ogg'
+>>>>>>> tg-pr-88929
 	move_force = MOVE_FORCE_WEAK
 	move_resist = MOVE_FORCE_WEAK
 	pull_force = MOVE_FORCE_WEAK
@@ -43,11 +47,20 @@
 	//commands to give when tamed
 	var/static/list/pet_commands = list(
 		/datum/pet_command/idle,
+<<<<<<< HEAD
 		/datum/pet_command/free,
 		/datum/pet_command/good_boy/wolf,
 		/datum/pet_command/follow/wolf,
 		/datum/pet_command/point_targeting/attack,
 		/datum/pet_command/point_targeting/fetch,
+=======
+		/datum/pet_command/move,
+		/datum/pet_command/free,
+		/datum/pet_command/good_boy/wolf,
+		/datum/pet_command/follow/wolf,
+		/datum/pet_command/attack,
+		/datum/pet_command/fetch,
+>>>>>>> tg-pr-88929
 		/datum/pet_command/play_dead,
 		/datum/pet_command/protect_owner,
 	)
@@ -55,6 +68,10 @@
 /mob/living/basic/mining/wolf/Initialize(mapload)
 	. = ..()
 
+<<<<<<< HEAD
+=======
+	ADD_TRAIT(src, TRAIT_WOUND_LICKER, INNATE_TRAIT)
+>>>>>>> tg-pr-88929
 	AddElement(/datum/element/footstep, FOOTSTEP_MOB_CLAW)
 	AddElement(/datum/element/ai_flee_while_injured)
 	AddElement(/datum/element/ai_retaliate)
@@ -65,7 +82,12 @@
 		make_tameable()
 
 /mob/living/basic/mining/wolf/proc/make_tameable()
+<<<<<<< HEAD
 	AddComponent(/datum/component/tameable, food_types = list(/obj/item/food/meat/slab), tame_chance = 15, bonus_tame_chance = 5)
+=======
+	var/static/list/food_types = list(/obj/item/food/meat/slab)
+	AddComponent(/datum/component/tameable, food_types = food_types, tame_chance = 15, bonus_tame_chance = 5)
+>>>>>>> tg-pr-88929
 
 /mob/living/basic/mining/wolf/tamed(mob/living/tamer, atom/food)
 	new /obj/effect/temp_visual/heart(src.loc)
@@ -83,6 +105,7 @@
 	. = ..()
 	faction = new_friend.faction.Copy()
 	visible_message(span_notice("[src] lowers [src.p_their()] snout at [new_friend]'s offering and begins to wag [src.p_their()] tail."))
+<<<<<<< HEAD
 
 /obj/item/crusher_trophy/wolf_ear
 	name = "wolf ear"
@@ -95,3 +118,5 @@
 
 /obj/item/crusher_trophy/wolf_ear/on_mark_detonation(mob/living/target, mob/living/user)
 	user.apply_status_effect(/datum/status_effect/speed_boost, 1 SECONDS)
+=======
+>>>>>>> tg-pr-88929

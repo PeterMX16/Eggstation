@@ -1,4 +1,5 @@
 
+<<<<<<< HEAD
 /obj/hitby(atom/movable/AM, skipcatch, hitpush, blocked, datum/thrownthing/throwingdatum)
 	. = ..()
 	if(QDELETED(src))
@@ -80,17 +81,26 @@
 
 	// take a lot of damage from being hit with a mob - so we can defenestrate
 	take_damage(max_integrity * min(0.75, (get_armor_rating(MELEE) / 100)), BRUTE, MELEE, TRUE, get_dir(src, hitting_us), 0)
+=======
+/obj/hitby(atom/movable/hit_by, skipcatch, hitpush, blocked, datum/thrownthing/throwingdatum)
+	..()
+	var/damage_taken = hit_by.throwforce
+	if(isitem(hit_by))
+		var/obj/item/as_item = hit_by
+		damage_taken *= as_item.demolition_mod
+	take_damage(damage_taken, BRUTE, MELEE, 1, get_dir(src, hit_by))
+>>>>>>> tg-pr-88929
 
 /obj/ex_act(severity, target)
 	if(resistance_flags & INDESTRUCTIBLE)
-		return
+		return FALSE
 
 	. = ..() //contents explosion
 	if(QDELETED(src))
-		return
+		return TRUE
 	if(target == src)
 		take_damage(INFINITY, BRUTE, BOMB, 0)
-		return
+		return TRUE
 	switch(severity)
 		if(EXPLODE_DEVASTATE)
 			take_damage(INFINITY, BRUTE, BOMB, 0)
@@ -106,7 +116,10 @@
 	if(. != BULLET_ACT_HIT)
 		return .
 
+<<<<<<< HEAD
 	playsound(src, hitting_projectile.hitsound, 50, TRUE)
+=======
+>>>>>>> tg-pr-88929
 	var/damage_sustained = 0
 	if(!QDELETED(src)) //Bullet on_hit effect might have already destroyed this object
 		damage_sustained = take_damage(
@@ -119,11 +132,16 @@
 		)
 	if(hitting_projectile.suppressed != SUPPRESSED_VERY)
 		visible_message(
+<<<<<<< HEAD
 			span_danger("[src] is hit by \a [hitting_projectile.generic_name || hitting_projectile][damage_sustained ? "" : ", without leaving a mark"]!"),
+=======
+			span_danger("[src] is hit by \a [hitting_projectile][damage_sustained ? "" : ", [no_damage_feedback]"]!"),
+>>>>>>> tg-pr-88929
 			vision_distance = COMBAT_MESSAGE_RANGE,
 		)
 
 	return damage_sustained > 0 ? BULLET_ACT_HIT : BULLET_ACT_BLOCK
+<<<<<<< HEAD
 
 /obj/structure/window/bullet_act(obj/projectile/hitting_projectile, def_zone, piercing_hit)
 	// don't smack the window and its grille same turf, ever
@@ -138,6 +156,8 @@
 		return BULLET_ACT_FORCE_PIERCE
 	return .
 
+=======
+>>>>>>> tg-pr-88929
 
 /obj/attack_hulk(mob/living/carbon/human/user)
 	..()
@@ -146,7 +166,7 @@
 	else
 		playsound(src, 'sound/effects/bang.ogg', 50, TRUE)
 	var/damage = take_damage(hulk_damage(), BRUTE, MELEE, 0, get_dir(src, user))
-	user.visible_message(span_danger("[user] smashes [src][damage ? "" : ", without leaving a mark"]!"), span_danger("You smash [src][damage ? "" : ", without leaving a mark"]!"), null, COMBAT_MESSAGE_RANGE)
+	user.visible_message(span_danger("[user] smashes [src][damage ? "" : ", [no_damage_feedback]"]!"), span_danger("You smash [src][damage ? "" : ", [no_damage_feedback]"]!"), null, COMBAT_MESSAGE_RANGE)
 	return TRUE
 
 /obj/blob_act(obj/structure/blob/B)
@@ -160,7 +180,7 @@
 
 /obj/attack_alien(mob/living/carbon/alien/adult/user, list/modifiers)
 	if(attack_generic(user, 60, BRUTE, MELEE, 0))
-		playsound(src.loc, 'sound/weapons/slash.ogg', 100, TRUE)
+		playsound(src.loc, 'sound/items/weapons/slash.ogg', 100, TRUE)
 
 /obj/attack_animal(mob/living/simple_animal/user, list/modifiers)
 	. = ..()
@@ -188,7 +208,11 @@
 
 /obj/proc/collision_damage(atom/movable/pusher, force = MOVE_FORCE_DEFAULT, direction)
 	var/amt = max(0, ((force - (move_resist * MOVE_FORCE_CRUSH_RATIO)) / (move_resist * MOVE_FORCE_CRUSH_RATIO)) * 10)
+<<<<<<< HEAD
 	take_damage(amt, BRUTE)
+=======
+	take_damage(amt, BRUTE, attack_dir = REVERSE_DIR(direction))
+>>>>>>> tg-pr-88929
 
 /obj/singularity_act()
 	SSexplosions.high_mov_atom += src
@@ -224,6 +248,7 @@
 		take_damage(clamp(0.02 * exposed_temperature, 0, 20), BURN, FIRE, 0)
 	if(!(resistance_flags & ON_FIRE) && (resistance_flags & FLAMMABLE) && !(resistance_flags & FIRE_PROOF))
 		AddComponent(/datum/component/burning, custom_fire_overlay || GLOB.fire_overlay, burning_particles)
+		SEND_SIGNAL(src, COMSIG_ATOM_FIRE_ACT, exposed_temperature, exposed_volume)
 		return TRUE
 	return ..()
 
@@ -245,11 +270,50 @@
 	if(has_buckled_mobs())
 		for(var/m in buckled_mobs)
 			var/mob/living/buckled_mob = m
-			buckled_mob.electrocute_act((clamp(round(strength/400), 10, 90) + rand(-5, 5)), src, flags = SHOCK_TESLA)
+			buckled_mob.electrocute_act((clamp(round(strength * 1.25e-3), 10, 90) + rand(-5, 5)), src, flags = SHOCK_TESLA)
 
-///the obj is deconstructed into pieces, whether through careful disassembly or when destroyed.
+/**
+ * Custom behaviour per atom subtype on how they should deconstruct themselves
+ * Arguments
+ *
+ * * disassembled - TRUE means we cleanly took this atom apart using tools. FALSE means this was destroyed in a violent way
+ */
+/obj/proc/atom_deconstruct(disassembled = TRUE)
+	PROTECTED_PROC(TRUE)
+
+	return
+
+/**
+ * The interminate proc between deconstruct() & atom_deconstruct(). By default this delegates deconstruction to
+ * atom_deconstruct if NO_DEBRIS_AFTER_DECONSTRUCTION is absent but subtypes can override this to handle NO_DEBRIS_AFTER_DECONSTRUCTION in their
+ * own unique way. Override this if for example you want to dump out important content like mobs from the
+ * atom before deconstruction regardless if NO_DEBRIS_AFTER_DECONSTRUCTION is present or not
+ * Arguments
+ *
+ * * disassembled - TRUE means we cleanly took this atom apart using tools. FALSE means this was destroyed in a violent way
+ */
+/obj/proc/handle_deconstruct(disassembled = TRUE)
+	SHOULD_CALL_PARENT(FALSE)
+
+	if(!(obj_flags & NO_DEBRIS_AFTER_DECONSTRUCTION))
+		atom_deconstruct(disassembled)
+
+/**
+ * The obj is deconstructed into pieces, whether through careful disassembly or when destroyed.
+ * Arguments
+ *
+ * * disassembled - TRUE means we cleanly took this atom apart using tools. FALSE means this was destroyed in a violent way
+ */
 /obj/proc/deconstruct(disassembled = TRUE)
+	SHOULD_NOT_OVERRIDE(TRUE)
+
+	//allow objects to deconstruct themselves
+	handle_deconstruct(disassembled)
+
+	//inform objects we were deconstructed
 	SEND_SIGNAL(src, COMSIG_OBJ_DECONSTRUCT, disassembled)
+
+	//delete our self
 	qdel(src)
 
 ///what happens when the obj's integrity reaches zero.

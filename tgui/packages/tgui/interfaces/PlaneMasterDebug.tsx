@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { useBackend, useLocalState } from '../backend';
 import {
   InfinitePlane,
@@ -11,14 +12,34 @@ import {
   Tooltip,
   Slider,
 } from '../components';
+=======
+>>>>>>> tg-pr-88929
 import { sortBy } from 'common/collections';
-import { flow } from 'common/fp';
-import { classes, shallowDiffers } from 'common/react';
-import { Component, createRef, RefObject } from 'inferno';
-import { Window } from '../layouts';
+import { Component, createRef, RefObject } from 'react';
+import {
+  Box,
+  Button,
+  Dropdown,
+  InfinitePlane,
+  LabeledList,
+  Modal,
+  Section,
+  Slider,
+  Stack,
+  Tooltip,
+} from 'tgui-core/components';
+import { flow } from 'tgui-core/fp';
+import { classes, shallowDiffers } from 'tgui-core/react';
+
 import { resolveAsset } from '../assets';
-import { MOUSE_BUTTON_LEFT, noop } from './IntegratedCircuit/constants';
+import { useBackend, useLocalState } from '../backend';
+import { Window } from '../layouts';
 import { Connection, Connections, Position } from './common/Connections';
+import { MOUSE_BUTTON_LEFT, noop } from './IntegratedCircuit/constants';
+<<<<<<< HEAD
+import { Connection, Connections, Position } from './common/Connections';
+=======
+>>>>>>> tg-pr-88929
 
 enum ConnectionType {
   Relay,
@@ -128,10 +149,9 @@ const textWidth = (text, font, fontsize) => {
   // default font height is 12 in tgui
   font = fontsize + 'x ' + font;
   const c = document.createElement('canvas');
-  const ctx = c.getContext('2d') as any;
+  const ctx = c.getContext('2d') as CanvasRenderingContext2D;
   ctx.font = font;
-  const width = ctx.measureText(text).width;
-  return width;
+  return ctx.measureText(text).width;
 };
 
 const planeToPosition = function (plane: Plane, index, is_incoming): Position {
@@ -158,7 +178,7 @@ const sortConnectionRefs = function (
   direction: ConnectionDirection,
   connectSources: AssocConnected,
 ) {
-  refs = sortBy((connection: ConnectionRef) => connection.sort_by)(refs);
+  refs = sortBy(refs, (connection: ConnectionRef) => connection.sort_by);
   refs.map((connection, index) => {
     let connectSource = connectSources[connection.ref];
     if (direction === ConnectionDirection.Outgoing) {
@@ -194,7 +214,11 @@ const addConnectionRefs = function (
 };
 
 // Takes a list of planes, uses the depth stack to position them
+<<<<<<< HEAD
 const positionPlanes = function (connectSources: AssocConnected) {
+=======
+const positionPlanes = (connectSources: AssocConnected) => {
+>>>>>>> tg-pr-88929
   const { data } = useBackend<PlaneDebugData>();
   const { plane_info, relay_info, filter_connect, depth_stack } = data;
 
@@ -264,6 +288,7 @@ const positionPlanes = function (connectSources: AssocConnected) {
   // and get rid of the now unneeded parent refs
   const stack = depth_stack.map((layer) =>
     flow([
+<<<<<<< HEAD
       sortBy((plane: string) => plane_info[plane].plane),
       sortBy((plane: string) => {
         const read_from = plane_info[layer[plane]];
@@ -272,6 +297,17 @@ const positionPlanes = function (connectSources: AssocConnected) {
         }
         return read_from.plane;
       }),
+=======
+      (planes) => sortBy(planes, (plane: string) => plane_info[plane].plane),
+      (planes) =>
+        sortBy(planes, (plane: string) => {
+          const read_from = plane_info[layer[plane]];
+          if (!read_from) {
+            return 0;
+          }
+          return read_from.plane;
+        }),
+>>>>>>> tg-pr-88929
     ])(Object.keys(layer)),
   );
 
@@ -327,8 +363,8 @@ const arrayRemove = function (arr: any, value) {
 };
 
 export class PlaneMasterDebug extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.handlePortClick = this.handlePortClick.bind(this);
   }
 
@@ -406,7 +442,11 @@ export class PlaneMasterDebug extends Component {
       <Window width={1200} height={800} title={'Plane Debugging: ' + mob_name}>
         <Window.Content
           style={{
+<<<<<<< HEAD
             'background-image': 'none',
+=======
+            backgroundImage: 'none',
+>>>>>>> tg-pr-88929
           }}
         >
           <InfinitePlane
@@ -507,7 +547,6 @@ class PlaneMaster extends Component<PlaneMasterProps> {
               ? 'ObjectComponent__Greyed_Content'
               : 'ObjectComponent__Content'
           }
-          unselectable="on"
           py={1}
           px={1}
         >
@@ -570,8 +609,8 @@ class Port extends Component<PortProps> {
   // But it's how it was being done in circuit code, so eh
   iconRef: RefObject<SVGCircleElement> | RefObject<HTMLSpanElement> | any;
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.iconRef = createRef();
     this.handlePortMouseDown = this.handlePortMouseDown.bind(this);
   }
@@ -672,6 +711,13 @@ const PlaneWindow = (props) => {
   const doc_html = {
     __html: workingPlane.documentation,
   };
+
+  const setAlpha = (event, value) =>
+    act('set_alpha', {
+      edit: workingPlane.our_ref,
+      alpha: value,
+    });
+
   return (
     <Section
       top="27px"
@@ -775,6 +821,7 @@ const PlaneWindow = (props) => {
           maxValue={255}
           step={1}
           stepPixelSize={1.9}
+<<<<<<< HEAD
           onDrag={(e, value) =>
             act('set_alpha', {
               edit: workingPlane.our_ref,
@@ -787,6 +834,10 @@ const PlaneWindow = (props) => {
               alpha: value,
             })
           }
+=======
+          onDrag={setAlpha}
+          onChange={setAlpha}
+>>>>>>> tg-pr-88929
         >
           Alpha ({workingPlane.alpha})
         </Slider>
@@ -853,7 +904,11 @@ const ToggleMirror = (props) => {
   );
 };
 
+<<<<<<< HEAD
 const has_foreign_mob = function () {
+=======
+const has_foreign_mob = () => {
+>>>>>>> tg-pr-88929
   const { data } = useBackend<PlaneDebugData>();
   const { mob_ref, our_ref } = data;
   return mob_ref !== our_ref;
@@ -888,7 +943,6 @@ const GroupDropdown = (props) => {
         <Dropdown
           options={present_groups}
           selected={our_group}
-          displayText={our_group}
           onSelected={(value) =>
             act('set_group', {
               target_group: value,
@@ -900,7 +954,11 @@ const GroupDropdown = (props) => {
   );
 };
 
+<<<<<<< HEAD
 const RebuildButton = (props) => {
+=======
+const RefreshButton = (props) => {
+>>>>>>> tg-pr-88929
   const { act } = useBackend();
   const { no_position } = props;
 
@@ -936,7 +994,7 @@ const AddModal = (props) => {
   );
 
   const plane_list = Object.keys(plane_info).map((plane) => plane_info[plane]);
-  const planes = sortBy((plane: Plane) => -plane.plane)(plane_list);
+  const planes = sortBy(plane_list, (plane: Plane) => -plane.plane);
 
   const plane_options = planes.map((plane) => plane.name);
 

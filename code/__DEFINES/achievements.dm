@@ -1,7 +1,7 @@
 // Keep the identifiers here below 32 characters, you can put the full display name in the actual achievement datum
 
 /// Achievements icon set
-#define ACHIEVEMENTS_SET 'icons/ui_icons/achievements/achievements.dmi'
+#define ACHIEVEMENTS_SET 'icons/ui/achievements/achievements.dmi'
 
 #define ACHIEVEMENT_DEFAULT "default"
 #define ACHIEVEMENT_SCORE "score"
@@ -42,10 +42,13 @@
 #define MEDAL_VOID_ASCENSION "Void"
 #define MEDAL_BLADE_ASCENSION "Blade"
 #define MEDAL_COSMOS_ASCENSION "Cosmos"
+<<<<<<< HEAD
 #define MEDAL_KNOCK_ASCENSION "Knock"
+=======
+#define MEDAL_LOCK_ASCENSION "Knock"
+>>>>>>> tg-pr-88929
 #define MEDAL_MOON_ASCENSION "Moon"
 #define MEDAL_TOOLBOX_SOUL "Toolsoul"
-#define MEDAL_CHEM_TUT "Beginner Chemist"
 #define MEDAL_HOT_DAMN "Hot Damn!"
 #define MEDAL_CAYENNE_DISK "Very Important Piscis"
 #define MEDAL_TRAM_SURFER "Tram Surfer"
@@ -55,12 +58,22 @@
 #define MEDAL_SPRINGLOCK "The Man Inside the Modsuit"
 #define MEDAL_HEALTHY "Heart Healthy"
 #define MEDAL_GODS_WRATH "God's Wrath"
+<<<<<<< HEAD
 #define MEDAL_DEBT_EXTINGUISHED "Debt Extinguished"
 #define MEDAL_ARCHMAGE "Archmage"
 #define MEDAL_THEORETICAL_LIMITS "All Within Theoretical Limits"
 #define MEDAL_JARED_LETO "Jared Leto" // Monkestation addition
 #define MEDAL_GOOD_BIRD "Embrace The Bird" // MONKESTATION ADDITION: NTSL
 #define MEDAL_BAD_BIRD "Silence Bird" // MONKESTATION ADDITION: NTSL
+=======
+#define MEDAL_EARTHQUAKE_VICTIM "Earthquake Victim"
+#define MEDAL_DEBT_EXTINGUISHED "Debt Extinguished"
+#define MEDAL_SISYPHUS "Sisyphus"
+#define MEDAL_ARCHMAGE "Archmage"
+#define MEDAL_CIGARETTES "Cigarettes"
+#define MEDAL_SHARKDRAGON "Sharkdragon"
+#define MEDAL_THEORETICAL_LIMITS "All Within Theoretical Limits"
+>>>>>>> tg-pr-88929
 
 //Skill medal hub IDs
 #define MEDAL_LEGENDARY_MINER "Legendary Miner"
@@ -101,7 +114,6 @@
 #define BOSS_MEDAL_HIEROPHANT "Hierophant Killer"
 #define BOSS_MEDAL_LEGION "Legion Killer"
 #define BOSS_MEDAL_TENDRIL "Tendril Exterminator"
-#define BOSS_MEDAL_SWARMERS "Swarmer Beacon Killer"
 #define BOSS_MEDAL_WENDIGO "Wendigo Killer"
 #define BOSS_MEDAL_KINGGOAT "King Goat Killer"
 
@@ -112,7 +124,6 @@
 #define BOSS_MEDAL_DRAKE_CRUSHER "Drake Crusher"
 #define BOSS_MEDAL_HIEROPHANT_CRUSHER "Hierophant Crusher"
 #define BOSS_MEDAL_LEGION_CRUSHER "Legion Crusher"
-#define BOSS_MEDAL_SWARMERS_CRUSHER "Swarmer Beacon Crusher"
 #define BOSS_MEDAL_WENDIGO_CRUSHER "Wendigo Crusher"
 #define BOSS_MEDAL_KINGGOAT_CRUSHER "King Goat Crusher"
 
@@ -145,6 +156,12 @@
 /// DB ID for the amount of achievements unlocked by the player.
 #define ACHIEVEMENTS_SCORE "Achievements Score"
 
+<<<<<<< HEAD
+=======
+///DB ID for all the different kinds of fish that you've caught so far.
+#define FISH_SCORE "Fish Score"
+
+>>>>>>> tg-pr-88929
 // Tourist related achievements and scores
 
 //centcom grades (achievement)

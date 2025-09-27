@@ -1,7 +1,15 @@
+<<<<<<< HEAD
 import { useBackend } from '../backend';
 import { Section, Stack } from '../components';
 import { Window } from '../layouts';
 import { ObjectivePrintout, Objective } from './common/Objectives';
+=======
+import { Section, Stack } from 'tgui-core/components';
+
+import { useBackend } from '../backend';
+import { Window } from '../layouts';
+import { Objective, ObjectivePrintout } from './common/Objectives';
+>>>>>>> tg-pr-88929
 
 type Info = {
   antag_name: string;

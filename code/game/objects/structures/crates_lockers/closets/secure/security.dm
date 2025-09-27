@@ -10,17 +10,19 @@
 	new /obj/item/storage/backpack/captain(src)
 	new /obj/item/storage/backpack/satchel/cap(src)
 	new /obj/item/storage/backpack/duffelbag/captain(src)
+	new /obj/item/storage/backpack/messenger/cap(src)
 	new /obj/item/clothing/neck/petcollar(src)
 	new /obj/item/pet_carrier(src)
 	new /obj/item/storage/bag/garment/captain(src)
 	new /obj/item/computer_disk/command/captain(src)
-	new /obj/item/storage/box/silver_ids(src)
 	new /obj/item/radio/headset/heads/captain/alt(src)
 	new /obj/item/radio/headset/heads/captain(src)
-	new /obj/item/storage/belt/sabre(src)
-	new /obj/item/gun/energy/e_gun(src)
 	new /obj/item/door_remote/captain(src)
 	new /obj/item/storage/photo_album/captain(src)
+
+/obj/structure/closet/secure_closet/captains/populate_contents_immediate()
+	new /obj/item/gun/energy/e_gun(src)
+	new /obj/item/storage/belt/sabre(src)
 
 /obj/structure/closet/secure_closet/hop
 	name = "head of personnel's locker"
@@ -36,10 +38,9 @@
 	new /obj/item/computer_disk/command/hop(src)
 	new /obj/item/radio/headset/heads/hop(src)
 	new /obj/item/storage/box/ids(src)
-	new /obj/item/storage/box/ids(src)
+	new /obj/item/storage/box/silver_ids(src)
 	new /obj/item/megaphone/command(src)
 	new /obj/item/assembly/flash/handheld(src)
-	new /obj/item/gun/energy/e_gun(src)
 	new /obj/item/clothing/neck/petcollar(src)
 	new /obj/item/pet_carrier(src)
 	new /obj/item/door_remote/civilian(src)
@@ -47,6 +48,9 @@
 	new /obj/item/storage/photo_album/hop(src)
 	new /obj/item/storage/lockbox/medal/hop(src)
 	new /obj/item/clothing/suit/space/hardsuit/hop(src) //monkestation addition
+
+/obj/structure/closet/secure_closet/hop/populate_contents_immediate()
+	new /obj/item/gun/energy/e_gun(src)
 
 /obj/structure/closet/secure_closet/hos
 	name = "head of security's locker"
@@ -59,6 +63,7 @@
 	new /obj/item/card/id/departmental_budget/sec(src)
 	new /obj/item/computer_disk/command/hos(src)
 	new /obj/item/radio/headset/heads/hos(src)
+	new /obj/item/radio/headset/heads/hos/alt(src)
 	new /obj/item/storage/bag/garment/hos(src)
 	new /obj/item/storage/lockbox/medal/sec(src)
 	new /obj/item/megaphone/sec(src)
@@ -99,6 +104,13 @@
 	new /obj/item/gun/ballistic/shotgun/automatic/combat/compact(src) //undoing ancient removal
 	new /obj/item/ammo_box/advanced/s12gauge/rubber(src) //he can have some rubber ammo too
 
+
+/obj/structure/closet/secure_closet/warden/populate_contents_immediate()
+	. = ..()
+
+	// Traitor steal objective
+	new /obj/item/gun/ballistic/shotgun/automatic/combat/compact(src)
+
 /obj/structure/closet/secure_closet/security
 	name = "security officer's locker"
 	icon_state = "sec"
@@ -106,15 +118,18 @@
 
 /obj/structure/closet/secure_closet/security/PopulateContents()
 	..()
-	new /obj/item/clothing/suit/armor/vest(src)
 	new /obj/item/clothing/suit/armor/vest/alt/sec(src)
 	new /obj/item/clothing/head/helmet/sec(src)
 	new /obj/item/radio/headset/headset_sec(src)
 	new /obj/item/radio/headset/headset_sec/alt(src)
 	new /obj/item/clothing/glasses/hud/security/sunglasses(src)
 	new /obj/item/flashlight/seclite(src)
+<<<<<<< HEAD
 	new /obj/item/clothing/mask/russian_balaclava(src) //monkestation edit
 	new /obj/item/bodycam_upgrade(src) //monkestation edit: Security Liability Act
+=======
+	new /obj/item/clothing/gloves/tackler(src)
+>>>>>>> tg-pr-88929
 
 /obj/structure/closet/secure_closet/security/sec
 
@@ -156,8 +171,13 @@
 	resistance_flags = FLAMMABLE
 	max_integrity = 70
 	door_anim_time = 0 // no animation
+<<<<<<< HEAD
 	open_sound = 'sound/machines/wooden_closet_open.ogg'
 	close_sound = 'sound/machines/wooden_closet_close.ogg'
+=======
+	open_sound = 'sound/machines/closet/wooden_closet_open.ogg'
+	close_sound = 'sound/machines/closet/wooden_closet_close.ogg'
+>>>>>>> tg-pr-88929
 	req_access = list(ACCESS_DETECTIVE)
 
 /obj/structure/closet/secure_closet/detective/PopulateContents()
@@ -175,8 +195,11 @@
 	new /obj/item/binoculars(src)
 	new /obj/item/storage/box/rxglasses/spyglasskit(src)
 	new /obj/item/clothing/head/fedora/inspector_hat(src)
+<<<<<<< HEAD
 	new /obj/item/card/id/advanced/undercover(src) // Monkestation edit : Adding some substance to the detective role
 	new /obj/item/bodycam_upgrade(src) //monkestation edit: Security Liability Act
+=======
+>>>>>>> tg-pr-88929
 
 /obj/structure/closet/secure_closet/injection
 	name = "lethal injections locker"
@@ -289,7 +312,12 @@
 
 /obj/structure/closet/secure_closet/armory2
 	name = "armory ballistics locker"
+<<<<<<< HEAD
 	icon_state = "armory"
+=======
+	icon_state = "tac"
+	icon_door = "armory_shotgun"
+>>>>>>> tg-pr-88929
 	req_access = list(ACCESS_ARMORY)
 
 /obj/structure/closet/secure_closet/armory2/PopulateContents()
@@ -297,12 +325,19 @@
 	new /obj/item/storage/box/firingpins(src)
 	for(var/i in 1 to 3)
 		new /obj/item/storage/box/rubbershot(src)
+
+/obj/structure/closet/secure_closet/armory2/populate_contents_immediate()
 	for(var/i in 1 to 3)
 		new /obj/item/gun/ballistic/shotgun/riot(src)
 
 /obj/structure/closet/secure_closet/armory3
 	name = "armory energy gun locker"
+<<<<<<< HEAD
 	icon_state = "armory"
+=======
+	icon_state = "tac"
+	icon_door = "armory_energy"
+>>>>>>> tg-pr-88929
 	req_access = list(ACCESS_ARMORY)
 
 /obj/structure/closet/secure_closet/armory3/PopulateContents()
@@ -310,16 +345,22 @@
 	new /obj/item/storage/box/firingpins(src)
 	new /obj/item/gun/energy/ionrifle(src)
 	for(var/i in 1 to 3)
+		new /obj/item/gun/energy/laser/thermal(src)
+
+/obj/structure/closet/secure_closet/armory3/populate_contents_immediate()
+	for(var/i in 1 to 3)
 		new /obj/item/gun/energy/e_gun(src)
 	for(var/i in 1 to 3)
 		new /obj/item/gun/energy/laser(src)
-	for(var/i in 1 to 3)
-		new /obj/item/gun/energy/laser/thermal(src)
 
 /obj/structure/closet/secure_closet/tac
 	name = "armory tac locker"
 	icon_state = "tac"
+<<<<<<< HEAD
 	req_one_access = list("blueshield","armory")
+=======
+	req_access = list(ACCESS_ARMORY)
+>>>>>>> tg-pr-88929
 
 /obj/structure/closet/secure_closet/tac/PopulateContents()
 	..()

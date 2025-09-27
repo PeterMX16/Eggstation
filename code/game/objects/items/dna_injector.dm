@@ -110,14 +110,29 @@
 		return FALSE
 	var/endtime = world.time + duration
 	for(var/mutation in remove_mutations)
+<<<<<<< HEAD
 		target.dna.remove_mutation(mutation, list(MUTATION_SOURCE_ACTIVATED, MUTATION_SOURCE_MUTATOR))
+=======
+		if(mutation == /datum/mutation/human/race)
+			if(!ismonkey(target))
+				continue
+			target.dna.remove_mutation(mutation)
+		else
+			target.dna.remove_mutation(mutation)
+>>>>>>> tg-pr-88929
 	for(var/mutation in add_mutations)
 		if(target.dna.get_mutation(mutation))
 			continue //Skip permanent mutations we already have.
 		if(mutation == /datum/mutation/race && !ismonkey(target))
 			message_admins("[ADMIN_LOOKUPFLW(user)] injected [key_name_admin(target)] with the [name] [span_danger("(MONKEY)")]")
+<<<<<<< HEAD
 		target.dna.add_mutation(mutation, MUTATION_SOURCE_TIMED_INJECTOR)
 		addtimer(CALLBACK(target.dna, TYPE_PROC_REF(/datum/dna, remove_mutation), mutation, MUTATION_SOURCE_TIMED_INJECTOR), duration)
+=======
+			target.dna.add_mutation(mutation, MUT_OTHER, endtime)
+		else
+			target.dna.add_mutation(mutation, MUT_OTHER, endtime)
+>>>>>>> tg-pr-88929
 	if(fields)
 		if(fields["name"] && fields["UE"] && fields["blood_type"])
 			if(!target.dna.previous["name"])
@@ -158,7 +173,7 @@
 /obj/item/dnainjector/activator
 	name = "\improper DNA activator"
 	desc = "Activates the current mutation on injection, if the subject has it."
-	var/doitanyway = FALSE
+	var/force_mutate = FALSE
 	var/research = FALSE //Set to true to get expended and filled injectors for chromosomes
 	var/filled = FALSE
 	var/crispr_charge = FALSE // Look for viruses, look at symptoms, if research and Dormant DNA Activator or Viral Evolutionary Acceleration, set to true
@@ -171,8 +186,13 @@
 		if(istype(added_mutation, /datum/mutation))
 			mutation = added_mutation.type
 		if(!target.dna.activate_mutation(added_mutation))
+<<<<<<< HEAD
 			if(doitanyway)
 				target.dna.add_mutation(added_mutation, MUTATION_SOURCE_MUTATOR)
+=======
+			if(force_mutate)
+				target.dna.add_mutation(added_mutation, MUT_EXTRA)
+>>>>>>> tg-pr-88929
 		else if(research && target.client)
 		/* MONKESTATION EDIT START
 			filled = TRUE
@@ -180,10 +200,14 @@
 			for(var/datum/symptom/symp in disease.symptoms)
 				if((symp.type == /datum/symptom/genetic_mutation) || (symp.type == /datum/symptom/viralevolution))
 					crispr_charge = TRUE
+<<<<<<< HEAD
 		*/
 			filled = target.client?.ckey
 		// MONKESTATION EDIT END
 		log_combat(user, target, "[!doitanyway ? "failed to inject" : "injected"]", "[src] ([mutation])[crispr_charge ? " with CRISPR charge" : ""]")
+=======
+		log_combat(user, target, "[!force_mutate ? "failed to inject" : "injected"]", "[src] ([mutation])[crispr_charge ? " with CRISPR charge" : ""]")
+>>>>>>> tg-pr-88929
 	return TRUE
 
 /// DNA INJECTORS
@@ -425,12 +449,20 @@
 /obj/item/dnainjector/pressuremut
 	name = "\improper DNA injector (Pressure Adaptation)"
 	desc = "Gives you fire."
+<<<<<<< HEAD
 	add_mutations = list(/datum/mutation/pressure_adaptation)
+=======
+	add_mutations = list(/datum/mutation/human/adaptation/pressure)
+>>>>>>> tg-pr-88929
 
 /obj/item/dnainjector/antipressure
 	name = "\improper DNA injector (Anti-Pressure Adaptation)"
 	desc = "Cures fire."
+<<<<<<< HEAD
 	remove_mutations = list(/datum/mutation/pressure_adaptation)
+=======
+	remove_mutations = list(/datum/mutation/human/adaptation/pressure)
+>>>>>>> tg-pr-88929
 
 /obj/item/dnainjector/radioactive
 	name = "\improper DNA injector (Radioactive)"
@@ -499,12 +531,20 @@
 /obj/item/dnainjector/firemut
 	name = "\improper DNA injector (Temp Adaptation)"
 	desc = "Gives you fire."
+<<<<<<< HEAD
 	add_mutations = list(/datum/mutation/temperature_adaptation)
+=======
+	add_mutations = list(/datum/mutation/human/adaptation/thermal)
+>>>>>>> tg-pr-88929
 
 /obj/item/dnainjector/antifire
 	name = "\improper DNA injector (Anti-Temp Adaptation)"
 	desc = "Cures fire."
+<<<<<<< HEAD
 	remove_mutations = list(/datum/mutation/temperature_adaptation)
+=======
+	remove_mutations = list(/datum/mutation/human/adaptation/thermal)
+>>>>>>> tg-pr-88929
 
 /obj/item/dnainjector/thermal
 	name = "\improper DNA injector (Thermal Vision)"

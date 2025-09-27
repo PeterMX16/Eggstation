@@ -9,8 +9,15 @@
 		ui.open()
 		ui_view.display_to(user, ui.window)
 
+<<<<<<< HEAD
 /obj/vehicle/sealed/mecha/ui_status(mob/user)
 	var/common_status = min(
+=======
+/obj/vehicle/sealed/mecha/ui_status(mob/user, datum/ui_state/state)
+	if(contains(user))
+		return UI_INTERACTIVE
+	return min(
+>>>>>>> tg-pr-88929
 		ui_status_user_is_abled(user, src),
 		ui_status_only_living(user),
 	)
@@ -29,7 +36,11 @@
 
 /obj/vehicle/sealed/mecha/ui_assets(mob/user)
 	return list(
+<<<<<<< HEAD
 		get_asset_datum(/datum/asset/spritesheet_batched/mecha_equipment),
+=======
+		get_asset_datum(/datum/asset/spritesheet/mecha_equipment),
+>>>>>>> tg-pr-88929
 	)
 
 /obj/vehicle/sealed/mecha/ui_static_data(mob/user)
@@ -40,10 +51,17 @@
 	data["cabin_pressure_hazard_min"]  = HAZARD_LOW_PRESSURE
 	data["cabin_pressure_warning_max"]  = WARNING_HIGH_PRESSURE
 	data["cabin_pressure_hazard_max"]  = HAZARD_HIGH_PRESSURE
+<<<<<<< HEAD
 	data["cabin_temp_warning_min"]  = BODYTEMP_COLD_WARNING_1 - 20 - T0C
 	data["cabin_temp_hazard_min"]  = BODYTEMP_COLD_WARNING_1 - 50 - T0C
 	data["cabin_temp_warning_max"]  = BODYTEMP_HEAT_WARNING_1 + 10 - T0C
 	data["cabin_temp_hazard_max"]  = BODYTEMP_HEAT_WARNING_1 + 30 - T0C
+=======
+	data["cabin_temp_warning_min"]  = BODYTEMP_COLD_WARNING_1 + 10 - T0C
+	data["cabin_temp_hazard_min"]  = BODYTEMP_COLD_WARNING_1 - T0C
+	data["cabin_temp_warning_max"]  = BODYTEMP_HEAT_WARNING_1 - 27 - T0C
+	data["cabin_temp_hazard_max"]  = BODYTEMP_HEAT_WARNING_1 - T0C
+>>>>>>> tg-pr-88929
 	data["one_atmosphere"]  = ONE_ATMOSPHERE
 
 	data["sheet_material_amount"] = SHEET_MATERIAL_AMOUNT
@@ -60,6 +78,10 @@
 		"MECHA_INT_CONTROL_LOST" = MECHA_INT_CONTROL_LOST,
 		"MECHA_INT_SHORT_CIRCUIT" = MECHA_INT_SHORT_CIRCUIT,
 	)
+<<<<<<< HEAD
+=======
+
+>>>>>>> tg-pr-88929
 	var/list/regions = list()
 	var/list/tgui_region_data = SSid_access.all_region_access_tgui
 	for(var/region in SSid_access.station_regions)
@@ -74,7 +96,11 @@
 	data["cell"] = cell?.name
 	data["scanning"] = scanmod?.name
 	data["capacitor"] = capacitor?.name
+<<<<<<< HEAD
 	data["manipulator"] = manipulator?.name
+=======
+	data["servo"] = servo?.name
+>>>>>>> tg-pr-88929
 	ui_view.appearance = appearance
 	data["name"] = name
 	data["integrity"] = atom_integrity
@@ -83,22 +109,40 @@
 	data["power_max"] = cell?.maxcharge
 	data["mecha_flags"] = mecha_flags
 	data["internal_damage"] = internal_damage
+<<<<<<< HEAD
 	data["can_use_overclock"] = can_use_overclock
+=======
+
+	data["can_use_overclock"] = can_use_overclock
+	data["overclock_safety_available"] = overclock_safety_available
+	data["overclock_safety"] = overclock_safety
+>>>>>>> tg-pr-88929
 	data["overclock_mode"] = overclock_mode
 	data["overclock_temp_percentage"] = overclock_temp / overclock_temp_danger
 
 	data["dna_lock"] = dna_lock
 
+<<<<<<< HEAD
 
 	data["one_access"] = one_access
 	data["accesses"] = accesses
 
 	data["manipulator_rating"] = manipulator?.rating
+=======
+	data["one_access"] = one_access
+	data["accesses"] = accesses
+
+	data["servo_rating"] = servo?.rating
+>>>>>>> tg-pr-88929
 	data["scanmod_rating"] = scanmod?.rating
 	data["capacitor_rating"] = capacitor?.rating
 
 	data["weapons_safety"] = weapons_safety
+<<<<<<< HEAD
 	data["enclosed"] = enclosed
+=======
+	data["enclosed"] = mecha_flags & IS_ENCLOSED
+>>>>>>> tg-pr-88929
 	data["cabin_sealed"] = cabin_sealed
 	data["cabin_temp"] =  round(cabin_air.temperature - T0C)
 	data["cabin_pressure"] = round(cabin_air.return_pressure())
@@ -112,6 +156,7 @@
 	var/module_index = 0
 	for(var/category in max_equip_by_category)
 		var/max_per_category = max_equip_by_category[category]
+<<<<<<< HEAD
 		for(var/i = 1 to max_per_category)
 			var/equipment = equip_by_category[category]
 			var/is_slot_free = islist(equipment) ? i > length(equipment) : isnull(equipment)
@@ -142,6 +187,39 @@
 				if(isnull(ui_selected_module_index))
 					ui_selected_module_index = module_index
 			module_index++
+=======
+		if(max_per_category)
+			for(var/i = 1 to max_per_category)
+				var/equipment = equip_by_category[category]
+				var/is_slot_free = islist(equipment) ? i > length(equipment) : isnull(equipment)
+				if(is_slot_free)
+					data += list(list(
+						"slot" = category
+					))
+					if(ui_selected_module_index == module_index)
+						ui_selected_module_index = null
+				else
+					var/obj/item/mecha_parts/mecha_equipment/module = islist(equipment) ? equipment[i] : equipment
+					data += list(list(
+						"slot" = category,
+						"icon" = module.icon_state,
+						"name" = module.name,
+						"desc" = module.desc,
+						"detachable" = module.detachable,
+						"integrity" = (module.get_integrity()/module.max_integrity),
+						"can_be_toggled" = module.can_be_toggled,
+						"can_be_triggered" = module.can_be_triggered,
+						"active" = module.active,
+						"active_label" = module.active_label,
+						"equip_cooldown" = module.equip_cooldown && DisplayTimeText(module.equip_cooldown),
+						"energy_per_use" = module.energy_drain,
+						"snowflake" = module.get_snowflake_data(),
+						"ref" = REF(module),
+					))
+					if(isnull(ui_selected_module_index))
+						ui_selected_module_index = module_index
+				module_index++
+>>>>>>> tg-pr-88929
 	return data
 
 /obj/vehicle/sealed/mecha/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
@@ -191,7 +269,11 @@
 			if(userinput == format_text(name)) //default mecha names may have improper span artefacts in their name, so we format the name
 				to_chat(usr, span_notice("You rename [name] to... well, [userinput]."))
 				return
+<<<<<<< HEAD
 			name = userinput
+=======
+			name = "\proper [userinput]"
+>>>>>>> tg-pr-88929
 			chassis_camera?.update_c_tag(src)
 		if("toggle_safety")
 			set_safety(usr)
@@ -213,9 +295,14 @@
 			toggle_lights(user = usr)
 		if("toggle_overclock")
 			toggle_overclock()
+<<<<<<< HEAD
 			var/datum/action/act = locate(/datum/action/vehicle/sealed/mecha/mech_overclock) in usr.actions
 			act.button_icon_state = "mech_overload_[overclock_mode ? "on" : "off"]"
 			act.build_all_button_icons()
+=======
+		if("toggle_overclock_safety")
+			overclock_safety = !overclock_safety
+>>>>>>> tg-pr-88929
 		if("repair_int_damage")
 			try_repair_int_damage(usr, params["flag"])
 			return FALSE
@@ -223,3 +310,4 @@
 			var/obj/item/mecha_parts/mecha_equipment/gear = locate(params["ref"]) in flat_equipment
 			return gear?.ui_act(params["gear_action"], params, ui, state)
 	return TRUE
+

@@ -43,7 +43,7 @@
 	while((length(smashes) + num_drained) < how_many_can_we_make && location_sanity < 100)
 		var/turf/chosen_location = get_safe_random_station_turf_equal_weight()
 
-		// We don't want them close to each other - at least 1 tile of seperation
+		// We don't want them close to each other - at least 1 tile of separation
 		var/list/nearby_things = range(1, chosen_location)
 		var/obj/effect/heretic_influence/what_if_i_have_one = locate() in nearby_things
 		var/obj/effect/visible_heretic_influence/what_if_i_had_one_but_its_used = locate() in nearby_things
@@ -84,9 +84,14 @@
 
 /obj/effect/visible_heretic_influence/Initialize(mapload)
 	. = ..()
+<<<<<<< HEAD
 	// monke edit: make influences only show up after a minute or so, and disappear after about 10 minutes
 	addtimer(CALLBACK(src, PROC_REF(show_presence)), 1 MINUTES)
 	QDEL_IN(src, 10 MINUTES)
+=======
+	addtimer(CALLBACK(src, PROC_REF(show_presence)), 15 SECONDS)
+	AddComponent(/datum/component/fishing_spot, GLOB.preset_fish_sources[/datum/fish_source/dimensional_rift])
+>>>>>>> tg-pr-88929
 
 	var/image/silicon_image = image('icons/effects/eldritch.dmi', src, null, OBJ_LAYER)
 	silicon_image.override = TRUE
@@ -122,7 +127,7 @@
 			their_poor_arm.dismember()
 			qdel(their_poor_arm)
 	else
-		to_chat(human_user,span_danger("You pull your hand away from the hole as the eldritch energy flails, trying to latch onto existance itself!"))
+		to_chat(human_user,span_danger("You pull your hand away from the hole as the eldritch energy flails, trying to latch onto existence itself!"))
 	return TRUE
 
 /obj/effect/visible_heretic_influence/attack_tk(mob/user)
@@ -145,7 +150,7 @@
 		head.dismember()
 		qdel(head)
 	else
-		human_user.gib()
+		human_user.gib(DROP_ALL_REMAINS)
 	human_user.investigate_log("has died from using telekinesis on a heretic influence.", INVESTIGATE_DEATHS)
 	var/datum/effect_system/reagents_explosion/explosion = new()
 	explosion.set_up(1, get_turf(human_user), TRUE, 0)
@@ -183,6 +188,10 @@
 
 	AddElement(/datum/element/block_turf_fingerprints)
 	AddComponent(/datum/component/redirect_attack_hand_from_turf, interact_check = CALLBACK(src, PROC_REF(verify_user_can_see)))
+<<<<<<< HEAD
+=======
+	AddComponent(/datum/component/fishing_spot, GLOB.preset_fish_sources[/datum/fish_source/dimensional_rift])
+>>>>>>> tg-pr-88929
 
 /obj/effect/heretic_influence/proc/verify_user_can_see(mob/user)
 	return (user.mind in GLOB.reality_smash_track.tracked_heretics)
@@ -230,7 +239,7 @@
 	being_drained = TRUE
 	loc.balloon_alert(user, "draining influence...")
 
-	if(!do_after(user, 10 SECONDS, src))
+	if(!do_after(user, 10 SECONDS, src, hidden = TRUE))
 		being_drained = FALSE
 		loc.balloon_alert(user, "interrupted!")
 		return
@@ -238,7 +247,7 @@
 	// We don't need to set being_drained back since we delete after anyways
 	loc.balloon_alert(user, "influence drained")
 
-	var/datum/antagonist/heretic/heretic_datum = IS_HERETIC(user)
+	var/datum/antagonist/heretic/heretic_datum = GET_HERETIC(user)
 	heretic_datum.knowledge_points += knowledge_to_gain
 
 	// Aaand now we delete it
@@ -263,10 +272,18 @@
  */
 /obj/effect/heretic_influence/proc/generate_name()
 	name = "\improper" + pick_list(HERETIC_INFLUENCE_FILE, "prefix") + " " + pick_list(HERETIC_INFLUENCE_FILE, "postfix")
+<<<<<<< HEAD
 
 /// Hud used for heretics to see influences
 /datum/atom_hud/alternate_appearance/basic/has_antagonist/heretic
 	antag_datum_type = /datum/antagonist/heretic
 	add_ghost_version = TRUE
+=======
+>>>>>>> tg-pr-88929
 
 #undef NUM_INFLUENCES_PER_HERETIC
+
+/// Hud used for heretics to see influences
+/datum/atom_hud/alternate_appearance/basic/has_antagonist/heretic
+	antag_datum_type = /datum/antagonist/heretic
+	add_ghost_version = TRUE

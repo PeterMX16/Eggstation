@@ -11,6 +11,19 @@
 #define FIXED_COLOUR_PRIORITY 4
 ///how many colour priority levels there are.
 #define COLOUR_PRIORITY_AMOUNT 4
+/// If this is a plain atom color
+#define ATOM_COLOR_TYPE_NORMAL "normal"
+/// If this is a color filter
+#define ATOM_COLOR_TYPE_FILTER "filter"
+// Indexes for color arrays
+#define ATOM_COLOR_VALUE_INDEX 1
+#define ATOM_COLOR_TYPE_INDEX 2
+#define ATOM_PRIORITY_COLOR_FILTER "atom_priority_color"
+#define ATOM_PRIORITY_COLOR_FILTER_PRIORITY -1
+/// Multiply pixel's saturation by color's saturation. Paints accents while keeping dim areas dim.
+#define SATURATION_MULTIPLY "multiply"
+/// Always affects the original pixel's saturation and lightness.
+#define SATURATION_OVERRIDE "always"
 
 #define COLOR_DARKMODE_BACKGROUND "#202020"
 #define COLOR_DARKMODE_DARKBACKGROUND "#171717"
@@ -42,14 +55,18 @@
 #define COLOR_ETHIOPIA_RED "#DA121A"
 #define COLOR_UNION_JACK_RED "#C8102E"
 #define COLOR_MEDIUM_DARK_RED "#CC0000"
+<<<<<<< HEAD
 #define COLOR_PINK_RED "EF3340"
+=======
+#define COLOR_PINK_RED "#EF3340"
+>>>>>>> tg-pr-88929
 #define COLOR_SYNDIE_RED "#F10303"
 #define COLOR_SYNDIE_RED_HEAD "#760500"
 #define COLOR_MOSTLY_PURE_RED "#FF3300"
 #define COLOR_DARK_RED "#A50824"
 #define COLOR_RED_LIGHT "#FF3333"
-#define COLOR_FIRE_LIGHT_RED "#B61C1C"
 #define COLOR_MAROON "#800000"
+#define COLOR_FIRE_LIGHT_RED "#B61C1C"
 #define COLOR_SECURITY_RED "#CB0000"
 #define COLOR_VIVID_RED "#FF3232"
 #define COLOR_LIGHT_GRAYISH_RED "#E4C7C5"
@@ -75,6 +92,7 @@
 #define COLOR_LIME "#32CD32"
 #define COLOR_DARK_LIME "#00aa00"
 #define COLOR_VERY_PALE_LIME_GREEN "#DDFFD3"
+#define COLOR_HERETIC_GREEN COLOR_VERY_PALE_LIME_GREEN // i am co-opting this as heretic glow.
 #define COLOR_VERY_DARK_LIME_GREEN "#003300"
 #define COLOR_GREEN "#008000"
 #define COLOR_CHRISTMAS_GREEN "#00873E"
@@ -99,6 +117,8 @@
 #define COLOR_COMMAND_BLUE "#1B67A5"
 #define COLOR_MEDICAL_BLUE "#5B97BC"
 #define COLOR_MODERATE_BLUE "#555CC2"
+#define COLOR_TRAM_BLUE "#6160A8"
+#define COLOR_TRAM_LIGHT_BLUE "#A8A7DA"
 #define COLOR_AMETHYST "#822BFF"
 #define COLOR_BLUE_LIGHT "#33CCFF"
 #define COLOR_NAVY "#000080"
@@ -131,6 +151,7 @@
 #define COLOR_DARK_ORANGE "#C3630C"
 #define COLOR_PRISONER_ORANGE "#A54900"
 #define COLOR_DARK_MODERATE_ORANGE "#8B633B"
+#define COLOR_RUSTED_GLASS "#917c65"
 
 #define COLOR_BROWN "#BA9F6D"
 #define COLOR_DARK_BROWN "#997C4F"
@@ -148,6 +169,7 @@
 #define COLOR_PALE_RED_GRAY "#D59998"
 #define COLOR_PALE_PURPLE_GRAY "#CBB1CA"
 #define COLOR_PURPLE_GRAY "#AE8CA8"
+#define COLOR_GOLEM_GRAY "#8E8C81"
 
 //Color defines used by the assembly detailer.
 #define COLOR_ASSEMBLY_BLACK "#545454"
@@ -165,6 +187,25 @@
 #define COLOR_ASSEMBLY_LBLUE "#5D99BE"
 #define COLOR_ASSEMBLY_BLUE "#38559E"
 #define COLOR_ASSEMBLY_PURPLE "#6F6192"
+
+//Colors for Bioluminescence plant traits.
+#define COLOR_BIOLUMINESCENCE_STANDARD "#C3E381"
+#define COLOR_BIOLUMINESCENCE_SHADOW "#AAD84B"
+#define COLOR_BIOLUMINESCENCE_YELLOW "#FFFF66"
+#define COLOR_BIOLUMINESCENCE_GREEN "#99FF99"
+#define COLOR_BIOLUMINESCENCE_BLUE "#6699FF"
+#define COLOR_BIOLUMINESCENCE_PURPLE "#D966FF"
+#define COLOR_BIOLUMINESCENCE_PINK "#FFB3DA"
+
+//Colors for crayons.
+#define COLOR_CRAYON_RED "#DA0000"
+#define COLOR_CRAYON_ORANGE "#FF9300"
+#define COLOR_CRAYON_YELLOW "#FFF200"
+#define COLOR_CRAYON_GREEN "#A8E61D"
+#define COLOR_CRAYON_BLUE "#00B7EF"
+#define COLOR_CRAYON_PURPLE "#DA00FF"
+#define COLOR_CRAYON_BLACK "#1C1C1C"
+#define COLOR_CRAYON_RAINBOW "#FFF000"
 
 ///Colors for grayscale tools
 #define COLOR_TOOL_BLUE "#1861d5"
@@ -204,9 +245,15 @@
  * Important note: colors can end up significantly different from the basic html picture, especially when saturated
  */
 /// Bright light used by default in tubes and bulbs
+<<<<<<< HEAD
 #define LIGHT_COLOR_DEFAULT "#f3fffac4"
+=======
+#define LIGHT_COLOR_DEFAULT "#f3fffa"
+>>>>>>> tg-pr-88929
 /// Bright but quickly dissipating neon green. rgb(100, 200, 100)
 #define LIGHT_COLOR_GREEN "#64C864"
+/// Bright, pale "nuclear" green. rgb(120, 255, 120)
+#define LIGHT_COLOR_NUCLEAR "#78FF78"
 /// Vivid, slightly blue green. rgb(60, 240, 70)
 #define LIGHT_COLOR_VIVID_GREEN "#3CF046"
 /// Electric green. rgb(0, 255, 0)
@@ -219,6 +266,8 @@
 #define LIGHT_COLOR_BLUEGREEN "#7DE1AF"
 /// Diluted cyan. rgb(125, 225, 225)
 #define LIGHT_COLOR_CYAN "#7DE1E1"
+/// Faint cyan. rgb(200, 240, 255)
+#define LIGHT_COLOR_FAINT_CYAN "#CAF0FF"
 /// Baby Blue rgb(0, 170, 220)
 #define LIGHT_COLOR_BABY_BLUE "#00AADC"
 /// Electric cyan rgb(0, 255, 255)
@@ -282,6 +331,15 @@
 #define COLOR_PRIDE_BLUE "#42FFF2"
 #define COLOR_PRIDE_PURPLE "#5D5DFC"
 
+/// Colors for status/tram/incident displays
+#define COLOR_DISPLAY_RED "#BE3455"
+#define COLOR_DISPLAY_ORANGE "#FF9900"
+#define COLOR_DISPLAY_YELLOW "#FFF743"
+#define COLOR_DISPLAY_GREEN "#3CF046"
+#define COLOR_DISPLAY_CYAN "#22FFCC"
+#define COLOR_DISPLAY_BLUE "#22CCFF"
+#define COLOR_DISPLAY_PURPLE "#5D5DFC"
+
 /// The default color for admin say, used as a fallback when the preference is not enabled
 #define DEFAULT_ASAY_COLOR COLOR_MOSTLY_PURE_RED
 
@@ -293,6 +351,7 @@
 /// Icon filter that creates gaussian blur
 #define GAUSSIAN_BLUR(filter_size) filter(type="blur", size=filter_size)
 
+// Colors related to items used in construction
 #define CABLE_COLOR_BLUE "blue"
 	#define CABLE_HEX_COLOR_BLUE COLOR_STRONG_BLUE
 #define CABLE_COLOR_BROWN "brown"
@@ -311,6 +370,9 @@
 	#define CABLE_HEX_COLOR_WHITE COLOR_WHITE
 #define CABLE_COLOR_YELLOW "yellow"
 	#define CABLE_HEX_COLOR_YELLOW COLOR_YELLOW
+//windows affected by Nar'Sie turn this color.
+#define NARSIE_WINDOW_COLOUR "#7D1919"
+
 
 #define COLOR_DARKSPAWN_PSI "#7264FF"
 #define COLOR_VELVET "#21007F"
@@ -331,6 +393,30 @@
 #define COLOR_CARP_PALE_GREEN "#7ef099"
 #define COLOR_CARP_SILVER "#fdfbf3"
 #define COLOR_CARP_DARK_BLUE "#3a384d"
+#define COLOR_CARP_DARK_GREEN "#358102"
+
+#define COLOR_SLIME_ADAMANTINE "#135f49"
+#define COLOR_SLIME_BLACK "#3b3b3b"
+#define COLOR_SLIME_BLUE "#19ffff"
+#define COLOR_SLIME_BLUESPACE "#ebebeb"
+#define COLOR_SLIME_CERULEAN "#5783aa"
+#define COLOR_SLIME_DARK_BLUE "#2e9dff"
+#define COLOR_SLIME_DARK_PURPLE "#9948f7"
+#define COLOR_SLIME_GOLD "#c38b07"
+#define COLOR_SLIME_GREEN "#07f024"
+#define COLOR_SLIME_GREY "#c2c2c2"
+#define COLOR_SLIME_LIGHT_PINK "#ffe1fa"
+#define COLOR_SLIME_METAL "#676767"
+#define COLOR_SLIME_OIL "#242424"
+#define COLOR_SLIME_ORANGE "#ffb445"
+#define COLOR_SLIME_PINK "#fe5bbd"
+#define COLOR_SLIME_PURPLE "#d138ff"
+#define COLOR_SLIME_PYRITE "#ffc427"
+#define COLOR_SLIME_RAINBOW COLOR_SLIME_GREY // only for consistency
+#define COLOR_SLIME_RED "#fb4848"
+#define COLOR_SLIME_SEPIA "#9b8a7a"
+#define COLOR_SLIME_SILVER "#dadada"
+#define COLOR_SLIME_YELLOW "#fff419"
 
 #define COLOR_GNOME_RED_ONE "#f10b0b"
 #define COLOR_GNOME_RED_TWO "#bc5347"
@@ -352,6 +438,25 @@
 #define SOFA_BROWN "#a75400"
 #define SOFA_MAROON "#830000"
 
+#define COLOR_ICECREAM_VANILLA "#f2eede"
+#define COLOR_ICECREAM_CHOCOLATE "#93683c"
+#define COLOR_ICECREAM_STRAWBERRY "#f4cbcb"
+#define COLOR_ICECREAM_BLUE "#cbd5f4"
+#define COLOR_ICECREAM_LEMON "#ffff9f"
+#define COLOR_ICECREAM_CARAMEL "#d98736"
+#define COLOR_ICECREAM_ORANGESICLE "#ffa980"
+#define COLOR_ICECREAM_PEACH "#ffcc66"
+#define COLOR_ICECREAM_CUSTOM "#f3f3f3"
+#define COLOR_ICECREAM_CHERRY_CHOCOLATE "#800000"
+
+#define COLOR_AMMO_TRACK "#bd0ed4"
+#define COLOR_AMMO_MATCH "#ff0000a8"
+#define COLOR_AMMO_RUBBER "#3d3181"
+#define COLOR_AMMO_TRUESTRIKE "#ff05de"
+#define COLOR_AMMO_DUMDUM "#ffe601"
+#define COLOR_AMMO_HOTSHOT "#ff7b00"
+#define COLOR_AMMO_ICEBLOX "#0de3ff"
+
 GLOBAL_LIST_INIT(cable_colors, list(
 	CABLE_COLOR_BLUE = CABLE_HEX_COLOR_BLUE,
 	CABLE_COLOR_CYAN = CABLE_HEX_COLOR_CYAN,
@@ -364,5 +469,35 @@ GLOBAL_LIST_INIT(cable_colors, list(
 	CABLE_COLOR_BROWN = CABLE_HEX_COLOR_BROWN
 ))
 
+<<<<<<< HEAD
 //Monkestation non-modular change: This has to be here because we use it in setup_consistent_human_dna
 #define COLOR_MONKEY_BROWN "#cd8765"
+=======
+GLOBAL_LIST_INIT(heretic_path_to_color, list(
+		PATH_START = COLOR_LIME,
+		PATH_RUST = COLOR_CARGO_BROWN,
+		PATH_FLESH = COLOR_SOFT_RED,
+		PATH_ASH = COLOR_VIVID_RED,
+		PATH_VOID = COLOR_CYAN,
+		PATH_BLADE = COLOR_SILVER,
+		PATH_COSMIC = COLOR_PURPLE,
+		PATH_LOCK = COLOR_YELLOW,
+		PATH_MOON = COLOR_BLUE_LIGHT,
+	))
+
+#define HUSK_COLOR_TONE rgb(96, 88, 80)
+
+#define CM_COLOR_SAT_MIN 0.6
+#define CM_COLOR_SAT_MAX 0.7
+#define CM_COLOR_LUM_MIN 0.65
+#define CM_COLOR_LUM_MAX 0.75
+
+// Lowest priority
+#define EYE_COLOR_ORGAN_PRIORITY 1
+/// Base priority for atom colors, gets atom priorities added to it
+#define EYE_COLOR_ATOM_COLOR_PRIORITY 2
+#define EYE_COLOR_SPECIES_PRIORITY 10
+#define EYE_COLOR_WEED_PRIORITY 20
+#define EYE_COLOR_LUMINESCENT_PRIORITY 30
+#define EYE_COLOR_CULT_PRIORITY 40
+>>>>>>> tg-pr-88929

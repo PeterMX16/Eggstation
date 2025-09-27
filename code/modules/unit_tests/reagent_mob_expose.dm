@@ -44,10 +44,28 @@
 	drink.reagents.trans_to(human, 10, methods = VAPOR)
 	TEST_ASSERT(human.fire_stacks < old_fire_stacks, "Human does not get wetter after being exposed to water by vapors")
 
+<<<<<<< HEAD
+=======
+	// PATCH
+	human.health = 100
+	TEST_ASSERT_EQUAL(human.health, 100, "Human health did not set properly")
+	patch.reagents.add_reagent(/datum/reagent/method_patch_test, 1)
+	patch.self_delay = 0
+	patch.interact_with_atom(human, human)
+	TEST_ASSERT_EQUAL(human.health, 90, "Human health did not update after patch was applied")
+
+>>>>>>> tg-pr-88929
 	// INJECT
 	syringe.reagents.add_reagent(/datum/reagent/method_patch_test, 1)
 	syringe.melee_attack_chain(human, human)
 	TEST_ASSERT_EQUAL(human.health, 80, "Human health did not update after injection from syringe")
+
+	// INHALE
+	TEST_ASSERT_NULL(human.has_status_effect(/datum/status_effect/hallucination), "Human is drowsy at the start of testing")
+	drink.reagents.clear_reagents()
+	drink.reagents.add_reagent(/datum/reagent/nitrous_oxide, 10)
+	drink.reagents.trans_to(human, 10, methods = INHALE)
+	TEST_ASSERT_NOTNULL(human.has_status_effect(/datum/status_effect/hallucination), "Human is not drowsy after exposure to vapors")
 
 /datum/unit_test/reagent_mob_expose/Destroy()
 	SSmobs.ignite()

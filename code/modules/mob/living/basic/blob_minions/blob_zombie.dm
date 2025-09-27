@@ -18,7 +18,11 @@
 	obj_damage = 20
 	attack_verb_continuous = "punches"
 	attack_verb_simple = "punch"
+<<<<<<< HEAD
 	attack_sound = 'sound/weapons/genhit1.ogg'
+=======
+	attack_sound = 'sound/items/weapons/genhit1.ogg'
+>>>>>>> tg-pr-88929
 	death_message = "collapses to the ground!"
 	gold_core_spawnable = NO_SPAWN
 	basic_mob_flags = DEL_ON_DEATH
@@ -68,6 +72,11 @@
 	if(new_corpse.wear_suit)
 		maxHealth += new_corpse.get_armor_rating(MELEE)
 		health = maxHealth
+<<<<<<< HEAD
+=======
+	new_corpse.set_facial_hairstyle("Shaved", update = FALSE)
+	new_corpse.set_hairstyle("Bald", update = TRUE)
+>>>>>>> tg-pr-88929
 	new_corpse.forceMove(src)
 	corpse = new_corpse
 	update_appearance(UPDATE_ICON)

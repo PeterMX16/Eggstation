@@ -3,6 +3,7 @@ Any time you make a change to the schema files, remember to increment the databa
 Make sure to also update `DB_MAJOR_VERSION` and `DB_MINOR_VERSION`, which can be found in `code/__DEFINES/subsystem.dm`.
 
 The latest database version is 5.28; The query to update the schema revision table is:
+<<<<<<< HEAD
 
 ```sql
 INSERT INTO `schema_revision` (`major`, `minor`) VALUES (5, 27);
@@ -13,8 +14,65 @@ or
 ```sql
 INSERT INTO `SS13_schema_revision` (`major`, `minor`) VALUES (5, 27);
 ```
+=======
 
+```sql
+INSERT INTO `schema_revision` (`major`, `minor`) VALUES (5, 28);
+```
+or
+>>>>>>> tg-pr-88929
+
+```sql
+INSERT INTO `SS13_schema_revision` (`major`, `minor`) VALUES (5, 28);
+```
 In any query remember to add a prefix to the table names if you use one.
+-----------------------------------------------------
+Version 5.28, 1 November 2024, by Ghommie
+Added `fish_progress` as the first 'progress' subtype of 'datum/award/scores'
+
+```sql
+CREATE TABLE `fish_progress` (
+  `ckey` VARCHAR(32) NOT NULL,
+  `progress_entry` VARCHAR(32) NOT NULL,
+  `datetime` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`ckey`,`progress_entry`)
+) ENGINE=InnoDB;
+```
+-----------------------------------------------------
+Version 5.27, 26 April 2024, by zephyrtfa
+Add the ip intel whitelist table
+```sql
+DROP TABLE IF EXISTS `ipintel_whitelist`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ipintel_whitelist` (
+	`ckey` varchar(32) NOT NULL,
+	`admin_ckey` varchar(32) NOT NULL,
+	PRIMARY KEY (`ckey`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+```
+-----------------------------------------------------
+Version 5.26, 03 December 2023, by distributivgesetz
+Set the default value of cloneloss to 0, as it's obsolete and it won't be set by blackbox anymore.
+```sql
+ALTER TABLE `death` MODIFY COLUMN `cloneloss` SMALLINT(5) UNSIGNED DEFAULT '0';
+```
+
+-----------------------------------------------------
+Version 5.25, 27 September 2023, by Jimmyl
+Removes the text_adventures table because it is no longer used
+```sql
+ DROP TABLE IF EXISTS `text_adventures`;
+```
+
+-----------------------------------------------------
+Version 5.24, 17 May 2023, by LemonInTheDark
+Modified the library action table to fit ckeys properly, and to properly store ips.
+```sql
+ ALTER TABLE `library_action` MODIFY COLUMN `ckey` varchar(32) NOT NULL;
+ ALTER TABLE `library_action` MODIFY COLUMN `ip_addr` int(10) unsigned NOT NULL;
+```
 
 ---
 
@@ -490,7 +548,11 @@ CREATE TABLE `achievement_metadata` (
 ) ENGINE=InnoDB;
 ```
 
+<<<<<<< HEAD
 ---
+=======
+-----------------------------------------------------
+>>>>>>> tg-pr-88929
 
 Version 5.4, 5 October 2019 by Anturke
 Added achievements table.
@@ -524,8 +586,12 @@ Added a field to the `player` table to track ckey and discord ID relationships
 ALTER TABLE `player`
 	ADD COLUMN `discord_id` BIGINT NULL DEFAULT NULL AFTER `flags`;
 ```
+<<<<<<< HEAD
 
 ---
+=======
+----------------------------------------------------
+>>>>>>> tg-pr-88929
 
 Version 5.1, 25 Feb 2018, by MrStonedOne
 Added four tables to enable storing of stickybans in the database since byond can lose them, and to enable disabling stickybans for a round without depending on a crash free round. Existing stickybans are automagically imported to the tables.

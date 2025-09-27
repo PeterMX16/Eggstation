@@ -1,6 +1,7 @@
+import { Box, Button, LabeledList, Section, Table } from 'tgui-core/components';
+
 import { sortBy } from '../../common/collections';
 import { useBackend } from '../backend';
-import { Box, Button, LabeledList, Section, Table } from '../components';
 import { Window } from '../layouts';
 
 type FaxData = {
@@ -39,15 +40,26 @@ export const Fax = (props) => {
   const { act } = useBackend();
   const { data } = useBackend<FaxData>();
   const faxes = data.faxes
+<<<<<<< HEAD
     ? sortBy((sortFax: FaxInfo) => sortFax.fax_name)(
+=======
+    ? sortBy(
+>>>>>>> tg-pr-88929
         data.syndicate_network
           ? data.faxes.filter((filterFax: FaxInfo) => filterFax.visible)
           : data.faxes.filter(
               (filterFax: FaxInfo) =>
                 filterFax.visible && !filterFax.syndicate_network,
             ),
+<<<<<<< HEAD
+=======
+        (sortFax: FaxInfo) => sortFax.fax_name,
+>>>>>>> tg-pr-88929
       )
     : [];
+  const special_networks = data.syndicate_network
+    ? data.special_faxes
+    : data.special_faxes.filter((fax: FaxSpecial) => !fax.emag_needed);
   return (
     <Window width={340} height={540}>
       <Window.Content scrollable>
@@ -57,7 +69,7 @@ export const Fax = (props) => {
           </LabeledList.Item>
           <LabeledList.Item label="Network ID">{data.fax_id}</LabeledList.Item>
           <LabeledList.Item label="Visible to Network">
-            {data.visible ? true : false}
+            {data.visible ? 'true' : 'false'}
           </LabeledList.Item>
         </Section>
         <Section
@@ -80,17 +92,23 @@ export const Fax = (props) => {
           </LabeledList.Item>
         </Section>
         <Section title="Send">
-          {faxes.length !== 0 ? (
+          {faxes.length === 0 && special_networks.length === 0 ? (
+            "The fax couldn't detect any other faxes on the network."
+          ) : (
             <Box mt={0.4}>
+<<<<<<< HEAD
               {(data.syndicate_network
                 ? data.special_faxes
                 : data.special_faxes.filter(
                     (fax: FaxSpecial) => !fax.emag_needed,
                   )
               ).map((special: FaxSpecial) => (
+=======
+              {special_networks.map((special: FaxSpecial) => (
+>>>>>>> tg-pr-88929
                 <Button
                   key={special.fax_id}
-                  title={special.fax_name}
+                  tooltip={special.fax_name}
                   disabled={!data.has_paper}
                   color={special.color}
                   onClick={() =>
@@ -103,6 +121,7 @@ export const Fax = (props) => {
                   {special.fax_name}
                 </Button>
               ))}
+<<<<<<< HEAD
               {faxes.map((fax: FaxInfo) => (
                 <Button
                   key={fax.fax_id}
@@ -119,9 +138,27 @@ export const Fax = (props) => {
                   {fax.fax_name}
                 </Button>
               ))}
+=======
+              {faxes.length !== 0
+                ? faxes.map((fax: FaxInfo) => (
+                    <Button
+                      key={fax.fax_id}
+                      tooltip={fax.fax_name}
+                      disabled={!data.has_paper}
+                      color={fax.syndicate_network ? 'red' : 'blue'}
+                      onClick={() =>
+                        act('send', {
+                          id: fax.fax_id,
+                          name: fax.fax_name,
+                        })
+                      }
+                    >
+                      {fax.fax_name}
+                    </Button>
+                  ))
+                : null}
+>>>>>>> tg-pr-88929
             </Box>
-          ) : (
-            "The fax couldn't detect any other faxes on the network."
           )}
         </Section>
         <Section

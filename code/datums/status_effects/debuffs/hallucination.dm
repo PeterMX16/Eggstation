@@ -14,27 +14,39 @@
 	/// The cooldown for when the next hallucination can occur
 	COOLDOWN_DECLARE(hallucination_cooldown)
 
-/datum/status_effect/hallucination/on_creation(mob/living/new_owner, duration)
+/datum/status_effect/hallucination/on_creation(mob/living/new_owner, duration, lower_tick_interval, upper_tick_interval)
 	if(isnum(duration))
 		src.duration = duration
+	if(isnum(lower_tick_interval))
+		src.lower_tick_interval = lower_tick_interval
+	if(isnum(upper_tick_interval))
+		src.upper_tick_interval = upper_tick_interval
 	return ..()
 
 /datum/status_effect/hallucination/on_apply()
 	if(owner.mob_biotypes & barred_biotypes)
 		return FALSE
+	if(HAS_TRAIT(owner, TRAIT_HALLUCINATION_IMMUNE))
+		return FALSE
 
 	RegisterSignal(owner, COMSIG_LIVING_HEALTHSCAN,  PROC_REF(on_health_scan))
+	RegisterSignal(owner, SIGNAL_ADDTRAIT(TRAIT_HALLUCINATION_IMMUNE), PROC_REF(delete_self))
 	if(iscarbon(owner))
 		RegisterSignal(owner, COMSIG_CARBON_CHECKING_BODYPART, PROC_REF(on_check_bodypart))
 		RegisterSignal(owner, COMSIG_CARBON_BUMPED_AIRLOCK_OPEN, PROC_REF(on_bump_airlock))
 
 	return TRUE
 
+/datum/status_effect/hallucination/proc/delete_self()
+	SIGNAL_HANDLER
+	qdel(src)
+
 /datum/status_effect/hallucination/on_remove()
 	UnregisterSignal(owner, list(
 		COMSIG_LIVING_HEALTHSCAN,
 		COMSIG_CARBON_CHECKING_BODYPART,
 		COMSIG_CARBON_BUMPED_AIRLOCK_OPEN,
+		SIGNAL_ADDTRAIT(TRAIT_HALLUCINATION_IMMUNE),
 	))
 
 /// Signal proc for [COMSIG_LIVING_HEALTHSCAN]. Show we're hallucinating to (advanced) scanners.
@@ -43,7 +55,11 @@
 
 	if(!advanced)
 		return
+<<<<<<< HEAD
 	render_list += conditional_tooltip("<span class='info ml-1'>Subject is hallucinating.</span>", "Supply antipsychotic medication.", tochat)
+=======
+	render_list += conditional_tooltip("<span class='info ml-1'>Subject is hallucinating.</span>", "Supply antipsychotic medication, such as [/datum/reagent/medicine/haloperidol::name] or [/datum/reagent/medicine/synaptizine::name].", tochat)
+>>>>>>> tg-pr-88929
 	render_list += "<br>"
 
 /// Signal proc for [COMSIG_CARBON_CHECKING_BODYPART],
@@ -68,7 +84,11 @@
 	source.cause_hallucination(/datum/hallucination/shock, "hallucinated shock from [bumped]",)
 	return STOP_BUMP
 
+<<<<<<< HEAD
 /datum/status_effect/hallucination/tick(seconds_between_ticks, times_fired)
+=======
+/datum/status_effect/hallucination/tick(seconds_between_ticks)
+>>>>>>> tg-pr-88929
 	if(owner.stat == DEAD)
 		return
 	if(!COOLDOWN_FINISHED(src, hallucination_cooldown))
@@ -83,6 +103,12 @@
 	id = "low sanity"
 	status_type = STATUS_EFFECT_REFRESH
 	duration = STATUS_EFFECT_PERMANENT // This lasts "forever", only goes away with sanity gain
+<<<<<<< HEAD
+=======
+
+/datum/status_effect/hallucination/sanity/on_health_scan(datum/source, list/render_list, advanced, mob/user, mode, tochat)
+	return
+>>>>>>> tg-pr-88929
 
 /datum/status_effect/hallucination/sanity/on_apply()
 	if(!owner.mob_mood)
@@ -94,7 +120,11 @@
 /datum/status_effect/hallucination/sanity/refresh(...)
 	update_intervals()
 
+<<<<<<< HEAD
 /datum/status_effect/hallucination/sanity/tick(seconds_between_ticks, times_fired)
+=======
+/datum/status_effect/hallucination/sanity/tick(seconds_between_ticks)
+>>>>>>> tg-pr-88929
 	// Using psicodine / happiness / whatever to become fearless will stop sanity based hallucinations
 	if(HAS_TRAIT(owner, TRAIT_FEARLESS))
 		return

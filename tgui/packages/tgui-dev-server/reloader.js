@@ -7,6 +7,7 @@
 import fs from 'fs';
 import os from 'os';
 import { basename } from 'path';
+
 import { DreamSeeker } from './dreamseeker.js';
 import { createLogger } from './logging.js';
 import { resolveGlob, resolvePath } from './util.js';
@@ -83,7 +84,11 @@ export const reloadByondCache = async (bundleDir) => {
   }
   // Get dreamseeker instances
   const pids = cacheDirs.map((cacheDir) =>
+<<<<<<< HEAD
     parseInt(cacheDir.split('\\cache\\tmp').pop(), 10),
+=======
+    parseInt(cacheDir.split('/cache/tmp').pop(), 10),
+>>>>>>> tg-pr-88929
   );
   const dssPromise = DreamSeeker.getInstancesByPids(pids);
   // Copy assets

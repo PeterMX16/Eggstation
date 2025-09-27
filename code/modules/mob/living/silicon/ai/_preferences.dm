@@ -26,7 +26,11 @@ GLOBAL_LIST_INIT(ai_hologram_icons, list(
 	AI_HOLOGRAM_CAT_2 = 'icons/mob/simple/pets.dmi',
 	AI_HOLOGRAM_CHICKEN = 'icons/mob/simple/animal.dmi',
 	AI_HOLOGRAM_CORGI = 'icons/mob/simple/pets.dmi',
+<<<<<<< HEAD
 	AI_HOLOGRAM_COW = 'icons/mob/simple/animal.dmi',
+=======
+	AI_HOLOGRAM_COW = 'icons/mob/simple/cows.dmi',
+>>>>>>> tg-pr-88929
 	AI_HOLOGRAM_CRAB = 'icons/mob/simple/animal.dmi',
 	AI_HOLOGRAM_DEFAULT = 'icons/mob/silicon/ai.dmi',
 	AI_HOLOGRAM_FACE = 'icons/mob/silicon/ai.dmi',
@@ -36,7 +40,11 @@ GLOBAL_LIST_INIT(ai_hologram_icons, list(
 	AI_HOLOGRAM_PARROT = 'icons/mob/simple/animal.dmi',
 	AI_HOLOGRAM_PUG = 'icons/mob/simple/pets.dmi',
 	AI_HOLOGRAM_RATVAR = 'icons/mob/silicon/ai.dmi',
+<<<<<<< HEAD
 	AI_HOLOGRAM_SPIDER = 'icons/mob/simple/animal.dmi',
+=======
+	AI_HOLOGRAM_SPIDER = 'icons/mob/simple/arachnoid.dmi',
+>>>>>>> tg-pr-88929
 	AI_HOLOGRAM_XENO = 'icons/mob/nonhuman-player/alien.dmi',
 ))
 
@@ -98,13 +106,19 @@ GLOBAL_LIST_INIT(ai_core_display_screens, sort_list(list(
 	"Red",
 	"Static",
 	"Syndicat Meow",
+<<<<<<< HEAD
 	"Tenna", 
+=======
+>>>>>>> tg-pr-88929
 	"Text",
 	"Too Deep",
 	"Triumvirate-M",
 	"Triumvirate",
 	"Weird",
+<<<<<<< HEAD
 	"Randomgod", // monkestation addition
+=======
+>>>>>>> tg-pr-88929
 )))
 
 /// A form of resolve_ai_icon that is guaranteed to never sleep.
@@ -117,7 +131,11 @@ GLOBAL_LIST_INIT(ai_core_display_screens, sort_list(list(
 	else
 		if(input == "Random")
 			input = pick(GLOB.ai_core_display_screens - "Random")
+<<<<<<< HEAD
 		return "ai-[lowertext(input)]"
+=======
+		return "ai-[LOWER_TEXT(input)]"
+>>>>>>> tg-pr-88929
 
 /proc/resolve_ai_icon(input)
 	if (input == "Portrait")

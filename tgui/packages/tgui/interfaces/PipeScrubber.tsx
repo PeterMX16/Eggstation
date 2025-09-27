@@ -1,7 +1,10 @@
+<<<<<<< HEAD
 import { toFixed } from 'common/math';
 import { BooleanLike } from 'common/react';
 
 import { useBackend } from '../backend';
+=======
+>>>>>>> tg-pr-88929
 import {
   Box,
   Button,
@@ -10,9 +13,19 @@ import {
   RoundGauge,
   Section,
   Tooltip,
+<<<<<<< HEAD
 } from '../components';
 import { getGasLabel } from '../constants';
 import { formatSiUnit } from '../format';
+=======
+} from 'tgui-core/components';
+import { formatSiUnit } from 'tgui-core/format';
+import { toFixed } from 'tgui-core/math';
+import { BooleanLike } from 'tgui-core/react';
+
+import { useBackend } from '../backend';
+import { getGasLabel } from '../constants';
+>>>>>>> tg-pr-88929
 import { Window } from '../layouts';
 
 type Data = {

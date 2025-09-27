@@ -1,18 +1,22 @@
-//how fast disposal machinery is ejecting things (does not effect range)
+//how fast disposal machinery is ejecting things and how far it goes
 /// The slowest setting for disposal eject speed
 #define EJECT_SPEED_SLOW 1
+#define EJECT_RANGE_SLOW 2
 /// The default setting for disposal eject speed
 #define EJECT_SPEED_MED 2
+#define EJECT_RANGE_MED 4
 /// The fast setting for disposal eject speed
 #define EJECT_SPEED_FAST 4
-/// The fastest setting for disposal eject speed
+#define EJECT_RANGE_FAST 6
+/// The fastest, emag exclusive setting for disposal eject speed
 #define EJECT_SPEED_YEET 6
+#define EJECT_RANGE_YEET 10
 
 // the disposal outlet machine
 /obj/structure/disposaloutlet
 	name = "disposal outlet"
 	desc = "An outlet for the pneumatic disposal system."
-	icon = 'icons/obj/atmospherics/pipes/disposal.dmi'
+	icon = 'icons/obj/pipes_n_cables/disposal.dmi'
 	icon_state = "outlet"
 	density = TRUE
 	anchored = TRUE
@@ -21,9 +25,9 @@
 	var/obj/structure/disposalpipe/trunk/trunk // the attached pipe trunk
 	var/obj/structure/disposalconstruct/stored
 	var/start_eject = 0
-	var/eject_range = 2
+	var/eject_range = EJECT_RANGE_SLOW
 	/// how fast we're spitting fir- atoms
-	var/eject_speed = EJECT_SPEED_MED
+	var/eject_speed = EJECT_SPEED_SLOW
 
 /obj/structure/disposaloutlet/Initialize(mapload, obj/structure/disposalconstruct/make_from)
 	. = ..()
@@ -44,6 +48,11 @@
 /obj/structure/disposaloutlet/Destroy()
 	var/obj/structure/disposalpipe/trunk/found_trunk = locate() in loc
 	if(trunk)
+		// preemptively expel the contents from the trunk
+		// in case the outlet is deleted before expel_holder could be called.
+		var/obj/structure/disposalholder/holder = locate() in trunk
+		if(holder)
+			trunk.expel(holder)
 		trunk.linked = null
 		trunk = null
 	else if(found_trunk)
@@ -60,15 +69,15 @@
 	if((start_eject + 30) < world.time)
 		start_eject = world.time
 		playsound(src, 'sound/machines/warning-buzzer.ogg', 50, FALSE, FALSE)
-		addtimer(CALLBACK(src, PROC_REF(expel_holder), H, TRUE), 20)
+		addtimer(CALLBACK(src, PROC_REF(expel_holder), H, TRUE), 2 SECONDS)
 	else
-		addtimer(CALLBACK(src, PROC_REF(expel_holder), H), 20)
+		addtimer(CALLBACK(src, PROC_REF(expel_holder), H), 2 SECONDS)
 
 /obj/structure/disposaloutlet/proc/expel_holder(obj/structure/disposalholder/H, playsound=FALSE)
 	if(playsound)
 		playsound(src, 'sound/machines/hiss.ogg', 50, FALSE, FALSE)
 
-	if(!H)
+	if(QDELETED(H))
 		return
 
 	pipe_eject(H, dir, TRUE, target, eject_range, eject_speed)
@@ -78,10 +87,10 @@
 
 /obj/structure/disposaloutlet/welder_act(mob/living/user, obj/item/I)
 	..()
-	if(!I.tool_start_check(user, amount=0))
+	if(!I.tool_start_check(user, amount=1, heat_required = HIGH_TEMPERATURE_REQUIRED))
 		return TRUE
 
-	playsound(src, 'sound/items/welder2.ogg', 100, TRUE)
+	playsound(src, 'sound/items/tools/welder2.ogg', 100, TRUE)
 	to_chat(user, span_notice("You start slicing the floorweld off [src]..."))
 	if(I.use_tool(src, user, 20))
 		to_chat(user, span_notice("You slice the floorweld off [src]."))
@@ -105,19 +114,21 @@
 
 /obj/structure/disposaloutlet/multitool_act(mob/living/user, obj/item/I)
 	. = ..()
-	to_chat(user, span_notice("You adjust the ejection force on \the [src]."))
-	switch(eject_speed)
-		if(EJECT_SPEED_SLOW)
-			eject_speed = EJECT_SPEED_MED
-		if(EJECT_SPEED_MED)
-			eject_speed = EJECT_SPEED_FAST
-		if(EJECT_SPEED_FAST)
-			if(obj_flags & EMAGGED)
-				eject_speed = EJECT_SPEED_YEET
+//if emagged it cant change the speed setting off max
+	if(obj_flags & EMAGGED)
+		to_chat(user, span_notice("The LED display flashes an error!"))
+	else
+		to_chat(user, span_notice("You adjust the ejection force on \the [src]."))
+		switch(eject_speed)
+			if(EJECT_SPEED_SLOW)
+				eject_speed = EJECT_SPEED_MED
+				eject_range = EJECT_RANGE_MED
+			if(EJECT_SPEED_MED)
+				eject_speed = EJECT_SPEED_FAST
+				eject_range = EJECT_RANGE_FAST
 			else
 				eject_speed = EJECT_SPEED_SLOW
-		if(EJECT_SPEED_YEET)
-			eject_speed = EJECT_SPEED_SLOW
+				eject_range = EJECT_RANGE_SLOW
 	return TRUE
 
 /obj/structure/disposaloutlet/emag_act(mob/user, obj/item/card/emag/emag_card)
@@ -126,6 +137,11 @@
 		return
 	balloon_alert(user, "ejection force maximized")
 	obj_flags |= EMAGGED
+<<<<<<< HEAD
+=======
+	eject_speed = EJECT_SPEED_YEET
+	eject_range = EJECT_RANGE_YEET
+>>>>>>> tg-pr-88929
 	return TRUE
 
 /obj/structure/disposaloutlet/force_pushed(atom/movable/pusher, force = MOVE_FORCE_DEFAULT, direction)
@@ -145,6 +161,7 @@
 		stored = null
 		visible_message(span_warning("[src] is ripped free from the floor!"))
 		qdel(src)
+<<<<<<< HEAD
 
 // Monkestation Addition Start
 /obj/structure/disposaloutlet/throw_at(atom/target, range, speed, mob/thrower, spin = TRUE, diagonals_first = FALSE, datum/callback/callback, force = MOVE_FORCE_STRONG, gentle = FALSE, quickstart = TRUE)
@@ -158,8 +175,14 @@
 		visible_message(span_warning("[src] is ripped free from the floor!"))
 		qdel(src)
 // Monkestation Addition End
+=======
+>>>>>>> tg-pr-88929
 
 #undef EJECT_SPEED_SLOW
 #undef EJECT_SPEED_MED
 #undef EJECT_SPEED_FAST
 #undef EJECT_SPEED_YEET
+#undef EJECT_RANGE_SLOW
+#undef EJECT_RANGE_MED
+#undef EJECT_RANGE_FAST
+#undef EJECT_RANGE_YEET

@@ -20,7 +20,11 @@
 	help_text,
 	)
 
+<<<<<<< HEAD
 	if(!isliving(parent) || !isliving(old_body) || !server.is_operational || !pod.is_operational)
+=======
+	if(!isliving(parent) || !isliving(old_body) || !old_mind || !server.is_operational || !pod.is_operational)
+>>>>>>> tg-pr-88929
 		return COMPONENT_INCOMPATIBLE
 
 	var/mob/living/avatar = parent
@@ -32,7 +36,11 @@
 	server_ref = WEAKREF(server)
 	server.avatar_connection_refs.Add(WEAKREF(src))
 
+<<<<<<< HEAD
 	avatar.PossessByPlayer(old_body.key)
+=======
+	avatar.key = old_body.key
+>>>>>>> tg-pr-88929
 	ADD_TRAIT(avatar, TRAIT_NO_MINDSWAP, REF(src)) // do not remove this one
 	ADD_TRAIT(old_body, TRAIT_MIND_TEMPORARILY_GONE, REF(src))
 
@@ -60,19 +68,47 @@
 		var/datum/action/avatar_domain_info/action = new(help_datum)
 		action.Grant(avatar)
 
+<<<<<<< HEAD
 	avatar.playsound_local(avatar, 'sound/magic/blink.ogg', 25, TRUE)
 	avatar.set_static_vision(2 SECONDS)
 	avatar.set_temp_blindness(1 SECONDS)
 
 /datum/component/avatar_connection/PostTransfer()
+=======
+	var/client/our_client = avatar.client
+	var/alias = our_client?.prefs?.read_preference(/datum/preference/name/hacker_alias) || pick(GLOB.hacker_aliases)
+
+	if(alias && avatar.real_name != alias)
+		avatar.fully_replace_character_name(newname = alias)
+
+	update_avatar_id()
+
+	for(var/skill_type in old_mind.known_skills)
+		avatar.mind.set_experience(skill_type, old_mind.get_skill_exp(skill_type), silent = TRUE)
+
+	avatar.playsound_local(avatar, 'sound/effects/magic/blink.ogg', 25, TRUE)
+	avatar.set_static_vision(2 SECONDS)
+	avatar.set_temp_blindness(1 SECONDS) // I'm in
+
+
+/datum/component/avatar_connection/PostTransfer(datum/new_parent)
+>>>>>>> tg-pr-88929
 	var/obj/machinery/netpod/pod = netpod_ref?.resolve()
 	if(isnull(pod))
 		return COMPONENT_INCOMPATIBLE
 
+<<<<<<< HEAD
 	if(!isliving(parent))
 		return COMPONENT_INCOMPATIBLE
 
 	pod.avatar_ref = WEAKREF(parent)
+=======
+	if(!isliving(new_parent))
+		return COMPONENT_INCOMPATIBLE
+
+	pod.avatar_ref = WEAKREF(new_parent)
+
+>>>>>>> tg-pr-88929
 
 /datum/component/avatar_connection/RegisterWithParent()
 	ADD_TRAIT(parent, TRAIT_TEMPORARY_BODY, REF(src))
@@ -83,6 +119,7 @@
 	 * - Click / Stand on the ladder
 	 */
 	RegisterSignals(parent, list(COMSIG_BITRUNNER_ALERT_SEVER, COMSIG_BITRUNNER_CACHE_SEVER, COMSIG_BITRUNNER_LADDER_SEVER), PROC_REF(on_safe_disconnect))
+<<<<<<< HEAD
 	RegisterSignal(parent, COMSIG_LIVING_DEATH, PROC_REF(on_sever_connection))
 	RegisterSignal(parent, COMSIG_MOB_APPLY_DAMAGE, PROC_REF(on_linked_damage))
 
@@ -93,6 +130,39 @@
 	UnregisterSignal(parent, COMSIG_BITRUNNER_LADDER_SEVER)
 	UnregisterSignal(parent, COMSIG_LIVING_DEATH)
 	UnregisterSignal(parent, COMSIG_MOB_APPLY_DAMAGE)
+=======
+	RegisterSignal(parent, COMSIG_LIVING_PILL_CONSUMED, PROC_REF(disconnect_if_red_pill))
+	RegisterSignals(parent, list(COMSIG_LIVING_DEATH, COMSIG_QDELETING), PROC_REF(on_sever_connection))
+	RegisterSignal(parent, COMSIG_MOB_APPLY_DAMAGE, PROC_REF(on_linked_damage))
+
+
+/datum/component/avatar_connection/UnregisterFromParent()
+	REMOVE_TRAIT(parent, TRAIT_TEMPORARY_BODY, REF(src))
+	UnregisterSignal(parent, list(
+		COMSIG_BITRUNNER_ALERT_SEVER,
+		COMSIG_BITRUNNER_CACHE_SEVER,
+		COMSIG_BITRUNNER_LADDER_SEVER,
+		COMSIG_LIVING_PILL_CONSUMED,
+		COMSIG_LIVING_DEATH,
+		COMSIG_QDELETING,
+		COMSIG_MOB_APPLY_DAMAGE,
+	))
+
+
+/// Updates our avatar's ID to match our avatar's name.
+/datum/component/avatar_connection/proc/update_avatar_id()
+	var/mob/living/avatar = parent
+	var/obj/item/card/id/our_id = locate() in avatar.get_all_contents()
+	if(isnull(our_id))
+		return
+
+	our_id.registered_name = avatar.real_name
+	our_id.update_label()
+	our_id.update_icon()
+	if(our_id.registered_account)
+		our_id.registered_account.account_holder = avatar.real_name
+
+>>>>>>> tg-pr-88929
 
 /// Disconnects the avatar and returns the mind to the old_body.
 /datum/component/avatar_connection/proc/full_avatar_disconnect(cause_damage = FALSE, datum/source)
@@ -111,11 +181,16 @@
 
 	qdel(src)
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> tg-pr-88929
 /// Triggers whenever the server gets a loot crate pushed to goal area
 /datum/component/avatar_connection/proc/on_domain_completed(datum/source, atom/entered)
 	SIGNAL_HANDLER
 
 	var/mob/living/avatar = parent
+<<<<<<< HEAD
 	avatar.playsound_local(avatar, 'sound/machines/terminal_success.ogg', 50, vary = TRUE)
 	avatar.throw_alert(
 		ALERT_BITRUNNER_COMPLETED,
@@ -123,6 +198,16 @@
 		new_master = entered
 	)
 
+=======
+	avatar.playsound_local(avatar, 'sound/machines/terminal/terminal_success.ogg', 50, vary = TRUE)
+	avatar.throw_alert(
+		ALERT_BITRUNNER_COMPLETED,
+		/atom/movable/screen/alert/bitrunning/qserver_domain_complete,
+		new_master = entered,
+	)
+
+
+>>>>>>> tg-pr-88929
 /// Transfers damage from the avatar to the old_body
 /datum/component/avatar_connection/proc/on_linked_damage(datum/source, damage, damage_type, def_zone, blocked, ...)
 	SIGNAL_HANDLER
@@ -143,6 +228,10 @@
 	if(old_body.stat > SOFT_CRIT) // KO!
 		full_avatar_disconnect(cause_damage = TRUE)
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> tg-pr-88929
 /// Handles minds being swapped around in subsequent avatars
 /datum/component/avatar_connection/proc/on_mind_transfer(datum/mind/source, mob/living/previous_body)
 	SIGNAL_HANDLER
@@ -153,20 +242,36 @@
 
 	source.current.TakeComponent(src)
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> tg-pr-88929
 /// Triggers when someone starts prying open our netpod
 /datum/component/avatar_connection/proc/on_netpod_crowbar(datum/source, mob/living/intruder)
 	SIGNAL_HANDLER
 
 	var/mob/living/avatar = parent
+<<<<<<< HEAD
 	avatar.playsound_local(avatar, 'sound/machines/terminal_alert.ogg', 50, vary = TRUE)
 	var/atom/movable/screen/alert/bitrunning/alert = avatar.throw_alert(
 		ALERT_BITRUNNER_CROWBAR,
 		/atom/movable/screen/alert/bitrunning,
 		new_master = intruder
+=======
+	avatar.playsound_local(avatar, 'sound/machines/terminal/terminal_alert.ogg', 50, vary = TRUE)
+	var/atom/movable/screen/alert/bitrunning/alert = avatar.throw_alert(
+		ALERT_BITRUNNER_CROWBAR,
+		/atom/movable/screen/alert/bitrunning,
+		new_master = intruder,
+>>>>>>> tg-pr-88929
 	)
 	alert.name = "Netpod Breached"
 	alert.desc = "Someone is prying open the netpod. Find an exit."
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> tg-pr-88929
 /// Triggers when the netpod is taking damage and is under 50%
 /datum/component/avatar_connection/proc/on_netpod_damaged(datum/source)
 	SIGNAL_HANDLER
@@ -175,29 +280,56 @@
 	var/atom/movable/screen/alert/bitrunning/alert = avatar.throw_alert(
 		ALERT_BITRUNNER_INTEGRITY,
 		/atom/movable/screen/alert/bitrunning,
+<<<<<<< HEAD
 		new_master = source
+=======
+		new_master = source,
+>>>>>>> tg-pr-88929
 	)
 	alert.name = "Integrity Compromised"
 	alert.desc = "The netpod is damaged. Find an exit."
 
+<<<<<<< HEAD
+=======
+
+//if your bitrunning avatar somehow manages to acquire and consume a red pill, they will be ejected from the Matrix
+/datum/component/avatar_connection/proc/disconnect_if_red_pill(datum/source, obj/item/reagent_containers/pill/pill, mob/feeder)
+	SIGNAL_HANDLER
+	if(pill.icon_state == "pill4")
+		full_avatar_disconnect()
+
+
+>>>>>>> tg-pr-88929
 /// Triggers when a safe disconnect is called
 /datum/component/avatar_connection/proc/on_safe_disconnect(datum/source)
 	SIGNAL_HANDLER
 
 	full_avatar_disconnect()
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> tg-pr-88929
 /// Received message to sever connection
 /datum/component/avatar_connection/proc/on_sever_connection(datum/source)
 	SIGNAL_HANDLER
 
 	full_avatar_disconnect(cause_damage = TRUE, source = source)
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> tg-pr-88929
 /// Triggers when the server is shutting down
 /datum/component/avatar_connection/proc/on_shutting_down(datum/source, mob/living/hackerman)
 	SIGNAL_HANDLER
 
 	var/mob/living/avatar = parent
+<<<<<<< HEAD
 	avatar.playsound_local(avatar, 'sound/machines/terminal_alert.ogg', 50, vary = TRUE)
+=======
+	avatar.playsound_local(avatar, 'sound/machines/terminal/terminal_alert.ogg', 50, vary = TRUE)
+>>>>>>> tg-pr-88929
 	var/atom/movable/screen/alert/bitrunning/alert = avatar.throw_alert(
 		ALERT_BITRUNNER_SHUTDOWN,
 		/atom/movable/screen/alert/bitrunning,
@@ -206,12 +338,20 @@
 	alert.name = "Domain Rebooting"
 	alert.desc = "The domain is rebooting. Find an exit."
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> tg-pr-88929
 /// Triggers whenever an antag steps onto an exit turf and the server is emagged
 /datum/component/avatar_connection/proc/on_station_spawn(datum/source)
 	SIGNAL_HANDLER
 
 	var/mob/living/avatar = parent
+<<<<<<< HEAD
 	avatar.playsound_local(avatar, 'sound/machines/terminal_alert.ogg', 50, vary = TRUE)
+=======
+	avatar.playsound_local(avatar, 'sound/machines/terminal/terminal_alert.ogg', 50, vary = TRUE)
+>>>>>>> tg-pr-88929
 	var/atom/movable/screen/alert/bitrunning/alert = avatar.throw_alert(
 		ALERT_BITRUNNER_BREACH,
 		/atom/movable/screen/alert/bitrunning,
@@ -220,6 +360,10 @@
 	alert.name = "Security Breach"
 	alert.desc = "A hostile entity is breaching the safehouse. Find an exit."
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> tg-pr-88929
 /// Server has spawned a ghost role threat
 /datum/component/avatar_connection/proc/on_threat_created(datum/source)
 	SIGNAL_HANDLER
@@ -233,6 +377,10 @@
 	alert.name = "Threat Detected"
 	alert.desc = "Data stream abnormalities present."
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> tg-pr-88929
 /// Returns the mind to the old body
 /datum/component/avatar_connection/proc/return_to_old_body()
 	var/datum/mind/old_mind = old_mind_ref?.resolve()
@@ -249,6 +397,13 @@
 	if(isnull(old_mind) || isnull(old_body))
 		return
 
+<<<<<<< HEAD
+=======
+	for(var/skill_type in avatar.mind.known_skills)
+		old_mind.set_experience(skill_type, avatar.mind.get_skill_exp(skill_type), silent = TRUE)
+		avatar.mind.set_experience(skill_type, 0, silent = TRUE)
+
+>>>>>>> tg-pr-88929
 	ghost.mind = old_mind
 	if(old_body.stat != DEAD)
 		old_mind.transfer_to(old_body, force_key_move = TRUE)

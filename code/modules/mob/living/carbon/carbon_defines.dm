@@ -11,7 +11,13 @@
 	usable_hands = 0 //Populated on init through list/bodyparts
 	mobility_flags = MOBILITY_FLAGS_CARBON_DEFAULT
 	blocks_emissive = EMISSIVE_BLOCK_NONE
+<<<<<<< HEAD
 	living_flags = ALWAYS_DEATHGASP
+=======
+	mouse_drop_zone = TRUE
+	// STOP_OVERLAY_UPDATE_BODY_PARTS is removed after we call update_body_parts() during init.
+	living_flags = ALWAYS_DEATHGASP|STOP_OVERLAY_UPDATE_BODY_PARTS
+>>>>>>> tg-pr-88929
 	///List of [/obj/item/organ]s in the mob. They don't go in the contents for some reason I don't want to know.
 	var/list/obj/item/organ/organs = list()
 	///Same as [above][/mob/living/carbon/var/organs], but stores "slot ID" - "organ" pairs for easy access.
@@ -51,8 +57,11 @@
 	///last mind to control this mob, for blood-based cloning
 	var/datum/mind/last_mind = null
 
-	///This is used to determine if the mob failed a breath. If they did fail a brath, they will attempt to breathe each tick, otherwise just once per 4 ticks.
+	///This is used to determine if the mob failed a breath. If they did fail a breath, they will attempt to breathe each tick, otherwise just once per 4 ticks.
 	var/failed_last_breath = FALSE
+	///Sound loop for breathing when using internals
+	var/datum/looping_sound/breathing/breathing_loop
+
 	/// Used in [carbon/proc/check_breath] and [lungs/proc/check_breath]]
 	var/co2overloadtime = null
 
@@ -87,6 +96,14 @@
 	/// This number is also reset to 0 every tick of carbon Life(). Pain.
 	var/damageoverlaytemp = 0
 
+<<<<<<< HEAD
+=======
+	/// Protection (insulation) from the heat, Value 0-1 corresponding to the percentage of protection
+	var/heat_protection = 0 // No heat protection
+	/// Protection (insulation) from the cold, Value 0-1 corresponding to the percentage of protection
+	var/cold_protection = 0 // No cold protection
+
+>>>>>>> tg-pr-88929
 	/// Timer id of any transformation
 	var/transformation_timer
 
@@ -98,7 +115,11 @@
 	/// Assoc list of BODY_ZONE -> wounding_type. Set when a limb is dismembered, unset when one is attached. Used for determining what scar to add when it comes time to generate them.
 	var/list/body_zone_dismembered_by
 
+<<<<<<< HEAD
 	/// Simple modifier for whether this mob can handle greater or lesser skillchip complexity. See /datum/mutation/biotechcompat/ for example.
+=======
+	/// Simple modifier for whether this mob can handle greater or lesser skillchip complexity. See /datum/mutation/human/biotechcompat/ for example.
+>>>>>>> tg-pr-88929
 	var/skillchip_complexity_modifier = 0
 
 	/// Can other carbons be shoved into this one to make it fall?
@@ -111,9 +132,16 @@
 	var/last_top_offset
 
 	/// A bitfield of "bodytypes", updated by /obj/item/bodypart/proc/synchronize_bodytypes()
+<<<<<<< HEAD
 	var/bodytype = BODYTYPE_HUMANOID | BODYTYPE_ORGANIC
 
 	var/is_leaning = FALSE
+=======
+	var/bodytype = BODYTYPE_ORGANIC
+
+	/// A bitfield of "bodyshapes", updated by /obj/item/bodypart/proc/synchronize_bodyshapes()
+	var/bodyshape = BODYSHAPE_HUMANOID
+>>>>>>> tg-pr-88929
 
 	COOLDOWN_DECLARE(bleeding_message_cd)
 

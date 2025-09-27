@@ -37,7 +37,11 @@
 	SIGNAL_HANDLER
 
 	if(enterer && !HAS_TRAIT(enterer, TRAIT_HYPERSPACED) && !HAS_TRAIT(src, TRAIT_HYPERSPACE_STOPPED))
+<<<<<<< HEAD
 		enterer.AddComponent(/datum/component/shuttle_cling, turn(dir, 180))
+=======
+		enterer.AddComponent(/datum/component/shuttle_cling, REVERSE_DIR(dir))
+>>>>>>> tg-pr-88929
 
 /turf/open/space/transit/proc/initialize_drifting_but_from_initialize(atom/movable/location, atom/movable/enterer, mapload)
 	SIGNAL_HANDLER
@@ -61,8 +65,11 @@
 
 ///Dump a movable in a random valid spacetile
 /proc/dump_in_space(atom/movable/dumpee)
+<<<<<<< HEAD
 	if(QDELETED(dumpee))
 		return
+=======
+>>>>>>> tg-pr-88929
 	if(HAS_TRAIT(dumpee, TRAIT_DEL_ON_SPACE_DUMP))
 		qdel(dumpee)
 		return

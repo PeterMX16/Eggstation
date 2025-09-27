@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { useBackend, useLocalState } from '../backend';
 import {
   Section,
@@ -10,11 +11,28 @@ import {
   Divider,
   NoticeBox,
 } from '../components';
+=======
+import { useState } from 'react';
+import {
+  Button,
+  Divider,
+  Flex,
+  Input,
+  LabeledList,
+  NoticeBox,
+  Section,
+  Stack,
+  Table,
+} from 'tgui-core/components';
+
+import { useBackend } from '../backend';
+>>>>>>> tg-pr-88929
 import { Window } from '../layouts';
 
 const PacketInfo = (props) => {
   const { act, data } = useBackend();
   const { packet } = props;
+
   return (
     <Stack.Item>
       <Flex justify="space-between">
@@ -84,7 +102,11 @@ const ServerScreen = (props) => {
 const MainScreen = (props) => {
   const { act, data } = useBackend();
   const { servers, network } = data;
+<<<<<<< HEAD
   const [networkId, setNetworkId] = useLocalState('networkId', network);
+=======
+  const [networkId, setNetworkId] = useState(network);
+>>>>>>> tg-pr-88929
 
   return (
     <Stack fill vertical>
@@ -92,7 +114,7 @@ const MainScreen = (props) => {
         <Section>
           <Input
             value={networkId}
-            onInput={(e, value) => setNetworkId(value)}
+            onChange={(e, value) => setNetworkId(value)}
             placeholder="Network ID"
           />
           <Button

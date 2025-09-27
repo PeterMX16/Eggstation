@@ -1,7 +1,11 @@
 GENERAL_PROTECT_DATUM(/datum/controller/subsystem/admin_verbs)
 
 SUBSYSTEM_DEF(admin_verbs)
+<<<<<<< HEAD
 	name = "Admin/Mentor Verbs" // MONKE EDIT
+=======
+	name = "Admin Verbs"
+>>>>>>> tg-pr-88929
 	flags = SS_NO_FIRE
 	init_order = INIT_ORDER_ADMIN_VERBS
 	/// A list of all admin verbs indexed by their type.
@@ -13,6 +17,7 @@ SUBSYSTEM_DEF(admin_verbs)
 	/// A list of all admins that are pending initialization of this SS.
 	var/list/admins_pending_subsytem_init = list()
 
+<<<<<<< HEAD
 	//MONKE EDIT START All mentor related verb lists.
 	/// A list of all mentor verbs indexed by their type.
 	var/list/datum/mentor_verb/mentor_verbs_by_type = list()
@@ -28,10 +33,16 @@ SUBSYSTEM_DEF(admin_verbs)
 	setup_verb_list()
 	process_pending_admins()
 	process_pending_mentors() // Always process mentors second in most systems including here.
+=======
+/datum/controller/subsystem/admin_verbs/Initialize()
+	setup_verb_list()
+	process_pending_admins()
+>>>>>>> tg-pr-88929
 	return SS_INIT_SUCCESS
 
 /datum/controller/subsystem/admin_verbs/Recover()
 	admin_verbs_by_type = SSadmin_verbs.admin_verbs_by_type
+<<<<<<< HEAD
 	mentor_verbs_by_type = SSadmin_verbs.mentor_verbs_by_type // MONKE EDIT
 
 /datum/controller/subsystem/admin_verbs/stat_entry(msg)
@@ -41,6 +52,11 @@ SUBSYSTEM_DEF(admin_verbs)
 		. = "Initialized | AV: [length(admin_verbs_by_type)] | MV: [length(mentor_verbs_by_type)]"
 	return .
 //MONKE EDIT END
+=======
+
+/datum/controller/subsystem/admin_verbs/stat_entry(msg)
+	return "[..()] | V: [length(admin_verbs_by_type)]"
+>>>>>>> tg-pr-88929
 
 /datum/controller/subsystem/admin_verbs/proc/process_pending_admins()
 	var/list/pending_admins = admins_pending_subsytem_init
@@ -63,6 +79,7 @@ SUBSYSTEM_DEF(admin_verbs)
 				admin_verbs_by_visibility_flag[verb_singleton.visibility_flag] = list()
 			admin_verbs_by_visibility_flag[verb_singleton.visibility_flag] |= list(verb_singleton)
 
+<<<<<<< HEAD
 	//MONKE EDIT START loading mentor verbs
 	if(length(mentor_verbs_by_type))
 		CRASH("Attempting to setup mentor verbs twice!")
@@ -82,6 +99,11 @@ SUBSYSTEM_DEF(admin_verbs)
 /datum/controller/subsystem/admin_verbs/proc/get_valid_verbs_for_admin(client/admin)
 	if(isnull(admin.holder))
 		CRASH("Holder containing admin datums was empty. Is [admin] a valid client or admin?") //MONKE EDIT
+=======
+/datum/controller/subsystem/admin_verbs/proc/get_valid_verbs_for_admin(client/admin)
+	if(isnull(admin.holder))
+		CRASH("Why are we checking a non-admin for their valid... ahem... admin verbs?")
+>>>>>>> tg-pr-88929
 
 	var/list/has_permission = list()
 	for(var/permission_flag in GLOB.bitflags)
@@ -97,10 +119,13 @@ SUBSYSTEM_DEF(admin_verbs)
 		var/verb_permissions = verb_singleton.permissions
 		if(verb_permissions == R_NONE)
 			valid_verbs |= list(verb_singleton)
+<<<<<<< HEAD
 		else if(verb_type.match_exact_permissions)
 			if(!admin.holder.check_for_exact_rights(verb_permissions))
 				continue
 			valid_verbs |= list(verb_singleton)
+=======
+>>>>>>> tg-pr-88929
 		else for(var/permission_flag in bitfield_to_list(verb_permissions))
 			if(!has_permission["[permission_flag]"])
 				continue
@@ -186,6 +211,7 @@ SUBSYSTEM_DEF(admin_verbs)
 	for(var/datum/admin_verb/verb_type as anything in admin_verbs_by_type)
 		admin_verbs_by_type[verb_type].unassign_from_client(admin)
 	admin_visibility_flags -= list(admin.ckey)
+<<<<<<< HEAD
 
 
 ///MENTOR VERB PROCS START HERE
@@ -303,3 +329,5 @@ SUBSYSTEM_DEF(admin_verbs)
 	for(var/datum/mentor_verb/verb_type as anything in mentor_verbs_by_type)
 		mentor_verbs_by_type[verb_type].unassign_from_client(mentor)
 	mentor_visibility_flags -= list(mentor.ckey)
+=======
+>>>>>>> tg-pr-88929

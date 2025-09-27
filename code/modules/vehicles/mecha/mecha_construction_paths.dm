@@ -30,10 +30,17 @@
 		return
 	// Remove default mech power cell, as we replace it with a new one.
 	var/obj/vehicle/sealed/mecha/mech = new result(drop_location(), /* built_manually = */ TRUE)
+<<<<<<< HEAD
 
 	var/obj/item/mecha_parts/chassis/parent_chassis = parent
 	mech.CheckParts(parent_chassis.contents)
 	SSblackbox.record_feedback("tally", "mechas_created", 1, mech.name)
+=======
+	var/obj/item/mecha_parts/chassis/parent_chassis = parent
+	mech.CheckParts(parent_chassis.contents)
+	SSblackbox.record_feedback("tally", "mechas_created", 1, mech.name)
+	ADD_TRAIT(mech, TRAIT_MECHA_CREATED_NORMALLY, mech)
+>>>>>>> tg-pr-88929
 	QDEL_NULL(parent)
 
 // Default proc to generate mech steps.
@@ -62,7 +69,7 @@
 
 /datum/component/construction/unordered/mecha_chassis/spawn_result()
 	var/atom/parent_atom = parent
-	parent_atom.icon = 'icons/mecha/mech_construction.dmi'
+	parent_atom.icon = 'icons/mob/rideables/mech_construction.dmi'
 	parent_atom.set_density(TRUE)
 	parent_atom.cut_overlays()
 	..()
@@ -194,27 +201,47 @@
 			"backward_message" = "removed capacitor"
 		),
 		list(
+<<<<<<< HEAD
 			"key" = /obj/item/stock_parts/manipulator,
 			"action" = ITEM_MOVE_INSIDE,
 			"back_key" = TOOL_SCREWDRIVER,
 			"desc" = "Scanning module is secured, the <b> micro-manipulator</b> can be added.",
 			"forward_message" = "added micro-manipulator",
+=======
+			"key" = /obj/item/stock_parts/servo,
+			"action" = ITEM_MOVE_INSIDE,
+			"back_key" = TOOL_SCREWDRIVER,
+			"desc" = "Scanning module is secured, the <b>servo</b> can be added.",
+			"forward_message" = "added servo",
+>>>>>>> tg-pr-88929
 			"backward_message" = "unsecured capacitor"
 		),
 		list(
 			"key" = TOOL_SCREWDRIVER,
 			"back_key" = TOOL_CROWBAR,
+<<<<<<< HEAD
 			"desc" = "Micro-manipulator is installed, and can be <b>screwed</b> into place.",
 			"forward_message" = "secured micro-manipulator",
 			"backward_message" = "removed micro-manipulator"
+=======
+			"desc" = "Servo is installed, and can be <b>screwed</b> into place.",
+			"forward_message" = "secured servo",
+			"backward_message" = "removed servo"
+>>>>>>> tg-pr-88929
 		),
 		list(
 			"key" = /obj/item/stock_parts/power_store/cell,
 			"action" = ITEM_MOVE_INSIDE,
 			"back_key" = TOOL_SCREWDRIVER,
+<<<<<<< HEAD
 			"desc" = "Micro-manipulator is secured, and the <b>power cell</b> can be added.",
 			"forward_message" = "added power cell",
 			"backward_message" = "unsecured micro-manipulator"
+=======
+			"desc" = "Servo is secured, and the <b>power cell</b> can be added.",
+			"forward_message" = "added power cell",
+			"backward_message" = "unsecured servo"
+>>>>>>> tg-pr-88929
 		),
 		list(
 			"key" = TOOL_SCREWDRIVER,
@@ -416,10 +443,10 @@
 	circuit_control = /obj/item/circuitboard/mecha/clarke/main
 	circuit_periph = /obj/item/circuitboard/mecha/clarke/peripherals
 
-	inner_plating = /obj/item/stack/sheet/plasteel
+	inner_plating = /obj/item/stack/sheet/iron
 	inner_plating_amount = 5
 
-	outer_plating = /obj/item/stack/sheet/mineral/gold
+	outer_plating = /obj/item/stack/sheet/plasteel
 	outer_plating_amount = 5
 
 /datum/component/construction/mecha/clarke/get_frame_steps()
@@ -532,9 +559,15 @@
 			"desc" = "HONK!!!!!!"
 		),
 		list(
+<<<<<<< HEAD
 			"key" = /obj/item/stock_parts/manipulator,
 			"action" = ITEM_MOVE_INSIDE,
 			"desc" = "Humor <b>micro-manipulator</b> can be added!",
+=======
+			"key" = /obj/item/stock_parts/servo,
+			"action" = ITEM_MOVE_INSIDE,
+			"desc" = "Humor <b>servo</b> can be added!",
+>>>>>>> tg-pr-88929
 			"forward_message" = "added smile"
 		),
 		list(
@@ -580,7 +613,7 @@
 /datum/component/construction/mecha/honker/update_parent(step_index)
 	if(step_index == 1)
 		var/atom/parent_atom = parent
-		parent_atom.icon = 'icons/mecha/mech_construct.dmi'
+		parent_atom.icon = 'icons/mob/rideables/mech_construct.dmi'
 		parent_atom.icon_state = "honker_chassis"
 	..()
 
@@ -677,27 +710,47 @@
 			"backward_message" = "removed capacitor"
 		),
 		list(
+<<<<<<< HEAD
 			"key" = /obj/item/stock_parts/manipulator,
 			"action" = ITEM_MOVE_INSIDE,
 			"back_key" = TOOL_SCREWDRIVER,
 			"desc" = "Scanning module is secured, the <b>capacitor</b> can be added.",
 			"forward_message" = "added micro-manipulator",
+=======
+			"key" = /obj/item/stock_parts/servo,
+			"action" = ITEM_MOVE_INSIDE,
+			"back_key" = TOOL_SCREWDRIVER,
+			"desc" = "Capacitor is secured, the <b>servo</b> can be added.",
+			"forward_message" = "added servo",
+>>>>>>> tg-pr-88929
 			"backward_message" = "unsecured capacitor"
 		),
 		list(
 			"key" = TOOL_SCREWDRIVER,
 			"back_key" = TOOL_CROWBAR,
+<<<<<<< HEAD
 			"desc" = "Micro-manipulator is installed, and can be <b>screwed</b> into place.",
 			"forward_message" = "secured micro-manipulator",
 			"backward_message" = "removed micro-manipulator"
+=======
+			"desc" = "Servo is installed, and can be <b>screwed</b> into place.",
+			"forward_message" = "secured servo",
+			"backward_message" = "removed servo"
+>>>>>>> tg-pr-88929
 		),
 		list(
 			"key" = /obj/item/stack/ore/bluespace_crystal,
 			"amount" = 1,
 			"back_key" = TOOL_SCREWDRIVER,
+<<<<<<< HEAD
 			"desc" = "Micro-manipulator is secured, and the <b>bluespace crystal</b> can be added.",
 			"forward_message" = "added bluespace crystal",
 			"backward_message" = "unsecured micro-manipulator"
+=======
+			"desc" = "Servo is secured, and the <b>bluespace crystal</b> can be added.",
+			"forward_message" = "added bluespace crystal",
+			"backward_message" = "unsecured servo"
+>>>>>>> tg-pr-88929
 		),
 		list(
 			"key" = /obj/item/stack/cable_coil,
@@ -759,12 +812,18 @@
 			"backward_message" = "unfastened external armor layer"
 		),
 		list(
-			"key" = /obj/item/assembly/signaler/anomaly/bluespace,
+			"key" = /obj/item/assembly/signaler/anomaly/ectoplasm,
 			"action" = ITEM_DELETE,
 			"back_key" = TOOL_WELDER,
+<<<<<<< HEAD
 			"desc" = "The external armor is welded, and the <b>bluespace anomaly core</b> socket is open.",
 			"icon_state" = "phazon26",
 			"forward_message" = "inserted bluespace anomaly core",
+=======
+			"desc" = "The external armor is welded, and the <b>ectoplasm anomaly core</b> socket is open.",
+			"icon_state" = "phazon26",
+			"forward_message" = "inserted ectoplasm anomaly core",
+>>>>>>> tg-pr-88929
 			"backward_message" = "cut off external armor"
 		)
 	)
@@ -819,3 +878,39 @@
 
 	outer_plating = /obj/item/stack/sheet/plasteel
 	outer_plating_amount = 5
+
+//Justice
+/datum/component/construction/unordered/mecha_chassis/justice
+	result = /datum/component/construction/mecha/justice
+	steps = list(
+		/obj/item/mecha_parts/part/justice_torso,
+		/obj/item/mecha_parts/part/justice_left_arm,
+		/obj/item/mecha_parts/part/justice_right_arm,
+		/obj/item/mecha_parts/part/justice_left_leg,
+		/obj/item/mecha_parts/part/justice_right_leg
+	)
+
+/datum/component/construction/mecha/justice
+	result = /obj/vehicle/sealed/mecha/justice
+	base_icon = "justice"
+
+	inner_plating = /obj/item/stack/telecrystal
+	inner_plating_amount = 8
+
+	outer_plating = /obj/item/mecha_parts/part/justice_armor
+	outer_plating_amount = 1
+
+/datum/component/construction/mecha/justice/get_circuit_steps()
+	return list()
+
+/datum/component/construction/mecha/justice/get_inner_plating_steps()
+	return list(
+		list(
+			"key" = inner_plating,
+			"amount" = inner_plating_amount,
+			"back_key" = TOOL_SCREWDRIVER,
+			"desc" = "The power cell is secured, and [inner_plating_amount] <b>telecrystals</b> can be added.",
+			"forward_message" = "added telecrystal",
+			"backward_message" = "unsecured power cell"
+		)
+	)

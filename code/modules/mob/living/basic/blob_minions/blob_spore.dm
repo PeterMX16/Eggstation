@@ -19,7 +19,11 @@
 	obj_damage = 0
 	attack_verb_continuous = "batters"
 	attack_verb_simple = "batter"
+<<<<<<< HEAD
 	attack_sound = 'sound/weapons/genhit1.ogg'
+=======
+	attack_sound = 'sound/items/weapons/genhit1.ogg'
+>>>>>>> tg-pr-88929
 	death_message = "explodes into a cloud of gas!"
 	gold_core_spawnable = HOSTILE_SPAWN
 	basic_mob_flags = DEL_ON_DEATH
@@ -56,6 +60,10 @@
 /mob/living/basic/blob_minion/spore/proc/zombify(mob/living/carbon/human/target)
 	visible_message(span_warning("The corpse of [target.name] suddenly rises!"))
 	var/mob/living/basic/blob_minion/zombie/blombie = change_mob_type(zombie_type, loc, new_name = initial(zombie_type.name))
+<<<<<<< HEAD
+=======
+	blombie.faction |= faction //inherit the spore's faction in case it was spawned with a different one (eg gold core)
+>>>>>>> tg-pr-88929
 	blombie.set_name()
 	if (istype(blombie)) // In case of badmin
 		blombie.consume_corpse(target)
@@ -87,7 +95,11 @@
 	z_turf = get_turf(factory)
 
 /// If the blob changes to distributed neurons then you can control the spores
+<<<<<<< HEAD
 /mob/living/basic/blob_minion/spore/minion/on_strain_updated(mob/camera/blob/overmind, datum/blobstrain/new_strain)
+=======
+/mob/living/basic/blob_minion/spore/minion/on_strain_updated(mob/eye/blob/overmind, datum/blobstrain/new_strain)
+>>>>>>> tg-pr-88929
 	if (isnull(overmind))
 		REMOVE_TRAIT(src, TRAIT_PERMANENTLY_MORTAL, INNATE_TRAIT)
 	else

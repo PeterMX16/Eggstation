@@ -201,7 +201,7 @@
 	if(inserted_disk.add_file(record_data))
 		playsound(src, 'sound/machines/ping.ogg', 25)
 	else
-		playsound(src, 'sound/machines/terminal_error.ogg', 25)
+		playsound(src, 'sound/machines/terminal/terminal_error.ogg', 25)
 
 /// Ejecting a tank. Also called on insertion to clear previous tanks.
 /obj/machinery/atmospherics/components/binary/tank_compressor/proc/eject_tank(mob/user)
@@ -238,7 +238,7 @@
 		update_appearance()
 	return ..()
 
-/obj/machinery/atmospherics/components/binary/tank_compressor/on_deconstruction()
+/obj/machinery/atmospherics/components/binary/tank_compressor/on_deconstruction(disassembled)
 	eject_tank()
 	eject_disk()
 	return ..()
@@ -260,7 +260,7 @@
 /obj/machinery/atmospherics/components/binary/tank_compressor/update_overlays()
 	. = ..()
 	. += get_pipe_image(icon, "[base_icon_state]-pipe", dir, COLOR_VIBRANT_LIME, piping_layer)
-	. += get_pipe_image(icon, "[base_icon_state]-pipe", turn(dir, 180), COLOR_RED, piping_layer)
+	. += get_pipe_image(icon, "[base_icon_state]-pipe", REVERSE_DIR(dir), COLOR_RED, piping_layer)
 	if(!istype(inserted_tank))
 		. += mutable_appearance(icon, "[base_icon_state]-doors",)
 	if(panel_open)
@@ -320,10 +320,6 @@
 	data["active"] = active
 	data["transferRate"] = transfer_rate
 	data["lastPressure"] = last_recorded_pressure
-
-	data["inputData"] = gas_mixture_parser(airs[2], "Input Port")
-	data["outputData"] = gas_mixture_parser(airs[1], "Ouput Port")
-	data["bufferData"] = gas_mixture_parser(leaked_gas_buffer, "Gas Buffer")
 
 	data["disk"] = inserted_disk?.name
 	data["storage"] = "[inserted_disk?.used_capacity] / [inserted_disk?.max_capacity] GQ"

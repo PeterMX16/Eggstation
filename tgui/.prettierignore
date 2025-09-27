@@ -8,5 +8,16 @@ public
 *.jsx
 *.json
 
+<<<<<<< HEAD
 # Running it on tgui.html is fine, however.
 !/public/tgui.html
+=======
+.swcrc
+/docs
+/public
+/packages/tgui-polyfill
+/packages/tgfont/static
+**/*.json
+**/*.yml
+**/*.md
+>>>>>>> tg-pr-88929

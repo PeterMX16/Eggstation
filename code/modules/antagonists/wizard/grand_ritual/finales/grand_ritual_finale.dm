@@ -28,7 +28,11 @@
 		return
 	var/time_remaining_desc = ""
 	if (minimum_time >= world.time - SSticker.round_start_time)
+<<<<<<< HEAD
 		time_remaining_desc = "<i>This ritual will be available to begin invoking in [DisplayTimeText(minimum_time - world.time - SSticker.round_start_time)]</i>"
+=======
+		time_remaining_desc = " <i>This ritual will be available to begin invoking in [DisplayTimeText(minimum_time - world.time - SSticker.round_start_time)]</i>"
+>>>>>>> tg-pr-88929
 	var/datum/radial_menu_choice/choice = new()
 	choice.name = name
 	choice.image = image(icon = icon, icon_state = icon_state)
@@ -76,15 +80,25 @@
 	count_against_dynamic_roll_chance = FALSE
 	silent = TRUE
 
+<<<<<<< HEAD
 /// Give everyone magic items, its so simple it feels pointless to give it its own file //monkestation edit: also guns and events
 /datum/grand_finale/magic
 	name = "Chaos" //monkestation edit: replaced "Evolution"
 	desc = "Bring true chaos to the station by giving them all guns, magic, and change all of the interesting events of the station into our own more magical versions!" //monkestation edit
+=======
+/// Give everyone magic items, its so simple it feels pointless to give it its own file
+/datum/grand_finale/magic
+	name = "Evolution"
+	desc = "The ultimate use of your gathered power! Give the crew their own magic, they'll surely realise that right and wrong have no meaning when you hold ultimate power!"
+>>>>>>> tg-pr-88929
 	icon = 'icons/obj/scrolls.dmi'
 	icon_state = "scroll"
 
 /datum/grand_finale/magic/trigger(mob/living/carbon/human/invoker)
 	message_admins("[key_name(invoker)] summoned magic")
 	summon_magic(survivor_probability = 20) // Wow, this one was easy!
+<<<<<<< HEAD
 	summon_guns(survivor_probability = 20) //monkestation edit
 	summon_events() //monkestation edit
+=======
+>>>>>>> tg-pr-88929

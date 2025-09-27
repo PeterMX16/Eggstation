@@ -9,12 +9,15 @@ GLOBAL_LIST_INIT(guardian_radial_images, setup_guardian_radial())
 		option.info = span_boldnotice(initial(guardian_path.creator_desc))
 		.[guardian_path] = option
 
+<<<<<<< HEAD
 	//MONKESTATION EDIT START
 	// Hack to change Timestop Guardian's radial icon, since it's in a different DMI
 	var/datum/radial_menu_choice/timestop_opt = .[/mob/living/basic/guardian/standard/timestop]
 	timestop_opt.image = image(icon = 'monkestation/icons/bloodsuckers/timestop_guardian.dmi', icon_state = "timestop")
 	//MONKESTATION EDIT END
 
+=======
+>>>>>>> tg-pr-88929
 /// An item which grants you your very own soul buddy
 /obj/item/guardian_creator
 	name = "enchanted deck of tarot cards"
@@ -72,7 +75,11 @@ GLOBAL_LIST_INIT(guardian_radial_images, setup_guardian_radial())
 	if(length(guardians) && !allow_multiple)
 		balloon_alert(user, "already have one!")
 		return
+<<<<<<< HEAD
 	if(user.mind && user.mind.has_antag_datum(/datum/antagonist/changeling) && !allow_changeling)
+=======
+	if(IS_CHANGELING(user) && !allow_changeling)
+>>>>>>> tg-pr-88929
 		to_chat(user, ling_failure)
 		return
 	if(used)
@@ -93,17 +100,32 @@ GLOBAL_LIST_INIT(guardian_radial_images, setup_guardian_radial())
 	used = TRUE
 	to_chat(user, use_message)
 	var/guardian_type_name = random ? "Random" : capitalize(initial(guardian_path.creator_name))
+<<<<<<< HEAD
 	var/list/mob/dead/observer/candidates = SSpolling.poll_ghost_candidates(
 		"Do you want to play as [user.real_name]'s [guardian_type_name] [mob_name]?",
+=======
+	var/mob/chosen_one = SSpolling.poll_ghost_candidates(
+		"Do you want to play as [span_danger("[user.real_name]'s")] [span_notice("[guardian_type_name] [mob_name]")]?",
+>>>>>>> tg-pr-88929
 		check_jobban = ROLE_PAI,
 		poll_time = 10 SECONDS,
 		ignore_category = POLL_IGNORE_HOLOPARASITE,
 		alert_pic = guardian_path,
+<<<<<<< HEAD
 		role_name_text = "guardian spirit"
 	)
 	if(LAZYLEN(candidates))
 		var/mob/dead/observer/candidate = pick(candidates)
 		spawn_guardian(user, candidate, guardian_path)
+=======
+		jump_target = src,
+		role_name_text = guardian_type_name,
+		amount_to_pick = 1,
+	)
+	if(chosen_one)
+		spawn_guardian(user, chosen_one, guardian_path)
+		used = TRUE
+>>>>>>> tg-pr-88929
 		SEND_SIGNAL(src, COMSIG_TRAITOR_ITEM_USED(type))
 	else
 		to_chat(user, failure_message)
@@ -133,7 +155,7 @@ GLOBAL_LIST_INIT(guardian_radial_images, setup_guardian_radial())
 /obj/item/guardian_creator/proc/check_menu(mob/living/user)
 	if(!istype(user))
 		return FALSE
-	if(user.incapacitated() || !user.is_holding(src) || used)
+	if(user.incapacitated || !user.is_holding(src) || used)
 		return FALSE
 	return TRUE
 
@@ -173,7 +195,10 @@ GLOBAL_LIST_INIT(guardian_radial_images, setup_guardian_radial())
 	icon = 'icons/obj/medical/syringe.dmi'
 	icon_state = "combat_hypo"
 	theme = GUARDIAN_THEME_TECH
+<<<<<<< HEAD
 	allow_multiple = TRUE
+=======
+>>>>>>> tg-pr-88929
 	allow_changeling = FALSE
 	use_message = span_holoparasite("You start to power on the injector...")
 	used_message = span_holoparasite("The injector has already been used.")
@@ -199,10 +224,13 @@ GLOBAL_LIST_INIT(guardian_radial_images, setup_guardian_radial())
 /obj/item/guardian_creator/miner
 	name = "dusty shard"
 	desc = "Seems to be a very old rock, may have originated from a strange meteor."
-	icon = 'icons/obj/lavaland/artefacts.dmi'
+	icon = 'icons/obj/mining_zones/artefacts.dmi'
 	icon_state = "dustyshard"
 	theme = GUARDIAN_THEME_MINER
+<<<<<<< HEAD
 	allow_multiple = FALSE
+=======
+>>>>>>> tg-pr-88929
 	use_message = span_holoparasite("You pierce your skin with the shard...")
 	used_message = span_holoparasite("This shard seems to have lost all its power...")
 	failure_message = span_boldholoparasite("The shard hasn't reacted at all. Maybe try again later...")

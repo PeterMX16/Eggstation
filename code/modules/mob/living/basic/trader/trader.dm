@@ -9,9 +9,16 @@
 	melee_damage_upper = 10
 	attack_verb_continuous = "punches"
 	attack_verb_simple = "punch"
+<<<<<<< HEAD
 	attack_sound = 'sound/weapons/punch1.ogg'
 	basic_mob_flags = DEL_ON_DEATH
 	unsuitable_atmos_damage = 2.5
+=======
+	attack_sound = 'sound/items/weapons/punch1.ogg'
+	basic_mob_flags = DEL_ON_DEATH
+	unsuitable_atmos_damage = 2.5
+	combat_mode = FALSE
+>>>>>>> tg-pr-88929
 	move_resist = MOVE_FORCE_STRONG
 	mob_biotypes = MOB_ORGANIC|MOB_HUMANOID
 	sentience_type = SENTIENCE_HUMANOID
@@ -32,7 +39,11 @@
 	///Casing used to shoot during retaliation
 	var/ranged_attack_casing = /obj/item/ammo_casing/shotgun/buckshot
 	///Sound to make while doing a retalitory attack
+<<<<<<< HEAD
 	var/ranged_attack_sound = 'sound/weapons/gun/pistol/shot.ogg'
+=======
+	var/ranged_attack_sound = 'sound/items/weapons/gun/pistol/shot.ogg'
+>>>>>>> tg-pr-88929
 	///Weapon path, for visuals
 	var/held_weapon_visual = /obj/item/gun/ballistic/shotgun
 
@@ -68,7 +79,11 @@
 
 	ai_controller = /datum/ai_controller/basic_controller/trader/jumpscare
 
+<<<<<<< HEAD
 	sell_sound = 'sound/voice/hiss2.ogg'
+=======
+	sell_sound = 'sound/mobs/non-humanoids/hiss/hiss2.ogg'
+>>>>>>> tg-pr-88929
 	species_path = /datum/species/skeleton
 	spawner_path = /obj/effect/mob_spawn/corpse/human/skeleton/mrbones
 	loot = list(/obj/effect/decal/remains/human)

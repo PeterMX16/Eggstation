@@ -14,7 +14,19 @@
 	cost = 20
 	lock_other_purchases = TRUE
 	cant_discount = TRUE
-	illegal_tech = FALSE
+	uplink_item_flags = SYNDIE_TRIPS_CONTRABAND
+
+/datum/uplink_item/badass/balloon/spawn_item(spawn_path, mob/user, datum/uplink_handler/uplink_handler, atom/movable/source)
+	. = ..()
+
+	if(!.)
+		return
+
+	notify_ghosts(
+		"[user] has purchased a BADASS Syndicate Balloon!",
+		source = .,
+		header = "What are they THINKING?",
+	)
 
 /datum/uplink_item/badass/balloon/spawn_item(spawn_path, mob/user, datum/uplink_handler/uplink_handler, atom/movable/source)
 	. = ..()
@@ -37,25 +49,24 @@
 	item = /obj/item/toy/cards/deck/syndicate
 	cost = 1
 	surplus = 40
-	illegal_tech = FALSE
+	uplink_item_flags = SYNDIE_TRIPS_CONTRABAND
 
 /datum/uplink_item/badass/syndiecigs
 	name = "Syndicate Smokes"
 	desc = "Strong flavor, dense smoke, infused with omnizine."
 	item = /obj/item/storage/fancy/cigarettes/cigpack_syndicate
 	cost = 2
-	illegal_tech = FALSE
+	uplink_item_flags = SYNDIE_TRIPS_CONTRABAND
 
 /datum/uplink_item/badass/syndiecash
 	name = "Syndicate Briefcase Full of Cash"
 	desc = "A secure briefcase containing 5000 space credits. Useful for bribing personnel, or purchasing goods \
 			and services at lucrative prices. The briefcase also feels a little heavier to hold; it has been \
 			manufactured to pack a little bit more of a punch if your client needs some convincing."
-	item = /obj/item/storage/secure/briefcase/syndie
+	item = /obj/item/storage/briefcase/secure/syndie
 	cost = 3
-	progression_minimum = 5 MINUTES
 	restricted = TRUE
-	illegal_tech = FALSE
+	uplink_item_flags = SYNDIE_TRIPS_CONTRABAND
 
 /datum/uplink_item/badass/costumes/clown
 	name = "Clown Costume"
@@ -93,7 +104,7 @@
 /datum/uplink_item/badass/stickers
 	name = "Syndicate Sticker Pack"
 	desc = "Contains 8 random stickers precisely engineered to resemble suspicious objects, which may or may not be useful for fooling crew."
-	item = /obj/item/storage/box/syndie_kit/stickers
+	item = /obj/item/storage/box/stickers/syndie_kit
 	cost = 1
 
 /datum/uplink_item/badass/demotivational_posters
@@ -108,3 +119,12 @@
 		Contains enough special solution to spray a single super-size seditious symbol, subjecting station staff to slippery suffering."
 	item = /obj/item/traitor_spraycan
 	cost = 1
+<<<<<<< HEAD
+=======
+
+/datum/uplink_item/badass/pinpointer
+	name = "Surplus Pinpointer"
+	desc = "Provides a surplus pinpointer, left over from the previous models that were abandoned in favor of a SAAS cloud-based PDA app."
+	item = /obj/item/pinpointer/nuke/syndicate
+	cost = 2
+>>>>>>> tg-pr-88929

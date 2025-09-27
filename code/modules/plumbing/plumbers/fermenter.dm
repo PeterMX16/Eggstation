@@ -4,13 +4,8 @@
 	icon_state = "fermenter"
 	layer = ABOVE_ALL_MOB_LAYER
 	plane = ABOVE_GAME_PLANE
-
-
 	reagent_flags = TRANSPARENT | DRAINABLE
 	buffer = 400
-	active_power_usage = BASE_MACHINE_ACTIVE_CONSUMPTION * 2
-	///category for plumbing RCD
-	category="Synthesizers"
 
 	///input dir
 	var/eat_dir = SOUTH
@@ -40,7 +35,7 @@
 
 /// uses fermentation proc similar to fermentation barrels
 /obj/machinery/plumbing/fermenter/proc/ferment(atom/AM)
-	if(machine_stat & NOPOWER)
+	if(!is_operational)
 		return
 	if(reagents.holder_full())
 		return

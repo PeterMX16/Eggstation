@@ -19,7 +19,11 @@
 		return
 	var/area/rift_location = get_area(owner)
 	if(!(rift_location in dragon.chosen_rift_areas))
+<<<<<<< HEAD
 		owner.balloon_alert(owner, "can't summon a rift here!")
+=======
+		owner.balloon_alert(owner, "can't summon a rift here! check your objectives!")
+>>>>>>> tg-pr-88929
 		return
 	for(var/obj/structure/carp_rift/rift as anything in dragon.rift_list)
 		var/area/used_location = get_area(rift)
@@ -43,9 +47,14 @@
 	notify_ghosts(
 		"The Space Dragon has opened a rift!",
 		source = new_rift,
+<<<<<<< HEAD
 		action = NOTIFY_ORBIT,
 		notify_flags = NOTIFY_CATEGORY_NOFLASH,
 		header = "Carp Rift Opened",
+=======
+		header = "Carp Rift Opened",
+		notify_flags = NOTIFY_CATEGORY_NOFLASH,
+>>>>>>> tg-pr-88929
 	)
 	ASSERT(dragon.rift_ability == src) // Badmin protection.
 	QDEL_NULL(dragon.rift_ability) // Deletes this action when used successfully, we re-gain a new one on success later.
@@ -64,7 +73,7 @@
 	desc = "A rift akin to the ones space carp use to travel long distances."
 	armor_type = /datum/armor/structure_carp_rift
 	max_integrity = 300
-	icon = 'icons/obj/carp_rift.dmi'
+	icon = 'icons/obj/anomaly.dmi'
 	icon_state = "carp_rift_carpspawn"
 	light_color = LIGHT_COLOR_PURPLE
 	light_outer_range = 10
@@ -97,6 +106,9 @@
 	fire = 100
 	acid = 100
 
+/obj/structure/carp_rift/hulk_damage()
+	return 30
+
 /obj/structure/carp_rift/Initialize(mapload)
 	. = ..()
 
@@ -108,6 +120,11 @@
 		healing_color = COLOR_BLUE, \
 	)
 
+<<<<<<< HEAD
+=======
+	AddComponent(/datum/component/fishing_spot, /datum/fish_source/carp_rift)
+
+>>>>>>> tg-pr-88929
 	gravity_aura = new(
 		/* host = */src,
 		/* range = */15,
@@ -138,7 +155,7 @@
 		. += span_notice("It has [carp_stored] carp available to spawn as.")
 
 /obj/structure/carp_rift/play_attack_sound(damage_amount, damage_type = BRUTE, damage_flag = 0)
-	playsound(src, 'sound/magic/lightningshock.ogg', 50, TRUE)
+	playsound(src, 'sound/effects/magic/lightningshock.ogg', 50, TRUE)
 
 /obj/structure/carp_rift/Destroy()
 	STOP_PROCESSING(SSobj, src)
@@ -157,7 +174,7 @@
 			newcarp.faction = dragon.owner.current.faction.Copy()
 		if(SPT_PROB(1.5, seconds_per_tick))
 			var/rand_dir = pick(GLOB.cardinals)
-			SSmove_manager.move_to(src, get_step(src, rand_dir), 1)
+			GLOB.move_manager.move_to(src, get_step(src, rand_dir), 1)
 		return
 
 	// Increase time trackers and check for any updated states.
@@ -194,9 +211,14 @@
 		notify_ghosts(
 			"The carp rift can summon an additional carp!",
 			source = src,
+<<<<<<< HEAD
 			action = NOTIFY_ORBIT,
 			notify_flags = NOTIFY_CATEGORY_NOFLASH,
 			header = "Carp Spawn Available",
+=======
+			header = "Carp Spawn Available",
+			notify_flags = NOTIFY_CATEGORY_NOFLASH,
+>>>>>>> tg-pr-88929
 		)
 		last_carp_inc -= carp_interval
 

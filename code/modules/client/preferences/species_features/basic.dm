@@ -1,7 +1,14 @@
+<<<<<<< HEAD
 /proc/generate_icon_with_head_accessory(datum/sprite_accessory/sprite_accessory)
 	var/static/icon/head_icon
 	if (isnull(head_icon))
 		head_icon = icon('icons/mob/species/human/bodyparts_greyscale.dmi', "human_head_m")
+=======
+/proc/generate_icon_with_head_accessory(datum/sprite_accessory/sprite_accessory, y_offset = 0)
+	var/static/icon/head_icon
+	if (isnull(head_icon))
+		head_icon = icon('icons/mob/human/bodyparts_greyscale.dmi', "human_head_m")
+>>>>>>> tg-pr-88929
 		head_icon.Blend(skintone2hex("caucasian1"), ICON_MULTIPLY)
 
 	var/icon/final_icon = new(head_icon)
@@ -9,6 +16,11 @@
 		ASSERT(istype(sprite_accessory))
 
 		var/icon/head_accessory_icon = icon(sprite_accessory.icon, sprite_accessory.icon_state)
+<<<<<<< HEAD
+=======
+		if(y_offset)
+			head_accessory_icon.Shift(NORTH, y_offset)
+>>>>>>> tg-pr-88929
 		head_accessory_icon.Blend(COLOR_DARK_BROWN, ICON_MULTIPLY)
 		final_icon.Blend(head_accessory_icon, ICON_OVERLAY)
 
@@ -30,27 +42,29 @@
 	if(!hetero)
 		target.eye_color_right = value
 
-	var/obj/item/organ/internal/eyes/eyes_organ = target.get_organ_by_type(/obj/item/organ/internal/eyes)
+	var/obj/item/organ/eyes/eyes_organ = target.get_organ_by_type(/obj/item/organ/eyes)
 	if (!eyes_organ || !istype(eyes_organ))
 		return
 
 	if (!initial(eyes_organ.eye_color_left))
 		eyes_organ.eye_color_left = value
-	eyes_organ.old_eye_color_left = value
 
 	if(hetero) // Don't override the snowflakes please
 		return
 
 	if (!initial(eyes_organ.eye_color_right))
 		eyes_organ.eye_color_right = value
-	eyes_organ.old_eye_color_right = value
 	eyes_organ.refresh()
 
 /datum/preference/color/eye_color/create_default_value()
 	return random_eye_color()
 
 /datum/preference/choiced/facial_hairstyle
+<<<<<<< HEAD
 	priority = PREFERENCE_PRIORITY_BODYPARTS
+=======
+	priority = PREFERENCE_PRORITY_LATE_BODY_TYPE
+>>>>>>> tg-pr-88929
 	savefile_key = "facial_style_name"
 	savefile_identifier = PREFERENCE_CHARACTER
 	category = PREFERENCE_CATEGORY_FEATURES
@@ -59,6 +73,7 @@
 	relevant_head_flag = HEAD_FACIAL_HAIR
 
 /datum/preference/choiced/facial_hairstyle/init_possible_values()
+<<<<<<< HEAD
 	return assoc_to_keys_features(GLOB.facial_hairstyles_list)
 
 /datum/preference/choiced/facial_hairstyle/icon_for(value)
@@ -66,16 +81,46 @@
 
 /datum/preference/choiced/facial_hairstyle/apply_to_human(mob/living/carbon/human/target, value)
 	target.set_facial_hairstyle(value, update = FALSE)
+=======
+	return assoc_to_keys_features(SSaccessories.facial_hairstyles_list)
+
+/datum/preference/choiced/facial_hairstyle/icon_for(value)
+	return generate_icon_with_head_accessory(SSaccessories.facial_hairstyles_list[value])
+
+/datum/preference/choiced/facial_hairstyle/apply_to_human(mob/living/carbon/human/target, value)
+	target.set_facial_hairstyle(value, update = FALSE)
+
+/datum/preference/choiced/facial_hairstyle/create_default_value()
+	return /datum/sprite_accessory/facial_hair/shaved::name
+
+/datum/preference/choiced/facial_hairstyle/create_informed_default_value(datum/preferences/preferences)
+	var/gender = preferences.read_preference(/datum/preference/choiced/gender)
+	var/species_type = preferences.read_preference(/datum/preference/choiced/species)
+	var/datum/species/species_real = GLOB.species_prototypes[species_type]
+	if(!gender || !species_real || !species_real.sexes)
+		return ..()
+
+	var/picked_beard = random_facial_hairstyle(gender)
+	var/datum/sprite_accessory/beard_style = SSaccessories.facial_hairstyles_list[picked_beard]
+	if(!beard_style || !beard_style.natural_spawn || beard_style.locked) // Invalid, go with god(bald)
+		return ..()
+
+	return picked_beard
+>>>>>>> tg-pr-88929
 
 /datum/preference/choiced/facial_hairstyle/compile_constant_data()
 	var/list/data = ..()
 
-	data[SUPPLEMENTAL_FEATURE_KEY] = "facial_hair_color"
+	data[SUPPLEMENTAL_FEATURE_KEY] = /datum/preference/color/facial_hair_color::savefile_key
 
 	return data
 
 /datum/preference/color/facial_hair_color
+<<<<<<< HEAD
 	priority = PREFERENCE_PRIORITY_BODYPARTS
+=======
+	priority = PREFERENCE_PRORITY_LATE_BODY_TYPE // Need to happen after hair oclor is set so we can match by default
+>>>>>>> tg-pr-88929
 	savefile_key = "facial_hair_color"
 	savefile_identifier = PREFERENCE_CHARACTER
 	category = PREFERENCE_CATEGORY_SUPPLEMENTAL_FEATURES
@@ -83,6 +128,7 @@
 
 /datum/preference/color/facial_hair_color/apply_to_human(mob/living/carbon/human/target, value)
 	target.set_facial_haircolor(value, update = FALSE)
+<<<<<<< HEAD
 
 /datum/preference/choiced/facial_hair_gradient
 	priority = PREFERENCE_PRIORITY_BODYPARTS
@@ -92,9 +138,22 @@
 	main_feature_name = "Facial hair Gradient"
 	relevant_head_flag = HEAD_FACIAL_HAIR
 	should_generate_icons = TRUE
+=======
+
+/datum/preference/color/facial_hair_color/create_informed_default_value(datum/preferences/preferences)
+	return preferences.read_preference(/datum/preference/color/hair_color) || random_hair_color()
+
+/datum/preference/choiced/facial_hair_gradient
+	priority = PREFERENCE_PRORITY_LATE_BODY_TYPE
+	category = PREFERENCE_CATEGORY_SECONDARY_FEATURES
+	savefile_identifier = PREFERENCE_CHARACTER
+	savefile_key = "facial_hair_gradient"
+	relevant_head_flag = HEAD_FACIAL_HAIR
+	can_randomize = FALSE
+>>>>>>> tg-pr-88929
 
 /datum/preference/choiced/facial_hair_gradient/init_possible_values()
-	return assoc_to_keys_features(GLOB.facial_hair_gradients_list)
+	return assoc_to_keys_features(SSaccessories.facial_hair_gradients_list)
 
 /datum/preference/choiced/facial_hair_gradient/icon_for(value)
 	var/datum/sprite_accessory/accessory = GLOB.facial_hair_gradients_list[value]
@@ -137,10 +196,14 @@
 	target.set_facial_hair_gradient_style(new_style = value, update = FALSE)
 
 /datum/preference/choiced/facial_hair_gradient/create_default_value()
-	return "None"
+	return /datum/sprite_accessory/gradient/none::name
 
 /datum/preference/color/facial_hair_gradient
+<<<<<<< HEAD
 	priority = PREFERENCE_PRIORITY_BODYPARTS
+=======
+	priority = PREFERENCE_PRORITY_LATE_BODY_TYPE
+>>>>>>> tg-pr-88929
 	category = PREFERENCE_CATEGORY_SECONDARY_FEATURES
 	savefile_identifier = PREFERENCE_CHARACTER
 	savefile_key = "facial_hair_gradient_color"
@@ -152,9 +215,10 @@
 /datum/preference/color/facial_hair_gradient/is_accessible(datum/preferences/preferences)
 	if (!..(preferences))
 		return FALSE
-	return preferences.read_preference(/datum/preference/choiced/facial_hair_gradient) != "None"
+	return preferences.read_preference(/datum/preference/choiced/facial_hair_gradient) != /datum/sprite_accessory/gradient/none::name
 
 /datum/preference/color/hair_color
+	priority = PREFERENCE_PRIORITY_BODY_TYPE
 	savefile_key = "hair_color"
 	savefile_identifier = PREFERENCE_CHARACTER
 	category = PREFERENCE_CATEGORY_SUPPLEMENTAL_FEATURES
@@ -162,9 +226,18 @@
 
 /datum/preference/color/hair_color/apply_to_human(mob/living/carbon/human/target, value)
 	target.set_haircolor(value, update = FALSE)
+<<<<<<< HEAD
 
 /datum/preference/choiced/hairstyle
 	priority = PREFERENCE_PRIORITY_BODYPARTS
+=======
+
+/datum/preference/color/hair_color/create_informed_default_value(datum/preferences/preferences)
+	return random_hair_color()
+
+/datum/preference/choiced/hairstyle
+	priority = PREFERENCE_PRIORITY_BODY_TYPE // Happens after gender so we can picka hairstyle based on that
+>>>>>>> tg-pr-88929
 	savefile_key = "hairstyle_name"
 	savefile_identifier = PREFERENCE_CHARACTER
 	category = PREFERENCE_CATEGORY_FEATURES
@@ -173,6 +246,7 @@
 	relevant_head_flag = HEAD_HAIR
 
 /datum/preference/choiced/hairstyle/init_possible_values()
+<<<<<<< HEAD
 	return assoc_to_keys_features(GLOB.hairstyles_list)
 
 /datum/preference/choiced/hairstyle/icon_for(value)
@@ -180,15 +254,43 @@
 
 /datum/preference/choiced/hairstyle/apply_to_human(mob/living/carbon/human/target, value)
 	target.set_hairstyle(value, update = FALSE)
+=======
+	return assoc_to_keys_features(SSaccessories.hairstyles_list)
+
+/datum/preference/choiced/hairstyle/icon_for(value)
+	var/datum/sprite_accessory/hair/hairstyle = SSaccessories.hairstyles_list[value]
+	return generate_icon_with_head_accessory(hairstyle, hairstyle?.y_offset)
+
+/datum/preference/choiced/hairstyle/apply_to_human(mob/living/carbon/human/target, value)
+	target.set_hairstyle(value, update = FALSE)
+
+/datum/preference/choiced/hairstyle/create_default_value()
+	return /datum/sprite_accessory/hair/bald::name
+
+/datum/preference/choiced/hairstyle/create_informed_default_value(datum/preferences/preferences)
+	var/gender = preferences.read_preference(/datum/preference/choiced/gender)
+	var/species_type = preferences.read_preference(/datum/preference/choiced/species)
+	var/datum/species/species_real = GLOB.species_prototypes[species_type]
+	if(!gender || !species_real || !species_real.sexes)
+		return ..()
+
+	var/picked_hair = random_hairstyle(gender)
+	var/datum/sprite_accessory/hair_style = SSaccessories.hairstyles_list[picked_hair]
+	if(!hair_style || !hair_style.natural_spawn || hair_style.locked) // Invalid, go with god(bald)
+		return ..()
+
+	return picked_hair
+>>>>>>> tg-pr-88929
 
 /datum/preference/choiced/hairstyle/compile_constant_data()
 	var/list/data = ..()
 
-	data[SUPPLEMENTAL_FEATURE_KEY] = "hair_color"
+	data[SUPPLEMENTAL_FEATURE_KEY] = /datum/preference/color/hair_color::savefile_key
 
 	return data
 
 /datum/preference/choiced/hair_gradient
+<<<<<<< HEAD
 	priority = PREFERENCE_PRIORITY_BODYPARTS
 	category = PREFERENCE_CATEGORY_FEATURES
 	savefile_identifier = PREFERENCE_CHARACTER
@@ -196,9 +298,17 @@
 	main_feature_name = "Hairstyle Gradient"
 	should_generate_icons = TRUE
 	relevant_head_flag = HEAD_HAIR
+=======
+	priority = PREFERENCE_PRIORITY_BODY_TYPE
+	category = PREFERENCE_CATEGORY_SECONDARY_FEATURES
+	savefile_identifier = PREFERENCE_CHARACTER
+	savefile_key = "hair_gradient"
+	relevant_head_flag = HEAD_HAIR
+	can_randomize = FALSE
+>>>>>>> tg-pr-88929
 
 /datum/preference/choiced/hair_gradient/init_possible_values()
-	return assoc_to_keys_features(GLOB.hair_gradients_list)
+	return assoc_to_keys_features(SSaccessories.hair_gradients_list)
 
 /datum/preference/choiced/hair_gradient/icon_for(value)
 	var/datum/sprite_accessory/accessory = GLOB.hair_gradients_list[value]
@@ -255,10 +365,14 @@
 	target.set_hair_gradient_style(new_style = value, update = FALSE)
 
 /datum/preference/choiced/hair_gradient/create_default_value()
-	return "None"
+	return /datum/sprite_accessory/gradient/none::name
 
 /datum/preference/color/hair_gradient
+<<<<<<< HEAD
 	priority = PREFERENCE_PRIORITY_BODYPARTS
+=======
+	priority = PREFERENCE_PRIORITY_BODY_TYPE
+>>>>>>> tg-pr-88929
 	category = PREFERENCE_CATEGORY_SECONDARY_FEATURES
 	savefile_identifier = PREFERENCE_CHARACTER
 	savefile_key = "hair_gradient_color"
@@ -270,4 +384,4 @@
 /datum/preference/color/hair_gradient/is_accessible(datum/preferences/preferences)
 	if (!..(preferences))
 		return FALSE
-	return preferences.read_preference(/datum/preference/choiced/hair_gradient) != "None"
+	return preferences.read_preference(/datum/preference/choiced/hair_gradient) != /datum/sprite_accessory/gradient/none::name

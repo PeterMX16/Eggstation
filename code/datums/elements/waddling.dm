@@ -4,6 +4,11 @@
 	. = ..()
 	if(!ismovable(target))
 		return ELEMENT_INCOMPATIBLE
+<<<<<<< HEAD
+=======
+	if(!HAS_TRAIT(target, TRAIT_WADDLING))
+		stack_trace("[type] added to [target] without adding TRAIT_WADDLING first. Please use AddElementTrait instead.")
+>>>>>>> tg-pr-88929
 	RegisterSignal(target, COMSIG_MOVABLE_MOVED, PROC_REF(Waddle))
 
 /datum/element/waddling/Detach(datum/source)
@@ -16,7 +21,11 @@
 		return
 	if(isliving(moved))
 		var/mob/living/living_moved = moved
+<<<<<<< HEAD
 		if (living_moved.incapacitated() || living_moved.body_position == LYING_DOWN)
+=======
+		if (living_moved.incapacitated || (living_moved.body_position == LYING_DOWN && !HAS_TRAIT(living_moved, TRAIT_FLOPPING)))
+>>>>>>> tg-pr-88929
 			return
 	waddling_animation(moved)
 

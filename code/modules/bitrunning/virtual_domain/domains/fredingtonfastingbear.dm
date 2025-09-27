@@ -2,10 +2,17 @@
 	name = "Pizza Party"
 	cost = BITRUNNER_COST_MEDIUM
 	desc = "A famous pizzeria that got ruined by what it had to offer."
+<<<<<<< HEAD
 	extra_loot = list(/obj/item/food/pizzaslice/meat/pizzeria = 1)
+=======
+	completion_loot = list(/obj/item/food/pizzaslice/meat/pizzeria = 1)
+>>>>>>> tg-pr-88929
 	difficulty = BITRUNNER_DIFFICULTY_MEDIUM
 	help_text = "Pick up a flashlight and get going. Your favourite bear has been waiting for you..."
 	key = "fredingtonfastingbear"
 	map_name = "fredingtonfastingbear"
 	reward_points = BITRUNNER_REWARD_MEDIUM
+<<<<<<< HEAD
 	safehouse_path = /datum/map_template/safehouse/wood
+=======
+>>>>>>> tg-pr-88929

@@ -100,9 +100,6 @@ SUBSYSTEM_DEF(shuttle)
 	/// Wishlist items made by crew for cargo to purchase at their leisure.
 	var/list/request_list = list()
 
-	/// A listing of previously delivered supply packs.
-	var/list/order_history = list()
-
 	/// A list of job accesses that are able to purchase any shuttles.
 	var/list/has_purchase_shuttle_access
 
@@ -143,6 +140,9 @@ SUBSYSTEM_DEF(shuttle)
 	/// Did the supermatter start a cascade event?
 	var/supermatter_cascade = FALSE
 
+	/// List of express consoles that are waiting for pack initialization
+	var/list/obj/machinery/computer/cargo/express/express_consoles = list()
+
 /datum/controller/subsystem/shuttle/Initialize()
 	order_number = rand(1, 9000)
 
@@ -174,6 +174,9 @@ SUBSYSTEM_DEF(shuttle)
 			pack.desc += " Requires [SSid_access.get_access_desc(pack.access_view)] access to purchase."
 
 		supply_packs[pack.id] = pack
+
+	for (var/obj/machinery/computer/cargo/express/console as anything in express_consoles)
+		console.packin_up(TRUE)
 
 	setup_shuttles(stationary_docking_ports)
 	has_purchase_shuttle_access = init_has_purchase_shuttle_access()
@@ -268,8 +271,13 @@ SUBSYSTEM_DEF(shuttle)
 			sender_override = "Emergency Shuttle Uplink Alert",
 			color_override = "orange",
 		)
+<<<<<<< HEAD
 		if(emergency.timeLeft(1) > emergency_call_time * 0.4)
 			emergency.request(null, set_coefficient = 0.4)
+=======
+		if(emergency.timeLeft(1) > emergency_call_time * ALERT_COEFF_AUTOEVAC_CRITICAL)
+			emergency.request(null, set_coefficient = ALERT_COEFF_AUTOEVAC_CRITICAL)
+>>>>>>> tg-pr-88929
 
 /datum/controller/subsystem/shuttle/proc/block_recall(lockout_timer)
 	if(isnull(lockout_timer))
@@ -278,7 +286,11 @@ SUBSYSTEM_DEF(shuttle)
 		priority_announce(
 			text = "Emergency shuttle uplink interference detected, shuttle call disabled while the system reinitializes. Estimated restore in [DisplayTimeText(lockout_timer, round_seconds_to = 60)].",
 			title = "Uplink Interference",
+<<<<<<< HEAD
 			sound = 'sound/misc/announce_dig.ogg',
+=======
+			sound = 'sound/announcer/announcement/announce_dig.ogg',
+>>>>>>> tg-pr-88929
 			sender_override = "Emergency Shuttle Uplink Alert",
 			color_override = "grey",
 		)
@@ -292,7 +304,11 @@ SUBSYSTEM_DEF(shuttle)
 		priority_announce(
 			text= "Emergency shuttle uplink services are now back online.",
 			title = "Uplink Restored",
+<<<<<<< HEAD
 			sound = 'sound/misc/announce_dig.ogg',
+=======
+			sound = 'sound/announcer/announcement/announce_dig.ogg',
+>>>>>>> tg-pr-88929
 			sender_override = "Emergency Shuttle Uplink Alert",
 			color_override = "green",
 		)
@@ -353,6 +369,13 @@ SUBSYSTEM_DEF(shuttle)
 
 	return TRUE
 
+/**
+ * Calls the emergency shuttle.
+ *
+ * Arguments:
+ * * user - The mob that called the shuttle.
+ * * call_reason - The reason the shuttle was called, which should be non-html-encoded text.
+ */
 /datum/controller/subsystem/shuttle/proc/requestEvac(mob/user, call_reason)
 	if (!check_backup_emergency_shuttle())
 		return
@@ -375,7 +398,11 @@ SUBSYSTEM_DEF(shuttle)
 		SSblackbox.record_feedback("text", "shuttle_reason", 1, "[call_reason]")
 		log_shuttle("Shuttle call reason: [call_reason]")
 		SSticker.emergency_reason = call_reason
+<<<<<<< HEAD
 	message_admins("[ADMIN_LOOKUPFLW(user)] has called the shuttle. (<A HREF='byond://?_src_=holder;[HrefToken()];trigger_centcom_recall=1'>TRIGGER CENTCOM RECALL</A>)")
+=======
+	message_admins("[ADMIN_LOOKUPFLW(user)] has called the shuttle. (<A href='byond://?_src_=holder;[HrefToken()];trigger_centcom_recall=1'>TRIGGER CENTCOM RECALL</A>)")
+>>>>>>> tg-pr-88929
 
 /// Call the emergency shuttle.
 /// If you are doing this on behalf of a player, use requestEvac instead.
@@ -477,7 +504,7 @@ SUBSYSTEM_DEF(shuttle)
 
 	if(callShuttle)
 		if(EMERGENCY_IDLE_OR_RECALLED)
-			emergency.request(null, set_coefficient = 2.5)
+			emergency.request(null, set_coefficient = ALERT_COEFF_AUTOEVAC_NORMAL)
 			log_shuttle("There is no means of calling the emergency shuttle anymore. Shuttle automatically called.")
 			message_admins("All the communications consoles were destroyed and all AIs are inactive. Shuttle called.")
 
@@ -526,17 +553,29 @@ SUBSYSTEM_DEF(shuttle)
 		priority_announce(
 			text = "Departure has been postponed indefinitely pending conflict resolution.",
 			title = "Hostile Environment Detected",
+<<<<<<< HEAD
 			sound = 'sound/misc/notice1.ogg',
 			sender_override = "Emergency Shuttle Uplink Alert",
 			color_override = "grey",
 		)
 	if(!emergency_no_escape && (emergency.mode == SHUTTLE_STRANDED))
+=======
+			sound = 'sound/announcer/notice/notice1.ogg',
+			sender_override = "Emergency Shuttle Uplink Alert",
+			color_override = "grey",
+		)
+	if(!emergency_no_escape && (emergency.mode == SHUTTLE_STRANDED || emergency.mode == SHUTTLE_DOCKED))
+>>>>>>> tg-pr-88929
 		emergency.mode = SHUTTLE_DOCKED
 		emergency.setTimer(emergency_dock_time)
 		priority_announce(
 			text = "You have [DisplayTimeText(emergency_dock_time)] to board the emergency shuttle.",
 			title = "Hostile Environment Resolved",
+<<<<<<< HEAD
 			sound = 'sound/misc/announce_dig.ogg',
+=======
+			sound = 'sound/announcer/announcement/announce_dig.ogg',
+>>>>>>> tg-pr-88929
 			sender_override = "Emergency Shuttle Uplink Alert",
 			color_override = "green",
 		)
@@ -734,8 +773,6 @@ SUBSYSTEM_DEF(shuttle)
 		shopping_list = SSshuttle.shopping_list
 	if (istype(SSshuttle.request_list))
 		request_list = SSshuttle.request_list
-	if (istype(SSshuttle.order_history))
-		order_history = SSshuttle.order_history
 
 	if (istype(SSshuttle.shuttle_loan))
 		shuttle_loan = SSshuttle.shuttle_loan
@@ -828,9 +865,9 @@ SUBSYSTEM_DEF(shuttle)
 	hidden_shuttle_turf_images -= remove_images
 	hidden_shuttle_turf_images += add_images
 
-	for(var/V in GLOB.navigation_computers)
-		var/obj/machinery/computer/camera_advanced/shuttle_docker/C = V
-		C.update_hidden_docking_ports(remove_images, add_images)
+	for(var/obj/machinery/computer/camera_advanced/shuttle_docker/docking_computer \
+		as anything in SSmachines.get_machines_by_type_and_subtypes(/obj/machinery/computer/camera_advanced/shuttle_docker))
+		docking_computer.update_hidden_docking_ports(remove_images, add_images)
 
 	remove_images.Cut()
 
@@ -967,6 +1004,8 @@ SUBSYSTEM_DEF(shuttle)
 	if(preview_shuttle)
 		preview_shuttle.jumpToNullSpace()
 	preview_shuttle = null
+	if(preview_reservation)
+		QDEL_NULL(preview_reservation)
 
 /datum/controller/subsystem/shuttle/ui_state(mob/user)
 	return ADMIN_STATE(R_ADMIN)
