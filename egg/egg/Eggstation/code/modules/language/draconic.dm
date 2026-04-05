@@ -1,0 +1,26 @@
+/datum/language/draconic
+	name = "Draconic"
+	desc = "The common language of lizard-people, composed of sibilant hisses and rattles."
+	key = "o"
+	flags = TONGUELESS_SPEECH
+	space_chance = 12
+	sentence_chance = 0
+	between_word_sentence_chance = 10
+	between_word_space_chance = 75
+	additional_syllable_low = 0
+	additional_syllable_high = 3
+	syllables = list(
+		"za", "az", "ze", "ez", "zi", "iz", "zo", "oz", "zu", "uz", "zs", "sz",
+		"ha", "ah", "he", "eh", "hi", "ih", "ho", "oh", "hu", "uh", "hs", "sh",
+		"la", "al", "le", "el", "li", "il", "lo", "ol", "lu", "ul", "ls", "sl",
+		"ka", "ak", "ke", "ek", "ki", "ik", "ko", "ok", "ku", "uk", "ks", "sk",
+		"sa", "as", "se", "es", "si", "is", "so", "os", "su", "us", "ss", "ss",
+		"ra", "ar", "re", "er", "ri", "ir", "ro", "or", "ru", "ur", "rs", "sr",
+		"a",  "a",  "e",  "e",  "i",  "i",  "o",  "o",  "u",  "u",  "s",  "s"
+	)
+	icon_state = "lizard"
+	default_priority = 90
+
+	mutual_understanding = list(
+		/datum/language/ashtongue = 45,
+	)

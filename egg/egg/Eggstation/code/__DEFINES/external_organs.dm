@@ -1,0 +1,16 @@
+///Uses the parent limb's drawcolor value.
+#define ORGAN_COLOR_INHERIT (1<<0)
+///Uses /organ/external/proc/override_color()'s return value
+#define ORGAN_COLOR_OVERRIDE (1<<1)
+///Uses the parent's haircolor
+#define ORGAN_COLOR_HAIR (1<<2)
+///uses the parents anime color
+#define ORGAN_COLOR_ANIME (1<<3)
+///uses the parents anime halo color
+#define ORGAN_COLOR_ANIME_HALO (1<<4)
+///uses the parents mutcolor secondary
+#define ORGAN_COLOR_MUTSECONDARY (1<<5)
+
+///Tail wagging
+#define WAG_ABLE (1<<0)
+#define WAG_WAGGING (1<<1)

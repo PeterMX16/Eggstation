@@ -1,0 +1,12 @@
+// BEGIN_INTERNALS
+/*
+MAP_PLANE_MASTERS: (null)
+MAP_ZOOM: 1.000
+DIR: __DEFINES __DEFINES\research modules modules\vehicles 
+AUTO_FILE_DIR: OFF
+MAP_ICON_TYPE: 0
+WINDOW: modules\vehicles\artillery.dm;genesis_call.dme;__byond_version_compat.dm
+FILE: genesis_call.dme
+MAP_INSTANCE_MODE: copy
+*/
+// END_INTERNALS
